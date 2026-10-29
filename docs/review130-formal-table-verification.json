@@ -1,0 +1,66 @@
+{
+  "requirement": "UI130-07",
+  "artifact": {
+    "version": "0.13.0",
+    "frontend": "C86",
+    "formalHtmlSha256": "042aba6212a931fc6b6c3e6cca2f013330babce6f37aad653e8ee532341114b5"
+  },
+  "at": "2026-10-29T00:34:04.420Z",
+  "beforeWidths": [
+    454,
+    248,
+    116,
+    174
+  ],
+  "sorts": [
+    {
+      "axis": "공포일",
+      "direction": "오름차순",
+      "rows": 25,
+      "actualMatchesIndependentLexicalDates": true
+    },
+    {
+      "axis": "공포일",
+      "direction": "내림차순",
+      "rows": 25,
+      "actualMatchesIndependentLexicalDates": true
+    },
+    {
+      "axis": "시행일",
+      "direction": "오름차순",
+      "rows": 25,
+      "actualMatchesIndependentLexicalDates": true
+    },
+    {
+      "axis": "시행일",
+      "direction": "내림차순",
+      "rows": 25,
+      "actualMatchesIndependentLexicalDates": true
+    },
+    {
+      "axis": "법령 / 조항",
+      "direction": "오름차순",
+      "rows": 25,
+      "actualMatchesIndependentKoreanNameOrder": true
+    },
+    {
+      "axis": "법령 / 조항",
+      "direction": "내림차순",
+      "rows": 25,
+      "actualMatchesIndependentKoreanNameOrder": true
+    }
+  ],
+  "afterClickWidths": [
+    454,
+    248,
+    116,
+    174
+  ],
+  "clickOnlyWidthUnchanged": true,
+  "screenshot": {
+    "path": "outputs/review-20261029/review130-formal-law-table.png",
+    "sha256": "9f4be6572ec57cf7a1cd2eb57fac00186fd007c3479924378cb1c0a024f02a88"
+  },
+  "scope": "Existing owner formal UI;3 headers×2 directions, dates independent lexical and names Korean collation; click-only separator unchanged; original announced-desc view restored. Common isolated resize protocol is separately linked.",
+  "businessWrites": 0
+}

@@ -1,0 +1,350 @@
+{
+  "reviewId": "REVIEW130",
+  "date": "2026-10-28",
+  "artifact": {
+    "version": "0.13.0",
+    "candidate": "C86",
+    "sourceCommit": "f4cc10c0ef52054ed3435f95a30126cf12c9d4a8",
+    "deployment": "dpl_PJhhyrJaZ2PCAAZ3PSQvQbMU3zm1",
+    "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+    "team": "IGISRA",
+    "formalHtmlSha256": "042aba6212a931fc6b6c3e6cca2f013330babce6f37aad653e8ee532341114b5",
+    "formalHtmlBytes": 6870523,
+    "artifactProvenance": "Root promoted and checked the exact same deployment; this observer did not deploy or fetch member credentials."
+  },
+  "scope": "Independent read-only application-schema observation during root-owned authorized sample UI canary. No observer business DB writes.",
+  "schema": "development_project_platform",
+  "source37": {
+    "path": ".build/review-20261028/review130-db-source-before.json",
+    "sha256": "078d47e72cbc348ca1a3187688bd0dfd7e3b51c6993ae219fa7ada1ffee8645f",
+    "revision": 37,
+    "workspaceMd5": "2dc21afa5417832d343c52616e7be9d4"
+  },
+  "normalUiStage": {
+    "readAt": "2026-10-28T13:25:19.719Z",
+    "revision": 53,
+    "protectedKeys": [
+      "cbs",
+      "costStages",
+      "contracts",
+      "vatRecords",
+      "loans"
+    ],
+    "protectedFieldChecks": 15,
+    "protectedUnchanged": true,
+    "protectedCanonicalSha256": "5f7544f8da1ac659f7110ec75507d6c70989c48cef2df2f976905e72fa115a32",
+    "sampleChangeScalarCounts": {
+      "permits": 47,
+      "construction": 3,
+      "milestones": 6,
+      "reportForm": 3
+    },
+    "evidence": {
+      "path": ".build/review-20261028/c86-db-compare-1793194016817.json",
+      "sha256": "8de8594a3ab7d308d6f8d04fd425e57920670c40e8e0f2895804cac1c7b20370"
+    }
+  },
+  "finalStage": {
+    "clientReadAt": "2026-10-28T13:36:22.095Z",
+    "serverObservedAt": "2026-10-28 13:36:39.723628+00",
+    "revision": 55,
+    "workspaceJsonbTextBytes": 3086281,
+    "protectedKeys": [
+      "cbs",
+      "costStages",
+      "contracts",
+      "vatRecords",
+      "loans"
+    ],
+    "rawExact": false,
+    "approvedDelta": {
+      "projectId": "TEST-20261016-C",
+      "loanId": "8a1osujg",
+      "field": "interestRate",
+      "beforePropertyExisted": false,
+      "currentValue": 5.6,
+      "legacyRateBefore": 5.6,
+      "legacyRateCurrent": 5.6,
+      "rawDifferenceCount": 1
+    },
+    "unexpectedProtectedDifferences": 0,
+    "protectedAfterExplicitApprovedDeltaUnchanged": true,
+    "protectedBeforeSha256": "5f7544f8da1ac659f7110ec75507d6c70989c48cef2df2f976905e72fa115a32",
+    "protectedCurrentApprovedDeltaRemovedSha256": "5f7544f8da1ac659f7110ec75507d6c70989c48cef2df2f976905e72fa115a32",
+    "fieldResults": [
+      {
+        "projectId": "TEST-20261016-A",
+        "field": "cbs",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "e97b039909f6df3c5eb4b1f96b6fd1568e970c4c7f836dae5612d26c806ea609",
+        "currentRawSha256": "e97b039909f6df3c5eb4b1f96b6fd1568e970c4c7f836dae5612d26c806ea609",
+        "currentApprovedDeltaRemovedSha256": "e97b039909f6df3c5eb4b1f96b6fd1568e970c4c7f836dae5612d26c806ea609"
+      },
+      {
+        "projectId": "TEST-20261016-A",
+        "field": "costStages",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "eec83dde9ccb4ecf407fb8f6d5c0bf863a1730e8cb3fe451c9bda9a58cee30ff",
+        "currentRawSha256": "eec83dde9ccb4ecf407fb8f6d5c0bf863a1730e8cb3fe451c9bda9a58cee30ff",
+        "currentApprovedDeltaRemovedSha256": "eec83dde9ccb4ecf407fb8f6d5c0bf863a1730e8cb3fe451c9bda9a58cee30ff"
+      },
+      {
+        "projectId": "TEST-20261016-A",
+        "field": "contracts",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "4d34313b1303215b0bdcfe1324684da4476039bcc9047f260bdf7beaa096123d",
+        "currentRawSha256": "4d34313b1303215b0bdcfe1324684da4476039bcc9047f260bdf7beaa096123d",
+        "currentApprovedDeltaRemovedSha256": "4d34313b1303215b0bdcfe1324684da4476039bcc9047f260bdf7beaa096123d"
+      },
+      {
+        "projectId": "TEST-20261016-A",
+        "field": "vatRecords",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "8fdf28757be472bdf52f826d576cacd0520df2e873a37a30c4863e7c4d396f25",
+        "currentRawSha256": "8fdf28757be472bdf52f826d576cacd0520df2e873a37a30c4863e7c4d396f25",
+        "currentApprovedDeltaRemovedSha256": "8fdf28757be472bdf52f826d576cacd0520df2e873a37a30c4863e7c4d396f25"
+      },
+      {
+        "projectId": "TEST-20261016-A",
+        "field": "loans",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "37c9f81f3578af043be85dcace1dcbadb2c83611f84d20a83dafc09e46a8c67b",
+        "currentRawSha256": "37c9f81f3578af043be85dcace1dcbadb2c83611f84d20a83dafc09e46a8c67b",
+        "currentApprovedDeltaRemovedSha256": "37c9f81f3578af043be85dcace1dcbadb2c83611f84d20a83dafc09e46a8c67b"
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "field": "cbs",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "353e312d7addcad3ddb01ce23fd61ea2f337501589f0c49da3f09c95a7f1cac9",
+        "currentRawSha256": "353e312d7addcad3ddb01ce23fd61ea2f337501589f0c49da3f09c95a7f1cac9",
+        "currentApprovedDeltaRemovedSha256": "353e312d7addcad3ddb01ce23fd61ea2f337501589f0c49da3f09c95a7f1cac9"
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "field": "costStages",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "3d505a2424532a0d0cec69acf019c9f0bd4cfb552cca905cb7ffdca901e03012",
+        "currentRawSha256": "3d505a2424532a0d0cec69acf019c9f0bd4cfb552cca905cb7ffdca901e03012",
+        "currentApprovedDeltaRemovedSha256": "3d505a2424532a0d0cec69acf019c9f0bd4cfb552cca905cb7ffdca901e03012"
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "field": "contracts",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "c0b2efadae4a556bf467eab9b575f1dde3eecc63469fa9d666a9eee030574fd5",
+        "currentRawSha256": "c0b2efadae4a556bf467eab9b575f1dde3eecc63469fa9d666a9eee030574fd5",
+        "currentApprovedDeltaRemovedSha256": "c0b2efadae4a556bf467eab9b575f1dde3eecc63469fa9d666a9eee030574fd5"
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "field": "vatRecords",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "27c80828870161c98afe0b9f5e13f1cc41574fe8f511dc90d8c03d0b3841323f",
+        "currentRawSha256": "27c80828870161c98afe0b9f5e13f1cc41574fe8f511dc90d8c03d0b3841323f",
+        "currentApprovedDeltaRemovedSha256": "27c80828870161c98afe0b9f5e13f1cc41574fe8f511dc90d8c03d0b3841323f"
+      },
+      {
+        "projectId": "TEST-20261016-B",
+        "field": "loans",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "28682685fcea34e55ae5b4093d326df2454c69094c30ead0220fad83da4a4104",
+        "currentRawSha256": "28682685fcea34e55ae5b4093d326df2454c69094c30ead0220fad83da4a4104",
+        "currentApprovedDeltaRemovedSha256": "28682685fcea34e55ae5b4093d326df2454c69094c30ead0220fad83da4a4104"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "field": "cbs",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "58ba5ea176afb76256dd554966065d84878eca366bb69c0cf718b4bac977ea5f",
+        "currentRawSha256": "58ba5ea176afb76256dd554966065d84878eca366bb69c0cf718b4bac977ea5f",
+        "currentApprovedDeltaRemovedSha256": "58ba5ea176afb76256dd554966065d84878eca366bb69c0cf718b4bac977ea5f"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "field": "costStages",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "13f710506fa9c1ffa8d75153b4cfa2b4bfba4e9b5f102090e0d55aeade685b61",
+        "currentRawSha256": "13f710506fa9c1ffa8d75153b4cfa2b4bfba4e9b5f102090e0d55aeade685b61",
+        "currentApprovedDeltaRemovedSha256": "13f710506fa9c1ffa8d75153b4cfa2b4bfba4e9b5f102090e0d55aeade685b61"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "field": "contracts",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "938fc76e5047bea10930d1758493938d72057e5182e48aae39cc57c966f0fcc4",
+        "currentRawSha256": "938fc76e5047bea10930d1758493938d72057e5182e48aae39cc57c966f0fcc4",
+        "currentApprovedDeltaRemovedSha256": "938fc76e5047bea10930d1758493938d72057e5182e48aae39cc57c966f0fcc4"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "field": "vatRecords",
+        "rawUnchanged": true,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "5b14c2acb9236988049f4accfb87909948cdda37287c19f2d6363538c400fc7e",
+        "currentRawSha256": "5b14c2acb9236988049f4accfb87909948cdda37287c19f2d6363538c400fc7e",
+        "currentApprovedDeltaRemovedSha256": "5b14c2acb9236988049f4accfb87909948cdda37287c19f2d6363538c400fc7e"
+      },
+      {
+        "projectId": "TEST-20261016-C",
+        "field": "loans",
+        "rawUnchanged": false,
+        "unchangedAfterExplicitApprovedDelta": true,
+        "beforeSha256": "bb20a15742842cf7ab95758e2fc640b0cdeb1c1036a5de4699f1bde02ce165e4",
+        "currentRawSha256": "fe555e6387d458e1fd0d6f6a4acd674ad872de2fb3e37ca3efa7e1fb74a5b02d",
+        "currentApprovedDeltaRemovedSha256": "bb20a15742842cf7ab95758e2fc640b0cdeb1c1036a5de4699f1bde02ce165e4"
+      }
+    ],
+    "evidence": {
+      "path": ".build/review-20261028/c86-final-db-compare-1793194798982.json",
+      "sha256": "7ffcbea7bbfde474ccd32e9dec5aa8d9c202623b55620113f950eba057bce5cd"
+    }
+  },
+  "archive": {
+    "id": "7b9495b4-c6be-4260-8aa2-38408eb82541",
+    "projectId": "TEST-20261016-C",
+    "type": "progress",
+    "date": "2026-10-28",
+    "status": "제출",
+    "submitted": "2026-10-28",
+    "receipt": "샘플-C-20261028",
+    "version": 2,
+    "recordHash": "087401c6d99cfdfa195aac83eaffee3301e25429f5ea01a6d88fc46c78f4ffa9",
+    "recordBytes": 1488819,
+    "jsonbTextBytes": 1588606,
+    "jsonbBodyMd5": "70f69c4641eb0b9acc04b29800862918",
+    "canonicalMd5": "f6348176fa76f602f400f9f0ac9cac4a",
+    "payloadMd5": "4a611533fd6013cdaba9eaf8feb09e46",
+    "initialBodyImmutable": true,
+    "initialRecordStatus": "작성본",
+    "initialRecordSubmitted": "",
+    "initialRecordReceipt": "",
+    "immutableFields": [
+      {
+        "field": "id",
+        "unchanged": true
+      },
+      {
+        "field": "projectId",
+        "unchanged": true
+      },
+      {
+        "field": "sourceId",
+        "unchanged": true
+      },
+      {
+        "field": "type",
+        "unchanged": true
+      },
+      {
+        "field": "date",
+        "unchanged": true
+      },
+      {
+        "field": "stageId",
+        "unchanged": true
+      },
+      {
+        "field": "templateVersion",
+        "unchanged": true
+      },
+      {
+        "field": "layoutVersion",
+        "unchanged": true
+      },
+      {
+        "field": "createdAt",
+        "unchanged": true
+      },
+      {
+        "field": "recordHash",
+        "unchanged": true
+      },
+      {
+        "field": "recordBytes",
+        "unchanged": true
+      },
+      {
+        "field": "jsonbTextBytes",
+        "unchanged": true
+      },
+      {
+        "field": "jsonbBodyMd5",
+        "unchanged": true
+      },
+      {
+        "field": "canonicalMd5",
+        "unchanged": true
+      },
+      {
+        "field": "payloadMd5",
+        "unchanged": true
+      },
+      {
+        "field": "recordIdentityMatches",
+        "unchanged": true
+      },
+      {
+        "field": "initialRecordStatus",
+        "unchanged": true
+      },
+      {
+        "field": "initialRecordSubmitted",
+        "unchanged": true
+      },
+      {
+        "field": "initialRecordReceipt",
+        "unchanged": true
+      }
+    ],
+    "firstActualArchiveReadPath": ".build/review-20261028/c86-archive-read-1793194107987.private.json",
+    "events": {
+      "count": 2,
+      "create": 1,
+      "status": 1,
+      "createBeforeIsSqlNull": true,
+      "statusFrom": "작성본",
+      "statusTo": "제출",
+      "versionFrom": 1,
+      "versionTo": 2
+    },
+    "actualGovernmentSubmission": false
+  },
+  "archiveMeaning": "Status metadata changed from drafting to submitted within the app. The initial stored report body/identity19 fields, hash and bytes stayed exact across status update and the later live-rate canary. Root confirms no submission to an actual government agency.",
+  "legacyReportRefs": {
+    "currentProjectCount": 3,
+    "currentLegacyReportCount": 3,
+    "currentLegacySnapshotCount": 0,
+    "currentCanonicalSha256": "6433f21a33ce9f657e48c3344ae3e16f29bda977908fe6e99a923251b060a3de",
+    "independentBeforeComparison": "Source37 explicitly excludes reports/reportSnapshots. Root earlier original evidence is required; no invented before comparison."
+  },
+  "limits": [
+    "Source37 explicitly omitted reports/reportSnapshots; the observed current3 legacy metadata rows are not relabeled as an independent before/current raw comparison without the original root evidence.",
+    "JSONB text bytes include PostgreSQL formatting spaces and differ from recorded canonical JS JSON bytes; they are not treated as a payload-size mismatch.",
+    "C19 normal UI edits and the two controlled rate edits intentionally advance workspace37 to53 and55. New archive creation/status storage is a separate app-only table path.",
+    "This observer checked DB values/hashes but did not perform the owner browser actions or claim actual print-output verification."
+  ],
+  "safety": {
+    "readOnly": true,
+    "businessWrites": 0,
+    "otherSchemaReads": 0,
+    "otherServiceChanged": false,
+    "sharedAuthChanged": false,
+    "agentInspectedCredentialOrEnvironmentFiles": false,
+    "rawReportBodyReturned": false,
+    "rawBodyOrCredentialPublished": false
+  }
+}

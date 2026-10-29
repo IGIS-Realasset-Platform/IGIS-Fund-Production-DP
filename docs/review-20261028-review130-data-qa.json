@@ -181,5 +181,63 @@
     "actualCommentWrites": 0,
     "finalAcceptance": false,
     "allSevenRequirementsAccepted": false
+  },
+  "scopeBridgeC86": {
+    "from": {
+      "path": ".build/review130-20261028/integration-candidate-85.html",
+      "sha256": "86b47fef5c5d77efb87c6bcec19ac8ed22d743ac21616de4ee618050725585a5",
+      "version": "0.13.0"
+    },
+    "to": {
+      "path": ".build/review130-20261028/integration-candidate-86.html",
+      "sha256": "6438d5a4a1cf632f84f4e7ba0456c87ef85b553da22cf9728532f8ba744f882f",
+      "version": "0.13.0"
+    },
+    "sourceComparison": {
+      "activeModules": 35,
+      "changedModules": [
+        "src/report.js"
+      ],
+      "changeExpressionCount": 2,
+      "otherActiveModulesUnchanged": true,
+      "consumedCSSFiles": 16,
+      "changedStyles": [],
+      "reportSourceSHA256": "5c8c1f1c611af8ebe62b527a03ab987bdedd4b25d0b5ece883459094333f5f07"
+    },
+    "modelEvidence": {
+      "knownStatuses": 5,
+      "fullKnownTableDOMByteIdentical": true,
+      "displayCasesPassed": 6,
+      "retainedCasesPassed": 7,
+      "archiveCasesPassed": 49,
+      "accessCasesPassed": 193
+    },
+    "nativeChangedDisplay": {
+      "exactHTMLSHA256": "6438d5a4a1cf632f84f4e7ba0456c87ef85b553da22cf9728532f8ba744f882f",
+      "viewports": [
+        1440,
+        390
+      ],
+      "flowsPassed": 2,
+      "emptyStatusDashVisible": true,
+      "numericZeroReceiptVisible": true,
+      "formRawEmptyAndZeroPreserved": true,
+      "knownRowDOMWidthHeightUnchangedAfterCancel": true,
+      "workspaceRevisionUnchanged": true,
+      "sourceChanged": [],
+      "originalSourceFileUnchanged": true,
+      "allHTTPMocked": true,
+      "actualDBWrites": 0,
+      "actualExternalRequests": 0
+    },
+    "previousScopeBridge": {
+      "reportArchiveFlow": "C85 exact native2 viewport proof retained; C86 unchanged paths and normal statuses bridge only",
+      "notice": "C85 exact native2 viewport proof retained; module/CSS unchanged",
+      "permitPartner": "C84 exact proof plus unchanged direct-module bridge retained; no new C86 native claim"
+    },
+    "actualServerAndPublication": "root-owned-pending",
+    "checklistNew7Completed": 0,
+    "finalWorkbookExports": 0,
+    "finalAcceptance": false
   }
 }

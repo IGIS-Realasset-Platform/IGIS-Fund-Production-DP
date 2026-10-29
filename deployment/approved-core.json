@@ -8,16 +8,22 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "Scoped C85 native cohorts plus source-equivalent C86 known-status DOM; two legacy display cases separately verified. See final external verification for actual server/canary and publication.",
-  "status": "review130-c86-protected-verified-candidate",
+  "actualBrowser": "Scoped exact C85/C86 physical cohorts and explicit unchanged-consumer bridges; formal owner C inputs and law3-header bidirectional sort checked. Native print-dialog file-save remains unverified.",
+  "status": "review130-c86-formal-ui-and-controlled-server-verified",
   "preparedAt": "2026-10-28",
   "wholeRequirementsComplete": false,
-  "actualAuthenticatedServer": "pending controlled canary",
+  "actualAuthenticatedServer": "Controlled C normal saves/reload/current report, separate archive create/read/status/immutable body and temporary rate restore passed; see final external evidence.",
   "wholePlatformComponentsAccepted": false,
   "previousRelease": {
     "version": "0.12.9",
     "sourceCommit": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74",
     "productionDeploymentId": "dpl_AAmrwxQmC21Ed6Yu3kwqNRBX3MQy",
     "formalHtmlSha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d"
+  },
+  "serverFollowup": {
+    "date": "2026-10-29",
+    "status": "law376-natural-partial-recovery-in-progress",
+    "frontendBytesUnchangedRequired": true,
+    "completed": false
   }
 }

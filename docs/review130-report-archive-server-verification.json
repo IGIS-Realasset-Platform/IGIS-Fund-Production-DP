@@ -4,7 +4,7 @@
     "DATA130-05",
     "QA130-06"
   ],
-  "scope": "App-only report archive factory/router/runtime; pure and explicit-memory regressions. Root applied DDL evidence is separate; authenticated runtime/body save and formal publication are not yet accepted here.",
+  "scope": "App-only report archive factory/router/runtime focused tests and root-applied DDL are retained. Latest realC86 authenticated create/status requests and initial-body immutability are separately observed in the linked bounded logs and read-only DB evidence.",
   "baseline": {
     "kind": "actual isolated original function size failure",
     "beforeWorkspaceBytes": 2908186,
@@ -252,10 +252,7 @@
     "executedBy": "root; this worker performed no actual DB writes"
   },
   "notYetAccepted": [
-    "authenticated actual API creation/status/retry",
-    "actual client save/reconnect of the new body",
-    "new body immutability in actual DB",
-    "final release HTML/UI/publication"
+    "Legacy before/current raw-reference comparison by this observer requires the separate original root evidence because source37 explicitly excluded those arrays."
   ],
   "preserved": {
     "oldReportsAndReportSnapshots": "compatible read; never migrated/deleted/rewritten by this API",
@@ -264,5 +261,59 @@
     "existingLoginConfiguration": true,
     "privateBodyOrCredentialsIncluded": false
   },
-  "currentClientIntegration": "Current QA client tests reach the actual reference router and archive factory through the shared SQL-compatible explicit-memory DB. Actual server DB/member acceptance remains separate."
+  "currentClientIntegration": "Current QA client tests reach the actual reference router and archive factory through the shared SQL-compatible explicit-memory DB. Actual server DB/member acceptance remains separate.",
+  "focusedStageBeforeC86NotYetAccepted": {
+    "candidate": "C85",
+    "scope": "App-only report archive factory/router/runtime; pure and explicit-memory regressions. Root applied DDL evidence is separate; authenticated runtime/body save and formal publication are not yet accepted here.",
+    "notYetAccepted": [
+      "authenticated actual API creation/status/retry",
+      "actual client save/reconnect of the new body",
+      "new body immutability in actual DB",
+      "final release HTML/UI/publication"
+    ]
+  },
+  "actualC86ServerAcceptance": {
+    "artifact": {
+      "version": "0.13.0",
+      "candidate": "C86",
+      "sourceCommit": "f4cc10c0ef52054ed3435f95a30126cf12c9d4a8",
+      "deployment": "dpl_PJhhyrJaZ2PCAAZ3PSQvQbMU3zm1",
+      "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+      "team": "IGISRA",
+      "formalHtmlSha256": "042aba6212a931fc6b6c3e6cca2f013330babce6f37aad653e8ee532341114b5",
+      "formalHtmlBytes": 6870523,
+      "artifactProvenance": "Root promoted and checked the exact same deployment; this observer did not deploy or fetch member credentials."
+    },
+    "dbEvidence": {
+      "path": "docs/review130-c86-live-db-verification.json",
+      "sha256": "627dedfb19f4537498dea6ef02cb4a18bc79f1920c8cc9751504cb98c8f5bd2f"
+    },
+    "logEvidence": {
+      "path": "docs/review130-c86-server-logs.json",
+      "sha256": "6b80d79bc5343e1e3c8b6d02af7fab40df770fd582aa662c8ec6f9d1b03b0aeb"
+    },
+    "authenticatedCreate201": true,
+    "authenticatedStatusPatch200": true,
+    "authenticatedArchiveGet200Requests": 7,
+    "ownerDetailObservation": "Root reported an exact unchanged archived iframe HTML hash across live-rate changes; browser proof is separate.",
+    "initialBodyAndIdentityUnchangedAcrossStatusAndRateCanary": true,
+    "recordBytes": 1488819,
+    "statusVersion": 2,
+    "status": "제출",
+    "actualGovernmentSubmission": false,
+    "workspaceRevision": 55,
+    "protectedUnexpectedChanges": 0,
+    "explicitApprovedCanonicalRateAddition": {
+      "projectId": "TEST-20261016-C",
+      "loanId": "8a1osujg",
+      "field": "interestRate",
+      "beforePropertyExisted": false,
+      "currentValue": 5.6,
+      "legacyRateBefore": 5.6,
+      "legacyRateCurrent": 5.6,
+      "rawDifferenceCount": 1
+    },
+    "wholeOwnerBrowserAndPrintAcceptance": "Root-owned actual owner session/iframe/UI receipts; this observer did not execute those browser actions."
+  },
+  "productionFailureInjection": "Not deliberately induced in production; existing isolated tests retain response-loss/retry/403/409/503 assertions."
 }

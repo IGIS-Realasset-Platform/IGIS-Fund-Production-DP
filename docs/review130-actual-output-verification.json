@@ -1,0 +1,86 @@
+{
+  "reviewId": "REVIEW130",
+  "date": "2026-10-29",
+  "scope": "Actual C86 authenticated UI/DB-derived HTML output → isolated PDF4, not model/App.state recreation and not production print-dialog completion",
+  "artifact": {
+    "version": "0.13.0",
+    "candidate": "C86-as-of-output-verification",
+    "formalHtmlSHA256": "042aba6212a931fc6b6c3e6cca2f013330babce6f37aad653e8ee532341114b5",
+    "laterBackendCollectorCorrection": "separate/source-reconfirmation-pending"
+  },
+  "dataMeaning": "Root-authorized virtual C project, not actual government filing or a new cancellation/completion event",
+  "provenance": {
+    "progress": "Byte-identical to actual stored report iframe srcdoc",
+    "other3": "Actual current authenticated UI preview iframe srcdoc",
+    "actualSourceHTMLPreserved": true,
+    "AppStateRegeneration": false,
+    "sourceMonetaryEstimation": false,
+    "publicRawSourcesOrPDFsIncluded": false
+  },
+  "outputs": [
+    {
+      "kind": "plan",
+      "sourceSHA256": "3d1b0e4238b4d00ddb39cfe2fb349e81facf16365277600315cf97218254c8c8",
+      "pdfSHA256": "516c0bb4b51987ce37c15c7d1ede9bdabf8be479677b9b99e9be2c8f58e08596",
+      "pages": 8
+    },
+    {
+      "kind": "progress",
+      "sourceSHA256": "810eae179a00330ad20bc7f9bb5f134bdc1bc18603d6f1cd18bdfc5334f059c5",
+      "pdfSHA256": "f7008a9f7e2ae2ae554a088fd893afaa30bb32a3767afac0513fdf053a2cda59",
+      "pages": 8
+    },
+    {
+      "kind": "cancel",
+      "sourceSHA256": "1584daf3003f0af705b300810167bf4bc535412330f6c9ee3bbafe658e97726a",
+      "pdfSHA256": "e3e969f79c47121c3bde6ccfa38875aec214f67b5d4d9f0c808cc98492926872",
+      "pages": 1
+    },
+    {
+      "kind": "complete",
+      "sourceSHA256": "ae99fbd6d89f2a68ccd4564fef4b084faaf5c078e04809e09f7dd0d8626e9946",
+      "pdfSHA256": "8724abc3cc40a6e7443e76a06673222dfd2ea110d7293ed34085823ebd4432d7",
+      "pages": 1
+    }
+  ],
+  "summary": {
+    "PDFs": 4,
+    "pages": 18,
+    "normalizedSourceCharacterMissing": 0,
+    "replacementCharacters": 0,
+    "cellOverflow": 0,
+    "paperOverflow": 0,
+    "printEditControls": 0,
+    "embeddedFontsLoaded": true,
+    "businessProgressSentenceOccurrencesEach": 1,
+    "uniquePNGDirectlyViewed": 11,
+    "additionalByteIdenticalPages": 7
+  },
+  "interpretation": [
+    "Plan/progress each8 pages preserve the full supplied source. Page8 includes declaration/signature/attachment list and writing instructions. Do not equate this with a7page selection state.",
+    "Narrow official finance/date cells can wrap dates. All source characters are retained, distinct from clipping.",
+    "Cancel/complete outputs verify the selected form binding/printing only; no project lifecycle event was created.",
+    "Character/layout agreement with source is not a new assertion that original business values or statutory allocation are substantively complete."
+  ],
+  "limits": {
+    "nativeProductionPrintDialog": "CDP timeout; not accepted; reload recovery is not print success",
+    "installedExcelApplication": "not part of this PDF operation",
+    "governmentSubmission": false,
+    "legacyOldMetadata3BeforeComparison": "separately unverified: source37 omitted report arrays",
+    "oldStoredFullReportBodyBaseline": 0,
+    "allPlatformAccepted": false,
+    "QA130_06Completed": false
+  },
+  "safety": {
+    "actualDBWritesByRenderer": 0,
+    "externalRequests": 0,
+    "productOrHTMLSourceEdits": 0,
+    "privateArtifactsPublicGitUpload": false
+  },
+  "evidenceDocuments": [
+    "docs/review130-c86-live-db-verification.json",
+    "docs/review130-c86-server-logs.json",
+    "docs/review-20261028-review130-data-qa.md"
+  ],
+  "privateInspectionMetadataSHA256": "aaf0ebda2eebd9a7aade92c9a2fef818129cbacbfb77d3f4e96e98a5a2b72f9e"
+}

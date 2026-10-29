@@ -1,15 +1,14 @@
 {
   "schemaVersion": "component-review-matrix-v1",
   "deployedRelease": {
-    "version": "0.12.9",
-    "candidate": "C73",
+    "version": "0.13.0",
+    "candidate": "C86",
     "date": "2026-10-28",
-    "sourceCommit": "3a74775b99b7d51a8f21c7bb3eead5fb8f317f74",
-    "deploymentId": "dpl_AAmrwxQmC21Ed6Yu3kwqNRBX3MQy",
-    "formalHtmlSha256": "01821a726f27511b02905fe614e1b7c3327f892a28dde7780ad621b1c83d481d",
-    "bytes": 6782277,
-    "publishedAt": "2026-10-28T04:30:50.551Z",
-    "verification": "docs/review-20261028-verification.md",
+    "sourceCommit": "f4cc10c0ef52054ed3435f95a30126cf12c9d4a8",
+    "deploymentId": "dpl_PJhhyrJaZ2PCAAZ3PSQvQbMU3zm1",
+    "formalHtmlSha256": "042aba6212a931fc6b6c3e6cca2f013330babce6f37aad653e8ee532341114b5",
+    "bytes": 6870523,
+    "verification": "docs/review130-final-verification.md",
     "allComponentsAccepted": false
   },
   "at": "2026-10-23T04:12:22.096Z",
@@ -45,7 +44,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5046,
+    "totalMatrixRecords": 5053,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -59,8 +58,14 @@
     "review128PendingRequirements": 0,
     "review128ScopedReviewedRecords": 27,
     "review129PendingRequirements": 0,
-    "review130PendingRequirements": 7,
-    "meaning": "Historical definitions, source candidates and current scenario/component records are separate; total records are not unique current UI actions."
+    "review130PendingRequirements": 1,
+    "meaning": "Historical definitions, source candidates and current scenario/component records are separate; total records are not unique current UI actions.",
+    "review130ScopedAcceptedRequirements": 6,
+    "legacyDefinitionAlias": {
+      "currentComponents": 975,
+      "confirmedRouteStates": 30,
+      "actualMeaning": "Historical C53 names retained; current C86 discovery has31 routes. Neither is all-state completed count."
+    }
   },
   "actualExecution": {
     "evidence": "C44-ACTUAL-42",
@@ -723386,7 +723391,7 @@
       "route": {
         "view": "review130"
       },
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723401,28 +723406,58 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Refer to per-domain actual runs and immutable-source bridges; do not count a bridge as another physical run.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Aggregate of selected real C normal16 commits, reconnect/current report and temporary-rate semantic restore; individual fields/other conditions retain their own unexecuted status.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Selected actual C source binding and4 types/18 PDF pages. The actual operating print-dialog file-save remains unverified.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "source": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "scopedAcceptance": {
+        "accepted": true,
+        "scope": "Requirement meaning and bounded evidence in final verification.",
+        "evidence": [
+          "docs/review130-final-verification.md"
+        ]
+      }
     },
     {
       "componentID": "LAW130-02",
@@ -723432,7 +723467,7 @@
       "route": {
         "view": "review130"
       },
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723447,16 +723482,29 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Refer to per-domain actual runs and immutable-source bridges; do not count a bridge as another physical run.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -723468,7 +723516,14 @@
         }
       },
       "source": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "scopedAcceptance": {
+        "accepted": true,
+        "scope": "Requirement meaning and bounded evidence in final verification.",
+        "evidence": [
+          "docs/review130-final-verification.md"
+        ]
+      }
     },
     {
       "componentID": "LAW130-03",
@@ -723478,7 +723533,7 @@
       "route": {
         "view": "review130"
       },
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723493,16 +723548,29 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Refer to per-domain actual runs and immutable-source bridges; do not count a bridge as another physical run.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -723514,7 +723582,14 @@
         }
       },
       "source": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "scopedAcceptance": {
+        "accepted": true,
+        "scope": "Requirement meaning and bounded evidence in final verification.",
+        "evidence": [
+          "docs/review130-final-verification.md"
+        ]
+      }
     },
     {
       "componentID": "UI130-04",
@@ -723524,7 +723599,7 @@
       "route": {
         "view": "review130"
       },
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723539,16 +723614,29 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Refer to per-domain actual runs and immutable-source bridges; do not count a bridge as another physical run.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -723560,7 +723648,14 @@
         }
       },
       "source": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "scopedAcceptance": {
+        "accepted": true,
+        "scope": "Requirement meaning and bounded evidence in final verification.",
+        "evidence": [
+          "docs/review130-final-verification.md"
+        ]
+      }
     },
     {
       "componentID": "DATA130-05",
@@ -723570,7 +723665,7 @@
       "route": {
         "view": "review130"
       },
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723585,28 +723680,58 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Refer to per-domain actual runs and immutable-source bridges; do not count a bridge as another physical run.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Aggregate of selected real C normal16 commits, reconnect/current report and temporary-rate semantic restore; individual fields/other conditions retain their own unexecuted status.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Selected actual C source binding and4 types/18 PDF pages. The actual operating print-dialog file-save remains unverified.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "source": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "scopedAcceptance": {
+        "accepted": true,
+        "scope": "Requirement meaning and bounded evidence in final verification.",
+        "evidence": [
+          "docs/review130-final-verification.md"
+        ]
+      }
     },
     {
       "componentID": "QA130-06",
@@ -723616,7 +723741,7 @@
       "route": {
         "view": "review130"
       },
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723631,16 +723756,29 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Discovery and bounded cohort execution are implemented; the requested complete dynamic-state coverage is unfinished.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-final-verification.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Refer to per-domain actual runs and immutable-source bridges; do not count a bridge as another physical run.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -723652,14 +723790,21 @@
         }
       },
       "source": [],
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "scopedAcceptance": {
+        "accepted": false,
+        "scope": "Partial only; all discovered dynamic states not accepted.",
+        "evidence": [
+          "docs/review130-final-verification.md"
+        ]
+      }
     },
     {
       "componentID": "UI130-04-TRIGGER",
       "parentID": "UI130-04",
       "kind": "interaction",
       "label": "모든 공통 입력의 명시적 수정버튼",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723672,16 +723817,31 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-finance-professional-verification.md",
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Typed field/explicit edit entry fixed cohorts and late role/target guards; no all-UI/all-role claim.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -723702,7 +723862,7 @@
       "parentID": "UI130-04",
       "kind": "interaction",
       "label": "값클릭/더블클릭 비개시·버튼키보드",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723715,16 +723875,31 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-finance-professional-verification.md",
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Typed field/explicit edit entry fixed cohorts and late role/target guards; no all-UI/all-role claim.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -723745,7 +723920,7 @@
       "parentID": "UI130-04",
       "kind": "interaction",
       "label": "조회권한 표시/열린뒤 권한회수",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723758,16 +723933,28 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": []
+          "evidence": [
+            "docs/review130-finance-professional-verification.md"
+          ],
+          "scope": "Current role/late-revocation focused guards are model/API tests; no native all-role/revoke journey is claimed.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -723788,7 +723975,7 @@
       "parentID": "UI130-04",
       "kind": "interaction",
       "label": "보고 편집/레거시 입력 경로 통일",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723801,16 +723988,31 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-finance-professional-verification.md",
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Typed field/explicit edit entry fixed cohorts and late role/target guards; no all-UI/all-role claim.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -723831,7 +724033,7 @@
       "parentID": null,
       "kind": "requirement",
       "label": "목록 정렬·한 줄 표시·열 너비 조정",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723847,16 +724049,30 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-table-bridge-acceptance.json",
+            "docs/review130-C83-C84-C85-validation-bridge.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Law tables5 widths; common resize115 table/width contexts and changed minimum-width counterexamples. Formal1280 final screenshot.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -723867,14 +724083,21 @@
           "evidence": []
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "scopedAcceptance": {
+        "accepted": true,
+        "scope": "Requirement meaning and bounded evidence in final verification.",
+        "evidence": [
+          "docs/review130-final-verification.md"
+        ]
+      }
     },
     {
       "componentID": "CONS130-SCHEDULE",
       "parentID": "UX130-01",
       "kind": "work-unit",
       "label": "착공·준공 예정/실제/지연 고정열 및 신고·재개·변경일/내용6개 조회",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723890,24 +724113,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -723917,7 +724158,7 @@
       "parentID": "UX130-01",
       "kind": "work-unit",
       "label": "본PF 실제 실행 여부·일자·지연·사유·내용5개 조회",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723933,24 +724174,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -723960,7 +724219,7 @@
       "parentID": "UX130-01",
       "kind": "work-unit",
       "label": "전체지연·사유와 공사중단/재개5개 구별",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -723976,24 +724235,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -724003,7 +724280,7 @@
       "parentID": "UX130-01",
       "kind": "work-unit",
       "label": "기준일·계획·실제·차이 조회, 수시기록/공정이력 유지",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724019,24 +724296,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -724046,7 +724341,7 @@
       "parentID": "UX130-01",
       "kind": "work-unit",
       "label": "약정4개와 별도 대출 만기 원문 조회",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724062,24 +724357,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -724089,7 +724402,7 @@
       "parentID": "UX130-01",
       "kind": "work-unit",
       "label": "전체수정1개와6단계 수정→동일폼 해당fieldset 초점",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724105,24 +724418,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -724132,7 +724463,7 @@
       "parentID": "UX130-01",
       "kind": "work-unit",
       "label": "33입력 label/value 행 정렬·자료형·원문·취소/실패 보존",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724148,24 +724479,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -724175,7 +724524,7 @@
       "parentID": "UX130-01",
       "kind": "work-unit",
       "label": "공정 차트/이력/직접진입의 조회권한과 저장직전 사업·권한·실제기록 재검사, 부모복귀",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724191,24 +724540,41 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": []
+          "evidence": [
+            "docs/review130-frontend-native-C85.md"
+          ],
+          "scope": "Progress chart/history viewer and late-role submit were not physically executed in the C85 construction read/form cohort. Model guards are automatic evidence only.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -724218,7 +724584,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "착공신고일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724235,24 +724601,46 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "Selected C normal form/current report/reconnect only; plannedProgress explicit0 preserved.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724269,7 +724657,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "착공예정일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724286,24 +724674,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724320,7 +724726,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "실제 착공일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724337,24 +724743,46 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "Selected C normal form/current report/reconnect only; plannedProgress explicit0 preserved.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724371,7 +724799,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "착공 지연 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724388,24 +724816,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724422,7 +724868,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "착공연기신고일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724439,24 +724885,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724473,7 +724937,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "착공 지연사유 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724490,24 +724954,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724524,7 +725006,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "착공 지연 세부내용 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724541,24 +725023,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724575,7 +725075,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "착공 재개예정일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724592,24 +725092,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724626,7 +725144,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "본PF 전환(실행) 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724643,24 +725161,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724677,7 +725213,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "본PF 전환(실행)일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724694,24 +725230,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724728,7 +725282,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "본PF 지연 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724745,24 +725299,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724779,7 +725351,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "본PF 지연사유 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724796,24 +725368,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724830,7 +725420,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "본PF 지연 세부내용 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724847,24 +725437,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724881,7 +725489,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "사업 전체 지연 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724898,24 +725506,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724932,7 +725558,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "공사중단 여부 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -724949,24 +725575,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -724983,7 +725627,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "공사중단일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725000,24 +725644,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725034,7 +725696,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "공사중단사유 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725051,24 +725713,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725085,7 +725765,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "공사중단 세부내용 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725102,24 +725782,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725136,7 +725834,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "공사 재개예정일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725153,24 +725851,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725187,7 +725903,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "공사지연 사유 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725204,24 +725920,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725238,7 +725972,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "준공예정일(계획) 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725255,24 +725989,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725289,7 +726041,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "준공일(실제) 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725306,24 +726058,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725340,7 +726110,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "준공 지연 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725357,24 +726127,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725391,7 +726179,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "준공 지연사유 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725408,24 +726196,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725442,7 +726248,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "준공 지연 세부내용 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725459,24 +726265,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725493,7 +726317,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "변경 준공예정일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725510,24 +726334,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725544,7 +726386,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "계획 공정률(%) 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725561,24 +726403,46 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "Selected C normal form/current report/reconnect only; plannedProgress explicit0 preserved.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725595,7 +726459,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "실제 공정률(%) 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725612,24 +726476,46 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "Selected C normal form/current report/reconnect only; plannedProgress explicit0 preserved.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725646,7 +726532,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "공정률 기준일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725663,24 +726549,46 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "Selected C progress baseline date preserved through actual save/reconnect.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725697,7 +726605,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "계약상 준공일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725714,24 +726622,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725748,7 +726674,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "책임준공 약정일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725765,24 +726691,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725799,7 +726743,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "책임준공 연장 약정일 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725816,24 +726760,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725850,7 +726812,7 @@
       "parentID": "UX130-01",
       "kind": "field",
       "label": "책임준공 약정 근거 경로 조회·입력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725867,24 +726829,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "33-field read geometry at5 widths and6 work-unit form entries. Only selected C fields were actually changed on the real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four actual sample source report types rendered to18 PDF pages; selected dates/progress crosschecked; not every field individually edited.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -725901,7 +726881,7 @@
       "parentID": "UI130-07",
       "kind": "table-contract",
       "label": "표별 기본폭·사용자폭·클릭/드래그/키보드/취소",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725918,16 +726898,30 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-table-bridge-acceptance.json",
+            "docs/review130-C83-C84-C85-validation-bridge.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Law tables5 widths; common resize115 table/width contexts and changed minimum-width counterexamples. Formal1280 final screenshot.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -725945,7 +726939,7 @@
       "parentID": "UI130-07",
       "kind": "table-contract",
       "label": "머리/본문의 숫자·날짜 정렬 및 명시적 줄바꿈",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -725962,16 +726956,30 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-table-bridge-acceptance.json",
+            "docs/review130-C83-C84-C85-validation-bridge.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Law tables5 widths; common resize115 table/width contexts and changed minimum-width counterexamples. Formal1280 final screenshot.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -725989,7 +726997,7 @@
       "parentID": "UI130-07",
       "kind": "table-contract",
       "label": "법령 변경표 한줄·원문/비교·3열정렬·시행사건",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -726006,16 +727014,30 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-table-bridge-acceptance.json",
+            "docs/review130-C83-C84-C85-validation-bridge.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Law tables5 widths; common resize115 table/width contexts and changed minimum-width counterexamples. Formal1280 final screenshot.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -726033,7 +727055,7 @@
       "parentID": "UI130-07",
       "kind": "table-contract",
       "label": "관리 법령표 분야·종류·긴 법령명·범위 정렬",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -726050,16 +727072,30 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-table-bridge-acceptance.json",
+            "docs/review130-C83-C84-C85-validation-bridge.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Law tables5 widths; common resize115 table/width contexts and changed minimum-width counterexamples. Formal1280 final screenshot.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -726077,7 +727113,7 @@
       "parentID": "UI130-07",
       "kind": "table-contract",
       "label": "검색표 법령·기관·일자·추가열 초기 가시성",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -726094,16 +727130,30 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-law-table-bridge-acceptance.json",
+            "docs/review130-C83-C84-C85-validation-bridge.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Law tables5 widths; common resize115 table/width contexts and changed minimum-width counterexamples. Formal1280 final screenshot.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
@@ -726121,7 +727171,7 @@
       "parentID": "DATA130-05",
       "kind": "field",
       "label": "사업 준비 추진경과 원문 정정·보고서전용/플랫폼반영",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -726138,24 +727188,42 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Four-family mock UI cohort; this preparation field was preserved, not actually edited on real server.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": []
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Actual C source plan/progress output18-page cohort; original sentences/events not artificially repeated.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -726165,7 +727233,7 @@
       "parentID": "DATA130-05",
       "kind": "field",
       "label": "인허가 추진경과 원문 정정·보고서전용/플랫폼반영",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -726182,24 +727250,47 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Current C legacy source explicitly cleared and centrally committed, then structured event added; independent current output once and historical field history preserved.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Selected three existing fields only; other source fields not mutated.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Actual C source plan/progress output18-page cohort; original sentences/events not artificially repeated.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -726209,7 +727300,7 @@
       "parentID": "DATA130-05",
       "kind": "field",
       "label": "착공 추진경과 원문 정정·보고서전용/플랫폼반영",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -726226,24 +727317,47 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Current C legacy source explicitly cleared and centrally committed, then structured event added; independent current output once and historical field history preserved.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Selected three existing fields only; other source fields not mutated.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Actual C source plan/progress output18-page cohort; original sentences/events not artificially repeated.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -726253,7 +727367,7 @@
       "parentID": "DATA130-05",
       "kind": "field",
       "label": "공사·준공 추진경과 원문 정정·보고서전용/플랫폼반영",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -726270,24 +727384,47 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Current C legacy source explicitly cleared and centrally committed, then structured event added; independent current output once and historical field history preserved.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Selected three existing fields only; other source fields not mutated.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Actual C source plan/progress output18-page cohort; original sentences/events not artificially repeated.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -726297,7 +727434,7 @@
       "parentID": "DATA130-05",
       "kind": "data-contract",
       "label": "신청·승인 회차 저장 후 버전·이력·보고 연결",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -726314,24 +727451,46 @@
       ],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Real member normal UI steps, generated record IDs, fresh reload and output.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-c86-server-logs.json"
+          ],
+          "scope": "Actual C revision37→53 then temporary rate54→55; protected data comparison and report archive API.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Current source values and immutable saved-body comparison; native print-dialog save remains unverified.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -726341,7 +727500,7 @@
       "parentID": "DATA130-05",
       "kind": "fixture-scenario",
       "label": "개별 발생사건 가정과 선행상태·날짜·보고 정합",
-      "lifecycle": "review130-in-progress",
+      "lifecycle": "review130-scoped-evidence-recorded",
       "policyBasis": [
         {
           "kind": "latest-direct-user-request",
@@ -726355,24 +727514,482 @@
       "source": [],
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "C86 current implementation; specific consumers and preservation boundaries, not all dynamic states.",
+          "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Exact C86 regression257 groups; sourceChanged0. This group count is not individual UI action count.",
+          "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Real member normal UI steps, generated record IDs, fresh reload and output.",
+          "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": []
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-c86-server-logs.json"
+          ],
+          "scope": "Actual C revision37→53 then temporary rate54→55; protected data comparison and report archive API.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-actual-output-verification.md",
+            "docs/review130-final-verification.md"
+          ],
+          "scope": "Current source values and immutable saved-body comparison; native print-dialog save remains unverified.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REPORT130-ARCHIVE-LIST",
+      "parentID": "DATA130-05",
+      "kind": "connected-contract",
+      "label": "metadata-only report list",
+      "lifecycle": "review130-scoped-evidence-recorded",
+      "discovery": "Recorded during final evidence reconciliation; not retrospectively claimed as preimplementation inventory.",
+      "policyBasis": [
+        {
+          "kind": "approved-connected-defect",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "metadata-only report list",
+        "reference": "DATA130-05"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "Frozen C86 consumer.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "Independent counterexamples plus existing regression.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "Named actual browser cohort; API mocks distinguished from real member.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "No unrelated live business writes for test convenience.",
+          "allDynamicConditionsAccepted": false
         },
         "output": {
           "status": "notrun",
-          "evidence": []
+          "evidence": [],
+          "scope": "Only documented output scope.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REPORT130-ARCHIVE-BODY",
+      "parentID": "DATA130-05",
+      "kind": "connected-contract",
+      "label": "immutable body read/reconnect",
+      "lifecycle": "review130-scoped-evidence-recorded",
+      "discovery": "Recorded during final evidence reconciliation; not retrospectively claimed as preimplementation inventory.",
+      "policyBasis": [
+        {
+          "kind": "approved-connected-defect",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "immutable body read/reconnect",
+        "reference": "DATA130-05"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-actual-output-verification.md"
+          ],
+          "scope": "Frozen C86 consumer.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-actual-output-verification.md"
+          ],
+          "scope": "Independent counterexamples plus existing regression.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-actual-output-verification.md"
+          ],
+          "scope": "Named actual browser cohort; API mocks distinguished from real member.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "No unrelated live business writes for test convenience.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-actual-output-verification.md"
+          ],
+          "scope": "Only documented output scope.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REPORT130-ARCHIVE-CREATE",
+      "parentID": "DATA130-05",
+      "kind": "connected-contract",
+      "label": "separate creation/idempotent retry",
+      "lifecycle": "review130-scoped-evidence-recorded",
+      "discovery": "Recorded during final evidence reconciliation; not retrospectively claimed as preimplementation inventory.",
+      "policyBasis": [
+        {
+          "kind": "approved-connected-defect",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "separate creation/idempotent retry",
+        "reference": "DATA130-05"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-c86-server-logs.json"
+          ],
+          "scope": "Frozen C86 consumer.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-c86-server-logs.json"
+          ],
+          "scope": "Independent counterexamples plus existing regression.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-c86-server-logs.json"
+          ],
+          "scope": "Named actual browser cohort; API mocks distinguished from real member.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "No unrelated live business writes for test convenience.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "Only documented output scope.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REPORT130-ARCHIVE-STATUS",
+      "parentID": "DATA130-05",
+      "kind": "connected-contract",
+      "label": "versioned status/receipt/overview",
+      "lifecycle": "review130-scoped-evidence-recorded",
+      "discovery": "Recorded during final evidence reconciliation; not retrospectively claimed as preimplementation inventory.",
+      "policyBasis": [
+        {
+          "kind": "approved-connected-defect",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "versioned status/receipt/overview",
+        "reference": "DATA130-05"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-c86-server-logs.json"
+          ],
+          "scope": "Frozen C86 consumer.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-c86-server-logs.json"
+          ],
+          "scope": "Independent counterexamples plus existing regression.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md",
+            "docs/review130-c86-live-db-verification.json",
+            "docs/review130-c86-server-logs.json"
+          ],
+          "scope": "Named actual browser cohort; API mocks distinguished from real member.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-c86-live-db-verification.json"
+          ],
+          "scope": "No unrelated live business writes for test convenience.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "Only documented output scope.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "NOTICE130-FAILURE-CONTEXT",
+      "parentID": "QA130-06",
+      "kind": "connected-contract",
+      "label": "delete failure row/focus/scroll restoration",
+      "lifecycle": "review130-scoped-evidence-recorded",
+      "discovery": "Recorded during final evidence reconciliation; not retrospectively claimed as preimplementation inventory.",
+      "policyBasis": [
+        {
+          "kind": "approved-connected-defect",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "delete failure row/focus/scroll restoration",
+        "reference": "QA130-06"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md"
+          ],
+          "scope": "Frozen C86 consumer.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md"
+          ],
+          "scope": "Independent counterexamples plus existing regression.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review-20261028-review130-data-qa.md"
+          ],
+          "scope": "Named actual browser cohort; API mocks distinguished from real member.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No unrelated live business writes for test convenience.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "Only documented output scope.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "COST130-DRAFT-NEXT",
+      "parentID": "UI130-04",
+      "kind": "connected-contract",
+      "label": "consume successful draft without reusing new cost name/money",
+      "lifecycle": "review130-scoped-evidence-recorded",
+      "discovery": "Recorded during final evidence reconciliation; not retrospectively claimed as preimplementation inventory.",
+      "policyBasis": [
+        {
+          "kind": "approved-connected-defect",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "consume successful draft without reusing new cost name/money",
+        "reference": "UI130-04"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Frozen C86 consumer.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Independent counterexamples plus existing regression.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Named actual browser cohort; API mocks distinguished from real member.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No unrelated live business writes for test convenience.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "Only documented output scope.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "COST130-CLASSIFY-PATH",
+      "parentID": "UI130-04",
+      "kind": "connected-contract",
+      "label": "classification does not require a new evidence path",
+      "lifecycle": "review130-scoped-evidence-recorded",
+      "discovery": "Recorded during final evidence reconciliation; not retrospectively claimed as preimplementation inventory.",
+      "policyBasis": [
+        {
+          "kind": "approved-connected-defect",
+          "reference": "docs/review130-final-verification.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "classification does not require a new evidence path",
+        "reference": "UI130-04"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Frozen C86 consumer.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Independent counterexamples plus existing regression.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review130-frontend-native-C85.md",
+            "docs/review130-C83-C84-C85-validation-bridge.md"
+          ],
+          "scope": "Named actual browser cohort; API mocks distinguished from real member.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "No unrelated live business writes for test convenience.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "Only documented output scope.",
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false
@@ -782989,7 +784606,7 @@
     "privateSourceBodiesInReport": false
   },
   "allPlatformComponentsAccepted": false,
-  "next": "remainingExecutableWork의 구체적인 진입/조건/출력/다른 역할을 후속 검수합니다. 실제 코호트 흐름·회귀묶음·현재 975개 정의는 서로 다른 분모이며 전체 기능 수락이 아닙니다.",
+  "next": "Follow explicit remaining conditions in16 work groups; repair observed natural376 partial collector. Keep completed scoped UX corrections, real source/archive proofs and external/native-tool limits separate.",
   "previousMatrix": {
     "sha256": "347eb1900a3868be2d8b2d258f69d0769db24d7411d5531e63fa3d6618834197",
     "componentRows": 3078,
@@ -786409,7 +788026,8 @@
       "records": 975,
       "repeatedControlRowsGroupedBeforeCounting": true,
       "actualFlowsAreSeparateFromDefinitionCounts": true
-    }
+    },
+    "historicalNameRetained": true
   },
   "currentActualCohorts": [
     {
@@ -786592,6 +788210,73 @@
       "observation": "연결한 실제 보고서 코호트의 대상명·항목명 조건만 수락합니다. 여러 대주/반복가족·모든 필드/단위의 충분성은 별도 미검증이며 옛 구역명만 표시된 C49 관측은 이전 버전 이력에 보존합니다.",
       "evidence": "FIN125-REPORT-CURRENT-NATIVE2",
       "notConfirmedNewProductFailure": true
+    },
+    "review130": {
+      "PROF-NEW": [
+        "C85 professional10 including generated ID/add→same-ID edit,503/403/reconnect.",
+        "All independent professional/legal qualification combinations and other actual members remain separate."
+      ],
+      "FIN-ADD": [
+        "C85 new loans2 widths; ID edit/cancel,503/history/report/reconnect.",
+        "Other loan agreement types/roles and real added-loan write not claimed."
+      ],
+      "FIN-SELLDOWN": [
+        "C85 selldown2 widths, partial/same-party/full balance,503/parent/reconnect.",
+        "All legal transfer conditions/other lender-role combinations not accepted."
+      ],
+      "FIN-CAPITAL": [
+        "C85 nonzero/zero/missing ×2 widths=6 capital observations.",
+        "All source combinations not accepted."
+      ],
+      "FIN-OTHER": [
+        "C85 equity/security/guarantor×2 widths=6,0/error/ID/edit/delete/undo.",
+        "All independent guarantee types/roles remain separate."
+      ],
+      "COST-BREAKDOWN": [
+        "C84 split2 + C85 mixed-code2 + downloaded Excel4.",
+        "All linked contracts/VAT split/delete combinations not exercised in UI."
+      ],
+      "COST-MANAGEMENT": [
+        "C85 owner10 and C84 classification4.",
+        "Merge UI/all dirty cancel/late deletion combinations not exercised."
+      ],
+      "PRESET-COMBINATIONS": [
+        "C83 actual9 uses×2 widths=18; same direct definitions/consumers bridge toC86.",
+        "All payer/business method/scope combinations and installed Excel not executed."
+      ],
+      "PERMIT-TARGET": [
+        "C84 existing-target2; actual C4plan forms+5rounds normal save and report.",
+        "All compound prerequisite/deeming/late target submit combinations not exercised."
+      ],
+      "LAW-SERVER": [
+        "Official376 reads; law-table5/compare3 exact+scoped source bridge and formal current list.",
+        "Natural376 2026-10-29 partial310/66; repair in progress, no whole-success claim."
+      ],
+      "REPORT-FAMILIES": [
+        "C85 report2 widths; C86 empty/zero2 widths; actual C archive/body/status/current rate+source report4.",
+        "All12 repeat families with multiple targets/add/remove/missing/zero not exercised."
+      ],
+      "PARTNER-COMMENTS": [
+        "C84 summary/detail/reference read+503 retry/cursor×2 widths=6 and same-consumer bridge.",
+        "No real original-site comment writes or other staff actions."
+      ],
+      "NOTICE-RESTORE": [
+        "C85 actual2 widths for personal deletion/error original row/focus/scroll and count/reload.",
+        "New restore UI not exposed nor added as an invented requirement."
+      ],
+      "OTHER-ROLES": [
+        "Isolated report193/access/late-target cases and actual existing owner.",
+        "No impersonation or other staff credentials for real-member testing."
+      ],
+      "OUTPUT-NATIVE": [
+        "Downloaded costXLSX4 OOXML and actual source reportPDF4/18 pages.",
+        "Installed Excel and operating IAB print-dialog PDF save unverified."
+      ],
+      "EXTERNAL": [
+        "Official public source reads and explicit supported/unsupported source boundaries.",
+        "Natural376 partial repair and separate urban-planning institution KEY; other supplier/evidence waits kept separate."
+      ],
+      "meaning": "Scoped passes do not replace still-unexecuted conditions; QA130-06 remains unchecked."
     }
   },
   "currentPerformedPaths": [
@@ -787510,17 +789195,30 @@
       "entry": "permit/registration / 전문인력 추가",
       "conditions": "신규ID 생성→교육일/기한 공란·재직일·503·재접속·동일ID 수정",
       "reason": "현재8흐름은 기존인력의 수정/퇴사/복구이며 신규생성 실제 수락이 아님",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "C85 professional10 including generated ID/add→same-ID edit,503/403/reconnect.",
+        "remainingScope": "All independent professional/legal qualification combinations and other actual members remain separate.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-FIN-ADD",
       "entry": "finance / loan-add",
       "conditions": "생성직후 같은 새ID의 추가 수정·모든 취소방식·권한/다른 약정유형·실회원·실서버",
       "reason": "추가4코호트 중 신규등록2흐름만 수락. 기존 금융12와 별도이며 신규등록 모든 조건 완료 아님",
-      "status": "scoped-current-native-condition-verified-further-conditions-notrun",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
       "newPolicy": false,
@@ -787528,14 +789226,27 @@
       "verifiedScope": "이 정확본 PC/390 신규등록→생성ID 상세/재접속·0/ALLIN제외·검증무쓰기·초안보존 닫기·503/retry, 원계약/타사업/기존금액 보존",
       "evidence": [
         "FIN125-CURRENT-ADD-SELLDOWN4"
-      ]
+      ],
+      "previousStatus": "scoped-current-native-condition-verified-further-conditions-notrun",
+      "review130": {
+        "verifiedScope": "C85 new loans2 widths; ID edit/cancel,503/history/report/reconnect.",
+        "remainingScope": "Other loan agreement types/roles and real added-loan write not claimed.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-FIN-SELLDOWN",
       "entry": "finance / loan-detail→loan-selldown",
       "conditions": "다른 대주·연속/전액양도·모든 X/Escape/닫기 조합·열린중 대상소실/사업변경·역할/동시편집·보고 출력",
       "reason": "추가4코호트 중 셀다운2흐름만 수락. 상품별 법적 양도조건/모든 출력 수락 아님",
-      "status": "scoped-current-native-condition-verified-further-conditions-notrun",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
       "newPolicy": false,
@@ -787543,141 +789254,323 @@
       "verifiedScope": "이 정확본 PC/390 정확 3원금200/140/120 이전·잔여800/560/480·거부입력 무쓰기·초안보존·503/retry·단일이력/신규수신대주·GET재접속",
       "evidence": [
         "FIN125-CURRENT-ADD-SELLDOWN4"
-      ]
+      ],
+      "previousStatus": "scoped-current-native-condition-verified-further-conditions-notrun",
+      "review130": {
+        "verifiedScope": "C85 selldown2 widths, partial/same-party/full balance,503/parent/reconnect.",
+        "remainingScope": "All legal transfer conditions/other lender-role combinations not accepted.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-FIN-CAPITAL",
       "entry": "finance / finance-capital-detail",
       "conditions": "차트 실제 진입·null/0 집계·상세 부모/초점",
       "reason": "순수 내용/함수 연결만으로 실제 진입 수락하지 않음",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "C85 nonzero/zero/missing ×2 widths=6 capital observations.",
+        "remainingScope": "All source combinations not accepted.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-FIN-OTHER",
       "entry": "finance / 자기자본·담보·보증의 추가/수정/삭제",
       "conditions": "각 종류별 미입력/0·취소·503·소실대상·이력/보고서",
       "reason": "대출 검수와 별개 실제 업무 유형",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "C85 equity/security/guarantor×2 widths=6,0/error/ID/edit/delete/undo.",
+        "remainingScope": "All independent guarantee types/roles remain separate.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-COST-BREAKDOWN",
       "entry": "cost / 명시 부모→하위구성/수정/제외",
       "conditions": "100→60+40→65+40·미입력 하위·제외/undo·503·계약/VAT/분석/과거·Excel",
       "reason": "과거 반례/일부 실제 검수와 현재 모든 상태 수락을 구별",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "C84 split2 + C85 mixed-code2 + downloaded Excel4.",
+        "remainingScope": "All linked contracts/VAT split/delete combinations not exercised in UI.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-COST-MANAGEMENT",
       "entry": "cost / 관리→이름/분류/합치기",
       "conditions": "정확 단독/복수 owner·오래된 대상·취소초점·다른 원가 변경 허용",
       "reason": "현재 source 동일성만으로 모든 관리 조건을 실제 통과시키지 않음",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "C85 owner10 and C84 classification4.",
+        "remainingScope": "Merge UI/all dirty cancel/late deletion combinations not exercised.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-PRESET-COMBINATIONS",
       "entry": "cost / 용도별 프리셋9",
       "conditions": "다른 사업방식/부담주체/계약범위·권한·복합분해 후 모든 과거시점/보고 조합·설치Excel/IAB 전달",
       "reason": "C52 일반출력FAIL23은 당시 기록으로 보존하고 C53 한정 해결근거를 새로 연결. 모든 업종 MECE/의무비용 양식 수락 아님",
-      "status": "scoped-output-conditions-verified-other-combinations-notrun",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
       "newPolicy": false,
       "verifiedScope": "고정9용도×PC/390 출력54·명시0→공란18·공통37·원누락23/원자료금액. 기존 적용18은 별도 중복합산0",
       "evidence": [
         "CURRENT-PRESET-OUTPUT-18"
-      ]
+      ],
+      "previousStatus": "scoped-output-conditions-verified-other-combinations-notrun",
+      "review130": {
+        "verifiedScope": "C83 actual9 uses×2 widths=18; same direct definitions/consumers bridge toC86.",
+        "remainingScope": "All payer/business method/scope combinations and installed Excel not executed.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-PERMIT-TARGET",
       "entry": "permit / 회차·의견·조치계획",
       "conditions": "열린 중 삭제/교체/사업변경 후 submit·복합 선행/의제 회차의 원문/지도",
       "reason": "42흐름 내 생성/503와 모든 stale/법적 조건을 구별",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "C84 existing-target2; actual C4plan forms+5rounds normal save and report.",
+        "remainingScope": "All compound prerequisite/deeming/late target submit combinations not exercised.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-LAW-SERVER",
       "entry": "law / 공식법령 참조·관할/새 watch 입력",
       "conditions": "실제 허용된 공개 진입의 새식별자·동명·관할unknown·실제 서버 계약",
       "reason": "법령 상세6흐름/모의503와 runtime 단위22검사를 실기관 입력 완료로 바꾸지 않음",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "Official376 reads; law-table5/compare3 exact+scoped source bridge and formal current list.",
+        "remainingScope": "Natural376 2026-10-29 partial310/66; repair in progress, no whole-success claim.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-REPORT-FAMILIES",
       "entry": "report / 반복자료·저장검토·플랫폼반영",
       "conditions": "12개 반복가족의 복수 대상/추가·제외/누락·0/모든 단위 및 개별 표기",
       "reason": "현재 ALL-IN 한 은행2흐름/48단언은 모든 보고 가족 충분성 아님",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "C85 report2 widths; C86 empty/zero2 widths; actual C archive/body/status/current rate+source report4.",
+        "remainingScope": "All12 repeat families with multiple targets/add/remove/missing/zero not exercised.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-PARTNER-COMMENTS",
       "entry": "company / 댓글 조회·추가",
       "conditions": "공통source key/구버전scope·정밀 cursor·401/503·멱등·원공식/legacy 글·New 경계",
       "reason": "이전 PG rollback/서비스 검사와 최신 전체 UI를 구별",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "C84 summary/detail/reference read+503 retry/cursor×2 widths=6 and same-consumer bridge.",
+        "remainingScope": "No real original-site comment writes or other staff actions.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-NOTICE-RESTORE",
       "entry": "개인 알림 / 삭제 실행취소(restore)",
       "conditions": "실제 restore 노출/요구 확인 후 삭제취소·새로고침·권한/오류 원복",
       "reason": "현재 원42는 삭제/읽음/상세·목록/대상이동·늦은실패를 실행; restore는 별도 미확인",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "latest-scoped-flow-pass-restore-ui-not-exposed",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "C85 actual2 widths for personal deletion/error original row/focus/scroll and count/reload.",
+        "remainingScope": "New restore UI not exposed nor added as an invented requirement.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-OTHER-ROLES",
       "entry": "동일 경로 / viewer·editor·approver·소유자·기타 실제 허용회원",
       "conditions": "역할별 보임/실제 허용·403 원복·다른 사업 격리",
       "reason": "모의 역할은 다른 실제 직원 계정 전수와 다름. 실제 세션은 별도 승인 필요",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "실제 계정/자료 접근은 별도 승인",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "Isolated report193/access/late-target cases and actual existing owner.",
+        "remainingScope": "No impersonation or other staff credentials for real-member testing.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-OUTPUT-NATIVE",
       "entry": "각 출력 / PDF·Excel·다운로드 전달",
       "conditions": "새 자료/반복/빈값/다른 보고종류 PDF, 설치Excel, IAB 다운로드 전달",
       "reason": "현재 비용XLSX2와 과거 PDF50·동일엔진 연결은 모든 자료 출력/전달 수락 아님",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "Downloaded costXLSX4 OOXML and actual source reportPDF4/18 pages.",
+        "remainingScope": "Installed Excel and operating IAB print-dialog PDF save unverified.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     },
     {
       "id": "REMAINING-EXTERNAL",
       "entry": "외부 원천·자연 예약·면적·법인동일성",
       "conditions": "KACEM/KOSIS·신용 법인확정·면적근거·자연 일일/분기 경과",
       "reason": "외부 조건·실제기관 증빙을 UI 미구현이나 모의 성공으로 바꾸지 않음",
-      "status": "notrun-in-current-fixed-cohorts",
+      "status": "bounded-cohort-pass-further-conditions-unverified",
       "requiredAuthority": "격리 모의검수와 외부 실제검수의 권한을 구분",
       "notConfirmedProductFailure": true,
-      "newPolicy": false
+      "newPolicy": false,
+      "previousStatus": "notrun-in-current-fixed-cohorts",
+      "review130": {
+        "verifiedScope": "Official public source reads and explicit supported/unsupported source boundaries.",
+        "remainingScope": "Natural376 partial repair and separate urban-planning institution KEY; other supplier/evidence waits kept separate.",
+        "evidence": [
+          "docs/review130-final-verification.md",
+          "docs/review130-C83-C84-C85-validation-bridge.md",
+          "docs/review-20261028-review130-data-qa.md",
+          "docs/review130-finance-professional-verification.md",
+          "docs/review130-frontend-native-C85.md"
+        ],
+        "allStatesAccepted": false
+      }
     }
   ],
   "currentBasicObservation": {
@@ -787717,143 +789610,15 @@
   },
   "currentOwnerJsonObservation": null,
   "currentRegression": {
-    "id": "CURRENT-REGRESSION-GROUPS",
-    "path": ".build/center-20261020/logic-2026-10-23T06-57-36.142Z.json",
-    "sha256": "c668ca119cf4581fc64189830a4214709cc8c8f2a13e975702d3f705c14ea7c3",
-    "version": "0.12.5",
-    "passed": 195,
+    "id": "REVIEW130-C86-REGRESSION",
+    "path": ".build/center-20261020/logic-2026-10-28T12-46-53.197Z.json",
+    "sha256": "0f224524946887e2b0fb4afdd032d59d24ba0357f289365ed72849f512e07ca1",
+    "version": "0.13.0",
+    "candidate": "C86",
+    "passed": 257,
     "failed": 0,
     "sourceChanged": [],
-    "sourcePins": {
-      "src/app.css": "6201c93ca51bccc9fd634ee57c809f566ace06187122c07aa79b452e560b0e2a",
-      "src/assets/fonts.css": "601f77fceb2a30631340e6199815ae5d57ac8586585f2981c5e0473157e6ec6f",
-      "src/assets/nav-icons.json": "7081e76f8e921a9e6a4a6849d3738c8e79d95023bb9bb41aa4f1bde4405876cd",
-      "src/assets/report-backgrounds.json": "5910023132777e327ef5da28401f9ecd78143142a2175606fcd5b17b82c286f6",
-      "src/audit-view.js": "2f025816aa4f4b9a65b251f52be60f959d88899e5cb5574ce4e60d3370b69c18",
-      "src/cbs-model-v0118.js": "2336f2d6ff3702ca04da166079b664cead36d7e2f1baf3deb747fa3d856529ed",
-      "src/cbs-purpose.js": "69bf09b479f65dc13220120254c90a5dcdaf1ac364ee5209ae53d4c330942d88",
-      "src/cbs-recovery.css": "0c331d45fbea1492bb46b5baa757ab23aa8e0f7e0190e396e665eff82394b451",
-      "src/cbs.js": "154a8a712814133fd8f06ab7460f53feac196ebaf9ae5469245e97a56668afbe",
-      "src/chart-utils.js": "42bbf109f72f482ecb3a1468e0092992c90276ac09d84124d0d838f9b6ece3e5",
-      "src/cloud-session.css": "88904c536053ab47e517ba17191a3bfdc7da233b5bf24c1499917cfee058167f",
-      "src/cloud-session.js": "aba0fddbdae411beea031165adb65252bfa96cfa2904c1f71bf7c925c64e4163",
-      "src/contracts-recovery.css": "5c6f5052bf384dba4181f89958f9d1141e5ea6503d3d54e3d87ffd6cfffec907",
-      "src/contracts.js": "7680b8c8edcc8a0c21887bcfbd3b94d1e4e4c29bcd3e7d98c77b70039f55c481",
-      "src/core.js": "bd60aaaa601507ee9c7a57700987b3b62906f78388ef07236658e558c6cba51f",
-      "src/cost-asset-presets.js": "32da5dada27e63f7b3020d28592debb3973a180869b025f3b801c797be3d9ffb",
-      "src/cost-breakdown.js": "fc8255a429deb55fadebfbe467031364f07d2c85d196a0bc40bf1d54a0478795",
-      "src/cost-catalog-identity.js": "d1bacf35d58cf4c79fb53b9fc6c4c0a24314b210af4ef60e82eee0b184b5336a",
-      "src/cost-cbs-order.js": "670874866e7165e88ba09958119a8cafc088c18bf26c06485665e30b85ac6a0a",
-      "src/cost-coding.js": "3fc3976de4e38e13e83483e31afc16376f2a4d80648f3542e28983bfdf0c9aaf",
-      "src/cost-company-profile.js": "d745d22ee3881096818a0a9b3d5f17e14609f0d1709224a7952b8c1c4f0d1fbc",
-      "src/cost-order.js": "25db373a0bd3d05d7ad5b355979f78ef736b336e23b81b97d9879fc405edcc31",
-      "src/cost-snapshots.css": "b3b61f2957f1fd159196e2d22610c2a343c519490466adc88d508f4aee1fdd0c",
-      "src/cost-snapshots.js": "ebc13054f94f530bf519ac115a2c192d62d8d821827dd77b81142fd55e26f906",
-      "src/cost-taxonomy.js": "e41bb31d85288b7cf9a871445869e3eb8b7ac2cedb75441d05322d88ee44c923",
-      "src/cost-type-master.js": "f2de9be9ee3df60565e228b51fbfc5d1cc38a35e9a089a8c4cfca85654155d92",
-      "src/data/base-spec.json": "04e2532749b7869decf7ba33e84af54615ed8e39be403ebe65b341bb56255cc3",
-      "src/data/cost-presets-v1.json": "9e6ed563c8b05c7715f15c37702c1e9f104fa541d689b2c5c854a89c1b524d7f",
-      "src/data/cost-presets-v2.json": "ebfb4df46a7e8c3d4229e37876a2a6e406968ff8894bc9b0c51d4f7860786284",
-      "src/data/cost-taxonomy-v4.json": "81fe373146fec64f70ec93e5cfd49f3740fd7c7779817af0328237a39af5d470",
-      "src/data/cost-type-master-v1.json": "8fdfd1211155128fa0148951482ca310234d5c1b5908d8ef0bdd35a465f424fd",
-      "src/data/cost-type-master-v2.json": "df131194f093265338daa329287c5f3ad202aa05c6dbb3654c27664f4659952f",
-      "src/data/cost-type-master-v3.json": "54cbe648b25b12d84ea39960a9002098449d85b97cef8501ec221be95f476e90",
-      "src/data/cost-type-master-v4.json": "4937aef2312818b3eb098949b1b5913429cd9f42428ebdb2a7b853552133ecd7",
-      "src/data/deployment-status-cloud-v0111.json": "9b40de3b49dedd74b7f6ba94c127c81a5142eedadbcc36830bf07446316a0ffa",
-      "src/data/deployment-status-v0111.json": "ab5d92dd30f7ff2c62e919bf0c5a88bf8ff30514eef0c54c98c4d9c8e31a5f1b",
-      "src/data/law-source-v0110.json": "ad6e26bcd006242aa600f34f64b63209ddc340d02f460b20dabb1645d454bd76",
-      "src/data/legacy-seed.json": "2ea639e63c0dead703f022fc27f9be036f1efb0d9fe5e05fb9314ab9293f8b0c",
-      "src/data/market-source.json": "94a7206eb72b0deb97559ff8a14760d0f4e44e27280c883efc3a8f325926ad4b",
-      "src/data/partner-source.json": "970157d364c03f49a641d0edfa45947d4b29f60a509fa29f71b343fb9dfa6a8f",
-      "src/demo.js": "eb6bb159fada0d981a96e12cfb8938f0f966362a365ff799d095a8fe49ad25fb",
-      "src/html-test-fixture-policy.js": "2b601a37a799f90144654d04548969ba2648fb74506d7c7231d6c67daf96b585",
-      "src/law-comparison.css": "29e75d17f7c10a9ac2bc983f68f916369f0a15694f7d838517150d28add78fdb",
-      "src/law-monitor.js": "abddf8955749da4cb5b9f934e427e353e39c382a3fa57729707c79ec07be9207",
-      "src/legal.js": "c9def5c19a035825b38d697438511953d30f693c398aefe6c1a79c5e000e7d9a",
-      "src/notifications.css": "fda1c1e51221fe557cc6da4957004b9c19825c45eb1f6cb4b3298095fab5a30a",
-      "src/notifications.js": "53cc89c40617cabb9f9cb8432eff3b741019ef2de0530508e4ba8d77c296adb9",
-      "src/notion-addon.js": "f0ba40104a0eaa00ca46abcd3793c135d9e8ac290555c325e8b5bc316d8945a9",
-      "src/notion-projects.js": "17e70ffc6839e6f36fd33eca29f4bd2df49ea72aa24db6cd710b9b5727765e59",
-      "src/partners.js": "b62d989d906706b2a32e9b0c8ffff8a182e2d0b9b8d829adf0ed145fd59d5811",
-      "src/pdf-geometry-form2.json": "ba9298a934d770b1f43f9fd5177924e4584fddb3c53d477f47d9c6e3f81f83ca",
-      "src/pdf-geometry.json": "d19d8ecc6e92e826260844d0e94d53ade0f5fbf6988c234ef8130ce64e89f41e",
-      "src/permit-map.css": "f18e1ebae74214e021b21cf6d5d6834fb225ffff6f4b6b46a4791f1566cb2004",
-      "src/permit-map.js": "70932d0d94579f5eee4aabf50d441ec95bc72722182025897d9ecddddcf05bd4",
-      "src/permit-views.js": "df082a8990b78db7f3341a09cb5cfa06d41df54ecf9c73256b31af166a2d4e9e",
-      "src/permit.css": "a5d6c4599c682dede2f6900c9148538009884caeeaa086b565e1da4f0a4e0aaa",
-      "src/recovery-views.js": "ab526476d9c008fc91b811bc83390dd2c8b586bd8265b9e2ca8ddb49545a57c7",
-      "src/recovery.css": "9bcc6ef67de8153cb0a146cebfa4127288b320871cb9167a163f4a0dca9816d2",
-      "src/reference-data.js": "59e3347867878dcf6901918b18978b1ba51bf80cbae1f1628baef8cd2669b9ac",
-      "src/report-continuation.js": "9b4e889d85e2efba596fcf3e69c835116faf12fe0afddf6b1bfe5b93e7272c6a",
-      "src/report-editor.css": "605fceb9d477dce9dec03234fae5cea163e3ddca3559bcaf691eb5ac27551328",
-      "src/report-example.js": "ed4c4f9a37119c199fc66f562e57f5f43c942395a77e7b74f7744e8b53f50c5a",
-      "src/report-form.js": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891",
-      "src/report-template.js": "ef668be658bcea854237d17afcb0aca73690d2d4663c5bd8aaa72c01ae5e8009",
-      "src/report.css": "db6bb5c2c549186af55e7704ed619b0c26bdc38c4934ca718e99fe5a20987c05",
-      "src/report.js": "22ac24db835469de1cd633687cfbbbdc18b9bc43ef1662e85add74840bd7c0f6",
-      "src/setup.css": "72a8ddca17da2b931620056f5b2eac5da3f640539de04437191dbda4b135ae4e",
-      "src/setup.js": "67edc0214984d694f643bb4cd2af854bb2867e93435e520f187e20075018435a",
-      "src/spec.js": "70f26637bdd4fe07723f664ac056ef6036be47d5fea141dd42bb3ef9b4af5b4f",
-      "src/vat.js": "be39dcaf9ed0b663b7c83d49ace4da1ea530206ddd6b9d433a5e90334077a84b",
-      "src/workspace-ux.css": "a42ecd3a77b7b0d45ad09079d4fa9c1f40a6532358c8d1fea85cdf5471de3415",
-      "src/workspace-ux.js": "7e6110df5042c3675ee5cc13de05386c6161e1286829e9b196703060766196ff",
-      "src/xlsx-export.js": "0057b4af1706d1937f01ce903dc49aa7f634cb882f7e36e8af3af870dcb70712",
-      "server/auth-policy.mjs": "55274023b01648d5fa171c812e01c6fd364154b1b75eabfe322764d9f8436d20",
-      "server/center-services.mjs": "983aad4fcffcb4d16bce03448e73a76eb485845eac3a17f2aa55e6f8c8c5596f",
-      "server/cloud-storage.mjs": "69a85377bc8e02d60798ab8181e4d20ed1be7441a5a4e554937e75b3c6f5343e",
-      "server/date-time.mjs": "536daca12edd13b3933a4038bc7df5e7cfa977fcca64d357dbeb0ee7769092f1",
-      "server/email-auth-runtime.mjs": "319d29ba795f47aa369fd86f7050c4d4b194e7cd35df037e938b410a61311c9c",
-      "server/email-auth.mjs": "d714e6ffc67b7b6d6ff867f784592926005fcd04f5f179a732c11e01fbafaed4",
-      "server/gmail-code-sender.mjs": "2e4727181e99e2393793616aa6c42ea655939f50cd28b9a19e1effc1394295c1",
-      "server/law-change-identity.mjs": "04d88622fa02b478ebe9ab5a6e8fb11df497ffdbbfcb6c98c444be16f08e5865",
-      "server/law-collector.mjs": "5988e5f63f4a01129ae6d237263b28b062528cd9e3a78f9a721f1ed3378a7f14",
-      "server/law-comparison.mjs": "e7037c9f32c2094eb100140cfaf5c0b1cab869a095110eec41813e35e7f1b186",
-      "server/law-regional.mjs": "46a3c779badc64985bdc052999f82f65f7413675affdbe0afb0525de54de9b4b",
-      "server/law-router.mjs": "71c94993aa9dd83cc62302a4bc747766d92b946d28a38bd7d16af0eb3f16ec98",
-      "server/law-watch.mjs": "64d12017a40a373bd0bb60300091b271f36762f8c619fab9e2fc7c2aadf216dc",
-      "server/maintenance-runtime.mjs": "810f57494fbd7d5c20deecbf6cbbd892883c3cfa02e0c29cd6dcc0d7bc2730e9",
-      "server/notion-source.mjs": "6878b8442cf7a8f4c6cdc3e5164c072c90e6eb8679997b853afa8f4198b85b2b",
-      "server/partner-collector.mjs": "e449e05795b1fada661c7e2aaa22bbfb67c4ac96beb3dbebfcde0bb3d6893a36",
-      "server/partner-comments.mjs": "4e43b8c578e54aea12477016bc13116b4f6f7098be6f2ac495212b8d45168a98",
-      "server/partner-enrichment.mjs": "e2c26d33145810baf98a124f23b84e9d5434a60c0c3b7710f455424a39575c86",
-      "server/partner-ranking-parser-worker.mjs": "738f0567fe4b0a0c6f9126ba70313529831171343f712b07152b46ce4e278721",
-      "server/partner-rankings.mjs": "e110843b37609158dc67b75da8b7cfe8946b675d4e5cd89e0b7005a12db0c9fc",
-      "server/provider-connection-check.mjs": "f092aefa8ba869c8da6e6ce385125c3da9e81e755156544378567d8fccf02eb3",
-      "server/provider-credential-format.mjs": "d30f81d0e76ed35e174f536d9bc31a8e58b8a4b85bf613d577fcb1b9155b9055",
-      "server/reference-router.mjs": "f64701a148c92b66c7ad5623d990c1f609edecf7624870d60f0acb2208d6daab",
-      "server/sample-access.mjs": "7ee454fd16af0ae9365e9a2747baec8372d8d26a157a7d3868c59f99a5c9fa45",
-      "server/workspace-runtime.mjs": "45f78d9686884dd7c9ba3839078f5b4da0282e8055fe5ac5439f8d404c747f34",
-      "api/auth-code.js": "4bee1e46dc7622d61dfec4fe25516400692c97ab20bfcaf3cf56292a849d633c",
-      "api/auth-login.js": "a22cf04898d53acee65c3d323345227f185e453ec15fc5706ff2e3e5b289cc67",
-      "api/auth-verify.js": "142d84cf8ebeb98b9a0cf7e505ee900133c2aa15074b6d5c27ba77381a899ec9",
-      "api/cost-snapshots.js": "28f68fb438379631e3ad678f34312e8514408bcd23e220e5ef7409c82d0d80df",
-      "api/law.js": "df18165c13f031807fafd9507da073880d550dc878879ba2fdfcf269a8b45fea",
-      "api/maintenance.js": "4a5dd711f2717591133e91b4fa920adc569db2a83dcb1a4688c82f2b61a100fa",
-      "api/notifications.js": "6f4e0e5bb5431e6b673c0752b1a659169e8b23d81ee1993b74e1a5bd2c7cf41f",
-      "api/notion-source.js": "c38eb6723ca3e157d863d8881dc2db96bc7d50bd7d46ffe8527bd7f3a61edb18",
-      "api/project-access.js": "2b83fcb32178f805164790f5428f10df053033b595578fdcbca3d449e7784c61",
-      "api/reference-data.js": "8e62ba90c1a357fb564ba4eba283203b2ede77e0c72790f0af960b4d47555c67",
-      "api/session.js": "daae64c6d035bc711bb06bf6caf3bbd783789332c00a90fd9ca4c9ec7d4e5c17",
-      "api/workspace.js": "95a2617cdcfb33d809885630f0c2b978aad4e527bac716a310ef28883d12fbbb",
-      "shared/cost-breakdown-validation.mjs": "0c8dbd73e51dd2c93b6708ba18dd3d8f625a6a941d8b6b945b24f54297dcb890",
-      "shared/permit-domain.mjs": "7a8881b6dc822080546b281247cb3509a62a435881081e72cc5a3051fb851992",
-      "database/application-schema.sql": "990af1f938df0cec9d3a70c8bc0401a3b1e4ff7425ce72e5b68ad2c209d920dc",
-      "database/center-20261020.sql": "fcdb9c94b1e8801a01364dd5353a6fac76166e15418a32cf97ee94bd00709f2d",
-      "database/center-law-watches-20261020.sql": "8f470f51edbd45a3f199e7c558ddfce1ef0241edbdafde3511902e4182c5c329",
-      "database/center-partner-comments-20261020.sql": "39c7cae27b1e97ee87245c9649d1c3eaa68866d0fabe91f1285275505853ba32",
-      "package.json": "cf0531a23c83d1395ef60807384902a449911c3b30b2c9f739d9a01741273c8a",
-      "package-lock.json": "a757f09247701e1ee392d0c29a1905098ec3844f34a221e787acff537c3661d0",
-      "scripts/build-deployment.mjs": "f3229d2c2fb70decbb0a097dab5090b89755a4272ca19bc7711aadaa32a46408",
-      "vercel.json": "f9169a5aba7d2c6442fdbb113eba6424bd8de65c93affda03728518446095c61",
-      "docs/center-20261020-fix-ledger.json": "521e78dc36b694098bcbf3d282c718d3969cfa5df5979fc8a0f1603c15402017",
-      "docs/followup-20261021-fix-ledger.json": "62b0bb8981fb35a20119dbae212d276fb8c2f403b3ffa019525c38cbfb363b2d",
-      "docs/ux-20261022-fix-ledger.json": "4ed8a366042c4c4a3aa763c6d774472de8f918698c3241051ca1371a4b341ad4",
-      "docs/recheck-20261022-ledger.json": "0155460992917082d56ac4bfbf82ff7fe7acd1af1a4e4023b0febb6e7ac87786",
-      "docs/continuation-20261023-ledger.json": "0e7bc05bff27a0273d5b86691252199efc4f43fbba068388c7c575fb563e6a5e",
-      "docs/purpose-20261023-ledger.json": "c72ae2cdf6b4616a945a0e1256dd475b23df6355c96cc1436b098c46b0b3050b"
-    },
-    "notActualFunctionCount": true,
-    "notEveryComponentAutomaticPass": true
+    "isNotUICount": true
   },
   "currentScenarioCounting": {
     "cohorts": [
@@ -790086,7 +791851,7 @@
     }
   },
   "review130": {
-    "date": "2026-10-28",
+    "date": "2026-10-29",
     "targetRelease": "0.13.0",
     "requirements": [
       "UX130-01",
@@ -790097,13 +791862,17 @@
       "QA130-06",
       "UI130-07"
     ],
-    "completed": 0,
+    "completed": 6,
     "baselineRelease": "C73",
-    "actualRuntimeInventory": "pending current C73 discovery",
+    "actualRuntimeInventory": "31routes×3fake projects read discovery; frozen C86, per-domain physical runs and explicit source bridges. Not18935 completed scenarios.",
     "allPlatformComponentsAccepted": false,
     "currentRequirementCount": 7,
-    "definitionRecords": 63,
+    "definitionRecords": 70,
     "previousRecordsPreserved": 4983,
-    "finalEvidencePending": true
+    "finalEvidencePending": false,
+    "remainingRequirement": "QA130-06",
+    "currentBoundedAcceptance": 6,
+    "natural376": "partial-recovery-in-progress",
+    "evidence": "docs/review130-final-verification.md"
   }
 }
