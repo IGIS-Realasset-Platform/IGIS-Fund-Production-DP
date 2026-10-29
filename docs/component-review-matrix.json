@@ -2,13 +2,13 @@
   "schemaVersion": "component-review-matrix-v1",
   "deployedRelease": {
     "version": "0.13.0",
-    "candidate": "C86",
-    "date": "2026-10-28",
-    "sourceCommit": "f4cc10c0ef52054ed3435f95a30126cf12c9d4a8",
-    "deploymentId": "dpl_PJhhyrJaZ2PCAAZ3PSQvQbMU3zm1",
-    "formalHtmlSha256": "042aba6212a931fc6b6c3e6cca2f013330babce6f37aad653e8ee532341114b5",
-    "bytes": 6870523,
-    "verification": "docs/review130-final-verification.md",
+    "candidate": "C92",
+    "date": "2026-10-29",
+    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
+    "deploymentId": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2",
+    "formalHtmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846",
+    "bytes": 6874706,
+    "verification": "docs/review130-c92-live-verification.json",
     "allComponentsAccepted": false
   },
   "at": "2026-10-23T04:12:22.096Z",
@@ -44,7 +44,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5067,
+    "totalMatrixRecords": 5081,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -65,7 +65,8 @@
       "currentComponents": 975,
       "confirmedRouteStates": 30,
       "actualMeaning": "Historical C53 names retained; current C86 discovery has31 routes. Neither is all-state completed count."
-    }
+    },
+    "review131PendingRequirements": 6
   },
   "actualExecution": {
     "evidence": "C44-ACTUAL-42",
@@ -728856,6 +728857,734 @@
       "scope": "Pending exact product/actual recovery; do not inherit C86 or model successes.",
       "allStatesAccepted": false,
       "hasUserFacingConsumer": false
+    },
+    {
+      "componentID": "PERMIT131-01",
+      "parentID": null,
+      "kind": "requirement-or-connected-contract",
+      "label": "인허가 선택·추가 두 탭과 동일 조건 초안",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "인허가 선택·추가 두 탭과 동일 조건 초안",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "PERMIT131-02",
+      "parentID": null,
+      "kind": "requirement-or-connected-contract",
+      "label": "인허가 목록 전체와 추천·수동 선택 범위",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "인허가 목록 전체와 추천·수동 선택 범위",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "UX131-03",
+      "parentID": null,
+      "kind": "requirement-or-connected-contract",
+      "label": "업무 단위 수정 진입과 중복 버튼",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "업무 단위 수정 진입과 중복 버튼",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW131-04",
+      "parentID": null,
+      "kind": "requirement-or-connected-contract",
+      "label": "도시교통정비지역·교통권역과 대상 범위",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "도시교통정비지역·교통권역과 대상 범위",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW131-05",
+      "parentID": null,
+      "kind": "requirement-or-connected-contract",
+      "label": "특수구조 건축물과 구조 안전 심의",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "특수구조 건축물과 구조 안전 심의",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW131-06",
+      "parentID": null,
+      "kind": "requirement-or-connected-contract",
+      "label": "대공방어협조구역과 행정기관 협의",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "대공방어협조구역과 행정기관 협의",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "PERMIT131-DRAFT",
+      "parentID": "PERMIT131-01",
+      "kind": "requirement-or-connected-contract",
+      "label": "조건 공란·0 보존과 기본값 재출현 방지",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "조건 공란·0 보존과 기본값 재출현 방지",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "PERMIT131-SELECTION",
+      "parentID": "PERMIT131-01",
+      "kind": "requirement-or-connected-contract",
+      "label": "자동 추천·수동 선택·이미 포함의 구분",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "자동 추천·수동 선택·이미 포함의 구분",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "PERMIT131-ATOMIC",
+      "parentID": "PERMIT131-01",
+      "kind": "requirement-or-connected-contract",
+      "label": "조건·추가 동시 저장과 실패 복원",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "조건·추가 동시 저장과 실패 복원",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "PERMIT131-NAV",
+      "parentID": "PERMIT131-01",
+      "kind": "requirement-or-connected-contract",
+      "label": "탭·검색·접힘·스크롤·초점·사업 전환",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "탭·검색·접힘·스크롤·초점·사업 전환",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "PERMIT131-PERSIST",
+      "parentID": "PERMIT131-01",
+      "kind": "requirement-or-connected-contract",
+      "label": "실제 저장·재접속·서버 조건 계약",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": false,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "실제 저장·재접속·서버 조건 계약",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "LAW131-NAMES",
+      "parentID": null,
+      "kind": "requirement-or-connected-contract",
+      "label": "법적 절차명·실무 약칭·기존 이름 보존",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "법적 절차명·실무 약칭·기존 이름 보존",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "UX131-EDIT-CANCEL",
+      "parentID": "UX131-03",
+      "kind": "requirement-or-connected-contract",
+      "label": "수정 단위별 저장·취소·실패·대상 변경",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "수정 단위별 저장·취소·실패·대상 변경",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "UX131-EDIT-LAYOUT",
+      "parentID": "UX131-03",
+      "kind": "requirement-or-connected-contract",
+      "label": "원셀·열폭·원 단위·권한 보존",
+      "lifecycle": "review131-in-progress",
+      "visibleUserControl": true,
+      "source": [],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review131-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "원셀·열폭·원 단위·권한 보존",
+        "reference": "docs/review131-spec.md"
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "REVIEW131 only; prior acceptance not inherited",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
     }
   ],
   "popupCandidates": [
@@ -792753,5 +793482,33 @@
       "publication": "pending",
       "actualLawRecovery": "pending-retained-raw-proof"
     }
+  },
+  "review131PreviousRelease": {
+    "version": "0.13.0",
+    "candidate": "C86",
+    "date": "2026-10-28",
+    "sourceCommit": "f4cc10c0ef52054ed3435f95a30126cf12c9d4a8",
+    "deploymentId": "dpl_PJhhyrJaZ2PCAAZ3PSQvQbMU3zm1",
+    "formalHtmlSha256": "042aba6212a931fc6b6c3e6cca2f013330babce6f37aad653e8ee532341114b5",
+    "bytes": 6870523,
+    "verification": "docs/review130-final-verification.md",
+    "allComponentsAccepted": false
+  },
+  "review131": {
+    "date": "2026-10-29",
+    "baseline": "C92",
+    "requirements": [
+      "PERMIT131-01",
+      "PERMIT131-02",
+      "UX131-03",
+      "LAW131-04",
+      "LAW131-05",
+      "LAW131-06"
+    ],
+    "implementation": "in-progress",
+    "allPlatformComponentsAccepted": false,
+    "evidence": "docs/review131-spec.md",
+    "previousRecordsPreserved": 5067,
+    "previousPrefixSha256": "32a4a0d657164439d1489b9421210252b2f3f200e7ffba99f559aa558508cc74"
   }
 }

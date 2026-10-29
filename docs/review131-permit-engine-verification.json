@@ -1,0 +1,106 @@
+{
+  "reviewId": "REVIEW131",
+  "asOf": "2026-10-29",
+  "scope": "Pure recommendation/domain and central-save guards; current UI function integration via memory harness. Native screen, operational save and deployment acceptance are separate.",
+  "sourcePins": {
+    "shared/permit-domain.mjs": "9687d91aa91fed0e8a3c2e8453626e93746dce25c86893fd3caa1568b24f40c8",
+    "scripts/permit-domain-bundle.mjs": "eeb262ee880e85c995a895f5940b43a1e1e8bf64bb05422cc06330b33f9e804b"
+  },
+  "focused": {
+    "evidence": {
+      "path": ".build/review131/engine-focus-1793249781969.json",
+      "sha256": "fe24ced4252e698a5c37672df8ad96a969f8f13006fc245c8f67b90c72fd3ac1"
+    },
+    "suites": 8,
+    "passedSuites": 8,
+    "passedChecks": 108,
+    "failedChecks": 0,
+    "sourceChanged": [],
+    "testedUiSource": "e2b03942c91cb1b84673f6d1d057a2f0e06160034aa946b4a6acde4fb8569b55"
+  },
+  "tdd": [
+    {
+      "test": "tests/review131-permit-criteria.mjs",
+      "redPassed": 4,
+      "redFailed": 9,
+      "currentPassed": 13,
+      "red": {
+        "path": ".build/review131/criteria-red.json",
+        "sha256": "56a7ceb8d7f2ad7e8b2a3638348976eb9281bfab5f51c0d82f934b439f18c256"
+      }
+    },
+    {
+      "test": "tests/review131-permit-legal-conditions.mjs",
+      "redPassed": 12,
+      "redFailed": 5,
+      "currentPassed": 17,
+      "red": {
+        "path": ".build/review131/legal-conditions-red.json",
+        "sha256": "0c02f0caf75800520f9044a5bfffce682422fc18d0ab987a4c055f15684d77a0"
+      }
+    },
+    {
+      "test": "tests/review131-permit-military-conditions.mjs",
+      "redPassed": 8,
+      "redFailed": 2,
+      "currentPassed": 10,
+      "red": {
+        "path": ".build/review131/military-red.json",
+        "sha256": "ec5aad85724b6dd41a3aa98556319b93fb63b9060c8e20c20f91f22684b7d6e1"
+      }
+    },
+    {
+      "test": "tests/review131-permit-conditions-server.mjs",
+      "redPassed": 7,
+      "redFailed": 12,
+      "currentPassed": 19,
+      "red": {
+        "path": ".build/review131/conditions-server-red.json",
+        "sha256": "dcd277ef209c02d86b3297b7eb5e9f59563e1dc07e6994ee4fe8e5647c6bfe51"
+      }
+    }
+  ],
+  "contracts": {
+    "source": "project.permitConditions; basic information provides defaults only for absent keys",
+    "unknown": "Explicit null/empty retained; explicit0 preserved; unknown is not non-applicable",
+    "traffic": "trafficZone AND trafficScope; ordinance and exemptions need confirmation; no made-up area threshold",
+    "structure": "specialStructure uses existing structural-review type; no new special-structure permit type",
+    "military": "militaryArea OR (airDefenseArea AND airDefenseHeight); no universal height estimate",
+    "negativeVsUnknown": "Decision.conditionStatus distinguishes incomplete and not-matched without final legal applicability",
+    "names": "Approved canonical master names only; existing stored names retained; full legacyNames support prior catalog scope, searchAliases never establish identity",
+    "centralSave": "Only changed known condition keys validated; unchanged legacy/unknown keys retained; actual handlers cover422, editor/viewer403,409 and storage rollback"
+  },
+  "flagLabels": {
+    "landformChange": "토지 형질변경",
+    "existingBuilding": "기존 건물 해체",
+    "farmland": "농지 전용",
+    "forest": "산지 전용",
+    "heritage": "국가유산 관련 지역·발굴",
+    "soilPollution": "토양오염 확인",
+    "militaryArea": "군사기지·군사시설 보호구역 해당",
+    "trafficZone": "도시교통정비지역·교통권역 해당",
+    "trafficScope": "교통영향평가 용도·규모 기준 해당",
+    "specialStructure": "특수구조 건축물 해당",
+    "airDefenseArea": "대공방어협조구역 해당",
+    "airDefenseHeight": "대공방어 협의대상 높이 해당"
+  },
+  "coverage": {
+    "path": "docs/review131-permit-coverage.json",
+    "sha256": "dfb6a46c103f543eb8084eed3f2777c5b0ab85d95a282f97492cd4ac932ba49c"
+  },
+  "unchangedScopes": [
+    "existing costs/contracts/VAT/confirmed versions",
+    "law collector/sidecar/recovery modules",
+    "existing business records, permit IDs and historical names",
+    "other service/schema/Auth configuration"
+  ],
+  "pending": [
+    "final full UI selection workflow/native check",
+    "current exact final candidate and formal deployment",
+    "operational sample save/reconnect after root approval",
+    "QA independent source/masterplan coverage reconciliation"
+  ],
+  "actualOperationalDbWrites": 0,
+  "actualBrowserRuns": 0,
+  "actualDeployments": 0
+}

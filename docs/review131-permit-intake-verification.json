@@ -1,0 +1,116 @@
+{
+  "review": "REVIEW131",
+  "scope": "인허가 선택·추가 통합 및 기존 행 수정 경로 정리",
+  "status": {
+    "implementation": "implemented-frozen",
+    "automatedModel": "passed-bounded",
+    "browser": "root-current-candidate-verification-pending",
+    "actualServerAndDatabase": "separate-backend-and-root-evidence",
+    "productionRelease": "root-controlled-pending"
+  },
+  "sourcePins": {
+    "src/permit-map.js": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a",
+    "src/permit-views.js": "795f6b36de3eb211ce9d4b99195b45de2ee4b495c5fab4c4f716dee2a7a19cb3",
+    "src/permit-map.css": "28d2c256b281adc7c2773056ddc55f7534bd47e205ef048ea85604bc3d501311",
+    "shared/permit-domain.mjs": "867e7b587598ac842355d8eccc87fc76692fc2e95908daa1eeb6a3f702176af7",
+    "src/core.js": "a704d74f7cf20f48121a8aa1126755b2ef14b9d746450b8b779707003db7346d",
+    "tests/review131-permit-intake.mjs": "d59fbfce7a34fcef131acfb8b52b2a027e581e93ebd740a024a27fd642544a76",
+    "tests/center120-permit-input-feedback.mjs": "9cb0db0fb1b69bf9bfd051cc885da8bed435d0abb51fc90ee857cd1e5c63b461",
+    "tests/center120-permit-independent.mjs": "2ef7f89d2623b7ff5db05ac707e39063aaf67052ebf936a45fcb8a6a6f5700c0",
+    "tests/center120-permit-form-context.mjs": "c2d525b6bcc387854f11b25aab92ed718a8e1149381b2a8e88441574e94cdadd",
+    "tests/center120-permit-save-transition.mjs": "504977b9d4763d2b09667e8f469ad0f666109d8bfe7d4ee210b9c1cc858f1a81",
+    "tests/center120-permit-composite-followup.mjs": "7010bd28b21a8f3332dc3151fb4d91d6e5c08cc99be28e8a8b86ebd7073aa082",
+    "tests/review131-permit-criteria.mjs": "24ab80dde57ec24594a5d78c6fc779f598cecc294854c2e6a86427598938056c",
+    "tests/review131-permit-military-conditions.mjs": "10361a61c1930019ea6ce650fc27d5d30c6a330c08ae7a84d4377de4d0637ef8",
+    "tests/review130-construction-display.mjs": "b4eba2b752cfba21700244688753929def400b20629c840e19f30ad1c3e7fa38",
+    "tests/review131-independent-catalog.mjs": "ee8daaca9766833edeb6b074fd3e3cdc75ea9b283b420ac82a6c4d3c155b8f14",
+    "tests/review131-permit-intake-harness.mjs": "3fdc7557f4c2d8d85c35a0061845e2ecb97ccce55d5444c0dc9b5084d882b676"
+  },
+  "automated": {
+    "focusedCheckGroups": 23,
+    "regressionSuites": 10,
+    "passedCheckGroups": 177,
+    "failedCheckGroups": 0,
+    "sourceChanged": [],
+    "suites": [
+      {
+        "file": "tests/review131-permit-intake.mjs",
+        "passed": 23,
+        "failed": 0,
+        "exit": 0
+      },
+      {
+        "file": "tests/center120-permit-input-feedback.mjs",
+        "passed": 6,
+        "failed": 0,
+        "exit": 0
+      },
+      {
+        "file": "tests/center120-permit-independent.mjs",
+        "passed": 18,
+        "failed": 0,
+        "exit": 0
+      },
+      {
+        "file": "tests/center120-permit-form-context.mjs",
+        "passed": 19,
+        "failed": 0,
+        "exit": 0
+      },
+      {
+        "file": "tests/center120-permit-save-transition.mjs",
+        "passed": 18,
+        "failed": 0,
+        "exit": 0
+      },
+      {
+        "file": "tests/center120-permit-composite-followup.mjs",
+        "passed": 41,
+        "failed": 0,
+        "exit": 0
+      },
+      {
+        "file": "tests/review131-permit-criteria.mjs",
+        "passed": 13,
+        "failed": 0,
+        "exit": 0
+      },
+      {
+        "file": "tests/review131-permit-military-conditions.mjs",
+        "passed": 10,
+        "failed": 0,
+        "exit": 0
+      },
+      {
+        "file": "tests/review130-construction-display.mjs",
+        "passed": 18,
+        "failed": 0,
+        "exit": 0
+      },
+      {
+        "file": "tests/review131-independent-catalog.mjs",
+        "passed": 11,
+        "failed": 0,
+        "exit": 0
+      }
+    ]
+  },
+  "limits": [
+    "이 합계는 명세별 검사그룹 수이며 고유 기능/전체 플랫폼 전수 수가 아님",
+    "DOM은 무동작 모형으로 실제 기하/화면 접근성의 통과 근거가 아님",
+    "503는 wait 거절 모형이며 서버 롤백은 별도 runtime 증거와 구별",
+    "실제 core form/session 종료 경계1개는 현재 공통 코드를 실행",
+    "기존 상세4탭·원장 이름/분류·과거자료·부지11 입력경로를 보존",
+    "실제 사용자 DB 쓰기0·별도 브라우저 기동0·배포0"
+  ],
+  "redEvidence": {
+    "initialFour": "초기 중복진입/새조건추천/명시null 복원0/4 실패 고정",
+    "completion": "추가성공 뒤 old consumer false 반환으로 실제 core dirty=true 재현 후 true/null세션/초안0 교정",
+    "draftContext": "빈검색 초안의 분류접힘 재복원22PASS1RED→23PASS"
+  },
+  "references": [
+    "https://www.carbondesignsystem.com/building-blocks/core/components/tabs/guidelines",
+    "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/",
+    "https://design-system.service.gov.uk/components/fieldset/"
+  ]
+}

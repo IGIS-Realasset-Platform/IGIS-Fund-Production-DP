@@ -1,0 +1,9 @@
+import assert from'node:assert/strict';import fs from'node:fs';import{permitRecommendationState}from'../shared/permit-domain.mjs';
+const checks=[];function check(name,fn){try{fn();checks.push({name,status:'passed'});}catch(e){checks.push({name,status:'failed',message:e.message});}}
+const row={id:'permit-type:military-consultation',typeId:'military-consultation',name:'군사기지·군사시설 보호구역 협의'};
+for(const militaryArea of ['아니오','미확인'])check('보호구역과 독립된 대공방어구역·법정높이의 결합을 추천한다: '+militaryArea,()=>assert.equal(permitRecommendationState(row,{militaryArea,airDefenseArea:'예',airDefenseHeight:'예'}),'candidate'));
+for(const [area,height]of [['예','미확인'],['미확인','예'],['예','아니오'],['아니오','예'],['미확인','미확인']])check('대공방어구역 하나만으로 높이기준·협의를 확정하지 않는다: '+area+'/'+height,()=>assert.equal(permitRecommendationState(row,{militaryArea:'아니오',airDefenseArea:area,airDefenseHeight:height}),'review'));
+check('보호구역에 따른 기존 경로는 대공구역 경로와 독립적으로 보존한다',()=>assert.equal(permitRecommendationState(row,{militaryArea:'예',airDefenseArea:'아니오',airDefenseHeight:'아니오'}),'candidate'));
+check('서울 주소·건물높이·층수만으로 부대별 수평조준선 기준을 만들어내지 않는다',()=>assert.equal(permitRecommendationState(row,{militaryArea:'아니오',airDefenseArea:'예',height:999,floors:99,region:'서울특별시'}),'review'));
+check('새 군보심의 유형을 이름만으로 추천하지 않는다',()=>assert.equal(permitRecommendationState({id:'not-official-type',name:'군보심의'},{airDefenseArea:'예',airDefenseHeight:'예'}),'review'));
+const result={suite:'review131-permit-military-conditions',scope:'Military Act13(1)/(2)2 and current Decree13(4); no guessed numerical height, new permit identity or live data',checks,passed:checks.filter(x=>x.status==='passed').length,failed:checks.filter(x=>x.status==='failed').length};const i=process.argv.indexOf('--output');if(i>=0)fs.writeFileSync(process.argv[i+1],JSON.stringify(result,null,2));console.log(JSON.stringify(result));if(result.failed)process.exitCode=1;

@@ -1,0 +1,664 @@
+{
+  "schemaVersion": "review131-ux-research-v1",
+  "title": "인허가 추천·선택 통합과 업무 단위별 수정 진입 연구",
+  "reviewedAt": "2026-10-29",
+  "owner": "독립 UI/UX 설계·레퍼런스 담당",
+  "report": ".build/review131/ux-editing-research.html",
+  "scope": {
+    "authorized": "현재 인허가 추천·선택 흐름의 개선 근거와 수정 진입 단위 연구. 이 담당자는 제품 코드·운영 자료·서버·DB를 변경하지 않습니다.",
+    "productWrites": 0,
+    "serverWrites": 0,
+    "databaseWrites": 0,
+    "uiControlWrites": 0,
+    "preserve": [
+      "개별 인허가 상세의 기존 4탭",
+      "원 단위 금액",
+      "미입력과 0 구별",
+      "기존 계약·VAT·과거 저장본",
+      "사업 및 역할별 쓰기 권한",
+      "기존 디자인 토큰·폰트·열폭"
+    ],
+    "approvalBoundary": "인허가 흐름은 승인된 개선 범위입니다. 다른 화면의 수정 단위 매핑은 구체적인 제안이며 이 연구만으로 전체 제품 변경 완료나 일괄 변경 승인을 선언하지 않습니다.",
+    "parentProvidedFormalBaseline": {
+      "version": "0.13.0",
+      "candidate": "C92",
+      "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
+      "verifiedByThisReviewer": false
+    },
+    "documentationBaseline": "읽은 README와 매트릭스 상단은 C86 정식·C92 후보로 표기되어 있습니다. 부모 담당자가 제공한 정식 배포 정보와 문서 표기를 분리했습니다.",
+    "evidenceLimits": [
+      "제공 이미지 1개의 시각 검토입니다. 전체 실제 사용자 흐름 검수가 아닙니다.",
+      "소스의 후보 위치를 조사했으며 실제 렌더링 횟수나 화면 전체 통과로 세지 않습니다.",
+      "공식 문서와 예제의 본문·HTML을 확인했습니다. 외부 제품 화면을 직접 조작·캡처한 비교 연구는 아닙니다.",
+      "최종 구현·자동검사·실제 화면·운영 저장의 판정은 구현 담당자의 최종 증거가 필요합니다."
+    ]
+  },
+  "skills": [
+    {
+      "name": "ui-designer-skill",
+      "applied": "현재 Pretendard/남색·파랑 토큰과 기존 표·폼을 유지하는 설계 근거로 적용"
+    },
+    {
+      "name": "korean-ux-writing-guide",
+      "applied": "버튼의 실제 결과·동일 의미의 같은 명칭·중복 문구 제거·저장 실패의 사실 안내"
+    },
+    {
+      "name": "design-review",
+      "applied": "사용자 제공 1142×229 이미지의 보이는 위계와 행동 중복만 검토. 실제 동작 통과는 미판정"
+    },
+    {
+      "name": "canvas-design",
+      "applied": false,
+      "reason": "스킬이 정적 포스터·예술·인쇄물 전용으로 범위를 정합니다. 이번 업무는 웹 업무 UI이며 강제 적용하지 않습니다."
+    },
+    {
+      "name": "lazyweb-design-research",
+      "applied": "레퍼런스 기반 연구와 HTML 산출물",
+      "limitation": "도구 목록에 lazyweb_health/search/compare_image가 없습니다. Lazyweb 데이터베이스는 미사용하며 공식 웹 문서로 대체했습니다.",
+      "setupReference": "https://www.lazyweb.com/mcp-install"
+    },
+    {
+      "name": "product-design:index/audit/user-context",
+      "applied": "기존 제품·제공 이미지에 근거한 관찰과 연구를 분리. 읽기 전용 user-context preflight 결과 저장 context 없음",
+      "limitation": "부모 담당자가 실제 브라우저를 소유합니다. 이 담당자는 새 브라우저를 열거나 전체 흐름 audit 완료로 주장하지 않습니다."
+    }
+  ],
+  "conclusions": [
+    "인허가 추천 조건과 추가 항목은 한 팝업의 ‘추천 조건 / 인허가 목록’ 2탭에서 같은 초안을 사용해야 합니다. 탭을 바꾸거나 추천을 갱신하는 행위와 서버 저장은 구별합니다.",
+    "수정 진입은 함께 검토·검증·저장하는 업무 묶음에 둡니다. 모든 셀에 같은 버튼을 반복하거나 모든 화면을 페이지 전체 편집으로 통일할 근거는 없습니다.",
+    "사업개요는 구역, 대출·계약은 한 기록, 고밀도 사업비는 표, 인허가는 입력·선택 업무, 공사는 기존 일괄폼, 법정 보고서는 현재 작성본 단위가 적합합니다. 이는 현재 소스·공식 패턴을 대조한 설계 판단이며 실제 사용빈도 조사 결과는 아닙니다."
+  ],
+  "observedCurrentState": {
+    "image": "C:/Users/10524/AppData/Local/Temp/codex-clipboard-337194a2-4beb-4cf4-aa9c-39420b89ff05.png",
+    "dimensions": [
+      1142,
+      229
+    ],
+    "facts": [
+      "접이식 ‘추천 조건 수정·지역 조례 확인’ 안에 사업유형·사업방식·사업지 시·군·구 3개 필드가 보입니다.",
+      "추천 다시 보기·규모·토지 조건 수정·지역별 확인할 조례·지역 조례 검색 4개 버튼이 같은 수준으로 나란히 놓여 있습니다.",
+      "관할 확인 필요 문구가 버튼 행에 함께 보입니다."
+    ],
+    "interpretation": "입력·추천·다른 조건 수정·조례 조회가 동급 행동으로 흩어져, 조건 전체를 완성하는 위치와 저장 결과가 불분명합니다. 실제 저장 누락 원인은 이 이미지로 확정할 수 없습니다."
+  },
+  "sourceFindings": [
+    {
+      "file": "src/core.js",
+      "lines": [
+        109,
+        113
+      ],
+      "fact": "공통 A.editable은 쓰기 가능 값마다 명시적 ‘수정’ 버튼을 붙이며 legacy activation/showEditButton 옵션으로 숨길 수 없도록 되어 있습니다.",
+      "implication": "한 화면의 문제가 아니라 공통 표시 계약의 결과입니다. 단순히 버튼 전체를 숨기면 명시적 진입이라는 최신 요구를 위반합니다."
+    },
+    {
+      "file": "src/recovery-views.js",
+      "lines": [
+        4,
+        22
+      ],
+      "fact": "사업개요의 10개 쌍, 20개 사용자 입력값에 개별 A.editable이 연결됩니다. Notion 출처가 있으면 별도 읽기행이 추가됩니다.",
+      "implication": "일반 사업개요와 건축규모 등 의미 있는 구역의 한 수정 진입으로 묶을 후보입니다. 서로 다른 출처 원문까지 수정 대상으로 합치지 않습니다."
+    },
+    {
+      "file": "src/contracts.js",
+      "lines": [
+        147,
+        584
+      ],
+      "fact": "대출현황 한 행은 금융기관명 상세 링크 외 순위·유형·금액·금리·기준·기간 등 12개 inline 호출을 사용합니다.",
+      "implication": "대출 한 건의 조건 검증과 변경이력 경계를 고려하면 한 행의 ‘대출 정보 수정’으로 묶는 것이 타당합니다."
+    },
+    {
+      "file": "src/contracts.js",
+      "lines": [
+        359,
+        362,
+        595
+      ],
+      "fact": "계약목록은 상대방·계약일·금액의 셀 수정과 행 수정이 함께 있습니다. 문서 상세도 필드 수정과 문서 수정이 공존합니다. 대출 상세에는 이미 대출 정보 수정 진입이 있습니다.",
+      "implication": "이미 존재하는 기록 단위 폼을 재사용하면 다른 뜻의 수정 경로를 늘리지 않고 반복을 줄일 수 있습니다."
+    },
+    {
+      "file": "src/cbs.js",
+      "lines": [
+        297,
+        300,
+        435
+      ],
+      "fact": "사업비는 원셀의 금액·복수 원기록 선택·면적 입력 계약이 이미 있습니다. 호출부의 legacy hide 옵션은 공통 core에서 무시됩니다.",
+      "implication": "표 수정 진입을 제안하더라도 원셀 입력·원기록 선택·원 단위 정확도·면적 원장 소비자를 보존해야 합니다."
+    },
+    {
+      "file": "src/permit-map.js",
+      "lines": [
+        86,
+        104,
+        119,
+        162
+      ],
+      "fact": "조건 저장 폼, 항목 선택 폼, 추천 다시 보기, 본문 추천 조건 입력/항목 선택 진입이 분리돼 있습니다.",
+      "implication": "2탭의 동일 초안·조건 수정 자동 추천으로 통합할 직접 대상입니다. 기존 저장자료와 개별 상세 4탭을 보존합니다."
+    },
+    {
+      "file": "src/permit-views.js",
+      "lines": [
+        46,
+        66
+      ],
+      "fact": "착공·본PF·공사·준공·공정률·책임준공 약정을 함께 입력하는 기존 폼과 구역별 진입이 있습니다.",
+      "implication": "새로운 전체 페이지 편집을 만들기보다 기존 폼을 재사용하고 진입 중복의 필요성만 검토합니다."
+    },
+    {
+      "file": "src/report.js",
+      "lines": [
+        348,
+        350,
+        392
+      ],
+      "fact": "현재 작성본 보고서 편집, 원천 소유 화면 이동, 과거 저장본 불변성이 구분되어 있습니다.",
+      "implication": "A4 양식 본문에 셀마다 수정 버튼을 넣는 안은 부적절합니다. 작성본 단위 진입과 인쇄 분리를 유지합니다."
+    }
+  ],
+  "editingUnitMatrix": [
+    {
+      "surface": "프로젝트 기본정보",
+      "unit": "내용 구역",
+      "entry": "사업개요 수정",
+      "input": "같은 위치의 짧은 폼 또는 기존 전용폼",
+      "save": "연관 필드를 한 번에 저장·취소",
+      "why": "기간·위치·용도·규모를 함께 확인하되 법인 원장·외부 원문은 소유 경계를 유지합니다.",
+      "avoid": "20개 셀에 같은 수정 버튼 또는 프로젝트 전체 자료를 한꺼번에 편집",
+      "sources": [
+        "S01",
+        "S03",
+        "S08"
+      ]
+    },
+    {
+      "surface": "대출·계약·문서 등 반복 기록",
+      "unit": "한 기록 / 한 행",
+      "entry": "행 오른쪽 수정 1개 또는 기존 상세의 대출 정보 수정",
+      "input": "기존 기록폼; 짧은 행은 행 안 편집도 가능",
+      "save": "한 기록 전체 검증·저장·이력; 다른 기록은 독립",
+      "why": "약정액·실행액·잔액·금리·기간, 공급가액·VAT·총액처럼 관계를 검증해야 합니다.",
+      "avoid": "연관된 금액을 각 셀에서 따로 확정하거나 계약원본을 편집 때문에 덮어쓰기",
+      "sources": [
+        "S01",
+        "S02",
+        "S04"
+      ]
+    },
+    {
+      "surface": "고밀도 사업비 비교표",
+      "unit": "현재 표의 수정 모드",
+      "entry": "표 제목 옆 사업비 수정 1개",
+      "input": "기존 금액 셀에서 원 단위 입력; 실제 복수기록은 셀 안에서 대상 선택",
+      "save": "수정한 값들을 저장·취소. 기존 단건 저장만 구현 가능하면 행별 저장 경계를 별도로 명시",
+      "why": "여러 금액의 비교·연속 입력이 핵심이며 별도 하단표로 옮기면 표 문맥을 잃습니다.",
+      "avoid": "현재·과거·확정 금액 모두 입력화, 화면 백만원 표시값을 원금액으로 재계산, 임의 배분",
+      "sources": [
+        "S02",
+        "S05",
+        "S06",
+        "S09"
+      ],
+      "policyOpen": "표 전체 초안의 일괄 저장을 새로 구현할지, 기존 단건 저장을 유지할지는 명세·권한·이력 검토 후 확정해야 합니다. 수정 진입을 줄이는 것과 저장 원자성을 새로 만드는 것은 다른 변경입니다."
+    },
+    {
+      "surface": "인허가 추천·선택",
+      "unit": "조건 작성과 신규 항목 선택 1업무",
+      "entry": "추천 조건 / 인허가 목록 2탭",
+      "input": "하나의 초안에서 조건·검색·선택값을 보존",
+      "save": "조건만 저장 가능; 선택값이 있으면 조건+신규 항목을 한 경계로 확정",
+      "why": "조건이 목록을 바꾸는 직접 관계이며 자식 팝업마다 조건을 별도로 저장하면 상태가 어긋납니다.",
+      "avoid": "조건 수정 후 추천 다시 보기 요구, 탭 전환 시 자동 서버 저장, 기존 인허가 조용한 삭제",
+      "sources": [
+        "S03",
+        "S07",
+        "S08"
+      ]
+    },
+    {
+      "surface": "착공·공사·준공",
+      "unit": "기존 일괄 입력폼의 의미 구역",
+      "entry": "공사정보 수정; 기존 구역 진입은 해당 위치로 이동",
+      "input": "기존 폼에서 착공·PF·공사·준공·공정률·약정 묶음",
+      "save": "실제로 같은 폼으로 가는 진입은 단일 저장 경계 유지",
+      "why": "이미 여러 조건·날짜를 함께 검증하는 흐름이 있습니다. 반복 측정인 공정률 이력과 최초 기재를 혼동하지 않습니다.",
+      "avoid": "공정률 최신값 수정으로 과거 이력 재작성, 해당 없는 지연사유를 가짜 입력",
+      "sources": [
+        "S01",
+        "S03",
+        "S08"
+      ]
+    },
+    {
+      "surface": "법정 A4 보고서",
+      "unit": "현재 작성본",
+      "entry": "보고서 수정",
+      "input": "원본 양식 내 기재란; 현재 작성본 전용 값과 연결 원장을 구분",
+      "save": "보고서만 저장 기본; 플랫폼 반영은 기존 명확한 연결값·명시 행동만",
+      "why": "원본 양식·현재 작성본·불변 과거본의 구별이 핵심입니다.",
+      "avoid": "인쇄 본문에 수정 버튼 삽입, 과거 확정본 덮기, 보고서 수정으로 원장값 자동 덮기",
+      "sources": [
+        "S03",
+        "S08"
+      ]
+    }
+  ],
+  "permitTwoTabSpec": {
+    "title": "인허가 선택",
+    "tabs": [
+      "추천 조건",
+      "인허가 목록"
+    ],
+    "initialTab": "조건 입력 진입은 추천 조건, 항목 선택 진입은 인허가 목록으로 열되 같은 팝업·같은 초안을 사용합니다. 초기 입력값은 저장된 조건과 확인된 프로젝트 사실에서 읽습니다.",
+    "conditionGroups": [
+      {
+        "heading": "사업 정보",
+        "fields": [
+          "사업유형",
+          "사업방식",
+          "건축 인허가 경로",
+          "사업지 시·군·구",
+          "용도지역·지구"
+        ]
+      },
+      {
+        "heading": "사업 규모",
+        "fields": [
+          "사업면적 (㎡)",
+          "건물별 최대 연면적 (㎡)",
+          "최고 높이 (m)",
+          "최고 층수",
+          "최대 굴착깊이 (m)",
+          "전력 사용규모 (MW)"
+        ]
+      },
+      {
+        "heading": "토지·건축 조건",
+        "fields": [
+          "토지 형질변경",
+          "기존 건물 해체",
+          "농지 전용",
+          "산지 전용",
+          "국가유산 관련 지역·발굴",
+          "토양오염 확인",
+          "군사 보호구역",
+          "도시교통정비지역·교통권역 (백엔드 확정 정의에 맞춤)",
+          "특수구조건축물 (백엔드 확정 정의에 맞춤)"
+        ]
+      },
+      {
+        "heading": "확인 자료",
+        "fields": [
+          "조건 확인자료 경로"
+        ]
+      }
+    ],
+    "wireframe": [
+      "인허가 선택                                      [닫기]",
+      "[추천 조건]  [인허가 목록]",
+      "사업 정보 : 사업유형 / 사업방식 / 인허가 경로 / 사업지 / 용도지역",
+      "사업 규모 : 사업면적 / 최대 연면적 / 높이 / 층수 / 굴착 / 전력",
+      "토지·건축 조건 : 각 조건에 미확인 / 예 / 아니오",
+      "확인 자료 : 조건 확인자료 경로",
+      "                                      [취소] [조건 저장]",
+      "",
+      "인허가 선택                                      [닫기]",
+      "[추천 조건]  [인허가 목록]",
+      "[추천 항목] [전체 항목]              항목 검색 [       ]",
+      "분류 접기/펼치기 → 인허가 선택 → 기존 선택항목별 입력칸",
+      "                                      [취소] [선택한 인허가 추가]"
+    ],
+    "wireframeNature": "정보 순서와 행동 배치를 나타내는 텍스트 설계 명세입니다. 시각 시안·실제 구현 화면·장식 자산으로 제시하지 않습니다.",
+    "draftContract": [
+      "팝업 하나당 프로젝트ID를 포함한 초안 하나를 둡니다. 조건·선택값·선택항목 입력·검색·접힘·탭을 보존합니다.",
+      "조건 변경은 유효한 초안에서 추천을 자동 계산합니다. 숫자 입력 중 빈 문자열이나 미완성 소수를 곧바로 확정 0으로 바꾸지 않습니다.",
+      "추천이 달라져도 이미 사용자가 고른 신규 항목과 입력값을 조용히 지우지 않습니다. 추천/전체 필터 사이에서도 선택을 유지합니다.",
+      "검색 결과에 해당하는 분류를 탐색할 수 있어야 하고 검색을 지우면 원래 분류 접힘 상태로 돌아옵니다. 매 글자마다 초점과 스크롤을 초기화하지 않습니다.",
+      "조건만 바꾸고 신규 선택이 0개여도 저장할 수 있어야 합니다. 버튼은 그때 ‘조건 저장’, 선택이 있으면 ‘선택한 인허가 추가’처럼 실제 결과와 맞춥니다.",
+      "저장 직전 현재 프로젝트·권한·중복 항목·변경 또는 삭제된 대상·초기 조건의 최신성을 재확인합니다. 조건 저장과 신규 항목 저장의 부분 성공을 남기지 않습니다.",
+      "저장 성공 후 본문 추천과 다음 재진입이 같은 조건을 읽어야 합니다. 실패하면 팝업을 닫지 않고 두 탭의 초안과 작업 위치를 유지합니다.",
+      "취소·닫기·Escape는 기존 미저장 초안 정책을 그대로 적용하여 실제 부모로 복귀합니다. 저장하지 않고 탭을 바꾼 것만으로 서버 자료가 바뀌지 않습니다.",
+      "이미 등록된 인허가는 추천·전체·검색 신규 후보에서 제외합니다. 조건 변경은 기존 인허가·진행기록·검토의견·조치계획을 삭제하지 않습니다."
+    ],
+    "legalPlacementBoundary": "도시교통정비지역·교통권역 및 특수구조건축물은 ‘토지·건축 조건’의 판단 입력입니다. 이 이름을 신규 인허가 행으로 추가하지 않습니다. 조건 값·공식 용어·법적 효력은 별도 백엔드 연구로 확정하며 이 UI 연구가 법률 결론을 대신하지 않습니다.",
+    "ordinanceActions": "상시로 조례 관련 버튼을 2개 나란히 두지 않습니다. 실제 검토할 법령·조례의 이름이 있는 목록에서 그 이름으로 열고, 광역/기초 관할이 필요한 경우 같은 팝업 안의 해당 입력으로 연결합니다. 별도 수집상태·실행이력·관할확인 태그를 재도입하지 않습니다. 현재 보존할 법령 원문 진입이 어디인지 구현 담당자가 소비자 목록에서 확인해야 합니다.",
+    "detailFourTabs": "개별 인허가 상세의 4탭은 이번 구조 변경 대상이 아닙니다."
+  },
+  "inputPresentation": [
+    {
+      "type": "한글명·주소·긴 조건",
+      "presentation": "왼쪽 정렬, 항목 이름을 입력칸 위에 지속 표시, 주소와 경로는 전체폭",
+      "boundary": "placeholder만으로 이름을 대신하지 않습니다."
+    },
+    {
+      "type": "면적·높이·굴착·전력·비율",
+      "presentation": "입력 단위를 이름/고정 단위에 표시, 같은 데이터 유형은 같은 폭과 세로선 사용",
+      "boundary": "단위별 소수 허용 범위를 보존합니다. 입력하지 않은 조건은 0으로 만들지 않습니다."
+    },
+    {
+      "type": "층수",
+      "presentation": "짧은 정수 입력, 단위 층 명확화",
+      "boundary": "음수·소수를 허용 여부 없는 상태에서 조용히 보정하지 않습니다."
+    },
+    {
+      "type": "예·아니오 조건",
+      "presentation": "미확인 / 예 / 아니오를 구별해 같은 형식으로 배치",
+      "boundary": "미확인을 아니오로 간주하지 않습니다. 실제 조건이 3값 이상이면 백엔드 정의를 따릅니다."
+    },
+    {
+      "type": "금액 비교표",
+      "presentation": "숫자 오른쪽 정렬·고정폭 숫자·헤더 단위 유지, 수정은 원 단위 원값",
+      "boundary": "조회 백만원과 입력 원 단위를 혼합하지 않고 1,000,001원·0원·미입력을 별도 검증합니다."
+    },
+    {
+      "type": "날짜",
+      "presentation": "기존 날짜 입력과 표시 형식 유지, 같은 종류끼리 폭 통일",
+      "boundary": "빈 날짜를 오늘로 자동 채우거나 과거 비정상 원문을 입력 없이 정상 날짜로 대체하지 않습니다."
+    },
+    {
+      "type": "전체 폼",
+      "presentation": "현재 14px Pretendard·기존 색 토큰 유지, PC는 관련 필드끼리 2열·주소/자료는 전체폭, 작은 화면은 1열",
+      "boundary": "오류가 나면 해당 줄 높이를 함께 늘려 다음 입력과 겹치지 않게 합니다. 오류를 숨겨 조회행 높이에 강제로 맞추지 않습니다."
+    }
+  ],
+  "copyReview": [
+    {
+      "before": "추천 다시 보기",
+      "after": "별도 버튼 제거",
+      "reason": "같은 초안에서 조건을 바꾸면 자동으로 추천목록을 갱신한다는 동작 계약이 있을 때만 제거합니다."
+    },
+    {
+      "before": "규모·토지 조건 수정",
+      "after": "추천 조건 탭의 사업 규모 / 토지·건축 조건",
+      "reason": "조건 전체를 한 번에 작성하도록 같은 폼에 둡니다."
+    },
+    {
+      "before": "추천 조건 수정·지역 조례 확인",
+      "after": "추천 조건",
+      "reason": "하나의 탭에 입력 목적을 짧게 나타냅니다."
+    },
+    {
+      "before": "지역별 확인할 조례 / 지역 조례 검색 / 관할 확인 필요",
+      "after": "관련 법령·조례 이름으로 직접 열기; 실제 필요한 관할 입력만 해당 위치에 배치",
+      "reason": "자료 조회와 조건 입력을 구별하고 기술 작업정보를 사용자 화면에 추가하지 않습니다."
+    },
+    {
+      "before": "저장 실패",
+      "after": "저장하지 못했습니다. 입력한 내용은 유지됩니다.",
+      "reason": "실제로 두 탭 초안을 유지할 때만 쓰고 확인되지 않은 인터넷 장애를 원인으로 단정하지 않습니다."
+    }
+  ],
+  "independentCounterexamples": [
+    {
+      "id": "UX131-T01",
+      "action": "미입력 조건과 명시적 0 조건으로 각각 목록 탭 전환",
+      "expected": "의미를 구별하며 임의로 0을 저장하지 않음",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T02",
+      "action": "사업유형·방식·지역·규모를 바꾸고 추천목록 확인",
+      "expected": "추천 다시 보기 없이 같은 초안의 조건이 반영; 서버는 저장 전 불변",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T03",
+      "action": "조건만 변경하고 선택 0개로 저장·재진입",
+      "expected": "조건 저장 가능, 재진입·본문에서 새 조건 사용, 신규 인허가 0개",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T04",
+      "action": "신규 항목 선택·날짜 입력 후 조건을 바꿔 그 항목을 추천 밖으로 이동",
+      "expected": "선택과 입력을 지우지 않으며 전체목록으로 접근 가능",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T05",
+      "action": "조건·항목 선택 후 취소/X/Escape와 미저장 확인의 계속 입력 실행",
+      "expected": "실제 부모 복귀 또는 동일 초안 복원; 저장자료 변경 0",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T06",
+      "action": "저장 요청에 503 응답 후 재시도",
+      "expected": "조건·선택·항목별 입력·탭·검색·접힘 보존; 부분 저장과 중복 추가 0",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T07",
+      "action": "폼이 열린 뒤 같은 항목을 다른 경로로 등록하거나 역할을 읽기 전용으로 변경",
+      "expected": "저장 직전 검사로 중복·권한 변경을 차단하며 초안을 보존",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T08",
+      "action": "A사업 초안 후 B사업 전환·재진입",
+      "expected": "사업별 초안 격리, A 조건이 B 추천이나 저장에 섞이지 않음",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T09",
+      "action": "조건을 미확인↔예↔아니오로 각각 전환",
+      "expected": "미확인이 비대상으로 바뀌지 않음. 관련 인허가 이름은 중복 행을 만들지 않음",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T10",
+      "action": "검색·분류 접기/펴기·선택·검색 해제·탭 왕복",
+      "expected": "선택 유지, 결과 접근 가능, 원래 접힘·초점·스크롤 보존",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T11",
+      "action": "Tab/Shift+Tab·좌우/Home/End·Enter/Space로 두 탭과 마지막 입력·저장 접근",
+      "expected": "탭 역할/선택상태·초점 일치, 단일 본문 스크롤, 고정 footer가 마지막 입력을 가리지 않음",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T12",
+      "action": "1280×800·1440×900·1600×1000·390px·짧은 높이/확대에서 조건·목록·오류 확인",
+      "expected": "겹침·부모/자식 세로스크롤 중복·가로 화면 넘침 없음",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T13",
+      "action": "사업비 1,000,001원·0원·미입력·복수 원기록·기존 하위항목을 수정 후 취소/실패/저장/출력",
+      "expected": "원값·계층합계·단위·VAT·과거 확정본 보존, 선택한 원기록만 수정",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T14",
+      "action": "대출·계약 한 건의 연관 금액과 기간 수정, 열린 뒤 대상 삭제",
+      "expected": "기록 전체 관계검증, 삭제 대상을 신규로 만들지 않음, 다른 기록은 독립",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T15",
+      "action": "공사 최신 기재와 공정률 이력·과거 계약약정 비교",
+      "expected": "일괄폼 저장이 과거 이력·계약 원문을 재작성하지 않음",
+      "state": "notrun"
+    },
+    {
+      "id": "UX131-T16",
+      "action": "현재 보고서 수정 후 보고서만 저장·PDF·과거 저장본 다시 열기",
+      "expected": "양식·원장 경계·과거 저장본 불변. 인쇄 본문에 편집 도구 없음",
+      "state": "notrun"
+    }
+  ],
+  "matrixRowsForIntegrator": [
+    {
+      "id": "REVIEW131-UX-PERMIT-TABS",
+      "component": "추천 조건 / 인허가 목록",
+      "purpose": "조건과 항목 선택을 같은 초안에서 수행",
+      "contentReview": "reviewed",
+      "automation": "notrun",
+      "actualUi": "notrun",
+      "serverOutput": "notrun"
+    },
+    {
+      "id": "REVIEW131-UX-PERMIT-CONDITION-FORM",
+      "component": "조건 그룹·입력·오류",
+      "purpose": "사업정보·규모·토지/건축조건·자료경로 입력",
+      "contentReview": "reviewed",
+      "automation": "notrun",
+      "actualUi": "notrun",
+      "serverOutput": "notrun"
+    },
+    {
+      "id": "REVIEW131-UX-PERMIT-LIST",
+      "component": "추천/전체·검색·분류·항목별 입력",
+      "purpose": "변경조건을 반영한 후보 탐색·선택",
+      "contentReview": "reviewed",
+      "automation": "notrun",
+      "actualUi": "notrun",
+      "serverOutput": "notrun"
+    },
+    {
+      "id": "REVIEW131-UX-PERMIT-SAVE",
+      "component": "조건만 저장·조건+선택 저장·취소/X/Escape·실패",
+      "purpose": "동일 저장경계와 초안보존·실제부모 복귀",
+      "contentReview": "reviewed",
+      "automation": "notrun",
+      "actualUi": "notrun",
+      "serverOutput": "notrun"
+    },
+    {
+      "id": "REVIEW131-UX-PERMIT-LEGAL-ENTRY",
+      "component": "관련 법령·조례 원문 진입",
+      "purpose": "조건·기술상태 대신 실제 검토자료 직접 조회",
+      "contentReview": "reviewed",
+      "automation": "notrun",
+      "actualUi": "notrun",
+      "serverOutput": "notrun"
+    },
+    {
+      "id": "REVIEW131-UX-EDIT-UNIT-RESEARCH",
+      "component": "6종 업무의 수정 단위 비교",
+      "purpose": "반복 수정 진입을 업무·저장단위로 정리할 근거",
+      "contentReview": "reviewed-proposal",
+      "automation": "notrun",
+      "actualUi": "notrun",
+      "serverOutput": "notrun"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "label": "[Web] GOV.UK Summary list — Adding card actions",
+      "url": "https://design-system.service.gov.uk/components/summary-list/",
+      "checked": "2026-10-29",
+      "pattern": "여러 행의 수정이 같은 곳으로 이동하면 카드 헤더의 수정 하나로 줄일 수 있습니다.",
+      "application": "사업개요·공사에서 같은 폼을 여는 반복행동 통합. 기록별로 다른 폼이면 그 기록 단위를 유지합니다."
+    },
+    {
+      "id": "S02",
+      "label": "[Web] Carbon Data table",
+      "url": "https://www.carbondesignsystem.com/building-blocks/core/components/data-table/guidelines",
+      "checked": "2026-10-29",
+      "pattern": "표 전체 행동은 툴바, 특정 행의 행동은 해당 행, 여러 선택행의 행동은 묶음 행동으로 구분합니다.",
+      "application": "사업비 수정 진입은 표 상단, 대출·계약 수정은 한 기록에 배치. Carbon의 아이콘 선택 자체를 한국어 명시버튼 요구 대신 적용하지 않습니다."
+    },
+    {
+      "id": "S03",
+      "label": "[Web] Carbon Modal",
+      "url": "https://www.carbondesignsystem.com/building-blocks/core/components/modal/guidelines",
+      "checked": "2026-10-29",
+      "pattern": "짧고 드문 업무에 대화창을 쓰며, 반복 업무는 본문을 고려합니다. 오류는 닫기 전에 표시하고 본문만 세로 스크롤하며 헤더·footer를 유지합니다.",
+      "application": "조건+항목 선택은 하나의 대화창. 자주 입력하는 사업비는 본표 안에서 처리. 모든 페이지를 팝업으로 통일하지 않습니다."
+    },
+    {
+      "id": "S04",
+      "label": "[Web] AG Grid Full Row Editing",
+      "url": "https://www.ag-grid.com/javascript-data-grid/cell-editing-full-row/",
+      "checked": "2026-10-29",
+      "pattern": "한 행 전체가 같은 기록이라는 점을 명확히 하면서 함께 편집하는 실제 예제가 있습니다.",
+      "application": "대출·계약의 관계있는 속성에 대한 기록 단위 모델의 근거입니다. AG Grid 설치나 라이선스 도입 제안은 아닙니다."
+    },
+    {
+      "id": "S05",
+      "label": "[Web] AG Grid Batch Editing",
+      "url": "https://www.ag-grid.com/javascript-data-grid/cell-editing-batch/",
+      "checked": "2026-10-29",
+      "pattern": "여러 셀·행의 보류값을 표시하고 한 번에 확정하거나 버리는 방식입니다.",
+      "application": "사업비의 표 수정 모드를 선택할 때 저장 전 초안과 확정값의 경계를 명세할 근거입니다. 이 제품에 이미 같은 저장방식이 있다는 뜻은 아닙니다."
+    },
+    {
+      "id": "S06",
+      "label": "[Web] GOV.UK Table — Numbers in a table",
+      "url": "https://design-system.service.gov.uk/components/table/",
+      "checked": "2026-10-29",
+      "pattern": "열의 숫자를 비교할 때 오른쪽 정렬을 사용합니다.",
+      "application": "원 단위 금액·면적·비율의 비교 정렬. 사업명·주소·상세문구까지 오른쪽 정렬하지 않습니다."
+    },
+    {
+      "id": "S07",
+      "label": "[Web] W3C WAI-ARIA Tabs Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/",
+      "checked": "2026-10-29",
+      "pattern": "tablist/tab/tabpanel·선택상태·키보드 탐색을 정의하고, 지연이 있으면 수동 활성화를 사용할 수 있습니다.",
+      "application": "2탭의 좌우/Home/End 초점 이동과 Enter/Space 활성화. 탭 전환은 서버 저장 명령으로 사용하지 않습니다."
+    },
+    {
+      "id": "S08",
+      "label": "[Web] GOV.UK Check answers",
+      "url": "https://design-system.service.gov.uk/patterns/check-answers/",
+      "checked": "2026-10-29",
+      "pattern": "관련 구역을 나누고 이미 입력한 값을 유지하며, 변경 후 나머지 절차를 다시 반복하지 않고 검토 위치로 돌아옵니다.",
+      "application": "조건→목록→조건 왕복, 기록폼 취소/오류/저장 후 원래 위치 복귀. 보고서의 실제 제출 완료를 수정 저장과 혼동하지 않습니다."
+    },
+    {
+      "id": "S09",
+      "label": "[Web] GOV.UK Text input",
+      "url": "https://design-system.service.gov.uk/components/text-input/",
+      "checked": "2026-10-29",
+      "pattern": "내용 길이에 맞는 입력폭과 지속적인 이름을 사용합니다. 정수·소수 입력 키패드, number형의 의도치 않은 증감 위험을 안내합니다.",
+      "application": "층수는 짧게, 주소는 넓게, 단위는 명확하게. 기존 입력을 바꿀 때 검증과 금액 파서를 함께 검토합니다."
+    },
+    {
+      "id": "S10",
+      "label": "[Web] Carbon Form",
+      "url": "https://www.carbondesignsystem.com/building-blocks/core/components/form/guidelines",
+      "checked": "2026-10-29",
+      "pattern": "이름·입력칸의 세로 정렬, 관련 있는 2열의 동반 오류 확장, placeholder를 이름 대신 사용하지 않는 기준을 제시합니다.",
+      "application": "현재 디자인의 정렬과 정보밀도를 유지하면서 오류가 있을 때 겹치지 않는 폼을 명세합니다."
+    }
+  ],
+  "remainingDecisions": [
+    "사업비 수정 진입을 표 단위로 줄일 때 새 일괄 저장을 구현할지 기존 단건 저장을 유지할지 확정이 필요합니다. 단순한 버튼 통합으로 다른 저장 정책을 끼워 넣지 않습니다.",
+    "도시교통정비지역·교통권역 및 특수구조건축물의 정확한 입력값과 추천 의미는 백엔드 법령 연구 결과를 따릅니다.",
+    "사용자 업무의 실제 수정빈도·한 번에 고치는 범위는 계측하지 않았습니다. 첫 적용 후 실사용 검증 없이 모든 업무에 동일 편집모드를 강제하지 않습니다."
+  ],
+  "acceptance": {
+    "research": "complete-with-limits",
+    "implementation": "outside-this-reviewer",
+    "automation": "notrun",
+    "actualFlow": "notrun",
+    "formalServer": "notrun",
+    "allProductAccepted": false
+  },
+  "sourceFingerprintsAtReading": {
+    "src/core.js": "3cc5514aefee0701058591d2aa1c5e2cb6cfc2debc49d7ec10d8cc64b32af7ce",
+    "src/contracts.js": "fece5f2729d88af18aa1d2f58679d1fbcf66710e1ef257ba427a5b85bb4a1cba",
+    "src/recovery-views.js": "c21296b3ee4013f3c441c89ab2d3e86c80633e5ad83279519e5e18e80bc9697c",
+    "src/cbs.js": "03d46577ae6e041e9ee2774fcc4bfa838aa85f2ba132c1666f706e8bc93c9552",
+    "src/permit-views.js": "505aeab0facab88f28c20fda9cee40361d79d448003b3737401eacb0719c32c0",
+    "src/permit-map.js": "2f45db0843312ae74790b367a24dc6d1cdc6cd2d06b58ecbc20966727a7e18e4",
+    "src/report.js": "5c8c1f1c611af8ebe62b527a03ab987bdedd4b25d0b5ece883459094333f5f07",
+    "src/report-form.js": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891",
+    "src/app.css": "6201c93ca51bccc9fd634ee57c809f566ace06187122c07aa79b452e560b0e2a",
+    "README.md": "9155645d68c2bdc2e283c5e04e13335a5d1b7e804294cbc5e8d6f7528f71ae29"
+  },
+  "additionalCurrentEvidence": {
+    "path": ".build/review131/01-land-edit-before.png",
+    "providedBy": "root",
+    "candidate": "C92 (root capture context)",
+    "sha256": "ffa05c154bb567320e3c6fc1ef11482b5346265fa7d025f88eda1528f753620c",
+    "fact": "C사업 부지확보 조회영역의 협약체결일·협약당사자·법인유형·법인명·법인설립일·토지확보방식·매입률·권원확보·권원지연·지연사유에 각각 수정 버튼이 보입니다.",
+    "limit": "1280×720 한 장의 정적 관찰입니다. 이미지 아래의 반복행·행수정·저장동작은 이 캡처로 판정하지 않습니다."
+  }
+}

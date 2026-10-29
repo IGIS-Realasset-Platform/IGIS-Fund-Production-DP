@@ -1,0 +1,87 @@
+{
+  "reviewId": "REVIEW131",
+  "candidate": "C93",
+  "version": "0.13.0",
+  "preparedAt": "2026-10-29T05:30:39.790Z",
+  "status": "prepared-not-deployed",
+  "currentFormal": {
+    "version": "0.13.0",
+    "candidate": "C92",
+    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
+    "productionDeploymentId": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2",
+    "formalHtmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846"
+  },
+  "rootArtifact": {
+    "path": ".build/review131/root-c93.html",
+    "sha256": "715d69b77694820a95d9182ab99d94dd9af86afa2b21c48aa5742f4e09e4b892",
+    "bytes": 6910711,
+    "origin": "https://igis-development-project-platform.vercel.app"
+  },
+  "publicTransform": {
+    "scope": "Exactly four inactive demo references plus single APP_RUNTIME.cloudOrigin. No global URL replacement, operational data or code transformation.",
+    "reversalExact": true,
+    "evidence": {
+      "path": ".build/review131/release-c93-projection-715d69b77694.json",
+      "sha256": "c8c485ca0b20055f7fcd1924434e6360bf7b737870fa57f75913356ba5e38786"
+    }
+  },
+  "artifacts": [
+    {
+      "role": "preview",
+      "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
+      "bytes": 6910704,
+      "sha256": "145fc7ad5c3debdfff54833451242dd6a7b3dbcf4f9fdf3594b851dcd7a6b8cb"
+    },
+    {
+      "role": "production",
+      "origin": "https://igis-development-project-platform.vercel.app",
+      "bytes": 6910675,
+      "sha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc"
+    }
+  ],
+  "sourceFreeze": {
+    "path": ".build/review131/source-freeze.json",
+    "sha256": "02007e01323453350acf36069da057d6018cc040d174d4db6ca54326258afa29"
+  },
+  "sourcePins": {
+    "src/core.js": "a704d74f7cf20f48121a8aa1126755b2ef14b9d746450b8b779707003db7346d",
+    "src/contracts.js": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658",
+    "src/recovery-views.js": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448",
+    "src/partners.js": "f2299de9b19dc588c7896c5e0708fe950c194de68cabef11ac9b20d02311ac84",
+    "src/permit-map.js": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a",
+    "src/permit-views.js": "795f6b36de3eb211ce9d4b99195b45de2ee4b495c5fab4c4f716dee2a7a19cb3",
+    "src/permit-map.css": "28d2c256b281adc7c2773056ddc55f7534bd47e205ef048ea85604bc3d501311",
+    "shared/permit-domain.mjs": "867e7b587598ac842355d8eccc87fc76692fc2e95908daa1eeb6a3f702176af7",
+    "scripts/permit-domain-bundle.mjs": "eeb262ee880e85c995a895f5940b43a1e1e8bf64bb05422cc06330b33f9e804b"
+  },
+  "github": {
+    "repository": "KYLee94/IGIS_Development_Project_Platform",
+    "visibility": "private",
+    "branch": "preview/core-v0.11.0",
+    "sourceCommit": null,
+    "mainUpdate": "pending non-force fast-forward after final source/docs acceptance"
+  },
+  "vercel": {
+    "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+    "team": "team_kp5N1HWJyMkz6FcMvihNud31",
+    "preview": null,
+    "production": null,
+    "promoted": false
+  },
+  "verification": {
+    "fullRegression": "pending root/QA exact frozen source run",
+    "protectedPreview": "notrun",
+    "authenticatedSaveReconnect": "notrun",
+    "wholePlatformAccepted": false
+  },
+  "privacy": {
+    "originalModelsCopied": false,
+    "workspaceOrPersonnelRecordsCopied": false,
+    "staffCommentBodiesCopied": false,
+    "privateBuildPacketsCopied": false,
+    "credentialsCopied": false,
+    "publicationScan": "pending actual allowlist copy"
+  },
+  "businessDatabaseWritesByReleaseAgent": 0,
+  "environmentChanges": 0
+}

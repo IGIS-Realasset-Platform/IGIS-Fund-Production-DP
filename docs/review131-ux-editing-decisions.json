@@ -1,0 +1,635 @@
+{
+  "schemaVersion": "review131-editing-decisions-v1",
+  "title": "REVIEW131 수정 진입 채택안과 연결 소비자 분모",
+  "date": "2026-10-29",
+  "sourceState": "동시 구현 중의 읽기 시점 스냅샷. 최종 정식 배포 또는 전체 화면 수락이 아닙니다.",
+  "authority": "root가 전달한 최신 구현 결정과 docs/review131-spec.md를 기준으로 합니다. 최초 연구의 제안과 실제 채택을 분리합니다.",
+  "initialResearch": "docs/review131-ux-editing-research.json",
+  "initialResearchWasRewritten": false,
+  "selectedDecisions": [
+    {
+      "id": "UX131-03-OVERVIEW",
+      "surface": "사업개요",
+      "unit": "24필드 구역폼 1개 진입",
+      "decision": "사업개요 수정 버튼 하나로 연관 필드를 같이 수정합니다. 총연면적·지상/지하 연면적·용적률 산정 연면적·취득대상 토지면적과 지상/지하층수·기간을 빠짐없이 유지합니다.",
+      "implementationOwner": "root",
+      "sourceReview": "구현 소스 확인",
+      "automation": "review131-overview-edit 9통과/0실패 및 review131-edit-units 공통계약",
+      "native": "이 담당자 미실행",
+      "server": "이 담당자 미실행"
+    },
+    {
+      "id": "UX131-03-RECORDS",
+      "surface": "대출·출자·담보/보증·계약·문서",
+      "unit": "기존 기록폼의 행 수정 1개",
+      "decision": "읽기값의 셀별 버튼을 없애되 행이나 상세의 기존 기록 수정 진입을 유지합니다. 금액·기간·VAT·배부·근거처럼 관계있는 필드는 같은 기록폼에서 검증합니다.",
+      "implementationOwner": "root",
+      "sourceReview": "editScope record와 기존 행 진입 확인",
+      "automation": "review131-edit-units 4통과/0실패의 명시된 합성자료 범위",
+      "native": "이 담당자 미실행",
+      "server": "이 담당자 미실행"
+    },
+    {
+      "id": "UX131-03-COST",
+      "surface": "사업비",
+      "unit": "금액 1개와 변경사유·이력이라는 독립 업무 단위",
+      "decision": "항목당 명시적인 수정 진입 1개를 유지합니다. 새 표 전체 일괄 저장모드는 이번에 도입하지 않습니다. 복수 원기록의 대상 선택·원 단위·현재/과거·합계/하위 분해는 기존 계약대로 유지합니다.",
+      "implementationOwner": "root 결정 / 기존 코드 유지",
+      "initialResearchDifference": "최초 연구는 표 수정모드를 후보로 제시했습니다. 실제 채택은 한 금액의 변경사유와 이력 경계를 우선하며 표 전체 저장모드를 보류합니다.",
+      "sourceReview": "현재 A.editable 필드 진입 보존",
+      "automation": "정확 금액 공통계약 일부 확인; 모든 사업비 동적 상태를 재실행하지 않음",
+      "native": "이 담당자 미실행",
+      "server": "이 담당자 미실행"
+    },
+    {
+      "id": "UX131-03-LEGAL-RECORDS",
+      "surface": "인허가·필지·토지매매계약·지급회차·분양/매각",
+      "unit": "기존 기록폼의 행 수정 1개",
+      "decision": "frontend 담당자가 기존 legal-edit 기록폼과 조회행을 정리합니다. 인허가 개별 상세 4탭과 검토의견·조치계획은 보존합니다.",
+      "implementationOwner": "frontend",
+      "sourceReview": "기존 각 기록폼·행동 존재 확인. 해당 담당자의 최종 구현·지문 확정 대기",
+      "automation": "이 담당자 미실행",
+      "native": "이 담당자 미실행",
+      "server": "이 담당자 미실행"
+    },
+    {
+      "id": "UX131-03-ISSUE",
+      "surface": "주요 현안",
+      "unit": "한 현안의 기존 5필드폼 1개 진입",
+      "decision": "5셀의 개별 수정 대신 행 수정 1개를 둡니다. 기존 현안 추가는 유지합니다. 수정 대상의 사업·권한·삭제/교체/중복ID를 저장 직전에 검사하고 변경한 필드만 저장합니다.",
+      "implementationOwner": "UX 담당 후속 구현",
+      "sourceReview": "구현·소스 동결",
+      "automation": "review131-record-editing-adjacent 29통과/0실패 중 현안 범위",
+      "native": "root 실제 검수 대기",
+      "server": "root 실제 검수 대기"
+    },
+    {
+      "id": "UX131-03-BENCHMARK",
+      "surface": "유사사업 비교",
+      "unit": "기존 14필드 기록폼 1개 진입",
+      "decision": "7조회셀의 개별 수정 대신 기존 전체 기록폼을 여는 행 수정 1개를 둡니다. 14필드·출처 원문·비교 선택 해제·기존 비일자·0/null·미편집 속성은 보존합니다.",
+      "implementationOwner": "UX 담당 후속 구현",
+      "sourceReview": "구현·소스 동결",
+      "automation": "review131-record-editing-adjacent 29통과/0실패 중 유사사업 범위",
+      "native": "root 실제 검수 대기",
+      "server": "root 실제 검수 대기"
+    },
+    {
+      "id": "UX131-03-CONSTRUCTION-REPORT",
+      "surface": "착공·공사·준공 / 법정 A4 보고서",
+      "unit": "기존 일괄 입력폼 / 현재 보고서 작성본",
+      "decision": "기존 폼을 유지합니다. 보고서 수정모드 안의 기존 셀 적용 방식까지 이번에 일괄 폐지하는 결정이 아닙니다. 인쇄 본문·과거 저장본·명확한 원장 반영 경계를 유지합니다.",
+      "implementationOwner": "기존 흐름 유지",
+      "sourceReview": "기존 폼 존재 확인",
+      "automation": "이 담당자 새 전수검사 미실행",
+      "native": "이 담당자 미실행",
+      "server": "이 담당자 미실행"
+    }
+  ],
+  "denominatorRules": [
+    "A.editable 직접 호출 위치 수, 그 호출이 반복되는 조회 필드 수, 실제 기록 수, 화면에 보이는 버튼 수, 독립 업무 단위 수는 서로 다른 분모입니다.",
+    "editScope record 호출은 읽기값을 출력하기 위해 남을 수 있으므로 A.editable 문자열이 존재한다는 이유만으로 수정 버튼 중복이라고 판단하지 않습니다.",
+    "조회에서 같은 기록의 여러 필드가 있어도 기록 수정폼 1개가 맞는지 확인합니다. 기존 기록폼의 필수 필드가 누락되면 버튼 수만 줄였다고 수락하지 않습니다.",
+    "동적 표의 버튼 수는 실제 사업·권한·필터·접힘·반복행·팝업·보고서모드에 따라 달라집니다. 이번 정적 목록은 전체 플랫폼의 고유 버튼 수나 검수 통과 수가 아닙니다.",
+    "A.editable만 검사하면 직접 A.form으로 구현된 일정·공사·인허가 상세·개발업 등록·출처 자료·보고서 부속기록 등의 진입이 누락됩니다. 아래 업무 묶음과 최종 매트릭스를 함께 사용합니다."
+  ],
+  "businessCoverage": [
+    {
+      "surface": "사업개요",
+      "entity": "projectBasic",
+      "viewValueDefinitions": 20,
+      "formFieldDefinitions": 24,
+      "replacement": "overview-basic-edit / openOverviewBasic",
+      "state": "model-verified",
+      "note": "기간/층수 표시 2개는 각각 시작·종료/지상·지하로 나뉩니다. 추가 면적4필드 포함. Notion 출처4필드는 별도 읽기값입니다."
+    },
+    {
+      "surface": "주요 현안",
+      "entity": "issue",
+      "viewValueDefinitions": 5,
+      "formFieldDefinitions": 5,
+      "replacement": "issue-edit / 기존 issue-add 유지",
+      "state": "model-verified"
+    },
+    {
+      "surface": "사업비 현재금액",
+      "entity": "cbsCurrent / cbsBreakdownCurrent / cbsCompanyCurrent / cbsCompanySourceCurrent",
+      "viewValueDefinitions": null,
+      "formFieldDefinitions": null,
+      "replacement": "한 현재 금액당 기존 명시적 셀 수정 유지",
+      "state": "preserved",
+      "note": "원기록 선택·변경사유·계층에 따른 분기입니다. 3개 helper가 3개 화면 또는 3개 금액이라는 뜻이 아닙니다."
+    },
+    {
+      "surface": "사업비 표의 현재 면적",
+      "entity": "areaCurrent",
+      "viewValueDefinitions": null,
+      "formFieldDefinitions": null,
+      "replacement": "기존 현재면적 셀/area-edit 폼",
+      "state": "preserved",
+      "note": "금액과 다른 원장 소비자이므로 금액행 1버튼 결정으로 임의 숨기지 않습니다."
+    },
+    {
+      "surface": "유사사업 비교",
+      "entity": "benchmark",
+      "viewValueDefinitions": 7,
+      "formFieldDefinitions": 14,
+      "replacement": "benchmark-edit / benchmarkForm",
+      "state": "model-verified",
+      "note": "비교 포함 체크와 계산 증감·근거 조회는 별도입니다."
+    },
+    {
+      "surface": "대출",
+      "entity": "loan",
+      "viewValueDefinitions": 12,
+      "formFieldDefinitions": null,
+      "replacement": "loan-edit / editLoan",
+      "state": "model-verified-shared-cohort",
+      "note": "금융기관 상세 링크와 12개 읽기 속성, 행 수정1개. 실제 대출 건수와 별개입니다."
+    },
+    {
+      "surface": "출자자",
+      "entity": "equities",
+      "viewValueDefinitions": 4,
+      "formFieldDefinitions": 5,
+      "replacement": "financial-other-edit / editFinancialOther",
+      "state": "model-verified-shared-cohort",
+      "note": "지분율은 계산값, 근거자료는 기존 폼에 포함됩니다."
+    },
+    {
+      "surface": "담보·신용보강·보증",
+      "entity": "guarantees",
+      "viewValueDefinitions": 5,
+      "formFieldDefinitions": 6,
+      "replacement": "financial-other-edit / editFinancialOther",
+      "state": "model-verified-shared-cohort"
+    },
+    {
+      "surface": "보고 보증기관",
+      "entity": "guarantors",
+      "viewValueDefinitions": 4,
+      "formFieldDefinitions": 6,
+      "replacement": "financial-other-edit / editFinancialOther",
+      "state": "model-verified-shared-cohort"
+    },
+    {
+      "surface": "계약",
+      "entity": "contract",
+      "viewValueDefinitions": null,
+      "formFieldDefinitions": null,
+      "replacement": "contract-edit / formContract",
+      "state": "model-verified-shared-cohort",
+      "note": "목록·상세·지급·기성·VAT·배부는 연결 소비자이며 하나의 버튼 수로 합산하지 않습니다."
+    },
+    {
+      "surface": "문서",
+      "entity": "document",
+      "viewValueDefinitions": null,
+      "formFieldDefinitions": 10,
+      "replacement": "document-edit / 기존 문서폼",
+      "state": "model-verified-shared-cohort",
+      "note": "제목과 문서번호/분류/발행일/발신/수신/경로/관련업무, 버전이력은 별도 읽기값입니다."
+    },
+    {
+      "surface": "부지확보 기본정보",
+      "entity": "legalRecord land",
+      "viewValueDefinitions": 11,
+      "formFieldDefinitions": null,
+      "replacement": "현재 11개 개별필드; 구역폼은 제안만",
+      "state": "proposal-only",
+      "note": "기존 legal.js forms에 land 종류가 없습니다. 버튼만 제거하면 수정 진입이 사라집니다."
+    },
+    {
+      "surface": "인허가 기록",
+      "entity": "legalRecord permit",
+      "viewValueDefinitions": 5,
+      "formFieldDefinitions": null,
+      "replacement": "legal-edit / permitForm",
+      "state": "frontend-final-pending",
+      "note": "추천·선택 2탭은 신규 항목 추가 업무이며 개별 상세4탭과 구별합니다."
+    },
+    {
+      "surface": "토지 필지",
+      "entity": "legalRecord parcel",
+      "viewValueDefinitions": 4,
+      "formFieldDefinitions": 5,
+      "replacement": "legal-edit / parcelForm",
+      "state": "frontend-final-pending"
+    },
+    {
+      "surface": "토지매매계약",
+      "entity": "legalRecord landContract",
+      "viewValueDefinitions": 5,
+      "formFieldDefinitions": 8,
+      "replacement": "legal-edit / landContractForm",
+      "state": "frontend-final-pending",
+      "note": "연결 필지는 여러 체크박스여도 의미상 입력군1개입니다. 계약원장 연결·근거경로를 보존합니다."
+    },
+    {
+      "surface": "토지대금 지급회차",
+      "entity": "legalRecord landPayment",
+      "viewValueDefinitions": 4,
+      "formFieldDefinitions": 10,
+      "replacement": "legal-edit / landPaymentForm",
+      "state": "frontend-final-pending",
+      "note": "자금구성·지급여부·실제일·근거경로까지 기존 폼을 사용합니다."
+    },
+    {
+      "surface": "분양·매각",
+      "entity": "legalRecord sale",
+      "viewValueDefinitions": 7,
+      "formFieldDefinitions": 8,
+      "replacement": "legal-edit / saleForm",
+      "state": "frontend-final-pending"
+    },
+    {
+      "surface": "착공·공사·준공",
+      "entity": "construction / projectDates / progressAsOf",
+      "viewValueDefinitions": null,
+      "formFieldDefinitions": null,
+      "replacement": "construction-input-open / construction-section-edit",
+      "state": "existing-form-preserved",
+      "note": "최초 기재·조건부 날짜와 반복 공정률 이력을 구별합니다."
+    },
+    {
+      "surface": "보고서 작성본",
+      "entity": "reportField / reportCell",
+      "viewValueDefinitions": null,
+      "formFieldDefinitions": null,
+      "replacement": "report-edit-open / report-editor-toggle 및 기존 작성본 내부 편집",
+      "state": "existing-form-preserved",
+      "note": "모드·양식·반복행·동결본에 따라 필드가 달라 정적 호출2곳을 실제 셀2개로 세지 않습니다."
+    }
+  ],
+  "landSectionProposal": {
+    "implementation": "not-implemented-by-this-agent",
+    "entry": "부지확보 제목 옆 부지정보 수정 1개",
+    "currentSource": "src/permit-views.js land(p) basic 배열 및 cell(p,'land',...) → A.onInline('legalRecord') → p.land",
+    "currentReplacementGap": "src/legal.js의 forms는 permit/parcel/landContract/landPayment/sale이며 land 기본구역 폼은 없습니다.",
+    "completeFields": [
+      {
+        "path": "land.agreementDate",
+        "label": "협약체결일",
+        "type": "date"
+      },
+      {
+        "path": "land.agreementParties",
+        "label": "협약당사자",
+        "type": "text"
+      },
+      {
+        "path": "land.spvType",
+        "label": "법인 유형",
+        "type": "text"
+      },
+      {
+        "path": "land.spvName",
+        "label": "법인명",
+        "type": "text"
+      },
+      {
+        "path": "land.spvDate",
+        "label": "법인 설립일",
+        "type": "date"
+      },
+      {
+        "path": "land.acquisitionMethod",
+        "label": "토지 확보 방식",
+        "type": "text"
+      },
+      {
+        "path": "land.purchaseRate",
+        "label": "매입률 (%)",
+        "type": "number"
+      },
+      {
+        "path": "land.titleSecured",
+        "label": "권원 확보",
+        "type": "existing yesNo choices"
+      },
+      {
+        "path": "land.delay",
+        "label": "권원 지연",
+        "type": "existing yesNo choices"
+      },
+      {
+        "path": "land.delayReason",
+        "label": "지연사유",
+        "type": "text"
+      },
+      {
+        "path": "land.delayDetail",
+        "label": "지연내용",
+        "type": "text"
+      }
+    ],
+    "mustNotOmit": [
+      "법인 유형·법인명·법인 설립일",
+      "권원 확보·권원 지연·지연사유·지연내용",
+      "협약체결일·협약당사자·토지 확보 방식·매입률"
+    ],
+    "doNotMerge": "필지·토지계약·지급회차는 각각 독립 기록입니다. land.seller/purchasePrice/contractDate/balanceDate 등 기존 집계·호환자료를 이 11필드폼에 새 수기값으로 다시 만들지 않습니다. 사업개요 법인·개발업 법인 원장과 명칭이 비슷해도 확인 없이 같은 저장경계로 합치지 않습니다.",
+    "knownConsumers": [
+      "src/permit-views.js 기본정보 조회·편집·감사이력",
+      "src/legal.js 보고 발생기준의 협약일·특수목적법인 유형/설립일 참조",
+      "src/legal.js 초기 호환 필지의 권원값 참조는 초기화 로직이며 현재 필지 원장에 일괄 재적용할 근거가 아님",
+      "보고서 저장본의 canonical 프로젝트는 보존하지만 이 11필드 모두가 출력 본문에 인쇄된다고 주장하지 않음"
+    ],
+    "requiredBoundaries": [
+      "11개 입력 전체·미입력/0·비일자 원문·선택외 기존값 보존",
+      "기간/날짜/권원 상태 검증은 기존 정책 범위에서 수행",
+      "폼을 연 뒤 사업·역할·land 원문 변경 시 부분 저장·신규 생성 없이 차단",
+      "기존 필지·토지계약·지급회차·법인 원장·과거 저장본 불변",
+      "취소/X/Escape/저장실패 초안·실제 부모·작업 위치 보존"
+    ],
+    "native": "notrun",
+    "server": "notrun"
+  },
+  "adjacentImplementation": {
+    "files": [
+      "src/recovery-views.js issueTable/issue-edit 인접부분",
+      "src/partners.js EDIT/benchmarkPanel action/benchmarkForm 인접부분"
+    ],
+    "unmodifiedScopes": [
+      "root의 overview 24필드 구현",
+      "core",
+      "인허가·부지폼",
+      "업체 자동수집·댓글·외부 조회",
+      "매트릭스·README"
+    ],
+    "test": "tests/review131-record-editing-adjacent.mjs",
+    "redEvidence": ".build/review131/record-editing-adjacent-red.json",
+    "greenEvidence": ".build/review131/record-editing-adjacent-green.json",
+    "redInterpretation": "처음 실행에서 준비 오류인 registrationPanel 의존은 별도로 수정 후 재실행했습니다. 최종 RED는 행 수정 미존재·셀 중복, 유사사업의 선택/원자료/late-target 보존 실패를 확인했습니다. 새 issue-edit 진입이 없어서 이어지는 시나리오가 실행되지 않은 결과를 독립 저장결함 재현으로 세지 않습니다.",
+    "green": {
+      "passed": 29,
+      "failed": 0,
+      "browser": false,
+      "database": false,
+      "network": false
+    },
+    "focusedRegression": [
+      {
+        "suite": "review131-overview-edit",
+        "passed": 9,
+        "failed": 0
+      },
+      {
+        "suite": "review131-edit-units",
+        "passed": 4,
+        "failed": 0
+      },
+      {
+        "suite": "real-projects-consumers",
+        "passed": 6,
+        "failed": 0
+      },
+      {
+        "suite": "v0105-common",
+        "state": "passed"
+      },
+      {
+        "suite": "node --check",
+        "files": [
+          "src/partners.js",
+          "src/recovery-views.js",
+          "tests/review131-record-editing-adjacent.mjs"
+        ],
+        "state": "passed"
+      }
+    ],
+    "unresolvedExistingChecks": [
+      {
+        "suite": "contracts-recovery",
+        "state": "failed",
+        "failure": "첫 검사에서 contract/loan/document/benchmark의 data-inline-entity를 모두 강제합니다.",
+        "interpretation": "최신 기록폼 채택과 충돌하는 이전 UI 단언. 업무 금액/기록 검사는 보존하며 root가 실제 행 진입 기준으로 갱신할 필요가 있습니다. 이 담당자는 소유범위 밖 파일을 바꾸지 않았습니다."
+      },
+      {
+        "suite": "v0123-shared-copy",
+        "passed": 7,
+        "failed": 1,
+        "failure": "legal.js에 과거의 A.btn('경로 복사','path-copy',{path:row.evidencePath} 문자열 존재를 강제합니다.",
+        "interpretation": "이 담당자가 변경하지 않은 legal 영역의 정적 문구 검사. 실제 소비자 경로 대조와 root 판정 대기입니다."
+      }
+    ],
+    "nativePending": [
+      "두 목록의 행 버튼·열폭·긴 문구·스크롤·포커스",
+      "기존 비일자 원문의 같은 필드 내 표시",
+      "취소/X/Escape와 저장실패 후 원래 화면 복귀",
+      "실제 서버 저장·재접속·역할 회수·최종 게시본"
+    ]
+  },
+  "officialSources": [
+    {
+      "id": "S01",
+      "label": "[Web] GOV.UK Summary list — Adding card actions",
+      "url": "https://design-system.service.gov.uk/components/summary-list/",
+      "checked": "2026-10-29",
+      "pattern": "여러 행의 수정이 같은 곳으로 이동하면 카드 헤더의 수정 하나로 줄일 수 있습니다.",
+      "application": "사업개요·공사에서 같은 폼을 여는 반복행동 통합. 기록별로 다른 폼이면 그 기록 단위를 유지합니다."
+    },
+    {
+      "id": "S02",
+      "label": "[Web] Carbon Data table",
+      "url": "https://www.carbondesignsystem.com/building-blocks/core/components/data-table/guidelines",
+      "checked": "2026-10-29",
+      "pattern": "표 전체 행동은 툴바, 특정 행의 행동은 해당 행, 여러 선택행의 행동은 묶음 행동으로 구분합니다.",
+      "application": "사업비 수정 진입은 표 상단, 대출·계약 수정은 한 기록에 배치. Carbon의 아이콘 선택 자체를 한국어 명시버튼 요구 대신 적용하지 않습니다."
+    },
+    {
+      "id": "S03",
+      "label": "[Web] Carbon Modal",
+      "url": "https://www.carbondesignsystem.com/building-blocks/core/components/modal/guidelines",
+      "checked": "2026-10-29",
+      "pattern": "짧고 드문 업무에 대화창을 쓰며, 반복 업무는 본문을 고려합니다. 오류는 닫기 전에 표시하고 본문만 세로 스크롤하며 헤더·footer를 유지합니다.",
+      "application": "조건+항목 선택은 하나의 대화창. 자주 입력하는 사업비는 본표 안에서 처리. 모든 페이지를 팝업으로 통일하지 않습니다."
+    },
+    {
+      "id": "S04",
+      "label": "[Web] AG Grid Full Row Editing",
+      "url": "https://www.ag-grid.com/javascript-data-grid/cell-editing-full-row/",
+      "checked": "2026-10-29",
+      "pattern": "한 행 전체가 같은 기록이라는 점을 명확히 하면서 함께 편집하는 실제 예제가 있습니다.",
+      "application": "대출·계약의 관계있는 속성에 대한 기록 단위 모델의 근거입니다. AG Grid 설치나 라이선스 도입 제안은 아닙니다."
+    },
+    {
+      "id": "S05",
+      "label": "[Web] AG Grid Batch Editing",
+      "url": "https://www.ag-grid.com/javascript-data-grid/cell-editing-batch/",
+      "checked": "2026-10-29",
+      "pattern": "여러 셀·행의 보류값을 표시하고 한 번에 확정하거나 버리는 방식입니다.",
+      "application": "사업비의 표 수정 모드를 선택할 때 저장 전 초안과 확정값의 경계를 명세할 근거입니다. 이 제품에 이미 같은 저장방식이 있다는 뜻은 아닙니다."
+    },
+    {
+      "id": "S06",
+      "label": "[Web] GOV.UK Table — Numbers in a table",
+      "url": "https://design-system.service.gov.uk/components/table/",
+      "checked": "2026-10-29",
+      "pattern": "열의 숫자를 비교할 때 오른쪽 정렬을 사용합니다.",
+      "application": "원 단위 금액·면적·비율의 비교 정렬. 사업명·주소·상세문구까지 오른쪽 정렬하지 않습니다."
+    },
+    {
+      "id": "S07",
+      "label": "[Web] W3C WAI-ARIA Tabs Pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/",
+      "checked": "2026-10-29",
+      "pattern": "tablist/tab/tabpanel·선택상태·키보드 탐색을 정의하고, 지연이 있으면 수동 활성화를 사용할 수 있습니다.",
+      "application": "2탭의 좌우/Home/End 초점 이동과 Enter/Space 활성화. 탭 전환은 서버 저장 명령으로 사용하지 않습니다."
+    },
+    {
+      "id": "S08",
+      "label": "[Web] GOV.UK Check answers",
+      "url": "https://design-system.service.gov.uk/patterns/check-answers/",
+      "checked": "2026-10-29",
+      "pattern": "관련 구역을 나누고 이미 입력한 값을 유지하며, 변경 후 나머지 절차를 다시 반복하지 않고 검토 위치로 돌아옵니다.",
+      "application": "조건→목록→조건 왕복, 기록폼 취소/오류/저장 후 원래 위치 복귀. 보고서의 실제 제출 완료를 수정 저장과 혼동하지 않습니다."
+    },
+    {
+      "id": "S09",
+      "label": "[Web] GOV.UK Text input",
+      "url": "https://design-system.service.gov.uk/components/text-input/",
+      "checked": "2026-10-29",
+      "pattern": "내용 길이에 맞는 입력폭과 지속적인 이름을 사용합니다. 정수·소수 입력 키패드, number형의 의도치 않은 증감 위험을 안내합니다.",
+      "application": "층수는 짧게, 주소는 넓게, 단위는 명확하게. 기존 입력을 바꿀 때 검증과 금액 파서를 함께 검토합니다."
+    },
+    {
+      "id": "S10",
+      "label": "[Web] Carbon Form",
+      "url": "https://www.carbondesignsystem.com/building-blocks/core/components/form/guidelines",
+      "checked": "2026-10-29",
+      "pattern": "이름·입력칸의 세로 정렬, 관련 있는 2열의 동반 오류 확장, placeholder를 이름 대신 사용하지 않는 기준을 제시합니다.",
+      "application": "현재 디자인의 정렬과 정보밀도를 유지하면서 오류가 있을 때 겹치지 않는 폼을 명세합니다."
+    }
+  ],
+  "staticInventory": {
+    "scope": "src/**/*.js",
+    "scannedFiles": 40,
+    "literalCallSites": 13,
+    "filesWithCallSites": 6,
+    "recordReadValueCallSites": 6,
+    "uniqueUiComponents": null,
+    "actualButtons": null,
+    "businessCoverageGroups": 19,
+    "sourceChangedDuringRead": [],
+    "method": "Literal A.editable(...) and A.editable?.(...) invocations; the A.editable= definition is excluded. One source line may contain two call sites. This is a source inventory, not runtime UI acceptance.",
+    "sites": [
+      {
+        "file": "src/cbs.js",
+        "line": 297,
+        "column": 184,
+        "classification": "field-editor-or-mode-dependent",
+        "sourceLineSha256": "416953eefd9c10275f43302db5e2f55c2ba1b1a20748a59c0f9709a26fdc0145"
+      },
+      {
+        "file": "src/cbs.js",
+        "line": 298,
+        "column": 241,
+        "classification": "field-editor-or-mode-dependent",
+        "sourceLineSha256": "856e7dfaa5bad027cb68032b2bb60d5c6fe5db417e685d8b5a74fc7e4a1b1830"
+      },
+      {
+        "file": "src/cbs.js",
+        "line": 300,
+        "column": 757,
+        "classification": "field-editor-or-mode-dependent",
+        "sourceLineSha256": "0887b84395d1fa3323a70f63fe0a6dd47c8e1a89c5b22cbb5c100f24ebaa74ca"
+      },
+      {
+        "file": "src/cbs.js",
+        "line": 435,
+        "column": 420,
+        "classification": "field-editor-or-mode-dependent",
+        "sourceLineSha256": "92a2f178962081411437ec9796dfcb85c1a4d6c260c0a1c98e80b57b0cb4d30b"
+      },
+      {
+        "file": "src/contracts.js",
+        "line": 147,
+        "column": 126,
+        "classification": "record-read-value",
+        "sourceLineSha256": "d45d0be1fa24668e88e06dae9a71f0ae31a773be6509812c0612a5e2d22c232f"
+      },
+      {
+        "file": "src/partners.js",
+        "line": 6,
+        "column": 53,
+        "classification": "record-read-value",
+        "sourceLineSha256": "08d586ac220a2af03231af61afd52f30dfbdfb4f2d082acafa0edb384d4aa773"
+      },
+      {
+        "file": "src/permit-views.js",
+        "line": 7,
+        "column": 145,
+        "classification": "field-editor-or-mode-dependent",
+        "sourceLineSha256": "6e49de8826c8030ecac66aec8d8379477365f37000af1d4077e190c71c539a23"
+      },
+      {
+        "file": "src/recovery-views.js",
+        "line": 4,
+        "column": 50,
+        "classification": "record-read-value",
+        "sourceLineSha256": "981bd0f7d3b1a2de7c132ac11d0973937196b426080e8c80e43bf9748dc5bcfe"
+      },
+      {
+        "file": "src/recovery-views.js",
+        "line": 40,
+        "column": 914,
+        "classification": "record-read-value",
+        "sourceLineSha256": "9f697390101bd6a00c708d12f41ff285fbaacbe99d8755d37147c99e03cc0ad0"
+      },
+      {
+        "file": "src/recovery-views.js",
+        "line": 40,
+        "column": 1346,
+        "classification": "record-read-value",
+        "sourceLineSha256": "9f697390101bd6a00c708d12f41ff285fbaacbe99d8755d37147c99e03cc0ad0"
+      },
+      {
+        "file": "src/recovery-views.js",
+        "line": 102,
+        "column": 327,
+        "classification": "record-read-value",
+        "sourceLineSha256": "cd410d02d775ff40fa37aa269aa1d7d694863319048cc496b3aeac40c0d5e64a"
+      },
+      {
+        "file": "src/report.js",
+        "line": 266,
+        "column": 139,
+        "classification": "field-editor-or-mode-dependent",
+        "sourceLineSha256": "cf50ede0a246135244dad135eb8d5c23006aa83a3c23c4a7e09a6479846b12af"
+      },
+      {
+        "file": "src/report.js",
+        "line": 330,
+        "column": 606,
+        "classification": "field-editor-or-mode-dependent",
+        "sourceLineSha256": "cf37eead9cc383f71a0c079cc089e12648d2904aba5d76ed3b43818103e45efc"
+      }
+    ]
+  },
+  "sourceFingerprints": {
+    "README.md": "5825f483052b5d41d22eb8a63679d6a0f06b240caf1fd1d802656e3ff30feed3",
+    "docs/UX-review-rules.md": "a07ce544a51cf7a5b88dea578599971b0e7079f518948c5639b478efe83a05e7",
+    "docs/component-review-matrix.json": "0b431e44fd161b2a8795ff39139b7e7a22702fca90ec270809375bced7e3786d",
+    "docs/review131-spec.md": "6f55787e0f18b029b94fbf509d4e63c23c74de1fdff6bc2f06a1abc1c668560d",
+    "src/cbs.js": "03d46577ae6e041e9ee2774fcc4bfa838aa85f2ba132c1666f706e8bc93c9552",
+    "src/contracts.js": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658",
+    "src/core.js": "a704d74f7cf20f48121a8aa1126755b2ef14b9d746450b8b779707003db7346d",
+    "src/legal.js": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802",
+    "src/partners.js": "f2299de9b19dc588c7896c5e0708fe950c194de68cabef11ac9b20d02311ac84",
+    "src/permit-map.js": "e7726b5d932932fe7d80237ec75e0e7c66bc1cb5d9754b896496a3da84b2884d",
+    "src/permit-views.js": "fc9a8d228905460c3525676f7f0e1605f8d551129ba3bb1550df931d25dbb0ce",
+    "src/recovery-views.js": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448",
+    "src/report.js": "5c8c1f1c611af8ebe62b527a03ab987bdedd4b25d0b5ece883459094333f5f07",
+    "tests/review131-record-editing-adjacent.mjs": "e81ea26191fd24be03d3910f57a32d360668f7f6a21809093b474fe7ecf7fb63"
+  },
+  "acceptance": {
+    "decisionsRecorded": true,
+    "staticInventoryCompleteForLiteralEditableCalls": true,
+    "actualNativeComplete": false,
+    "actualServerComplete": false,
+    "allPlatformComponentsAccepted": false
+  },
+  "snapshotAtUtc": "2026-10-29T05:13:50.241294+00:00",
+  "handoff": "root 지시에 따라 현재 문서 상태로 마감합니다. frontend 최종 소스와 전체 실제 화면/서버 검수는 통합 담당자 확인 대기로 유지합니다."
+}

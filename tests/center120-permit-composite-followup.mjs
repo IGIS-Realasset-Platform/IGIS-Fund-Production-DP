@@ -10,7 +10,7 @@ const states=[
  ['건축물 안전영향평가',{singleBuildingArea:100000,floors:16},'candidate'],['건축물 안전영향평가',{singleBuildingArea:99999,floors:16},'review'],['건축물 안전영향평가',{singleBuildingArea:100000,floors:15},'review'],['건축물 안전영향평가',{height:200},'candidate'],['건축물 안전영향평가',{height:199.999,floors:49},'review'],['건축물 안전영향평가',{floors:50},'candidate'],['건축물 안전영향평가',{gfaTotal:200000,floors:16},'review'],
  ['전력계통영향평가',{powerMw:9.999},'review'],['전력계통영향평가',{powerMw:10},'candidate'],
  ['개발행위허가',{landformChange:'예'},'candidate'],['개발행위허가',{landformChange:'아니오'},'review'],['개발행위허가',{landformChange:'미확인'},'review'],
- ['농지전용',{farmland:'예'},'candidate'],['산지전용',{forest:'예'},'candidate'],['군사기지·군사시설 보호구역 협의',{militaryArea:'예'},'candidate'],['오염토양 정화계획·검증',{soilPollution:'예'},'candidate'],
+ ['농지전용',{farmland:'예'},'candidate'],['산지전용',{forest:'예'},'candidate'],['행정기관의 처분에 관한 협의(군사기지 및 군사시설 보호법)',{militaryArea:'예'},'candidate'],['오염토양 정화계획·검증',{soilPollution:'예'},'candidate'],
  ['국가지정문화유산 현상변경 허가',{heritage:'예'},'candidate'],['매장유산 발굴 허가',{heritage:'미확인'},'review'],
  ['저영향개발 사전협의',{region:'서울특별시 중구'},'candidate'],['저영향개발 사전협의',{region:'경기도 용인시'},'review'],
  ['건축신고',{buildingRoute:'신고'},'basic'],['건축허가',{buildingRoute:'신고'},'review'],['건축허가',{buildingRoute:'사업승인·의제'},'review'],

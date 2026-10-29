@@ -1,0 +1,254 @@
+{
+  "reviewId": "REVIEW130",
+  "requirement": "LAW130-R7",
+  "date": "2026-10-29",
+  "scope": "Exact C92 production and one manually invoked official scheduled path; observed data only, not all-time/full-platform acceptance",
+  "deployment": {
+    "version": "0.13.0",
+    "candidate": "C92",
+    "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+    "id": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2",
+    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
+    "formalUrl": "https://igis-development-project-platform.vercel.app/",
+    "formalStatus": 200,
+    "htmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846",
+    "htmlBytes": 6874706,
+    "rootPublicCheck": {
+      "path": ".build/review130-20261028/public-c92-1793246234182.json",
+      "sha256": "f0a45703518a06641cec582919f912d64690fdbf886d8799545cecdf919ec3d5"
+    }
+  },
+  "trigger": {
+    "method": "Official Vercel CLI crons run of existing /api/maintenance?job=law&slot=morning",
+    "acceptedExitCode": 0,
+    "acceptedStartedAt": "2026-10-29T04:02:23.702Z",
+    "acceptedFinishedAt": "2026-10-29T04:02:26.788Z",
+    "acceptanceAloneIsSuccess": false,
+    "rootTriggerEvidence": {
+      "path": ".build/review130-20261028/c92-cron-run-law-1793246546786.json",
+      "sha256": "535da94082c5fb3781df21b07a37d148e1840a793acc58856e08cc467efcd95e"
+    },
+    "earlierLocalEnvHelpers": "Two env-run helper starts produced no collection execution; not counted as collector failures; no environment setting/file change"
+  },
+  "before": {
+    "observedAt": "2026-10-29 03:54:06.190535+00",
+    "observedAtKst": "2026-10-29 12:54:06.190535",
+    "workspaceRevision": 55,
+    "workspaceMd5": "26e2a2006ac1045b85ff720d2d33c07b",
+    "activeCount": 376,
+    "activeTargets": {
+      "law": 350,
+      "ordin": 11,
+      "admrul": 15
+    },
+    "activeScopeMd5": "3bafe64644af6e81f94631e983f44e75",
+    "priorOldCodeNaturalRun": {
+      "snapshotId": "fcdbaa43-7bf6-4880-b19c-fae42834b29b",
+      "slot": "noon",
+      "finishedAt": "2026-10-29T03:45:33.01447+00:00",
+      "status": "success",
+      "requested": 376,
+      "checked": 376,
+      "failures": 0,
+      "checkpointPresent": false,
+      "preservedRolePresent": false
+    },
+    "evidence": {
+      "path": ".build/review130-20261028/c92-r7-before-readiness-1793246064916.json",
+      "sha256": "8498f5e1297f9baf6ca74f5fd6e661abe36ac63c2a39e4c248d384dc8150f538"
+    }
+  },
+  "actualNewCodeRun": {
+    "id": "ded8a92e-a1fd-409f-9d23-8a3f4269ed75",
+    "startedAt": "2026-10-29T04:02:28.374017+00:00",
+    "finishedAt": "2026-10-29T04:04:20.60948+00:00",
+    "durationSeconds": 112.235,
+    "slot": "morning",
+    "status": "success",
+    "requested": 376,
+    "fresh": 376,
+    "reused": 0,
+    "checked": 376,
+    "attempted": 376,
+    "deferred": 0,
+    "failures": 0,
+    "errorCode": null,
+    "checkpointVersion": 1,
+    "checkpointDay": "2026-10-29",
+    "completedCount": 376,
+    "scopeHash": "f01cafd5153bde5f9e6c1595d9a5586cdc90a313dd5c96dcc63a73eabc4baef1",
+    "dataDate": "2026-10-29",
+    "attemptedDate": "2026-10-29",
+    "recordCount": 376,
+    "changeCount": 264,
+    "leaseUntil": null,
+    "activeRunId": null
+  },
+  "completionSet": {
+    "observedAt": "2026-10-29 04:10:02.370245+00",
+    "active": 376,
+    "completed": 376,
+    "distinctCompleted": 376,
+    "missingActive": 0,
+    "extraCompleted": 0,
+    "invalidRecordHashFormat": 0,
+    "missingCurrentDayRecord": 0,
+    "checkpointAndStatusScopeEqual": true,
+    "evidence": {
+      "path": ".build/review130-20261028/c92-r7-completion-set-1793247015616.json",
+      "sha256": "17790eb273e6d95ddfc70ef1cebe11f21abc1b07c325b96ada655994cb262e6c"
+    }
+  },
+  "preservation": {
+    "immediateBaselineVersion": "fcdbaa43-7bf6-4880-b19c-fae42834b29b",
+    "unidentifiedRawVersions": 74,
+    "rawRecords": 54,
+    "exactRetainedVersions": 74,
+    "beforeMd5": "46c8ea4db014da6a3d1dc4eae0569ef0",
+    "afterExactSubsetMd5": "46c8ea4db014da6a3d1dc4eae0569ef0",
+    "allExactOriginalObjectsRetained": true,
+    "originalStatusAndFieldsUnchanged": true,
+    "preservedRoleRecordCount": 376,
+    "preservedRoleRawCount": 74,
+    "requiredUnknownRawRecordCount": 4,
+    "officiallyVerifiedScope": "376 current managed-law records with fresh required official-version proof; preserved unknown raw74 are retained history, not promoted to verified official versions",
+    "earlier45Observation": "Earlier45 refers to an older195-record snapshot. It remains a historical observation and is not relabelled as this immediate-before74 baseline."
+  },
+  "after": {
+    "observedAt": "2026-10-29 04:04:56.049069+00",
+    "observedAtKst": "2026-10-29 13:04:56.049069",
+    "workspaceRevision": 55,
+    "workspaceMd5": "26e2a2006ac1045b85ff720d2d33c07b",
+    "workspaceUnchanged": true,
+    "activeCount": 376,
+    "activeTargets": {
+      "law": 350,
+      "ordin": 11,
+      "admrul": 15
+    },
+    "activeScopeMd5": "3bafe64644af6e81f94631e983f44e75",
+    "activeScopeUnchanged": true,
+    "evidence": {
+      "path": ".build/review130-20261028/c92-r7-after-1793246755625.json",
+      "sha256": "238fc60c33229a957355e1ad7898ccf2a718ac7b7b787a67ff0d1373e260dc05"
+    }
+  },
+  "logs": {
+    "target": {
+      "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+      "deployment": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2"
+    },
+    "range": {
+      "since": "30m",
+      "limit": 200
+    },
+    "requests": {
+      "summarySha256": "eeb34afd6ee418add854d15810664d1840bbb24ed7739bdf4e87f7e0645f4d67",
+      "mode": "requests",
+      "at": "2026-10-29T04:06:10.763Z",
+      "exitCode": 0,
+      "records": 17,
+      "statuses": {
+        "200": 12,
+        "307": 1,
+        "401": 4
+      },
+      "levels": {},
+      "http5xx": 0,
+      "errorOrFatal": 0,
+      "unparsed": 0,
+      "truncated": false,
+      "excludedIntervals": 0,
+      "metadata": [
+        {
+          "recordsReturned": 17,
+          "timeRange": {
+            "start": "2026-10-29T03:36:06.000Z",
+            "end": "2026-10-29T04:06:06.000Z"
+          },
+          "hasMore": false,
+          "nextPresent": false,
+          "excludedIntervalsCount": 0
+        }
+      ],
+      "byMethodRouteStatus": {
+        "GET /api/notifications 200": 5,
+        "GET /api/workspace 200": 1,
+        "GET / 200": 5,
+        "GET /api/maintenance 200": 1,
+        "GET / 307": 1,
+        "GET /api/report-archives 401": 2,
+        "GET /api/workspace 401": 2
+      },
+      "classifiedErrorCategories": {
+        "databaseConstraint": 0,
+        "sessionOrAuthentication": 0,
+        "uncaughtOrUnhandled": 0,
+        "timeout": 0
+      },
+      "targetMismatch": 0,
+      "privateMessageOrBodyEmitted": false
+    },
+    "runtime": {
+      "summarySha256": "a79b06b894523adbff89d9c8d864b3c60553ce233b07ca9ded901f943ca377f5",
+      "mode": "runtime",
+      "at": "2026-10-29T04:06:22.164Z",
+      "exitCode": 0,
+      "records": 0,
+      "statuses": {},
+      "levels": {},
+      "http5xx": 0,
+      "errorOrFatal": 0,
+      "unparsed": 0,
+      "truncated": false,
+      "excludedIntervals": 0,
+      "metadata": [
+        {
+          "recordsReturned": 0,
+          "timeRange": {
+            "start": "2026-10-29T03:36:20.769Z",
+            "end": "2026-10-29T04:06:20.769Z"
+          },
+          "hasMore": false,
+          "nextPresent": false,
+          "excludedIntervalsCount": 0
+        }
+      ],
+      "byMethodRouteStatus": {},
+      "classifiedErrorCategories": {
+        "databaseConstraint": 0,
+        "sessionOrAuthentication": 0,
+        "uncaughtOrUnhandled": 0,
+        "timeout": 0
+      },
+      "targetMismatch": 0,
+      "privateMessageOrBodyEmitted": false
+    },
+    "expectedAnonymous401": {
+      "workspace": 2,
+      "reportArchives": 2
+    },
+    "maintenanceActual200": 1,
+    "allTargetRowsMatched": true,
+    "allQueriesSucceeded": true,
+    "limit": "Bounded time/deployment only. No records in runtime means no emitted runtime records in this query, not proof that every request/application path was error free.",
+    "evidence": {
+      "path": ".build/review130-20261028/c92-log-review-1793246789993.json",
+      "sha256": "9f397d99959223d9028de17fa2596caf042f021da330b003c3a25078f81cf281"
+    }
+  },
+  "remaining": {
+    "realPartialResume": "Not generated by this run: fresh376 succeeded with reused0. Partial completion reuse, retry, day/scope/CAS and body-evidence boundaries have separate model verification only.",
+    "newCodeNaturalScheduledRun": "Not observed after C92 deployment in this acceptance; this was one manual official cron invocation.",
+    "fullPlatformAllDynamicConditions": "Not established by this scoped backend acceptance."
+  },
+  "safety": {
+    "childActualCollectorInvocations": 0,
+    "childBusinessDatabaseWrites": 0,
+    "childOtherSchemaAccess": 0,
+    "childCredentialOrEnvironmentFileReads": 0,
+    "rawLawBodiesOrAmountsPublished": false,
+    "requestIpOrPrivateMessagesPublished": false,
+    "codeOrTestsChangedDuringLiveCheck": false
+  }
+}

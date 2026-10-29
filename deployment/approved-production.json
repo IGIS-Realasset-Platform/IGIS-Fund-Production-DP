@@ -1,30 +1,39 @@
 {
   "version": "0.13.0",
-  "candidate": "C92",
+  "candidate": "C93",
   "origin": "https://igis-development-project-platform.vercel.app",
-  "htmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846",
-  "bytes": 6874706,
+  "htmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+  "bytes": 6910675,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "actualBrowser": "C91 real Excel2 independently read; cost consumers byte-identical in C92. Scoped C89 physical paths and prior exact consumers bridged. C92 official-metadata8+HTTP7-key contract focused tests; formal owner verification pending publication.",
-  "status": "review130-c92-prepared-exact-artifact",
+  "status": "review131-c93-prepared-exact-artifact",
   "preparedAt": "2026-10-29",
   "wholeRequirementsComplete": false,
-  "actualAuthenticatedServer": "Earlier C86 real C normal16 commits/reload/report/archive and rate restoration accepted. C91 law actual recovery and postpublication API/DB observation pending.",
   "wholePlatformComponentsAccepted": false,
+  "actualBrowser": "C93 scoped flow/criteria/group checks and root local-native final check; exact protected-preview and formal authenticated acceptance pending.",
+  "actualAuthenticatedServer": "C92 manual official law run fresh376/fail0/checkpoint376/raw74 preserved; C93 authenticated criteria save/reconnect and formal acceptance pending.",
   "previousRelease": {
     "version": "0.13.0",
-    "candidate": "C86",
-    "sourceCommit": "f4cc10c0ef52054ed3435f95a30126cf12c9d4a8",
-    "productionDeploymentId": "dpl_PJhhyrJaZ2PCAAZ3PSQvQbMU3zm1",
-    "formalHtmlSha256": "042aba6212a931fc6b6c3e6cca2f013330babce6f37aad653e8ee532341114b5"
+    "candidate": "C92",
+    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
+    "productionDeploymentId": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2",
+    "formalHtmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846"
   },
-  "serverFollowup": {
-    "lawRecovery": "33 focused groups542 conditions including exact previous raw-hash preservation; actual recovery pending",
-    "mergeCopy": "132 server boundary and independent reads; actual cost DB merge not performed",
-    "wholePlatformAccepted": false
+  "review131": {
+    "scope": "Integrated permit criteria/selection, canonical procedure names and contextual edit units",
+    "fullRegression": "pending final frozen source run",
+    "deployment": "preview preparation only; production promotion requires root final release decision",
+    "originalPermitIdsAndStoredNamesPreserved": true
+  },
+  "historicalLawRecovery": {
+    "candidate": "C92",
+    "runId": "ded8a92e-a1fd-409f-9d23-8a3f4269ed75",
+    "fresh": 376,
+    "failed": 0,
+    "verifiedAt": "2026-10-29",
+    "newC93NaturalRunObserved": false
   },
   "rollbackRequiresNewMergeMetadataCompatibilityCheck": true
 }

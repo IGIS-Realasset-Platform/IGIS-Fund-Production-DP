@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "review131-independent-verification-v1",
+  "at": "2026-10-29T05:09:36.981498+00:00",
+  "status": "in-progress; no release/global/native acceptance",
+  "requirements": [
+    "PERMIT131-01",
+    "PERMIT131-02",
+    "UX131-03",
+    "LAW131-04",
+    "LAW131-05",
+    "LAW131-06"
+  ],
+  "baseline": {
+    "formal": "v0.13.0 C92",
+    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
+    "htmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846",
+    "previousEvidence": "docs/review130-c92-live-verification.json",
+    "previous266GroupsAnd376CollectorNotCountedHere": true
+  },
+  "matrix": {
+    "totalRecords": 5081,
+    "newReview131Records": 14,
+    "recordCountIsNotUniqueUiOrPassCount": true,
+    "editedByThisReviewer": false
+  },
+  "originalReferenceRead": {
+    "evidence": {
+      "path": ".build/review131/independent/original-selected-label-audit.json",
+      "sha256": "1eee072d2a7315393178e236b1c9d91e839c9e638198d8df8523fb93e0c2e3e1"
+    },
+    "files": [
+      {
+        "path": "참고자료/261020_개발솔루션센터 회신 자료/Cost Tracker.xlsx",
+        "sha256Before": "981bddc359d44a08865c6bfd935321c4aec67c92a771b722aca06fee6b3ba5b3",
+        "sha256After": "981bddc359d44a08865c6bfd935321c4aec67c92a771b722aca06fee6b3ba5b3",
+        "declaredSheets": 1,
+        "hiddenSheets": 0
+      },
+      {
+        "path": "참고자료/261020_개발솔루션센터 회신 자료/261020_YD427PFV 개발사업 마스터플랜r3.xlsx",
+        "sha256Before": "8cfa5994450250e690b5871a6bc9c34be20d7958f1048fad48abb10858089a16",
+        "sha256After": "8cfa5994450250e690b5871a6bc9c34be20d7958f1048fad48abb10858089a16",
+        "declaredSheets": 21,
+        "hiddenSheets": 1
+      }
+    ],
+    "scope": "Sheet inventory and selected permit labels only, no full21-sheet business-value/formula review, no recalculation/resave; raw label content stays private"
+  },
+  "independentOracles": {
+    "user": "docs/review131-spec.md",
+    "traffic": "Designated geography AND verified statutory/ordinance scope; geography alone not obligation",
+    "structure": "Special structure links existing structural hearing; distinct from ordinary structural confirmation and excavation",
+    "military": "Existing military path OR verified air-defense zone AND verified applicable height; no invented absolute height threshold",
+    "missing": "Absent initial defaults versus saved null/empty/explicit0 remain distinct",
+    "catalog": "Immutable reviewed60-row data ID preservation only; legal applicability oracle comes from primary statutes/user not current implementation output"
+  },
+  "primarySources": [
+    {
+      "topic": "traffic",
+      "article": "Act15",
+      "url": "https://www.law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1011819121",
+      "effectiveObserved": "2026-07-01"
+    },
+    {
+      "topic": "special structure",
+      "article": "Building Decree5-5 and6-3",
+      "urls": [
+        "https://www.law.go.kr/LSW/lsLinkCommonInfo.do?lsJoLnkSeq=1028913615",
+        "https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=03&joNo=0006&lsiSeq=290833&urlMode=lsScJoRltInfoR"
+      ],
+      "effectiveObserved": "2026-10-06"
+    },
+    {
+      "topic": "air defense",
+      "article": "Military Act13(1)/(2)2 and Decree13(4)",
+      "urls": [
+        "https://www.law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1029623069",
+        "https://www.law.go.kr/lsLawLinkInfo.do?chrClsCd=010202&lsJoLnkSeq=1003646731"
+      ],
+      "decreeEffectiveObserved": "2026-09-29"
+    }
+  ],
+  "automatic": [
+    {
+      "test": "tests/review131-independent-criteria.mjs",
+      "testSha256": "4605576e7aa8c62c9c50be16e62d12662531beb0a10a6911e2f324a13ac76867",
+      "evidence": {
+        "path": ".build/review131/independent/criteria-current.json",
+        "sha256": "532133c36a8ed6391a41fa0e04b337baf525ab64507311d40be364c15cf98332"
+      },
+      "passed": 261,
+      "failed": 0,
+      "sourcePins": {
+        "shared/permit-domain.mjs": "9687d91aa91fed0e8a3c2e8453626e93746dce25c86893fd3caa1568b24f40c8",
+        "scripts/permit-domain-bundle.mjs": "eeb262ee880e85c995a895f5940b43a1e1e8bf64bb05422cc06330b33f9e804b",
+        "src/permit-map.js": "e2b03942c91cb1b84673f6d1d057a2f0e06160034aa946b4a6acde4fb8569b55",
+        "src/legal.js": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802"
+      },
+      "sourceChanged": [],
+      "state": "intermediate exact cohort, final same-source rerun pending"
+    },
+    {
+      "test": "tests/review131-independent-api.mjs",
+      "testSha256": "d39d04304a7dd5d973ebbbc5385289b155bec3bd9422396a86345e01831adac9",
+      "evidence": {
+        "path": ".build/review131/independent/api-current.json",
+        "sha256": "b334462b63b5662e290012518f1715d3d29a7b756f1ff8d2030f8503f3562299"
+      },
+      "passed": 15,
+      "failed": 0,
+      "sourcePins": {
+        "shared/permit-domain.mjs": "9687d91aa91fed0e8a3c2e8453626e93746dce25c86893fd3caa1568b24f40c8",
+        "server/cloud-storage.mjs": "1f7c4d9ca2a88754e412612e0189093adbaa8e1afdd7e3493d6000df01e9aad7",
+        "server/workspace-runtime.mjs": "8bece33d7572ce933881e52c457b85dd3c96fb4cfeeb88f6b45c23c774404957",
+        "tests/cloud-storage.mjs": "5916cbc5ce755068889477cd2eb051a51d65847fdd55052ef1696a0af57f9116"
+      },
+      "sourceChanged": [],
+      "state": "intermediate exact cohort, final same-source rerun pending"
+    },
+    {
+      "test": "tests/review131-independent-catalog.mjs",
+      "testSha256": "6bb4c235293da6b25216e534d4637a2aba1e7a908f30035b10035898090faa3c",
+      "evidence": {
+        "path": ".build/review131/independent/catalog-prepared.json",
+        "sha256": "0f0d09401503ed6ad5836d1cc1c40fbd033fa4067d266c48a80affad141d9a09"
+      },
+      "passed": 10,
+      "failed": 0,
+      "sourcePins": {
+        "src/legal.js": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802",
+        "src/permit-map.js": "ee1c60f84482b7e8a17427718fa884835fbe51da0536f337b7e4e363bb832ce3",
+        "shared/permit-domain.mjs": "9687d91aa91fed0e8a3c2e8453626e93746dce25c86893fd3caa1568b24f40c8",
+        "scripts/permit-domain-bundle.mjs": "eeb262ee880e85c995a895f5940b43a1e1e8bf64bb05422cc06330b33f9e804b",
+        "docs/permit-catalog-20261020-review.json": "884198754fc6a28019334132186dbb74eb6d51414e6b1f58f7e1b5567821f0b0"
+      },
+      "sourceChanged": [],
+      "state": "intermediate exact cohort, final same-source rerun pending"
+    }
+  ],
+  "preparationCorrections": [
+    {
+      "test": "tests/review131-independent-catalog.mjs",
+      "initialPassed": 7,
+      "initialFailed": 3,
+      "cause": "2 VM/host array prototype comparisons; one formal-label implementation in progress",
+      "correction": "Array.from to compare exact values, no ID/name/order/semantic assertions weakened",
+      "originalFailureEvidence": ".build/review131/independent/catalog-initial.json"
+    }
+  ],
+  "pending": [
+    "Current intake callbacks/manual selection/alias filtering/cancel/draft failures",
+    "Root overview/business edit-unit consumers including area and unchanged historical values",
+    "Finite native field/footer/focus/scroll geometry and actual saved reconnect by root",
+    "Same final source focused/global/deployed artifact cohort"
+  ],
+  "legalScopeCautions": [
+    "Manual24 at old baseline is not24 missing catalog rows; new2 recommendation rules change reachability denominator",
+    "Ordinary warehouse sector is not itself logistics terminal/complex development",
+    "Residential sector is not itself proof of statutory housing-project scope",
+    "Housing Act49 use inspection differs from generic building-use approval; replacement/deemed scope requires separate company/legal decision, no new type invented by reviewer"
+  ],
+  "safety": {
+    "productFilesEdited": 0,
+    "onlyOwnedIndependentTestsAndDocsEdited": true,
+    "actualDatabaseCalls": 0,
+    "actualExternalBusinessApiCalls": 0,
+    "publicOfficialLawWebResearch": true,
+    "nativeBrowserRuns": 0,
+    "originalFilesResaved": 0,
+    "rawOriginalValuesPublished": false
+  }
+}
