@@ -1,0 +1,37 @@
+{
+  "review": "REVIEW132-C95",
+  "spec": "docs/review132-c95-spec.md",
+  "requirements": ["EDIT132-10/C95-01", "STAFF132-09/C95-02"],
+  "changedProductFilesByThisWork": ["src/setup.js"],
+  "sourceSha256": "6668f8c5d10a6d85367b5c1b697dc46c481a2e21586ecc70e1b201070406f635",
+  "preserved": ["core/recovery/portfolio click permission definition", "CSS and visual structure", "legacy 7-field API", "v2 registration and 0/null values", "9 follow-up source fields and actual-value separation", "money/contracts/source documents", "server/auth/DB/orgdb original"],
+  "focusedRegression": {
+    "file": "tests/review132-employee-field-boundaries.mjs",
+    "sha256": "071688a3cee1fa8b029e188b68b9b9b02b6d578ddf73be25f46dccb294361511",
+    "initialRed": {"passed": 2, "failed": 9, "count": 11},
+    "final": {"passed": 13, "failed": 0, "hiddenConnectedOldFormSuccessAndFailureIncluded": true},
+    "adjacent": {"review132-project-overview": 10, "review132-employee-directory": 17, "v0105-setup": 13, "followup121-registration-context": 60, "cloud-session-auth114": 10}
+  },
+  "canonicalRegistrationRunner": {"file": "tests/review132-ui-registration-browser.mjs", "sha256": "ed0ea1dd87aa6f915935ab8a77516d3da97ade94ee650fcd8e4bf8b5da9e6fa4", "lastWriteUtc": "2026-10-30T03:59:53.7820421Z", "change": "Only the single ARIA-description-ID preparation assumption was replaced by token-wise existing text checks and required error ID / invalid / name / original-value assertions. No later changes."},
+  "artifacts": {
+    "raw": {"path": ".build/review132/c95-raw-production.html", "sha256": "737d674fd758ee8c7092e7bb3b6d9bc20311512f6af02ff6041d337da7469743", "bytes": 6930719},
+    "published": {"path": ".build/github-release-review132/.build/review132/c95-production.html", "sha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a", "bytes": 6930683},
+    "privacyRelation": {"eachOfFourInactiveDemoReferenceReplacements": 1, "exactBytesAfterOnlyThoseFour": true}
+  },
+  "exactPublishedNative": {
+    "registration": {"passed": 4, "failed": 0, "widths": [1280,1440,1600,390], "evidence": ".build/review132-client/c95-published-registration-four-widths/evidence.json"},
+    "permitAndLand": {"passed": 8, "failed": 0, "roles": ["editor","viewer"], "evidence": ".build/review132-client/c95-published-permit-four-widths/evidence.json"},
+    "followupSources": {"passed": 2, "failed": 0, "widths": [1280,390], "visibleEntry": "계약·문서 → 입력자료 확인 → + 입력자료 추가", "keys": ["basic.fundName","basic.financeStructure"], "actualBasicUnchangedAfterCandidateSaveAndReload": true, "evidence": ".build/review132-client/c95-published-source-two-widths/evidence.json"},
+    "boundaryExpectations": {"requiredInvalidPreserved": true, "cacheClearedAfterLogout": true, "cacheClearedForViewer": true, "viewerActualActionBlocked": true, "evidence": ".build/review132-client/c95-published-boundary/evidence.json"},
+    "pageErrors": 0,
+    "counting": "Existing 12 flow verdicts, repeated base registration for source observations, and four boundary predicates are distinct; they are not 18 unique platform functions.",
+    "allHTTPIntercepted": true, "actualUserCookies": false, "actualAccounts": false, "actualDB": false
+  },
+  "evidenceCorrection": {
+    "originalUnmodified": ".build/review132-client/c95-boundaries-native-green/evidence.json",
+    "issue": "Its scope string still said Exact 80c product, while its actual html.path / SHA / invocation used the verified 737d raw C95 artifact.",
+    "classification": "Evidence-description mismatch, not a product failure or evidence that C94 fallback ran.",
+    "resolution": "Original values preserved. The final 611d exact publication run was repeated with scope generated from the supplied artifact SHA and all four expectations passed."
+  },
+  "limits": {"wholeRegressionAndDeploy": "root-owned current final confirmation, not inferred here", "operatingBrowser": "Cua initialization blocked and left unverified; no workaround or login/cookie changes", "newSecurityAttackClaimed": false}
+}

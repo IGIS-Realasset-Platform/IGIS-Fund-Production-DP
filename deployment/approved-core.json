@@ -8,12 +8,12 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review132-c95-two-client-state-boundaries-verification-running",
+  "status": "review132-c95-formal-verified-source-recovery-ongoing",
   "preparedAt": "2026-10-30",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
-  "actualBrowser": "C95 exact Git artifact verification running; C94 exact fourteen viewport/role/source executions retained as historical.",
-  "actualAuthenticatedServer": "C94 live large snapshot saved and original data preserved; source coverage remains partial. C95 server/API/shared/dependencies unchanged; exact equivalence proof is separate.",
+  "actualBrowser": "Exact Git HTML 611d6e1f…7998a2a: registration4 + permit8 + source2 + state-transition1 viewport/role runs; four transition expectations are not four runs. Operational CUA remains unverified.",
+  "actualAuthenticatedServer": "C95 public exact file and unauthenticated API401 verified. C94 actual daily large snapshot stored; original data preserved. Related backend55 files byte-identical; no second daily trigger.",
   "previousRelease": {
     "version": "0.13.0",
     "candidate": "C94",
@@ -38,10 +38,22 @@
   "rollbackRequiresNewMergeMetadataCompatibilityCheck": true,
   "review132": {
     "spec": "docs/review132-continuation-spec.md",
-    "fullRegression": "C95 current 298 suites running; prior-source passes retained separately.",
+    "fullRegression": {
+      "passed": 298,
+      "failed": 0,
+      "preparationBlocked": 0,
+      "sourcePins": 634,
+      "sourceChanged": 0,
+      "evidence": "docs/review132-qa-full-2026-10-30T04-00-23.909Z.json"
+    },
     "businessDataInArtifact": false,
     "securityFormalReport": "blocked-account-security-setup; durable C93 scan retained",
-    "deployment": "prepared; stage/live verification and promotion pending",
+    "deployment": {
+      "productionId": "dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx",
+      "sourceCommit": "0bb279d843fd8503299b6e09ad7ba646b613da7d",
+      "publicHtmlSha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
+      "publicObservation": ".build/review132/public-verified-1793334941491.json"
+    },
     "sourcePrivacyTransform": "Exactly four existing inactive demo reference anonymizations; identical active implementation and no real project data.",
     "previousRegression": {
       "passed": 296,
@@ -50,6 +62,7 @@
       "evidence": "docs/review132-qa-full-2026-10-30T01-47-07.582Z.json"
     },
     "sourceConsumerCorrection": "Fund full name and finance structure available in subsequent input-source selection/review without changing project values automatically.",
-    "c95": "Only employee directory error ownership, cloud-reset cache lifetime and stale-response UI guard changed; no layout/API/DB change."
+    "c95": "Only employee directory error ownership, cloud-reset cache lifetime and stale-response UI guard changed; no layout/API/DB change.",
+    "sourceRecovery": "Original v0.2 instructions, registered DART/G2B keys, legacy unit-cost5/KACEM30 and current KICT data are being reconciled with actual consumers. Not a completed whole-work audit."
   }
 }

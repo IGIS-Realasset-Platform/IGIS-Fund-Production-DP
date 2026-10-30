@@ -21,3 +21,24 @@
 정확C94게시본80c1c7ec의임시native기준실패는 `.build/review132-client/c95-boundaries-native-red/evidence.json`입니다. 새raw HTML **737d674fd758ee8c7092e7bb3b6d9bc20311512f6af02ff6041d337da7469743·6,930,719B**에서같은native기대4개가통과했습니다(`c95-boundaries-native-green/evidence.json`). 필수invalid/설명·이름보존,로그아웃cache비움,새조회자cache없음,기존조회자실제추가click차단(폼0·직원신규조회0)을확인했습니다. 캐시잔존을새공격확정으로확대하지않습니다.
 
 현재setup 지문은 `6668f8c5d10a6d85367b5c1b697dc46c481a2e21586ecc70e1b201070406f635`입니다. 이기록은집중모형/격리native이며최종Git게시파일·전체QA·실제운영화면/DB·배포의수락을대신하지않습니다. 실제사용자쿠키·운영data쓰기·메일발송은0입니다.
+
+## 정확 게시용 C95 최종 실제 검수
+
+원본737d674f·6,930,719B와 **게시용 `611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a`·6,930,683B**를대조했습니다. 기존비활성예시참조4곳을각1회치환한뒤바이트전체가일치하며그외제품차이는없었습니다.
+
+게시할 `.build/github-release-review132/.build/review132/c95-production.html`그파일자체로다음검수를재실행했습니다. 모든pageerror는0입니다.
+
+| 구분 | 현재 결과 | 정확 근거(.build/review132-client 아래) |
+|---|---|---|
+| 기존등록4폭 | 4/4 | c95-published-registration-four-widths/evidence.json |
+| 인허가/부지4폭·2역할 | 8/8 | c95-published-permit-four-widths/evidence.json |
+| 후속자료2키·1280/390 | 실제노출진입·후보저장·재접속후실제basic원값불변 | c95-published-source-two-widths/evidence.json |
+| 새경계4기대 | 필수invalid/설명유지·logoutcache비움·새조회자cache없음·기존clickguard차단모두true | c95-published-boundary/evidence.json |
+
+현재canonical등록검사기의설명연결검사는공백으로구분된ARIA ID각각의노드/문구와공통필수ID포함을확인합니다. 기존invalid·정확입력이름·미선택값·펀드명단언을유지했습니다. SHA는 `ed0ea1dd87aa6f915935ab8a77516d3da97ade94ee650fcd8e4bf8b5da9e6fa4`, 마지막쓰기03:59:53.7820421 UTC이며이후수정하지않았습니다. 최종13모형검사SHA는 `071688a3cee1fa8b029e188b68b9b9b02b6d578ddf73be25f46dccb294361511`입니다.
+
+### 과거 임시 증거 설명의 정정
+
+기존 `c95-boundaries-native-green/evidence.json`의scope문자열에는이전‘Exact 80c product’문구가남아설명불일치가있었습니다. 원본값은수정하지않았습니다. 해당실행의html.path·SHA와명령은실제737d674f의C95raw를가리키고파일지문사전검사도그값으로수행됐습니다. 이문구오류는제품실패나C94fallback실행으로바꾸어세지않습니다. 최종판정은scope도입력SHA에서동적으로만든정확게시용611d6e1f의재실행근거로연결합니다.
+
+기존12흐름,후속자료관측을위한등록반복,새4개기대는서로다른분모이며고유플랫폼기능18개로합산하지않습니다. 전부합성HTTP/신규격리프로필입니다. 운영Cua차단·실제운영화면/DB미검증을위격리통과로대체하지않고,전체회귀·실제게시전환은루트의현재최종근거를따릅니다. 구조화메타는동일이름JSON에기록했습니다.

@@ -1,33 +1,22 @@
 # 화면·컴포넌트 업무 검토 매트릭스
 
-## REVIEW132 — 현재297·정확HTML 검수·정식 배포 대기
+## REVIEW132 — C95 정식·현재 진행상태427/516
 
-기존 **5135행의 정확 prefix**를 보존하고 최초42행에 후속자료 소비자4행을 추가해 **총5181기록(신규46)**입니다. 기록/반복실행/검사묶음은 고유기능 수가 아니며 전체플랫폼·모든상태 수락은 false입니다.
+기존 **5135행의 정확 prefix**와 C94 당시 검수 근거를 보존한 **총5181기록(신규46)**입니다. 새 버튼/필드가 아닌 담당자 상태 경계는 기존 담당자·재조회·개요·수정·권한 소비자에 STAFF132-09/EDIT132-10으로 연결했습니다. 기록과 반복실행은 고유기능 수가 아니며 전체플랫폼/모든상태 수락은 false입니다.
 
-후속 펀드/파이낸스 자료가 등록/개요에는 있으나 기존7개 source 선택에서 빠지는 반례를 별도로 교정했습니다. 이전296은 당시 근거로 보존하며, **현재297/297·실패0·준비차단0·실행중633지문변경0**의 [새전체회귀](review132-qa-full-2026-10-30T02-35-38.288Z.json)를 수락합니다. 이전 금융시험 말미 빈 CRLF1개(2바이트) 제거와 해당11 재통과도 이 새 전체실행에 포함됩니다. 제품·시험 변경을 당시296의 무변경으로 확대하지 않습니다.
+[C95 현재 전체회귀](review132-qa-full-2026-10-30T04-00-23.909Z.json)는 **298/298·실패0·준비차단0·634파일 지문변경0**입니다. 담당자 공통 필수 오류/설명 보존·자기 조회 오류만 해제, reset 목록/오류/문맥/세대 무효화 및 숨은 옛 폼 늦은 성공/실패 차단의 독립13개도 통과했습니다. 제품 setup SHA6668f8c5…와 native 준비보정 SHAed0ea1dd…를 새 before로 고정했습니다. [독립대조](review132-qa-c95-independent.md)
 
-| 연결 소비자 | 새 기록 | 실제 확인한 범위 | 실제 DB·출력/남은 범위 |
-|---|---:|---|---|
-| 등록·초안·직원선택 | 17 | 현재 정확본 등록1흐름×4폭:15입력·503/재조회·선택유지·초안·재접속·등록/개요 | 합성HTTP 저장이며 실제 새사업 운영저장·원천브라우저조회 미수행 |
-| 개요 펀드/금융구조/담당자 | 5 | 같은4회에 포함된 조회·수정·감사·취소, 원장/직렬화 모형 | 실제 JSON다운로드·운영DB 미수행 |
-| 인허가/교통/접힘 | 4 | editor/viewer×4폭=8회·교통추가/기등록제외·검색/접힘·재접속 | 전국 모든조건·운영DB 전수 아님 |
-| 알림·개인상태·늦은응답 | 3 | 현재 모형/API/권한 재발검사 | 이번 실제알림화면·개인PATCH/운영쓰기 미수행. 인앱만 구현 |
-| 업무단위 수정/부지/복귀 | 3 | 같은 등록4+인허가/부지8회·11필드 도달/초점·취소/실패초안 | 모든페이지·기록/열폭/부모상태 전수 아님 |
-| 직원API/원천/view | 3 | API/저장 모형과 실제view468행·3열·원본불변 | view실제확인과 인증HTTP/새담당자 운영저장을 구별 |
-| 보고서 경로/이력/여백 | 3 | 현재 모형·정상4보고 HTML바이트·금액 보존 | 이번 실제보고서화면·native PDF/인쇄 미수행 |
-| CBS 관계깊이/독립범위 | 2 | 현재 PUT/GET/합계 소비자 합성거래 | 실제사용자자료 쓰기·화면 미수행 |
-| 법인ID/동일법인집계 | 2 | 누락/삭제/연도·3500㎡동일/1000㎡독립·409재조회 모형 | 숨긴 연간헬퍼 검수이며 자동대상판정 UI를 되살리지 않음 |
-| 후속자료9선택/원문/검토/복귀 | 4 | 독립actual handler/공통폼5검사 + 후속선택/추가1280·390 별도2회 | 함께검토/추가폼취소/저장실패 native는 미수행. 실제기본값 자동덮어쓰기 없음 |
+정확 C95 Git HTML **611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a·6,930,683B**를 새로 실행했습니다. [등록4회](../.build/review132-client/c95-published-registration-four-widths/evidence.json)·[인허가/부지8회](../.build/review132-client/c95-published-permit-four-widths/evidence.json) 기본12회, [후속자료 선택/원문추가·재접속2회](../.build/review132-client/c95-published-source-two-widths/evidence.json), [C95 상태전환1시나리오의4기대](../.build/review132-client/c95-published-boundary/evidence.json)입니다. **총15회 반복실행이며 15고유기능이 아닙니다.** 모두 합성 HTTP/격리 브라우저이며 운영 계정·쿠키·DB를 사용하지 않았습니다. 후속자료 함께검토/취소/실패복귀 native와 늦은응답/숨은폼 native 전수는 미수행입니다.
 
-현재 게시용 정확 HTML은 **80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833·6,929,932B**입니다. [등록4회](../.build/review132-client/source-fields-published-registration-four-widths/evidence.json)·[인허가/부지8회](../.build/review132-client/source-fields-published-permit-four-widths/evidence.json)의기본12회는 현재정확본에서 통과했습니다. 해당등록4회에서후속자료분기는 locator준비문제로미진입(verified=false)이므로 후속자료실화면 통과로승계하지 않습니다.
+C94의297 및 HTML80c1…는 당시 역사로 보존했습니다. [실제 일일수집 영수증](review132-daily-recovery.json)은 C94에서 공식1회 실행·신규26,466,252B 저장·기존판본/원장/댓글/알림/원본직원468행·권한 불변을 확인했습니다. 원천201상태 중193완료/8미완료이며 전체 daily 성공은 아닙니다. [C95 작업공간 backend55파일 동등성](../.build/review132-c95/c94-backend-source-equivalence.json)은 확인했지만 C95 source0bb279d8…·정식 배포와 공개 HTML은 별도 실제 확인했습니다. C95에서 daily를 다시 실행한 결과로 확대하지 않습니다.
 
-후속자료는 원문DOM을관측한 [별도1280/390 2회](../.build/review132-client/source-fields-extra-two-widths/evidence.json)에서 실제 '+ 입력자료 추가'로 두키 선택/후보저장·conflict/metadata·기본값전체불변·재접속을 확인했습니다. 두실행모두 entryVisible/addVisible/verified/sourceOnly=true입니다. **기본12회+별도2회의 반복실행이며 14고유기능이 아닙니다.** 모든HTTP는합성이고 원본쿠키/운영DB를쓰지않았습니다. 함께검토·취소·실패복귀 모형5개를 native로 세지 않습니다.
+[앱view 실제468행/3열·원본 전체행/ACL/RLS/정책 동일](review132-directory-live-receipt.json)은 신규사업 운영저장/인증HTTP/사용자브라우저 조회가 아닙니다. [공식npm 정확6버전 조회](review132-dependency-refresh.json) 공지0은 전체 전이의존성·플랫폼 안전성의 보장이 아닙니다. [정식보안보고](review132-security-workflow-status.md)는 계정오류로 미완료이며 원본 스캔을 보존합니다.
 
-[실제DB영수증](review132-directory-live-receipt.json)은 앱view468행·employee_id/name/email3열과 원본전체행/행수·ACL·RLS설정·정책지문 전후동일을 확인했습니다. 원본orgdb·다른서비스 권한확대0이며 이읽기결과는 신규사업 운영저장/인증HTTP/사용자브라우저 조회가 아닙니다.
+현재 보고서4유형 HTML 바이트/금액 보존은 모형 출력입니다. native PDF/운영 인쇄·플랫폼 내 JSON/XLSX 다운로드·설치Excel·전체동적 전수는 미수행입니다. C95 Excel은 현재 진행상태로 생성·검수했고 원C93을 보존했습니다. 전체 작업 완료본은 아닙니다. legal.initialize 이름 기반 최초연결은 실제충돌 미확인·기존ID/정책 임의변경 없음으로 남깁니다.
 
-[현재승인된 공식npm조회](review132-dependency-refresh.json)는 정확6버전의 bulk응답200·공지0입니다. 전이의존성/전체트리·전체플랫폼 안전성 검사는 아닙니다. 파일변경/설치·직원/업무자료전송0입니다. [정식보안보고](review132-security-workflow-status.md)는 계정보안설정오류로미완료이며 원본C93스캔을보존합니다.
+정식 C95는 소스 **0bb279d843fd8503299b6e09ad7ba646b613da7d**·배포 **dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx**입니다. [실제 공개확인](../.build/review132/public-verified-1793334941491.json)에서 HTML200·6,930,683B/SHA611d6e1f… 일치, 무로그인 업무/알림/직원API 각401을 확인했습니다. 운영 실회원 입력·새 실제사업 저장·C95 새daily 실행은 이 확인이 아닙니다. [현재 README](../README.md)도 정식C95와 REVIEW132 진행 중을 설명하며 GitHub main 감사는 root가 별도 수행합니다.
 
-정식 C94 배포ID·공개HTML/API·기존daily 복구결과는 root가확정후갱신합니다. 새C94 Excel은최종요구상태확정대기입니다. QA130-06 전체동적·설치Excel·native인쇄 미완료와 이름기반최초법인연결의미확정질문(실제충돌미확인·기존참조ID/정책임의변경없음)을유지합니다.
+[현재 진행상태 Excel](checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C95.xlsx)은 **516행·6192필드·체크427/미체크89**이며 새10중8체크·SEC/OPS2진행입니다. SHA256 **48d409ec1030fcb8179c9e5968af108f4c8b4089b3cf2bc5f847deb71a286806**,148,977B입니다. 원506행의6072값·서식·자료형·행높이 변경0, 독립 OOXML36/36·artifact재열기 성공, 요약/새10행 PNG17개 직접검수 완료입니다. marker edit1회·파일 생성/재열기 검사는 exit0이며 미리보기 종료코드1 현상은 유효 PNG/직접검수와 별도로 기록했습니다. 실제 설치Excel은 실행하지 않았습니다. [검수 증거](../.build/review132/checklist132/final-verification.json)
 
 <!-- REVIEW131-START -->
 ## REVIEW131 — C93 정식·새6요구 명시범위 수락

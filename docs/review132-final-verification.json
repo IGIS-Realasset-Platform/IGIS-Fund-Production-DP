@@ -1,11 +1,16 @@
 {
   "version": "0.13.0",
   "candidate": "C95",
-  "status": "c95-verification-running-c94-live-preserved",
+  "status": "c95-formal-verified-source-consumer-repair-ongoing",
   "dateKST": "2026-10-30",
   "logical": {
-    "status": "current-c95-298-running",
-    "previousNotInherited": true
+    "passed": 298,
+    "failed": 0,
+    "preparationBlocked": 0,
+    "pins": 634,
+    "sourceChangedDuringRun": 0,
+    "evidence": "docs/review132-qa-full-2026-10-30T04-00-23.909Z.json",
+    "sha256": "d979a7f2154710f6f58d6d4bd88938d215c2bfb0a7e730a9a78ab496ce1dbe98"
   },
   "rawLocalHtml": {
     "sha256": "737d674fd758ee8c7092e7bb3b6d9bc20311512f6af02ff6041d337da7469743",
@@ -15,8 +20,18 @@
   "gitProductionHtml": {
     "sha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
     "bytes": 6930683,
-    "status": "exact-native-verification-running",
-    "counting": "Viewport/role executions are not unique platform features."
+    "status": "exact-native-and-public-production-verified",
+    "counting": "Viewport/role executions are not unique platform features.",
+    "nativeCounts": {
+      "registrationViewportRuns": 4,
+      "permitViewportRoleRuns": 8,
+      "sourceFollowupViewportRuns": 2,
+      "stateTransitionRuns": 1,
+      "stateTransitionExpectations": 4,
+      "totalExecutions": 15,
+      "notUniqueFeatureCount": true
+    },
+    "evidence": "docs/review132-c95-input-boundaries.json"
   },
   "directoryDatabase": {
     "status": "applied-and-readonly-verified",
@@ -60,23 +75,18 @@
     "operationalWrites": 0,
     "notCountedAsProductFailureOrAcceptance": true
   },
-  "postFreezeWhitespaceOnly": {
-    "file": "tests/review132-finance-html-escaping.mjs",
-    "change": "Removed one blank line at EOF for Git check; executable content unchanged.",
-    "recheckPassed": 11,
-    "recheckFailed": 0,
-    "productSourceChanged": false,
-    "evidence": ".build/review132/finance-after-eof.json"
-  },
   "liveRelease": {
-    "status": "c95-candidate-c94-still-live",
-    "productionDeploymentId": "dpl_9hUe4fFiTxWzeaWBwdXFgJtpYMS2",
+    "status": "formal-exact-verified",
+    "productionDeploymentId": "dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx",
+    "previewDeploymentId": "dpl_BEDYiYkXMPBQV7byerbhwQXQZW72",
+    "sourceCommit": "0bb279d843fd8503299b6e09ad7ba646b613da7d",
+    "publicEvidence": ".build/review132/public-verified-1793334941491.json",
     "newLiveProjectRegistration": "not-executed"
   },
   "outputScope": {
     "normalReportHtmlFourTypes": "Independent original comparison passed in report regressions.",
     "newNativePdfPrint": "not-executed",
-    "newChecklistXlsx": "C95 preparation only; authoring not started",
+    "newChecklistXlsx": "C95 current-progress workbook authoring pending MD synchronization",
     "originalBusinessWorkbooks": "unchanged"
   },
   "allPlatformAllStatesAccepted": false,
@@ -102,5 +112,22 @@
     "evidence": "docs/review132-daily-recovery.json",
     "originalBusinessDataPreserved": true,
     "allSourcesComplete": false
+  },
+  "ongoingSourceRecovery": {
+    "status": "original-evidence-and-runtime-consumer-reconciliation-in-progress",
+    "originalProvidedLegacyUnitCosts": 5,
+    "globalCreditObservations": 91,
+    "originalKacemQ32026Rows": 30,
+    "currentKictSeries": 20,
+    "currentKictPoints": 321,
+    "globalPublicContractObservations": 20831,
+    "companyIdentifierPartyRows": 21394,
+    "notClassifiedAsUserNonProvision": true,
+    "confirmedFrontEndDefects": [
+      "Default index selects first legacy series despite available semantic primary.",
+      "Detailed index table consumes old flat records despite matching newer official detail series."
+    ],
+    "legacyUnitCostLossClaimRejected": "All five source records exist in global view and historical publications; exact sensitive DB-value equality remains unverified.",
+    "sourceIdentityPolicy": "No company-name-only promotion or budget-to-actual-contract substitution."
   }
 }
