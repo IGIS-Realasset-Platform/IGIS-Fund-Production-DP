@@ -1,12 +1,97 @@
 {
   "requirement": "AUTH132-11",
   "candidate": "C96",
-  "status": "configured-final-deployment-pending",
-  "sourceRoster": {"source": "orgdb via approved three-column app view", "matchedRows": 6, "distinctEmails": 6, "emptyEmails": 0, "existingAccountsAtPreparation": 0, "identitiesPublished": false},
-  "configuration": {"key": "DP_SAMPLE_VIEWER_EMAILS", "type": "sensitive", "targets": ["preview", "production"], "addedEntries": 1, "existingEntriesPreserved": 18, "oldAllowlistChanged": false, "actualBuildAccessCounts": "pending"},
-  "effectiveAccess": {"approvedSampleProjects": 3, "role": "viewer", "allBusinessWrites": "denied", "globalReferenceDirectoryLawComments": "denied", "personalNotificationState": "own approved-sample sources only", "snapshotArchiveBodies": "same approved IDs and strict source markers required", "regularUsers": "existing policy and response shape preserved"},
-  "verification": {"serverPolicyChecks": 15, "actualBetterAuthWithoutSendingChecks": 5, "clientChecks": 23, "backendAdjacentSuites": 29, "lateUnauthorizedResponseIndependentChecks": 2, "allListedPassed": true, "fullLogical": "pending", "exactPublishedNative": "pending"},
-  "activation": {"newSensitiveRosterConfigured": true, "newCodeDeployed": false, "realStaffSignupLoginExecuted": false, "accountOrPasswordPrecreated": false, "invitationsOrMessagesSent": 0, "businessDatabaseWrites": 0, "originalOrgdbWrites": 0},
-  "privacy": {"rosterStoredInSourceTestsDocs": false, "oldSensitiveRosterDecrypted": false, "publicBaselineFixture": "Exact already-public C95 validation function, no runtime values; source blob and function digest independently matched before adding to public manifest."},
-  "counting": "Suite runs, semantic assertions and viewport executions are different units and are not summed as distinct product features."
+  "status": "configured-and-formal-deployed",
+  "sourceRoster": {
+    "source": "orgdb via approved three-column app view",
+    "matchedRows": 6,
+    "distinctEmails": 6,
+    "emptyEmails": 0,
+    "existingAccountsAtPreparation": 0,
+    "identitiesPublished": false
+  },
+  "configuration": {
+    "key": "DP_SAMPLE_VIEWER_EMAILS",
+    "type": "sensitive",
+    "targets": [
+      "preview",
+      "production"
+    ],
+    "addedEntries": 1,
+    "existingEntriesPreserved": 18,
+    "oldAllowlistChanged": false,
+    "actualBuildAccessCounts": {
+      "regularCount": 12,
+      "sampleCount": 6,
+      "unionCount": 18,
+      "overlapCount": 0
+    }
+  },
+  "effectiveAccess": {
+    "approvedSampleProjects": 3,
+    "role": "viewer",
+    "allBusinessWrites": "denied",
+    "globalReferenceDirectoryLawComments": "denied",
+    "personalNotificationState": "own approved-sample sources only",
+    "snapshotArchiveBodies": "same approved IDs and strict source markers required",
+    "regularUsers": "existing policy and response shape preserved"
+  },
+  "verification": {
+    "serverPolicyChecks": 15,
+    "actualBetterAuthWithoutSendingChecks": 5,
+    "clientChecks": 23,
+    "backendAdjacentSuites": 29,
+    "lateUnauthorizedResponseIndependentChecks": 2,
+    "allListedPassed": true,
+    "fullLogical": {
+      "passed": 303,
+      "failed": 0,
+      "preparationBlocked": 0,
+      "sourcePins": 642,
+      "evidence": "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json"
+    },
+    "exactPublishedNative": {
+      "htmlSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1",
+      "bytes": 6936956,
+      "marketExecutions": 6,
+      "sampleExecutions": 2,
+      "pageErrors": 0,
+      "status": "passed"
+    }
+  },
+  "activation": {
+    "newSensitiveRosterConfigured": true,
+    "newCodeDeployed": true,
+    "realStaffSignupLoginExecuted": false,
+    "accountOrPasswordPrecreated": false,
+    "invitationsOrMessagesSent": 0,
+    "businessDatabaseWrites": 0,
+    "originalOrgdbWrites": 0
+  },
+  "privacy": {
+    "rosterStoredInSourceTestsDocs": false,
+    "oldSensitiveRosterDecrypted": false,
+    "publicBaselineFixture": "Exact already-public C95 validation function, no runtime values; source blob and function digest independently matched before adding to public manifest."
+  },
+  "counting": "Suite runs, semantic assertions and viewport executions are different units and are not summed as distinct product features.",
+  "preview": {
+    "deploymentId": "dpl_DAbfzca9987r3PNR6YFHu7zGpJY2",
+    "sourceCommit": "fbcdd28f55e268f90d6bfe4b7b2195f5e404f021",
+    "state": "READY",
+    "mailConnection": "verified",
+    "actualAccessCount": 18
+  },
+  "production": {
+    "deploymentId": "dpl_2hXjd2G7ffxzgYV5bHyAAmrsR3Fh",
+    "sourceCommit": "fbcdd28f55e268f90d6bfe4b7b2195f5e404f021",
+    "state": "READY",
+    "publicArtifactSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1",
+    "actualBuildAccessCounts": {
+      "regularCount": 12,
+      "sampleCount": 6,
+      "unionCount": 18,
+      "overlapCount": 0
+    },
+    "publicEvidence": ".build/review132/public-verified-1793342678411.json"
+  }
 }

@@ -8,12 +8,12 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review132-c96-prepared-final-qa-and-deployment-pending",
+  "status": "review132-c96-formal-exact-verified",
   "preparedAt": "2026-10-30",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
-  "actualBrowser": "C96 exact final artifact native recheck in progress; C95 historical checks remain historical.",
-  "actualAuthenticatedServer": "Additional six approved staff configured in a separate sensitive sample-only roster. Existing allowlist metadata unchanged; actual signup not executed.",
+  "actualBrowser": "Exact final C96 Git HTML: market6 and sample2 viewport runs, errors0. Real staff session and operational CUA not executed.",
+  "actualAuthenticatedServer": "Actual Preview/Production builds: regular12/sample6/union18/overlap0. Exact public artifact and unauthenticated API401 verified. Real staff signup/login not executed.",
   "previousRelease": {
     "version": "0.13.0",
     "candidate": "C95",
@@ -38,14 +38,25 @@
   "review132": {
     "spec": "docs/review132-c96-spec.md",
     "fullRegression": {
-      "status": "final-run-pending"
+      "passed": 303,
+      "failed": 0,
+      "preparationBlocked": 0,
+      "sourcePins": 642,
+      "sourceChanged": 0,
+      "evidence": "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json"
     },
     "businessDataInArtifact": false,
     "sourcePrivacyTransform": "Exactly four existing inactive demo reference anonymizations.",
     "sampleAccess": "docs/review132-sample-viewer-spec.md",
     "c96": "Market primary/detail/base metadata consumers and six additional sample-only viewers; stale unauthorized responses cannot end a newer session.",
     "deployment": {
-      "status": "not-deployed"
+      "productionId": "dpl_2hXjd2G7ffxzgYV5bHyAAmrsR3Fh",
+      "previewId": "dpl_DAbfzca9987r3PNR6YFHu7zGpJY2",
+      "sourceCommit": "fbcdd28f55e268f90d6bfe4b7b2195f5e404f021",
+      "publicObservation": ".build/review132/public-verified-1793342678411.json",
+      "productionPublicHtmlSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1",
+      "previewHtmlSha256": "0196a1eea6338706e6022116f4e16cfe9270c87b0fd8ba1d7c7f060fb0f4372a",
+      "approvedArtifactSha256": "0196a1eea6338706e6022116f4e16cfe9270c87b0fd8ba1d7c7f060fb0f4372a"
     }
   }
 }

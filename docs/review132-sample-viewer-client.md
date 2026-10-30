@@ -27,3 +27,5 @@
 | tests/review132-sample-viewer-client.mjs | `d4d2c3cebdf59fb67131612e01506912908bc64065ffd7ae51cef4c443cc704f` |
 
 실제 native 검사는 기존 격리 Edge·승인된 과거 합성 샘플 fixture·HTTP 전량 가로채기 패턴을 재사용한 `.build/review132-client/sample-native.mjs`로 수행합니다. 운영 쿠키·실제 회원·DB를 사용하지 않습니다. 마지막401 보완 전 정확 Git HTML636a9386…에서 1280/390 각7조회화면·3프로젝트·전역요청0·일반→샘플→일반 재진입2/2를 확인했으며 이 증거는 중간본으로 보존합니다. 마지막401 보완이 포함된 최종 Git HTML의 새 native 결과는 별도로 연결합니다.
+
+최종 게시용 Git HTML `63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1`(6,936,956바이트)에서 위 샘플2흐름을 다시 실행해2/2 통과했습니다. 실제 부팅·조회·로그아웃/다른 합성 계정 로그인으로 1280/390 각각7조회화면·3샘플사업·benchmark 전역패널0·전역 API 요청0·일반계정 메뉴 복귀를 확인했습니다. 페이지 오류와 업무쓰기0입니다. 증거는 `.build/review132-client/c96-release-sample/evidence.json`이며 이전636a/59c 중간본 증거는 별도로 보존합니다. 현재 실제6명 계정·메일·OTP·운영 화면/DB의 검수는 이 격리 결과에 포함하지 않습니다.

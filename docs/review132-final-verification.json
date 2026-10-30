@@ -1,37 +1,33 @@
 {
   "version": "0.13.0",
-  "candidate": "C95",
-  "status": "c95-formal-verified-source-consumer-repair-ongoing",
+  "candidate": "C96",
+  "status": "formal-exact-verified-sample-access",
   "dateKST": "2026-10-30",
   "logical": {
-    "passed": 298,
+    "passed": 303,
     "failed": 0,
     "preparationBlocked": 0,
-    "pins": 634,
+    "pins": 642,
     "sourceChangedDuringRun": 0,
-    "evidence": "docs/review132-qa-full-2026-10-30T04-00-23.909Z.json",
-    "sha256": "d979a7f2154710f6f58d6d4bd88938d215c2bfb0a7e730a9a78ab496ce1dbe98"
+    "evidence": "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+    "sha256": "3da54ffb2661b37e47b17ec4373c1d15cd7b089f1c88e491446100861874d18f"
   },
   "rawLocalHtml": {
-    "sha256": "737d674fd758ee8c7092e7bb3b6d9bc20311512f6af02ff6041d337da7469743",
-    "bytes": 6930719,
-    "scope": "Current source raw build; four existing inactive demo references are anonymized for public Git."
+    "sha256": "e06b9d4121fc5d039a51c9a78f2b16b81d4caf4ac6fca1b2ff9a5d15f563f634",
+    "bytes": 6936992,
+    "scope": "Raw final source; four inactive demo references anonymized in Git."
   },
   "gitProductionHtml": {
-    "sha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
-    "bytes": 6930683,
+    "sha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1",
+    "bytes": 6936956,
     "status": "exact-native-and-public-production-verified",
-    "counting": "Viewport/role executions are not unique platform features.",
     "nativeCounts": {
-      "registrationViewportRuns": 4,
-      "permitViewportRoleRuns": 8,
-      "sourceFollowupViewportRuns": 2,
-      "stateTransitionRuns": 1,
-      "stateTransitionExpectations": 4,
-      "totalExecutions": 15,
+      "marketViewportRuns": 6,
+      "sampleViewportRuns": 2,
+      "totalExecutions": 8,
       "notUniqueFeatureCount": true
     },
-    "evidence": "docs/review132-c95-input-boundaries.json"
+    "evidence": "docs/review132-c96-market.json"
   },
   "directoryDatabase": {
     "status": "applied-and-readonly-verified",
@@ -43,7 +39,11 @@
       "name",
       "email"
     ],
-    "originalSchemaPrivilegesExpanded": false
+    "originalSchemaPrivilegesExpanded": false,
+    "verifiedAsOf": "2026-10-30T01:30:08.092Z",
+    "scope": "Historical directory migration/C94 full preservation receipt. C96 read the six approved staff through this view but did not repeat the full original-row/ACL/RLS comparison.",
+    "followupHistoricalEvidence": "docs/review132-daily-recovery.json",
+    "currentC96FullSourceRecomparison": false
   },
   "notificationContract": {
     "general": "Project-scoped titled audit events; users who can read the project, including the author. Manager assignment is not a recipient list.",
@@ -55,8 +55,8 @@
   },
   "preservation": {
     "businessAmountsAndPastSnapshots": "Current isolated regression passed; production business writes not performed by this verification.",
-    "orgdb": "Actual before/after complete row digest, count, ACL, RLS flags and policy digest equal.",
-    "otherServices": "No other service/schema/auth configuration changed."
+    "orgdb": "No orgdb writes in C96. Full row/ACL/RLS preservation comparison belongs to the historical C94 receipt, not a new sensitive-value comparison.",
+    "otherServices": "No other service/schema/shared Auth changed. A separate sensitive app roster was added in Preview/Production; existing18 environment entries and old allowlist metadata preserved."
   },
   "securityFormalReport": {
     "status": "formal-verification-pending",
@@ -80,16 +80,17 @@
   },
   "liveRelease": {
     "status": "formal-exact-verified",
-    "productionDeploymentId": "dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx",
-    "previewDeploymentId": "dpl_BEDYiYkXMPBQV7byerbhwQXQZW72",
-    "sourceCommit": "0bb279d843fd8503299b6e09ad7ba646b613da7d",
-    "publicEvidence": ".build/review132/public-verified-1793334941491.json",
-    "newLiveProjectRegistration": "not-executed"
+    "productionDeploymentId": "dpl_2hXjd2G7ffxzgYV5bHyAAmrsR3Fh",
+    "previewDeploymentId": "dpl_DAbfzca9987r3PNR6YFHu7zGpJY2",
+    "sourceCommit": "fbcdd28f55e268f90d6bfe4b7b2195f5e404f021",
+    "publicEvidence": ".build/review132/public-verified-1793342678411.json",
+    "newLiveProjectRegistration": "not-executed",
+    "realStaffSignupLogin": "not-executed"
   },
   "outputScope": {
     "normalReportHtmlFourTypes": "Independent original comparison passed in report regressions.",
     "newNativePdfPrint": "not-executed",
-    "newChecklistXlsx": "C95 current-progress workbook authoring pending MD synchronization",
+    "newChecklistXlsx": "C96 current progress export pending; completed historical C95 workbook preserved.",
     "originalBusinessWorkbooks": "unchanged"
   },
   "allPlatformAllStatesAccepted": false,
@@ -117,20 +118,59 @@
     "allSourcesComplete": false
   },
   "ongoingSourceRecovery": {
-    "status": "original-evidence-and-runtime-consumer-reconciliation-in-progress",
-    "originalProvidedLegacyUnitCosts": 5,
-    "globalCreditObservations": 91,
-    "originalKacemQ32026Rows": 30,
-    "currentKictSeries": 20,
-    "currentKictPoints": 321,
-    "globalPublicContractObservations": 20831,
-    "companyIdentifierPartyRows": 21394,
-    "notClassifiedAsUserNonProvision": true,
-    "confirmedFrontEndDefects": [
-      "Default index selects first legacy series despite available semantic primary.",
-      "Detailed index table consumes old flat records despite matching newer official detail series."
-    ],
-    "legacyUnitCostLossClaimRejected": "All five source records exist in global view and historical publications; exact sensitive DB-value equality remains unverified.",
-    "sourceIdentityPolicy": "No company-name-only promotion or budget-to-actual-contract substitution."
+    "marketConsumerDefects": "C96 implemented and exact native verified: unique primary, matching detail table and base metadata.",
+    "legacyRecords": "Legacy unit-cost5/KACEM30 and old/current indices preserved; source claims are not independently verified contract amounts.",
+    "externalRemaining": "G2B real failed row unavailable; official ten-field DOCX examples pass current parser. KACEM TLS/format, unconnected verified DART identities and evidence remain incomplete.",
+    "allExternalSourcesComplete": false
+  },
+  "historicalC95": {
+    "logical": {
+      "passed": 298,
+      "failed": 0,
+      "preparationBlocked": 0,
+      "pins": 634,
+      "sourceChangedDuringRun": 0,
+      "evidence": "docs/review132-qa-full-2026-10-30T04-00-23.909Z.json",
+      "sha256": "d979a7f2154710f6f58d6d4bd88938d215c2bfb0a7e730a9a78ab496ce1dbe98"
+    },
+    "gitProductionHtml": {
+      "sha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
+      "bytes": 6930683,
+      "status": "exact-native-and-public-production-verified",
+      "counting": "Viewport/role executions are not unique platform features.",
+      "nativeCounts": {
+        "registrationViewportRuns": 4,
+        "permitViewportRoleRuns": 8,
+        "sourceFollowupViewportRuns": 2,
+        "stateTransitionRuns": 1,
+        "stateTransitionExpectations": 4,
+        "totalExecutions": 15,
+        "notUniqueFeatureCount": true
+      },
+      "evidence": "docs/review132-c95-input-boundaries.json"
+    },
+    "liveRelease": {
+      "status": "formal-exact-verified",
+      "productionDeploymentId": "dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx",
+      "previewDeploymentId": "dpl_BEDYiYkXMPBQV7byerbhwQXQZW72",
+      "sourceCommit": "0bb279d843fd8503299b6e09ad7ba646b613da7d",
+      "publicEvidence": ".build/review132/public-verified-1793334941491.json",
+      "newLiveProjectRegistration": "not-executed"
+    }
+  },
+  "sampleAccess": {
+    "requirement": "AUTH132-11",
+    "status": "configured-and-deployed",
+    "accessPolicyCounts": {
+      "regularCount": 12,
+      "sampleCount": 6,
+      "unionCount": 18,
+      "overlapCount": 0
+    },
+    "role": "strict-three-sample-viewer",
+    "accountCreation": 0,
+    "messagesSent": 0,
+    "businessWrites": 0,
+    "evidence": "docs/review132-sample-viewer-verification.json"
   }
 }
