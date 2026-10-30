@@ -1,0 +1,85 @@
+{
+  "version": "0.13.0",
+  "candidate": "C94",
+  "status": "release-candidate-verified-live-stage-pending",
+  "dateKST": "2026-10-30",
+  "logical": {
+    "passed": 296,
+    "failed": 0,
+    "preparationBlocked": 0,
+    "sourceChangedDuringRun": 0,
+    "evidence": "docs/review132-qa-full-2026-10-30T01-47-07.582Z.json"
+  },
+  "rawLocalHtml": {
+    "sha256": "7c4d131c69038fecc54941c3611d6541282bac0fc7ee535830ab7c8ca79d8b4d",
+    "bytes": 6929824,
+    "nativeRegistrationFlows": 4,
+    "nativePermitLandFlows": 8,
+    "viewports": [
+      "1280x800",
+      "1440x900",
+      "1600x1000",
+      "390x844"
+    ],
+    "pageErrors": 0,
+    "buttonTextOverflow": 0
+  },
+  "gitProductionHtml": {
+    "sha256": "b6c0e651f117e917db4219d37aaebc849a7f38b87479e461db2b5579c8b2373d",
+    "bytes": 6929788,
+    "sourcePrivacyDifference": "Only the four existing inactive demo reference anonymizations, each applied once. Applying them to the raw local HTML yields identical Git HTML bytes.",
+    "nativeExactGitVerification": "passed-registration4-permit8-pageerror0",
+    "evidence": [
+      ".build/review132-client/published-exact-registration-four-widths/evidence.json",
+      ".build/review132-client/published-exact-permit-four-widths/evidence.json"
+    ]
+  },
+  "directoryDatabase": {
+    "status": "applied-and-readonly-verified",
+    "evidence": "docs/review132-directory-live-receipt.json",
+    "originalSourceUnchanged": true,
+    "employeeCount": 468,
+    "projectViewColumns": [
+      "employee_id",
+      "name",
+      "email"
+    ],
+    "originalSchemaPrivilegesExpanded": false
+  },
+  "notificationContract": {
+    "general": "Project-scoped titled audit events; users who can read the project, including the author. Manager assignment is not a recipient list.",
+    "quarterly": "Scheduled quarterly tasks with project permissions and per-quarter uniqueness.",
+    "laws": "Project watch plus eligible law change, filtered by current project read access.",
+    "personalState": "Read/dismiss/restore belongs to the authenticated user. It does not change business data.",
+    "delivery": "In-app fetch on authentication, opening notifications and qualifying reactivation. No email/SMS/push delivery is implemented.",
+    "evidence": "docs/review132-notifications.md"
+  },
+  "preservation": {
+    "businessAmountsAndPastSnapshots": "Current isolated regression passed; production business writes not performed by this verification.",
+    "orgdb": "Actual before/after complete row digest, count, ACL, RLS flags and policy digest equal.",
+    "otherServices": "No other service/schema/auth configuration changed."
+  },
+  "securityFormalReport": {
+    "status": "formal-verification-pending",
+    "sealedReportGenerated": false,
+    "notSubstitutedByProductTests": true
+  },
+  "externalDependencyRefresh": {
+    "status": "fresh-external-advisory-check-not-executed",
+    "priorAuditNotInheritedAsCurrent": true
+  },
+  "liveRelease": {
+    "status": "pending",
+    "productionDeploymentId": null,
+    "previewDeploymentId": null,
+    "dailyRecovery": "pending-new-code-deployment-and-one-existing-daily-run",
+    "newLiveProjectRegistration": "not-executed"
+  },
+  "outputScope": {
+    "normalReportHtmlFourTypes": "Independent original comparison passed in report regressions.",
+    "newNativePdfPrint": "not-executed",
+    "newChecklistXlsx": "in-preparation",
+    "originalBusinessWorkbooks": "unchanged"
+  },
+  "allPlatformAllStatesAccepted": false
+}

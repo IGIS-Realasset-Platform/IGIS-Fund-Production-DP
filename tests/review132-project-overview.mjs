@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {makeHarness} from './recovery-harness.mjs';
+import {projectRegistrationProfileErrors} from '../shared/project-registration-profile.mjs';
+const {A}=makeHarness({modules:['core','cbs','contracts','setup'],seed:{projects:[]}});
+for(const init of A.initializers)init(A.state);
+const employees=[{employeeId:'QA001',name:'동명이인',email:'one@example.invalid'},{employeeId:'QA002',name:'동명이인',email:null}];
+const input={id:'QA132_NEW',name:'독립 등록 사례',type:'오피스',location:'서울 중구 가상 주소',operator:'가상 시행법인',managerEmployeeId:'QA002',fundName:'이지스 가상 개발 일반사모부동산투자신탁 제132호',financeStructure:'자기자본 및 본PF, 상세 약정은 별도 확인',gfaTotal:'0',siteArea:'1200',acquisitionLandArea:'1200',evidenceSource:'독립 원문',evidenceLocation:'사업개요 1쪽',evidenceAsOf:'2026-10-30',evidencePath:'QA/개요'};
+const profile='development-overview-v2',checks=[];
+function check(name,run){try{run();checks.push({name,status:'pass'});}catch(e){checks.push({name,status:'fail',message:e.message});}}
+check('신규 등록 양식은 펀드 정식명·파이낸스 구조·직원 직접선택을 제공',()=>{const html=A.projectRegistration.formFields(input,{profile,employees});for(const key of ['fundName','financeStructure','managerEmployeeId'])assert(html.includes('name="'+key+'"'),key+' 입력란 누락');assert(!html.includes('name="manager"'));});
+check('원천번호로 이메일 없는 동명이인을 정확히 선택',()=>{const v=A.projectRegistration.validateOverview(input,{employees});assert.equal(v.valid,true);assert.equal(v.normalized.manager,'동명이인');assert.equal(v.normalized.managerRef.employeeId,'QA002');assert.equal(v.normalized.managerRef.email,null);assert.equal(v.normalized.gfaTotal,0);});
+check('펀드명·조달 구조·직원 선택은 각 필드에서 누락 차단',()=>{const v=A.projectRegistration.validateOverview({...input,fundName:'',financeStructure:'',managerEmployeeId:''},{employees});for(const key of ['fundName','financeStructure','managerEmployeeId'])assert(v.errors[key],key);});
+check('이름만 같거나 임의 이메일로 담당자를 생성하지 않음',()=>{const v=A.projectRegistration.validateOverview({...input,managerEmployeeId:'없음',manager:'동명이인',managerRef:{employeeId:'QA001',name:'동명이인',email:'fake@example.invalid'}},{employees});assert.equal(v.valid,false);assert(v.errors.managerEmployeeId);});
+check('원천 조회 실패·부재는 빈 담당자로 정상 등록하지 않음',()=>{const v=A.projectRegistration.validateOverview(input,{employees:[]});assert.equal(v.valid,false);assert(v.errors.managerEmployeeId);});
+check('v2 확정은 설명·직원 참조를 보존하고 대출·출자·금액을 생성하지 않음',()=>{const p=A.projectRegistration.register(input,'',{profile,employees,navigate:false});assert.equal(p.basic.fundName,input.fundName);assert.equal(p.basic.financeStructure,input.financeStructure);assert.equal(p.basic.managerRef.employeeId,'QA002');assert.equal(p.registrationInput.profile,profile);assert.equal(p.loans.length,0);assert.equal(p.equities.length,0);assert(p.cbs.every(x=>x.current==null&&x.initial==null));});
+check('등록 초안과 재개는 담당자 원천번호·원문·0을 보존',()=>{const d=A.projectRegistration.saveDraft({...input,id:'QA132_DRAFT'});assert.equal(d.values.managerEmployeeId,'QA002');assert.equal(d.values.fundName,input.fundName);assert.equal(d.values.gfaTotal,'0');assert(!A.state.projects.some(p=>p.id==='QA132_DRAFT'));});
+check('실제 새 양식 생성값은 같은 서버 필수 정의를 만족',()=>{const p=A.state.projects.find(x=>x.id==='QA132_NEW');assert(p);assert.equal(projectRegistrationProfileErrors({projects:[]},{projects:[p]}).length,0);for(const key of ['fundName','financeStructure']){const q=structuredClone(p);q.basic[key]='';assert(projectRegistrationProfileErrors({projects:[]},{projects:[q]}).some(x=>x.field==='basic.'+key));assert(A.projectRegistration.validateOverview({...input,[key]:''},{employees,checkId:false}).errors[key]);}});
+check('지나치게 긴 값과 제어문자는 같은 입력 경계에서 거절',()=>{for(const fundName of ['가'.repeat(501),'정식명\u0000']){const value=A.projectRegistration.validateOverview({...input,fundName},{employees,checkId:false});assert(value.errors.fundName);}});
+console.log(JSON.stringify({scope:'isolated current modules; no network/production database',count:checks.length,passed:checks.filter(x=>x.status==='pass').length,checks},null,2));
+if(checks.some(x=>x.status==='fail'))process.exitCode=1;

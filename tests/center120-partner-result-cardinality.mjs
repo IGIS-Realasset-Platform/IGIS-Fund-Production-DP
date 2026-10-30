@@ -17,5 +17,5 @@ check('미정의 고정출처·9번째통계출처·6번째순위출처는 차�
 check('결과수상한과별개로 외부요청200·수신32MiB상한유지',()=>{rejected(r=>r.requestedCount=201);rejected(r=>r.limits.bytes=32*1024*1024+1);});
 check('623개분모보다큰반환은접수하지않음',()=>rejected(r=>r.sourceResults.push({...r.sourceResults[0]})));
 check('완료수·상태가거짓인결과는거부',()=>{const r=full();r.checkedCount--;assert.throws(()=>validate(r,previous,{}),/PARTNER_RESULT_INVALID/);rejected(r=>r.sourceResults[0].complete=false);});
-const code=await fs.readFile('server/maintenance-runtime.mjs','utf8');assert.match(code,/Math\.min\(70000,\s*remaining\(\)\s*-\s*20000\)/);assert.match(code,/requestLimit:200/);
+const code=await fs.readFile('server/maintenance-runtime.mjs','utf8');assert.match(code,/Math\.min\(70000,\s*remaining\(\)\s*-\s*40000\)/);assert.match(code,/requestLimit:200/);
 console.log(JSON.stringify({passed:n,realNetwork:false,realDatabase:false,resourceLimitsNotIncreased:true}));

@@ -1,0 +1,938 @@
+{
+  "resumed20261030": {
+    "publishedArtifactVerification": {"htmlPath": ".build/github-release-review132/.build/review132/c94-production.html", "htmlSha256": "b6c0e651f117e917db4219d37aaebc849a7f38b87479e461db2b5579c8b2373d", "bytes": 6929788, "rawHtmlSha256": "7c4d131c69038fecc54941c3611d6541282bac0fc7ee535830ab7c8ca79d8b4d", "rawBytes": 6929824, "relation": "Only four exact-once inactive src/partners.js demo path/filename anonymizations from prepare-github-release.mjs; actual connected source unchanged and included by the runners.", "evidence": [".build/review132-client/published-exact-registration-four-widths/evidence.json", ".build/review132-client/published-exact-permit-four-widths/evidence.json"], "registrationPassed": 4, "permitAndLandPassed": 8, "failed": 0, "pageErrors": 0, "registrationScreenshotByteIdenticalWidths": [1280,1440,1600,390], "sourceOrTestChanges": 0, "allHTTPIntercepted": true, "actualDB": false, "actualUserCookies": false},
+    "scope": "Current core scheduling model rerun and linked actual isolated UI checks, not a whole-platform timing or dynamic-state acceptance.",
+    "coreSha256": "2016fac30b19a37dc7fe4639eede5ddcd5c889d52d06ca6c5ef4fdee6700956d",
+    "earlierSchedulingOnlyCoreSha256": "e3287e59d6c917f406d33240731463b8b04d418dcaf4ce0d73174c74ff06dd85",
+    "test": "tests/review132-client-render.mjs", "passed": 11, "failed": 0,
+    "actualUiEvidence": [".build/review132-client/frozen-permit-four-widths/evidence.json", ".build/review132-client/frozen-registration-four-widths/evidence.json"],
+    "actualBrowserFlows": 12, "flowKinds": {"permitAndLand": 8, "registrationAndOverview": 4}, "htmlSha256": "7c4d131c69038fecc54941c3611d6541282bac0fc7ee535830ab7c8ca79d8b4d", "allHTTPIntercepted": true, "actualDB": false,
+    "fieldNameRegression": {"test": "tests/review132-ui-field-names.mjs", "redFailed": 7, "passed": 7, "failed": 0, "change": "A.field input/select/textarea preserve their original Korean name via explicit aria-label. Existing describedby errors, visible labels/types/values/layout remain. Only those three literal template attributes are excluded from the historical C93 byte-equivalence check."},
+    "historicalInventory": "The module inventory below is the earlier literal source snapshot, not a refreshed hash inventory of later registration/report changes."
+  },
+  "review": "REVIEW132",
+  "baseline": "C93 currentsource1166 runtime, UI unchanged requirement",
+  "scope": "Literal source inventory; registered events/conditional paths are not all executed behavior",
+  "modules": [
+    {
+      "file": "src/audit-view.js",
+      "sha256": "2f025816aa4f4b9a65b251f52be60f959d88899e5cb5574ce4e60d3370b69c18",
+      "lines": 92,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cbs-model-v0118.js",
+      "sha256": "2336f2d6ff3702ca04da166079b664cead36d7e2f1baf3deb747fa3d856529ed",
+      "lines": 107,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cbs-purpose.js",
+      "sha256": "065edcb0ce2f413a4a68100ed3601a5b480e48a16760db644975c7355203b9b9",
+      "lines": 51,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cbs.js",
+      "sha256": "03d46577ae6e041e9ee2774fcc4bfa838aa85f2ba132c1666f706e8bc93c9552",
+      "lines": 678,
+      "events": [
+        "toggle",
+        "click",
+        "scroll",
+        "change",
+        "input",
+        "change",
+        "input",
+        "change",
+        "keydown",
+        "dragstart",
+        "dragover",
+        "drop",
+        "dragend",
+        "pointerdown",
+        "pointermove",
+        "pointerup",
+        "keydown"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 17,
+      "rafCalls": 0,
+      "timeoutCalls": 2,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/chart-utils.js",
+      "sha256": "42bbf109f72f482ecb3a1468e0092992c90276ac09d84124d0d838f9b6ece3e5",
+      "lines": 37,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cloud-session.js",
+      "sha256": "aba0fddbdae411beea031165adb65252bfa96cfa2904c1f71bf7c925c64e4163",
+      "lines": 60,
+      "events": [
+        "submit"
+      ],
+      "apiPaths": [
+        "/api/auth-code",
+        "/api/auth-login",
+        "/api/auth-verify",
+        "/api/session",
+        "/api/workspace"
+      ],
+      "fetchCalls": 1,
+      "renderCalls": 2,
+      "rafCalls": 0,
+      "timeoutCalls": 1,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/contracts.js",
+      "sha256": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658",
+      "lines": 666,
+      "events": [
+        "toggle",
+        "keydown",
+        "change",
+        "input",
+        "compositionend",
+        "inline-committed"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 10,
+      "rafCalls": 3,
+      "timeoutCalls": 1,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/core.js",
+      "sha256": "a704d74f7cf20f48121a8aa1126755b2ef14b9d746450b8b779707003db7346d",
+      "lines": 416,
+      "events": [
+        "pointerdown",
+        "pointermove",
+        "pointerup",
+        "pointercancel",
+        "keydown",
+        "input",
+        "change",
+        "keydown",
+        "change",
+        "keydown",
+        "input",
+        "change",
+        "input",
+        "change",
+        "keydown",
+        "blur",
+        "pointerdown",
+        "keydown",
+        "scroll",
+        "resize",
+        "toggle",
+        "cancel",
+        "input",
+        "change",
+        "beforeunload",
+        "keydown",
+        "click",
+        "change",
+        "submit",
+        "close"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 15,
+      "rafCalls": 0,
+      "timeoutCalls": 2,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-asset-presets.js",
+      "sha256": "32da5dada27e63f7b3020d28592debb3973a180869b025f3b801c797be3d9ffb",
+      "lines": 98,
+      "events": [
+        "change"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 1,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-breakdown.js",
+      "sha256": "4264151197555875c382b4b17d819e7d7091b6dfe06200f4aaaa95bdda8defa2",
+      "lines": 94,
+      "events": [
+        "input"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 1,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-catalog-identity.js",
+      "sha256": "d1bacf35d58cf4c79fb53b9fc6c4c0a24314b210af4ef60e82eee0b184b5336a",
+      "lines": 46,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-cbs-order.js",
+      "sha256": "670874866e7165e88ba09958119a8cafc088c18bf26c06485665e30b85ac6a0a",
+      "lines": 151,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-coding.js",
+      "sha256": "3fc3976de4e38e13e83483e31afc16376f2a4d80648f3542e28983bfdf0c9aaf",
+      "lines": 69,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-company-profile.js",
+      "sha256": "37ab0a0088c6867041a4eadc36988f166d3be8dc2c7a2e10a531e3ecb2abcafe",
+      "lines": 219,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-order.js",
+      "sha256": "25db373a0bd3d05d7ad5b355979f78ef736b336e23b81b97d9879fc405edcc31",
+      "lines": 198,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-snapshots.js",
+      "sha256": "ebc13054f94f530bf519ac115a2c192d62d8d821827dd77b81142fd55e26f906",
+      "lines": 102,
+      "events": [],
+      "apiPaths": [
+        "/api/cost-snapshots"
+      ],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-taxonomy.js",
+      "sha256": "e41bb31d85288b7cf9a871445869e3eb8b7ac2cedb75441d05322d88ee44c923",
+      "lines": 114,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/cost-type-master.js",
+      "sha256": "f2de9be9ee3df60565e228b51fbfc5d1cc38a35e9a089a8c4cfca85654155d92",
+      "lines": 97,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/demo.js",
+      "sha256": "eb6bb159fada0d981a96e12cfb8938f0f966362a365ff799d095a8fe49ad25fb",
+      "lines": 48,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/html-test-fixture-policy.js",
+      "sha256": "2b601a37a799f90144654d04548969ba2648fb74506d7c7231d6c67daf96b585",
+      "lines": 21,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/law-monitor.js",
+      "sha256": "2b7da2867f30af6b9fd21baa5beb6d40f51f1ade310fce005bb9c8eea1993a65",
+      "lines": 140,
+      "events": [
+        "input",
+        "change",
+        "submit"
+      ],
+      "apiPaths": [
+        "/api/law-detail",
+        "/api/law-search",
+        "/api/law-watch"
+      ],
+      "fetchCalls": 1,
+      "renderCalls": 4,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/legal.js",
+      "sha256": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802",
+      "lines": 593,
+      "events": [
+        "change",
+        "change",
+        "input",
+        "change",
+        "input"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 4,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/notifications.js",
+      "sha256": "c55f87d4b6ffeffa6281646e8f0be51f0ac578a087c7f687cbe28ca8cef7975c",
+      "lines": 42,
+      "events": [],
+      "apiPaths": [
+        "/api/notifications"
+      ],
+      "fetchCalls": 1,
+      "renderCalls": 0,
+      "rafCalls": 1,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/notion-addon.js",
+      "sha256": "f0ba40104a0eaa00ca46abcd3793c135d9e8ac290555c325e8b5bc316d8945a9",
+      "lines": 30,
+      "events": [],
+      "apiPaths": [
+        "/api/notion-source"
+      ],
+      "fetchCalls": 1,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/notion-projects.js",
+      "sha256": "17e70ffc6839e6f36fd33eca29f4bd2df49ea72aa24db6cd710b9b5727765e59",
+      "lines": 35,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/partners.js",
+      "sha256": "f2299de9b19dc588c7896c5e0708fe950c194de68cabef11ac9b20d02311ac84",
+      "lines": 423,
+      "events": [
+        "input",
+        "compositionend",
+        "change",
+        "keydown",
+        "keydown",
+        "keydown",
+        "change",
+        "change",
+        "toggle"
+      ],
+      "apiPaths": [
+        "/api/partner-comments"
+      ],
+      "fetchCalls": 1,
+      "renderCalls": 19,
+      "rafCalls": 3,
+      "timeoutCalls": 1,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/permit-map.js",
+      "sha256": "b77f661f494f96a0c072ca7844475a399b3a63f10263bec081d109bf03684a5a",
+      "lines": 187,
+      "events": [
+        "input",
+        "change",
+        "keydown",
+        "toggle",
+        "input",
+        "change",
+        "change"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 1,
+      "renderCalls": 3,
+      "rafCalls": 2,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/permit-views.js",
+      "sha256": "795f6b36de3eb211ce9d4b99195b45de2ee4b495c5fab4c4f716dee2a7a19cb3",
+      "lines": 81,
+      "events": [
+        "keydown",
+        "change",
+        "input"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 1,
+      "rafCalls": 1,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/recovery-views.js",
+      "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448",
+      "lines": 136,
+      "events": [
+        "input",
+        "change",
+        "input",
+        "submit",
+        "pointerover",
+        "pointerout",
+        "focusin",
+        "focusout",
+        "keydown",
+        "scroll",
+        "resize"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 7,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/reference-data.js",
+      "sha256": "59e3347867878dcf6901918b18978b1ba51bf80cbae1f1628baef8cd2669b9ac",
+      "lines": 22,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 1,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/report-continuation.js",
+      "sha256": "9b4e889d85e2efba596fcf3e69c835116faf12fe0afddf6b1bfe5b93e7272c6a",
+      "lines": 1,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/report-example.js",
+      "sha256": "ed4c4f9a37119c199fc66f562e57f5f43c942395a77e7b74f7744e8b53f50c5a",
+      "lines": 40,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/report-form.js",
+      "sha256": "e3b65cfddfd5d4b3ce84a4c88c6e18bad15179e0a58d00f905485999da4b6891",
+      "lines": 245,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/report-template.js",
+      "sha256": "ef668be658bcea854237d17afcb0aca73690d2d4663c5bd8aaa72c01ae5e8009",
+      "lines": 1,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/report.js",
+      "sha256": "5c8c1f1c611af8ebe62b527a03ab987bdedd4b25d0b5ece883459094333f5f07",
+      "lines": 393,
+      "events": [
+        "cancel",
+        "load",
+        "click",
+        "keydown",
+        "scroll",
+        "resize",
+        "dblclick",
+        "keydown",
+        "change"
+      ],
+      "apiPaths": [
+        "/api/report-archives"
+      ],
+      "fetchCalls": 1,
+      "renderCalls": 12,
+      "rafCalls": 1,
+      "timeoutCalls": 2,
+      "intervalCalls": 0,
+      "mutationObserver": 1,
+      "resizeObserver": 1
+    },
+    {
+      "file": "src/setup.js",
+      "sha256": "67edc0214984d694f643bb4cd2af854bb2867e93435e520f187e20075018435a",
+      "lines": 125,
+      "events": [
+        "change"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 1,
+      "rafCalls": 0,
+      "timeoutCalls": 1,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/spec.js",
+      "sha256": "cda57fc671d8499666cbed270e2f36a80ef52f11846099a63e07cef3aa03fbc9",
+      "lines": 974,
+      "events": [],
+      "apiPaths": [
+        "/api/auth-code",
+        "/api/auth-login",
+        "/api/auth-verify",
+        "/api/cost-snapshots",
+        "/api/law-detail",
+        "/api/law-regional",
+        "/api/law-search",
+        "/api/law-watch",
+        "/api/maintenance",
+        "/api/notifications",
+        "/api/notion-source",
+        "/api/partner-comments",
+        "/api/project-access",
+        "/api/reference-data",
+        "/api/report-archives",
+        "/api/session",
+        "/api/workspace"
+      ],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/vat.js",
+      "sha256": "b8e4a2a25b2b9e95f501acbd0fbb1393b76a5ac23f38ffb4778cb125aa6f62f5",
+      "lines": 146,
+      "events": [
+        "input",
+        "change"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    },
+    {
+      "file": "src/workspace-ux.js",
+      "sha256": "554541b55fab9d0c76c52a21b0e3597f51f47250c3aec4e85fe6cda599ed8754",
+      "lines": 54,
+      "events": [
+        "resize",
+        "resize",
+        "toggle"
+      ],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 1,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 1,
+      "resizeObserver": 1
+    },
+    {
+      "file": "src/xlsx-export.js",
+      "sha256": "0057b4af1706d1937f01ce903dc49aa7f634cb882f7e36e8af3af870dcb70712",
+      "lines": 61,
+      "events": [],
+      "apiPaths": [],
+      "fetchCalls": 0,
+      "renderCalls": 0,
+      "rafCalls": 0,
+      "timeoutCalls": 0,
+      "intervalCalls": 0,
+      "mutationObserver": 0,
+      "resizeObserver": 0
+    }
+  ],
+  "ownedFiles": [
+    "src/core.js",
+    "src/cloud-session.js",
+    "src/workspace-ux.js"
+  ],
+  "candidates": [
+    {
+      "id": "CLIENT132-01",
+      "name": "stale render scroll restoration",
+      "state": "confirmed RED5 → GREEN; same-view latest restoration preserved"
+    },
+    {
+      "id": "CLIENT132-02",
+      "name": "same-root minimum table fits repeated within one microtask turn",
+      "state": "confirmed duplicated scan RED1 → GREEN"
+    },
+    {
+      "id": "CLIENT132-03",
+      "name": "startup fetch deadline/generation cancellation",
+      "state": "read-only unresolved candidate; no new timeout policy or product change"
+    }
+  ],
+  "changes": {
+    "files": [
+      "src/core.js"
+    ],
+    "nonvisualOnly": [
+      "queueFitTableMinimums pending roots WeakSet coalescing",
+      "A.render restoration checks captured generation/project-view-tab/content identity/connected"
+    ],
+    "newUI": false,
+    "businessWrites": 0,
+    "networkCalls": 0,
+    "actualBrowserLaunches": 0
+  },
+  "evidence": {
+    "red": {
+      "suite": "review132-client-render",
+      "passed": 5,
+      "failed": 6,
+      "checks": [
+        {
+          "name": "CLIENT132-01 이전 project의 대기 스크롤은 새 화면에 적용하지 않음",
+          "passed": false,
+          "error": "Expected values to be strictly equal:\n\n700 !== 0\n"
+        },
+        {
+          "name": "CLIENT132-01 이전 view의 대기 스크롤은 새 화면에 적용하지 않음",
+          "passed": false,
+          "error": "Expected values to be strictly equal:\n\n700 !== 0\n"
+        },
+        {
+          "name": "CLIENT132-01 이전 tab의 대기 스크롤은 새 화면에 적용하지 않음",
+          "passed": false,
+          "error": "Expected values to be strictly equal:\n\n700 !== 0\n"
+        },
+        {
+          "name": "CLIENT132-01 원래 content DOM이 detached이면 뒤늦은 복원을 하지 않음",
+          "passed": false,
+          "error": "Expected values to be strictly equal:\n\n700 !== 0\n"
+        },
+        {
+          "name": "CLIENT132-01 원래 content DOM이 replaced이면 뒤늦은 복원을 하지 않음",
+          "passed": false,
+          "error": "Expected values to be strictly equal:\n\n700 !== 0\n"
+        },
+        {
+          "name": "CLIENT132-01 같은 화면의 정상 복원과 가장 최근 재렌더 값을 유지",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-02 같은 루트 10재렌더는 최종 500행 표를 한 번만 계측",
+          "passed": false,
+          "error": "Expected values to be strictly equal:\n\n10 !== 1\n"
+        },
+        {
+          "name": "CLIENT132-02 다른 dialog 루트와 새 대기열은 각각 정상 계측",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-02 계측 예약 후 편집이 시작되면 기존 입력 보호 유지",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-UI C93 기존 화면/폼/셀/표/팝업 출력 바이트 동등",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-UI C93 core 템플릿 원문31개 불변",
+          "passed": true
+        }
+      ],
+      "sourceSHA": "a704d74f7cf20f48121a8aa1126755b2ef14b9d746450b8b779707003db7346d",
+      "markupHash": "b2d400ad73d76d3fe6982140f0695b03fe1d2fa4f064341ebe76cf498518ed05",
+      "measurement": {
+        "synchronousRenders": 10,
+        "rows": 500,
+        "columns": 2,
+        "rootScans": 10,
+        "cellMeasurements": 10020
+      },
+      "scope": "Current core isolated DOM scheduling model with 500 rows. No real browser/network/DB. Check groups are not platform function totals."
+    },
+    "green": {
+      "suite": "review132-client-render",
+      "passed": 11,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "CLIENT132-01 이전 project의 대기 스크롤은 새 화면에 적용하지 않음",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-01 이전 view의 대기 스크롤은 새 화면에 적용하지 않음",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-01 이전 tab의 대기 스크롤은 새 화면에 적용하지 않음",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-01 원래 content DOM이 detached이면 뒤늦은 복원을 하지 않음",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-01 원래 content DOM이 replaced이면 뒤늦은 복원을 하지 않음",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-01 같은 화면의 정상 복원과 가장 최근 재렌더 값을 유지",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-02 같은 루트 10재렌더는 최종 500행 표를 한 번만 계측",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-02 다른 dialog 루트와 새 대기열은 각각 정상 계측",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-02 계측 예약 후 편집이 시작되면 기존 입력 보호 유지",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-UI C93 기존 화면/폼/셀/표/팝업 출력 바이트 동등",
+          "passed": true
+        },
+        {
+          "name": "CLIENT132-UI C93 core 템플릿 원문31개 불변",
+          "passed": true
+        }
+      ],
+      "sourceSHA": "e3287e59d6c917f406d33240731463b8b04d418dcaf4ce0d73174c74ff06dd85",
+      "markupHash": "b2d400ad73d76d3fe6982140f0695b03fe1d2fa4f064341ebe76cf498518ed05",
+      "measurement": {
+        "synchronousRenders": 10,
+        "rows": 500,
+        "columns": 2,
+        "rootScans": 1,
+        "cellMeasurements": 1002
+      },
+      "scope": "Current core isolated DOM scheduling model with 500 rows. No real browser/network/DB. Check groups are not platform function totals."
+    },
+    "focused": {
+      "passedSuites": 12,
+      "failedSuites": 0,
+      "sourceChanged": [],
+      "files": [
+        "tests/review132-client-render.mjs",
+        "tests/review130-table-layout.mjs",
+        "tests/review130-table-context.mjs",
+        "tests/review129-form-dirty.mjs",
+        "tests/review130-form-transition-drafts.mjs",
+        "tests/review131-form-view-context.mjs",
+        "tests/followup121-form-submit-focus.mjs",
+        "tests/followup121-form-checkable-restore.mjs",
+        "tests/cloud-session.mjs",
+        "tests/cloud-session-independent.mjs",
+        "tests/center120-inline-command-gesture.mjs",
+        "tests/center120-workspace-ux.mjs"
+      ]
+    },
+    "pins": {
+      "src/core.js": "e3287e59d6c917f406d33240731463b8b04d418dcaf4ce0d73174c74ff06dd85",
+      "src/cloud-session.js": "aba0fddbdae411beea031165adb65252bfa96cfa2904c1f71bf7c925c64e4163",
+      "src/workspace-ux.js": "554541b55fab9d0c76c52a21b0e3597f51f47250c3aec4e85fe6cda599ed8754",
+      "tests/review132-client-render.mjs": "069e52674f1fce9a38733048c271673507f02f49c7a8fcbf17f4a651bd3a0bdf"
+    }
+  },
+  "limitations": [
+    "40 source-file literal inventory is not complete dynamic path execution",
+    "Deterministic scan/cell counts are synthetic 500-row model, not browser end-to-end latency",
+    "Native UI/viewport performance must be verified by parent browser session; child browser inaccessible",
+    "UI baseline hash is bounded helper/render/modal fixture; core31 template chunks unchanged separately",
+    "Auth/network SLA/deadline policy and workspaceUX observer scheduling were read, not modified or certified"
+  ]
+}

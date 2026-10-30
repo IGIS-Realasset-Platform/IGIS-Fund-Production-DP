@@ -8,6 +8,9 @@ import masterV4 from '../src/data/cost-type-master-v4.json' with {type:'json'};
 import costTaxonomy from '../src/data/cost-taxonomy-v4.json' with {type:'json'};
 import {validatePermitChanges} from '../shared/permit-domain.mjs';
 import {validateCostBreakdownProject,validateCostBreakdownTransitions} from '../shared/cost-breakdown-validation.mjs';
+import {validateProjectManagerReferences} from './employee-directory.mjs';
+import {projectRegistrationProfileErrors} from '../shared/project-registration-profile.mjs';
+import {costGraphTransitionErrors} from '../shared/cost-graph-safety.mjs';
 
 export const WORKSPACE_SCHEMA='development_project_platform';
 export const DEFAULT_WORKSPACE_ID='platform';
@@ -24,6 +27,7 @@ const publicKeys=new Set(['lawCatalog','lawChanges','lawUpdateRuns','lawSourceV0
 const scopedKeys=new Set(['projectLawImpacts','migrationConflicts','integrityIssues','storageQuarantine','costIncreaseEvents','projectAlerts','companyParticipations','companyIdentityConflicts']);
 const reportMutableKeys=new Set(['status','submitted','receipt']);
 const controlKinds=new Set(['underwriting','bridge','pf','bridge_refi','pf_refi','completion']);
+const stageKinds=new Set(['custom','report',...controlKinds]);
 const projectRecordLists=['costs','cbs','costStages','contracts','documents','permits','milestones','loans','equities','guarantees','sales','reports','reportSnapshots','reportDraftOverrides','areaVersions','landParcels','landContracts','landPaymentSchedule','landPayments','vatRecords','vatApplications','vatReconciliations','fundForecasts','fundPayments','fundItemReviews','loanEvents','loanQuarterlyRecords','executionOpeningBalances','reserveTransfers','classificationEvents','benchmarks','issues','inputDataReviews','inputDataReviewHistory','reportLandPlan','reportBuildingPlans'];
 const stateRecordLists=['projects','entities','auditEvents','notifications','companies','lawCatalog','lawChanges','lawUpdateRuns','projectLawImpacts','companyParticipations','companySalesLines','companyIdentityConflicts','marketSeries','projectRegistrationDrafts'];
 const costMasters=new Map([masterV1,masterV2,masterV3,masterV4].map(master=>[master.version,new Map(master.entries.map(entry=>[entry.id,entry]))]));
@@ -139,6 +143,17 @@ function assertProjectHistory(old,next,access){
  for(const key of ['reportSnapshots','reports'])appendOnly(old?.[key]||[],next[key]||[],{mutableKeys:reportMutableKeys});
  for(const[stageId,map]of Object.entries(old?.costCoding?.historicalByStageId||{}))if(!same(map,next.costCoding?.historicalByStageId?.[stageId]))throw new WorkspaceError(400,'IMMUTABLE_HISTORY','과거 사업비의 비용코드는 변경할 수 없습니다.');
  const oldStages=recordMap(old?.costStages);
+ const replaced=new Set((old?.costStages||[]).map(row=>row.supersedesId).filter(Boolean)),correctionTargets=new Set();
+ const controlKind=row=>controlKinds.has(row.controlEventType!==undefined?row.controlEventType:row.kind)?(row.controlEventType!==undefined?row.controlEventType:row.kind):null;
+ for(const row of next.costStages||[]){
+  if(oldStages.has(row.id))continue;
+  if(!stageKinds.has(row.kind)||own(row,'controlEventType')&&(controlKinds.has(row.kind)?row.controlEventType!==row.kind:row.controlEventType!==null))throw invalid('시점 종류와 통제사건 종류를 확인해 주세요.');
+  if(row.supersedesId!==undefined&&row.supersedesId!==null){
+   const original=oldStages.get(row.supersedesId);
+   if(!validId(row.supersedesId)||!original||replaced.has(original.id)||correctionTargets.has(original.id)||own(original,'controlEventType')&&controlKinds.has(original.kind)&&original.controlEventType!==original.kind||controlKind(original)!==controlKind(row))throw invalid('같은 사업의 최신 저장본에서 같은 통제사건 종류로 정정해 주세요.');
+   correctionTargets.add(original.id);
+  }
+ }
  if(!access.isAdmin&&access.projects[next.id]!=='approver'){
   if((next.costStages||[]).some(row=>!oldStages.has(row.id)&&controlKinds.has(row.controlEventType??row.kind)))throw forbidden();
   for(const key of ['reportSnapshots','reports']){const oldReports=recordMap(old?.[key]);if((next[key]||[]).some(row=>{const previous=oldReports.get(row.id);return (['확정','제출'].includes(row.status)||['확정','제출'].includes(previous?.status))&&['status','submitted','receipt'].some(key=>!same(row[key],previous?.[key]));}))throw forbidden();}
@@ -257,6 +272,18 @@ function associatedProjects(state,kind,id){
  const ids=new Set();for(const p of state.projects||[]){if(kind==='entity'&&p.entityId===id||kind==='company'&&references(p,'companyId').has(id))ids.add(p.id);}
  if(kind==='company')for(const row of state.companyParticipations||[])if(row.companyId===id&&validId(rowProjectId(row)))ids.add(rowProjectId(row));return ids;
 }
+function validateSharedReferenceChanges(current,next,visible,access){
+ if(access.isAdmin)return;
+ const existingEntities=recordMap(current.entities),nextEntities=recordMap(next.entities),visibleEntities=new Set((visible.entities||[]).map(row=>row.id)),previousProjects=recordMap(current.projects);
+ const editableIds=new Set(next.projects.filter(p=>editable(access,p.id)).map(p=>p.id));
+ for(const p of next.projects){
+  if(!editableIds.has(p.id)||same(p.entityId,previousProjects.get(p.id)?.entityId)||p.entityId===undefined||p.entityId===null||p.entityId==='')continue;
+  if(!validId(p.entityId)||!nextEntities.has(p.entityId)||existingEntities.has(p.entityId)&&!visibleEntities.has(p.entityId))throw forbidden();
+ }
+ // Public partner publications are separate from private workspace company records.
+ const existingCompanies=recordMap(current.companies),visibleCompanies=new Set((visible.companies||[]).map(row=>row.id));
+ for(const id of visibleCompanyIds(next,editableIds))if(existingCompanies.has(id)&&!visibleCompanies.has(id))throw forbidden();
+}
 function validateProfessionalDateChanges(current,next){
  const previousEntities=recordMap(current.entities),dateFields=['preEducationDate','recentTrainingDate','trainingDueDate','employmentStartDate','employmentEndDate'];
  for(const entity of next.entities||[]){const previousRows=recordMap(previousEntities.get(entity.id)?.professionalRecords);for(const row of entity.professionalRecords||[]){const previous=previousRows.get(row.id);for(const key of dateFields){if(!own(row,key)||previous&&same(previous[key],row[key]))continue;const value=row[key];if(value===''||value===null)continue;const valid=typeof value==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(value)&&!Number.isNaN(Date.parse(value))&&new Date(value+'T00:00:00Z').toISOString().slice(0,10)===value;if(!valid)throw new WorkspaceError(422,'INVALID_PROFESSIONAL_DATE','전문인력의 교육일·이수기한·재직일을 올바른 날짜로 입력해 주세요.');}}}
@@ -270,7 +297,7 @@ function validateLoanPricingChanges(current,next){
  }}
 }
 export function mergeWorkspaceState(current,incoming,rawAccess,user={email:''}){
- validateWorkspaceState(current);validateWorkspaceState(incoming);const access=normalizeWorkspaceAccess(rawAccess),visible=filterWorkspaceState(current,access),next=clone(current),oldProjects=recordMap(current.projects),incomingProjects=recordMap(incoming.projects),changed=new Set();
+ validateWorkspaceState(current);validateWorkspaceState(incoming);const access=normalizeWorkspaceAccess(rawAccess),visible=filterWorkspaceState(current,access),next=clone(current),oldProjects=recordMap(current.projects),incomingProjects=recordMap(incoming.projects),changed=new Set(),importedInitialProjects=[];
  for(const old of current.projects){const p=incomingProjects.get(old.id);if(!readable(access,old.id)){if(p)throw forbidden();continue;}if(!p){if(htmlFixturePolicy.isApprovedProject(old)){if(!access.isAdmin)throw forbidden();changed.add(old.id);continue;}throw new WorkspaceError(400,'PROJECT_REMOVAL_NOT_ALLOWED','기존 사업은 이 저장 요청으로 삭제할 수 없습니다.');}if(!same(old,p)){if(!editable(access,old.id))throw forbidden();if(htmlFixturePolicy.isApprovedProject(old)&&!same(old.testData,p.testData))throw invalid('테스트사업의 원본 정보는 변경할 수 없습니다.');assertProjectHistory(old,p,access);validateProjectCostChange(old,p);changed.add(old.id);}}
  for(const p of incoming.projects)if(!oldProjects.has(p.id)){
   if(!access.canCreateProject)throw forbidden();assertProjectHistory(null,p,access);
@@ -278,7 +305,7 @@ export function mergeWorkspaceState(current,incoming,rawAccess,user={email:''}){
    if(!access.isAdmin)throw forbidden();const digest=htmlFixturePolicy.initialProjectSha256(p.id);
    if(!digest||workspaceStateHash(p)!==digest)throw invalid('승인된 원본 테스트사업과 입력한 자료가 일치하지 않습니다.');
    // 원본의 과거 코드·검토 상태는 새 입력으로 승격하지 않습니다. 정확한 최초 원본만 기존 기준자료로 검사합니다.
-   validateProjectCostChange(p,p);
+   validateProjectCostChange(p,p);importedInitialProjects.push(p);
   }else validateProjectCostChange(null,p);
   changed.add(p.id);
  }
@@ -296,7 +323,7 @@ export function mergeWorkspaceState(current,incoming,rawAccess,user={email:''}){
   if(access.isAdmin){next[key]=clone(value);continue;}
   if(!same(value,visible[key]))throw forbidden();
  }
- validateWorkspaceState(next);validateProfessionalDateChanges(current,next);validateLoanPricingChanges(current,next);const permitValidation=validatePermitChanges(current,next);if(!permitValidation.valid)throw new WorkspaceError(422,'INVALID_PERMIT',permitValidation.errors[0]?.message||'인허가 입력값을 확인해 주세요.');return {state:next,changedProjectIds:[...changed],requiresAdmin:access.isAdmin};
+ validateSharedReferenceChanges(current,next,visible,access);validateWorkspaceState(next);validateProfessionalDateChanges(current,next);validateLoanPricingChanges(current,next);const permitBasis=importedInitialProjects.length?{...current,projects:[...current.projects,...importedInitialProjects]}:current,permitValidation=validatePermitChanges(permitBasis,next);if(!permitValidation.valid)throw new WorkspaceError(422,'INVALID_PERMIT',permitValidation.errors[0]?.message||'인허가 입력값을 확인해 주세요.');return {state:next,changedProjectIds:[...changed],requiresAdmin:access.isAdmin};
 }
 export async function readWorkspaceAccess(client,session){
  const admin=await client.query(`SELECT user_id FROM ${table('platform_admins')} WHERE user_id = $1`,[session.userId]);
@@ -337,7 +364,9 @@ export function createWorkspaceHandlers({withTransaction,origin,workspaceId=DEFA
    if(request.method==='GET')return json({workspaceId,revision:current.revision,state:filterWorkspaceState(current.state,access),capabilities:{createProject:access.canCreateProject,manageAccess:access.isAdmin,viewPlatformSpec:user.email==='kylee@igisam.com'},projectRoles:access.projects,user:{id:user.userId,email:user.email}});
    const previous=await replay(client,workspaceId,user,input.requestId,hash,access);if(previous)return json(previous);
    for(const p of input.state.projects)if(current.state.projects.some(old=>old.id===p.id)?!readable(access,p.id):!access.canCreateProject)throw forbidden();
-   if(revision(input.baseRevision)!==current.revision)throw conflict();const merged=mergeWorkspaceState(current.state,input.state,access,user);
+   if(revision(input.baseRevision)!==current.revision)throw conflict();const graphErrors=costGraphTransitionErrors(current.state,input.state);if(graphErrors.length)throw new WorkspaceError(422,'INVALID_COST_GRAPH',graphErrors[0].message);const merged=mergeWorkspaceState(current.state,input.state,access,user);
+   const registrationErrors=projectRegistrationProfileErrors(current.state,merged.state);if(registrationErrors.length)throw new WorkspaceError(422,'INVALID_PROJECT_REGISTRATION',registrationErrors[0].message);
+   await validateProjectManagerReferences(client,current.state,merged.state);
    const response=await commitState(client,{workspaceId,current,...merged,session:user,id:input.requestId,hash,access});return json(response);
   });
  });

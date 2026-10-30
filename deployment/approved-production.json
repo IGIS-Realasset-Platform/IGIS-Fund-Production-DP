@@ -1,25 +1,25 @@
 {
   "version": "0.13.0",
-  "candidate": "C93",
+  "candidate": "C94",
   "origin": "https://igis-development-project-platform.vercel.app",
-  "htmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
-  "bytes": 6910675,
+  "htmlSha256": "b6c0e651f117e917db4219d37aaebc849a7f38b87479e461db2b5579c8b2373d",
+  "bytes": 6929788,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review131-c93-prepared-exact-artifact",
-  "preparedAt": "2026-10-29",
+  "status": "review132-c94-frozen-296-logical-12-native-prepared",
+  "preparedAt": "2026-10-30",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
-  "actualBrowser": "C93 scoped flow/criteria/group checks and root local-native final check; exact protected-preview and formal authenticated acceptance pending.",
-  "actualAuthenticatedServer": "C92 manual official law run fresh376/fail0/checkpoint376/raw74 preserved; C93 authenticated criteria save/reconnect and formal acceptance pending.",
+  "actualBrowser": "Raw local HTML 7c4d131c…79d8b4d passed12 native flows. Published Git HTML differs only in four inactive demo reference anonymizations; exact Git native registration4 passed and permit8 running.",
+  "actualAuthenticatedServer": "Read-only employee view applied; source468/full-row digest/ACL/RLS/policies preserved. New deployed API and daily recovery verification pending.",
   "previousRelease": {
     "version": "0.13.0",
-    "candidate": "C92",
-    "sourceCommit": "15fa61f35239c6c1f8cc59509f8e007066ec7e3b",
-    "productionDeploymentId": "dpl_BHYdfDUnt1mFm3EjyoENNzoGPpj2",
-    "formalHtmlSha256": "5d842a047f3bed18279fee9791705d9649848abd32fd2d6b16d1c0ae38cb5846"
+    "candidate": "C93",
+    "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+    "productionDeploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+    "formalHtmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc"
   },
   "review131": {
     "scope": "Integrated permit criteria/selection, canonical procedure names and contextual edit units",
@@ -35,5 +35,18 @@
     "verifiedAt": "2026-10-29",
     "newC93NaturalRunObserved": false
   },
-  "rollbackRequiresNewMergeMetadataCompatibilityCheck": true
+  "rollbackRequiresNewMergeMetadataCompatibilityCheck": true,
+  "review132": {
+    "spec": "docs/review132-continuation-spec.md",
+    "fullRegression": {
+      "passed": 296,
+      "failed": 0,
+      "sourceChanged": 0,
+      "evidence": "docs/review132-qa-full-2026-10-30T01-47-07.582Z.json"
+    },
+    "businessDataInArtifact": false,
+    "securityFormalReport": "blocked-account-security-setup; durable C93 scan retained",
+    "deployment": "prepared; stage/live verification and promotion pending",
+    "sourcePrivacyTransform": "Exactly four existing inactive demo reference anonymizations; identical active implementation and no real project data."
+  }
 }

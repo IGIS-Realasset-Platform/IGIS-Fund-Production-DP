@@ -1,0 +1,776 @@
+{
+  "reviewId": "OPS132",
+  "observedAt": "2026-10-29 07:56:58.505066+00",
+  "scope": "Separate operational metadata and public dependency advisory review, not the managed frozen-source security scan or whole-project security acceptance",
+  "uiUxChanged": false,
+  "baseline": {
+    "candidate": "C93",
+    "runtimeSource": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+    "main": "5a0dc9ff92d9d7429f820773b1d4e13eb1e310a9",
+    "deployment": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc"
+  },
+  "database": {
+    "project": "baqybhtfvuttcyyzspyi",
+    "schema": "development_project_platform",
+    "role": {
+      "rolname": "development_project_platform_runtime",
+      "rolsuper": false,
+      "rolinherit": false,
+      "rolcanlogin": true,
+      "rolcreatedb": false,
+      "rolbypassrls": false,
+      "rolconnlimit": 6,
+      "rolcreaterole": false,
+      "rolreplication": false
+    },
+    "memberOf": [],
+    "schemaPrivileges": {
+      "name": "development_project_platform",
+      "owner": "postgres",
+      "runtime_usage": true,
+      "runtime_create": false
+    },
+    "tableCount": 22,
+    "rlsEnabledCount": 22,
+    "forceRlsCount": 0,
+    "browserRolesSelectTableCount": 0,
+    "runtimeOwnsTables": 0,
+    "policiesCount": 26,
+    "allPolicyRolesAppRuntimeOnly": true,
+    "policyBoundary": "App runtime policies admit trusted server queries; per-person/project authorization is checked by the server, not a per-employee PostgreSQL RLS identity",
+    "archiveMutableColumns": [
+      "receipt",
+      "status",
+      "status_version",
+      "submitted",
+      "updated_at",
+      "updated_by"
+    ],
+    "indexesCount": 49,
+    "criticalIndexes": [
+      {
+        "table": "app_session",
+        "name": "app_session_expiry_idx",
+        "definition": "CREATE INDEX app_session_expiry_idx ON development_project_platform.app_session USING btree (\"expiresAt\")"
+      },
+      {
+        "table": "app_session",
+        "name": "app_session_pkey",
+        "definition": "CREATE UNIQUE INDEX app_session_pkey ON development_project_platform.app_session USING btree (id)"
+      },
+      {
+        "table": "app_session",
+        "name": "app_session_token_uidx",
+        "definition": "CREATE UNIQUE INDEX app_session_token_uidx ON development_project_platform.app_session USING btree (token)"
+      },
+      {
+        "table": "app_session",
+        "name": "app_session_userId_idx",
+        "definition": "CREATE INDEX \"app_session_userId_idx\" ON development_project_platform.app_session USING btree (\"userId\")"
+      },
+      {
+        "table": "law_project_watches",
+        "name": "law_project_watches_pkey",
+        "definition": "CREATE UNIQUE INDEX law_project_watches_pkey ON development_project_platform.law_project_watches USING btree (project_id, watch_id)"
+      },
+      {
+        "table": "law_project_watches",
+        "name": "law_project_watches_watch_idx",
+        "definition": "CREATE INDEX law_project_watches_watch_idx ON development_project_platform.law_project_watches USING btree (watch_id, project_id)"
+      },
+      {
+        "table": "notification_states",
+        "name": "notification_states_pkey",
+        "definition": "CREATE UNIQUE INDEX notification_states_pkey ON development_project_platform.notification_states USING btree (user_id, notification_id)"
+      },
+      {
+        "table": "project_members",
+        "name": "project_members_pkey",
+        "definition": "CREATE UNIQUE INDEX project_members_pkey ON development_project_platform.project_members USING btree (project_id, user_id)"
+      },
+      {
+        "table": "project_members",
+        "name": "project_members_user_idx",
+        "definition": "CREATE INDEX project_members_user_idx ON development_project_platform.project_members USING btree (user_id)"
+      },
+      {
+        "table": "quarterly_tasks",
+        "name": "quarterly_tasks_pending_idx",
+        "definition": "CREATE INDEX quarterly_tasks_pending_idx ON development_project_platform.quarterly_tasks USING btree (project_id, due_date DESC) WHERE (completed_at IS NULL)"
+      },
+      {
+        "table": "quarterly_tasks",
+        "name": "quarterly_tasks_pkey",
+        "definition": "CREATE UNIQUE INDEX quarterly_tasks_pkey ON development_project_platform.quarterly_tasks USING btree (id)"
+      },
+      {
+        "table": "quarterly_tasks",
+        "name": "quarterly_tasks_project_id_quarter_key_key",
+        "definition": "CREATE UNIQUE INDEX quarterly_tasks_project_id_quarter_key_key ON development_project_platform.quarterly_tasks USING btree (project_id, quarter_key)"
+      },
+      {
+        "table": "reference_snapshots",
+        "name": "reference_snapshots_latest_idx",
+        "definition": "CREATE INDEX reference_snapshots_latest_idx ON development_project_platform.reference_snapshots USING btree (kind, checked_at DESC)"
+      },
+      {
+        "table": "reference_snapshots",
+        "name": "reference_snapshots_pkey",
+        "definition": "CREATE UNIQUE INDEX reference_snapshots_pkey ON development_project_platform.reference_snapshots USING btree (kind, version)"
+      },
+      {
+        "table": "report_snapshots",
+        "name": "report_snapshots_pkey",
+        "definition": "CREATE UNIQUE INDEX report_snapshots_pkey ON development_project_platform.report_snapshots USING btree (id)"
+      },
+      {
+        "table": "report_snapshots",
+        "name": "report_snapshots_project_created_idx",
+        "definition": "CREATE INDEX report_snapshots_project_created_idx ON development_project_platform.report_snapshots USING btree (project_id, created_at DESC, id DESC)"
+      },
+      {
+        "table": "report_snapshots",
+        "name": "report_snapshots_project_id_source_id_key",
+        "definition": "CREATE UNIQUE INDEX report_snapshots_project_id_source_id_key ON development_project_platform.report_snapshots USING btree (project_id, source_id)"
+      }
+    ],
+    "advisories": {
+      "security": [],
+      "performance": [
+        {
+          "name": "unindexed_foreign_keys",
+          "title": "Unindexed foreign keys",
+          "level": "INFO",
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys",
+          "count": 8,
+          "tables": [
+            "cost_snapshots",
+            "law_project_watches",
+            "quarterly_tasks",
+            "quarterly_tasks",
+            "report_snapshots",
+            "report_snapshots",
+            "workspace_audit",
+            "workspace_requests"
+          ],
+          "foreignKeys": [
+            "cost_snapshots_corrects_id_fkey",
+            "law_project_watches_created_by_fkey",
+            "quarterly_tasks_completed_by_fkey",
+            "quarterly_tasks_snapshot_fk",
+            "report_snapshots_created_by_fkey",
+            "report_snapshots_updated_by_fkey",
+            "workspace_audit_user_id_fkey",
+            "workspace_requests_user_id_fkey"
+          ]
+        },
+        {
+          "name": "unused_index",
+          "title": "Unused Index",
+          "level": "INFO",
+          "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index",
+          "count": 4,
+          "tables": [
+            "app_session",
+            "app_verification",
+            "quarterly_tasks",
+            "report_snapshot_events"
+          ]
+        }
+      ]
+    },
+    "metadataProof": {
+      "path": ".build/review132/ops/db-metadata.json",
+      "sha256": "ca6dd9c99d5454a6f0a6e7aaabfd2ecea761ed68babc426925cadf6cae33ad5d"
+    },
+    "limits": [
+      "No other-schema table body or credential query",
+      "No proof that every cross-schema object privilege is absent; only selected role/schema and own-object metadata checked",
+      "Index presence is not a measured query-plan/latency guarantee",
+      "Provider project-wide advisor output filtered to exact app schema; unrelated findings not adopted or modified"
+    ]
+  },
+  "maintenance": {
+    "rows": [
+      {
+        "job": "daily",
+        "fresh": null,
+        "failed": null,
+        "reused": null,
+        "status": "partial_failure",
+        "checked": null,
+        "requested": null,
+        "error_code": null,
+        "last_attempt_at": "2026-10-28T23:03:28.789162+00:00",
+        "last_success_at": null
+      },
+      {
+        "job": "law",
+        "fresh": 376,
+        "failed": null,
+        "reused": 0,
+        "status": "success",
+        "checked": 376,
+        "requested": 376,
+        "error_code": null,
+        "last_attempt_at": "2026-10-29T04:02:28.374017+00:00",
+        "last_success_at": "2026-10-29T04:04:20.60948+00:00"
+      },
+      {
+        "job": "partners",
+        "fresh": null,
+        "failed": null,
+        "reused": null,
+        "status": "failed",
+        "checked": null,
+        "requested": null,
+        "error_code": "PARTNER_COLLECTION_FAILED",
+        "last_attempt_at": "2026-10-28T23:06:29.878155+00:00",
+        "last_success_at": null
+      },
+      {
+        "job": "quarterly",
+        "fresh": null,
+        "failed": null,
+        "reused": null,
+        "status": "success",
+        "checked": null,
+        "requested": null,
+        "error_code": null,
+        "last_attempt_at": "2026-10-28T23:03:28.827476+00:00",
+        "last_success_at": "2026-10-28T23:03:29.01506+00:00"
+      }
+    ],
+    "partnerFailure": {
+      "observed_at": "2026-10-29 08:01:38.188141+00",
+      "status": "failed",
+      "error_code": "PARTNER_COLLECTION_FAILED",
+      "last_attempt_at": "2026-10-28 23:06:29.878155+00",
+      "last_success_at": null,
+      "detail_keys": [
+        "enrichmentCheckpoint"
+      ],
+      "requested_count": null,
+      "checked_count": null,
+      "source_counts": null,
+      "latest_run": {
+        "status": "failed",
+        "error_code": "PARTNER_COLLECTION_FAILED",
+        "started_at": "2026-10-28T23:06:29.878155+00:00",
+        "detail_keys": null,
+        "finished_at": "2026-10-28T23:07:55.653982+00:00",
+        "duration_seconds": 85.775827
+      },
+      "rootCause": "Confirmed app-runtime reference_snapshots INSERT SQLSTATE57014; server-side reason counts statement timeout1/user cancellation0 under original10s transaction",
+      "action": "Approved local source fix and focused tests complete; old operational failed state not relabeled; no real rerun/SQL write by this agent",
+      "evidence": {
+        "path": ".build/review132/ops/partner-run-metadata.json",
+        "sha256": "04996188557bb41ba0534e8c7fb25232922fc65f352af7eab0075b971e83b29b"
+      },
+      "reasonEvidence": {
+        "path": ".build/review132/ops/partner-postgres-reason-counts.json",
+        "sha256": "f1dfdbd5fc618f91589f8affd06d4c7d7239fc6cedfc2b8fe1bcdacce4b6a5a7"
+      },
+      "sqlMetadata": {
+        "path": ".build/review132/ops/partner-postgres-failure-metadata.json",
+        "sha256": "57ac79ae63b71727234bacf37bba0a8a5ca3998fe7fdff3f44e09ab2e5d8938c"
+      },
+      "observedSnapshotBytes": 26171871,
+      "precedesC93Promotion": true,
+      "correction": {
+        "source": "server/maintenance-runtime.mjs",
+        "sha256": "2ec945bf6b7f00c5d645349f42988b35789f1581602363340d16cadbf0b2c588",
+        "scope": "Only partners finish with real save callback; cap each query and COMMIT by min30s/current remaining minus1.5s; collection reserves40s; default10s/global270s/function300s/lock2s unchanged",
+        "tdd": {
+          "beforePassed": 9,
+          "beforeFailed": 3,
+          "afterPassed": 12,
+          "afterFailed": 0,
+          "red": {
+            "path": ".build/review132/ops/partner-save-budget-final-red.json",
+            "sha256": "920b5f9fbf5f5b883c1804eea4f6879179d9dc98e67b09aa75208475c59a35e4"
+          },
+          "green": {
+            "path": ".build/review132/ops/partner-save-budget-green.json",
+            "sha256": "68bdbbc3ed326e5ccd972232cc149a91c9d573e214105bf9d5f4def81d4ac97b"
+          }
+        },
+        "focused": {
+          "suites": 13,
+          "reportedChecks": 252,
+          "failures": 0,
+          "sourceChanged": [],
+          "evidence": {
+            "path": ".build/review132/ops/partner-save-focus-1793262127108.json",
+            "sha256": "211f3af3ad468120bf3d3c9fdb94c6a08b9adb5f7070a75603b13736ac037d9c"
+          }
+        },
+        "scopeProof": {
+          "path": ".build/review132/ops/partner-save-scope-proof.json",
+          "sha256": "b803b344adbda178631793a805830a12df7425992356ab2d8002361cdf669825"
+        },
+        "preparation": "Two prior files changed only simulation220000/229990 and static remaining()-40000 expectation; original preservation assertions retained",
+        "actualRecovery": "notrun; requires root-approved official daily after corrected deployment"
+      }
+    },
+    "lawSuccessMeaning": "Existing C92 manual official cron invocation R7 (376 fresh/0 reused) remains last success; no new natural collection completion proven by this read"
+  },
+  "vercel": {
+    "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+    "scope": "igisra",
+    "projectInspect": "Existing CLI64.5.0 resolved correct project and owner after restricted-network fetch failure; no reconnect or settings change",
+    "logs": [
+      {
+        "at": "2026-10-29T07:59:20.792Z",
+        "mode": "requests",
+        "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+        "deployment": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+        "scope": {
+          "since": "30m",
+          "limit": 200
+        },
+        "exitCode": 0,
+        "types": {
+          "request": 1,
+          "summary": 1
+        },
+        "records": 1,
+        "statuses": {
+          "200": 1
+        },
+        "levels": {},
+        "http5xx": 0,
+        "errorOrFatal": 0,
+        "unparsed": 0,
+        "metadata": [
+          {
+            "recordsReturned": 1,
+            "timeRange": {
+              "start": "2026-10-29T07:29:18.000Z",
+              "end": "2026-10-29T07:59:18.000Z"
+            },
+            "hasMore": false,
+            "nextPresent": false,
+            "excludedIntervalsCount": 0
+          }
+        ],
+        "truncated": false,
+        "excludedIntervals": 0,
+        "stderrStoredPrivately": false,
+        "bodyOrSecretsPrinted": false,
+        "evidence": {
+          "path": ".build/review132/ops/c93-requests-logs-1793260760789.summary.json",
+          "sha256": "df1167c771f8054b2f903a06a7acecef4053801009749a386cf8360bbf2dfe3c"
+        }
+      },
+      {
+        "at": "2026-10-29T07:59:23.853Z",
+        "mode": "runtime",
+        "project": "prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+        "deployment": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+        "scope": {
+          "since": "30m",
+          "limit": 200
+        },
+        "exitCode": 0,
+        "types": {
+          "summary": 1
+        },
+        "records": 0,
+        "statuses": {},
+        "levels": {},
+        "http5xx": 0,
+        "errorOrFatal": 0,
+        "unparsed": 0,
+        "metadata": [
+          {
+            "recordsReturned": 0,
+            "timeRange": {
+              "start": "2026-10-29T07:29:22.404Z",
+              "end": "2026-10-29T07:59:22.404Z"
+            },
+            "hasMore": false,
+            "nextPresent": false,
+            "excludedIntervalsCount": 0
+          }
+        ],
+        "truncated": false,
+        "excludedIntervals": 0,
+        "stderrStoredPrivately": false,
+        "bodyOrSecretsPrinted": false,
+        "evidence": {
+          "path": ".build/review132/ops/c93-runtime-logs-1793260763850.summary.json",
+          "sha256": "91c3998e9d931a70636916924e46b0b32f734dd4660875987d99da6d91cf0b9c"
+        }
+      }
+    ],
+    "limits": "Exactly one request (200) and zero runtime entries in these separate approximately30-minute windows; zero returned5xx/error is not an assertion about all earlier activity or unexecuted paths",
+    "formalCsp": {
+      "at": "2026-10-29T08:09:34.676Z",
+      "url": "https://igis-development-project-platform.vercel.app/",
+      "status": 200,
+      "contentSecurityPolicyPresent": false,
+      "reportOnlyPresent": false,
+      "directives": [],
+      "scriptSrcPresent": false,
+      "scriptSrcDisallowsUnsafeInline": null,
+      "sensitivePolicyValueOmitted": false,
+      "bodyRead": false,
+      "cookiesReadOrPrinted": false,
+      "operationalInjection": 0
+    },
+    "historicalFailureLogWindow": {
+      "since": "2026-10-28T23:05:00Z",
+      "until": "2026-10-28T23:09:00Z",
+      "requestsReturned": 0,
+      "runtime": "400 outside Hobby retention; no old runtime message obtained; not a permission/reconnect issue"
+    }
+  },
+  "dependencies": {
+    "registry": "https://registry.npmjs.org/",
+    "packageCount": 45,
+    "directDependencies": {
+      "better-auth": "1.7.8",
+      "kysely": "0.29.6",
+      "nodemailer": "10.1.4",
+      "pdf2json": "4.1.0",
+      "pg": "8.23.1",
+      "read-excel-file": "9.3.12"
+    },
+    "auditStartedAt": "2026-10-29T08:05:21.250Z",
+    "auditEndedAt": "2026-10-29T08:05:22.864Z",
+    "auditExitCode": 0,
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "advisories": [],
+    "before": {
+      "package.json": "d388827f692c88e6931b9d6e62a2707c92972ff8650046eb02023cda9a545914",
+      "package-lock.json": "1ed517810180ed8a75d537b8da5e5af681811b094acacb68615eb063a6256685"
+    },
+    "after": {
+      "package.json": "d388827f692c88e6931b9d6e62a2707c92972ff8650046eb02023cda9a545914",
+      "package-lock.json": "1ed517810180ed8a75d537b8da5e5af681811b094acacb68615eb063a6256685"
+    },
+    "sourceUnchanged": true,
+    "requestSafety": "Public dependency names/versions from sanitized private working copy; forced registry.npmjs.org, empty user/global configs, whitelisted environment without auth tokens; no install/fix/scripts",
+    "firstRestrictedAttempt": "No metadata/advisory result because registry network failed; preserved separately, not a vulnerability count",
+    "sourcePaths": [
+      {
+        "package": "better-auth/kysely/pg",
+        "path": "server/email-auth-runtime.mjs",
+        "usage": "App-only authentication and PostgreSQL drivers"
+      },
+      {
+        "package": "nodemailer",
+        "path": "server/email-auth-runtime.mjs + server/gmail-code-sender.mjs",
+        "usage": "Configured Gmail OTP sender"
+      },
+      {
+        "package": "pdf2json/read-excel-file",
+        "path": "server/partner-ranking-parser-worker.mjs",
+        "usage": "Bounded worker for official partner ranking PDF/XLSX"
+      }
+    ],
+    "currentNodemailerBoundary": {
+      "version": "10.1.4",
+      "advisoryAffected": false,
+      "minimumPublishedPatchedVersion": "10.1.4",
+      "entryGuard": "companyEmail exact single bare company address plus authentication allowlist; header-display/comment/group/quoted forms rejected",
+      "isolatedChecks": 4,
+      "realMailSent": 0,
+      "scope": "Three upstream public address shapes rejected before dummy transport; ordinary control used one dummy call; no claim that affected dependency itself is patched or every possible use is safe",
+      "evidence": {
+        "path": ".build/review132/ops/address-boundary.json",
+        "sha256": "bf64fb349d52b8c34a20b694d57ee446866c578cca0745ba36d7245dfa05bce9"
+      }
+    },
+    "recommendation": "Approved minimum fix completed locally; official audit0 and10/10 mail suites119reportedchecks plus3 actual parser cases; real SMTP0; final deployment separate",
+    "evidence": {
+      "path": ".build/review132/ops/npm-audit-summary.json",
+      "sha256": "2b1de91c402b65d76ce0c8feeca97b29f2fad6af3bb89f2cb86228e12d80f205"
+    },
+    "auditBefore": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 1,
+        "high": 0,
+        "critical": 0,
+        "total": 1
+      },
+      "advisories": [
+        {
+          "name": "nodemailer",
+          "severity": "moderate",
+          "isDirect": true,
+          "range": "3.0.0 - 10.1.3",
+          "nodes": [
+            "node_modules/nodemailer"
+          ],
+          "via": [
+            {
+              "source": 1243091,
+              "name": "nodemailer",
+              "dependency": "nodemailer",
+              "title": "Nodemailer: A nested comment ends early in addressparser, releasing the rest of the comment as a recipient",
+              "url": "https://github.com/advisories/GHSA-8c8m-p3m8-cjg8",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-20",
+                "CWE-436"
+              ],
+              "cvss": {
+                "score": 6.5,
+                "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+              },
+              "range": ">=3.0.0 <10.1.4"
+            },
+            {
+              "source": 1243092,
+              "name": "nodemailer",
+              "dependency": "nodemailer",
+              "title": "Nodemailer: A \";\" inside a quoted string or comment ends an address group early in addressparser, turning display text into a recipient",
+              "url": "https://github.com/advisories/GHSA-m943-m63m-w62w",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-20",
+                "CWE-436"
+              ],
+              "cvss": {
+                "score": 6.5,
+                "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+              },
+              "range": ">=3.0.0 <10.1.4"
+            },
+            {
+              "source": 1243093,
+              "name": "nodemailer",
+              "dependency": "nodemailer",
+              "title": "Nodemailer: A \">\" inside a quoted local part ends an angle-addr early in addressparser, delivering to a domain the header does not name",
+              "url": "https://github.com/advisories/GHSA-85x2-q946-cp5h",
+              "severity": "moderate",
+              "cwe": [
+                "CWE-20",
+                "CWE-436"
+              ],
+              "cvss": {
+                "score": 6.5,
+                "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N"
+              },
+              "range": ">=3.0.0 <10.1.4"
+            }
+          ],
+          "fixAvailable": {
+            "name": "nodemailer",
+            "version": "10.3.0",
+            "isSemVerMajor": false
+          }
+        }
+      ],
+      "evidence": {
+        "path": ".build/review132/ops/npm-audit-summary-before-fix.json",
+        "sha256": "c24045e3a4fa448c5332b2f82eae926882faa61ce1b8527ca86e780eda7bf1ff"
+      }
+    },
+    "nodemailerPatch": {
+      "from": "10.1.1",
+      "to": "10.1.4",
+      "installed": "10.1.4",
+      "minimumOnly": true,
+      "otherDeclaredDependencyValuesUnchanged": true,
+      "manifestPaths": [
+        "dependencies.nodemailer"
+      ],
+      "lockPaths": [
+        "packages[\"\"].dependencies.nodemailer",
+        "packages[\"node_modules/nodemailer\"]"
+      ],
+      "finalProof": {
+        "at": "2026-10-29T08:15:21.080Z",
+        "installedVersion": "10.1.4",
+        "mailRegression": {
+          "suites": 10,
+          "passed": 10,
+          "reportedChecks": 119,
+          "failed": 0,
+          "sourceChanged": []
+        },
+        "sourcePins": {
+          "package.json": "83bf1a1f51cb19628df6050df0615bdc7374adfebbe3730502c0a4c000929a7f",
+          "package-lock.json": "1ed517810180ed8a75d537b8da5e5af681811b094acacb68615eb063a6256685",
+          "server/gmail-code-sender.mjs": "2e4727181e99e2393793616aa6c42ea655939f50cd28b9a19e1effc1394295c1",
+          "server/auth-policy.mjs": "55274023b01648d5fa171c812e01c6fd364154b1b75eabfe322764d9f8436d20",
+          "server/email-auth.mjs": "d714e6ffc67b7b6d6ff867f784592926005fcd04f5f179a732c11e01fbafaed4",
+          "server/email-auth-runtime.mjs": "319d29ba795f47aa369fd86f7050c4d4b194e7cd35df037e938b410a61311c9c"
+        },
+        "orderingOnlyBridge": {
+          "testedPackageSha": "d388827f692c88e6931b9d6e62a2707c92972ff8650046eb02023cda9a545914",
+          "finalPackageSha": "83bf1a1f51cb19628df6050df0615bdc7374adfebbe3730502c0a4c000929a7f",
+          "jsonValueIdentical": true,
+          "lockByteIdentical": true,
+          "scope": "Restore original manifest key order only after npm; runtime module/dependency versions unchanged"
+        },
+        "parserCases": [
+          {
+            "case": 1,
+            "expected": [
+              "v@igisam.com"
+            ],
+            "actual": [
+              "v@igisam.com"
+            ],
+            "passed": true
+          },
+          {
+            "case": 2,
+            "expected": [
+              "v@igisam.com"
+            ],
+            "actual": [
+              "v@igisam.com"
+            ],
+            "passed": true
+          },
+          {
+            "case": 3,
+            "expected": [
+              "\"a@evil.invalid>\"@igisam.com"
+            ],
+            "actual": [
+              "\"a@evil.invalid>\"@igisam.com"
+            ],
+            "passed": true
+          }
+        ],
+        "auditZero": true,
+        "actualMails": 0,
+        "cloneTouched": false
+      },
+      "evidence": {
+        "path": ".build/review132/ops/nodemailer-final-proof.json",
+        "sha256": "c87c7b1a2b5dc2daf98677782a290b4022c0b2eedc9645f466557eedda32c20f"
+      },
+      "mailRegressionEvidence": {
+        "path": ".build/review132/ops/mail-regression.json",
+        "sha256": "a77bc9fde41be7fca40a5a66acd9ea116bbd44a8c76a5efdf2bd34b346108b2d"
+      },
+      "deployment": "pending new-candidate acceptance"
+    }
+  },
+  "preparation": [
+    "One PowerShell quote/parser error before read execution; retried with literal-safe patterns",
+    "One private address helper import path initially referenced a missing module; corrected to actual project source before4 checks, not counted as product failure",
+    "Public markdown changelog fetch unsupported by browser; current official role/npm docs and upstream advisories fetched separately"
+  ],
+  "officialReferences": [
+    "https://supabase.com/docs/guides/database/postgres/roles",
+    "https://supabase.com/docs/guides/database/postgres/row-level-security",
+    "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys",
+    "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index",
+    "https://docs.npmjs.com/cli/v11/commands/npm-audit/",
+    "https://github.com/nodemailer/nodemailer/security/advisories/GHSA-8c8m-p3m8-cjg8",
+    "https://github.com/nodemailer/nodemailer/security/advisories/GHSA-m943-m63m-w62w",
+    "https://github.com/nodemailer/nodemailer/security/advisories/GHSA-85x2-q946-cp5h",
+    "https://github.com/nodemailer/nodemailer/releases/tag/v10.1.4"
+  ],
+  "safety": {
+    "operationalSqlWrites": 0,
+    "otherServiceChanges": 0,
+    "schemaOrRoleChanges": 0,
+    "mailSmsSent": 0,
+    "collectorRuns": 0,
+    "environmentOrAuthChanged": 0,
+    "productChanges": {
+      "manifestAndLockOnlyNodemailer": true,
+      "localNodeModulesOnlyNodemailerVersion": true,
+      "applicationSourceFiles": [
+        "server/maintenance-runtime.mjs"
+      ],
+      "uiUx": false,
+      "otherDeclaredDependencyValues": false
+    },
+    "credentialsReadOrPrinted": false,
+    "rawRequestIpOrLogBodyPublished": false
+  },
+  "wholePlatformSecurityAccepted": false,
+  "resumed20261030": {
+    "at": "2026-10-30T01:29:41.919Z",
+    "verification": {
+      "evidence": {
+        "path": ".build/review132-backend/focused-final.json",
+        "sha256": "5158c2a7e8d3db110f5bae1bf28e4b0b8e5ec590fea8452def2a0d46521c39fd"
+      },
+      "passedSuites": 30,
+      "failedSuites": 0,
+      "sourceChanged": [],
+      "meaning": "30 current server/auth/notification/reference/employee/workspace suites; suite count is not unique user flows or individual assertion count"
+    },
+    "sourcePins": {
+      "server/auth-policy.mjs": "55274023b01648d5fa171c812e01c6fd364154b1b75eabfe322764d9f8436d20",
+      "server/center-services.mjs": "97048721785a28302eb42a2179c072a09143e988588fa4800e1645ee8dbaf9d4",
+      "server/cloud-storage.mjs": "053300df729817a6b776d9b71486304a76bb50d858edde3ad65a748a262b08b0",
+      "server/date-time.mjs": "536daca12edd13b3933a4038bc7df5e7cfa977fcca64d357dbeb0ee7769092f1",
+      "server/email-auth-runtime.mjs": "319d29ba795f47aa369fd86f7050c4d4b194e7cd35df037e938b410a61311c9c",
+      "server/email-auth.mjs": "d714e6ffc67b7b6d6ff867f784592926005fcd04f5f179a732c11e01fbafaed4",
+      "server/employee-directory.mjs": "7f3393db6a841a03b3a808e4ce308e4adcc1b4746b2c153539f35c6b1df19d05",
+      "server/gmail-code-sender.mjs": "2e4727181e99e2393793616aa6c42ea655939f50cd28b9a19e1effc1394295c1",
+      "server/law-change-identity.mjs": "04d88622fa02b478ebe9ab5a6e8fb11df497ffdbbfcb6c98c444be16f08e5865",
+      "server/law-collection-progress.mjs": "4e8e74826af64291c78ba2b86022166df791f16359a9585a0c6cdf0988102649",
+      "server/law-collector.mjs": "7223926e20f9cafd544cb8dc4773ad88979762f9b38919733d3e859d51deea6e",
+      "server/law-comparison.mjs": "e7037c9f32c2094eb100140cfaf5c0b1cab869a095110eec41813e35e7f1b186",
+      "server/law-regional.mjs": "46a3c779badc64985bdc052999f82f65f7413675affdbe0afb0525de54de9b4b",
+      "server/law-router.mjs": "71c94993aa9dd83cc62302a4bc747766d92b946d28a38bd7d16af0eb3f16ec98",
+      "server/law-watch.mjs": "0b3d705c72ce18e8133b56deea619e07dbc950c4abd7adb2e348ae3856aae508",
+      "server/maintenance-runtime.mjs": "2ec945bf6b7f00c5d645349f42988b35789f1581602363340d16cadbf0b2c588",
+      "server/notifications-law-state.mjs": "a91b53dfd0e3e56e93629def5279c5dd185836039d4a9cce261fadc0a51bf179",
+      "server/notion-source.mjs": "6878b8442cf7a8f4c6cdc3e5164c072c90e6eb8679997b853afa8f4198b85b2b",
+      "server/partner-collector.mjs": "e449e05795b1fada661c7e2aaa22bbfb67c4ac96beb3dbebfcde0bb3d6893a36",
+      "server/partner-comments.mjs": "4e43b8c578e54aea12477016bc13116b4f6f7098be6f2ac495212b8d45168a98",
+      "server/partner-enrichment.mjs": "e2c26d33145810baf98a124f23b84e9d5434a60c0c3b7710f455424a39575c86",
+      "server/partner-ranking-parser-worker.mjs": "738f0567fe4b0a0c6f9126ba70313529831171343f712b07152b46ce4e278721",
+      "server/partner-rankings.mjs": "e110843b37609158dc67b75da8b7cfe8946b675d4e5cd89e0b7005a12db0c9fc",
+      "server/provider-connection-check.mjs": "f092aefa8ba869c8da6e6ce385125c3da9e81e755156544378567d8fccf02eb3",
+      "server/provider-credential-format.mjs": "d30f81d0e76ed35e174f536d9bc31a8e58b8a4b85bf613d577fcb1b9155b9055",
+      "server/reference-router.mjs": "3a645c8071fd912f7493c6c2b518d393db667b58ee25729e3bf8ae0d965ba149",
+      "server/report-archives.mjs": "60a58532b8576fa44591e04aabfb602d509fc55ac45ce0be93fb3febcfd00f17",
+      "server/sample-access.mjs": "7ee454fd16af0ae9365e9a2747baec8372d8d26a157a7d3868c59f99a5c9fa45",
+      "server/workspace-runtime.mjs": "403c1367f194652a5f7970077a79df746fb094deb22997fed3f67e2b7fa510e7",
+      "src/cloud-session.js": "435fb84d7a4021ad7e62c934300fde25746f3502853ef91d47bfe1d880698898",
+      "src/notifications.js": "458f24ec7d1f1d38e7a3ff0f03ac0037aaa7398bf157e852ec4ee1a78ebadde5",
+      "shared/cost-graph-safety.mjs": "969b6eb21dc467edf262f2c377f57322ccc6d44fbf532deb95b0f24d4adc6e60",
+      "shared/project-registration-profile.mjs": "9b9825115f94e49ebefc9030898159217e758a9f077b26d169bf9982de1973b7",
+      "vercel.json": "b5cd804641c3c4a3cfceb2dd334e3f6044f041e881785763849a838aa2f07435"
+    },
+    "notificationCases": {
+      "contract": 11,
+      "races": 17,
+      "lawAlias": 22
+    },
+    "newEmployeeAndRegistrationCases": 17,
+    "newClientErrorCases": 3,
+    "newCostGraphCases": 6,
+    "actualBrowser": "root integration pending",
+    "newDatabaseView": {
+      "status": "applied and actual nonempty metadata verified by root",
+      "evidence": "docs/review132-directory-live-receipt.json",
+      "sourceUnchanged": true,
+      "runtimeSourceUsage": false,
+      "runtimeSourceSelect": false,
+      "http": "pending preview integration"
+    },
+    "operationalCollectionRecovery": "root deployment and actual official run pending",
+    "wholePlatformAccepted": false,
+    "currentDependencyAudit": {
+      "status": "blocked before launch by automatic approval review",
+      "evidence": ".build/review132-backend/npm-audit-blocked.json",
+      "metadataSent": false,
+      "currentResultsAvailable": false
+    }
+  }
+}

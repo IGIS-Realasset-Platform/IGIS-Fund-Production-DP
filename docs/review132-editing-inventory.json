@@ -1,0 +1,809 @@
+{
+  "resumed20261030": {
+    "publishedArtifactVerification": {
+      "status": "Exact Git publication artifact UI passed; actual production URL/server/DB verification remains a separate root responsibility.",
+      "raw": {"path": ".build/review132-client/frontend-product-frozen.html", "sha256": "7c4d131c69038fecc54941c3611d6541282bac0fc7ee535830ab7c8ca79d8b4d", "bytes": 6929824},
+      "published": {"path": ".build/github-release-review132/.build/review132/c94-production.html", "sha256": "b6c0e651f117e917db4219d37aaebc849a7f38b87479e461db2b5579c8b2373d", "bytes": 6929788},
+      "relation": "prepare-github-release.mjs replaces exactly four inactive src/partners.js demo path/filename strings, each exactly once. Root independently verified that applying only those four substitutions to the raw HTML yields the published HTML byte-for-byte. Current core/setup/setup.css/recovery/permit/workspace/cbs source inclusion is separately checked by the unchanged native runners.",
+      "evidence": [".build/review132-client/published-exact-registration-four-widths/evidence.json", ".build/review132-client/published-exact-permit-four-widths/evidence.json"],
+      "registration": {"passed": 4, "failed": 0}, "permitAndLand": {"passed": 8, "failed": 0}, "pageErrors": 0,
+      "registrationPngSameAsRaw": {"1280": "303fa0e34255cb85a421dfce2eef4fe99dd8a02b40ce2303313e9e3e006c7c97", "1440": "6cfdc2b7b33f22476abd753491d866935d0d37a3d198545874ddf3040b009c1d", "1600": "11e175033ac4834fead6ccbc612c06216f599784df8a942eeaea159dede4ba47", "390": "72420b838fa4345a274cf0ebf347e87f41d830c9dc2e49e252de69bc37424b4c"},
+      "runnerPins": {"tests/review132-ui-registration-browser.mjs": "ff79bb5d324d840441dc310ec28315e9904786f740b357a4726773c7503da86f", "tests/review132-ui-permit-browser.mjs": "e65c81418c57131d2870472698c775c1a05e034bf1ad3162a25f6b8ef933478c"},
+      "sourceOrTestChangesForThisRun": 0, "actualBrowser": true, "allHTTPIntercepted": true, "actualDatabase": false, "actualUserCookies": false,
+      "counting": "These 12 flows rerun the earlier 12 requirements against the exact public artifact; do not count them as 24 unique platform functions."
+    },
+    "previousInventory": "The remaining inventory and newProjectInputMap are the historical 2026-10-29 source snapshot; registration v2 is validated separately and supersedes its basic-field list.",
+    "focusedCurrent": {"review132-permit-editing": {"passed": 21, "failed": 0}, "review130-button-editing": {"passed": 18, "failed": 0}, "review131-record-editing-adjacent": {"passed": 29, "failed": 0}},
+    "legacyPermitIntake": {"passed": 23, "failed": 0, "reason": "QA explicitly replaced only the historical 11-separate-cell expectation with the approved one-section/11-original-values/save-cancel boundary. Current core rerun passed all 23.", "beforeApprovedTestMigration": {"passed": 22, "failed": 1}},
+    "browser": {
+      "htmlSha256": "7c4d131c69038fecc54941c3611d6541282bac0fc7ee535830ab7c8ca79d8b4d",
+      "runner": "tests/review132-ui-permit-browser.mjs",
+      "evidence": [".build/review132-client/frozen-permit-four-widths/evidence.json"],
+      "widths": [1280, 1440, 1600, 390], "roles": ["editor", "viewer"], "flows": 8, "failed": 0,
+      "scope": ["11-field land editor types and actual focus/reachability", "unchanged cancel", "in-memory HTTP save and reload", "503 preservation", "all permit groups initially collapsed", "registered traffic search feedback", "manual expand/search restoration", "fresh entry reset", "absent traffic select/add/save/reload/exclude duplicate", "viewer actions hidden"],
+      "actualBrowser": true, "allHTTPIntercepted": true, "actualDatabase": false, "actualUserCookies": false, "allPlatformStatesAccepted": false
+    },
+    "registrationV2": {"runner": "tests/review132-ui-registration-browser.mjs", "status": "exact frozen 7c4d131c HTML isolated UI 4/4 passed after identity/field-name/grid/refresh-text corrections; not production/DB acceptance", "sourceOwner": "root", "htmlSha256": "7c4d131c69038fecc54941c3611d6541282bac0fc7ee535830ab7c8ca79d8b4d", "sourcePins": {"src/setup.js": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a", "src/setup.css": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7", "src/recovery-views.js": "c83d2adad5db9a75012d0b33e35b92ede2a5246c5872086eaf2be021279d9ad8", "src/core.js": "2016fac30b19a37dc7fe4639eede5ddcd5c889d52d06ca6c5ef4fdee6700956d"}, "evidence": [".build/review132-client/registration-identity-red/evidence.json", ".build/review132-client/registration-label-red-current/evidence.json", ".build/review132-client/frozen-registration-four-widths/evidence.json"], "widths": [1280,1440,1600,390], "passed": 4, "failed": 0, "refreshTextOverflow": 0, "actualBrowser": true, "allHTTPIntercepted": true, "actualDatabase": false, "actualUserCookies": false, "fields": ["id", "type", "name", "location", "operator", "managerEmployeeId", "gfaTotal", "siteArea", "acquisitionLandArea", "fundName", "financeStructure", "evidenceSource", "evidenceLocation", "evidenceAsOf", "evidencePath"]}
+  },
+  "review": "REVIEW132 linked permit/editing request",
+  "scope": "40 source modules static callsite/entry inventory plus focused model checks; not all dynamic state verification",
+  "editableCalls": [
+    {
+      "file": "src/cbs.js",
+      "sha256": "03d46577ae6e041e9ee2774fcc4bfa838aa85f2ba132c1666f706e8bc93c9552",
+      "calls": [
+        {
+          "line": 297,
+          "snippet": "A.editable({entity:detail?'cbsBreakdownCurrent':'cbsCurrent',id:row.id,field:'current',value:amount,type:detail?'money-reason':'money',options:detail?[{sourcePath:row.sourcePath||'",
+          "recordOptIn": false
+        },
+        {
+          "line": 298,
+          "snippet": "A.editable({entity:'cbsCompanyCurrent',id:row.companyProfileKey,field:'current',value:null,type:multiple?'typed-money':'money',options:multiple?context.entries.map(entry=>({value:e",
+          "recordOptIn": false
+        },
+        {
+          "line": 300,
+          "snippet": "A.editable({entity:'cbsCompanySourceCurrent',id:row.companyProfileKey,field:'current',value:null,type:'record-money',options,scale:1,activation:'double',toolsPlacement:'cell',showE",
+          "recordOptIn": false
+        },
+        {
+          "line": 435,
+          "snippet": "A.editable({entity:'areaCurrent',id:p.id,field:key,value:currentArea(p)[key],type:'number',projectId:p.id,display:areaText(currentArea(p)[key]),label}):areaText(currentArea(p)[key]",
+          "recordOptIn": false
+        }
+      ]
+    },
+    {
+      "file": "src/contracts.js",
+      "sha256": "ceab80bb15df3df0898468f2c2b784150745f213f28a307dcf70e4af726b1658",
+      "calls": [
+        {
+          "line": 147,
+          "snippet": "A.editable({ editScope:'record', projectId: p.id, entity, id, field, value, type:type==='percent'?'number':type, options:entity==='loan'&&['rank','type'].includes(field)?loanChoice",
+          "recordOptIn": true
+        }
+      ]
+    },
+    {
+      "file": "src/partners.js",
+      "sha256": "f2299de9b19dc588c7896c5e0708fe950c194de68cabef11ac9b20d02311ac84",
+      "calls": [
+        {
+          "line": 6,
+          "snippet": "A.editable({entity:'benchmark',id:b.id,field,value,type,projectId:p.id,label:benchmarkLabels[field],display:emptyValue(value)?'—':type==='money'?E(A.money(value)):type==='number'?E",
+          "recordOptIn": true
+        }
+      ]
+    },
+    {
+      "file": "src/permit-views.js",
+      "sha256": "795f6b36de3eb211ce9d4b99195b45de2ee4b495c5fab4c4f716dee2a7a19cb3",
+      "calls": [
+        {
+          "line": 7,
+          "snippet": "A.editable({entity:'legalRecord',id:x.id||p.id,projectId:p.id,field:kind+'.'+key,value:x[key],type,options,label,...(Object.hasOwn(collections,kind)?{editScope:'record'}:{}),displa",
+          "recordOptIn": true
+        }
+      ]
+    },
+    {
+      "file": "src/recovery-views.js",
+      "sha256": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448",
+      "calls": [
+        {
+          "line": 4,
+          "snippet": "A.editable({entity:'projectBasic',id:p.id,projectId:p.id,field:path,value:path.split('.').reduce((o,k)=>o?.[k],p),type,label,display,editScope:'record'});",
+          "recordOptIn": true
+        },
+        {
+          "line": 40,
+          "snippet": "A.editable({entity:'projectBasic',field:'period',value:period,label:'사업기간',editScope:'record'}),'법인 설립일',f('basic.established','법인 설립일','date')],['용도지역',f('building.zone','용도지역'),'",
+          "recordOptIn": true
+        },
+        {
+          "line": 40,
+          "snippet": "A.editable({entity:'projectBasic',field:'floors',value:floorText,label:'층수',editScope:'record'})],['용적률',f('building.far','용적률','number',A.num(b.far)+'%'),'건폐율',f('building.bcr','건",
+          "recordOptIn": true
+        },
+        {
+          "line": 102,
+          "snippet": "A.editable({entity:'issue',id:x.id,field:k,value:x[k],type:k==='date'?'date':k==='costImpact'?'money':'text',display:k==='costImpact'?money(x[k]):undefined,projectId:p.id,label:lab",
+          "recordOptIn": true
+        }
+      ]
+    },
+    {
+      "file": "src/report.js",
+      "sha256": "5c8c1f1c611af8ebe62b527a03ab987bdedd4b25d0b5ece883459094333f5f07",
+      "calls": [
+        {
+          "line": 266,
+          "snippet": "A.editable({entity:'reportField',id:p.id,field:fieldKey(def),value,type:def[3],options:def[4]||[],label:def[2],projectId:p.id,display:display==null?undefined:E(display)});return `<",
+          "recordOptIn": false
+        },
+        {
+          "line": 330,
+          "snippet": "A.editable({entity:'reportCell',id:contextInlineId(context),field:cell.cellId,instance:meta.instance||'',value:meta.inputSpec?.value??value,type:meta.inputSpec?.type||(long?'textar",
+          "recordOptIn": false
+        }
+      ]
+    }
+  ],
+  "businessUnits": [
+    {
+      "id": "EDIT132-OVERVIEW",
+      "business": "사업개요",
+      "unit": "24필드 구역폼",
+      "route": "overview-basic-edit",
+      "source": "src/recovery-views.js",
+      "state": "current-record-scope/read only",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-COST",
+      "business": "독립 현재 사업비",
+      "unit": "금액1·사유/이력",
+      "route": "cbsCurrent/cbsBreakdownCurrent/cbsCompanyCurrent/cbsCompanySourceCurrent",
+      "source": "src/cbs.js",
+      "state": "preserve independent monetary save; no blanket group editor",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-AREA",
+      "business": "사업비표 면적",
+      "unit": "현재면적2조회행→기존7숫자+날짜/상태/근거 폼1개",
+      "route": "area-edit",
+      "source": "src/cbs.js",
+      "state": "implemented single action; calculations/areaForm unchanged; native pending",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-FINANCE",
+      "business": "대출/출자/담보/보증/보증기관",
+      "unit": "기존 기록폼",
+      "route": "loan-edit/financial-other-edit",
+      "source": "src/contracts.js",
+      "state": "current record-scope; root owns further changes",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-DOCUMENT",
+      "business": "계약/문서",
+      "unit": "기존 기록폼",
+      "route": "contract-edit/document-edit",
+      "source": "src/contracts.js",
+      "state": "current record-scope; source observation",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-LAND",
+      "business": "부지확보",
+      "unit": "기존11필드 구역폼1개",
+      "route": "land-input-open/openLandEditor",
+      "source": "src/permit-views.js",
+      "state": "implemented + focused model verified; native pending",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-LEGAL-RECORDS",
+      "business": "필지/토지계약/지급회차/인허가/분양",
+      "unit": "기존 기록폼",
+      "route": "legal-edit",
+      "source": "src/permit-views.js + src/legal.js",
+      "state": "current record-scope; keep existing form and detail4tabs",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-CONSTRUCTION",
+      "business": "착공·공사·준공",
+      "unit": "기재33필드 일괄폼 + 독립 공정기록",
+      "route": "construction-input-open/construction-section-edit/progress-record-add/edit",
+      "source": "src/permit-views.js",
+      "state": "existing report-unit form; no field/type/count change",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-ISSUE",
+      "business": "주요현안",
+      "unit": "5필드 기존기록폼",
+      "route": "issue-edit",
+      "source": "src/recovery-views.js",
+      "state": "current record-scope",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-MILESTONE",
+      "business": "일정",
+      "unit": "일정기록폼",
+      "route": "milestone-add/edit/timeline-add/edit",
+      "source": "src/recovery-views.js",
+      "state": "separate event/plan records; source audit pending",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-BENCHMARK",
+      "business": "유사사업",
+      "unit": "14필드 기록폼",
+      "route": "benchmark-edit",
+      "source": "src/partners.js",
+      "state": "current record-scope",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-COMPANY",
+      "business": "업체/메모/영업라인/참여",
+      "unit": "각 기존기록폼",
+      "route": "partner-company-edit/partner-note-edit/partner-line-edit/participation",
+      "source": "src/partners.js",
+      "state": "source forms exist; counts not all dynamic paths",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-REPORT",
+      "business": "국토부 보고서",
+      "unit": "보고서 작성본/수정모드의 원서식 셀",
+      "route": "report-edit + reportCell",
+      "source": "src/report.js",
+      "state": "preserve separate draft/reflect/archive boundary; not owned",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-REGISTRATION",
+      "business": "개발업/전문인력",
+      "unit": "기존 등록·기록폼",
+      "route": "registration/professional forms",
+      "source": "src/legal.js",
+      "state": "source audit; no guessed qualification policy",
+      "actualScreen": "notrun by child; root browser required"
+    },
+    {
+      "id": "EDIT132-SETUP",
+      "business": "신규프로젝트/입력자료",
+      "unit": "기본7개 + 공통자료/별도입력검토",
+      "route": "project-add/setup-add/setup-review-all",
+      "source": "src/setup.js",
+      "state": "read only/root assignment; actualAi false",
+      "actualScreen": "notrun by child; root browser required"
+    }
+  ],
+  "sourceCount": 40,
+  "traffic": {
+    "immutableRowId": "permit-catalog-3-2",
+    "typeId": "company-permit:permit-catalog-3-2",
+    "originalName": "교통영향평가",
+    "originalGroup": "영향평가",
+    "unknownFlags": "review → recommended filter hides; all list retains",
+    "confirmedFlags": "trafficZone and trafficScope both 예 → candidate",
+    "alreadyPresent": "same canonical identity excluded; historical record name unchanged",
+    "registeredSearchFeedback": "only registered canonical match and no available result → 이미 등록된 인허가입니다.; real miss → 검색 결과가 없습니다.; existing rows never reintroduced"
+  },
+  "pending": [
+    "root actual native geometry/keyboard/DB/reconnect for this final artifact",
+    "old land-per-cell assertions in existing review129/review131 suites need explicitly superseded UI expectations",
+    "root-owned project registration implementation audit",
+    "global remaining dynamic QA boundaries remain separate"
+  ],
+  "actualBrowser": 0,
+  "liveDatabaseWrites": 0,
+  "formEntrySites": [
+    {
+      "file": "src/cbs-purpose.js",
+      "line": 49,
+      "entryExpression": "'사업비 분류 수정',A.field('target','분류할 항목',row.id,'select',[{value:row.id,label:row.name+' · '+A.money(A.amount(p,row.id))}])+A.field('category','대분류 *',row.costPurposeOverride?.categor"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 389,
+      "entryExpression": "'상세합계 적용',A.table(['기록 총액','상세합계'],[[exactMoney(A.amount(p,row.id)),exactMoney(detail.value)]]),()=>useDetailedCostTotal(p,row.id),'적용');}));"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 452,
+      "entryExpression": "'개발 면적',areaFields.map(([key,label])=>A.field(key,label+' · ㎡',a[key]??'','number')).join('')+A.field('date','면적 기준일',a.date||A.today,'date')+A.field('status','자료 상태',a.status||'계획"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 459,
+      "entryExpression": "correction?'시점 정정':draft.label+' 기록',fields,v=>{"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 466,
+      "entryExpression": "'확정 증감사유',fields,reasons=>{const current=resolveOwner(),map={};must.forEach((x,i)=>map[x.id]=reasons['reason_'+i]);finalizeStage(current,draft,previous,map);},'확정',options),0);retu"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 472,
+      "entryExpression": "correction?'정정본 만들기':'비교시점 추가',fields,v=>{"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 553,
+      "entryExpression": "(selected?.v0118DisplayName||selected?.name||'사업비')+' 항목 추가',A.field('preset','추가할 항목','custom','select',[{value:'custom',label:'직접 입력'},...candidates.map(row=>({value:row.key,labe"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 553,
+      "entryExpression": "(selected?.name||'사업비')+' 항목 추가',A.field('preset','추가할 항목','custom','select',[{value:'custom',label:'직접 입력'},...unused.map(x=>({value:'existing:'+x.id,label:choiceLabel(x)})),...mi"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 555,
+      "entryExpression": "'사업비 직접 입력',typeField+parentField+nameField+A.field('amount','현재 금액 · 원, 미입력 가능','','number'),values=>{const amount=wonDraftValue(values.amount);if(values.preset&&values.preset!=='"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 570,
+      "entryExpression": "'항목 수정',typeField+A.field('name','명칭',row.name),v=>{const owner=A.state.projects.find(x=>x.id===p.id&&!x.deletedAt),fresh=owner?.cbs.find(x=>x.id===row.id&&!x.deletedAt);if(!owner|"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 572,
+      "entryExpression": "'세분류 나누기',A.field('name','새 세분류')+A.field('amount','분해 금액 · 원','','number'),v=>{const p=A.current(),row=p.cbs.find(x=>x.id===b.dataset.id),amount=wonDraftValue(v.amount);return row"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 573,
+      "entryExpression": "'하위항목 합치기','',()=>merge(A.current(),b.dataset.id),'합치기'));"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 575,
+      "entryExpression": "'다른 관리항목에 합치기',A.field('to','합칠 항목','','select',[{value:'',label:'선택'},...options.map(x=>({value:x.id,label:x.name}))]),v=>{const fresh=A.state.projects.find(x=>x.id===p.id&&!x.del"
+    },
+    {
+      "file": "src/cbs.js",
+      "line": 580,
+      "entryExpression": "'예비비 사용·환원',A.field('from','보내는 실제 입력행',reserve?.id||'','select',options)+A.field('to','받는 실제 입력행','','select',[{value:'',label:'선택'},...options])+A.field('amount','금액 · 원','','num"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 166,
+      "entryExpression": "b?.dataset?.cbsId?cbsName(owner,b.dataset.cbsId)+' · 계약 추가':'계약 추가', formContract(), v => {"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 173,
+      "entryExpression": "'계약 수정·변경계약', formContract(c), v => {"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 208,
+      "entryExpression": "'CBS 배부 추가', A.field('cbsId', 'CBS 항목', '', 'select', cbso(p,{excludeIds:[c.cbsId,...(r.allocations||[]).map(row=>row.cbsId)]})) + A.field('amount', '배부액 (원)', '', 'number') + '<p "
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 248,
+      "entryExpression": "title,fields,(values,operation)=>{if(prefix==='pay'){const details=paymentDetails();if(details)paymentMoreOpen=details.open;capturePaymentPosition(document.getElementById('app-form"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 269,
+      "entryExpression": "'확정 지급조건 연결',A.field('obligationId','확정 지급조건',record.obligationId||'','select',paymentLinkOptions(c,record)),v=>{const current=boundary();return linkPayment(current.project,id,reco"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 270,
+      "entryExpression": "'지급내역 확인',A.field('asOf','확인 기준일',A.today,'date')+A.field('sourcePath','대사 근거 경로')+'<div class=\"full dp-payment-review-value\">누적 지급 '+A.money(paymentTotal(c))+'</div>',v=>reviewPay"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 374,
+      "entryExpression": "'문서 새 버전',A.field('revision','버전',String(Number(d.revision||0)+1))+A.field('date','발행일',A.today,'date')+A.field('location','원본 경로',d.location),v=>{const current=boundary();p=curren"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 384,
+      "entryExpression": "d ? '문서 수정' : '문서 추가', A.field('title', '문서명', d?.title || '') + A.field('category', '분류', d?(d.category??''):'일반문서', 'select', ['계약서', '공문', '인허가', '보고서', '일반문서']) + A.field('numb"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 427,
+      "entryExpression": "l ? '대출 정보 수정' : '대출 추가', loanForm(l), v => {"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 447,
+      "entryExpression": "'대주 셀다운 기록', A.field('institution', '양수 금융기관', '') + A.field('date', '양도 기준일', '', 'date') + A.field('commitment', '이전 약정액 (원)', '', 'number') + A.field('executed', '이전 누적 실행액 (원)'"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 461,
+      "entryExpression": "'대주별 분기 기준값 기록', A.field('asOf', '분기 기준일', '', 'date') + A.field('commitment', '약정액 (원)', l.commitment, 'number') + A.field('executed', '누적 실행액 (원)', l.executed, 'number') + A.fiel"
+    },
+    {
+      "file": "src/contracts.js",
+      "line": 559,
+      "entryExpression": "(isEquity ? '출자자' : isReport ? '보증기관' : '담보·보증') + (old ? ' 수정' : ' 추가'), fields, v => {"
+    },
+    {
+      "file": "src/core.js",
+      "line": 340,
+      "entryExpression": "`${label} 삭제`, '<p class=\"full dp-confirm-delete\">정말 삭제하시겠습니까?</p>',()=>{fn();},'삭제',options);"
+    },
+    {
+      "file": "src/cost-breakdown.js",
+      "line": 67,
+      "entryExpression": "ctx.label+' 하위 항목 구성',fields,(v,operation)=>{requireFormValues(v,{reason:true,confirmed:true});return persistAndReturn(ctx,()=>activate(currentOwner(ctx).p,ctx.ownerId,ctx.drafts,{"
+    },
+    {
+      "file": "src/cost-breakdown.js",
+      "line": 73,
+      "entryExpression": "item?'하위 항목 수정':'하위 항목 입력',fields,(v,operation)=>{requireFormValues(v,{name:true,reason:!!item||active});const draft={inputMode,costTypeId,name:clean(v.name,200,'항목명'),amount:money"
+    },
+    {
+      "file": "src/cost-breakdown.js",
+      "line": 80,
+      "entryExpression": "'하위를 관리할 입력 선택',A.field('owner','현재 입력','','select',[{value:'',label:'선택'},...rows]),v=>{const fresh=record(project(p),v.owner);if(!owners.some(x=>x.id===fresh.id))throw Error('입력 "
+    },
+    {
+      "file": "src/cost-breakdown.js",
+      "line": 89,
+      "entryExpression": "'하위 항목 삭제',A.table(['항목명','현재 금액'],[[escape(row.name),won(A.amount(p,row.id))]])+requiredField('reason','삭제 사유')+A.field('sourcePath','근거 경로 · 선택'),(v,operation)=>{requireFormValue"
+    },
+    {
+      "file": "src/law-monitor.js",
+      "line": 114,
+      "entryExpression": "'법령·조례 검색',(context.target==='ordin'?`<p class=\"full\">사업지(입력값): ${E(context.jurisdictionInput||p?.permitConditions?.region||'미입력')} · 관할 확인 필요</p>`:'')+F('projectId','프로젝트',context"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 337,
+      "entryExpression": "row.id?'등록·신고 기록 수정':'등록·신고 기록',F('kind','기록 유형',row.kind||'사업실적 보고','select',noticeKinds)+F('period','보고 대상기간',row.period)+F('date','기록일',row.date||A.today,'date')+F('due','신고기한',"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 347,
+      "entryExpression": "'법인·사업주체 정보',F('name','법인·시행주체 명칭',e.name)+F('legalForm','실제 법적 형태',e.legalForm||'미확인','select',legalForms)+F('businessRegistration','사업자등록번호',e.businessRegistration)+F('corporatio"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 349,
+      "entryExpression": "'시행 법인 연결',F('entityId','시행 법인',p.entityId,'select',selectOptions(A.state.entities))+F('newName','새 법인으로 연결할 경우 법인명'),v=>{const before={entityId:p.entityId,operator:p.basic.operato"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 353,
+      "entryExpression": "row?'전문인력 수정':'전문인력 추가',fields,values=>{const target=resolveTarget();return saveProfessionalRecord(target.project,values,target.row?.id||null);},'전문인력 저장',{...registrationReturnOpt"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 356,
+      "entryExpression": "'전문인력 퇴사 처리',professionalDateField('employmentEndDate','실제 퇴사일',row),values=>{const target=resolveTarget();return retireProfessionalRecord(target.project,target.row.id,values);},'퇴"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 357,
+      "entryExpression": "'전문인력 기록 복구',`<p class=\"full\">${E(row.name)}의 퇴사 처리를 취소하고 이전 상태로 복구합니다.</p>`,()=>{const target=resolveTarget();return restoreProfessionalRecord(target.project,target.row.id);},'전문인"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 363,
+      "entryExpression": "'개발업 등록정보',fields,v=>saveRegistrationInfo(resolveTarget().project,v),'등록정보 저장',{...registrationReturnOptions(p),draftContext:'registration-info:'+e.id,draftAdapter});queueMicrotask"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 372,
+      "entryExpression": "'개발업 등록대상 검토',`<p class=\"full\">현재 연면적 ${A.num(p.building?.gfaTotal)}㎡ · 토지면적 ${A.num(p.building?.siteArea)}㎡</p>`+"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 387,
+      "entryExpression": "'등록 변경사항 기록',F('kind','변경 유형','등록증 기재사항','select',['등록증 기재사항','자본금 변경','순자산·영업용자산 변경','임원 변경','전문인력 변경'])+F('date','변경 발생일',A.today,'date')+F('reportingDue','순자산·영업용자산: 기준연도 검토 후 2"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 388,
+      "entryExpression": "'국토부 보고 적용정보',F('scheme','근거 사업 유형',r.scheme,'select',reportSchemes)+F('buildingUse','일반 건축사업 용도',r.buildingUse,'select',['',...reportUses])+F('agreementDate','협약 체결일',r.agreementD"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 413,
+      "entryExpression": "title,fields,(v,operation={})=>{if(A.ui.projectId!==p.id||A.current()?.id!==p.id)throw inputError({name:'입력하던 사업이 바뀌어 저장하지 않았습니다. 입력값을 확인하고 원래 사업에서 다시 열어 주세요.'});const target=check"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 428,
+      "entryExpression": "'추가할 인허가 선택',fields,selection=>{const selected=candidates.filter(c=>selection['pick-'+c.id]==='yes'&&!live(p.permits).some(x=>x.catalogId===c.id||x.name===c.name));if(!selected.len"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 429,
+      "entryExpression": "'사업 조건으로 인허가 추천',F('asset','사업 유형',criteria.asset,'select',choices)+F('method','사업방식',criteria.method,'select',[{value:'',label:'선택해 주세요'},'일반 건축','정비사업','도시개발']),v=>{if(!text(v.as"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 434,
+      "entryExpression": "x?'필지 수정':'필지 추가',requiredField('name','지번·필지명',x?.name)+F('area','토지면적(㎡)',x?.area,'number')+F('owner','소유자',x?.owner)+F('right','권원 확보',x?(x.right??''):'검토 중','select',inputOptio"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 435,
+      "entryExpression": "x?'토지매매계약 수정':'토지매매계약 추가',requiredField('name','계약명',x?.name)+requiredField('seller','매도자',x?.seller)+`<fieldset class=\"full\"><legend>연결 필지 선택</legend>${parcels.map(t=>`<label clas"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 436,
+      "entryExpression": "x?'토지 지급회차 수정':'토지 지급회차 추가',requiredField('contractId','토지매매계약',x?.contractId,'select',selectOptions(live(p.landContracts)))+requiredField('category','회차명',x?.category||'계약금')+F('a"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 438,
+      "entryExpression": "x?'분양·매각 수정':'분양·매각 추가',requiredField('category','분양 구분',x?.category)+F('unit','집계 단위',x?(x.unit??''):'호','select',inputOptions.saleUnit)+F('total','전체 수량',x?.total,'number')+F('pl"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 485,
+      "entryExpression": "'프로젝트 법령 검토',`<p class=\"full\">${E(p.name)} · ${E(c.lawName||lawName(c))} · 법적 적용 확정이 아닌 사용자 검토기록입니다.</p>`+F('status','검토 상태','미검토','select',['미검토','검토 중','검토 완료','관련 없음'])+F('revie"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 494,
+      "entryExpression": "'프로젝트 법령 검토',F('status','검토 상태',i.status||'미검토','select',['미검토','검토 중','검토 완료','관련 없음'])+F('reviewer','검토자',i.reviewer)+F('note','검토 내용',i.note,'textarea'),v=>{const current=checkT"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 495,
+      "entryExpression": "'법령 조회 조건',F('dateType','변경 조회 기준',A.ui.lawDateType||'announcedAt','select',[{value:'announcedAt',label:'최근 30일 · 공포일'},{value:'effectiveAt',label:'최근 30일 · 시행일'},{value:'upcoming'"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 529,
+      "entryExpression": "'등록대상 사업연도',F('year','직접 확인한 등록대상 사업연도',p.registrationReview.registrationYear||'','number')+F('basis','연도 판단 근거',p.registrationReview.yearBasis||'','textarea'),v=>{if(!/^\\d{4}$/.te"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 530,
+      "entryExpression": "`${year}년 외부사업 면적 확인`,F('buildingArea','플랫폼 외부사업 건축 연면적(㎡)',prior?.buildingArea,'number')+F('nonResidentialArea','플랫폼 외부사업 비주거 연면적(㎡)',prior?.nonResidentialArea,'number')+F('landAr"
+    },
+    {
+      "file": "src/legal.js",
+      "line": 531,
+      "entryExpression": "'변경된 개발면적 재검토',`<p class=\"full\">현재 연면적 ${A.num(p.building?.gfaTotal)}㎡ · 토지면적 ${A.num(p.building?.siteArea)}㎡</p>`+F('nonResidentialArea','현재 비주거 연면적(㎡)',r.nonResidentialArea,'numb"
+    },
+    {
+      "file": "src/partners.js",
+      "line": 85,
+      "entryExpression": "'댓글 추가 · '+c.name,fields,async(values,{isActive}={})=>{const next=JSON.stringify(values);if(next!==signature){signature=next;requestId=crypto.randomUUID();}await addComment(key,val"
+    },
+    {
+      "file": "src/partners.js",
+      "line": 279,
+      "entryExpression": "old?'메모 수정':'업체 메모',A.field('text','메모',old?.text||'','textarea')+A.field('author','작성자',old?.author||A.current()?.basic?.manager||'담당자'),v=>{if(old&&(c.localNotes||[]).find(row=>r"
+    },
+    {
+      "file": "src/partners.js",
+      "line": 287,
+      "entryExpression": "c?'업체 정보 수정':'업체 등록',(c&&!c.manual?`<p class=\"full\">${E(c.name)}</p>`:A.field('name','업체명',c?.name||''))+A.field('aliases','검색용 별칭 · 쉼표로 구분',c?.aliases.join(', ')||'')+A.field('cat"
+    },
+    {
+      "file": "src/partners.js",
+      "line": 291,
+      "entryExpression": "mode==='contract'?'기계약 참여 연결':'과거 참여 입력',fields,v=>{upsertParticipation(companyId,{...v,mode},id);A.ui.partnerTab='participation'});"
+    },
+    {
+      "file": "src/partners.js",
+      "line": 293,
+      "entryExpression": "id?'영업라인 수정':'영업라인 추가',A.field('ourTeam','당사 부서',r.ourTeam||'')+A.field('ourName','당사 담당자',r.ourName||'')+A.field('ourRole','당사 직책',r.ourRole||'')+A.field('ourPhone','당사 연락처',r.our"
+    },
+    {
+      "file": "src/partners.js",
+      "line": 397,
+      "entryExpression": "isEdit?'유사사업 수정':'유사사업 추가',fields,values=>{"
+    },
+    {
+      "file": "src/permit-map.js",
+      "line": 120,
+      "entryExpression": "'추가할 인허가 선택',fields,(values,operation={})=>{const current=selectionValues(values),intent=current.activeTab==='conditions'||!current.selected.length?'conditions':'add',prepared=prep"
+    },
+    {
+      "file": "src/permit-map.js",
+      "line": 158,
+      "entryExpression": "'지역별 확인할 조례',fields,async(values,operation={})=>{if(!ctx.regions.some(row=>String(row.code)===values.org))throw A.inputError({org:'공식 목록에서 광역자치단체를 선택해 주세요.'});if(values.sborg&&(!ct"
+    },
+    {
+      "file": "src/permit-map.js",
+      "line": 185,
+      "entryExpression": "'진행 기록 추가',requiredRoundField('kind','진행 종류','resubmission','select',Object.entries(roundLabels).map(([value,label])=>({value,label})))+requiredRoundField('date','발생일','','date')+F"
+    },
+    {
+      "file": "src/permit-views.js",
+      "line": 47,
+      "entryExpression": "'부지확보 수정','<div class=\"full construction-input-fields\">'+fields+'</div>',values=>{const matches=A.state.projects.filter(row=>row.id===projectId&&!row.deletedAt&&row.active!==false)"
+    },
+    {
+      "file": "src/permit-views.js",
+      "line": 62,
+      "entryExpression": "'착공·공사·준공 입력',`<div class=\"full construction-batch-form\" data-construction-batch>${fields}</div>`,values=>{storeConstructionInput(p.id,opened,initialValues,values);},'변경사항 저장',{ini"
+    },
+    {
+      "file": "src/permit-views.js",
+      "line": 75,
+      "entryExpression": "'기준일별 공정률',A.field('date','기준일',record?.date||A.today,'date').replace('<span>기준일</span>','<span>기준일<b class=\"permit-required\" aria-label=\"필수\">*</b></span>').replace('<input ','<inp"
+    },
+    {
+      "file": "src/recovery-views.js",
+      "line": 34,
+      "entryExpression": "'사업개요 수정',fields,values=>saveOverviewBasic(p.id,opened,initial,values),'변경사항 저장',{initialValues:initial,baselineValues:initial,draftContext:'overview-basic:'+p.id});"
+    },
+    {
+      "file": "src/recovery-views.js",
+      "line": 104,
+      "entryExpression": "'현안 추가',A.field('date','발생일',A.today,'date')+A.field('title','현안')+A.field('current','진행내용')+A.field('costImpact','원가 영향 (원)',0,'number')+A.field('scheduleImpact','일정 영향'),v=>{if(!"
+    },
+    {
+      "file": "src/recovery-views.js",
+      "line": 109,
+      "entryExpression": "'현안 수정',dateField+A.field('title','현안',initial.title)+A.field('current','진행내용',initial.current)+A.field('costImpact','원가 영향 (원)',initial.costImpact,'number')+A.field('scheduleImpac"
+    },
+    {
+      "file": "src/report.js",
+      "line": 269,
+      "entryExpression": "def[2],F('value',def[2],value,def[3],def[4]||[]),v=>saveDraftField(check().project,def,v.value,context));}"
+    },
+    {
+      "file": "src/report.js",
+      "line": 276,
+      "entryExpression": "({contractors:'시공사',trustees:'신탁사',guarantors:'보증기관'})[kind],defs.map(([key,label,type='text',options])=>F(key,label,record?.[key]===true?'예':record?.[key]===false?'아니오':record?.[k"
+    },
+    {
+      "file": "src/report.js",
+      "line": 298,
+      "entryExpression": "kind==='reportLandPlan'?'토지조성사업 계획':'건축사업 계획',F('asOf','자료 기준일',record?.asOf||context.date,'date')+defs.map(([key,label,type])=>F(key,label,record?.[key]??'',type)).join(''),v=>{co"
+    },
+    {
+      "file": "src/report.js",
+      "line": 299,
+      "entryExpression": "`${x.category||x.representativeLot||'계획 행'} 삭제`,'<p class=\"full\">정말 삭제하시겠습니까?</p>',()=>{const owner=check().project;return bufferPlanRows(owner,context,kind,editablePlanRows(owner,"
+    },
+    {
+      "file": "src/report.js",
+      "line": 303,
+      "entryExpression": "progressLabels[kind],F('date','날짜',record?.date??'','date')+F('title','제목',record?.title??'')+F('content','내용',record?.content??'','textarea'),values=>{"
+    },
+    {
+      "file": "src/report.js",
+      "line": 368,
+      "entryExpression": "'보고 상태',F('status','상태',record.status??'','select',statuses)+F('submitted','제출일',record.submitted??'','date')+F('receipt','접수번호',record.receipt??''),v=>{const target=check(),row=ta"
+    },
+    {
+      "file": "src/report.js",
+      "line": 371,
+      "entryExpression": "'보고 상태',F('status','상태',r.status??'','select',statuses)+F('submitted','제출일',r.submitted??'','date')+F('receipt','접수번호',r.receipt??''),v=>{"
+    },
+    {
+      "file": "src/setup.js",
+      "line": 69,
+      "entryExpression": "draft?'등록 초안':'프로젝트 등록',formFields(resumeValues||draft?.values||{}),v=>{const p=registerProject(v,A.ui.registrationDraftId||id,{navigate:false});setTimeout(()=>{if(finishRegistrati"
+    },
+    {
+      "file": "src/setup.js",
+      "line": 103,
+      "entryExpression": "'입력자료 함께 검토',inputs+evidenceFields(common),v=>{const current=A.state.projects.find(x=>x.id===p.id&&!x.deletedAt),latest=current?combinedSources(current):[];for(const c of pending)i"
+    },
+    {
+      "file": "src/setup.js",
+      "line": 106,
+      "entryExpression": "'입력자료 추가',A.field('key','대상 항목','name','select',fields.map(([key,label])=>({value:paths[key],label})))+A.field('value','자료값')+evidenceFields(p.registrationInput?.evidence||{}),v=>{"
+    },
+    {
+      "file": "src/setup.js",
+      "line": 117,
+      "entryExpression": "'사업 기본정보',A.field('name','사업명',p.name)+A.field('type','사업유형',p.type)+A.field('location','소재지',p.location)+A.field('manager','담당자',p.basic.manager)+A.field('operator','시행 법인',p.basi"
+    },
+    {
+      "file": "src/vat.js",
+      "line": 132,
+      "entryExpression": "origin.name+' · 금액·부가세',fields,v=>{const owner=A.state.projects.find(x=>x.id===p.id&&!x.deletedAt),mode=v.mode||source.mode||(source.kind==='cost'?'budget':'evidence');if(!owner||A"
+    },
+    {
+      "file": "src/vat.js",
+      "line": 139,
+      "entryExpression": "'저장된 부가세 기록 원가반영',`<div class=\"full\">${E(r.sourceSnapshot?.name)} · 현재 ${E(money(A.amount(p,source.id)))} → 반영 ${E(money(value))}</div>`,()=>applyToCost(p,source,r.id),'원가 반영');});"
+    },
+    {
+      "file": "src/vat.js",
+      "line": 141,
+      "entryExpression": "'기존 불공제 VAT 연결',`<div class=\"full\">기존 총액 ${E(money(r.legacyAmount))} · 항목별 확인액 ${E(money(r.itemTotal))}</div>`+r.items.map((x,i)=>F('allocation'+i,x.name+' · 기존 총액에 포함된 금액 (원)',r.r"
+    }
+  ],
+  "formEntrySiteCount": 84,
+  "changes": {
+    "files": [
+      "src/permit-map.js",
+      "src/permit-views.js",
+      "src/cbs.js"
+    ],
+    "preserved": [
+      "13 current A.editable callsites retain correct read/edit roles",
+      "individual permit detail4tabs",
+      "source catalog IDs, canonical vs stored names and legacy source rows",
+      "independent cost amount editing, all calculations, VAT/contracts/frozen values",
+      "existing areaForm7numeric+3metadata fields and save/validation algorithms",
+      "overview/issue/benchmark/recovery/partners source untouched",
+      "setup.js read only; actualAi false"
+    ]
+  },
+  "verification": {
+    "focused": {
+      "passed": 21,
+      "failed": 0,
+      "scope": "Approved row/section edit unit and existing traffic catalog identity on isolated current-module forms, no browser/DB. Absent whole-land form is recorded as approved feature gap, not a module-loading error."
+    },
+    "regression": {
+      "passedSuites": 16,
+      "failedSuites": 0,
+      "sourceChanged": [],
+      "files": [
+        "tests/review132-permit-editing.mjs",
+        "tests/review131-permit-criteria.mjs",
+        "tests/review131-independent-criteria.mjs",
+        "tests/review131-permit-military-conditions.mjs",
+        "tests/review131-independent-catalog.mjs",
+        "tests/center120-permit-independent.mjs",
+        "tests/center120-permit-form-context.mjs",
+        "tests/center120-permit-composite-followup.mjs",
+        "tests/center120-permit-save-transition.mjs",
+        "tests/review130-construction-display.mjs",
+        "tests/review130-workspace-access.mjs",
+        "tests/review131-edit-units.mjs",
+        "tests/review131-record-editing-adjacent.mjs",
+        "tests/review131-overview-edit.mjs",
+        "tests/review129-permit-input.mjs",
+        "tests/review132-client-render.mjs"
+      ]
+    },
+    "sourcePins": {
+      "src/core.js": "e3287e59d6c917f406d33240731463b8b04d418dcaf4ce0d73174c74ff06dd85",
+      "src/permit-map.js": "9e235cccafb4f7292c7842da74c9b1d8cf78f4f8893bf3b82dd2f57c6d4718be",
+      "src/permit-views.js": "4ab7d47415bf8faff5dc513982d5b5349bccb86873ae4edab219e689caf1c7ef",
+      "src/cbs.js": "01bb7cdc9c61763b57768d9fbb85fe842b11d5351db070dbdc9955d6acce86e8",
+      "src/legal.js": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802",
+      "src/recovery-views.js": "d0d4f7acce3738ab228bbda2655da74bf0a0f593ef3b3911bbd61ad7b1cbf448",
+      "src/partners.js": "f2299de9b19dc588c7896c5e0708fe950c194de68cabef11ac9b20d02311ac84",
+      "src/setup.js": "67edc0214984d694f643bb4cd2af854bb2867e93435e520f187e20075018435a",
+      "tests/review132-permit-editing.mjs": "7bbe03a50aca7bc9b0abd8633596276b7e7e3f77205badd50d844d9bc8e21339"
+    },
+    "actualDBWrites": 0,
+    "browserLaunches": 0,
+    "actualHTTP": 0
+  },
+  "newProjectInputMap": {
+    "readOnlyFile": "src/setup.js",
+    "createCapability": "core cloud runtime checks capabilities.createProject; frontend form existence alone is not permission",
+    "registrationFields": [
+      "id",
+      "type",
+      "name",
+      "location",
+      "operator",
+      "manager",
+      "gfaTotal",
+      "siteArea",
+      "acquisitionLandArea"
+    ],
+    "commonEvidence": [
+      "evidenceSource",
+      "evidenceLocation",
+      "evidenceAsOf",
+      "evidencePath"
+    ],
+    "register": "validate→buildProject→one transaction(initializers/legal/cost preset/audit)→finishRegistration→overview",
+    "laterManualInputs": [
+      "overview24",
+      "cost catalog/preset/amount",
+      "loan/equity/guarantee records",
+      "permit conditions→selection plus permit records/actions",
+      "land11/parcel/contract/payment",
+      "construction33/progress history",
+      "sales",
+      "contracts/documents",
+      "report draft fields and reflect/archive boundary"
+    ],
+    "inputDataReview": "setup-records/setup-add/setup-review-all use candidates/decisions/history; confirming candidates does not automatically overwrite business values",
+    "actualAi": false,
+    "automaticParseOrUpload": "not implemented by this module; no actual AI integration inferred from descriptions",
+    "reviewStatus": "read only; not new implementation/actual registration execution"
+  }
+}

@@ -2,6 +2,9 @@
  'use strict';
  const fields=[['name','사업명','text'],['location','소재지','text'],['operator','사업시행 법인','text'],['manager','담당자','text'],['gfaTotal','연면적 ㎡','number'],['siteArea','대지면적 ㎡','number'],['acquisitionLandArea','취득대상 토지면적 ㎡','number']];
  const paths={name:'name',location:'location',operator:'basic.operator',manager:'basic.manager',gfaTotal:'building.gfaTotal',siteArea:'building.siteArea',acquisitionLandArea:'building.acquisitionLandArea'};
+ const overviewProfile='development-overview-v2',overviewFields=[['fundName','펀드명 (아우름 등록 정식명)','text'],['financeStructure','파이낸스 구조','text']];
+ const employeeDirectory={employees:[],generation:0,error:'',projectId:''};
+ const employeeFieldRequests=new WeakMap();
  const read=(p,key)=>key.split('.').reduce((o,k)=>o?.[k],p),copy=x=>A.clone(x),text=x=>String(x??'').trim(),live=xs=>(xs||[]).filter(x=>!x.deletedAt),stamp=()=>new Date().toISOString();
  const fail=errors=>{throw A.inputError?A.inputError(errors):Object.assign(Error(Object.values(errors)[0]),{fieldErrors:errors});};
  const create=(label,action,data={})=>A.createButton?A.createButton(label,action,data):A.btn(label,action,data,'create');
@@ -21,6 +24,34 @@
    if(!normalized.type)errors.type='사업유형을 선택해 주세요.';
    Object.assign(errors,evidenceErrors(evidence(values)),A.legal?.projectRegistrationErrors?.(legalValues(values))||{});
    return {valid:Object.keys(errors).length===0,errors,normalized,evidence:evidence(values)};
+ }
+ function resolveEmployee(employeeId,employees=employeeDirectory.employees){const id=text(employeeId),matches=(employees||[]).filter(x=>x.employeeId===id);if(!id||matches.length!==1||!text(matches[0].name))return null;const row=matches[0];return {employeeId:row.employeeId,name:row.name,email:row.email==null||!text(row.email)?null:row.email};}
+ function validateOverview(values,{employees=employeeDirectory.employees,checkId=true}={}){
+   const managerRef=resolveEmployee(values.managerEmployeeId,employees),input={...values,manager:managerRef?.name||''},result=validate(input,{checkId});
+   if(!managerRef){delete result.errors.manager;result.errors.managerEmployeeId=employeeDirectory.error||'담당자를 직원 목록에서 선택해 주세요.';}
+   for(const[key,label]of overviewFields){result.normalized[key]=text(values[key]);if(!result.normalized[key])result.errors[key]=label+' 항목을 입력해 주세요.';}
+   for(const[key,max]of [['name',300],['type',200],['location',2000],['operator',500],['manager',300],['fundName',500],['financeStructure',10000]]){const value=result.normalized[key];if(typeof value==='string'&&(value.length>max||!value.isWellFormed()||/[\u0000-\u001f\u007f]/.test(value)))result.errors[key==='manager'?'managerEmployeeId':key]='입력 내용을 확인해 주세요. '+max+'자 이내로 입력할 수 있습니다.';}
+   if(managerRef)result.normalized.managerRef=managerRef;result.valid=Object.keys(result.errors).length===0;return result;
+ }
+ function managerFields(employeeId='',name='',key='managerEmployeeId',employees=employeeDirectory.employees,projectId=''){
+   const options=(employees||[]).map(row=>({value:row.employeeId,label:row.name+' · '+(row.email||'이메일 미등록 · 직원번호 '+row.employeeId)}));
+   if(employeeId&&!options.some(x=>x.value===employeeId))options.unshift({value:employeeId,label:(name||'저장한 담당자')+' · 원천 확인 필요'});
+   if(!employeeId&&name)options.unshift({value:'@legacy',label:name+' · 기존 기록 유지'});
+   return '<div class="dp-employee-field">'+A.field(key,'담당자',employeeId||name&&'@legacy'||'','select',options)+A.btn('담당자 목록 새로고침','registration-employees-refresh',{field:key,projectId},'small')+'</div>';
+ }
+ async function loadEmployees(projectId=''){
+   const generation=++employeeDirectory.generation;employeeDirectory.error='';
+   try{const response=await fetch('/api/employee-directory'+(projectId?'?projectId='+encodeURIComponent(projectId):''),{credentials:'same-origin',cache:'no-store'});if(!response.ok)throw Error('담당자 목록을 불러오지 못했습니다. 다시 불러와 주세요.');const data=await response.json();if(data.source!=='orgdb.employee_profiles'||!Array.isArray(data.employees))throw Error('담당자 목록을 확인하지 못했습니다. 다시 불러와 주세요.');const ids=new Set();for(const row of data.employees){if(!row||typeof row.employeeId!=='string'||!row.employeeId.trim()||typeof row.name!=='string'||!row.name.trim()||row.email!=null&&typeof row.email!=='string'||ids.has(row.employeeId))throw Error('담당자 목록에 확인이 필요한 정보가 있습니다.');ids.add(row.employeeId);}if(generation!==employeeDirectory.generation)return false;employeeDirectory.employees=data.employees.map(x=>({employeeId:x.employeeId,name:x.name,email:x.email||null}));employeeDirectory.projectId=projectId;return true;
+   }catch(error){if(generation===employeeDirectory.generation){employeeDirectory.employees=[];employeeDirectory.error=error.message||'담당자 목록을 불러오지 못했습니다.';}return false;}
+ }
+ function restoreEmployeeField(values={},key='managerEmployeeId'){
+   const form=document.getElementById('app-form'),select=form?.querySelector('[name="'+key+'"]');if(!select||!Object.prototype.hasOwnProperty.call(values,key))return false;const selected=String(values[key]??''),name=resolveEmployee(selected)?.name||values.manager||values.basic__manager||'',box=document.createElement('div');box.innerHTML=managerFields(selected,name,key);const next=box.querySelector('select');if(next)select.innerHTML=next.innerHTML;select.value=selected;return true;
+ }
+ async function refreshEmployeeField(projectId='',key='managerEmployeeId'){
+   const form=document.getElementById('app-form'),select=form?.querySelector('[name="'+key+'"]');if(!select)return false;const active=employeeFieldRequests.get(form);if(active?.key===key&&active.projectId===projectId)return active.promise;
+   const promise=(async()=>{const ok=await loadEmployees(projectId);if(document.getElementById('app-form')!==form||!select.isConnected)return false;const selected=select.value,previous=select.options?.[select.selectedIndex]?.text||'';
+   const box=document.createElement('div');box.innerHTML=managerFields(selected,previous,key);const next=box.querySelector('select');if(next)select.innerHTML=next.innerHTML;select.value=selected;
+   let error=form.querySelector('[data-employee-directory-error]');if(!ok){if(!error){error=document.createElement('p');error.dataset.employeeDirectoryError='';error.id='dp-employee-directory-error-'+key;error.setAttribute('role','alert');select.parentNode.appendChild(error);}error.textContent=employeeDirectory.error;select.setAttribute('aria-invalid','true');select.setAttribute('aria-describedby',error.id);}else{error?.remove();select.removeAttribute('aria-invalid');if(select.getAttribute('aria-describedby')==='dp-employee-directory-error-'+key)select.removeAttribute('aria-describedby');}return ok;})();employeeFieldRequests.set(form,{key,projectId,promise});try{return await promise;}finally{if(employeeFieldRequests.get(form)?.promise===promise)employeeFieldRequests.delete(form);}
  }
  function existingCandidates(p){return fields.map(([key,label,type])=>({id:A.uid('candidate'),key:paths[key],label,type,value:read(p,paths[key])??'',source:'기존 저장자료',location:'기본정보',asOf:p.asOf||'',path:'',status:'unreviewed',choices:[]}));}
  function initialize(state){
@@ -43,9 +74,10 @@
  }
  function finishRegistration(p){if(!p||!A.state.projects.includes(p))return false;A.ui.projectId=p.id;A.ui.view='overview';A.ui.registrationDraftId='';A.persistUI?.();return true;}
  function registerProject(values,draftId='',options={}){
-   const result=validate(values);if(!result.valid)fail(result.errors);
+   const result=options.profile===overviewProfile?validateOverview(values,{employees:options.employees||employeeDirectory.employees}):validate(values);if(!result.valid)fail(result.errors);
    const draft=draftId?live(A.state.projectRegistrationDrafts).find(d=>d.id===draftId):null;if(draftId&&!draft)fail({id:'등록 초안을 찾을 수 없습니다.'});
    const p=buildProject(result.normalized,result.evidence);
+   if(options.profile===overviewProfile){Object.assign(p.basic,{fundName:result.normalized.fundName,financeStructure:result.normalized.financeStructure,managerRef:copy(result.normalized.managerRef)});p.registrationInput.profile=overviewProfile;for(const[key,label,type]of overviewFields)p.initialization.candidates.push({id:A.uid('candidate'),key:'basic.'+key,label,type,value:result.normalized[key],...copy(result.evidence),status:'confirmed',reviewedAt:p.registrationInput.confirmedAt,reviewedBy:p.basic.manager,confirmationScope:'project-registration'});}
    A.transaction(()=>{A.state.projects.push(p);A.legal?.applyProjectRegistration?.(p,legalValues(result.normalized));for(const init of A.initializers)init(A.state);const preset=A.costUsePresets?.forProjectType?.(p.type);if(preset)A.costUsePresets.apply(p,preset.id,{mode:'registration',source:'project-registration'});if(draft){draft.registeredProjectId=p.id;draft.registeredAt=stamp();}A.audit('CREATE','project',p.id,null,p,p.id+' 프로젝트가 등록되었습니다.',{view:'overview',projectId:p.id});});
    if(options.navigate!==false)finishRegistration(p);return p;
  }
@@ -56,17 +88,18 @@
  function evidenceFields(e={}){
    return '<fieldset class="full dp-registration-evidence"><legend>공통 입력자료</legend><div class="form-grid">'+A.field('evidenceSource','자료명',e.source||'')+A.field('evidenceLocation','자료 위치 · 시트/페이지',e.location||'')+A.field('evidenceAsOf','자료 기준일',e.asOf||A.today,'date')+A.field('evidencePath','공통 근거 경로',e.path||'')+'</div></fieldset>';
  }
- function formFields(values={}){
+ function formFields(values={},options={}){
    const v={id:newCode(),type:A.realMode?'':'오피스',...values};
    const projectTypes=['복합개발사업','오피스','리테일','호텔','물류','데이터센터','시니어리빙','임대주택','분양주택'];if(v.type&&!projectTypes.includes(v.type))projectTypes.push(v.type);
-   return '<div class="full dp-registration-fields">'+A.field('id','프로젝트 코드',v.id)+A.field('type','사업유형',v.type,'select',projectTypes)+fields.map(([key,label,type])=>A.field(key,label,v[key]??'',type)).join('')+'</div>'+evidenceFields(evidence(v))+'<div class="full dp-registration-draft-action">'+A.btn('등록 초안 저장','registration-draft-save')+'</div>';
+   const full=options.profile===overviewProfile;
+   return '<div class="full dp-registration-fields">'+A.field('id','프로젝트 코드',v.id)+A.field('type','사업유형',v.type,'select',projectTypes)+fields.map(([key,label,type])=>full&&key==='manager'?managerFields(v.managerEmployeeId||v.managerRef?.employeeId,v.manager,'managerEmployeeId',options.employees||employeeDirectory.employees):A.field(key,label,v[key]??'',type)).join('')+(full?overviewFields.map(([key,label,type])=>A.field(key,label,v[key]??'',type)).join(''):'')+'</div>'+evidenceFields(evidence(v))+'<div class="full dp-registration-draft-action">'+A.btn('등록 초안 저장','registration-draft-save')+'</div>';
  }
  function draftAdapter(id=''){
-   let currentId=id;return {scope:'project-registration',label:'프로젝트 등록',saveDraft(values){const committedId=currentId&&live(A.state.projectRegistrationDrafts).some(x=>x.id===currentId&&!x.registeredProjectId)?currentId:id;const row=saveDraft(values,committedId);currentId=row.id;return row;},resume(){/* The shared form editor restores its DOM, values, errors and guard. */}};
+   let currentId=id;return {scope:'project-registration',label:'프로젝트 등록',saveDraft(values){const committedId=currentId&&live(A.state.projectRegistrationDrafts).some(x=>x.id===currentId&&!x.registeredProjectId)?currentId:id;const row=saveDraft(values,committedId);currentId=row.id;return row;},resume(values){restoreEmployeeField(values);refreshEmployeeField();}};
  }
  function openRegistration(id='',resumeValues){
    const draft=id?live(A.state.projectRegistrationDrafts).find(x=>x.id===id&&!x.registeredProjectId):null;if(id&&!draft)return A.toast('등록 초안을 찾을 수 없습니다.');
-   A.ui.registrationDraftId=id;A.form(draft?'등록 초안':'프로젝트 등록',formFields(resumeValues||draft?.values||{}),v=>{const p=registerProject(v,A.ui.registrationDraftId||id,{navigate:false});setTimeout(()=>{if(finishRegistration(p))A.render();},0);return p;},'등록 확정',{draftAdapter:draftAdapter(id)});
+   A.ui.registrationDraftId=id;A.form(draft?'등록 초안':'프로젝트 등록',formFields(resumeValues||draft?.values||{},{profile:overviewProfile}),v=>{const p=registerProject(v,A.ui.registrationDraftId||id,{navigate:false,profile:overviewProfile});setTimeout(()=>{if(finishRegistration(p))A.render();},0);return p;},'등록 확정',{draftAdapter:draftAdapter(id)});
  }
  function renderDrafts(){const rows=live(A.state.projectRegistrationDrafts).filter(x=>!x.registeredProjectId);if(!rows.length)return'';return A.panel('등록 초안',A.table(['프로젝트','저장일',''],rows.map(d=>[A.esc(d.values.name||'사업명 미입력'),A.esc(d.savedAt.slice(0,16).replace('T',' ')),A.btn('등록 이어하기','registration-draft-open',{id:d.id})+A.btn('삭제','registration-draft-delete',{id:d.id},'text')])));}
  function combinedSources(p){
@@ -109,6 +142,7 @@
  A.initializers.push(initialize);A.initializationSources=sourceTable;
  A.register('setup',renderSources);
  A.on('project-add',()=>openRegistration());A.on('registration-draft-open',b=>openRegistration(b.dataset.id));
+ A.on('registration-employees-refresh',b=>refreshEmployeeField(b.dataset.projectId||'',b.dataset.field||'managerEmployeeId'));
  A.on('registration-draft-save',()=>{const form=document.getElementById('app-form');if(!form)return;const v=A.formEditor?.values?.()||Object.fromEntries(new FormData(form)),row=saveDraft(v,A.ui.registrationDraftId||'');A.ui.registrationDraftId=row.id;A.formEditor?.markSaved?.(row.values);if(A.requestModalClose)A.requestModalClose();else A.closeModal();A.go('portfolio');});
  A.on('registration-draft-delete',b=>{const d=live(A.state.projectRegistrationDrafts).find(x=>x.id===b.dataset.id&&!x.registeredProjectId);if(!d)return;A.confirmDelete('등록 초안',()=>{const before=copy(d);d.deletedAt=stamp();A.audit('DELETE','projectRegistrationDraft',d.id,before,d,'',{view:'portfolio',projectId:''});});});
  function openInputRecords(p=A.current()){A.modal('입력자료',sourceTable(p),A.btn('미확인 자료 검토','setup-review-all')+create('입력자료 추가','setup-add'));}
@@ -116,10 +150,14 @@
  A.on('setup-review-all',openReview);A.on('setup-review',openReview);A.on('setup-add',openCandidate);
  A.on('project-edit',()=>{const p=A.current();A.form('사업 기본정보',A.field('name','사업명',p.name)+A.field('type','사업유형',p.type)+A.field('location','소재지',p.location)+A.field('manager','담당자',p.basic.manager)+A.field('operator','시행 법인',p.basic.operator)+A.field('method','사업방식',p.basic.method)+A.field('above','지상층수',p.building.floorsAbove,'number')+A.field('below','지하층수',p.building.floorsBelow,'number'),v=>{const result=validateBasic(v,{partial:true});if(!result.valid)fail(result.errors);v=result.normalized;const before={name:p.name,type:p.type,location:p.location,basic:copy(p.basic),building:copy(p.building)};Object.assign(p,{name:text(v.name),type:v.type,location:v.location});if(p.entityId&&A.renameEntity&&v.operator!==p.basic.operator)A.renameEntity(p,v.operator);Object.assign(p.basic,{manager:v.manager,operator:v.operator,method:v.method});Object.assign(p.building,{floorsAbove:Number(v.above),floorsBelow:Number(v.below)});const impacts=A.legal?.refreshProjectImpacts?.(A.state);for(const change of impacts?.changes||[])A.audit('RECLASSIFY','projectLawImpact',change.id,change.before,change.after,'',{view:'law',tab:'recent',projectId:p.id});A.audit('UPDATE','project',p.id,before,{name:p.name,type:p.type,location:p.location,basic:p.basic,building:p.building},p.id+' 사업개요 변경',{view:'overview'});});});
  document.addEventListener('change',e=>{const name=e.target.name||'';if(name.startsWith('review_action_')){const id=name.slice(14),row=[...document.querySelectorAll('[data-review-values]')].find(x=>x.dataset.reviewValues===id);if(row)row.hidden=e.target.value!=='confirm';}});
- A.projectRegistration={fields,validate,validateBasic,draftAdapter,register:registerProject,finishRegistration,saveDraft,renderDrafts,formFields,initialize,addCandidate,reviewCandidates,combinedSources,sourceTable};
+ A.projectRegistration={fields,validate,validateBasic,validateOverview,overviewProfile,overviewFields,resolveEmployee,managerFields,loadEmployees,restoreEmployeeField,refreshEmployeeField,draftAdapter,register:registerProject,finishRegistration,saveDraft,renderDrafts,formFields,initialize,addCandidate,reviewCandidates,combinedSources,sourceTable};
  A.spec.featureContracts.initialization={flow:['프로젝트 등록 단일폼','7개 기본값·공통 자료근거 확인','등록 확정','개요에서 일반 업무'],required:fields.map(([key])=>key),draft:'projectRegistrationDrafts 별도 보관. 초안을 운영 프로젝트 목록·보고값에 합산하지 않음',legacy:'기존 초기후보·상태·근거를 임의확정하지 않음. 누락 필드 상태만 분리',sourceReview:'입력자료의 후속 후보 검토는 inputDataReviews/inputDataReviewHistory에 저장. 완료상태 재개나 현재값 자동덮어쓰기 없음',legal:'개발업 등록대상 최종판정은 별도 업무. 프로젝트 최초등록에 법정서류 전체확정 강제하지 않음',actualAi:false};
  A.spec.dataContracts=A.spec.dataContracts||{};A.spec.dataContracts.projectRegistration={draft:'state.projectRegistrationDrafts: id,values,savedAt,status,registeredProjectId,registeredAt,deletedAt. 프로젝트와 분리하며 삭제는 감사이력 있는 soft delete',confirmed:'project.registrationInput: status,confirmedAt,confirmedBy,evidence{source,location,asOf,path},missingKeys. 프로젝트 주소와 자료 위치를 별도 필드로 보관',sourceReview:'project.inputDataReviews/inputDataReviewHistory. 기존 initialization.candidates 원문은 수정하지 않고 확인결과 overlay를 보관. 후보 확인은 실제 사업정보 수정과 별개',failure:'필드별 오류는 A.inputError 계약. 등록+법인연결+초안완료+감사이력을 같은 트랜잭션으로 저장. 외부 폼 트랜잭션 성공 확인 전에는 개요로 이동하지 않음'};
  A.spec.requirements=A.spec.requirements||[];A.spec.requirements.push({id:'INIT-105',decision:'단일 프로젝트 등록과 독립 입력자료 검토. 공통근거 1회, 필드별 오류, 실패초안 보존, 기존 사용자 업무강제 gate 없음'},{id:'INIT-106',decision:'초기화 모듈 순서와 무관하게 기존 기본정보를 preservedInputCandidates에 미확인 원문으로 보존. 항목별 확인/보류/직접보완/동일항목 후보연결은 별도 overlay와 이력에 저장. 실제 기본정보 자동 변경 금지. 등록 초안 adapter는 공통 폼의 미저장 보호를 사용'});
  A.spec.dataContracts.projectRegistration.preserved='preservedInputCandidates: 초기자료 후보에 없는 7개 기본값의 최초 보존본. initialization 원문·상태 불변, 반복 초기화 시 중복 없음';
  A.spec.dataContracts.projectRegistration.reviewDecision='inputDataReviews: status reviewed/deferred, linkedCandidateId, originCandidateId. 확인만 값·공통근거 검증하며 보류는 빈값을 그대로 보존. 확인도 실제 프로젝트값 자동변경 없음';
+ A.spec.featureContracts.initialization.legacyApi={required:fields.map(([key])=>key),scope:'기존 7개 기본정보 읽기·이관 API. 기존 기록은 v2로 추정 승격하지 않음'};
+ A.spec.featureContracts.initialization.flow=['개발 기본개요 단일 등록폼','펀드 정식명·파이낸스 구조·직원 원천 선택·공통 자료근거 확인','등록 확정','개요에서 같은 정보 조회·수정'];
+ A.spec.featureContracts.initialization.required=['id','type',...fields.map(([key])=>key==='manager'?'managerEmployeeId':key),...overviewFields.map(([key])=>key)];
+ A.spec.dataContracts.projectRegistration.v2={profile:overviewProfile,required:A.spec.featureContracts.initialization.required,directory:'GET /api/employee-directory; 신규 등록 관리자·기존 사업 편집자/승인자만. employeeId는 orgdb 직원번호, 조직과 로그인 허용범위는 별도',stored:['basic.fundName','basic.financeStructure','basic.manager','basic.managerRef.employeeId','basic.managerRef.name','basic.managerRef.email'],preservation:'email null·미입력/0·초안 원문·실패 후 선택·서버 원자저장 보존. 파이낸스 구조 설명으로 대출/출자 기록이나 금액을 생성하지 않음',consumers:'등록·초안·개요 수정·중앙 원장·감사·JSON 출력은 같은 필드. 법정 보고서는 기존 확정 매핑을 보존하고 펀드명과 시행법인을 서로 대신 사용하지 않음'};
 })(App);

@@ -12,6 +12,7 @@
     }
   },
   "rewrites": [
+    {"source":"/api/employee-directory","destination":"/api/reference-data?__reference_route=employees"},
     {"source":"/api/partner-comments","destination":"/api/reference-data?__reference_route=comments"},
     {"source":"/api/report-archives","destination":"/api/reference-data?__reference_route=archives"},
     {"source":"/api/law-search","destination":"/api/law?__law_route=search"},

@@ -1,0 +1,374 @@
+{
+  "reviewId": "REVIEW132",
+  "area": "in-app notifications and server data/performance",
+  "baseline": {
+    "productionCandidate": "C93",
+    "runtimeSource": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+    "main": "5a0dc9ff92d9d7429f820773b1d4e13eb1e310a9"
+  },
+  "status": "Approved notification corrections model-verified; independent current-patch review and final browser/deployment acceptance separate",
+  "uiUxChanged": false,
+  "mechanisms": [
+    {
+      "kind": "shared business audit",
+      "producer": "src/core.js A.audit",
+      "source": "platform_workspace.state.notifications",
+      "recipient": "Current readable project members including actor; administrators see current live projects",
+      "personalState": "notification_states(user_id,notification_id)",
+      "cadence": "Initial authenticated render/open and activation after60 seconds; no real-time push",
+      "externalDelivery": false
+    },
+    {
+      "kind": "legacy project alerts",
+      "producer": "Historical imported source, no separate current producer found",
+      "source": "state.projectAlerts and original core migration",
+      "recipient": "Same project read scope",
+      "legacyDismissed": "Preserved without assigning unknown actor"
+    },
+    {
+      "kind": "quarterly reminder",
+      "producer": "Existing maintenance quarterly job",
+      "source": "quarterly_tasks; unique project_id/quarter_key",
+      "recipient": "Current readable live project members; read/delete does not complete task",
+      "completion": "Explicit confirmed snapshot storage, not notification action",
+      "id": "quarterly:<project max200>:YYYY-Qn, max218",
+      "retry": "Existing daily maintenance lease/idempotence and later-quarter catch-up; no new timer or external send introduced"
+    },
+    {
+      "kind": "law review",
+      "producer": "Notification GET from existing law_project_watches and latest laws snapshot",
+      "source": "Only watch identity with observed change after rollout and subscription; canonical changes projected once",
+      "recipient": "Readable live subscribed projects only",
+      "id": "Existing project/canonical change hash",
+      "personalState": "Current canonical alert identity retained; only independently verified raw members contribute legacy personal state"
+    }
+  ],
+  "api": {
+    "path": "/api/notifications",
+    "methods": [
+      "GET",
+      "PATCH"
+    ],
+    "get": {
+      "existing": [
+        "states",
+        "tasks",
+        "alerts"
+      ],
+      "compatibleAdditions": [
+        "notices",
+        "projectIds"
+      ],
+      "noticesFields": [
+        "id",
+        "title",
+        "at",
+        "detail",
+        "dismissed",
+        "target"
+      ],
+      "authoritativeEmptyScope": true,
+      "wholeWorkspaceRefresh": false
+    },
+    "patch": {
+      "body": [
+        "notificationId",
+        "action"
+      ],
+      "actions": [
+        "read",
+        "delete",
+        "restore"
+      ],
+      "actor": "Existing authenticated server userId, never supplied by client",
+      "allowed": "Actual currently authorized notification/task/alert ID set required",
+      "idCompatibility": "Common max200 plus exact generated quarterly form only up to218",
+      "sideEffects": "Personal row UPSERT only; no workspace/audit/task/law/source write"
+    }
+  },
+  "fixed": [
+    {
+      "id": "NTF132-02",
+      "problem": "New generic notification source absent from small GET",
+      "behavior": "Authorized notices cache outside shared workspace preserves local unsaved notices and refreshes other staff changes"
+    },
+    {
+      "id": "NTF132-02-SCOPE",
+      "problem": "Stale/deleted/revoked project notices could remain visible",
+      "behavior": "Live local projects intersect explicit current server scope; [] never falls back to old workspace"
+    },
+    {
+      "id": "NTF132-03",
+      "problem": "Mutation-invalidated GET was discarded without a fresh scope check",
+      "behavior": "Exactly one coalesced fresh GET after pending mutation; no failure retry loop"
+    },
+    {
+      "id": "NTF132-03-NULL",
+      "problem": "Null collection/entries caused technical/render errors or false successful refresh",
+      "behavior": "Existing format-error text, preserve last successful list/state before any assignment"
+    },
+    {
+      "id": "NTF132-04",
+      "problem": "Legal generated quarterly218 ID rejected by200 validator",
+      "behavior": "Exact generator-shaped compatibility plus real allowed-source set; foreign or219 rejected"
+    },
+    {
+      "id": "NTF132-05",
+      "problem": "Repeated canonical projection and business reads before invalid PATCH",
+      "behavior": "One canonical pass; malformed fields rejected before heavy source/task/law reads"
+    },
+    {
+      "id": "NTF132-03-DISPATCH",
+      "problem": "A reset before the queued GET/PATCH starts did not stop the old request from being sent",
+      "behavior": "Generation checked immediately before fetch as well as after response; no stale-context dispatch"
+    },
+    {
+      "id": "NTF132-02-TARGET",
+      "problem": "A local top-level projectId could lose its click destination, and a contradictory target could survive local fallback",
+      "behavior": "Copy a declared projectId into a missing target without mutating the original notice; reject conflicting project identities before deduplication"
+    }
+  ],
+  "verification": {
+    "focused": {
+      "evidence": {
+        "path": ".build/review132/notifications-focus-1793260328488.json",
+        "sha256": "bd17a75ba4238ddac50540f89703103953710e8f3bfebf724fff819f50766cbf"
+      },
+      "suites": 13,
+      "passedSuites": 13,
+      "reportedChecksAndLegacyGroups": 156,
+      "failed": 0,
+      "sourceChanged": []
+    },
+    "newCases": {
+      "contract": 11,
+      "asyncAndBadResponse": 17,
+      "lawAlias": 22,
+      "total": 50
+    },
+    "tdd": {
+      "contractBefore": {
+        "passed": 1,
+        "failed": 8,
+        "evidence": {
+          "path": ".build/review132/notifications-contract-red-final.json",
+          "sha256": "3a3f8d100d2877c6878c50ca41746e84843328f7a29024d46d5ac828887ae492"
+        }
+      },
+      "initialAsyncBefore": {
+        "passed": 10,
+        "failed": 2,
+        "evidence": {
+          "path": ".build/review132/notifications-races-red.json",
+          "sha256": "c1cec86240bef49e560a5eb55bf4f054ecba546dea7a087b3c0f7edd4dd2f2e1"
+        }
+      },
+      "nestedNullBefore": {
+        "passed": 12,
+        "failed": 3,
+        "evidence": {
+          "path": ".build/review132/notifications-nested-null-red.json",
+          "sha256": "f91966a3bd0c7d3813524dc961d33729dda63f5e610c0c16df17a528ade5e864"
+        }
+      },
+      "preDispatchBefore": {
+        "passed": 15,
+        "failed": 2,
+        "evidence": {
+          "path": ".build/review132/notifications-dispatch-reset-red.json",
+          "sha256": "6b0b88f4eca7c33cb92330f1205c1d943affe9a1f5b65c6ad7b05bf44ec74967"
+        }
+      },
+      "targetContextBefore": {
+        "passed": 9,
+        "failed": 2,
+        "evidence": {
+          "path": ".build/review132/notifications-target-context-red.json",
+          "sha256": "3c844ae0ca5727f2cbe61ae35892e5df0a5d1b277320dd697262457bf805145f"
+        }
+      },
+      "lawAliasBefore": {
+        "passed": 14,
+        "failed": 6,
+        "evidence": {
+          "path": ".build/review132/notifications-law-alias-red.json",
+          "sha256": "57397f91a882fb39d9129f7df0a94768b331dc8895421c624a5a8a0fc185158d"
+        }
+      }
+    },
+    "preparationOnly": {
+      "rollbackTrace": "The first fixture rolled back its diagnostic query trace; corrected without changing product assertions before final RED.",
+      "legacyTextParsers": [
+        {
+          "path": ".build/review132/notifications-focus-1793257457941.json",
+          "sha256": "07890c49e8aa369ec8286d65630600cc4b3fbbbedfc3bd4158a8c5dbb391f2cb"
+        },
+        {
+          "path": ".build/review132/notifications-focus-1793257484902.json",
+          "sha256": "e080c99a2cb424d90578f6c303b06cf045e924cb64b93e73ce15fdfd5991ccaf"
+        }
+      ],
+      "meaning": "Three old tests emit only text assertion groups. Their source/expectations stayed unchanged; parser preparation is not a product failure.",
+      "oldLawSqlLock": {
+        "file": "tests/center120-law-notifications.mjs",
+        "change": "Synthetic SQL dispatcher recognizes the new advisory lock as a no-row result; all original source/role/state assertions retained",
+        "beforeEvidence": {
+          "path": ".build/review132/notifications-focus-1793260119880.json",
+          "sha256": "bcaf773f010f4a07e27f06951dba50b2fc99bb6209d32562e566c975ba2914c5"
+        }
+      }
+    },
+    "scopeProof": {
+      "path": ".build/review132/notifications-scope-proof.json",
+      "sha256": "33e52dfe0d1c9b329ba596690d3241bd9a52f9716c834c36da1edd34984cacdc"
+    },
+    "actualBrowser": "notrun",
+    "operationalPatch": "notrun",
+    "deployment": "not performed"
+  },
+  "liveReadonly": {
+    "evidence": {
+      "path": ".build/review132/notifications-live-metadata-1793257195594.json",
+      "sha256": "8c6baceaed09ad0622a09ec7eed9e4dd1b13e8cf283a8ba3100461bb6bfbfe24"
+    },
+    "observedAtKst": "2026-10-29 15:59:08.903661",
+    "workspaceRevision": 58,
+    "workspaceMd5": "8c6fd194444ab77a13b5fff1556da345",
+    "workspaceJsonTextBytes": 3092647,
+    "notificationSourceJsonTextBytes": 15713,
+    "sourceRatioPercent": 0.508,
+    "notWholeWorkspaceRead": true,
+    "generalNotices": 49,
+    "invalidOrDuplicateOrMismatchedIds": 0,
+    "legacySharedDismissed": 1,
+    "legacyProjectAlerts": 6,
+    "personalStateRows": 2,
+    "personalStateUsers": 2,
+    "lawPersonalStates": 0,
+    "quarterlyTasks": 0,
+    "projectSubscriptions": 2,
+    "note": "JSON text size projection, not total API wire bytes/latency; no individual identities, notice bodies, amounts or credentials returned"
+  },
+  "aliasFinding": {
+    "id": "NTF132-ALIAS",
+    "status": "implemented-model-verified",
+    "before": {
+      "path": ".build/review132/law-notification-alias-repro.json",
+      "sha256": "f625d7b2a7ea7cca6ecf34117c92a41b960b118a49cbfb0e49b85c71e152ee7c"
+    },
+    "red": {
+      "path": ".build/review132/notifications-law-alias-red.json",
+      "sha256": "57397f91a882fb39d9129f7df0a94768b331dc8895421c624a5a8a0fc185158d"
+    },
+    "green": {
+      "path": ".build/review132/notifications-law-alias-green.json",
+      "sha256": "fdd4c627f8f8169124f9164f05da0273471b47aa8b27d5473a855c29915b4eef"
+    },
+    "key": [
+      "unique actual raw id",
+      "watch lawId",
+      "law/admrul/ordin target",
+      "numeric official sequence",
+      "normalized publication number",
+      "valid announcedAt/effectiveAt and exact effective date set",
+      "explicit sample boolean",
+      "publication versus exact before/after body hash pair"
+    ],
+    "membership": "Supplied aliasIds claims never contribute; ambiguous or incomplete raw identities stay separate; original records and IDs remain unchanged",
+    "get": "Own states for verified members projected under current visible alert ID; no GET writes",
+    "patch": "Short app/user advisory transaction lock before source/state reads; access rechecked after waiting; single UPSERT of verified current alias set for current user only",
+    "restore": "All currently proven aliases for this user have deleted_at cleared together, while existing read_at and other users remain unchanged",
+    "read": "Read changes never clear a deletion; state merge does not interpret updated_at as restore",
+    "independentCurrentPatch": "Security architecture peer read-only review of exact a91b53df helper/97048721 center/458f24ec client found no definite new defect; did not execute tests or operational SQL",
+    "limitations": "No operational PATCH/browser/real SQL concurrency run; a future source that removes or changes old raw proof is not treated as verified alias; no invented membership or new retention table"
+  },
+  "sourcePins": {
+    "server/notifications-law-state.mjs": "a91b53dfd0e3e56e93629def5279c5dd185836039d4a9cce261fadc0a51bf179",
+    "server/center-services.mjs": "97048721785a28302eb42a2179c072a09143e988588fa4800e1645ee8dbaf9d4",
+    "src/notifications.js": "458f24ec7d1f1d38e7a3ff0f03ac0037aaa7398bf157e852ec4ee1a78ebadde5",
+    "src/notifications.css": "fda1c1e51221fe557cc6da4957004b9c19825c45eb1f6cb4b3298095fab5a30a",
+    "api/notifications.js": "6f4e0e5bb5431e6b673c0752b1a659169e8b23d81ee1993b74e1a5bd2c7cf41f"
+  },
+  "safety": {
+    "realNotificationsSent": 0,
+    "externalMailSmsSent": 0,
+    "operationalSqlWrites": 0,
+    "otherSchemaAccess": 0,
+    "credentialsRead": 0,
+    "workspaceBusinessDataChangedByTests": false,
+    "lawCanonicalSourceChanged": false,
+    "newPaginationUi": false,
+    "newRecipientPolicy": false,
+    "htmlCssOrDefaultWordingChanged": false
+  },
+  "wholeAreaAccepted": false,
+  "wholePlatformAccepted": false,
+  "resumed20261030": {
+    "at": "2026-10-30T01:29:41.919Z",
+    "verification": {
+      "evidence": {
+        "path": ".build/review132-backend/focused-final.json",
+        "sha256": "5158c2a7e8d3db110f5bae1bf28e4b0b8e5ec590fea8452def2a0d46521c39fd"
+      },
+      "passedSuites": 30,
+      "failedSuites": 0,
+      "sourceChanged": [],
+      "meaning": "30 current server/auth/notification/reference/employee/workspace suites; suite count is not unique user flows or individual assertion count"
+    },
+    "sourcePins": {
+      "server/auth-policy.mjs": "55274023b01648d5fa171c812e01c6fd364154b1b75eabfe322764d9f8436d20",
+      "server/center-services.mjs": "97048721785a28302eb42a2179c072a09143e988588fa4800e1645ee8dbaf9d4",
+      "server/cloud-storage.mjs": "053300df729817a6b776d9b71486304a76bb50d858edde3ad65a748a262b08b0",
+      "server/date-time.mjs": "536daca12edd13b3933a4038bc7df5e7cfa977fcca64d357dbeb0ee7769092f1",
+      "server/email-auth-runtime.mjs": "319d29ba795f47aa369fd86f7050c4d4b194e7cd35df037e938b410a61311c9c",
+      "server/email-auth.mjs": "d714e6ffc67b7b6d6ff867f784592926005fcd04f5f179a732c11e01fbafaed4",
+      "server/employee-directory.mjs": "7f3393db6a841a03b3a808e4ce308e4adcc1b4746b2c153539f35c6b1df19d05",
+      "server/gmail-code-sender.mjs": "2e4727181e99e2393793616aa6c42ea655939f50cd28b9a19e1effc1394295c1",
+      "server/law-change-identity.mjs": "04d88622fa02b478ebe9ab5a6e8fb11df497ffdbbfcb6c98c444be16f08e5865",
+      "server/law-collection-progress.mjs": "4e8e74826af64291c78ba2b86022166df791f16359a9585a0c6cdf0988102649",
+      "server/law-collector.mjs": "7223926e20f9cafd544cb8dc4773ad88979762f9b38919733d3e859d51deea6e",
+      "server/law-comparison.mjs": "e7037c9f32c2094eb100140cfaf5c0b1cab869a095110eec41813e35e7f1b186",
+      "server/law-regional.mjs": "46a3c779badc64985bdc052999f82f65f7413675affdbe0afb0525de54de9b4b",
+      "server/law-router.mjs": "71c94993aa9dd83cc62302a4bc747766d92b946d28a38bd7d16af0eb3f16ec98",
+      "server/law-watch.mjs": "0b3d705c72ce18e8133b56deea619e07dbc950c4abd7adb2e348ae3856aae508",
+      "server/maintenance-runtime.mjs": "2ec945bf6b7f00c5d645349f42988b35789f1581602363340d16cadbf0b2c588",
+      "server/notifications-law-state.mjs": "a91b53dfd0e3e56e93629def5279c5dd185836039d4a9cce261fadc0a51bf179",
+      "server/notion-source.mjs": "6878b8442cf7a8f4c6cdc3e5164c072c90e6eb8679997b853afa8f4198b85b2b",
+      "server/partner-collector.mjs": "e449e05795b1fada661c7e2aaa22bbfb67c4ac96beb3dbebfcde0bb3d6893a36",
+      "server/partner-comments.mjs": "4e43b8c578e54aea12477016bc13116b4f6f7098be6f2ac495212b8d45168a98",
+      "server/partner-enrichment.mjs": "e2c26d33145810baf98a124f23b84e9d5434a60c0c3b7710f455424a39575c86",
+      "server/partner-ranking-parser-worker.mjs": "738f0567fe4b0a0c6f9126ba70313529831171343f712b07152b46ce4e278721",
+      "server/partner-rankings.mjs": "e110843b37609158dc67b75da8b7cfe8946b675d4e5cd89e0b7005a12db0c9fc",
+      "server/provider-connection-check.mjs": "f092aefa8ba869c8da6e6ce385125c3da9e81e755156544378567d8fccf02eb3",
+      "server/provider-credential-format.mjs": "d30f81d0e76ed35e174f536d9bc31a8e58b8a4b85bf613d577fcb1b9155b9055",
+      "server/reference-router.mjs": "3a645c8071fd912f7493c6c2b518d393db667b58ee25729e3bf8ae0d965ba149",
+      "server/report-archives.mjs": "60a58532b8576fa44591e04aabfb602d509fc55ac45ce0be93fb3febcfd00f17",
+      "server/sample-access.mjs": "7ee454fd16af0ae9365e9a2747baec8372d8d26a157a7d3868c59f99a5c9fa45",
+      "server/workspace-runtime.mjs": "403c1367f194652a5f7970077a79df746fb094deb22997fed3f67e2b7fa510e7",
+      "src/cloud-session.js": "435fb84d7a4021ad7e62c934300fde25746f3502853ef91d47bfe1d880698898",
+      "src/notifications.js": "458f24ec7d1f1d38e7a3ff0f03ac0037aaa7398bf157e852ec4ee1a78ebadde5",
+      "shared/cost-graph-safety.mjs": "969b6eb21dc467edf262f2c377f57322ccc6d44fbf532deb95b0f24d4adc6e60",
+      "shared/project-registration-profile.mjs": "9b9825115f94e49ebefc9030898159217e758a9f077b26d169bf9982de1973b7",
+      "vercel.json": "b5cd804641c3c4a3cfceb2dd334e3f6044f041e881785763849a838aa2f07435"
+    },
+    "notificationCases": {
+      "contract": 11,
+      "races": 17,
+      "lawAlias": 22
+    },
+    "newEmployeeAndRegistrationCases": 17,
+    "newClientErrorCases": 3,
+    "newCostGraphCases": 6,
+    "actualBrowser": "root integration pending",
+    "newDatabaseView": {
+      "status": "applied and actual nonempty metadata verified by root",
+      "evidence": "docs/review132-directory-live-receipt.json",
+      "sourceUnchanged": true,
+      "runtimeSourceUsage": false,
+      "runtimeSourceSelect": false,
+      "http": "pending preview integration"
+    },
+    "operationalCollectionRecovery": "root deployment and actual official run pending",
+    "wholePlatformAccepted": false
+  }
+}

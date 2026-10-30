@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-30T01:30:08.092Z",
+  "status": "verified-actual-nonempty-query-rows",
+  "before": {
+    "employee_count": 468,
+    "source_data_md5": "a4cc1bad886deb48521a8750a4e2334c",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "source_acl_md5": "9130c9a8cb9c4e5d4883f3d1b61c353d",
+    "policy_md5": "a319048b79e9394429d45f0974d6a429"
+  },
+  "after": {
+    "employee_count": 468,
+    "source_data_md5": "a4cc1bad886deb48521a8750a4e2334c",
+    "relrowsecurity": true,
+    "relforcerowsecurity": false,
+    "source_acl_md5": "9130c9a8cb9c4e5d4883f3d1b61c353d",
+    "policy_md5": "a319048b79e9394429d45f0974d6a429"
+  },
+  "sourceUnchanged": true,
+  "permissions": {
+    "directory_count": 468,
+    "columns": [
+      "employee_id",
+      "name",
+      "email"
+    ],
+    "runtime_directory_select": true,
+    "anon_select": false,
+    "authenticated_select": false,
+    "service_role_select": false,
+    "runtime_source_usage": false,
+    "runtime_source_select": false,
+    "reloptions": [
+      "security_barrier=true",
+      "security_invoker=false"
+    ]
+  },
+  "scope": "Application-only read view created. Actual source row count, full-row digest, ACL digest, RLS flags and policy digest compared. No names/emails returned in receipt.",
+  "preparationErrors": [
+    "Initial metadata SQL required explicit char-to-text cast.",
+    "Initial result parser returned null and its proposed audit-file write was rejected. No such file was written. Verification above requires concrete metadata rows."
+  ]
+}

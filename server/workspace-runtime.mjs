@@ -5,6 +5,7 @@ import {readOptionalSource} from './notion-source.mjs';
 import {createCenterHandlers} from './center-services.mjs';
 import {createPartnerCommentsHandler} from './partner-comments.mjs';
 import {createReportArchivesHandler} from './report-archives.mjs';
+import {createEmployeeDirectoryHandler} from './employee-directory.mjs';
 
 export function createWorkspaceRuntime({environment=()=>process.env,loadDrivers=loadProductionDrivers,createService=boundAuthenticationService,createHandlers=createWorkspaceHandlers,optionalSource=readOptionalSource}={}){
  return async function runWorkspaceRequest(request,action){
@@ -41,6 +42,7 @@ export function createWorkspaceRuntime({environment=()=>process.env,loadDrivers=
    }
    if(action==='partnerComments')return await createPartnerCommentsHandler({withTransaction,origin:config.origin})(request);
    if(action==='reportArchives')return await createReportArchivesHandler({withTransaction,origin:config.origin})(request);
+   if(action==='employeeDirectory')return await createEmployeeDirectoryHandler({withTransaction,origin:config.origin})(request);
    const handlers=['notifications','referenceData','costSnapshots','lawSearch','lawDetail','lawWatch','lawRegional'].includes(action)?createCenterHandlers({withTransaction,origin:config.origin}):createHandlers({withTransaction,origin:config.origin});
    if(!['workspace','projectAccess','notifications','referenceData','costSnapshots','lawSearch','lawDetail','lawWatch','lawRegional'].includes(action))return Response.json({error:'NOT_FOUND'},{status:404});
    return await handlers[action](request);
