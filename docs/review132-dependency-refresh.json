@@ -1,0 +1,79 @@
+{
+  "status": "queried",
+  "startedAt": "2026-10-30T02:17:17.764Z",
+  "queriedAt": "2026-10-30T02:17:18.147Z",
+  "endpoint": "https://registry.npmjs.org/-/npm/v1/security/advisories/bulk",
+  "method": "POST",
+  "httpStatus": 200,
+  "packages": [
+    {
+      "name": "better-auth",
+      "version": "1.7.8",
+      "advisoryCount": 0
+    },
+    {
+      "name": "kysely",
+      "version": "0.29.6",
+      "advisoryCount": 0
+    },
+    {
+      "name": "nodemailer",
+      "version": "10.1.4",
+      "advisoryCount": 0
+    },
+    {
+      "name": "pg",
+      "version": "8.23.1",
+      "advisoryCount": 0
+    },
+    {
+      "name": "pdf2json",
+      "version": "4.1.0",
+      "advisoryCount": 0
+    },
+    {
+      "name": "read-excel-file",
+      "version": "9.3.12",
+      "advisoryCount": 0
+    }
+  ],
+  "totalAdvisoryCount": 0,
+  "requestBodySha256": "4aa7bc51fffc202a74c17fbe84e77029e2a0e0e3e0b6944830239af72ead5aac",
+  "responseBodySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "responseBytes": 2,
+  "scope": "이6개 정확 버전에 대한 이 조회 결과입니다. 전이 의존성·전체 패키지트리·전체 플랫폼 안전성 검사가 아닙니다.",
+  "authorization": {
+    "userStatement": "공식저장소조회허용합니다",
+    "approvedDestination": "registry.npmjs.org",
+    "approvedPairsOnly": true
+  },
+  "sourcePinsBefore": {
+    "package.json": "83bf1a1f51cb19628df6050df0615bdc7374adfebbe3730502c0a4c000929a7f",
+    "package-lock.json": "1ed517810180ed8a75d537b8da5e5af681811b094acacb68615eb063a6256685",
+    "node_modules/better-auth/package.json": "214efdd2b9027eeb0f8183e287c9fde82de4f6e87f6b904f7e213d7a15d7ffd2",
+    "node_modules/kysely/package.json": "3fa76780c11b61ec03c8f6c3a2d3556ecbdf373d0a946280e0b9cb459138c861",
+    "node_modules/nodemailer/package.json": "26c3407b045197e7601ac0cf30988d7ed4816a74d95adf1d2127a9a24d1d1941",
+    "node_modules/pg/package.json": "b1e53333a3d0c2c47c49a5cb919d221135dc03145df740925b899bc2baacc435",
+    "node_modules/pdf2json/package.json": "08a8acf8e951c9fb08f090eb300689191149d99ae6e9b3f0e1649000c42977a9",
+    "node_modules/read-excel-file/package.json": "ae2c7be253ac781d63d4d4f61f51a3fd67138ca738db90c1d524f677015846fc"
+  },
+  "sourcePinsAfter": {
+    "package.json": "83bf1a1f51cb19628df6050df0615bdc7374adfebbe3730502c0a4c000929a7f",
+    "package-lock.json": "1ed517810180ed8a75d537b8da5e5af681811b094acacb68615eb063a6256685",
+    "node_modules/better-auth/package.json": "214efdd2b9027eeb0f8183e287c9fde82de4f6e87f6b904f7e213d7a15d7ffd2",
+    "node_modules/kysely/package.json": "3fa76780c11b61ec03c8f6c3a2d3556ecbdf373d0a946280e0b9cb459138c861",
+    "node_modules/nodemailer/package.json": "26c3407b045197e7601ac0cf30988d7ed4816a74d95adf1d2127a9a24d1d1941",
+    "node_modules/pg/package.json": "b1e53333a3d0c2c47c49a5cb919d221135dc03145df740925b899bc2baacc435",
+    "node_modules/pdf2json/package.json": "08a8acf8e951c9fb08f090eb300689191149d99ae6e9b3f0e1649000c42977a9",
+    "node_modules/read-excel-file/package.json": "ae2c7be253ac781d63d4d4f61f51a3fd67138ca738db90c1d524f677015846fc"
+  },
+  "dependencyFilesChanged": [],
+  "sourceOrBusinessOrStaffOrPasswordsSent": false,
+  "transitiveDependenciesSent": false,
+  "authorizationHeaderSent": false,
+  "redirectFollowed": false,
+  "installationOrUpdatePerformed": false,
+  "lifecycleScriptsRun": false,
+  "rawAdvisoryResponseSaved": false,
+  "officialSchemaReference": "https://docs.npmjs.com/cli/v11/commands/npm-audit/#bulk-advisory-endpoint"
+}

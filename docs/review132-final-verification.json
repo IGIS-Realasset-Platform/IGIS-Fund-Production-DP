@@ -13,14 +13,16 @@
   "rawLocalHtml": {
     "sha256": "7c4d131c69038fecc54941c3611d6541282bac0fc7ee535830ab7c8ca79d8b4d",
     "bytes": 6929824,
-    "nativeRegistrationFlows": 4,
-    "nativePermitLandFlows": 8,
-    "viewports": [
-      "1280x800",
-      "1440x900",
-      "1600x1000",
-      "390x844"
+    "nativeRegistrationViewportRuns": 4,
+    "nativePermitLandViewportRoleRuns": 8,
+    "viewportWidths": [
+      1280,
+      1440,
+      1600,
+      390
     ],
+    "counting": "One registration business flow in four sizes, and editor/viewer permit scenarios in four sizes; twelve executions are not twelve unique platform features.",
+    "scope": "Fresh isolated Edge; current exact HTML; intercepted synthetic HTTP only; no real user cookies or operational writes.",
     "pageErrors": 0,
     "buttonTextOverflow": 0
   },
@@ -67,6 +69,22 @@
   "externalDependencyRefresh": {
     "status": "fresh-external-advisory-check-not-executed",
     "priorAuditNotInheritedAsCurrent": true
+  },
+  "actualConnectedBrowser": {
+    "status": "blocked-tool-initialization",
+    "reason": "CUA/ComputerUse kernel CreateProcessSecurityEnvironment failed HRESULT 0x8007000F",
+    "authenticationState": "not-observed",
+    "cookieChanges": 0,
+    "operationalWrites": 0,
+    "notCountedAsProductFailureOrAcceptance": true
+  },
+  "postFreezeWhitespaceOnly": {
+    "file": "tests/review132-finance-html-escaping.mjs",
+    "change": "Removed one blank line at EOF for Git check; executable content unchanged.",
+    "recheckPassed": 11,
+    "recheckFailed": 0,
+    "productSourceChanged": false,
+    "evidence": ".build/review132/finance-after-eof.json"
   },
   "liveRelease": {
     "status": "pending",
