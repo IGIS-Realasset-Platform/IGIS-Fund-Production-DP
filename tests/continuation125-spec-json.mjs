@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import vm from 'node:vm';
 import {createHash} from 'node:crypto';
 import {makeHarness} from './recovery-harness.mjs';
 const sha=v=>createHash('sha256').update(v).digest('hex'),files=['src/spec.js','src/recovery.css','src/core.js','src/workspace-ux.js'],pins=Object.fromEntries(files.map(p=>[p,sha(fs.readFileSync(p))])),checks=[];
@@ -16,5 +17,17 @@ await check('SPEC125-06 로컬의 다른 명세 코드탭은 기존 pre이고 �
 await check('SPEC125-07 JSON 복사 버튼은 표시 DOM이 아닌 기존 App.spec 전체를 보낸다',async()=>{for(const cloud of [true,false]){const f=fixture(cloud);f.render();let received;f.A.copy=async text=>{received=text;};await f.actions.get('spec-copy')();assert.equal(received,JSON.stringify(f.expected,null,2));assert.equal(JSON.stringify(f.A.spec),f.source);assert.equal(JSON.stringify(f.A.state),f.state);}});
 await check('SPEC125-08 기존 원본 내보내기와 복사 동작 소스는 변경하지 않는다',()=>{const core=fs.readFileSync('src/core.js','utf8'),spec=fs.readFileSync('src/spec.js','utf8');assert(core.includes("A.on('export-spec',()=>A.download('개발사업관리플랫폼_명세_v'+A.spec.meta.version+'.json',A.spec));"));assert(spec.includes("A.on('spec-copy',()=>A.copy(JSON.stringify(A.spec,null,2)));"));assert(core.includes("binary||typeof value==='string'?value:JSON.stringify(value,null,2)"));});
 await check('SPEC125-09 국소 textarea 규칙만 표시폭/테두리/resize를 제어하고 공통 pre는 유지한다',()=>{const css=fs.readFileSync('src/recovery.css','utf8'),rule=css.match(/textarea\.spec-json\s*\{([^}]+)\}/)?.[1];assert(rule,'textarea.spec-json 국소 규칙');assert(/width\s*:\s*100%/.test(rule));assert(/resize\s*:\s*none/.test(rule));assert(/border\s*:\s*0/.test(rule));assert(css.includes('pre { font:400 14px/1.5 Pretendard,sans-serif; white-space:pre-wrap; overflow-wrap:anywhere; margin:0; }'));assert(css.includes('.spec-json { padding:12px; max-height:70vh; max-width:100%; overflow:auto; white-space:pre; overflow-wrap:normal; word-break:normal; }'));});
-await check('SPEC125-10 기존 단일 JSON 스크롤 선택자는 같은 class를 사용하며 권한은 그대로다',()=>{const f=fixture(true),v=viewer(f.render());assert(/class="spec-json"/.test(v.attrs));const ux=fs.readFileSync('src/workspace-ux.js','utf8'),core=fs.readFileSync('src/core.js','utf8');assert(ux.includes("{view:'spec',selector:'.spec-json',container:'.panel',bounded:true}"));assert(core.includes("if(ui.view==='spec'&&!A.canViewSpec())ui.view='portfolio'"));});
+await check('SPEC125-10 기존 단일 JSON 스크롤 선택자는 같은 class를 사용하며 권한은 그대로다',()=>{
+ const f=fixture(true),v=viewer(f.render());assert(/class="spec-json"/.test(v.attrs));
+ const ux=fs.readFileSync('src/workspace-ux.js','utf8'),core=fs.readFileSync('src/core.js','utf8');assert(ux.includes("{view:'spec',selector:'.spec-json',container:'.panel',bounded:true}"));
+ // C96 routes the unchanged spec permission through the common view guard.
+ // Replace only the superseded source spelling; verify real guard behavior.
+ assert(core.includes("if(!A.canUseView(ui.view))ui.view='portfolio'"));
+ const h=makeHarness({modules:[],seed:{projects:[],entities:[],auditEvents:[],notifications:[]}});h.context.APP_RUNTIME={mode:'real',persistence:'cloud',version:'0.13.0',storageKey:'spec125-guard'};h.load('core');const A=vm.runInContext('App',h.context);let sampleOnly=false;
+ A.cloudSession={status:()=>({permissions:sampleOnly?{sampleOnly:true}:{}})};
+ A.canViewSpec=()=>false;assert.equal(A.canUseView('spec'),false,'regular denied spec remains denied');
+ A.canViewSpec=()=>true;assert.equal(A.canUseView('spec'),true,'regular permitted spec remains permitted');assert.equal(A.canUseView('portfolio'),true);
+ sampleOnly=true;assert.equal(A.canUseView('spec'),false,'sample flag cannot grant spec');assert.equal(A.canUseView('company'),false);assert.equal(A.canUseView('law'),false);assert.equal(A.canUseView('portfolio'),true);
+ const local=makeHarness({modules:['core'],seed:{projects:[],entities:[],auditEvents:[],notifications:[]}});assert.equal(local.A.canUseView('spec'),true,'local legacy spec remains permitted');
+});
 const sourceChanged=files.filter(p=>sha(fs.readFileSync(p))!==pins[p]),result={suite:'continuation125-spec-json',passed:checks.filter(c=>c.status==='passed').length,failed:checks.filter(c=>c.status==='failed').length,total:checks.length,checks,pins,sourceChanged,scope:'Current renderer/state/copy/markup preservation only; native timing/keyboard/download and CSS geometry require exact built HTML browser evidence',nativeBrowserUsed:false,actualDatabase:false,remoteRequests:0};console.log(JSON.stringify(result));if(result.failed||sourceChanged.length)process.exitCode=1;

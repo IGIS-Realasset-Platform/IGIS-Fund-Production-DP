@@ -16,5 +16,14 @@ export function parseAllowedEmails(raw){
  if(typeof raw!=='string'||!raw.trim()||Buffer.byteLength(raw)>100000)throw Error('AUTH_POLICY_INVALID');
  const text=raw.trim();return normalizeAllowedEmails(text.startsWith('[')?JSON.parse(text):text.split(','));
 }
+export function parseSampleViewerEmails(raw){
+ if(raw===undefined||raw===null||typeof raw==='string'&&!raw.trim())return Object.freeze([]);
+ if(typeof raw!=='string'||Buffer.byteLength(raw)>100000)throw Error('AUTH_POLICY_INVALID');
+ const value=raw.trim(),rows=value.startsWith('[')?JSON.parse(value):value.split(',');
+ if(Array.isArray(rows)&&rows.length===0)return Object.freeze([]);
+ return normalizeAllowedEmails(rows);
+}
+export function isSampleViewerEmail(email,emails=[]){return Array.isArray(emails)&&emails.includes(String(email||'').trim().toLowerCase());}
+export function authAccessCounts(config){const regular=config.regularAllowedEmails||config.allowedEmails||[],sample=config.sampleViewerEmails||[];return{regularCount:regular.length,sampleCount:sample.length,unionCount:config.allowedEmails.length,overlapCount:regular.filter(v=>sample.includes(v)).length};}
 export const validPassword=value=>typeof value==='string'&&value.length>=PASSWORD_POLICY.minLength&&value.length<=PASSWORD_POLICY.maxLength;
 export const validLoginPassword=value=>typeof value==='string'&&value.length>=LOGIN_PASSWORD_POLICY.minLength&&value.length<=LOGIN_PASSWORD_POLICY.maxLength;

@@ -45,7 +45,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5181,
+    "totalMatrixRecords": 5207,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -741578,6 +741578,2382 @@
         },
         "lifecycle": "review132-current297-and-scoped-native-production-stage-pending"
       }
+    },
+    {
+      "componentID": "REVIEW132C96-market-01",
+      "parentID": "OPS132-05",
+      "kind": "connected-ui-consumer",
+      "label": "primary/명시 선택·대표 그래프",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/partners.js",
+          "sha256": "0df2c6d581b5754be78c1d4c807b55adb06e45d35127270bd1141acbf05339dc",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-c96-spec.md",
+          "criterion": "OPS132-05"
+        }
+      ],
+      "purpose": {
+        "userTask": "primary/명시 선택·대표 그래프",
+        "reference": "docs/review132-c96-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "유효한 legacy/detail/archive 명시선택 보존·유일 primary 기본선택·중복/삭제 선택 placeholder·primary부재의 유일 기존main 호환",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-market-02",
+      "parentID": "OPS132-05",
+      "kind": "connected-ui-consumer",
+      "label": "공식4세부지표 독립 투영",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/partners.js",
+          "sha256": "0df2c6d581b5754be78c1d4c807b55adb06e45d35127270bd1141acbf05339dc",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-c96-spec.md",
+          "criterion": "OPS132-05"
+        }
+      ],
+      "purpose": {
+        "userTask": "공식4세부지표 독립 투영",
+        "reference": "docs/review132-c96-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "공식 sourceSeriesKey·2020 기준·실제 최신월의 유일자료만 사용·그래프 선택과 독립·옛 flat/다른기준/모호한원문 보존",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-market-03",
+      "parentID": "DATA132-03",
+      "kind": "connected-policy-consumer",
+      "label": "기준연도 메타 전달",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "src/partners.js",
+          "sha256": "0df2c6d581b5754be78c1d4c807b55adb06e45d35127270bd1141acbf05339dc",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-c96-spec.md",
+          "criterion": "DATA132-03"
+        }
+      ],
+      "purpose": {
+        "userTask": "기준연도 메타 전달",
+        "reference": "docs/review132-c96-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "baseYear를 메타로 보존하고 지수값 재산출/재기준화·원자료변경을 하지 않음",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-01",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "서버 허용목록 합집합",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/auth-policy.mjs",
+          "sha256": "e15e88500cbb7b8c66dca39a3c3e8a6688c122d4827fcfb736dd43cd43da1fdf",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/email-auth.mjs",
+          "sha256": "7041b4c10e7c0fd7d653facbe54836b03599160725c8a3a8f0d554e2a6d64c16",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-01"
+        }
+      ],
+      "purpose": {
+        "userTask": "서버 허용목록 합집합",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "기존 regular와 별도 sample 설정의 합집합·공백/빈배열은 기존과 동일",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-02",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "중복 sample 우선·초기관리자",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/email-auth.mjs",
+          "sha256": "7041b4c10e7c0fd7d653facbe54836b03599160725c8a3a8f0d554e2a6d64c16",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/email-auth-runtime.mjs",
+          "sha256": "1d8f72ce3ce2aed6f2e4005ddb6de139eeb96d74cc4c2fbe6507ec61bd66c97f",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-02"
+        }
+      ],
+      "purpose": {
+        "userTask": "중복 sample 우선·초기관리자",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "겹친 이메일도 sample-only 우선·초기관리자와 같아도 bootstrap admin 생성거부",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-03",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "이메일 인증 후 엄격3샘플 viewer",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/sample-access.mjs",
+          "sha256": "c7c6f4a6b715fd4a4a0231aa10ad6f4edc5f8765ac06490d61f5992703b88f86",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/email-auth-runtime.mjs",
+          "sha256": "1d8f72ce3ce2aed6f2e4005ddb6de139eeb96d74cc4c2fbe6507ec61bd66c97f",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-03"
+        }
+      ],
+      "purpose": {
+        "userTask": "이메일 인증 후 엄격3샘플 viewer",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "인증완료 뒤 기존 승인3 ID+marker만 viewer·이름만 같거나 다른 marker 거절",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-04",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "세션/설정 식별과 기존권한 clamp",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/auth-policy.mjs",
+          "sha256": "e15e88500cbb7b8c66dca39a3c3e8a6688c122d4827fcfb736dd43cd43da1fdf",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-04"
+        }
+      ],
+      "purpose": {
+        "userTask": "세션/설정 식별과 기존권한 clamp",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "확인된 세션 email과 서버설정으로 판정·client metadata/DB admin/editor가 sample 범위를 넓히지 않음",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-05",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "workspace 조회·연결자료 최소범위",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/cloud-storage.mjs",
+          "sha256": "0e9bd917ad72346bec22712d8d541d0278a17fc5c21ce11a73e3d1cc06e4fc50",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-05"
+        }
+      ],
+      "purpose": {
+        "userTask": "workspace 조회·연결자료 최소범위",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "엄격3사업과 연결 entities/company만 제공·공용 globals/audit/내부댓글 노출0·marker교체 거절",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-06",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "workspace 등록/수정/삭제/확정/접근쓰기 거절",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/cloud-storage.mjs",
+          "sha256": "0e9bd917ad72346bec22712d8d541d0278a17fc5c21ce11a73e3d1cc06e4fc50",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-05"
+        }
+      ],
+      "purpose": {
+        "userTask": "workspace 등록/수정/삭제/확정/접근쓰기 거절",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "저장 직접API와 우회변형을 거절·업무원장/권한 불변",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-07",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "공용 referenceData 차단",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-06"
+        }
+      ],
+      "purpose": {
+        "userTask": "공용 referenceData 차단",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "샘플 세션은 공용 원문·전역목록 API를 서버에서 차단",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-08",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "실제 내부 partnerComments 차단",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-comments.mjs",
+          "sha256": "2eb31122e51e0f0894acc98299bf7896c485f6b73d5118c2b0ce5ea9f4b68314",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-06"
+        }
+      ],
+      "purpose": {
+        "userTask": "실제 내부 partnerComments 차단",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "내부댓글 원문을 샘플 세션에 제공하거나 쓰지 않음",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-09",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "전역 법령검색 차단",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/center-services.mjs",
+          "sha256": "3de34d72f7b719edecdef14b94c35a6b57c80d2a181e3c7a31c44166183ce7a3",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-06"
+        }
+      ],
+      "purpose": {
+        "userTask": "전역 법령검색 차단",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "법령 전역검색 직접API를 서버차단·기존 regular 흐름 보존",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-10",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "직원 전체목록 차단",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/employee-directory.mjs",
+          "sha256": "2400f0332803d76fe89bc8e72efdd2cc03dea132113591113b5c7c202994a1d3",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-06"
+        }
+      ],
+      "purpose": {
+        "userTask": "직원 전체목록 차단",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "직원 원천/전체목록 API를 서버차단·실제 직원자료 변경0",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-11",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "Notion 전역연결 차단",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-06"
+        }
+      ],
+      "purpose": {
+        "userTask": "Notion 전역연결 차단",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "Notion 조회/직접API를 서버차단·실제 원천 쓰기0",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-12",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "cost snapshot GET 본문/사업 marker",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/center-services.mjs",
+          "sha256": "3de34d72f7b719edecdef14b94c35a6b57c80d2a181e3c7a31c44166183ce7a3",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-07"
+        }
+      ],
+      "purpose": {
+        "userTask": "cost snapshot GET 본문/사업 marker",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "strict3 프로젝트와 저장본문 marker를 함께검증·본문없음/다른marker 미제공",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-13",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "report archive GET 본문/사업 marker",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/report-archives.mjs",
+          "sha256": "1725c8676c2c06915dea20cd9fb85d61bfdaf3f1109810fe52bdc4670c1abeac",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-07"
+        }
+      ],
+      "purpose": {
+        "userTask": "report archive GET 본문/사업 marker",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "strict3 프로젝트와 archive canonical/payload marker검증·다른범위 미제공",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-14",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "snapshot/archive POST·PATCH 거절",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/center-services.mjs",
+          "sha256": "3de34d72f7b719edecdef14b94c35a6b57c80d2a181e3c7a31c44166183ce7a3",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "server/report-archives.mjs",
+          "sha256": "1725c8676c2c06915dea20cd9fb85d61bfdaf3f1109810fe52bdc4670c1abeac",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-07"
+        }
+      ],
+      "purpose": {
+        "userTask": "snapshot/archive POST·PATCH 거절",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "조회가능한 샘플이라도 보고/비용 저장·수정 API는 거절",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-15",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "개인 알림 GET 수신자/현재샘플 원천",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-08"
+        }
+      ],
+      "purpose": {
+        "userTask": "개인 알림 GET 수신자/현재샘플 원천",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "본인+현재 strict3 원천만·다른사업/사용자/위조ID/교체marker 거절",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-16",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "개인 알림 읽음/삭제/복원",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-08"
+        }
+      ],
+      "purpose": {
+        "userTask": "개인 알림 읽음/삭제/복원",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "본인+현재3샘플 원천의 개인상태만 갱신·업무원장 불변",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-17",
+      "parentID": "AUTH132-11",
+      "kind": "connected-ui-consumer",
+      "label": "프로젝트 현황·사업별 조회 메뉴",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/core.js",
+          "sha256": "9ecda3a99c71d3a981c1e95aacdf49dfbdc16924ebb8a2303af68c41dffe2f76",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "src/cloud-session.js",
+          "sha256": "24a57002be6b5df0cda5f9906b3154debe9421a1bb9662aa6647b271d1d1221f",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-09"
+        }
+      ],
+      "purpose": {
+        "userTask": "프로젝트 현황·사업별 조회 메뉴",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "sample-only에는 프로젝트현황/사업별 조회만·기존 regular/local 메뉴와 모양 보존",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-18",
+      "parentID": "AUTH132-11",
+      "kind": "connected-ui-consumer",
+      "label": "company/law/spec·직접이동 차단",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/core.js",
+          "sha256": "9ecda3a99c71d3a981c1e95aacdf49dfbdc16924ebb8a2303af68c41dffe2f76",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "src/reference-data.js",
+          "sha256": "59e3347867878dcf6901918b18978b1ba51bf80cbae1f1628baef8cd2669b9ac",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-09"
+        }
+      ],
+      "purpose": {
+        "userTask": "company/law/spec·직접이동 차단",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "숨김과 직접 go/global action guard를 함께검증",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-19",
+      "parentID": "AUTH132-11",
+      "kind": "connected-ui-consumer",
+      "label": "업무 쓰기 버튼·폼 진입 차단",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/core.js",
+          "sha256": "9ecda3a99c71d3a981c1e95aacdf49dfbdc16924ebb8a2303af68c41dffe2f76",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-09"
+        }
+      ],
+      "purpose": {
+        "userTask": "업무 쓰기 버튼·폼 진입 차단",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "쓰기진입 숨김과 공통 handler 거절·기존 regular/local 입력 보존",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-20",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "단일 flag 활성화·oldC95 무시",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/email-auth.mjs",
+          "sha256": "7041b4c10e7c0fd7d653facbe54836b03599160725c8a3a8f0d554e2a6d64c16",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "scripts/verify-mail-configuration.mjs",
+          "sha256": "2132370c47a2890c7ed28c37393fad997516faf76babc91a2d58ae5abbabaede",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-10"
+        }
+      ],
+      "purpose": {
+        "userTask": "단일 flag 활성화·oldC95 무시",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "활성화는 root 전용·oldC95가 새flag로 허용명단을 확장하지 않음·설정은 숫자만 확인",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-21",
+      "parentID": "AUTH132-11",
+      "kind": "connected-policy-consumer",
+      "label": "sampleOnly 수화·reset/전환/늦은 응답",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "src/core.js",
+          "sha256": "9ecda3a99c71d3a981c1e95aacdf49dfbdc16924ebb8a2303af68c41dffe2f76",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "src/cloud-session.js",
+          "sha256": "24a57002be6b5df0cda5f9906b3154debe9421a1bb9662aa6647b271d1d1221f",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "src/reference-data.js",
+          "sha256": "59e3347867878dcf6901918b18978b1ba51bf80cbae1f1628baef8cd2669b9ac",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-04/SV132-09"
+        }
+      ],
+      "purpose": {
+        "userTask": "sampleOnly 수화·reset/전환/늦은 응답",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "서버 optional permissions를 boot전 적용·flag위조가 권한확장 못함·일반계정의 늦은 공용응답이 샘플에 재노출되지 않음",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-22",
+      "parentID": "AUTH132-11",
+      "kind": "connected-ui-consumer",
+      "label": "사업비 조회의 전역 market 자동조회 차단",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/partners.js",
+          "sha256": "0df2c6d581b5754be78c1d4c807b55adb06e45d35127270bd1141acbf05339dc",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "src/reference-data.js",
+          "sha256": "59e3347867878dcf6901918b18978b1ba51bf80cbae1f1628baef8cd2669b9ac",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-06/SV132-09"
+        }
+      ],
+      "purpose": {
+        "userTask": "사업비 조회의 전역 market 자동조회 차단",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "샘플 사업비 조회는 보존하고 partners 전역패널/ensureReference 자동조회는 차단",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132C96-sample-23",
+      "parentID": "AUTH132-11",
+      "kind": "connected-ui-consumer",
+      "label": "benchmark 조회의 전역 market 자동조회 차단",
+      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/partners.js",
+          "sha256": "0df2c6d581b5754be78c1d4c807b55adb06e45d35127270bd1141acbf05339dc",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        },
+        {
+          "path": "src/reference-data.js",
+          "sha256": "59e3347867878dcf6901918b18978b1ba51bf80cbae1f1628baef8cd2669b9ac",
+          "observedAt": "2026-10-30T06:02:13.905Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-approved-spec",
+          "reference": "docs/review132-sample-viewer-spec.md",
+          "criterion": "SV132-06/SV132-09"
+        }
+      ],
+      "purpose": {
+        "userTask": "benchmark 조회의 전역 market 자동조회 차단",
+        "reference": "docs/review132-sample-viewer-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "조회/선택",
+          "직접 진입",
+          "자동조회",
+          "저장/거절",
+          "초기화/재접속",
+          "출력/과거본"
+        ],
+        "boundary": "샘플 사업별 benchmark 문맥과 전역 원문/요청을 구분·실제 추가 guard 소유권/구현 동결 후 검수",
+        "preservation": "기존 regular/local·원값/기간/기준·기존3샘플 식별·원장/과거본·C95체크포인트 보존. 실제6명 이름/이메일을 문서·검사·Git에 추가하지 않음."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "구현 병행 중입니다. 담당자 집중결과는 보고된 후보이며 최종 동결본의 독립 원본 대조를 아직 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "현재 최종 소스의 독립/전체 회귀를 아직 실행·수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "ROOT의 정확 최종 Git HTML과 소스 핀을 받은 뒤 격리된 실제 화면을 검수합니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review132-c96-spec.md",
+            "docs/review132-sample-viewer-spec.md"
+          ],
+          "scope": "실제 계정/DB/운영설정/배포/메일 쓰기와 새 실제 출력은 이 담당자가 수행하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
     }
   ],
   "popupCandidates": [
@@ -805707,12 +808083,12 @@
   "review132": {
     "at": "2026-10-30T05:03:10.750Z",
     "spec": "docs/review132-continuation-spec.md",
-    "status": "c95-formal-public-verified-checkpoint427-of516-review132-continues",
+    "status": "c95-formal-checkpoint-preserved-c96-auth132-in-progress",
     "previousRecordCount": 5135,
-    "addedRecords": 46,
+    "addedRecords": 72,
     "priorRecordsSha256": "652ed96fea22d5b0921f5e3674d7447fdd73c6e5bb148b0c068f7768966c5724",
     "allPlatformAccepted": false,
-    "totalRecords": 5181,
+    "totalRecords": 5207,
     "sourceConsumerCorrection": {
       "addedRecords": 4,
       "rootRed": ".build/review132/source-fields-red.json",
@@ -805811,9 +808187,9 @@
       ]
     },
     "counting": {
-      "matrixRecords": 5181,
+      "matrixRecords": 5207,
       "priorPreservedRecords": 5135,
-      "addedConsumerRecords": 46,
+      "addedConsumerRecords": 72,
       "logicalSuites": 298,
       "mainNativeExecutions": 12,
       "extraNativeExecutions": 2,
@@ -805821,7 +808197,8 @@
       "uniqueFunctionsInferred": false,
       "c95BoundaryScenarioExecutions": 1,
       "c95BoundaryAssertions": 4,
-      "totalNativeRepeatedExecutions": 15
+      "totalNativeRepeatedExecutions": 15,
+      "logicalEvidenceVersion": "C95 final298 only; C96 awaits independent final freeze"
     },
     "directoryDatabase": {
       "status": "view-applied-and-readonly-verified",
@@ -806239,6 +808616,74 @@
       "observedAt": "2026-10-30T05:03:10.753Z",
       "declaresFormalC95AndOngoingReview132": true,
       "gitHubMainAudit": "root-owned-in-progress; not inferred from local README"
+    },
+    "c96": {
+      "at": "2026-10-30T06:02:13.905Z",
+      "status": "preparation-and-parallel-implementation-not-accepted",
+      "specs": [
+        "docs/review132-c96-spec.md",
+        "docs/review132-sample-viewer-spec.md"
+      ],
+      "previousC95RecordCount": 5181,
+      "preservedC95PrefixSha256": "068869a25a1c04321a2f57f6d9caa719d84f170ba7f4f334b0c5ffa87214e486",
+      "newConsumerRecords": 26,
+      "marketRecords": 3,
+      "sampleOnlyRecords": 23,
+      "totalRecords": 5207,
+      "componentIDs": [
+        "REVIEW132C96-market-01",
+        "REVIEW132C96-market-02",
+        "REVIEW132C96-market-03",
+        "REVIEW132C96-sample-01",
+        "REVIEW132C96-sample-02",
+        "REVIEW132C96-sample-03",
+        "REVIEW132C96-sample-04",
+        "REVIEW132C96-sample-05",
+        "REVIEW132C96-sample-06",
+        "REVIEW132C96-sample-07",
+        "REVIEW132C96-sample-08",
+        "REVIEW132C96-sample-09",
+        "REVIEW132C96-sample-10",
+        "REVIEW132C96-sample-11",
+        "REVIEW132C96-sample-12",
+        "REVIEW132C96-sample-13",
+        "REVIEW132C96-sample-14",
+        "REVIEW132C96-sample-15",
+        "REVIEW132C96-sample-16",
+        "REVIEW132C96-sample-17",
+        "REVIEW132C96-sample-18",
+        "REVIEW132C96-sample-19",
+        "REVIEW132C96-sample-20",
+        "REVIEW132C96-sample-21",
+        "REVIEW132C96-sample-22",
+        "REVIEW132C96-sample-23"
+      ],
+      "requirements": {
+        "total": 517,
+        "fields": 6204,
+        "checked": 427,
+        "unchecked": 90,
+        "newId": "AUTH132-11",
+        "newChecked": false
+      },
+      "reportedImplementation": {
+        "market": "Worker reports28 focused checks and C95RED/raw1280GREEN; no independent current-frozen-source acceptance",
+        "sampleServer": "Worker reports focused synthetic policy/auth GREEN; regressions/private-boundary review in progress",
+        "sampleClient": "TDD/implementation in progress, automatic global consumer guards included; no independent acceptance"
+      },
+      "qaRunner": "tests/review132-qa-regression.mjs",
+      "qaListCommand": "node tests/review132-qa-regression.mjs --list",
+      "qaFinalCommand": "node tests/review132-qa-regression.mjs",
+      "nativeExcludedFromLogicalCount": true,
+      "waitingFor": [
+        "backend/frontend final source and test pins",
+        "ROOT exact final Git HTML",
+        "final C96 cumulative status for new workbook"
+      ],
+      "privatePeopleRecorded": false,
+      "actualOperationalWrites": 0,
+      "allPlatformAccepted": false,
+      "allStatesAccepted": false
     }
   }
 }

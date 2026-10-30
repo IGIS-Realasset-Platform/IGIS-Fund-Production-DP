@@ -64,7 +64,10 @@
     "notSubstitutedByProductTests": true
   },
   "externalDependencyRefresh": {
-    "status": "fresh-external-advisory-check-not-executed",
+    "status": "completed-user-approved-six-direct-versions",
+    "returnedAdvisories": 0,
+    "scope": "Exactly six approved names/version arrays sent to the official npm Bulk Advisory endpoint; transitive packages excluded; no install/update or credentials/business data sent.",
+    "evidence": "docs/review132-dependency-refresh.json",
     "priorAuditNotInheritedAsCurrent": true
   },
   "actualConnectedBrowser": {

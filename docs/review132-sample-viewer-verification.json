@@ -1,0 +1,12 @@
+{
+  "requirement": "AUTH132-11",
+  "candidate": "C96",
+  "status": "configured-final-deployment-pending",
+  "sourceRoster": {"source": "orgdb via approved three-column app view", "matchedRows": 6, "distinctEmails": 6, "emptyEmails": 0, "existingAccountsAtPreparation": 0, "identitiesPublished": false},
+  "configuration": {"key": "DP_SAMPLE_VIEWER_EMAILS", "type": "sensitive", "targets": ["preview", "production"], "addedEntries": 1, "existingEntriesPreserved": 18, "oldAllowlistChanged": false, "actualBuildAccessCounts": "pending"},
+  "effectiveAccess": {"approvedSampleProjects": 3, "role": "viewer", "allBusinessWrites": "denied", "globalReferenceDirectoryLawComments": "denied", "personalNotificationState": "own approved-sample sources only", "snapshotArchiveBodies": "same approved IDs and strict source markers required", "regularUsers": "existing policy and response shape preserved"},
+  "verification": {"serverPolicyChecks": 15, "actualBetterAuthWithoutSendingChecks": 5, "clientChecks": 23, "backendAdjacentSuites": 29, "lateUnauthorizedResponseIndependentChecks": 2, "allListedPassed": true, "fullLogical": "pending", "exactPublishedNative": "pending"},
+  "activation": {"newSensitiveRosterConfigured": true, "newCodeDeployed": false, "realStaffSignupLoginExecuted": false, "accountOrPasswordPrecreated": false, "invitationsOrMessagesSent": 0, "businessDatabaseWrites": 0, "originalOrgdbWrites": 0},
+  "privacy": {"rosterStoredInSourceTestsDocs": false, "oldSensitiveRosterDecrypted": false, "publicBaselineFixture": "Exact already-public C95 validation function, no runtime values; source blob and function digest independently matched before adding to public manifest."},
+  "counting": "Suite runs, semantic assertions and viewport executions are different units and are not summed as distinct product features."
+}

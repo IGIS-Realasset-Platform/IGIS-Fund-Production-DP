@@ -40,7 +40,7 @@ export function createEmployeeDirectoryHandler({withTransaction,origin,accessPol
   const params=new URL(request.url).searchParams,keys=[...params.keys()];if(new Set(keys).size!==keys.length||keys.some(k=>k!=='projectId')||params.has('projectId')&&!key(params.get('projectId')))fail(422,'INVALID_DIRECTORY_QUERY','담당자를 연결할 사업을 확인해 주세요.');
   const projectId=params.get('projectId');
   return withTransaction(request,async(client,session)=>{
-   if(!key(session?.userId))fail(401,'AUTH_REQUIRED','로그인해 주세요.');const access=await accessPolicy(client,session);
+   if(!key(session?.userId))fail(401,'AUTH_REQUIRED','로그인해 주세요.');if(session.sampleViewerOnly===true)fail(403,'SAMPLE_VIEWER_ONLY','샘플 자료는 조회만 할 수 있습니다.');const access=await accessPolicy(client,session);
    if(!access.isAdmin&&(!projectId||!['editor','approver'].includes(access.projects?.[projectId])))fail(403,'WORKSPACE_FORBIDDEN','담당자를 연결할 권한이 없습니다.');
    if(projectId){const found=await client.query("SELECT p->>'id' AS project_id FROM "+WORKSPACE+" w CROSS JOIN LATERAL jsonb_array_elements(w.state->'projects') p WHERE w.workspace_id='platform' AND p->>'id'=$1 AND COALESCE(p->>'deletedAt','')='' AND COALESCE(p->>'active','true')<>'false'",[projectId]);if(found.rows.length!==1)fail(404,'PROJECT_NOT_FOUND','사업을 찾을 수 없습니다.');}
    let result;try{result=await client.query('SELECT employee_id,name,email FROM '+DIRECTORY+' ORDER BY name,employee_id LIMIT 10001');}catch{unavailable();}

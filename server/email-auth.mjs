@@ -1,6 +1,6 @@
 import {createHmac,X509Certificate,randomUUID} from 'node:crypto';
 import {AsyncLocalStorage} from 'node:async_hooks';
-import {companyEmail,parseAllowedEmails,normalizeAllowedEmails,PASSWORD_POLICY,LOGIN_PASSWORD_POLICY,SESSION_POLICY,validPassword,validLoginPassword} from './auth-policy.mjs';
+import {companyEmail,parseAllowedEmails,parseSampleViewerEmails,normalizeAllowedEmails,PASSWORD_POLICY,LOGIN_PASSWORD_POLICY,SESSION_POLICY,validPassword,validLoginPassword} from './auth-policy.mjs';
 export {companyEmail} from './auth-policy.mjs';
 
 export const AUTH_SCHEMA='development_project_platform';
@@ -36,8 +36,8 @@ export function readAuthConfiguration(env){
  let database;try{database=new URL(env.DP_AUTH_DATABASE_URL)}catch{throw new AuthUnavailableError()}
  if(!['postgres:','postgresql:'].includes(database.protocol)||!/^development_project_platform_runtime(?:\.|$)/.test(decodeURIComponent(database.username))||!database.password)throw new AuthUnavailableError();
  let initialAdminEmail='';try{if(env.DP_INITIAL_ADMIN_EMAIL)initialAdminEmail=companyEmail(env.DP_INITIAL_ADMIN_EMAIL)}catch{throw new AuthUnavailableError()}
- let allowedEmails;try{allowedEmails=parseAllowedEmails(env.DP_ALLOWED_EMAILS)}catch{throw new AuthUnavailableError()}
- const base={origin,secret,databaseUrl:env.DP_AUTH_DATABASE_URL,initialAdminEmail,allowedEmails,databaseCa:normalizeDatabaseCa(env.DP_AUTH_DATABASE_CA)};
+ let regularAllowedEmails,sampleViewerEmails,allowedEmails;try{regularAllowedEmails=parseAllowedEmails(env.DP_ALLOWED_EMAILS);sampleViewerEmails=parseSampleViewerEmails(env.DP_SAMPLE_VIEWER_EMAILS);allowedEmails=Object.freeze([...new Set([...regularAllowedEmails,...sampleViewerEmails])]);}catch{throw new AuthUnavailableError()}
+ const base={origin,secret,databaseUrl:env.DP_AUTH_DATABASE_URL,initialAdminEmail,allowedEmails,regularAllowedEmails,sampleViewerEmails,databaseCa:normalizeDatabaseCa(env.DP_AUTH_DATABASE_CA)};
  if(env.DP_MAIL_PROVIDER==='gmail'){
   const gmailUser=String(env.DP_GMAIL_USER||'').trim().toLowerCase(),appPassword=String(env.DP_GMAIL_APP_PASSWORD||'').replace(/\s/g,'');
   if(!/^[a-z0-9](?:[a-z0-9._+\-]*[a-z0-9])?@gmail\.com$/.test(gmailUser)||!/^[a-z0-9]{16}$/i.test(appPassword))throw new AuthUnavailableError();

@@ -1,30 +1,29 @@
 {
   "version": "0.13.0",
-  "candidate": "C95",
+  "candidate": "C96",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "fa131a2580036950d15b90a35b8b4ecd5167f3da994af633c6df6555d5f4934e",
-  "bytes": 6930712,
+  "htmlSha256": "0196a1eea6338706e6022116f4e16cfe9270c87b0fd8ba1d7c7f060fb0f4372a",
+  "bytes": 6936985,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review132-c95-formal-verified-source-recovery-ongoing",
+  "status": "review132-c96-prepared-final-qa-and-deployment-pending",
   "preparedAt": "2026-10-30",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
-  "actualBrowser": "Exact Git HTML 611d6e1f…7998a2a: registration4 + permit8 + source2 + state-transition1 viewport/role runs; four transition expectations are not four runs. Operational CUA remains unverified.",
-  "actualAuthenticatedServer": "C95 public exact file and unauthenticated API401 verified. C94 actual daily large snapshot stored; original data preserved. Related backend55 files byte-identical; no second daily trigger.",
+  "actualBrowser": "C96 exact final artifact native recheck in progress; C95 historical checks remain historical.",
+  "actualAuthenticatedServer": "Additional six approved staff configured in a separate sensitive sample-only roster. Existing allowlist metadata unchanged; actual signup not executed.",
   "previousRelease": {
     "version": "0.13.0",
-    "candidate": "C94",
-    "sourceCommit": "2e1982302bca3628ac523718d4b91fd38ff86a59",
-    "productionDeploymentId": "dpl_9hUe4fFiTxWzeaWBwdXFgJtpYMS2",
-    "formalHtmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833"
+    "candidate": "C95",
+    "productionId": "dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx",
+    "sourceCommit": "0bb279d843fd8503299b6e09ad7ba646b613da7d",
+    "publicHtmlSha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
+    "publicObservation": ".build/review132/public-verified-1793334941491.json"
   },
   "review131": {
-    "scope": "Integrated permit criteria/selection, canonical procedure names and contextual edit units",
-    "fullRegression": "pending final frozen source run",
-    "deployment": "preview preparation only; production promotion requires root final release decision",
+    "status": "historical-C93-scope-preserved",
     "originalPermitIdsAndStoredNamesPreserved": true
   },
   "historicalLawRecovery": {
@@ -37,32 +36,16 @@
   },
   "rollbackRequiresNewMergeMetadataCompatibilityCheck": true,
   "review132": {
-    "spec": "docs/review132-continuation-spec.md",
+    "spec": "docs/review132-c96-spec.md",
     "fullRegression": {
-      "passed": 298,
-      "failed": 0,
-      "preparationBlocked": 0,
-      "sourcePins": 634,
-      "sourceChanged": 0,
-      "evidence": "docs/review132-qa-full-2026-10-30T04-00-23.909Z.json"
+      "status": "final-run-pending"
     },
     "businessDataInArtifact": false,
-    "securityFormalReport": "blocked-account-security-setup; durable C93 scan retained",
+    "sourcePrivacyTransform": "Exactly four existing inactive demo reference anonymizations.",
+    "sampleAccess": "docs/review132-sample-viewer-spec.md",
+    "c96": "Market primary/detail/base metadata consumers and six additional sample-only viewers; stale unauthorized responses cannot end a newer session.",
     "deployment": {
-      "productionId": "dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx",
-      "sourceCommit": "0bb279d843fd8503299b6e09ad7ba646b613da7d",
-      "publicHtmlSha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
-      "publicObservation": ".build/review132/public-verified-1793334941491.json"
-    },
-    "sourcePrivacyTransform": "Exactly four existing inactive demo reference anonymizations; identical active implementation and no real project data.",
-    "previousRegression": {
-      "passed": 296,
-      "failed": 0,
-      "sourceChanged": 0,
-      "evidence": "docs/review132-qa-full-2026-10-30T01-47-07.582Z.json"
-    },
-    "sourceConsumerCorrection": "Fund full name and finance structure available in subsequent input-source selection/review without changing project values automatically.",
-    "c95": "Only employee directory error ownership, cloud-reset cache lifetime and stale-response UI guard changed; no layout/API/DB change.",
-    "sourceRecovery": "Original v0.2 instructions, registered DART/G2B keys, legacy unit-cost5/KACEM30 and current KICT data are being reconciled with actual consumers. Not a completed whole-work audit."
+      "status": "not-deployed"
+    }
   }
 }

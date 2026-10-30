@@ -6,6 +6,7 @@ import {createCenterHandlers} from './center-services.mjs';
 import {createPartnerCommentsHandler} from './partner-comments.mjs';
 import {createReportArchivesHandler} from './report-archives.mjs';
 import {createEmployeeDirectoryHandler} from './employee-directory.mjs';
+import {isSampleViewerEmail} from './auth-policy.mjs';
 
 export function createWorkspaceRuntime({environment=()=>process.env,loadDrivers=loadProductionDrivers,createService=boundAuthenticationService,createHandlers=createWorkspaceHandlers,optionalSource=readOptionalSource}={}){
  return async function runWorkspaceRequest(request,action){
@@ -27,7 +28,9 @@ export function createWorkspaceRuntime({environment=()=>process.env,loadDrivers=
      throw new WorkspaceError(sessionResponse.status>=500?503:401,'AUTH_REQUIRED','로그인 상태를 확인할 수 없습니다. 다시 로그인해 주세요.');
     }
     const identity=await sessionResponse.json();if(identity.authenticated!==true||!identity.userId)throw new WorkspaceError(401,'AUTH_REQUIRED','로그인해 주세요.');
-    const response=await operation(client,{userId:identity.userId,email:identity.email});
+    const sampleViewerOnly=isSampleViewerEmail(identity.email,config.sampleViewerEmails);
+    if(sampleViewerOnly&&!(action==='workspace'&&request.method==='GET'||action==='notifications'&&['GET','PATCH'].includes(request.method)||['costSnapshots','reportArchives'].includes(action)&&request.method==='GET'))throw new WorkspaceError(403,'SAMPLE_VIEWER_ONLY','샘플 자료는 조회만 할 수 있습니다.');
+    const response=await operation(client,{userId:identity.userId,email:identity.email,...(sampleViewerOnly?{sampleViewerOnly:true}:{})});
     if(response.status>=400){await client.query('ROLLBACK');return response;}
     await client.query('COMMIT');
     for(const cookie of sessionResponse.headers.getSetCookie())response.headers.append('set-cookie',cookie);

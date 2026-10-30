@@ -1,0 +1,149 @@
+{
+  "review": "REVIEW132 C96 market consumers",
+  "date": "2026-10-30",
+  "spec": "docs/review132-c96-spec.md",
+  "productChanged": [
+    "src/partners.js"
+  ],
+  "requirements": [
+    {
+      "id": "OPS132-05/C96-01",
+      "implementation": "implemented",
+      "automated": "passed",
+      "native": "raw1280-preflight-passed; exact-published-pending",
+      "scope": "semantic unique primary default; exact valid explicit choice; selected archive only; stale or ambiguous choice requires existing selector"
+    },
+    {
+      "id": "OPS132-05/C96-02",
+      "implementation": "implemented",
+      "automated": "passed",
+      "native": "raw1280-preflight-passed; exact-published-pending",
+      "scope": "independent detail four by exact sourceSeriesKey, detail role, 2020 base and actual observed month; no label-only merge"
+    },
+    {
+      "id": "DATA132-03/C96-03",
+      "implementation": "implemented",
+      "automated": "passed",
+      "native": "raw1280-preflight-passed; exact-published-pending",
+      "scope": "baseYear/sourceSeriesKey metadata retained in cloud and local; no value rebasing"
+    }
+  ],
+  "verification": {
+    "initialFocusedRed": {
+      "total": 21,
+      "passed": 11,
+      "failed": 10,
+      "preparationFailures": 0
+    },
+    "finalFocused": {
+      "passed": 28,
+      "failed": 0,
+      "evidence": ".build/review132-client/c96-market-focused-green.json"
+    },
+    "adjacent": {
+      "passed": 55,
+      "failed": 0,
+      "suites": {
+        "followup122-market-value-view": 10,
+        "followup123-market-version-selection": 34,
+        "review129-partner-input-retention": 4,
+        "center120-partner-current-refresh": 7
+      }
+    },
+    "nativeRed": {
+      "htmlSha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
+      "width": 1280,
+      "failed": 1,
+      "pageErrors": 0,
+      "evidence": ".build/review132-client/c96-market-native-red/evidence.json"
+    },
+    "nativePreflight": {
+      "htmlSha256": "0b52068508a977397b4945d3fdbeddf7a5442f9c92d965c0d41a47cde1b9f808",
+      "htmlBytes": 6933411,
+      "width": 1280,
+      "passed": 1,
+      "failed": 0,
+      "pageErrors": 0,
+      "httpWrites": 0,
+      "evidence": ".build/review132-client/c96-market-native-preflight/evidence.json"
+    },
+    "exactPublishedNative": "pending final core artifact",
+    "overallQA": "pending",
+    "operatingBrowser": "unverified-existing-CUA-environment-block",
+    "currentDBNumericEquality": "unverified-approval-review-block-no-retry",
+    "sampleClient": {
+      "passed": 23,
+      "failed": 0,
+      "scope": "separate sample read-only policy and late response tests",
+      "evidence": ".build/review132-client/sample-client-final-green.json"
+    },
+    "intermediateNative": {
+      "htmlSha256": "636a9386509671eeadb9d6783fffb7c13defff3f159c7335d88c7c0aaf573f61",
+      "marketPassed": 6,
+      "samplePassed": 2,
+      "scope": "before final stale401 and last two write-entry exclusions; historical only"
+    }
+  },
+  "sourcePins": {
+    "src/partners.js": {
+      "sha256": "2ca82cf3e6ac747bc8a912fdff84af913c0bc11dc70d470d1a045861bfdbc501",
+      "additionalScope": "sample-only guards and stale comment 401 generation guard; market chooser/calculations unchanged"
+    },
+    "src/reference-data.js": {
+      "sha256": "305e083f95d58a113201d288f594813a12313ab861f38d5202922fad6b7bc5cc",
+      "additionalScope": "sample-only read guard and stale 401 generation guard"
+    },
+    "src/core.js": {
+      "sha256": "33c74aa1ea4ee29d3970815058ff2a617e50af15020a1185ae63a94c4be59e70",
+      "additionalScope": "sample-only view/action policy"
+    },
+    "src/cloud-session.js": {
+      "sha256": "66be75d96d1c652f136976e478d2791d752555b7cfa9256adc2019e719639a64",
+      "additionalScope": "optional permission lifecycle"
+    },
+    "tests/review132-market-consumers.mjs": {
+      "sha256": "d0fc07503dc7da9379c3c0379980277c26d54ba785330c8295567b4e94eb8f20",
+      "modifiedUtc": "2026-10-30T05:32:22.6480284Z",
+      "bytes": 15577
+    },
+    "tests/review132-market-consumers-browser.mjs": {
+      "sha256": "c37025c80276727d76be6dd0ffa186284bf50da6d81eace5fcf2aa78784c4028",
+      "modifiedUtc": "2026-10-30T05:26:19.5829579Z",
+      "bytes": 13033
+    }
+  },
+  "dataScope": "Independent synthetic observations through actual normalizer/API adapter/renderer. No current DB financial values or hashes. Original reference arrays, values, 0/null, months and explicit UI choices preserved.",
+  "unchanged": [
+    "UI layout/columns/colors/fonts/tabs",
+    "reference-data API arguments and returns",
+    "server collectors",
+    "company identity/credit/contracts",
+    "historical unit-cost records and publication access",
+    "stored workspace data/cookies"
+  ],
+  "sourcePinsBeforeSampleScope": {
+    "src/partners.js": {
+      "sha256": "0df2c6d581b5754be78c1d4c807b55adb06e45d35127270bd1141acbf05339dc",
+      "modifiedUtc": "2026-10-30T05:28:39.8897233Z",
+      "bytes": 127451
+    },
+    "src/reference-data.js": {
+      "sha256": "59e3347867878dcf6901918b18978b1ba51bf80cbae1f1628baef8cd2669b9ac",
+      "changed": false
+    },
+    "tests/review132-market-consumers.mjs": {
+      "sha256": "d0fc07503dc7da9379c3c0379980277c26d54ba785330c8295567b4e94eb8f20",
+      "modifiedUtc": "2026-10-30T05:32:22.6480284Z",
+      "bytes": 15577
+    },
+    "tests/review132-market-consumers-browser.mjs": {
+      "sha256": "c37025c80276727d76be6dd0ffa186284bf50da6d81eace5fcf2aa78784c4028",
+      "modifiedUtc": "2026-10-30T05:26:19.5829579Z",
+      "bytes": 13033
+    },
+    "src/chart-utils.js": {
+      "sha256": "42bbf109f72f482ecb3a1468e0092992c90276ac09d84124d0d838f9b6ece3e5",
+      "changed": false
+    }
+  }
+}

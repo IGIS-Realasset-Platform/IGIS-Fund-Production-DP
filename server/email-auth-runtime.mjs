@@ -1,5 +1,6 @@
 import {AUTH_SCHEMA,AuthUnavailableError,readAuthConfiguration,normalizeDatabaseCa,brevoCodeSender,createEmailAuth,unavailableResponse} from './email-auth.mjs';
 import {grantApprovedSamples} from './sample-access.mjs';
+import {isSampleViewerEmail} from './auth-policy.mjs';
 
 const projectRef='baqybhtfvuttcyyzspyi',runtimeRole='development_project_platform_runtime';
 export function parsePgInteger(value){const parsed=Number(value);if(!/^-?\d+$/.test(String(value))||!Number.isSafeInteger(parsed))throw new AuthUnavailableError();return parsed;}
@@ -47,7 +48,7 @@ export function createAuthRuntime({environment=()=>process.env,loadDrivers=loadP
    const response=await service.handle(request,action);
    if(response.status>=500){await client.query('ROLLBACK');return unavailableResponse();}
    // 인증 실패의 시도 횟수·만료 처리는 저장하여 재시도로 제한을 우회하지 못하게 합니다.
-   if(action==='verify'&&response.ok){const identity=await response.clone().json();if(identity.authenticated===true&&identity.userId){if(config.initialAdminEmail&&identity.email===config.initialAdminEmail)await client.query('INSERT INTO development_project_platform.platform_admins(user_id) VALUES ($1) ON CONFLICT(user_id) DO NOTHING',[identity.userId]);await grantApprovedSamples(client,{...identity,allowedEmails:config.allowedEmails});}}
+   if(action==='verify'&&response.ok){const identity=await response.clone().json();if(identity.authenticated===true&&identity.userId){if(config.initialAdminEmail&&identity.email===config.initialAdminEmail&&!isSampleViewerEmail(identity.email,config.sampleViewerEmails))await client.query('INSERT INTO development_project_platform.platform_admins(user_id) VALUES ($1) ON CONFLICT(user_id) DO NOTHING',[identity.userId]);await grantApprovedSamples(client,{...identity,allowedEmails:config.allowedEmails,sampleViewerEmails:config.sampleViewerEmails});}}
    await client.query('COMMIT');return response;
   }catch{if(client)try{await client.query('ROLLBACK')}catch{}return unavailableResponse();}
   finally{if(client)client.release();}

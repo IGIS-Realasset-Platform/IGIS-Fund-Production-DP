@@ -11,6 +11,7 @@ import {validateCostBreakdownProject,validateCostBreakdownTransitions} from '../
 import {validateProjectManagerReferences} from './employee-directory.mjs';
 import {projectRegistrationProfileErrors} from '../shared/project-registration-profile.mjs';
 import {costGraphTransitionErrors} from '../shared/cost-graph-safety.mjs';
+import {approvedSampleIds,readApprovedSampleProjects} from './sample-access.mjs';
 
 export const WORKSPACE_SCHEMA='development_project_platform';
 export const DEFAULT_WORKSPACE_ID='platform';
@@ -102,8 +103,8 @@ export function validateWorkspaceState(state){
  return state;
 }
 export function normalizeWorkspaceAccess(access={}){
- const projects={};if(object(access.projects))for(const[id,role]of Object.entries(access.projects))if(validId(id)&&roles.has(role))projects[id]=role;
- return {isAdmin:access.isAdmin===true,canCreateProject:access.isAdmin===true&&access.canCreateProject!==false,projects};
+ const sampleViewerOnly=access.sampleViewerOnly===true,projects={};if(object(access.projects))for(const[id,role]of Object.entries(access.projects))if(validId(id)&&roles.has(role)&&(!sampleViewerOnly||approvedSampleIds.includes(id)))projects[id]=sampleViewerOnly?'viewer':role;
+ return {isAdmin:!sampleViewerOnly&&access.isAdmin===true,canCreateProject:!sampleViewerOnly&&access.isAdmin===true&&access.canCreateProject!==false,projects,...(sampleViewerOnly?{sampleViewerOnly:true}:{})};
 }
 const readable=(access,id)=>access.isAdmin||roles.has(access.projects[id]);
 const editable=(access,id)=>access.isAdmin||editRoles.has(access.projects[id]);
@@ -122,14 +123,16 @@ function visibleCompanyIds(state,projectIds){
 function neutralSourceLoad(){return createBlankWorkspaceState().sourceLoad;}
 export function filterWorkspaceState(state,rawAccess){
  validateWorkspaceState(state);const access=normalizeWorkspaceAccess(rawAccess);if(access.isAdmin)return clone(state);
- const projects=state.projects.filter(p=>readable(access,p.id)),ids=new Set(projects.map(p=>p.id)),entityIds=new Set(projects.map(p=>p.entityId).filter(validId)),companyIds=visibleCompanyIds(state,ids),out=createBlankWorkspaceState();
+ const projects=state.projects.filter(p=>readable(access,p.id)&&(!access.sampleViewerOnly||htmlFixturePolicy.isApprovedProject(p)&&!p.deletedAt&&p.active!==false)),ids=new Set(projects.map(p=>p.id)),entityIds=new Set(projects.map(p=>p.entityId).filter(validId)),companyIds=visibleCompanyIds(state,ids),out=createBlankWorkspaceState();
  for(const key of metaKeys)if(own(state,key))out[key]=clone(state[key]);
- for(const key of publicKeys)if(own(state,key))out[key]=clone(state[key]);
- out.projects=clone(projects);out.entities=clone((state.entities||[]).filter(row=>entityIds.has(row.id)));out.companies=clone((state.companies||[]).filter(row=>companyIds.has(row.id)));
- out.auditEvents=clone((state.auditEvents||[]).filter(row=>ids.has(rowProjectId(row))));out.notifications=clone((state.notifications||[]).filter(row=>ids.has(rowProjectId(row))));
- for(const key of scopedKeys)if(Array.isArray(state[key]))out[key]=clone(state[key].filter(row=>ids.has(rowProjectId(row))));
+ for(const key of publicKeys)if(own(state,key)&&!access.sampleViewerOnly)out[key]=clone(state[key]);
+ const withinScope=row=>ids.has(rowProjectId(row))&&(!access.sampleViewerOnly||!row.target?.projectId||row.target.projectId===rowProjectId(row));
+ out.projects=clone(projects);out.entities=clone((state.entities||[]).filter(row=>entityIds.has(row.id)&&(!access.sampleViewerOnly||[...associatedProjects(state,'entity',row.id)].every(id=>ids.has(id)))));out.companies=clone((state.companies||[]).filter(row=>companyIds.has(row.id)));
+ out.auditEvents=clone((state.auditEvents||[]).filter(withinScope));out.notifications=clone((state.notifications||[]).filter(withinScope));
+ for(const key of scopedKeys)if(Array.isArray(state[key]))out[key]=clone(state[key].filter(withinScope));
  // 개인/영업 연락처 등 사업에 귀속되지 않은 공용 원장은 관리자에게만 제공합니다.
  out.companySalesLines=[];out.sourceLoad=neutralSourceLoad();
+ if(access.sampleViewerOnly){out.auditEvents=[];out.companies=out.companies.map(row=>({id:row.id,name:row.name||''}));}
  for(const key of ['currentProjectId','selectedProjectId'])if(!ids.has(out[key]))out[key]=projects[0]?.id||'';
  return out;
 }
@@ -326,6 +329,7 @@ export function mergeWorkspaceState(current,incoming,rawAccess,user={email:''}){
  validateSharedReferenceChanges(current,next,visible,access);validateWorkspaceState(next);validateProfessionalDateChanges(current,next);validateLoanPricingChanges(current,next);const permitBasis=importedInitialProjects.length?{...current,projects:[...current.projects,...importedInitialProjects]}:current,permitValidation=validatePermitChanges(permitBasis,next);if(!permitValidation.valid)throw new WorkspaceError(422,'INVALID_PERMIT',permitValidation.errors[0]?.message||'인허가 입력값을 확인해 주세요.');return {state:next,changedProjectIds:[...changed],requiresAdmin:access.isAdmin};
 }
 export async function readWorkspaceAccess(client,session){
+ if(session.sampleViewerOnly===true){let projects;try{projects=await readApprovedSampleProjects(client);}catch{throw new WorkspaceError(503,'APPROVED_SAMPLES_UNAVAILABLE','샘플 자료를 확인하지 못했습니다.');}return normalizeWorkspaceAccess({sampleViewerOnly:true,projects:Object.fromEntries(projects.map(p=>[p.id,'viewer']))});}
  const admin=await client.query(`SELECT user_id FROM ${table('platform_admins')} WHERE user_id = $1`,[session.userId]);
  const result=await client.query(`SELECT project_id, role FROM ${table('project_members')} WHERE user_id = $1`,[session.userId]);
  return normalizeWorkspaceAccess({isAdmin:admin.rows.length>0,canCreateProject:admin.rows.length>0,projects:Object.fromEntries(result.rows.map(row=>[row.project_id,row.role]))});
@@ -360,8 +364,8 @@ export function createWorkspaceHandlers({withTransaction,origin,workspaceId=DEFA
   if(!['GET','PUT'].includes(request.method))return json({error:'METHOD_NOT_ALLOWED'},405,{allow:'GET, PUT'});
   let input,hash;if(request.method==='PUT'){input=await bodyJson(request,['workspaceId','baseRevision','requestId','state']);if(input.workspaceId!==workspaceId)throw forbidden();revision(input.baseRevision);requestId(input.requestId);validateWorkspaceState(input.state);hash=workspaceStateHash({action:'workspace',...input});}
   return withTransaction(request,async(client,session)=>{
-   if(!session?.userId)throw new WorkspaceError(401,'AUTH_REQUIRED','로그인해 주세요.');const user={userId:session.userId,email:companyEmail(session.email)},current=await(request.method==='GET'?readWorkspace(client,workspaceId):lockedWorkspace(client,workspaceId)),access=normalizeWorkspaceAccess(await accessPolicy(client,user));
-   if(request.method==='GET')return json({workspaceId,revision:current.revision,state:filterWorkspaceState(current.state,access),capabilities:{createProject:access.canCreateProject,manageAccess:access.isAdmin,viewPlatformSpec:user.email==='kylee@igisam.com'},projectRoles:access.projects,user:{id:user.userId,email:user.email}});
+   if(!session?.userId)throw new WorkspaceError(401,'AUTH_REQUIRED','로그인해 주세요.');if(session.sampleViewerOnly===true&&request.method!=='GET')throw new WorkspaceError(403,'SAMPLE_VIEWER_ONLY','샘플 자료는 조회만 할 수 있습니다.');const user={userId:session.userId,email:companyEmail(session.email),...(session.sampleViewerOnly===true?{sampleViewerOnly:true}:{})},current=await(request.method==='GET'?readWorkspace(client,workspaceId):lockedWorkspace(client,workspaceId)),access=normalizeWorkspaceAccess(await accessPolicy(client,user));
+   if(request.method==='GET')return json({workspaceId,revision:current.revision,state:filterWorkspaceState(current.state,access),capabilities:{createProject:access.canCreateProject,manageAccess:access.isAdmin,viewPlatformSpec:!access.sampleViewerOnly&&user.email==='kylee@igisam.com'},projectRoles:access.projects,user:{id:user.userId,email:user.email},...(access.sampleViewerOnly?{permissions:{sampleOnly:true}}:{})});
    const previous=await replay(client,workspaceId,user,input.requestId,hash,access);if(previous)return json(previous);
    for(const p of input.state.projects)if(current.state.projects.some(old=>old.id===p.id)?!readable(access,p.id):!access.canCreateProject)throw forbidden();
    if(revision(input.baseRevision)!==current.revision)throw conflict();const graphErrors=costGraphTransitionErrors(current.state,input.state);if(graphErrors.length)throw new WorkspaceError(422,'INVALID_COST_GRAPH',graphErrors[0].message);const merged=mergeWorkspaceState(current.state,input.state,access,user);
@@ -374,7 +378,7 @@ export function createWorkspaceHandlers({withTransaction,origin,workspaceId=DEFA
   if(!['GET','PUT','DELETE'].includes(request.method))return json({error:'METHOD_NOT_ALLOWED'},405,{allow:'GET, PUT, DELETE'});
   let input,hash;if(request.method!=='GET'){input=await bodyJson(request,['workspaceId','baseRevision','requestId','projectId','email','role']);if(input.workspaceId!==workspaceId||!validId(input.projectId))throw invalid();revision(input.baseRevision);requestId(input.requestId);try{input.email=companyEmail(input.email)}catch{throw invalid('회사 이메일을 확인해 주세요.');}if(request.method==='PUT'&&!roles.has(input.role))throw invalid('조회·수정·확정 권한 중에서 선택해 주세요.');if(request.method==='DELETE'&&own(input,'role'))throw invalid();hash=workspaceStateHash({action:'projectAccess',method:request.method,...input});}
   return withTransaction(request,async(client,session)=>{
-   if(!session?.userId)throw new WorkspaceError(401,'AUTH_REQUIRED','로그인해 주세요.');const user={userId:session.userId,email:companyEmail(session.email)},current=await(request.method==='GET'?readWorkspace(client,workspaceId):lockedWorkspace(client,workspaceId)),access=normalizeWorkspaceAccess(await accessPolicy(client,user));if(!access.isAdmin)throw forbidden();
+   if(!session?.userId)throw new WorkspaceError(401,'AUTH_REQUIRED','로그인해 주세요.');if(session.sampleViewerOnly===true)throw forbidden();const user={userId:session.userId,email:companyEmail(session.email)},current=await(request.method==='GET'?readWorkspace(client,workspaceId):lockedWorkspace(client,workspaceId)),access=normalizeWorkspaceAccess(await accessPolicy(client,user));if(!access.isAdmin)throw forbidden();
    const projectId=input?.projectId||new URL(request.url).searchParams.get('projectId');if(!current.state.projects.some(p=>p.id===projectId))throw new WorkspaceError(404,'PROJECT_NOT_FOUND','사업을 찾을 수 없습니다.');
    if(request.method==='GET'){const result=await client.query(`SELECT m.project_id,m.user_id,m.role,u.email FROM ${table('project_members')} m JOIN ${table('app_user')} u ON u.id=m.user_id WHERE m.project_id = $1 ORDER BY u.email`,[projectId]);return json({workspaceId,revision:current.revision,projectId,members:result.rows.map(row=>({userId:row.user_id,email:row.email,role:row.role}))});}
    const previous=await replay(client,workspaceId,user,input.requestId,hash,access);if(previous)return json(previous);if(revision(input.baseRevision)!==current.revision)throw conflict();
