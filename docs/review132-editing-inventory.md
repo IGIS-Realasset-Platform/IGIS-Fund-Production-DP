@@ -99,3 +99,15 @@ QA가구형부지11셀기대만승인된구역폼1개/11원값/저장취소로�
 소스나검사기를수정하지않고 **게시용b6c0e651파일자체**를새격리Edge에주입해등록4/4·인허가/부지8/8을재실행했습니다. pageerror0,원본쿠키/실DB/운영쓰기0입니다. 근거는 `.build/review132-client/published-exact-registration-four-widths/evidence.json`·`published-exact-permit-four-widths/evidence.json`입니다. 등록1280/1440/1600/390의filled이미지4개는원본7c4d131c검수이미지와PNG파일지문까지모두같았습니다. 정확한이미지·검사기지문은같은이름JSON의publishedArtifactVerification에기록했습니다.
 
 이는앞의12개업무흐름을게시용정확본에서다시확인한것이며고유기능24개로늘리지않습니다. 이담당자는실제정식URL/서버DB를검수하지않았으며,그확인은루트의배포/실서버근거와별도로연결합니다.
+
+## 후속 입력자료 소비자 보완본 — 현재 최신 게시용 검수
+
+펀드명·파이낸스구조가후속입력자료선택/검증에도연결되도록루트가 `sourceFields`9개와두경로를보완한뒤의현재원본은 **a238c0e062305dcc099d9378496d760e75849d35858a3bbcde1ab0d72149945f·6,929,968B**, 게시용은 **80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833·6,929,932B**입니다. 같은기존4개게시익명화를각1회적용하면두HTML이완전히같음을이번회차에도읽기전용으로확인했습니다. 이전b6c0e651과7c4d131c검수는당시기록으로보존합니다.
+
+게시용 `.build/github-release-review132/.build/review132/c94-source-fields-production.html`자체에서기존등록4/4·인허가/부지8/8을재실행해통과했고pageerror0입니다. 근거는 `.build/review132-client/source-fields-published-registration-four-widths/evidence.json`·`source-fields-published-permit-four-widths/evidence.json`입니다. 현재setup지문은 `cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065`이고,연결된현재소스가실제HTML에포함됐는지검사하는게이트도통과했습니다.
+
+추가소비자는기존12판정과구분해검수했습니다. 실제현재화면에서‘계약·문서→입력자료 확인→+ 입력자료 추가’를관측한뒤1280/390두폭에서 `basic.fundName`·`basic.financeStructure`가각1회씩선택되는지확인했습니다. 각폭에서두후속후보를입력/저장하고원자료목록의후보·충돌상태·자료메타를확인했습니다. 실제basic전체는변경전과바이트가같았고,재접속후에도후보는보존되며사업개요의실제펀드명/파이낸스구조는후속후보로자동덮어쓰지않았습니다. 숨은legacy진입을생성하거나App함수를직접호출해화면을만들지않았습니다.
+
+첫추가분기는버튼의‘+’접두사를빠뜨린정확이름선택자때문에수행되지않았으며제품미노출로판정하지않았습니다. QA동결이후에는tests를변경하지않고 `.build/review132-client/source-fields-registration-native.mjs`에서실제노출버튼을관측해준비를보완했습니다. 임시검사SHA는 `074fe62ffed35cd3a1289eff5f79d4b69bff99cdd2dc039b925dadee7b802c81`, 실제추가근거는 `source-fields-extra-two-widths/evidence.json`입니다. QA대상등록검사파일은11:33:43.6805921 KST의SHA `65bf3fb4cbc7dcf1b8e2cc00ccdf85a3c5199fb945b92e1e26a52c7e911365df`이후변경0입니다.
+
+모든검수는새격리Edge와합성HTTP이며운영쿠키/실DB/운영쓰기0입니다. 운영Cua초기화차단에따른인증상태·실제운영화면미검증은추가우회없이그대로보존합니다.

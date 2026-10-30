@@ -6,6 +6,7 @@
  const sourceFields=[...fields,...overviewFields];
  const employeeDirectory={employees:[],generation:0,error:'',projectId:''};
  const employeeFieldRequests=new WeakMap();
+ A.onCloudReset?.(()=>{employeeDirectory.generation++;employeeDirectory.employees=[];employeeDirectory.error='';employeeDirectory.projectId='';});
  const read=(p,key)=>key.split('.').reduce((o,k)=>o?.[k],p),copy=x=>A.clone(x),text=x=>String(x??'').trim(),live=xs=>(xs||[]).filter(x=>!x.deletedAt),stamp=()=>new Date().toISOString();
  const fail=errors=>{throw A.inputError?A.inputError(errors):Object.assign(Error(Object.values(errors)[0]),{fieldErrors:errors});};
  const create=(label,action,data={})=>A.createButton?A.createButton(label,action,data):A.btn(label,action,data,'create');
@@ -48,11 +49,17 @@
  function restoreEmployeeField(values={},key='managerEmployeeId'){
    const form=document.getElementById('app-form'),select=form?.querySelector('[name="'+key+'"]');if(!select||!Object.prototype.hasOwnProperty.call(values,key))return false;const selected=String(values[key]??''),name=resolveEmployee(selected)?.name||values.manager||values.basic__manager||'',box=document.createElement('div');box.innerHTML=managerFields(selected,name,key);const next=box.querySelector('select');if(next)select.innerHTML=next.innerHTML;select.value=selected;return true;
  }
+ function syncEmployeeFieldError(select,key,ok){
+   const field=select.closest?.('[data-field]')||select.parentNode,directoryId='dp-employee-directory-error-'+key,priorIds=String(select.getAttribute('aria-describedby')||'').split(/\s+/).filter(Boolean),commonError=field?.querySelector?.('[data-form-error]');let error=field?.querySelector?.('[data-employee-directory-error]');
+   if(!ok){if(!error){error=document.createElement('p');error.dataset.employeeDirectoryError='';error.id=directoryId;error.setAttribute('role','alert');field.appendChild(error);}error.textContent=employeeDirectory.error;}else error?.remove();
+   const descriptions=priorIds.filter(id=>id!==directoryId);if(commonError?.id)descriptions.push(commonError.id);if(!ok)descriptions.push(directoryId);const ids=[...new Set(descriptions)];if(ids.length)select.setAttribute('aria-describedby',ids.join(' '));else select.removeAttribute('aria-describedby');
+   if(commonError||!ok)select.setAttribute('aria-invalid','true');else if(priorIds.includes(directoryId))select.removeAttribute('aria-invalid');
+ }
  async function refreshEmployeeField(projectId='',key='managerEmployeeId'){
    const form=document.getElementById('app-form'),select=form?.querySelector('[name="'+key+'"]');if(!select)return false;const active=employeeFieldRequests.get(form);if(active?.key===key&&active.projectId===projectId)return active.promise;
-   const promise=(async()=>{const ok=await loadEmployees(projectId);if(document.getElementById('app-form')!==form||!select.isConnected)return false;const selected=select.value,previous=select.options?.[select.selectedIndex]?.text||'';
+   const generation=employeeDirectory.generation+1,promise=(async()=>{const ok=await loadEmployees(projectId);if(employeeDirectory.generation!==generation||document.getElementById('app-form')!==form||!select.isConnected)return false;const selected=select.value,previous=select.options?.[select.selectedIndex]?.text||'';
    const box=document.createElement('div');box.innerHTML=managerFields(selected,previous,key);const next=box.querySelector('select');if(next)select.innerHTML=next.innerHTML;select.value=selected;
-   let error=form.querySelector('[data-employee-directory-error]');if(!ok){if(!error){error=document.createElement('p');error.dataset.employeeDirectoryError='';error.id='dp-employee-directory-error-'+key;error.setAttribute('role','alert');select.parentNode.appendChild(error);}error.textContent=employeeDirectory.error;select.setAttribute('aria-invalid','true');select.setAttribute('aria-describedby',error.id);}else{error?.remove();select.removeAttribute('aria-invalid');if(select.getAttribute('aria-describedby')==='dp-employee-directory-error-'+key)select.removeAttribute('aria-describedby');}return ok;})();employeeFieldRequests.set(form,{key,projectId,promise});try{return await promise;}finally{if(employeeFieldRequests.get(form)?.promise===promise)employeeFieldRequests.delete(form);}
+   syncEmployeeFieldError(select,key,ok);return ok;})();employeeFieldRequests.set(form,{key,projectId,promise});try{return await promise;}finally{if(employeeFieldRequests.get(form)?.promise===promise)employeeFieldRequests.delete(form);}
  }
  function existingCandidates(p){return fields.map(([key,label,type])=>({id:A.uid('candidate'),key:paths[key],label,type,value:read(p,paths[key])??'',source:'기존 저장자료',location:'기본정보',asOf:p.asOf||'',path:'',status:'unreviewed',choices:[]}));}
  function initialize(state){

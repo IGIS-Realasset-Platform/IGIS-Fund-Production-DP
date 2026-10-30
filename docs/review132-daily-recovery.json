@@ -1,0 +1,371 @@
+{
+  "reviewId": "OPS132-DAILY-RECOVERY",
+  "date": "2026-10-30",
+  "status": "single-production-run-and-large-snapshot-save-verified; sources-remain-partial",
+  "deployment": {
+    "id": "dpl_9hUe4fFiTxWzeaWBwdXFgJtpYMS2",
+    "sourceCommit": "2e1982302bca3628ac523718d4b91fd38ff86a59",
+    "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+    "htmlBytes": 6929932,
+    "publicHttpStatus": 200,
+    "currentProductionMatched": true,
+    "evidence": {
+      "path": ".build/review132/production-accepted.json",
+      "sha256": "db5b4f77c3c08572f381414189deac5df93d216a7565e49c871b111fb8e9c6d0"
+    }
+  },
+  "execution": {
+    "officialCommand": "vercel crons run /api/maintenance --project prj_nuodSnX6pv9g2i0YERSQUfAIkedT",
+    "triggerCount": 1,
+    "cliExitCode": 0,
+    "actualRunObserved": true,
+    "runs": [
+      {
+        "id": "ca5b9698-d1e3-42f1-9a98-3a637b5f480c",
+        "job": "daily",
+        "status": "partial_failure",
+        "errorCode": null,
+        "startedAt": "2026-10-30T03:15:15.011Z",
+        "finishedAt": "2026-10-30T03:16:41.956Z",
+        "durationMs": 86945
+      },
+      {
+        "id": "9a33ca32-2a09-40fd-b825-f8c6bfc02614",
+        "job": "partners",
+        "status": "partial_failure",
+        "errorCode": "PARTNER_SOURCES_INCOMPLETE",
+        "startedAt": "2026-10-30T03:15:15.145Z",
+        "finishedAt": "2026-10-30T03:16:27.523Z",
+        "durationMs": 72378
+      }
+    ],
+    "sourceCounts": {
+      "success": 193,
+      "failed": 1,
+      "partial_failure": 2,
+      "configuration_missing": 5,
+      "deferred": 0,
+      "not_modified": 0
+    },
+    "totalSourceResults": 201,
+    "httpRequests": 179,
+    "completeSourceResults": 193,
+    "countSemantics": "requestedCount=외부HTTP 요청수, checkedCount=완료된 원천결과 수, sourceCount=원천결과 전체 수입니다. 서로 같은 단위가 아닙니다.",
+    "lastLeasesReleased": true,
+    "observedActiveLeases": {
+      "dailyUntil": "2026-10-30T03:20:15.011Z",
+      "partnersUntil": "2026-10-30T03:17:15.145Z"
+    },
+    "exactMonotonicDeadlineNotStored": true,
+    "policy": {
+      "overallMs": 270000,
+      "functionMaximumMs": 300000,
+      "partnerSaveMaximumMs": 30000,
+      "saveReserveMs": 40000
+    },
+    "actualSaveStatementDurationNotMeasured": true,
+    "runTimesDerivedFromActualStoredIsoTimestamps": true,
+    "durationNote": "실행기 요약의 Date.parse(Date)로 소수초가 절삭된 필드는 사용하지 않고 저장된 ISO 시작/종료시각의 밀리초 차이를 사용했습니다. 원본 실행영수증은 수정하지 않았습니다."
+  },
+  "snapshot": {
+    "oldVersion": "2ac755de-fca3-44b2-ab6d-baca12a7c781",
+    "oldBytes": 26171871,
+    "oldPayloadMd5": "5e7d0c9862816ec7aed3064302640292",
+    "newVersion": "9a33ca32-2a09-40fd-b825-f8c6bfc02614",
+    "newBytes": 26466252,
+    "newPayloadMd5": "3ce85c33d7512a2d439ce3c1092b2dbd",
+    "checkedAt": "2026-10-30T03:16:27.523Z",
+    "createdAt": "2026-10-30T03:16:27.523596+00:00",
+    "sourceCheckedAtMin": "2026-10-30T03:15:17.077+00:00",
+    "sourceCheckedAtMax": "2026-10-30T03:15:59.353+00:00",
+    "singleCollectedAtFieldExists": false,
+    "collectionTimeMeaning": "개별 source.checkedAt 범위와 DB판본 checked_at/created_at을 구분합니다. 저장시각을 단일 collectedAt으로 추정하지 않습니다.",
+    "newVersionMatchesPartnerRun": true,
+    "checkpointReferenceMatchesNewVersion": true,
+    "priorReferenceRows": 36,
+    "afterReferenceRows": 37
+  },
+  "preservation": {
+    "workspaceUnchanged": true,
+    "employeeCommentsUnchanged": true,
+    "personalNotificationStatesUnchanged": true,
+    "projectMembershipUnchanged": true,
+    "aclRlsAndSourcePermissionsUnchanged": true,
+    "priorReferenceMetadataPreserved": true,
+    "previousLatestPayloadsPreserved": true,
+    "scope": "전체 원장·직원댓글·개인상태·권한 지문, 모든 이전판본의존재/시각/저장크기, 실행전 최신2판본의실제본문지문. runtime의기존판본UPDATE/DELETE불가와함께평가하며 모든역사본문전수재읽기로표현하지않음",
+    "employeeDirectoryIdentityUnchanged": true,
+    "employeeOriginalCount": 468,
+    "employeeOriginalFullRowAclRlsPolicyUnchanged": true,
+    "employeeOriginalBefore": {
+      "observed_at": "2026-10-30T03:10:29.221701+00:00",
+      "employee_count": 468,
+      "source_data_md5": "3c736528b44a9164bbc70bc81facca98",
+      "source_acl_md5": "9130c9a8cb9c4e5d4883f3d1b61c353d",
+      "source_rls": [
+        true,
+        false
+      ],
+      "source_policy_md5": "35c54b3dc471755780f443808a580a4e",
+      "scope": "Fresh pre-trigger read-only source row digest/ACL/RLS/policy metadata only. No names, emails or row bodies returned. Earlier receipts using different query serialization are not substituted for this baseline."
+    },
+    "employeeOriginalAfter": {
+      "observed_at": "2026-10-30T03:17:54.464289+00:00",
+      "employee_count": 468,
+      "source_data_md5": "3c736528b44a9164bbc70bc81facca98",
+      "source_acl_md5": "9130c9a8cb9c4e5d4883f3d1b61c353d",
+      "source_rls": [
+        true,
+        false
+      ],
+      "source_policy_md5": "35c54b3dc471755780f443808a580a4e",
+      "scope": "Post-trigger read-only managed MCP source digest using the same query as pre-trigger. No names/emails/body returned and no runtime orgdb privilege was granted."
+    },
+    "sourceCompanyAndCommentBindings": {
+      "oldVersion": "2ac755de-fca3-44b2-ab6d-baca12a7c781",
+      "newVersion": "9a33ca32-2a09-40fd-b825-f8c6bfc02614",
+      "companyCountBefore": 181,
+      "companyCountAfter": 181,
+      "companyKeysMd5Before": "b2dc1f0f7354fe094e4f79f94a6fba65",
+      "companyKeysMd5After": "b2dc1f0f7354fe094e4f79f94a6fba65",
+      "commentsBindingMd5Before": "75b727d8b407e759524911196755db6d",
+      "commentsBindingMd5After": "75b727d8b407e759524911196755db6d",
+      "legacyCommentCountBefore": 14,
+      "legacyCommentCountAfter": 14,
+      "officialCommentCountBefore": 11,
+      "officialCommentCountAfter": 11,
+      "rawCompanyOrCommentBodiesReturned": false
+    },
+    "workspaceRevisionBefore": "58",
+    "workspaceRevisionAfter": "58",
+    "workspaceHashBefore": "8c6fd194444ab77a13b5fff1556da345",
+    "workspaceHashAfter": "8c6fd194444ab77a13b5fff1556da345",
+    "actorSeparation": {
+      "appMetadataActor": "development_project_platform_runtime",
+      "originalStaffActor": "managed Supabase MCP read only",
+      "runtimeOrgdbUsage": false,
+      "runtimeOrgdbSelect": false,
+      "noSetRoleOrGrantUsed": true
+    }
+  },
+  "databaseLogCheck": {
+    "startUtc": "2026-10-30T03:15:10Z",
+    "endUtc": "2026-10-30T03:17:30Z",
+    "source": "postgres_logs",
+    "returnedRecords": 8,
+    "groups": [
+      {
+        "sqlState": "00000",
+        "severity": "LOG",
+        "records": 8
+      }
+    ],
+    "sqlState57014Count": 0,
+    "errorOrFatalCount": 0,
+    "scope": "해당 시간창의 프로젝트 postgres_logs 집계. 전기간/모든공급자 무오류나 실제statement_timeout 값 계측을 뜻하지 않음. 원문SQL/메시지는 반환하지 않음"
+  },
+  "remainingSources": [
+    {
+      "sourceId": "rank:kacem",
+      "provider": "한국건설엔지니어링협회 www.ekacem.or.kr PDF",
+      "status": "failed",
+      "errorCode": "SOURCE_TLS_REJECTED",
+      "requiredConfigurationNames": [],
+      "classification": "외부 TLS 연결거절 + 기존 미완성 어댑터",
+      "confirmed": "현재 TLS 검증에서 거절됐습니다. 또한 현재 collector는 PDF 읽기 성공 후에도 SOURCE_KACEM_FORMAT_REVIEW_REQUIRED를 반환하도록 남아 있습니다.",
+      "unknown": "안전메타에는 인증서 세부오류가 없어 만료/체인 등 정확한 TLS 사유는 확정하지 않았습니다.",
+      "nextBoundary": "TLS 검증을 끄거나 원문을 추정 파싱하지 않습니다. 공식 PDF 형식 근거와 별도 구현/검수가 필요합니다.",
+      "sourceRefs": [
+        "server/partner-rankings.mjs:66",
+        "server/partner-rankings.mjs:76"
+      ]
+    },
+    {
+      "sourceId": "kosis-market",
+      "provider": "KOSIS",
+      "status": "configuration_missing",
+      "errorCode": "KOSIS_KEY_AND_SERIES_REQUIRED",
+      "requiredConfigurationNames": [
+        "DP_KOSIS_API_KEY",
+        "kosisSeries"
+      ],
+      "classification": "실제 키/통계계열 구성 누락",
+      "confirmed": "이번 run에서 누락된 환경키 목록은 DP_KOSIS_API_KEY 한 개입니다. 코드상 kosisSeries 배열도 필수이나 현재 maintenance의 partnerConfiguration이 이를 전달하지 않습니다.",
+      "nextBoundary": "API키만 입력하면 연결완료라고 판정할 수 없습니다. 승인된 계열 정의를 확인해야 하며 키 생성/유료등록은 수행하지 않았습니다.",
+      "sourceRefs": [
+        "server/partner-collector.mjs:121",
+        "server/maintenance-runtime.mjs:60"
+      ]
+    },
+    {
+      "sourceId": "g2b-contracts",
+      "provider": "조달청 나라장터 OpenAPI apis.data.go.kr",
+      "status": "partial_failure",
+      "errorCode": "SOURCE_PROVIDER_NOT_COMPLETE",
+      "lowerCause": "INVALID_G2B_PARTIES",
+      "sameRootCauseAs": "g2b-recovery",
+      "requiredConfigurationNames": [],
+      "classification": "원천 당사자 파싱/법적 식별 검증 미통과",
+      "confirmed": "상위 상태는 일반 부분완료 코드지만 coverage.pendingErrorCode는 INVALID_G2B_PARTIES입니다. 계획1449건·active300건·기존300건 보존, 참조검증 true, 복구완료 false입니다.",
+      "unknown": "실패 원행의 세부필드가 안전메타에 남지 않아 parser의 실제 결함인지 공급자 행의 불완전인지 확정할 수 없습니다.",
+      "nextBoundary": "실제 실패 필드 구조의 독립 근거 없이 10필드/사업자번호 검증을 완화하거나 다른 회사로 임의 연결하지 않습니다.",
+      "sourceRefs": [
+        "server/partner-enrichment.mjs:38",
+        "server/partner-enrichment.mjs:158",
+        "server/partner-enrichment.mjs:222"
+      ]
+    },
+    {
+      "sourceId": "g2b-recovery",
+      "provider": "동일 나라장터 복구 경로",
+      "status": "partial_failure",
+      "errorCode": "INVALID_G2B_PARTIES",
+      "sameRootCauseAs": "g2b-contracts",
+      "requiredConfigurationNames": [],
+      "classification": "동일 G2B 원인의 복구 상태",
+      "confirmed": "두 개 원천 상태는 독립 실패 두 건이 아니라 같은 복구 작업의 일반상태와 상세 원인입니다. legacyObservationStatus=preserved_incomplete, legacyReferenceVerified/legacyObservationPreserved=true입니다.",
+      "nextBoundary": "checkpoint/기존300원문을 지우거나 완료분으로 승격하지 않습니다.",
+      "sourceRefs": [
+        "server/partner-enrichment.mjs:227",
+        "server/partner-enrichment.mjs:228"
+      ]
+    },
+    {
+      "sourceId": "dart-contracts",
+      "provider": "OpenDART",
+      "status": "configuration_missing",
+      "errorCode": "SOURCE_IDENTITY_REQUIRED",
+      "requiredConfigurationNames": [
+        "verified-dart-contract-query",
+        "dartContractQueries"
+      ],
+      "classification": "법적 기업식별 및 검증된 조회설정 미연결",
+      "confirmed": "이번 오류분기는 DART키가 있으나 검증된 contract query가 없는 경우입니다. 현재 runtime configuration은 dartContractQueries를 구성하지 않습니다.",
+      "nextBoundary": "회사명만으로 corpCode를 추정하지 않고 검증된 회사 연결과 조회 범위가 필요합니다.",
+      "sourceRefs": [
+        "server/partner-enrichment.mjs:232",
+        "server/maintenance-runtime.mjs:60"
+      ]
+    },
+    {
+      "sourceId": "dart-company-identities",
+      "provider": "OpenDART 기업식별",
+      "status": "configuration_missing",
+      "errorCode": "SOURCE_LEGAL_IDENTITY_REQUIRED",
+      "requiredConfigurationNames": [
+        "dartCorpCode",
+        "dartIdentityVerified"
+      ],
+      "classification": "기업 원천 식별 미확정",
+      "confirmed": "현재 verifiedCompanyCount=0입니다. 문자열 회사명 일치를 실제 동일 법인으로 승격하지 않습니다.",
+      "nextBoundary": "법적 식별값·공식 corpCode의 명시적 검증이 필요합니다. 새API키 문제로 바꾸지 않습니다.",
+      "sourceRefs": [
+        "server/partner-enrichment.mjs:233"
+      ]
+    },
+    {
+      "sourceId": "credit-ratings",
+      "provider": "공개 신용평가 후보(NICE/KIS 계열 조회)",
+      "status": "configuration_missing",
+      "errorCode": "SOURCE_LEGAL_IDENTITY_REQUIRED",
+      "requiredConfigurationNames": [
+        "verified-company-legal-identity"
+      ],
+      "classification": "조회 후보와 확정 신용등급 연결의 분리",
+      "confirmed": "이번에35개 회사 확인·실패0이지만 confirmedRatingUpdates=0이며 후보만 보관했습니다. 유효한 동일 법인 식별이 확정되지 않았습니다.",
+      "nextBoundary": "후보가 검색된 사실을 실제 확정 신용등급으로 자동 반영하지 않습니다.",
+      "sourceRefs": [
+        "server/partner-enrichment.mjs:248"
+      ]
+    },
+    {
+      "sourceId": "unit-costs",
+      "provider": "검증된 계약 원금액·면적·VAT 기준자료",
+      "status": "configuration_missing",
+      "errorCode": "SOURCE_CONTRACT_AMOUNT_AREA_BASIS_REQUIRED",
+      "requiredConfigurationNames": [
+        "unitCostEvidence"
+      ],
+      "classification": "실제 산출 근거 미입력/미연결",
+      "confirmed": "evidenceCount=0입니다. 현재 runtime configuration도 unitCostEvidence를 전달하지 않습니다.",
+      "nextBoundary": "계약 금액·면적·부가세·단위 기준 없이 평당/면적 단가를 만들지 않습니다. 외부API키를 추가하는 것으로 해결되는 상태가 아닙니다.",
+      "sourceRefs": [
+        "server/partner-enrichment.mjs:249",
+        "server/maintenance-runtime.mjs:60"
+      ]
+    }
+  ],
+  "acceptance": {
+    "singleNormalRun": true,
+    "largePartnerSnapshotActuallyPersisted": true,
+    "priorPartnerCollectionFailedSavePathRecovered": true,
+    "sqlState57014RecurrenceInObservedWindow": false,
+    "allProvidersComplete": false,
+    "dailyOverallSuccess": false,
+    "wholePlatformAccepted": false
+  },
+  "preparation": {
+    "syntaxCheckErrorBeforeInvocation": "별도 실행기 괄호 문법오류를 실제 호출 전 교정",
+    "permission42501": "앱 runtime에서 원본 이름의 regclass 해석에 필요한 orgdb USAGE가 없어서 발생한 메타조회 준비오류. catalog OID로 권한을 조회하고 orgdb 원본은 관리형MCP로 분리. 권한확대0",
+    "metadata57014": "사전 검증기의 큰본문 지문 조회10초제한에서 발생. 본문 직렬화1회와 READ ONLY 메타쿼리30초로 교정. 실제 실행창의 저장57014 재발과 구별",
+    "triggerInvocationsDuringPreparationFailures": 0,
+    "finalOfficialTriggerInvocations": 1,
+    "automaticOrRepeatedTrigger": 0
+  },
+  "safety": {
+    "directMaintenanceGet": 0,
+    "cronSecretValueRead": 0,
+    "newCredentialsOrBypassesOrSchedulesOrEnvironmentChanges": 0,
+    "sourceOrWorkspaceEditsByVerifier": 0,
+    "staffMessagesByVerifier": 0,
+    "rawSourceOrStaffOrSecretValuesPrintedOrSaved": false
+  },
+  "evidence": [
+    {
+      "path": ".build/review132/official-daily-run-result.json",
+      "sha256": "1116565c8e87297b802a04c89b74aa39368fdd86b0aba41bd9f5f500fc4c9d25"
+    },
+    {
+      "path": ".build/review132/official-daily-before.json",
+      "sha256": "7431f8b0522d3c6c9de51ff5745bad263dedead7b8a967d76dc5a46e6d99934f"
+    },
+    {
+      "path": ".build/review132/official-daily-after.json",
+      "sha256": "815958a3f661ba472c8ca643afa090cf2c556f07eb18ca173751847fc8d10cd5"
+    },
+    {
+      "path": ".build/review132/official-daily-postchecks.json",
+      "sha256": "2c2ce4e31ca87ac2aa60c8781fbeef2ff6e61888d4e0b04ed1280754c7990939"
+    },
+    {
+      "path": ".build/review132/official-daily-staff-source-before.json",
+      "sha256": "2c2db05c1d6806e2e7d6888ed1f273aaf1265188904ec66aefddaaaecdbc88d3"
+    },
+    {
+      "path": ".build/review132/official-daily-staff-source-after.json",
+      "sha256": "d047b2b6ae4470500ecc744a62fb7ec9fed678203a4c2ad8cea2915641681045"
+    },
+    {
+      "path": ".build/review132/official-daily-once-dpl_9hUe4fFiTxWzeaWBwdXFgJtpYMS2.json",
+      "sha256": "8eae25ed864a15db594e04028aaec466be15c085aebd3c349958c90c6ac70a21"
+    }
+  ],
+  "currentRelevantSourcePins": [
+    {
+      "path": "server/maintenance-runtime.mjs",
+      "sha256": "2ec945bf6b7f00c5d645349f42988b35789f1581602363340d16cadbf0b2c588"
+    },
+    {
+      "path": "server/partner-collector.mjs",
+      "sha256": "e449e05795b1fada661c7e2aaa22bbfb67c4ac96beb3dbebfcde0bb3d6893a36"
+    },
+    {
+      "path": "server/partner-enrichment.mjs",
+      "sha256": "e2c26d33145810baf98a124f23b84e9d5434a60c0c3b7710f455424a39575c86"
+    },
+    {
+      "path": "server/partner-rankings.mjs",
+      "sha256": "e110843b37609158dc67b75da8b7cfe8946b675d4e5cd89e0b7005a12db0c9fc"
+    }
+  ]
+}

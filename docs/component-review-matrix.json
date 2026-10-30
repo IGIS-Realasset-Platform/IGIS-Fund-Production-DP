@@ -45,7 +45,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5177,
+    "totalMatrixRecords": 5181,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -733911,12 +733911,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "프로젝트 등록 진입",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -733942,33 +733946,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -733979,12 +734010,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "프로젝트 코드",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734010,33 +734045,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734047,12 +734109,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "사업명",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734078,33 +734144,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734115,12 +734208,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "사업유형",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734146,33 +734243,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734183,12 +734307,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "소재지",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734214,33 +734342,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734251,12 +734406,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "사업시행 법인",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734282,33 +734441,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734319,12 +734505,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "연면적",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734350,33 +734540,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734387,12 +734604,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "대지면적",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734418,33 +734639,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734455,12 +734703,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "취득대상 토지면적",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734486,33 +734738,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734523,12 +734802,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "펀드 정식명",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734554,33 +734837,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734591,12 +734901,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "파이낸스 구조",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734622,33 +734936,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734659,12 +735000,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "담당자 원천 선택",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734690,33 +735035,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734727,12 +735099,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "자료 근거",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734758,33 +735134,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734795,12 +735198,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "등록 초안 저장/재개",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734826,33 +735233,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734863,12 +735297,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "등록 확정",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734894,33 +735332,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734931,12 +735396,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "취소/X/Escape",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -734962,33 +735431,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -734999,12 +735495,16 @@
       "parentID": "INIT132-08",
       "kind": "connected-input-action-consumer",
       "label": "직원 목록 재조회",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/setup.js",
-          "sha256": "6c24630310672c39e9e5fa89863243420fd5f425c496dfff890bcc9a6b49054a"
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/setup.css",
+          "sha256": "2b9439c1559f619f450be629b9afb4f2aed9f522757fe4854f3ae0f6df9c3dc7"
         }
       ],
       "policyBasis": [
@@ -735030,33 +735530,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/setup.css"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-ui-field-names.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735067,12 +735594,16 @@
       "parentID": "STAFF132-09",
       "kind": "connected-input-action-consumer",
       "label": "펀드명 조회/수정",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/recovery-views.js",
           "sha256": "c83d2adad5db9a75012d0b33e35b92ede2a5246c5872086eaf2be021279d9ad8"
+        },
+        {
+          "path": "src/setup.js",
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
         }
       ],
       "policyBasis": [
@@ -735098,33 +735629,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/recovery-views.js",
+            "src/setup.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review131-overview-edit.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735135,12 +735693,16 @@
       "parentID": "STAFF132-09",
       "kind": "connected-input-action-consumer",
       "label": "파이낸스 구조 조회/수정",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/recovery-views.js",
           "sha256": "c83d2adad5db9a75012d0b33e35b92ede2a5246c5872086eaf2be021279d9ad8"
+        },
+        {
+          "path": "src/setup.js",
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
         }
       ],
       "policyBasis": [
@@ -735166,33 +735728,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/recovery-views.js",
+            "src/setup.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review131-overview-edit.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735203,12 +735792,16 @@
       "parentID": "STAFF132-09",
       "kind": "connected-input-action-consumer",
       "label": "담당자 조회/재선택",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/recovery-views.js",
           "sha256": "c83d2adad5db9a75012d0b33e35b92ede2a5246c5872086eaf2be021279d9ad8"
+        },
+        {
+          "path": "src/setup.js",
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
         }
       ],
       "policyBasis": [
@@ -735234,33 +735827,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/recovery-views.js",
+            "src/setup.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review131-overview-edit.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735271,12 +735891,16 @@
       "parentID": "STAFF132-09",
       "kind": "connected-input-action-consumer",
       "label": "원천 변경·저장실패",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/recovery-views.js",
           "sha256": "c83d2adad5db9a75012d0b33e35b92ede2a5246c5872086eaf2be021279d9ad8"
+        },
+        {
+          "path": "src/setup.js",
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
         }
       ],
       "policyBasis": [
@@ -735302,33 +735926,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/recovery-views.js",
+            "src/setup.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review131-overview-edit.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735339,12 +735990,16 @@
       "parentID": "STAFF132-09",
       "kind": "connected-input-action-consumer",
       "label": "원장 저장/재접속·이력·JSON 출력",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/recovery-views.js",
           "sha256": "c83d2adad5db9a75012d0b33e35b92ede2a5246c5872086eaf2be021279d9ad8"
+        },
+        {
+          "path": "src/setup.js",
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
         }
       ],
       "policyBasis": [
@@ -735370,33 +736025,60 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/recovery-views.js",
+            "src/setup.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-project-overview.mjs",
+            "tests/review131-overview-edit.mjs",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md",
+            "docs/review132-client-audit.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 등록1업무흐름×4폭에서15입력·직원503/재조회·검증오류선택·초안/재접속·등록실패/재시도·개요수정/감사/취소의 해당 소비자를 확인했습니다. 이4회에서 후속자료 추가 분기는 locator 준비 문제로 미진입이며 별도2회 근거와 구분합니다. 모든 HTTP는 합성입니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 4,
+          "coverage": "registration-flow-four-viewports",
+          "followupSourceBranchVerified": false,
+          "notAccepted": [
+            "all-trigger-and-role-combinations",
+            "live-http-or-operational-business-writes",
+            "actual-json-download"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735407,12 +736089,16 @@
       "parentID": "PERMIT132-07",
       "kind": "connected-input-action-consumer",
       "label": "선택창 새 진입 모두 접힘",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/permit-map.js",
           "sha256": "9e235cccafb4f7292c7842da74c9b1d8cf78f4f8893bf3b82dd2f57c6d4718be"
+        },
+        {
+          "path": "src/permit-views.js",
+          "sha256": "4ab7d47415bf8faff5dc513982d5b5349bccb86873ae4edab219e689caf1c7ef"
         }
       ],
       "policyBasis": [
@@ -735438,33 +736124,56 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/permit-map.js",
+            "src/permit-views.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-permit-editing.mjs",
+            "tests/review131-permit-intake.mjs",
+            "tests/review131-permit-criteria.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-permit-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 인허가/부지 editor/viewer×4폭=8회에서 기본접힘·검색/기등록제외·교통추가/재접속·취소·권한별 진입을 합성 HTTP/메모리 저장으로 확인했습니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 8,
+          "coverage": "permit-land-two-role-flows-four-viewports",
+          "notAccepted": [
+            "all-legal-regions-and-permit-combinations",
+            "live-business-database-writes"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735475,12 +736184,16 @@
       "parentID": "PERMIT132-07",
       "kind": "connected-input-action-consumer",
       "label": "교통영향평가 정식 항목",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/permit-map.js",
           "sha256": "9e235cccafb4f7292c7842da74c9b1d8cf78f4f8893bf3b82dd2f57c6d4718be"
+        },
+        {
+          "path": "src/permit-views.js",
+          "sha256": "4ab7d47415bf8faff5dc513982d5b5349bccb86873ae4edab219e689caf1c7ef"
         }
       ],
       "policyBasis": [
@@ -735506,33 +736219,56 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/permit-map.js",
+            "src/permit-views.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-permit-editing.mjs",
+            "tests/review131-permit-intake.mjs",
+            "tests/review131-permit-criteria.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-permit-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 인허가/부지 editor/viewer×4폭=8회에서 기본접힘·검색/기등록제외·교통추가/재접속·취소·권한별 진입을 합성 HTTP/메모리 저장으로 확인했습니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 8,
+          "coverage": "permit-land-two-role-flows-four-viewports",
+          "notAccepted": [
+            "all-legal-regions-and-permit-combinations",
+            "live-business-database-writes"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735543,12 +736279,16 @@
       "parentID": "PERMIT132-07",
       "kind": "connected-input-action-consumer",
       "label": "기등록 제외/검색 안내",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/permit-map.js",
           "sha256": "9e235cccafb4f7292c7842da74c9b1d8cf78f4f8893bf3b82dd2f57c6d4718be"
+        },
+        {
+          "path": "src/permit-views.js",
+          "sha256": "4ab7d47415bf8faff5dc513982d5b5349bccb86873ae4edab219e689caf1c7ef"
         }
       ],
       "policyBasis": [
@@ -735574,33 +736314,56 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/permit-map.js",
+            "src/permit-views.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-permit-editing.mjs",
+            "tests/review131-permit-intake.mjs",
+            "tests/review131-permit-criteria.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-permit-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 인허가/부지 editor/viewer×4폭=8회에서 기본접힘·검색/기등록제외·교통추가/재접속·취소·권한별 진입을 합성 HTTP/메모리 저장으로 확인했습니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 8,
+          "coverage": "permit-land-two-role-flows-four-viewports",
+          "notAccepted": [
+            "all-legal-regions-and-permit-combinations",
+            "live-business-database-writes"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735611,12 +736374,16 @@
       "parentID": "PERMIT132-07",
       "kind": "connected-input-action-consumer",
       "label": "검색·토글·취소·재진입",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/permit-map.js",
           "sha256": "9e235cccafb4f7292c7842da74c9b1d8cf78f4f8893bf3b82dd2f57c6d4718be"
+        },
+        {
+          "path": "src/permit-views.js",
+          "sha256": "4ab7d47415bf8faff5dc513982d5b5349bccb86873ae4edab219e689caf1c7ef"
         }
       ],
       "policyBasis": [
@@ -735642,33 +736409,56 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/permit-map.js",
+            "src/permit-views.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-permit-editing.mjs",
+            "tests/review131-permit-intake.mjs",
+            "tests/review131-permit-criteria.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-permit-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md"
+          ],
+          "scope": "새 게시용 정확 HTML의 인허가/부지 editor/viewer×4폭=8회에서 기본접힘·검색/기등록제외·교통추가/재접속·취소·권한별 진입을 합성 HTTP/메모리 저장으로 확인했습니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 8,
+          "coverage": "permit-land-two-role-flows-four-viewports",
+          "notAccepted": [
+            "all-legal-regions-and-permit-combinations",
+            "live-business-database-writes"
+          ]
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735679,12 +736469,20 @@
       "parentID": "NTF132-04",
       "kind": "connected-input-action-consumer",
       "label": "발생조건/사업별 수신범위",
-      "lifecycle": "review132-continuation-in-progress",
-      "visibleUserControl": true,
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": false,
       "source": [
         {
           "path": "src/notifications.js",
           "sha256": "458f24ec7d1f1d38e7a3ff0f03ac0037aaa7398bf157e852ec4ee1a78ebadde5"
+        },
+        {
+          "path": "server/center-services.mjs",
+          "sha256": "97048721785a28302eb42a2179c072a09143e988588fa4800e1645ee8dbaf9d4"
+        },
+        {
+          "path": "server/notifications-law-state.mjs",
+          "sha256": "a91b53dfd0e3e56e93629def5279c5dd185836039d4a9cce261fadc0a51bf179"
         }
       ],
       "policyBasis": [
@@ -735710,33 +736508,46 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/notifications.js",
+            "server/center-services.mjs",
+            "server/notifications-law-state.mjs"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-notifications-contract.mjs",
+            "tests/review132-notifications-races.mjs",
+            "tests/review132-notifications-law-alias.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735747,12 +736558,20 @@
       "parentID": "NTF132-04",
       "kind": "connected-input-action-consumer",
       "label": "개인 읽음/삭제/복원",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/notifications.js",
           "sha256": "458f24ec7d1f1d38e7a3ff0f03ac0037aaa7398bf157e852ec4ee1a78ebadde5"
+        },
+        {
+          "path": "server/center-services.mjs",
+          "sha256": "97048721785a28302eb42a2179c072a09143e988588fa4800e1645ee8dbaf9d4"
+        },
+        {
+          "path": "server/notifications-law-state.mjs",
+          "sha256": "a91b53dfd0e3e56e93629def5279c5dd185836039d4a9cce261fadc0a51bf179"
         }
       ],
       "policyBasis": [
@@ -735778,33 +736597,46 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/notifications.js",
+            "server/center-services.mjs",
+            "server/notifications-law-state.mjs"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-notifications-contract.mjs",
+            "tests/review132-notifications-races.mjs",
+            "tests/review132-notifications-law-alias.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735815,12 +736647,20 @@
       "parentID": "NTF132-04",
       "kind": "connected-input-action-consumer",
       "label": "권한/늦은 응답·원천대표 변경",
-      "lifecycle": "review132-continuation-in-progress",
-      "visibleUserControl": true,
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": false,
       "source": [
         {
           "path": "src/notifications.js",
           "sha256": "458f24ec7d1f1d38e7a3ff0f03ac0037aaa7398bf157e852ec4ee1a78ebadde5"
+        },
+        {
+          "path": "server/center-services.mjs",
+          "sha256": "97048721785a28302eb42a2179c072a09143e988588fa4800e1645ee8dbaf9d4"
+        },
+        {
+          "path": "server/notifications-law-state.mjs",
+          "sha256": "a91b53dfd0e3e56e93629def5279c5dd185836039d4a9cce261fadc0a51bf179"
         }
       ],
       "policyBasis": [
@@ -735846,33 +736686,46 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/notifications.js",
+            "server/center-services.mjs",
+            "server/notifications-law-state.mjs"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-notifications-contract.mjs",
+            "tests/review132-notifications-races.mjs",
+            "tests/review132-notifications-law-alias.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735883,12 +736736,16 @@
       "parentID": "EDIT132-10",
       "kind": "connected-input-action-consumer",
       "label": "업무단위 명시 수정",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/core.js",
-          "sha256": "e3287e59d6c917f406d33240731463b8b04d418dcaf4ce0d73174c74ff06dd85"
+          "sha256": "2016fac30b19a37dc7fe4639eede5ddcd5c889d52d06ca6c5ef4fdee6700956d"
+        },
+        {
+          "path": "src/permit-views.js",
+          "sha256": "4ab7d47415bf8faff5dc513982d5b5349bccb86873ae4edab219e689caf1c7ef"
         }
       ],
       "policyBasis": [
@@ -735914,33 +736771,54 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/core.js",
+            "src/permit-views.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review131-edit-units.mjs",
+            "tests/review131-record-editing-adjacent.mjs",
+            "tests/review132-permit-editing.mjs",
+            "tests/review132-ui-field-names.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            ".build/review132-client/source-fields-published-permit-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md"
+          ],
+          "scope": "같은 정확본의 등록/개요4회와 인허가/부지8회 범위의 진입/초점·취소·실패초안·부지11값/합성저장/재접속입니다. 모든 페이지·독립기록종류·열폭/부모상태 전수는 아닙니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 12,
+          "coverage": "partial-platform-scope"
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -735951,12 +736829,16 @@
       "parentID": "EDIT132-10",
       "kind": "connected-input-action-consumer",
       "label": "부지 구역폼과 독립 기록 행수정",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/core.js",
-          "sha256": "e3287e59d6c917f406d33240731463b8b04d418dcaf4ce0d73174c74ff06dd85"
+          "sha256": "2016fac30b19a37dc7fe4639eede5ddcd5c889d52d06ca6c5ef4fdee6700956d"
+        },
+        {
+          "path": "src/permit-views.js",
+          "sha256": "4ab7d47415bf8faff5dc513982d5b5349bccb86873ae4edab219e689caf1c7ef"
         }
       ],
       "policyBasis": [
@@ -735982,33 +736864,54 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/core.js",
+            "src/permit-views.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review131-edit-units.mjs",
+            "tests/review131-record-editing-adjacent.mjs",
+            "tests/review132-permit-editing.mjs",
+            "tests/review132-ui-field-names.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            ".build/review132-client/source-fields-published-permit-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md"
+          ],
+          "scope": "같은 정확본의 등록/개요4회와 인허가/부지8회 범위의 진입/초점·취소·실패초안·부지11값/합성저장/재접속입니다. 모든 페이지·독립기록종류·열폭/부모상태 전수는 아닙니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 12,
+          "coverage": "partial-platform-scope"
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -736019,12 +736922,16 @@
       "parentID": "EDIT132-10",
       "kind": "connected-input-action-consumer",
       "label": "저장·취소·열폭·초점·부모복귀",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/core.js",
-          "sha256": "e3287e59d6c917f406d33240731463b8b04d418dcaf4ce0d73174c74ff06dd85"
+          "sha256": "2016fac30b19a37dc7fe4639eede5ddcd5c889d52d06ca6c5ef4fdee6700956d"
+        },
+        {
+          "path": "src/permit-views.js",
+          "sha256": "4ab7d47415bf8faff5dc513982d5b5349bccb86873ae4edab219e689caf1c7ef"
         }
       ],
       "policyBasis": [
@@ -736050,33 +736957,54 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/core.js",
+            "src/permit-views.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review131-edit-units.mjs",
+            "tests/review131-record-editing-adjacent.mjs",
+            "tests/review132-permit-editing.mjs",
+            "tests/review132-ui-field-names.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+            ".build/review132-client/source-fields-published-permit-four-widths/evidence.json",
+            "docs/review132-editing-inventory.md"
+          ],
+          "scope": "같은 정확본의 등록/개요4회와 인허가/부지8회 범위의 진입/초점·취소·실패초안·부지11값/합성저장/재접속입니다. 모든 페이지·독립기록종류·열폭/부모상태 전수는 아닙니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 12,
+          "coverage": "partial-platform-scope"
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -736087,12 +737015,20 @@
       "parentID": "STAFF132-09",
       "kind": "connected-input-action-consumer",
       "label": "읽기 API와 권한",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/employee-directory.mjs",
           "sha256": "7f3393db6a841a03b3a808e4ce308e4adcc1b4746b2c153539f35c6b1df19d05"
+        },
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "403c1367f194652a5f7970077a79df746fb094deb22997fed3f67e2b7fa510e7"
+        },
+        {
+          "path": "database/review132-employee-directory.sql",
+          "sha256": "1e584b77ea6ba3d7b9bfbf9301919c7adbbb2efbc094fa9b4e18d3dc816ccbd9"
         }
       ],
       "policyBasis": [
@@ -736118,33 +737054,57 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "server/employee-directory.mjs",
+            "server/workspace-runtime.mjs",
+            "database/review132-employee-directory.sql"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "evidence": [
+            "docs/review132-directory-live-receipt.json",
+            "docs/review132-employee-directory.md"
+          ],
+          "scope": "관련view의 실제468행/3열·원본 불변은 확인했지만 이 API권한·새참조의 실제 인증HTTP/운영 저장은 미수행입니다.",
+          "allDynamicConditionsAccepted": false,
+          "viewAppliedAndReadOnlyVerified": true,
+          "employeeCount": 468,
+          "columns": [
+            "employee_id",
+            "name",
+            "email"
+          ],
+          "originalSourceUnchanged": true,
+          "productionBusinessWrites": 0,
+          "releaseGate": "pending"
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -736155,12 +737115,20 @@
       "parentID": "STAFF132-09",
       "kind": "connected-input-action-consumer",
       "label": "원천ID·이름·이메일 대조",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/employee-directory.mjs",
           "sha256": "7f3393db6a841a03b3a808e4ce308e4adcc1b4746b2c153539f35c6b1df19d05"
+        },
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "403c1367f194652a5f7970077a79df746fb094deb22997fed3f67e2b7fa510e7"
+        },
+        {
+          "path": "database/review132-employee-directory.sql",
+          "sha256": "1e584b77ea6ba3d7b9bfbf9301919c7adbbb2efbc094fa9b4e18d3dc816ccbd9"
         }
       ],
       "policyBasis": [
@@ -736186,33 +737154,57 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "server/employee-directory.mjs",
+            "server/workspace-runtime.mjs",
+            "database/review132-employee-directory.sql"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "evidence": [
+            "docs/review132-directory-live-receipt.json",
+            "docs/review132-employee-directory.md"
+          ],
+          "scope": "관련view의 실제468행/3열·원본 불변은 확인했지만 이 API권한·새참조의 실제 인증HTTP/운영 저장은 미수행입니다.",
+          "allDynamicConditionsAccepted": false,
+          "viewAppliedAndReadOnlyVerified": true,
+          "employeeCount": 468,
+          "columns": [
+            "employee_id",
+            "name",
+            "email"
+          ],
+          "originalSourceUnchanged": true,
+          "productionBusinessWrites": 0,
+          "releaseGate": "pending"
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -736223,12 +737215,20 @@
       "parentID": "STAFF132-09",
       "kind": "connected-input-action-consumer",
       "label": "앱 전용3열 view·원본 불변",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/employee-directory.mjs",
           "sha256": "7f3393db6a841a03b3a808e4ce308e4adcc1b4746b2c153539f35c6b1df19d05"
+        },
+        {
+          "path": "server/workspace-runtime.mjs",
+          "sha256": "403c1367f194652a5f7970077a79df746fb094deb22997fed3f67e2b7fa510e7"
+        },
+        {
+          "path": "database/review132-employee-directory.sql",
+          "sha256": "1e584b77ea6ba3d7b9bfbf9301919c7adbbb2efbc094fa9b4e18d3dc816ccbd9"
         }
       ],
       "policyBasis": [
@@ -736254,33 +737254,57 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "server/employee-directory.mjs",
+            "server/workspace-runtime.mjs",
+            "database/review132-employee-directory.sql"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-employee-directory.mjs",
+            "tests/review132-project-overview.mjs",
+            "tests/review132-workspace-errors.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-directory-live-receipt.json",
+            "docs/review132-employee-directory.md"
+          ],
+          "scope": "실제 앱view468행·정확3열·runtime읽기와 원본 전체행/행수/ACL/RLS설정/정책지문 전후 동일을 비어 있지 않은 DB응답으로 대조했습니다. 실제 신규사업 저장·인증HTTP/사용자 원천브라우저조회는 미수행입니다.",
+          "allDynamicConditionsAccepted": false,
+          "viewAppliedAndReadOnlyVerified": true,
+          "employeeCount": 468,
+          "columns": [
+            "employee_id",
+            "name",
+            "email"
+          ],
+          "originalSourceUnchanged": true,
+          "productionBusinessWrites": 0,
+          "releaseGate": "view-only-applied-release-pending"
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -736291,12 +737315,16 @@
       "parentID": "SEC132-02",
       "kind": "connected-input-action-consumer",
       "label": "저장된 초안 경로",
-      "lifecycle": "review132-continuation-in-progress",
-      "visibleUserControl": true,
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": false,
       "source": [
         {
           "path": "src/report.js",
           "sha256": "86910191679a9228e8785b71a6a448e20ec635d4dc3fe005223209d24066fcd5"
+        },
+        {
+          "path": "src/report-form.js",
+          "sha256": "57dd388dfae668a72b8bbfea88e0dd3943b749899f05ee428f9569fba43fcfb4"
         }
       ],
       "policyBasis": [
@@ -736322,34 +737350,55 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/report.js",
+            "src/report-form.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-report-path-boundaries.mjs",
+            "tests/review132-qa-report-boundaries.mjs",
+            "tests/review130-report-archive-server.mjs",
+            "tests/review129-report-retained-values.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-report-path-boundaries.mjs",
+            "tests/review132-qa-report-boundaries.mjs"
+          ],
+          "scope": "현재 모델이 생성한 정상4보고 HTML문자열을 고정C93 원본과 바이트 대조하고 원금액/0/미입력을 확인했습니다. native PDF·운영 인쇄창·실제 파일다운로드는 실행하지 않았습니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "model-generated-html-only",
+          "normalHtmlTypes": 4,
+          "nativePdfOrPrintExecuted": false,
+          "actualJsonOrXlsxDownload": false
         }
       },
       "allStatesAccepted": false
@@ -736359,12 +737408,16 @@
       "parentID": "SEC132-02",
       "kind": "connected-input-action-consumer",
       "label": "과거 이력 경로",
-      "lifecycle": "review132-continuation-in-progress",
-      "visibleUserControl": true,
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": false,
       "source": [
         {
           "path": "src/report.js",
           "sha256": "86910191679a9228e8785b71a6a448e20ec635d4dc3fe005223209d24066fcd5"
+        },
+        {
+          "path": "src/report-form.js",
+          "sha256": "57dd388dfae668a72b8bbfea88e0dd3943b749899f05ee428f9569fba43fcfb4"
         }
       ],
       "policyBasis": [
@@ -736390,34 +737443,55 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/report.js",
+            "src/report-form.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-report-path-boundaries.mjs",
+            "tests/review132-qa-report-boundaries.mjs",
+            "tests/review130-report-archive-server.mjs",
+            "tests/review129-report-retained-values.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-report-path-boundaries.mjs",
+            "tests/review132-qa-report-boundaries.mjs"
+          ],
+          "scope": "현재 모델이 생성한 정상4보고 HTML문자열을 고정C93 원본과 바이트 대조하고 원금액/0/미입력을 확인했습니다. native PDF·운영 인쇄창·실제 파일다운로드는 실행하지 않았습니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "model-generated-html-only",
+          "normalHtmlTypes": 4,
+          "nativePdfOrPrintExecuted": false,
+          "actualJsonOrXlsxDownload": false
         }
       },
       "allStatesAccepted": false
@@ -736427,12 +737501,16 @@
       "parentID": "SEC132-02",
       "kind": "connected-input-action-consumer",
       "label": "보고서 편집·미리보기·여백",
-      "lifecycle": "review132-continuation-in-progress",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/report.js",
           "sha256": "86910191679a9228e8785b71a6a448e20ec635d4dc3fe005223209d24066fcd5"
+        },
+        {
+          "path": "src/report-form.js",
+          "sha256": "57dd388dfae668a72b8bbfea88e0dd3943b749899f05ee428f9569fba43fcfb4"
         }
       ],
       "policyBasis": [
@@ -736458,34 +737536,55 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/report.js",
+            "src/report-form.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-report-path-boundaries.mjs",
+            "tests/review132-qa-report-boundaries.mjs",
+            "tests/review130-report-archive-server.mjs",
+            "tests/review129-report-retained-values.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-report-path-boundaries.mjs",
+            "tests/review132-qa-report-boundaries.mjs"
+          ],
+          "scope": "현재 모델이 생성한 정상4보고 HTML문자열을 고정C93 원본과 바이트 대조하고 원금액/0/미입력을 확인했습니다. native PDF·운영 인쇄창·실제 파일다운로드는 실행하지 않았습니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "model-generated-html-only",
+          "normalHtmlTypes": 4,
+          "nativePdfOrPrintExecuted": false,
+          "actualJsonOrXlsxDownload": false
         }
       },
       "allStatesAccepted": false
@@ -736495,12 +737594,16 @@
       "parentID": "DATA132-03",
       "kind": "connected-input-action-consumer",
       "label": "현재/과거 CBS 관계 깊이·순환",
-      "lifecycle": "review132-continuation-in-progress",
-      "visibleUserControl": true,
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": false,
       "source": [
         {
           "path": "server/cloud-storage.mjs",
           "sha256": "053300df729817a6b776d9b71486304a76bb50d858edde3ad65a748a262b08b0"
+        },
+        {
+          "path": "shared/cost-graph-safety.mjs",
+          "sha256": "cc6b087beb0d2f91422dcfffefaca0ef039355de5e55d0b483816aec0025c9c4"
         }
       ],
       "policyBasis": [
@@ -736526,33 +737629,45 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "server/cloud-storage.mjs",
+            "shared/cost-graph-safety.mjs"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-cbs-graph-depth.mjs",
+            "tests/review130-cost-merge-server.mjs",
+            "tests/followup121-cost-linked-contract-vat.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -736563,12 +737678,16 @@
       "parentID": "DATA132-03",
       "kind": "connected-input-action-consumer",
       "label": "독립 legacy 범위와 정상 형제 보존",
-      "lifecycle": "review132-continuation-in-progress",
-      "visibleUserControl": true,
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": false,
       "source": [
         {
           "path": "server/cloud-storage.mjs",
           "sha256": "053300df729817a6b776d9b71486304a76bb50d858edde3ad65a748a262b08b0"
+        },
+        {
+          "path": "shared/cost-graph-safety.mjs",
+          "sha256": "cc6b087beb0d2f91422dcfffefaca0ef039355de5e55d0b483816aec0025c9c4"
         }
       ],
       "policyBasis": [
@@ -736594,33 +737713,45 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "server/cloud-storage.mjs",
+            "shared/cost-graph-safety.mjs"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-cbs-graph-depth.mjs",
+            "tests/review130-cost-merge-server.mjs",
+            "tests/followup121-cost-linked-contract-vat.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -736631,12 +737762,12 @@
       "parentID": "DATA132-03",
       "kind": "connected-input-action-consumer",
       "label": "누락 법인ID 독립 범위",
-      "lifecycle": "review132-continuation-in-progress",
-      "visibleUserControl": true,
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": false,
       "source": [
         {
           "path": "src/legal.js",
-          "sha256": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802"
+          "sha256": "01f4a3442a663b4c36cb0e9ed1f83736abba78ff1dc6508c98e6513dede21c7d"
         }
       ],
       "policyBasis": [
@@ -736662,33 +737793,43 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/legal.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-registration-identity.mjs",
+            "tests/review132-qa-entity-scope.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -736699,12 +737840,12 @@
       "parentID": "DATA132-03",
       "kind": "connected-input-action-consumer",
       "label": "확인된 동일법인 연간집계",
-      "lifecycle": "review132-continuation-in-progress",
-      "visibleUserControl": true,
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": false,
       "source": [
         {
           "path": "src/legal.js",
-          "sha256": "2671e4b5acde1f7c9e6791e173aca40b6c5a98eeb8d7fbf60b0a79de73c2a802"
+          "sha256": "01f4a3442a663b4c36cb0e9ed1f83736abba78ff1dc6508c98e6513dede21c7d"
         }
       ],
       "policyBasis": [
@@ -736730,33 +737871,413 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/legal.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-registration-identity.mjs",
+            "tests/review132-qa-entity-scope.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
         },
         "actualScreen": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "이 소비자의 현재 실제 화면 실행은 수행하지 않았습니다. 모형·다른 화면의 통과를 승계하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
-          "allDynamicConditionsAccepted": false
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
         },
         "output": {
           "status": "notrun",
           "evidence": [],
-          "scope": "현재 최종본의 단계별 증거로 갱신 예정",
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132-source-01",
+      "parentID": "INIT132-08",
+      "kind": "connected-source-action-consumer",
+      "label": "후속 입력자료 대상9항목 선택(기존7·펀드/조달2)",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/setup.js",
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/core.js",
+          "sha256": "2016fac30b19a37dc7fe4639eede5ddcd5c889d52d06ca6c5ef4fdee6700956d"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review132-continuation-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "후속 입력자료 대상9항목 선택(기존7·펀드/조달2)",
+        "reference": "docs/review132-continuation-spec.md"
+      },
+      "content": {
+        "label": "후속 입력자료 대상9항목 선택(기존7·펀드/조달2)",
+        "consumers": [
+          "입력자료 선택",
+          "원문후보 추가",
+          "충돌 확인",
+          "함께검토",
+          "취소/실패/부모복귀",
+          "감사/원문조회"
+        ],
+        "preservation": "기존7 API·등록값·원래후보ID·초기확인본·0/미입력 보존. 자료검토를 실제 사업정보 자동덮어쓰기로 쓰지 않음"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/core.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-qa-source-consumers.mjs",
+            "tests/review132-project-overview.mjs",
+            "tests/center120-parent-flows.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-extra-two-widths/evidence.json",
+            "docs/review132-editing-inventory.md"
+          ],
+          "scope": "원문 DOM 관측 뒤 실제 + 입력자료 추가 버튼으로1280/390 각 두 canonical키 선택·raw후보2회 저장·conflict/메타·기본값 전체불변·재접속을 검증했습니다. entry/add/verified/sourceOnly가 두 실행 모두true입니다. 함께검토·추가폼취소·저장실패·source팝업 기하 전수는 이 native 실행이 아닙니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 2,
+          "coverage": "followup-source-add-one-flow-two-viewports",
+          "notAccepted": [
+            "review-confirmation-native",
+            "add-form-cancel-and-failure-native",
+            "source-popup-all-geometry",
+            "live-business-writes"
+          ]
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132-source-02",
+      "parentID": "INIT132-08",
+      "kind": "connected-source-action-consumer",
+      "label": "후속 원문추가·현재값과 충돌 후보 보존",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/setup.js",
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/core.js",
+          "sha256": "2016fac30b19a37dc7fe4639eede5ddcd5c889d52d06ca6c5ef4fdee6700956d"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review132-continuation-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "후속 원문추가·현재값과 충돌 후보 보존",
+        "reference": "docs/review132-continuation-spec.md"
+      },
+      "content": {
+        "label": "후속 원문추가·현재값과 충돌 후보 보존",
+        "consumers": [
+          "입력자료 선택",
+          "원문후보 추가",
+          "충돌 확인",
+          "함께검토",
+          "취소/실패/부모복귀",
+          "감사/원문조회"
+        ],
+        "preservation": "기존7 API·등록값·원래후보ID·초기확인본·0/미입력 보존. 자료검토를 실제 사업정보 자동덮어쓰기로 쓰지 않음"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/core.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-qa-source-consumers.mjs",
+            "tests/review132-project-overview.mjs",
+            "tests/center120-parent-flows.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            ".build/review132-client/source-fields-extra-two-widths/evidence.json",
+            "docs/review132-editing-inventory.md"
+          ],
+          "scope": "원문 DOM 관측 뒤 실제 + 입력자료 추가 버튼으로1280/390 각 두 canonical키 선택·raw후보2회 저장·conflict/메타·기본값 전체불변·재접속을 검증했습니다. entry/add/verified/sourceOnly가 두 실행 모두true입니다. 함께검토·추가폼취소·저장실패·source팝업 기하 전수는 이 native 실행이 아닙니다.",
+          "allDynamicConditionsAccepted": false,
+          "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+          "htmlBytes": 6929932,
+          "executionCount": 2,
+          "coverage": "followup-source-add-one-flow-two-viewports",
+          "notAccepted": [
+            "review-confirmation-native",
+            "add-form-cancel-and-failure-native",
+            "source-popup-all-geometry",
+            "live-business-writes"
+          ]
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132-source-03",
+      "parentID": "INIT132-08",
+      "kind": "connected-source-action-consumer",
+      "label": "입력자료 함께검토·원문/실제값/기존ID 분리",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/setup.js",
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/core.js",
+          "sha256": "2016fac30b19a37dc7fe4639eede5ddcd5c889d52d06ca6c5ef4fdee6700956d"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review132-continuation-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "입력자료 함께검토·원문/실제값/기존ID 분리",
+        "reference": "docs/review132-continuation-spec.md"
+      },
+      "content": {
+        "label": "입력자료 함께검토·원문/실제값/기존ID 분리",
+        "consumers": [
+          "입력자료 선택",
+          "원문후보 추가",
+          "충돌 확인",
+          "함께검토",
+          "취소/실패/부모복귀",
+          "감사/원문조회"
+        ],
+        "preservation": "기존7 API·등록값·원래후보ID·초기확인본·0/미입력 보존. 자료검토를 실제 사업정보 자동덮어쓰기로 쓰지 않음"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/core.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-qa-source-consumers.mjs",
+            "tests/review132-project-overview.mjs",
+            "tests/center120-parent-flows.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            ".build/review132-client/source-fields-extra-two-widths/evidence.json"
+          ],
+          "scope": "별도 실제2회는 선택/원문후보추가/재접속까지만 수행했습니다. 함께검토·취소·실패복귀는 독립 actual handler/공통폼 모형5 검사이며 native로 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW132-source-04",
+      "parentID": "INIT132-08",
+      "kind": "connected-source-action-consumer",
+      "label": "자료추가/검토 취소·저장실패·실제부모 복귀",
+      "lifecycle": "review132-current297-and-scoped-native-production-stage-pending",
+      "visibleUserControl": true,
+      "source": [
+        {
+          "path": "src/setup.js",
+          "sha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065"
+        },
+        {
+          "path": "src/core.js",
+          "sha256": "2016fac30b19a37dc7fe4639eede5ddcd5c889d52d06ca6c5ef4fdee6700956d"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-direct-user-request",
+          "reference": "docs/review132-continuation-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "자료추가/검토 취소·저장실패·실제부모 복귀",
+        "reference": "docs/review132-continuation-spec.md"
+      },
+      "content": {
+        "label": "자료추가/검토 취소·저장실패·실제부모 복귀",
+        "consumers": [
+          "입력자료 선택",
+          "원문후보 추가",
+          "충돌 확인",
+          "함께검토",
+          "취소/실패/부모복귀",
+          "감사/원문조회"
+        ],
+        "preservation": "기존7 API·등록값·원래후보ID·초기확인본·0/미입력 보존. 자료검토를 실제 사업정보 자동덮어쓰기로 쓰지 않음"
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-continuation-spec.md",
+            "src/setup.js",
+            "src/core.js"
+          ],
+          "scope": "현재 동결 소스에서 명시 요구의 연결 소비자를 확인했습니다. 코드 존재가 실제 화면·운영 저장 완료를 뜻하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+            "tests/review132-qa-source-consumers.mjs",
+            "tests/review132-project-overview.mjs",
+            "tests/center120-parent-flows.mjs"
+          ],
+          "scope": "현재297묶음 전체 통과·실행중 633파일 지문변경0. 후속 자료9정의·독립 actual handler5와 EOF공백교정까지 이번 정확본에 포함됩니다.",
+          "allDynamicConditionsAccepted": false,
+          "coverage": "named-current-module-and-isolated-runtime-cases"
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            ".build/review132-client/source-fields-extra-two-widths/evidence.json"
+          ],
+          "scope": "별도 실제2회는 선택/원문후보추가/재접속까지만 수행했습니다. 함께검토·취소·실패복귀는 독립 actual handler/공통폼 모형5 검사이며 native로 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "현재 운영 API의 이 업무 저장·재접속은 수행하지 않았습니다. 합성 메모리 HTTP/SQL 거래와 실제 운영DB를 구분하며 정식 배포 후 검수 대기입니다.",
+          "allDynamicConditionsAccepted": false,
+          "releaseGate": "pending",
+          "productionBusinessWrites": 0
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "현재 실제 JSON/XLSX/PDF 다운로드·운영 인쇄 출력은 수행하지 않았습니다. 모형 직렬화·HTML·원장 보존은 자동검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -800888,12 +802409,184 @@
     "allComponentsAccepted": false
   },
   "review132": {
-    "at": "2026-10-30T01:36:30.270Z",
+    "at": "2026-10-30T02:47:00.665Z",
     "spec": "docs/review132-continuation-spec.md",
-    "status": "in-progress",
+    "status": "current297-and-scoped-native14-verified-production-stage-pending",
     "previousRecordCount": 5135,
-    "addedRecords": 42,
+    "addedRecords": 46,
     "priorRecordsSha256": "652ed96fea22d5b0921f5e3674d7447fdd73c6e5bb148b0c068f7768966c5724",
-    "allPlatformAccepted": false
+    "allPlatformAccepted": false,
+    "totalRecords": 5181,
+    "sourceConsumerCorrection": {
+      "addedRecords": 4,
+      "rootRed": ".build/review132/source-fields-red.json",
+      "rootGreen": ".build/review132/source-fields-green.json",
+      "legacy13": ".build/review132/source-fields-legacy.json",
+      "independentTest": "tests/review132-qa-source-consumers.mjs",
+      "independentActualHandlerChecks": 5,
+      "automatic": "included-in-current297",
+      "nativeSelectionAndAdd": "two-explicit-extra-flows-pass",
+      "nativeReviewCancelFailure": "not-executed-model-only"
+    },
+    "allStatesAccepted": false,
+    "evidence": [
+      "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+      ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+      ".build/review132-client/source-fields-published-permit-four-widths/evidence.json",
+      ".build/review132-client/source-fields-extra-two-widths/evidence.json",
+      "docs/review132-directory-live-receipt.json",
+      "docs/review132-dependency-refresh.json",
+      "docs/review132-final-verification.json",
+      "docs/review132-client-audit.md",
+      "docs/review132-editing-inventory.md",
+      "docs/review132-employee-directory.md",
+      "docs/review132-registration-identity.md"
+    ],
+    "evidencePins": {
+      "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json": "276af810d328a3611364fc5ab030fe22b092927bff775a60a87c12f96098f96e",
+      ".build/review132-client/source-fields-published-registration-four-widths/evidence.json": "dc3b99176cf8e566ab1354003e2898e13e86f40adcd1d5becb59e5dfe4586187",
+      ".build/review132-client/source-fields-published-permit-four-widths/evidence.json": "d060680086781c58cea57c6e4965b35298d477c47cf3666bcbb014bfeaad0387",
+      ".build/review132-client/source-fields-extra-two-widths/evidence.json": "68515ad0235ed8593bff042696cbe35ce7f9a7e169973af83a7d5328e64a43ef",
+      "docs/review132-directory-live-receipt.json": "66457a4aeac698c850322ec65784c43c39e86643143ffed51f37eea04e34ab92",
+      "docs/review132-dependency-refresh.json": "765486d2a462ae52b43744beb35a77c59beb0abc3c2fe9733d1b464047387b81"
+    },
+    "logical": {
+      "passed": 297,
+      "failed": 0,
+      "preparationBlocked": 0,
+      "sourceChangedDuringRun": 0,
+      "sourcePinCount": 633,
+      "evidence": "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json",
+      "currentAllPinnedFilesEqual": true
+    },
+    "previousLogical": {
+      "passed": 296,
+      "evidence": "docs/review132-qa-full-2026-10-30T01-47-07.582Z.json",
+      "status": "historical-before-source-consumer-correction",
+      "subsequentBlankLineCorrection": {
+        "file": "tests/review132-finance-html-escaping.mjs",
+        "removedBlankCrLf": 1,
+        "removedBytes": 2,
+        "focusedChecksPassed": 11,
+        "evidence": ".build/review132/finance-after-eof.json"
+      },
+      "laterSourceCorrection": "src/setup.js sourceFields existing7+new2; current297 reran all including this change and current EOF"
+    },
+    "nativeExactGit": {
+      "htmlPath": ".build/github-release-review132/.build/review132/c94-source-fields-production.html",
+      "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+      "bytes": 6929932,
+      "mainRegistrationExecutions": 4,
+      "mainPermitLandExecutions": 8,
+      "mainExecutions": 12,
+      "extraSourceExecutions": 2,
+      "totalRepeatedExecutions": 14,
+      "pageErrors": 0,
+      "actualOperationalDatabase": false,
+      "actualUserCookies": false,
+      "mainRegistrationSourceBranch": "not-entered-locator-preparation",
+      "sourceExtraBothVerified": true,
+      "evidence": [
+        ".build/review132-client/source-fields-published-registration-four-widths/evidence.json",
+        ".build/review132-client/source-fields-published-permit-four-widths/evidence.json",
+        ".build/review132-client/source-fields-extra-two-widths/evidence.json"
+      ]
+    },
+    "counting": {
+      "matrixRecords": 5181,
+      "priorPreservedRecords": 5135,
+      "addedConsumerRecords": 46,
+      "logicalSuites": 297,
+      "mainNativeExecutions": 12,
+      "extraNativeExecutions": 2,
+      "definition": "등록 동일1흐름×4폭 + 인허가/부지 editor/viewer2흐름×4폭=12회. 후속자료추가 동일1흐름×1280/390 별도2회. 14고유기능이나 전체플랫폼 전수가 아닙니다.",
+      "uniqueFunctionsInferred": false
+    },
+    "directoryDatabase": {
+      "status": "view-applied-and-readonly-verified",
+      "employeeCount": 468,
+      "columns": [
+        "employee_id",
+        "name",
+        "email"
+      ],
+      "fullRowDigestAclRlsAndPoliciesEqual": true,
+      "originalPrivilegesExpanded": false,
+      "liveAuthenticatedApiAndNewProjectWrites": "not-executed",
+      "evidence": "docs/review132-directory-live-receipt.json"
+    },
+    "dependencyRefresh": {
+      "status": "queried-current-approved-six-exact-versions",
+      "queriedAt": "2026-10-30T02:17:18.147Z",
+      "httpStatus": 200,
+      "exactPackageVersions": [
+        {
+          "name": "better-auth",
+          "version": "1.7.8",
+          "advisoryCount": 0
+        },
+        {
+          "name": "kysely",
+          "version": "0.29.6",
+          "advisoryCount": 0
+        },
+        {
+          "name": "nodemailer",
+          "version": "10.1.4",
+          "advisoryCount": 0
+        },
+        {
+          "name": "pg",
+          "version": "8.23.1",
+          "advisoryCount": 0
+        },
+        {
+          "name": "pdf2json",
+          "version": "4.1.0",
+          "advisoryCount": 0
+        },
+        {
+          "name": "read-excel-file",
+          "version": "9.3.12",
+          "advisoryCount": 0
+        }
+      ],
+      "totalAdvisoryCount": 0,
+      "transitiveTreeQueried": false,
+      "dependencyFilesChanged": [],
+      "authorization": "현재 사용자 승인: 공식저장소조회허용합니다; registry.npmjs.org 정확6개만",
+      "evidence": "docs/review132-dependency-refresh.json"
+    },
+    "formalSecurityReport": {
+      "status": "blocked-account-security-setup",
+      "scanId": "a8d19bfd-3dae-4871-99df-daee046a159b",
+      "originalSnapshot": "5a0dc9ff92d9d7429f820773b1d4e13eb1e310a9",
+      "originalScanPreserved": true,
+      "sealedReportGenerated": false,
+      "evidence": "docs/review132-security-workflow-status.md"
+    },
+    "release": {
+      "status": "pending-new-current-prod-stage",
+      "productionDeploymentId": null,
+      "previewDeploymentId": null,
+      "dailyRecovery": "pending-current-code-deployment-and-reviewed-existing-daily",
+      "newLiveProjectRegistration": "not-executed",
+      "rootWillProvideVerifiedDeploymentIds": true
+    },
+    "output": {
+      "normalReportHtmlFourTypes": "model-byte-comparison-passed",
+      "nativePdfPrint": "not-executed",
+      "actualJsonXlsxDownloads": "not-executed",
+      "checklistC94": "awaiting-final-Markdown-status"
+    },
+    "remaining": [
+      "정식 C94 배포ID/실제HTML·API 대조",
+      "승인된 기존daily 실제복구·원자료 보존",
+      "실제 신규사업/담당자 운영저장·사용자원천브라우저조회",
+      "후속자료 함께검토/취소/실패 native",
+      "정식 보안보고서 봉인(계정오류)",
+      "native PDF/운영인쇄·설치Excel·전체동적조건",
+      "legal.initialize 이름연결은 실제충돌 미확인·기존ID/정책 임의변경 없음"
+    ]
   }
 }

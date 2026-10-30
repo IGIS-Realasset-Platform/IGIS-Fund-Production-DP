@@ -1,5 +1,16 @@
 {
   "resumed20261030": {
+    "currentPublishedHtmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+    "latestSourceFieldsVerification": {
+      "raw": {"path": ".build/review132/c94-source-fields-production.html", "sha256": "a238c0e062305dcc099d9378496d760e75849d35858a3bbcde1ab0d72149945f", "bytes": 6929968},
+      "published": {"path": ".build/github-release-review132/.build/review132/c94-source-fields-production.html", "sha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833", "bytes": 6929932},
+      "privacyTransform": {"countPerReplacement": [1,1,1,1], "exactBytesAfterOnlyFourTransforms": true, "scope": "Existing inactive partners demo path and three filenames only; product source not changed by this verification."},
+      "setupSha256": "cee5bc1455f28fd07c2fcdc42db664ec6b70382e609a9a617d9a4fe309748065",
+      "existingTwelveVerdicts": {"registrationPassed": 4, "permitAndLandPassed": 8, "failed": 0, "pageErrors": 0, "evidence": [".build/review132-client/source-fields-published-registration-four-widths/evidence.json", ".build/review132-client/source-fields-published-permit-four-widths/evidence.json"]},
+      "additionalSourceConsumer": {"entry": "계약·문서 → 입력자료 확인 → + 입력자료 추가", "keys": ["basic.fundName", "basic.financeStructure"], "widths": [1280,390], "entryVisible": true, "addVisible": true, "passed": 2, "failed": 0, "candidateWritesPerWidth": 2, "actualBasicUnchanged": true, "sourceCandidatesAndActualOverviewSeparatedAfterReload": true, "hiddenRouteCreated": false, "evidence": ".build/review132-client/source-fields-extra-two-widths/evidence.json", "temporaryRunner": ".build/review132-client/source-fields-registration-native.mjs", "temporaryRunnerSha256": "074fe62ffed35cd3a1289eff5f79d4b69bff99cdd2dc039b925dadee7b802c81"},
+      "testFreeze": {"registrationRunnerSha256": "65bf3fb4cbc7dcf1b8e2cc00ccdf85a3c5199fb945b92e1e26a52c7e911365df", "lastWriteUtc": "2026-10-30T02:33:43.6805921Z", "afterFreezeTestChanges": 0, "note": "The initial optional branch did not execute because its exact-name locator omitted the visible + prefix. This was a preparation issue, not a missing product action. Correction and actual extra execution were isolated in .build; existing twelve verdicts are separate."},
+      "actualBrowser": true, "allHTTPIntercepted": true, "actualDatabase": false, "actualUserCookies": false, "operatingCua": "not verified; documented kernel initialization failure preserved without further bypass"
+    },
     "publishedArtifactVerification": {
       "status": "Exact Git publication artifact UI passed; actual production URL/server/DB verification remains a separate root responsibility.",
       "raw": {"path": ".build/review132-client/frontend-product-frozen.html", "sha256": "7c4d131c69038fecc54941c3611d6541282bac0fc7ee535830ab7c8ca79d8b4d", "bytes": 6929824},

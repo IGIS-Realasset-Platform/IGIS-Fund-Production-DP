@@ -1,40 +1,22 @@
 {
   "version": "0.13.0",
-  "candidate": "C94",
-  "status": "release-candidate-verified-live-stage-pending",
+  "candidate": "C95",
+  "status": "c95-verification-running-c94-live-preserved",
   "dateKST": "2026-10-30",
   "logical": {
-    "passed": 296,
-    "failed": 0,
-    "preparationBlocked": 0,
-    "sourceChangedDuringRun": 0,
-    "evidence": "docs/review132-qa-full-2026-10-30T01-47-07.582Z.json"
+    "status": "current-c95-298-running",
+    "previousNotInherited": true
   },
   "rawLocalHtml": {
-    "sha256": "7c4d131c69038fecc54941c3611d6541282bac0fc7ee535830ab7c8ca79d8b4d",
-    "bytes": 6929824,
-    "nativeRegistrationViewportRuns": 4,
-    "nativePermitLandViewportRoleRuns": 8,
-    "viewportWidths": [
-      1280,
-      1440,
-      1600,
-      390
-    ],
-    "counting": "One registration business flow in four sizes, and editor/viewer permit scenarios in four sizes; twelve executions are not twelve unique platform features.",
-    "scope": "Fresh isolated Edge; current exact HTML; intercepted synthetic HTTP only; no real user cookies or operational writes.",
-    "pageErrors": 0,
-    "buttonTextOverflow": 0
+    "sha256": "737d674fd758ee8c7092e7bb3b6d9bc20311512f6af02ff6041d337da7469743",
+    "bytes": 6930719,
+    "scope": "Current source raw build; four existing inactive demo references are anonymized for public Git."
   },
   "gitProductionHtml": {
-    "sha256": "b6c0e651f117e917db4219d37aaebc849a7f38b87479e461db2b5579c8b2373d",
-    "bytes": 6929788,
-    "sourcePrivacyDifference": "Only the four existing inactive demo reference anonymizations, each applied once. Applying them to the raw local HTML yields identical Git HTML bytes.",
-    "nativeExactGitVerification": "passed-registration4-permit8-pageerror0",
-    "evidence": [
-      ".build/review132-client/published-exact-registration-four-widths/evidence.json",
-      ".build/review132-client/published-exact-permit-four-widths/evidence.json"
-    ]
+    "sha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
+    "bytes": 6930683,
+    "status": "exact-native-verification-running",
+    "counting": "Viewport/role executions are not unique platform features."
   },
   "directoryDatabase": {
     "status": "applied-and-readonly-verified",
@@ -87,17 +69,38 @@
     "evidence": ".build/review132/finance-after-eof.json"
   },
   "liveRelease": {
-    "status": "pending",
-    "productionDeploymentId": null,
-    "previewDeploymentId": null,
-    "dailyRecovery": "pending-new-code-deployment-and-one-existing-daily-run",
+    "status": "c95-candidate-c94-still-live",
+    "productionDeploymentId": "dpl_9hUe4fFiTxWzeaWBwdXFgJtpYMS2",
     "newLiveProjectRegistration": "not-executed"
   },
   "outputScope": {
     "normalReportHtmlFourTypes": "Independent original comparison passed in report regressions.",
     "newNativePdfPrint": "not-executed",
-    "newChecklistXlsx": "in-preparation",
+    "newChecklistXlsx": "C95 preparation only; authoring not started",
     "originalBusinessWorkbooks": "unchanged"
   },
-  "allPlatformAllStatesAccepted": false
+  "allPlatformAllStatesAccepted": false,
+  "historicalC94": {
+    "logical": {
+      "passed": 297,
+      "failed": 0,
+      "preparationBlocked": 0,
+      "pins": 633,
+      "sourceChanged": 0,
+      "evidence": "docs/review132-qa-full-2026-10-30T02-35-38.288Z.json"
+    },
+    "sourceCommit": "2e1982302bca3628ac523718d4b91fd38ff86a59",
+    "deploymentId": "dpl_9hUe4fFiTxWzeaWBwdXFgJtpYMS2",
+    "htmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833",
+    "bytes": 6929932,
+    "nativeExecutionCounting": "registration4 + permit role/viewport8 + separate source2; not unique-feature counts",
+    "dailyEvidence": "docs/review132-daily-recovery.json",
+    "publicEvidence": ".build/review132/public-verified-1793329441680.json"
+  },
+  "dailyRecovery": {
+    "status": "large-snapshot-save-verified-source-coverage-partial",
+    "evidence": "docs/review132-daily-recovery.json",
+    "originalBusinessDataPreserved": true,
+    "allSourcesComplete": false
+  }
 }

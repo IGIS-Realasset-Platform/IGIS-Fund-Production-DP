@@ -42,3 +42,9 @@
 기존Git준비절차가비활성예시경로/파일명4곳만각1회익명화한게시용HTML은 `b6c0e651f117e917db4219d37aaebc849a7f38b87479e461db2b5579c8b2373d`·6,929,788B입니다.7c4d131c로컬원본검수와구별해기록합니다. 실제게시할 `.build/github-release-review132/.build/review132/c94-production.html`자체로기존검사기·기대값을그대로유지해등록4/인허가8개흐름을재실행했고모두통과/pageerror0입니다. 연결된현재모듈이HTML에포함됐다는사전검사도통과했습니다. 등록filled이미지4폭은기존raw7c이미지와PNG지문까지같았습니다.
 
 정확근거는같은이름JSON의publishedArtifactVerification과 `.build/review132-client/published-exact-{registration,permit}-four-widths/evidence.json`입니다. 코드·검사기변경0이며실제운영URL/DB수락은루트의별도범위입니다. 같은업무흐름을원본/게시용파일에서반복한것이므로고유플랫폼기능수로중복집계하지않습니다.
+
+### 후속 자료 두 키를 포함한 최신 게시용 파일
+
+현재최신검수는루트의setup후속자료소비자보완을포함한게시용 **80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833·6,929,932B**입니다. 원본a238c0e0·6,929,968B와기존4곳각1회익명화관계를이번에도정확히대조했습니다. 이정확게시본에서기존등록4·인허가8판정이통과했고,추가로1280/390에서실제보이는계약·문서의입력자료확인/추가진입으로펀드명·파이낸스구조후보각각을저장했습니다. 후보원자료와실제basic/개요값은재접속후에도분리돼실제원값을덮어쓰지않았습니다.
+
+기존12판정은 `source-fields-published-{registration,permit}-four-widths/evidence.json`,추가소비자판정은 `source-fields-extra-two-widths/evidence.json`입니다(모두 `.build/review132-client/` 아래). 첫추가선택자의+접두사누락은준비문제로구분했고임시검사에서만보완했습니다. 최신setup지문과QA등록검사동결시각·지문은같은이름JSON의latestSourceFieldsVerification 및입력검수문서를따릅니다. 운영Cua커널차단·실운영화면/DB미검증을이격리검수통과로대체하지않습니다.

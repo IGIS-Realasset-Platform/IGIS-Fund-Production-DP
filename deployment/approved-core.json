@@ -1,25 +1,25 @@
 {
   "version": "0.13.0",
-  "candidate": "C94",
+  "candidate": "C95",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
-  "htmlSha256": "fb09143044a2f2205e2494fca5dd07318371abc1184aa5033cbb0c0b6f604949",
-  "bytes": 6929961,
+  "htmlSha256": "fa131a2580036950d15b90a35b8b4ecd5167f3da994af633c6df6555d5f4934e",
+  "bytes": 6930712,
   "notionRequired": false,
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review132-c94-source-consumer-final-verification-running",
+  "status": "review132-c95-two-client-state-boundaries-verification-running",
   "preparedAt": "2026-10-30",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
-  "actualBrowser": "Final source-consumer-corrected artifact verification running; earlier twelve viewport/role executions retained as historical.",
-  "actualAuthenticatedServer": "Read-only employee view applied; source468/full-row digest/ACL/RLS/policies preserved. New deployed API and daily recovery verification pending.",
+  "actualBrowser": "C95 exact Git artifact verification running; C94 exact fourteen viewport/role/source executions retained as historical.",
+  "actualAuthenticatedServer": "C94 live large snapshot saved and original data preserved; source coverage remains partial. C95 server/API/shared/dependencies unchanged; exact equivalence proof is separate.",
   "previousRelease": {
     "version": "0.13.0",
-    "candidate": "C93",
-    "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
-    "productionDeploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
-    "formalHtmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc"
+    "candidate": "C94",
+    "sourceCommit": "2e1982302bca3628ac523718d4b91fd38ff86a59",
+    "productionDeploymentId": "dpl_9hUe4fFiTxWzeaWBwdXFgJtpYMS2",
+    "formalHtmlSha256": "80c1c7ec1a40286929c564d56281f00251939ed2e2cedd5d651d0c247f783833"
   },
   "review131": {
     "scope": "Integrated permit criteria/selection, canonical procedure names and contextual edit units",
@@ -38,7 +38,7 @@
   "rollbackRequiresNewMergeMetadataCompatibilityCheck": true,
   "review132": {
     "spec": "docs/review132-continuation-spec.md",
-    "fullRegression": "Current final source after two input-source field consumers added: rerun in progress; no prior-source pass claimed.",
+    "fullRegression": "C95 current 298 suites running; prior-source passes retained separately.",
     "businessDataInArtifact": false,
     "securityFormalReport": "blocked-account-security-setup; durable C93 scan retained",
     "deployment": "prepared; stage/live verification and promotion pending",
@@ -49,6 +49,7 @@
       "sourceChanged": 0,
       "evidence": "docs/review132-qa-full-2026-10-30T01-47-07.582Z.json"
     },
-    "sourceConsumerCorrection": "Fund full name and finance structure available in subsequent input-source selection/review without changing project values automatically."
+    "sourceConsumerCorrection": "Fund full name and finance structure available in subsequent input-source selection/review without changing project values automatically.",
+    "c95": "Only employee directory error ownership, cloud-reset cache lifetime and stale-response UI guard changed; no layout/API/DB change."
   }
 }
