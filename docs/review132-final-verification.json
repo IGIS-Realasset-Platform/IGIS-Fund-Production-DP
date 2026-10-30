@@ -90,7 +90,19 @@
   "outputScope": {
     "normalReportHtmlFourTypes": "Independent original comparison passed in report regressions.",
     "newNativePdfPrint": "not-executed",
-    "newChecklistXlsx": "C96 current progress export pending; completed historical C95 workbook preserved.",
+    "newChecklistXlsx": {
+      "status": "export-reopen-xml-direct-render-verified",
+      "file": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C96.xlsx",
+      "sha256": "80b8c7ba5e2bff8554ab8377e94fd163787a4e7af9eacf2b97d92970d0f47a9b",
+      "bytes": 149864,
+      "rows": 517,
+      "typedFields": 6204,
+      "checked": 428,
+      "unchecked": 89,
+      "originalC95Unchanged": true,
+      "installedExcelExecuted": false,
+      "evidence": "docs/review132-checklist-c96-verification.json"
+    },
     "originalBusinessWorkbooks": "unchanged"
   },
   "allPlatformAllStatesAccepted": false,

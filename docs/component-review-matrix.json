@@ -741584,13 +741584,13 @@
       "parentID": "OPS132-05",
       "kind": "connected-ui-consumer",
       "label": "primary/명시 선택·대표 그래프",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/partners.js",
           "sha256": "2ca82cf3e6ac747bc8a912fdff84af913c0bc11dc70d470d1a045861bfdbc501",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -741619,21 +741619,22 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "src/partners.js"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-market-consumers.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -741674,13 +741675,13 @@
       "parentID": "OPS132-05",
       "kind": "connected-ui-consumer",
       "label": "공식4세부지표 독립 투영",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/partners.js",
           "sha256": "2ca82cf3e6ac747bc8a912fdff84af913c0bc11dc70d470d1a045861bfdbc501",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -741709,21 +741710,22 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "src/partners.js"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-market-consumers.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -741764,13 +741766,13 @@
       "parentID": "DATA132-03",
       "kind": "connected-policy-consumer",
       "label": "기준연도 메타 전달",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "src/partners.js",
           "sha256": "2ca82cf3e6ac747bc8a912fdff84af913c0bc11dc70d470d1a045861bfdbc501",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -741799,21 +741801,22 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "src/partners.js"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-market-consumers.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -741854,19 +741857,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "서버 허용목록 합집합",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/auth-policy.mjs",
           "sha256": "e15e88500cbb7b8c66dca39a3c3e8a6688c122d4827fcfb736dd43cd43da1fdf",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/email-auth.mjs",
           "sha256": "7041b4c10e7c0fd7d653facbe54836b03599160725c8a3a8f0d554e2a6d64c16",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -741895,22 +741898,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/auth-policy.mjs",
             "server/email-auth.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -741948,19 +741954,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "중복 sample 우선·초기관리자",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/email-auth.mjs",
           "sha256": "7041b4c10e7c0fd7d653facbe54836b03599160725c8a3a8f0d554e2a6d64c16",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/email-auth-runtime.mjs",
           "sha256": "1d8f72ce3ce2aed6f2e4005ddb6de139eeb96d74cc4c2fbe6507ec61bd66c97f",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -741989,22 +741995,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/email-auth.mjs",
             "server/email-auth-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742042,19 +742051,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "이메일 인증 후 엄격3샘플 viewer",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/sample-access.mjs",
           "sha256": "c7c6f4a6b715fd4a4a0231aa10ad6f4edc5f8765ac06490d61f5992703b88f86",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/email-auth-runtime.mjs",
           "sha256": "1d8f72ce3ce2aed6f2e4005ddb6de139eeb96d74cc4c2fbe6507ec61bd66c97f",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742083,22 +742092,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/sample-access.mjs",
             "server/email-auth-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742136,19 +742148,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "세션/설정 식별과 기존권한 clamp",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/auth-policy.mjs",
           "sha256": "e15e88500cbb7b8c66dca39a3c3e8a6688c122d4827fcfb736dd43cd43da1fdf",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742177,22 +742189,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/workspace-runtime.mjs",
             "server/auth-policy.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742230,19 +742245,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "workspace 조회·연결자료 최소범위",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/cloud-storage.mjs",
           "sha256": "0e9bd917ad72346bec22712d8d541d0278a17fc5c21ce11a73e3d1cc06e4fc50",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742271,22 +742286,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/cloud-storage.mjs",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742324,19 +742342,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "workspace 등록/수정/삭제/확정/접근쓰기 거절",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/cloud-storage.mjs",
           "sha256": "0e9bd917ad72346bec22712d8d541d0278a17fc5c21ce11a73e3d1cc06e4fc50",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742365,22 +742383,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/workspace-runtime.mjs",
             "server/cloud-storage.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742418,13 +742439,13 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "공용 referenceData 차단",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742453,21 +742474,24 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742505,19 +742529,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "실제 내부 partnerComments 차단",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/partner-comments.mjs",
           "sha256": "2eb31122e51e0f0894acc98299bf7896c485f6b73d5118c2b0ce5ea9f4b68314",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742546,22 +742570,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/partner-comments.mjs",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742599,19 +742626,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "전역 법령검색 차단",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/center-services.mjs",
           "sha256": "3de34d72f7b719edecdef14b94c35a6b57c80d2a181e3c7a31c44166183ce7a3",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742640,22 +742667,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/center-services.mjs",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742693,19 +742723,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "직원 전체목록 차단",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/employee-directory.mjs",
           "sha256": "2400f0332803d76fe89bc8e72efdd2cc03dea132113591113b5c7c202994a1d3",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742734,22 +742764,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/employee-directory.mjs",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742787,13 +742820,13 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "Notion 전역연결 차단",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742822,21 +742855,24 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742874,19 +742910,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "cost snapshot GET 본문/사업 marker",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/center-services.mjs",
           "sha256": "3de34d72f7b719edecdef14b94c35a6b57c80d2a181e3c7a31c44166183ce7a3",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -742915,22 +742951,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/center-services.mjs",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -742968,19 +743007,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "report archive GET 본문/사업 marker",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/report-archives.mjs",
           "sha256": "1725c8676c2c06915dea20cd9fb85d61bfdaf3f1109810fe52bdc4670c1abeac",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743009,22 +743048,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/report-archives.mjs",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743062,19 +743104,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "snapshot/archive POST·PATCH 거절",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/center-services.mjs",
           "sha256": "3de34d72f7b719edecdef14b94c35a6b57c80d2a181e3c7a31c44166183ce7a3",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "server/report-archives.mjs",
           "sha256": "1725c8676c2c06915dea20cd9fb85d61bfdaf3f1109810fe52bdc4670c1abeac",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743103,22 +743145,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/center-services.mjs",
             "server/report-archives.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743156,13 +743201,13 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "개인 알림 GET 수신자/현재샘플 원천",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743191,21 +743236,24 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743243,13 +743291,13 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "개인 알림 읽음/삭제/복원",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/workspace-runtime.mjs",
           "sha256": "685543530cb983c28a5eddc9018bf5cedf71284273829489b7918df420870b94",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743278,21 +743326,24 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/workspace-runtime.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743330,19 +743381,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-ui-consumer",
       "label": "프로젝트 현황·사업별 조회 메뉴",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/core.js",
           "sha256": "33c74aa1ea4ee29d3970815058ff2a617e50af15020a1185ae63a94c4be59e70",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "src/cloud-session.js",
           "sha256": "66be75d96d1c652f136976e478d2791d752555b7cfa9256adc2019e719639a64",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743371,22 +743422,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "src/core.js",
             "src/cloud-session.js"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743429,19 +743483,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-ui-consumer",
       "label": "company/law/spec·직접이동 차단",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/core.js",
           "sha256": "33c74aa1ea4ee29d3970815058ff2a617e50af15020a1185ae63a94c4be59e70",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "src/reference-data.js",
           "sha256": "305e083f95d58a113201d288f594813a12313ab861f38d5202922fad6b7bc5cc",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743470,22 +743524,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "src/core.js",
             "src/reference-data.js"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743528,13 +743585,13 @@
       "parentID": "AUTH132-11",
       "kind": "connected-ui-consumer",
       "label": "업무 쓰기 버튼·폼 진입 차단",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/core.js",
           "sha256": "33c74aa1ea4ee29d3970815058ff2a617e50af15020a1185ae63a94c4be59e70",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743563,21 +743620,24 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "src/core.js"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743620,19 +743680,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "단일 flag 활성화·oldC95 무시",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/email-auth.mjs",
           "sha256": "7041b4c10e7c0fd7d653facbe54836b03599160725c8a3a8f0d554e2a6d64c16",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "scripts/verify-mail-configuration.mjs",
           "sha256": "2132370c47a2890c7ed28c37393fad997516faf76babc91a2d58ae5abbabaede",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743661,22 +743721,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "server/email-auth.mjs",
             "scripts/verify-mail-configuration.mjs"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743707,32 +743770,53 @@
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "operationalConfiguration": {
+        "status": "pass",
+        "counts": {
+          "regularCount": 12,
+          "sampleCount": 6,
+          "unionCount": 18,
+          "overlapCount": 0
+        },
+        "productionDeploymentId": "dpl_2hXjd2G7ffxzgYV5bHyAAmrsR3Fh",
+        "sourceCommit": "fbcdd28f55e268f90d6bfe4b7b2195f5e404f021",
+        "promotionFinishedAt": "2026-10-30T06:44:17.361Z",
+        "publicVerifiedAt": "2026-10-30T06:44:38.408Z",
+        "evidence": [
+          ".build/review132-c96/promotion-1793342657361.json",
+          ".build/review132/public-verified-1793342678411.json"
+        ],
+        "realMemberAuthentication": false,
+        "newAccountsCreatedByQA": 0,
+        "mailSentByQA": false,
+        "businessDbWritesByQA": 0
+      }
     },
     {
       "componentID": "REVIEW132C96-sample-21",
       "parentID": "AUTH132-11",
       "kind": "connected-policy-consumer",
       "label": "sampleOnly 수화·reset/전환/늦은 응답",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "src/core.js",
           "sha256": "33c74aa1ea4ee29d3970815058ff2a617e50af15020a1185ae63a94c4be59e70",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "src/cloud-session.js",
           "sha256": "66be75d96d1c652f136976e478d2791d752555b7cfa9256adc2019e719639a64",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "src/reference-data.js",
           "sha256": "305e083f95d58a113201d288f594813a12313ab861f38d5202922fad6b7bc5cc",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743761,7 +743845,7 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
@@ -743769,15 +743853,18 @@
             "src/cloud-session.js",
             "src/reference-data.js"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743820,19 +743907,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-ui-consumer",
       "label": "사업비 조회의 전역 market 자동조회 차단",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/partners.js",
           "sha256": "2ca82cf3e6ac747bc8a912fdff84af913c0bc11dc70d470d1a045861bfdbc501",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "src/reference-data.js",
           "sha256": "305e083f95d58a113201d288f594813a12313ab861f38d5202922fad6b7bc5cc",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743861,22 +743948,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "src/partners.js",
             "src/reference-data.js"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -743919,19 +744009,19 @@
       "parentID": "AUTH132-11",
       "kind": "connected-ui-consumer",
       "label": "benchmark 조회의 전역 market 자동조회 차단",
-      "lifecycle": "c96-candidate-preparation-not-accepted",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": true,
       "source": [
         {
           "path": "src/partners.js",
           "sha256": "2ca82cf3e6ac747bc8a912fdff84af913c0bc11dc70d470d1a045861bfdbc501",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "src/reference-data.js",
           "sha256": "305e083f95d58a113201d288f594813a12313ab861f38d5202922fad6b7bc5cc",
-          "observedAt": "2026-10-30T06:24:33.231Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -743960,22 +744050,25 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "docs/review132-c96-spec.md",
             "docs/review132-sample-viewer-spec.md",
             "src/partners.js",
             "src/reference-data.js"
           ],
-          "scope": "최종 동결 소스에서 명세와 핵심 권한/원자료 경계를 독립 추적했습니다. 구현자 집중결과나 소스 존재만으로 모든 동적/운영 조건을 수락하지 않습니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
-            ".build/review132-c96/preparation/final-303-start.json"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-sample-viewer-policy.mjs",
+            "tests/review132-sample-viewer-auth.mjs",
+            "tests/review132-sample-viewer-client.mjs"
           ],
-          "scope": "현재303 전체회귀 실행 중입니다. C95/중단된 중간본/담당자 집중통과를 최종303 통과로 승계하지 않습니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -744018,25 +744111,25 @@
       "parentID": "DATA132-03",
       "kind": "public-output-record-consumer",
       "label": "공개 검수 JSON의 수행상태 보존·비공개 설정 제외",
-      "lifecycle": "c96-frozen-output-consumer-final303-running",
+      "lifecycle": "C96-formal-explicit-scope-accepted",
       "visibleUserControl": false,
       "source": [
         {
           "path": "shared/public-verification-record.mjs",
           "sha256": "5919253a195c492a95b897173a001c947ef011eb64c530d206aaa98cf38601b3",
-          "observedAt": "2026-10-30T06:35:35.419Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         },
         {
           "path": "scripts/prepare-github-release.mjs",
           "sha256": "020bbd54177946cff73c8f9ae3959de6dd737931e06518b4a79bc75af0f62371",
-          "observedAt": "2026-10-30T06:35:35.422Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": false
         },
         {
           "path": "tests/review132-public-verification-redaction.mjs",
           "sha256": "1e84c1900f8e8c2b12bbb2b461a282b967a412d160f27daa32d0e1b9ec333e83",
-          "observedAt": "2026-10-30T06:35:35.422Z",
+          "observedAt": "2026-10-30T06:50:31.981Z",
           "finalFrozen": true
         }
       ],
@@ -744060,21 +744153,22 @@
       },
       "verification": {
         "implementation": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
             "shared/public-verification-record.mjs",
             "scripts/prepare-github-release.mjs",
             "tests/review132-public-verification-redaction.mjs"
           ],
-          "scope": "독립 소스 대조: 실제 prepare consumer가 exported helper를 사용하며 원본을 clone하고 npm status/0/범위/근거를 보존합니다. 계정 설정과 비공개 승인 메타는 제외합니다.",
+          "scope": "현재 동결코드·독립 원본/핵심권한 대조와 실제303 재실행에서 명시 범위를 확인했습니다. 모든 상태/운영 실회원 수락은 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
+          "status": "pass",
           "evidence": [
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
             "tests/review132-public-verification-redaction.mjs"
           ],
-          "scope": "현재 엄밀303 전체회귀 실행중이며 이 출력소비자의 독립5검사는 해당 전체결과와 정확 source pin으로 연결합니다.",
+          "scope": "실제 단일동결303/303·실패0·준비차단0·642파일 실행중변경0 및 현재핀동일입니다. 이전302/1과 집중11의 합산 보고가 아닙니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
@@ -744090,12 +744184,12 @@
           "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "contentReviewed",
+          "status": "pass",
           "evidence": [
-            "shared/public-verification-record.mjs",
-            "scripts/prepare-github-release.mjs"
+            "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+            "tests/review132-public-verification-redaction.mjs"
           ],
-          "scope": "공개된 레코드의 완료/미수행 상태를 원문과 대조하며 자동검사와 실제 게시의 범위를 구별합니다.",
+          "scope": "현재 실제5개 합성 JSON 출력검사에서 완료/미수행·공지0/원본근거 보존과 계정설정/비공개승인 메타 제외를 확인했습니다. 실제 GitHub 최종 게시 대조는 ROOT 후속 문서 checkpoint입니다.",
           "allDynamicConditionsAccepted": false
         }
       },
@@ -808229,7 +808323,7 @@
   "review132": {
     "at": "2026-10-30T05:03:10.750Z",
     "spec": "docs/review132-continuation-spec.md",
-    "status": "c95-formal-checkpoint-preserved-c96-auth132-in-progress",
+    "status": "c96-formal-strict303-and-native8-verified-current-checkpoint",
     "previousRecordCount": 5135,
     "addedRecords": 73,
     "priorRecordsSha256": "652ed96fea22d5b0921f5e3674d7447fdd73c6e5bb148b0c068f7768966c5724",
@@ -808289,12 +808383,13 @@
       "README.md": "c944457ae4a67d44f6475b25d9a7a91dd367e010d4c8b31e4d803ff645c30b68"
     },
     "logical": {
-      "passed": 298,
+      "passed": 303,
       "failed": 0,
       "preparationBlocked": 0,
       "sourceChangedDuringRun": 0,
-      "sourcePinCount": 634,
-      "evidence": "docs/review132-qa-full-2026-10-30T04-00-23.909Z.json",
+      "sourcePinCount": 642,
+      "validSingleFinalSource": true,
+      "evidence": "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
       "currentAllPinnedFilesEqual": true
     },
     "previousLogical": {
@@ -808311,40 +808406,34 @@
       "laterSourceCorrection": "src/setup.js sourceFields existing7+new2; current297 reran all including this change and current EOF"
     },
     "nativeExactGit": {
-      "htmlPath": ".build/github-release-review132/.build/review132/c95-production.html",
-      "htmlSha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
-      "bytes": 6930683,
-      "mainRegistrationExecutions": 4,
-      "mainPermitLandExecutions": 8,
-      "mainExecutions": 12,
-      "extraSourceExecutions": 2,
-      "c95BoundaryScenarioExecutions": 1,
-      "c95BoundaryAssertions": 4,
-      "totalRepeatedExecutions": 15,
-      "pageErrors": 0,
-      "actualOperationalDatabase": false,
-      "actualUserCookies": false,
-      "sourceExtraBothVerified": true,
+      "htmlSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1",
+      "htmlBytes": 6936956,
+      "marketExecutions": 6,
+      "sampleExecutions": 2,
+      "totalRepeatedExecutions": 8,
+      "uniqueFunctionsInferred": false,
+      "errors": 0,
+      "actualDB": false,
+      "actualCookies": false,
+      "late401Native": false,
       "evidence": [
-        ".build/review132-client/c95-published-registration-four-widths/evidence.json",
-        ".build/review132-client/c95-published-permit-four-widths/evidence.json",
-        ".build/review132-client/c95-published-source-two-widths/evidence.json",
-        ".build/review132-client/c95-published-boundary/evidence.json"
-      ]
+        ".build/review132-client/c96-release-market/evidence.json",
+        ".build/review132-client/c96-release-sample/evidence.json"
+      ],
+      "sourcePinsMatched": true
     },
     "counting": {
       "matrixRecords": 5208,
       "priorPreservedRecords": 5135,
+      "preservedC95Records": 5181,
       "addedConsumerRecords": 73,
-      "logicalSuites": 298,
-      "mainNativeExecutions": 12,
-      "extraNativeExecutions": 2,
-      "definition": "등록1흐름×4폭 + 인허가/부지 editor/viewer×4폭=12회, 후속자료추가1흐름×2폭=2회, C95 상태전환1시나리오의4기대 별도. 15회 반복실행은 고유기능 수가 아닙니다.",
-      "uniqueFunctionsInferred": false,
-      "c95BoundaryScenarioExecutions": 1,
-      "c95BoundaryAssertions": 4,
-      "totalNativeRepeatedExecutions": 15,
-      "logicalEvidenceVersion": "C95 final298 only; C96 awaits independent final freeze"
+      "c96Records": 27,
+      "logicalSuites": 303,
+      "currentNativeExecutions": 8,
+      "marketExecutions": 6,
+      "sampleExecutions": 2,
+      "definition": "시장 정상4폭+모호성2=6회, 샘플1280/390각1=2회. 8반복실행은 고유기능수가 아님",
+      "uniqueFunctionsInferred": false
     },
     "directoryDatabase": {
       "status": "view-applied-and-readonly-verified",
@@ -808410,39 +808499,45 @@
       "evidence": "docs/review132-security-workflow-status.md"
     },
     "release": {
-      "status": "C95-formal-production-public-verified",
-      "sourceCommit": "0bb279d843fd8503299b6e09ad7ba646b613da7d",
-      "productionDeploymentId": "dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx",
-      "htmlSha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
-      "htmlBytes": 6930683,
-      "publicOrigin": "https://igis-development-project-platform.vercel.app",
+      "status": "C96-formal-production-public-verified",
+      "sourceCommit": "fbcdd28f55e268f90d6bfe4b7b2195f5e404f021",
+      "productionDeploymentId": "dpl_2hXjd2G7ffxzgYV5bHyAAmrsR3Fh",
+      "htmlSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1",
+      "htmlBytes": 6936956,
+      "promotionFinishedAt": "2026-10-30T06:44:17.361Z",
+      "publicVerifiedAt": "2026-10-30T06:44:38.408Z",
       "publicHttpStatus": 200,
       "unauthenticatedApiStatuses": {
         "/api/workspace": 401,
         "/api/notifications": 401,
         "/api/employee-directory": 401
       },
+      "actualBuildAccessCounts": {
+        "regularCount": 12,
+        "sampleCount": 6,
+        "unionCount": 18,
+        "overlapCount": 0
+      },
       "authenticatedUserTested": false,
-      "productionBusinessWritesInThisPublicCheck": 0,
+      "businessDbWritesInPublicCheck": 0,
+      "c96NewDailyRunExecuted": false,
       "evidence": [
-        ".build/review132/c95-stage-accepted.json",
-        ".build/review132/public-verified-1793334941491.json",
-        "README.md"
-      ],
-      "c94DailyProductionDeploymentId": "dpl_9hUe4fFiTxWzeaWBwdXFgJtpYMS2",
-      "c95NewDailyRunExecuted": false,
-      "c95BackendEquivalence": "workspace55-file-source-byte-comparison; no new C95 daily runtime run",
-      "newLiveProjectRegistration": "not-executed"
+        ".build/review132-c96/promotion-1793342657361.json",
+        ".build/review132/public-verified-1793342678411.json"
+      ]
     },
     "output": {
       "normalReportHtmlFourTypes": "model-byte-comparison-passed",
       "nativePdfPrint": "not-executed",
       "actualJsonXlsxDownloads": "not-executed",
       "checklistC94": "not-produced-target-replaced-by-C95",
-      "checklistC95": "produced-and-verified-current-checkpoint",
+      "checklistC95": "preserved-historical-checkpoint",
       "checklistC95Evidence": ".build/review132/checklist132/final-verification.json",
       "checklistC95Sha256": "48d409ec1030fcb8179c9e5968af108f4c8b4089b3cf2bc5f847deb71a286806",
-      "installedExcelExecuted": false
+      "installedExcelExecuted": false,
+      "checklistC96": "produced-and-verified-current-formal-checkpoint",
+      "checklistC96Evidence": ".build/review132-c96/checklist132/final-verification.json",
+      "checklistC96Sha256": "80b8c7ba5e2bff8554ab8377e94fd163787a4e7af9eacf2b97d92970d0f47a9b"
     },
     "remaining": [
       "SEC132-02 정식 보안보고서 계정오류·미봉인",
@@ -808690,71 +808785,83 @@
       "newLiveProjectRegistration": "not-executed"
     },
     "requirementCheckpoint": {
-      "version": "v0.13.0 C95",
-      "wholeTaskComplete": false,
-      "review132Continues": true,
-      "totalRequirements": 516,
-      "checked": 427,
+      "version": "v0.13.0 C96",
+      "totalRequirements": 517,
+      "checked": 428,
       "unchecked": 89,
-      "retainedOriginal506RowsAndChecks": true,
-      "addedRequirements": 10,
-      "addedChecked": 8,
+      "fields": 6204,
+      "addedRequirements": 11,
+      "addedChecked": 9,
       "inProgress": [
         "SEC132-02",
         "OPS132-05"
       ],
+      "retainedPrior516RequirementBlocks": true,
       "markdown": "docs/요구사항_누적_체크리스트.md",
-      "markdownSha256": "8f12bfa1d1114deb90cf004831a41580fdcadd2f5ebc1c4d674c01d0e0010230",
-      "excel": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C95.xlsx",
-      "excelSha256": "48d409ec1030fcb8179c9e5968af108f4c8b4089b3cf2bc5f847deb71a286806"
+      "markdownSha256": "bf1256dd0acfadd86db67bca16ce5012ff896c3f20df9bf87a740db8d0ee6c7b",
+      "excelStatus": "produced-and-verified",
+      "wholeTaskComplete": false,
+      "excel": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C96.xlsx",
+      "excelSha256": "80b8c7ba5e2bff8554ab8377e94fd163787a4e7af9eacf2b97d92970d0f47a9b"
     },
     "checklistCheckpoint": {
-      "at": "2026-10-30T05:00:42.800Z",
-      "version": "v0.13.0 C95",
+      "at": "2026-10-30T06:57:29.939Z",
+      "version": "v0.13.0 C96",
       "checkpoint": true,
       "wholeTaskComplete": false,
-      "output": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C95.xlsx",
-      "outputSHA256": "48d409ec1030fcb8179c9e5968af108f4c8b4089b3cf2bc5f847deb71a286806",
-      "outputBytes": 148977,
-      "sourceWorkbook": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C93.xlsx",
-      "sourceWorkbookSHA256": "2d70896d059a3f0a90ac0a6380e8e5ddda795d2d98be286d509b6d00553c101b",
+      "output": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C96.xlsx",
+      "outputSHA256": "80b8c7ba5e2bff8554ab8377e94fd163787a4e7af9eacf2b97d92970d0f47a9b",
+      "outputBytes": 149864,
+      "sourceWorkbook": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C95.xlsx",
+      "sourceWorkbookSHA256": "48d409ec1030fcb8179c9e5968af108f4c8b4089b3cf2bc5f847deb71a286806",
+      "sourceC95Unchanged": true,
+      "originalC93Unchanged": true,
       "sourceMarkdown": "docs/요구사항_누적_체크리스트.md",
-      "sourceMarkdownSHA256": "8f12bfa1d1114deb90cf004831a41580fdcadd2f5ebc1c4d674c01d0e0010230",
-      "rows": 516,
-      "typedFields": 6192,
-      "checked": 427,
+      "sourceMarkdownSHA256": "bf1256dd0acfadd86db67bca16ce5012ff896c3f20df9bf87a740db8d0ee6c7b",
+      "rows": 517,
+      "typedFields": 6204,
+      "checked": 428,
       "unchecked": 89,
-      "retainedRows": 506,
-      "retainedFields": 6072,
-      "oldValuesStylesTypesAndHeightsChanged": 0,
-      "nativeFeaturesPassed": 36,
-      "nativeFeaturesTotal": 36,
-      "authoringEngine": "bundled @oai/artifact-tool",
-      "dependencySource": "load_workspace_dependencies",
-      "artifactImportExportAndReimportExitCode": 0,
+      "retainedOriginalRows": 506,
+      "retainedOriginalFields": 6072,
+      "priorC95Rows": 516,
+      "priorC95TypedFields": 6192,
+      "priorC95All516ValuesExact": true,
+      "old506ValuesStylesTypesAndHeightsChanged": 0,
+      "allExisting516CellStylesPreserved": true,
+      "priorC95Additional10HeightDifferences": [],
+      "independentOoxmlFeaturesPassed": 37,
+      "independentOoxmlFeaturesTotal": 37,
+      "artifactImportExportReimportExitCode": 0,
       "independentOoxmlExitCode": 0,
       "renderExitCode": 1,
-      "renderImagesProduced": 17,
-      "renderImagesDirectlyInspected": 17,
+      "renderImagesProduced": 20,
+      "renderImagesDirectlyInspected": 20,
       "renderVisualPassed": true,
-      "renderTerminationAnomaly": "PNG generation and direct visual review succeeded; the previously isolated renderer termination still returns1. File/export/value checks passed separately.",
+      "renderTerminationAnomaly": "Valid20 PNGs produced and directly reviewed; existing renderer termination returns1 independently of successful export/reimport and native checks.",
       "markerExecuted": true,
       "markerExecutionCount": 1,
+      "authoringEngine": "bundled @oai/artifact-tool via load_workspace_dependencies",
       "installedExcelExecuted": false,
-      "sourceWorkbookUnchanged": true,
-      "new10CheckState": [
-        true,
-        false,
-        true,
-        true,
-        false,
-        true,
-        true,
-        true,
-        true,
-        true
-      ],
-      "evidence": ".build/review132/checklist132/final-verification.json"
+      "newId": "AUTH132-11",
+      "newChecked": true,
+      "newRowContainsActualPersonalEmails": false,
+      "newRowContainsActualNames": false,
+      "newRowContainsPrivateKeyMarkers": false,
+      "actualMemberAuthentication": false,
+      "newBusinessDbWritesByQA": 0,
+      "promotionFinishedAt": "2026-10-30T06:44:17.361Z",
+      "publicVerifiedAt": "2026-10-30T06:44:38.408Z",
+      "strictLogicalEvidence": "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json",
+      "strictLogicalPassed": 303,
+      "strictSourcePinCount": 642,
+      "validSingleFinalSource": true,
+      "evidence": [
+        "export-verification.json",
+        "native-verification.json",
+        "render-verification.json",
+        "authoring-operation.json"
+      ]
     },
     "readmeSnapshot": {
       "path": "README.md",
@@ -808765,7 +808872,7 @@
     },
     "c96": {
       "at": "2026-10-30T06:02:13.905Z",
-      "status": "frozen-source-reviewed-native8-scoped-final303-running",
+      "status": "formal-production-strict303-and-scoped-native8-accepted",
       "specs": [
         "docs/review132-c96-spec.md",
         "docs/review132-sample-viewer-spec.md"
@@ -808808,10 +808915,10 @@
       "requirements": {
         "total": 517,
         "fields": 6204,
-        "checked": 427,
-        "unchecked": 90,
+        "checked": 428,
+        "unchecked": 89,
         "newId": "AUTH132-11",
-        "newChecked": false
+        "newChecked": true
       },
       "reportedImplementation": {
         "market": "Worker reports28 focused checks and C95RED/raw1280GREEN; no independent current-frozen-source acceptance",
@@ -808832,10 +808939,14 @@
       "allPlatformAccepted": false,
       "allStatesAccepted": false,
       "finalLogicalRun": {
-        "status": "strict-full-running-after-authorized-template-preparation-fix",
-        "startedAt": "2026-10-30T06:31:37.640Z",
-        "expectedSuites": 303,
-        "evidence": ".build/review132-c96/preparation/final-strict-303-start.json"
+        "status": "passed",
+        "passed": 303,
+        "failed": 0,
+        "preparationBlocked": 0,
+        "sourcePins": 642,
+        "sourceChangedDuringRun": 0,
+        "validSingleFinalSource": true,
+        "evidence": "docs/review132-qa-full-2026-10-30T06-31-37.768Z.json"
       },
       "native": {
         "htmlSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1",
@@ -808855,17 +808966,179 @@
         "sourcePinsMatched": true
       },
       "operationalActivation": {
-        "status": "root-reports-single-flag-applied-final-build-counts-and-current-code-activation-pending",
-        "evidence": ".build/review132/sample-viewer-config-apply-1793340226632.json",
-        "regularCount": null,
-        "sampleCount": null,
-        "unionCount": null,
-        "overlapCount": null,
-        "newAccountsCreated": 0,
-        "realMemberAuthentication": "not-tested",
+        "status": "formal-current-code-and-counts-verified",
+        "counts": {
+          "regularCount": 12,
+          "sampleCount": 6,
+          "unionCount": 18,
+          "overlapCount": 0
+        },
+        "promotionFinishedAt": "2026-10-30T06:44:17.361Z",
+        "publicVerifiedAt": "2026-10-30T06:44:38.408Z",
+        "evidence": [
+          ".build/review132-c96/promotion-1793342657361.json",
+          ".build/review132/public-verified-1793342678411.json"
+        ],
+        "realMemberAuthentication": false,
+        "newAccountsCreatedByQA": 0,
         "qaOperationalWrites": 0
       },
-      "publicRecordRecords": 1
+      "publicRecordRecords": 1,
+      "checklist": {
+        "status": "produced-and-verified",
+        "rows": 517,
+        "fields": 6204,
+        "checked": 428,
+        "unchecked": 89,
+        "output": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C96.xlsx",
+        "sha256": "80b8c7ba5e2bff8554ab8377e94fd163787a4e7af9eacf2b97d92970d0f47a9b",
+        "bytes": 149864,
+        "sourceC95Unchanged": true,
+        "priorC95All516ValuesExact": true,
+        "nativeChecks": 37,
+        "visualImages": 20,
+        "installedExcelExecuted": false,
+        "evidence": ".build/review132-c96/checklist132/final-verification.json"
+      }
+    },
+    "c95CheckpointHistory": {
+      "logical": {
+        "passed": 298,
+        "failed": 0,
+        "preparationBlocked": 0,
+        "sourceChangedDuringRun": 0,
+        "sourcePinCount": 634,
+        "evidence": "docs/review132-qa-full-2026-10-30T04-00-23.909Z.json",
+        "currentAllPinnedFilesEqual": true
+      },
+      "nativeExactGit": {
+        "htmlPath": ".build/github-release-review132/.build/review132/c95-production.html",
+        "htmlSha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
+        "bytes": 6930683,
+        "mainRegistrationExecutions": 4,
+        "mainPermitLandExecutions": 8,
+        "mainExecutions": 12,
+        "extraSourceExecutions": 2,
+        "c95BoundaryScenarioExecutions": 1,
+        "c95BoundaryAssertions": 4,
+        "totalRepeatedExecutions": 15,
+        "pageErrors": 0,
+        "actualOperationalDatabase": false,
+        "actualUserCookies": false,
+        "sourceExtraBothVerified": true,
+        "evidence": [
+          ".build/review132-client/c95-published-registration-four-widths/evidence.json",
+          ".build/review132-client/c95-published-permit-four-widths/evidence.json",
+          ".build/review132-client/c95-published-source-two-widths/evidence.json",
+          ".build/review132-client/c95-published-boundary/evidence.json"
+        ]
+      },
+      "counting": {
+        "matrixRecords": 5208,
+        "priorPreservedRecords": 5135,
+        "addedConsumerRecords": 73,
+        "logicalSuites": 298,
+        "mainNativeExecutions": 12,
+        "extraNativeExecutions": 2,
+        "definition": "등록1흐름×4폭 + 인허가/부지 editor/viewer×4폭=12회, 후속자료추가1흐름×2폭=2회, C95 상태전환1시나리오의4기대 별도. 15회 반복실행은 고유기능 수가 아닙니다.",
+        "uniqueFunctionsInferred": false,
+        "c95BoundaryScenarioExecutions": 1,
+        "c95BoundaryAssertions": 4,
+        "totalNativeRepeatedExecutions": 15,
+        "logicalEvidenceVersion": "C95 final298 only; C96 awaits independent final freeze"
+      },
+      "requirementCheckpoint": {
+        "version": "v0.13.0 C95",
+        "wholeTaskComplete": false,
+        "review132Continues": true,
+        "totalRequirements": 516,
+        "checked": 427,
+        "unchecked": 89,
+        "retainedOriginal506RowsAndChecks": true,
+        "addedRequirements": 10,
+        "addedChecked": 8,
+        "inProgress": [
+          "SEC132-02",
+          "OPS132-05"
+        ],
+        "markdown": "docs/요구사항_누적_체크리스트.md",
+        "markdownSha256": "8f12bfa1d1114deb90cf004831a41580fdcadd2f5ebc1c4d674c01d0e0010230",
+        "excel": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C95.xlsx",
+        "excelSha256": "48d409ec1030fcb8179c9e5968af108f4c8b4089b3cf2bc5f847deb71a286806"
+      },
+      "checklistCheckpoint": {
+        "at": "2026-10-30T05:00:42.800Z",
+        "version": "v0.13.0 C95",
+        "checkpoint": true,
+        "wholeTaskComplete": false,
+        "output": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C95.xlsx",
+        "outputSHA256": "48d409ec1030fcb8179c9e5968af108f4c8b4089b3cf2bc5f847deb71a286806",
+        "outputBytes": 148977,
+        "sourceWorkbook": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C93.xlsx",
+        "sourceWorkbookSHA256": "2d70896d059a3f0a90ac0a6380e8e5ddda795d2d98be286d509b6d00553c101b",
+        "sourceMarkdown": "docs/요구사항_누적_체크리스트.md",
+        "sourceMarkdownSHA256": "8f12bfa1d1114deb90cf004831a41580fdcadd2f5ebc1c4d674c01d0e0010230",
+        "rows": 516,
+        "typedFields": 6192,
+        "checked": 427,
+        "unchecked": 89,
+        "retainedRows": 506,
+        "retainedFields": 6072,
+        "oldValuesStylesTypesAndHeightsChanged": 0,
+        "nativeFeaturesPassed": 36,
+        "nativeFeaturesTotal": 36,
+        "authoringEngine": "bundled @oai/artifact-tool",
+        "dependencySource": "load_workspace_dependencies",
+        "artifactImportExportAndReimportExitCode": 0,
+        "independentOoxmlExitCode": 0,
+        "renderExitCode": 1,
+        "renderImagesProduced": 17,
+        "renderImagesDirectlyInspected": 17,
+        "renderVisualPassed": true,
+        "renderTerminationAnomaly": "PNG generation and direct visual review succeeded; the previously isolated renderer termination still returns1. File/export/value checks passed separately.",
+        "markerExecuted": true,
+        "markerExecutionCount": 1,
+        "installedExcelExecuted": false,
+        "sourceWorkbookUnchanged": true,
+        "new10CheckState": [
+          true,
+          false,
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "evidence": ".build/review132/checklist132/final-verification.json"
+      },
+      "release": {
+        "status": "C95-formal-production-public-verified",
+        "sourceCommit": "0bb279d843fd8503299b6e09ad7ba646b613da7d",
+        "productionDeploymentId": "dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx",
+        "htmlSha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
+        "htmlBytes": 6930683,
+        "publicOrigin": "https://igis-development-project-platform.vercel.app",
+        "publicHttpStatus": 200,
+        "unauthenticatedApiStatuses": {
+          "/api/workspace": 401,
+          "/api/notifications": 401,
+          "/api/employee-directory": 401
+        },
+        "authenticatedUserTested": false,
+        "productionBusinessWritesInThisPublicCheck": 0,
+        "evidence": [
+          ".build/review132/c95-stage-accepted.json",
+          ".build/review132/public-verified-1793334941491.json",
+          "README.md"
+        ],
+        "c94DailyProductionDeploymentId": "dpl_9hUe4fFiTxWzeaWBwdXFgJtpYMS2",
+        "c95NewDailyRunExecuted": false,
+        "c95BackendEquivalence": "workspace55-file-source-byte-comparison; no new C95 daily runtime run",
+        "newLiveProjectRegistration": "not-executed"
+      }
     }
   }
 }
