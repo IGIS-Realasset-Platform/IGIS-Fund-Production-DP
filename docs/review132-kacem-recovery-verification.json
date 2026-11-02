@@ -1,0 +1,52 @@
+{
+  "review": "REC132-05 KACEM",
+  "date": "2026-11-02",
+  "status": "implemented-focused-and-isolated-live-source-verified-production-pending",
+  "spec": "docs/review132-kacem-recovery-spec.md",
+  "source": {
+    "url": "http://www.ekacem.or.kr/storehouse/stat-member/20260930-3.pdf",
+    "sha256": "216cebafe0ca74bfd3bf4f548d1df1da9109ffb1a1b7dfcfb0ff4ae8886b1ed3",
+    "bytes": 3941482,
+    "pages": 27,
+    "period": "2026-09-30",
+    "scope": "Only the exact originally provided and independently checked public document. Not a general HTTP or certificate bypass.",
+    "httpsCertificate": "still expired; normal Node and Windows trust validation rejected"
+  },
+  "independentComparison": {"extractor":"pdfplumber versus product pdf2json","pagesRead":27,"overallTableRows":100,"targetRows":30,"companyCells":30,"numericCells":360,"differences":0,"currentDBValuesRead":false},
+  "implementation": {
+    "publishedRows":30,
+    "rawTableValidationRows":100,
+    "pinnedHTTPDocuments":1,
+    "digestRequiredBeforeParsing":true,
+    "newQuarterHTTPFallback":false,
+    "normalPDFWorkerMB":256,
+    "kacemPDFWorkerMB":512,
+    "kacemMaxPages":30,
+    "parserDeadlineMs":10000,
+    "fileBytesMax":8388608,
+    "legalCompanyAutoMatching":false
+  },
+  "verification": {
+    "focusedWithOfficial":{"passed":20,"failed":0,"evidence":".build/review132-kacem/final-focused.json"},
+    "defaultSyntheticChecks":17,
+    "optionalOfficialChecks":3,
+    "adjacent":{"suites":5,"passed":78,"failed":0,"evidence":".build/review132-kacem/adjacent-regressions.json"},
+    "actualCurrentRenderer":"reference summary/detail API contract, ranking30, won projection from original 100m unit, profile column labels and exact source link passed in isolated VM; no new geometry claim",
+    "continuation":{"scope":"provided150 + synthetic historical31, not actual DB measurement","activeCompanies":150,"profiles":181,"kacemRows":30,"sourceRowsValidated":100,"cyclesAttempted":[60,60,30],"remaining":[90,30,0],"lastCursor":null,"enrichmentLimitUnchanged":200,"evidence":".build/review132-kacem/scope-and-continuation.json"},
+    "isolatedLive":{"actualGETs":1,"kacemComplete":true,"outerStatus":"partial_failure","otherProvidersDeliberatelyIsolated":true,"actualDatabaseWrites":0,"evidence":".build/review132-kacem/live-full-collector-receipt.json"},
+    "wholePlatformQA":"root-owned separate execution",
+    "productionDeployment":"pending root",
+    "actualProductionDBWrite":"not performed"
+  },
+  "freeze": {
+    "at":"2026-11-02T06:27:48.745Z",
+    "pins": {
+      "server/partner-rankings.mjs":"f763947a2467dc1e446baef19d944272d002d432845c5a7c9f482b13c4dbfef2",
+      "server/partner-collector.mjs":"c309ea96d2469dae57b1922cba211fc81a97e276c821ec6f8d86ce693f37f0cd",
+      "tests/review132-kacem-rankings.mjs":"c3c0b288dfda5e973d3e90da78ee1249c9ba47dee7fb48cb85b13c65d7d25f83"
+    },
+    "evidence":".build/review132-kacem/final-freeze.json"
+  },
+  "unchanged":["src UI","all other provider formats","global HTTPS policy except the one reviewed byte-pinned document","existing original30 keys and values","original profiles and comments","business DB/ENV/auth/Git/deployment/cron by this implementer"],
+  "limitations":["Upstream TLS certificate remains expired","Changed bytes at the pinned URL are rejected","Unreviewed future HTTP documents remain rejected","Source publication row is not a verified legal company ID","No claim that every external provider is complete"]
+}

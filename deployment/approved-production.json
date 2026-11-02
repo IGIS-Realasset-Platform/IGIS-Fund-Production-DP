@@ -1,6 +1,6 @@
 {
   "version": "0.13.0",
-  "candidate": "C96",
+  "candidate": "C97",
   "origin": "https://igis-development-project-platform.vercel.app",
   "htmlSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1",
   "bytes": 6936956,
@@ -8,19 +8,18 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review132-c96-formal-exact-verified",
-  "preparedAt": "2026-10-30",
+  "status": "review133-c97-validation-candidate-not-deployed",
+  "preparedAt": "2026-11-02",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
-  "actualBrowser": "Exact final C96 Git HTML: market6 and sample2 viewport runs, errors0. Real staff session and operational CUA not executed.",
-  "actualAuthenticatedServer": "Actual Preview/Production builds: regular12/sample6/union18/overlap0. Exact public artifact and unauthenticated API401 verified. Real staff signup/login not executed.",
+  "actualBrowser": "No frontend source change. C97 artifact must equal C96 approved bytes; old eight native executions remain historical, not newly executed.",
+  "actualAuthenticatedServer": "C97 not deployed; G2B finite diagnostics and KACEM actual-document focused checks passed. Actual provider run pending.",
   "previousRelease": {
     "version": "0.13.0",
-    "candidate": "C95",
-    "productionId": "dpl_GnGL9yfArhUuLqUWWEL6SZZAxiNx",
-    "sourceCommit": "0bb279d843fd8503299b6e09ad7ba646b613da7d",
-    "publicHtmlSha256": "611d6e1fc82cfdb13c699ca6e9a707d66563887fa36c7385709bcd3977998a2a",
-    "publicObservation": ".build/review132/public-verified-1793334941491.json"
+    "candidate": "C96",
+    "sourceCommit": "fbcdd28f55e268f90d6bfe4b7b2195f5e404f021",
+    "productionDeploymentId": "dpl_2hXjd2G7ffxzgYV5bHyAAmrsR3Fh",
+    "formalHtmlSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1"
   },
   "review131": {
     "status": "historical-C93-scope-preserved",
@@ -57,6 +56,19 @@
       "productionPublicHtmlSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1",
       "previewHtmlSha256": "0196a1eea6338706e6022116f4e16cfe9270c87b0fd8ba1d7c7f060fb0f4372a",
       "approvedArtifactSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1"
-    }
+    },
+    "status": "historical-C96-release"
+  },
+  "review133": {
+    "spec": "docs/review133-external-security-spec.md",
+    "scope": "KACEM exact pinned original document and parser; finite G2B party diagnostics without validation relaxation",
+    "fullRegression": {
+      "status": "pending-final-source-run-with-official-fixtures"
+    },
+    "frontendChanged": false,
+    "providerCredentialsChanged": false,
+    "existingAccessPolicyChanged": false,
+    "productionRunExecuted": false,
+    "wholeTaskComplete": false
   }
 }

@@ -45,7 +45,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5208,
+    "totalMatrixRecords": 5216,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -744194,6 +744194,547 @@
         }
       },
       "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW133-g2b-parser",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "G2B 당사자 오류의 유한 형태 진단",
+      "lifecycle": "specified-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-enrichment.mjs",
+          "sha256": "a09ec5cd5bcf2211b529e9ab0dd2285116512c1014095fb9c3facfdf0aafa086",
+          "observedAt": "2026-11-02T06:13:21.574Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "G2B 당사자 오류의 유한 형태 진단",
+        "reference": "docs/review133-external-security-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "파서 입력/검증실패",
+          "자료형/그룹/필드/공란/식별형식/중복 개수"
+        ],
+        "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW133-g2b-coverage",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "일반·계획·본문·복구의 진단 전파",
+      "lifecycle": "specified-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-enrichment.mjs",
+          "sha256": "a09ec5cd5bcf2211b529e9ab0dd2285116512c1014095fb9c3facfdf0aafa086",
+          "observedAt": "2026-11-02T06:13:21.578Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "일반·계획·본문·복구의 진단 전파",
+        "reference": "docs/review133-external-security-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "collectG2bContracts",
+          "count계획",
+          "본문/후속page",
+          "sources coverage"
+        ],
+        "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW133-g2b-preservation",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "기존 관측·이벤트·체크포인트·댓글 보존",
+      "lifecycle": "specified-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-enrichment.mjs",
+          "sha256": "a09ec5cd5bcf2211b529e9ab0dd2285116512c1014095fb9c3facfdf0aafa086",
+          "observedAt": "2026-11-02T06:13:21.578Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "기존 관측·이벤트·체크포인트·댓글 보존",
+        "reference": "docs/review133-external-security-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "records/checkpoint",
+          "merge",
+          "원금액/법적식별",
+          "과거판본"
+        ],
+        "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW133-kacem-document",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "검수한 기존 공식 HTTP 문서1개와 불변 지문",
+      "lifecycle": "specified-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-collector.mjs",
+          "sha256": "43aa84a8d76133af9817135d65744b4c6f261950e2a2d7ca1f8ae5407194c2c6",
+          "observedAt": "2026-11-02T06:13:21.579Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "검수한 기존 공식 HTTP 문서1개와 불변 지문",
+        "reference": "docs/review133-external-security-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "정확한 원URL",
+          "요청제한",
+          "반환 전 digest",
+          "원출처 metadata"
+        ],
+        "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW133-kacem-worker",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "정상27쪽 원문과 KACEM 한정 PDF 자원상한",
+      "lifecycle": "specified-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-rankings.mjs",
+          "sha256": "9455dbf313852bdd45b4c8633d34b07b83426cd27cb2e07a4a088f5a67567980",
+          "observedAt": "2026-11-02T06:13:21.580Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "정상27쪽 원문과 KACEM 한정 PDF 자원상한",
+        "reference": "docs/review133-external-security-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "worker512MB/30쪽",
+          "시간/파일제한",
+          "기존다른PDF256MB",
+          "오류종류 구분"
+        ],
+        "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW133-kacem-normalizer",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "공식 표·발표 식별·기존30행 연결",
+      "lifecycle": "specified-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-rankings.mjs",
+          "sha256": "9455dbf313852bdd45b4c8633d34b07b83426cd27cb2e07a4a088f5a67567980",
+          "observedAt": "2026-11-02T06:13:21.580Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공식 표·발표 식별·기존30행 연결",
+        "reference": "docs/review133-external-security-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "독립 원표",
+          "행/열/단위/기간",
+          "동일발표 원문행",
+          "기존 키/댓글 보존"
+        ],
+        "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW133-provider-evidence",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "DART·신용·단가 원근거와 검증된 법인 연결",
+      "lifecycle": "specified-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/maintenance-runtime.mjs",
+          "sha256": "2ec945bf6b7f00c5d645349f42988b35789f1581602363340d16cadbf0b2c588",
+          "observedAt": "2026-11-02T06:13:21.581Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "DART·신용·단가 원근거와 검증된 법인 연결",
+        "reference": "docs/review133-external-security-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "원사이트5건",
+          "법적ID 종류",
+          "runtime query/evidence 전달",
+          "후보/실적/미확정 분리"
+        ],
+        "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
+    },
+    {
+      "componentID": "REVIEW133-formal-report",
+      "parentID": "SEC132-02",
+      "kind": "external-source-or-report-consumer",
+      "label": "정식 보안 보고의 승인된 재개와 실제 완료 경계",
+      "lifecycle": "specified-in-progress",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "docs/review133-external-security-spec.md",
+          "sha256": "c50badf8d3a18ddf5aedebd11fde83e7bc5093225b7837a79d1a18a023f30a7c",
+          "observedAt": "2026-11-02T06:13:21.583Z",
+          "finalFrozen": false
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "정식 보안 보고의 승인된 재개와 실제 완료 경계",
+        "reference": "docs/review133-external-security-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "같은 스캔/동결 대상",
+          "허용된 계정 경로",
+          "정식완료/제품검증 분리"
+        ],
+        "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [],
+          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
     }
   ],
   "popupCandidates": [
@@ -809140,5 +809681,16 @@
         "newLiveProjectRegistration": "not-executed"
       }
     }
+  },
+  "review133": {
+    "at": "2026-11-02T06:13:21.646Z",
+    "spec": "docs/review133-external-security-spec.md",
+    "baseRelease": "C96",
+    "priorRecords": 5208,
+    "priorRecordsSha256": "84d7dde29ceed9c33fb55c385255f46412846e1a2ec43a3d36c16424aa9de202",
+    "addedRecords": 8,
+    "totalRecords": 5216,
+    "status": "in-progress-not-accepted",
+    "allStatesAccepted": false
   }
 }
