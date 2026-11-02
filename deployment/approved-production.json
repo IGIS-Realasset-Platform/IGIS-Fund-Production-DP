@@ -8,12 +8,12 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review133-c99-final-regression-passed-live-pending",
+  "status": "review133-c99-production-verified-backfill-size-blocked",
   "preparedAt": "2026-11-02",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
-  "actualBrowser": "No new browser run. C98 five isolated flows used identical HTML; exact C99 rebuilt artifact equivalence remains a release gate.",
-  "actualAuthenticatedServer": "C99 live verification pending. Preserve historical C98 source results separately.",
+  "actualBrowser": "No new browser run. Rebuilt C99 production and preview artifacts are byte-identical to C98; historical isolated C98 native five runs remain historical only.",
+  "actualAuthenticatedServer": "Exact C99 public HTML200, unauthenticated workspace/notifications/employee-directory401. Actual build regular12/sample6/union18/overlap0. Two normal validation runs proved persisted reference re-entry and progress; two further normal backfill calls ended on PARTNER_SNAPSHOT_TOO_LARGE. Previous immutable snapshot retained.",
   "previousRelease": {
     "version": "0.13.0",
     "candidate": "C98",
@@ -80,7 +80,7 @@
     "currentNativeRuns": 0,
     "historicalC98NativeRuns": 5,
     "businessWorkspaceWrites": 0,
-    "productionRunExecuted": false,
+    "productionRunExecuted": true,
     "wholeTaskComplete": false,
     "historicalC98": {
       "spec": "docs/review133-external-security-spec.md",
@@ -125,6 +125,41 @@
         "kosis": "Direct source not configured; existing KICT source remains distinct",
         "formalSecurityReport": "Official access requirement unmet; not replaced by product tests"
       }
+    },
+    "deployment": {
+      "productionId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
+      "previewId": "dpl_4hS8BmkTV5B9QrGxtojx8K9z84yc",
+      "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
+      "publicObservation": ".build/review132/public-verified-1793614717852.json",
+      "productionPublicHtmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2"
+    },
+    "actualBuildAccessCounts": {
+      "regularCount": 12,
+      "sampleCount": 6,
+      "unionCount": 18,
+      "overlapCount": 0
+    },
+    "runtimeCheckpoint": {
+      "validationNormalCalls": 2,
+      "backfillNormalCalls": 2,
+      "storedReferenceRuntimeReentryObserved": true,
+      "completedThrough": "202610261458",
+      "recoveryComplete": false,
+      "latestSuccessfulReference": "99cad3dd-01ba-44e1-8117-de8c35a5c3c9",
+      "stopReason": "PARTNER_SNAPSHOT_TOO_LARGE",
+      "businessWorkspaceWritesByVerifier": 0,
+      "sourceLimitsIncreased": false,
+      "failedRunWasNotLatestSnapshot": true,
+      "failedSnapshotExistenceDirectlyQueried": true,
+      "failedSnapshotInserted": false,
+      "failedSnapshotExistenceEvidence": ".build/review133/c99-failed-snapshot-existence.json"
+    },
+    "dependencyRefresh": {
+      "evidence": "docs/review133-dependency-refresh.json",
+      "exactDirectPackages": 6,
+      "advisoryCount": 0,
+      "queriedAt": "2026-11-02T10:32:30.550Z",
+      "notFormalSecurityReport": true
     }
   }
 }

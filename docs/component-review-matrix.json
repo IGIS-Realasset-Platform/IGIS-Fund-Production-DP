@@ -2,11 +2,11 @@
   "schemaVersion": "component-review-matrix-v1",
   "deployedRelease": {
     "version": "0.13.0",
-    "candidate": "C98",
+    "candidate": "C99",
     "date": "2026-11-02",
-    "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
-    "productionDeploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
-    "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+    "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
+    "productionDeploymentId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
+    "deploymentId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
     "formalHtmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
     "bytes": 6938519,
     "verification": "docs/review133-current-verification.json",
@@ -45,7 +45,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5226,
+    "totalMatrixRecords": 5231,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -746510,6 +746510,522 @@
       },
       "allStatesAccepted": false,
       "history": []
+    },
+    {
+      "componentID": "REVIEW133-g2b-total-replan",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "집계 건수 변경의 단일 재계획",
+      "lifecycle": "정식 C99의 정상 검증2회 명시 범위를 확인했고 추가 백필 결과는 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-enrichment.mjs",
+          "sha256": "e16847a0f0e7bc67d5eca49037253b1a399b447a6e72e50911274133d56c1592",
+          "observedAt": "2026-11-02T10:09:48.998Z",
+          "finalFrozen": true,
+          "candidate": "C99"
+        }
+      ],
+      "purpose": {
+        "userTask": "집계 건수 변경의 단일 재계획",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "동일 조회 범위",
+          "보존 참조 선행",
+          "다시 집계/본문1쪽",
+          "새 사건 금액 충돌 유지"
+        ],
+        "preservation": "기존 원관측·원금액·과거 판본·공통 예산과 명시 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "동결된 C99 후보 코드의 명시 범위를 확인했습니다. 현재 정식은 C98입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "C99 전체311개 검사군과 신규 의미검사15개를 실행했습니다. 새 SQL 전송은 모형 계약검사입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "C99 새 실제 화면 실행0회입니다. C98의5회 이력은 별도입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "scope": "루트의 정상 검증2회에서 G2B 계약 조회·체크포인트 검증과 수집 진전을 확인했습니다. 전체 과거 수집 완료는 아닙니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "scope": "정상2회차에서 저장된 불변 보존 참조를 실제 PostgreSQL에서 읽고 시각·이력 검증을 통과했습니다. 새로운 금융 원값/지문 대조는 아닙니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "scope": "보존 참조1개와 기존 이력을 유지하고 재계획1회 뒤0회,원천 표기202610252358까지 진전한 범위입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "C99 운영 결과 또는 새 Excel 출력을 수락하지 않았습니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "C99 정식 승격과 공개200/무로그인 API401의 명시 범위만 확인했습니다. 정상 수집이나 실제 SQL 재진입의 통과가 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다."
+    },
+    {
+      "componentID": "REVIEW133-g2b-replan-history",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "재계획 보존 이력의 추가·한도",
+      "lifecycle": "정식 C99의 정상 검증2회 명시 범위를 확인했고 추가 백필 결과는 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-enrichment.mjs",
+          "sha256": "e16847a0f0e7bc67d5eca49037253b1a399b447a6e72e50911274133d56c1592",
+          "observedAt": "2026-11-02T10:09:48.998Z",
+          "finalFrozen": true,
+          "candidate": "C99"
+        }
+      ],
+      "purpose": {
+        "userTask": "재계획 보존 이력의 추가·한도",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "기존 이력 앞부분 보존",
+          "호출당 추가1개",
+          "이력16개",
+          "원관측/진행위치/근거 정확 대조"
+        ],
+        "preservation": "기존 원관측·원금액·과거 판본·공통 예산과 명시 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "동결된 C99 후보 코드의 명시 범위를 확인했습니다. 현재 정식은 C98입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "C99 전체311개 검사군과 신규 의미검사15개를 실행했습니다. 새 SQL 전송은 모형 계약검사입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "C99 새 실제 화면 실행0회입니다. C98의5회 이력은 별도입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "scope": "루트의 정상 검증2회에서 G2B 계약 조회·체크포인트 검증과 수집 진전을 확인했습니다. 전체 과거 수집 완료는 아닙니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "scope": "정상2회차에서 저장된 불변 보존 참조를 실제 PostgreSQL에서 읽고 시각·이력 검증을 통과했습니다. 새로운 금융 원값/지문 대조는 아닙니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "scope": "보존 참조1개와 기존 이력을 유지하고 재계획1회 뒤0회,원천 표기202610252358까지 진전한 범위입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "C99 운영 결과 또는 새 Excel 출력을 수락하지 않았습니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "C99 정식 승격과 공개200/무로그인 API401의 명시 범위만 확인했습니다. 정상 수집이나 실제 SQL 재진입의 통과가 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다."
+    },
+    {
+      "componentID": "REVIEW133-g2b-replan-reference-sql",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "불변 과거 참조와 생성 시각 검증",
+      "lifecycle": "정식 C99의 정상 검증2회 명시 범위를 확인했고 추가 백필 결과는 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/maintenance-runtime.mjs",
+          "sha256": "b7071402d1dd3a2b3897bcbb29fcd776d0b9b2d837f26c10edeac9544eadc0c9",
+          "observedAt": "2026-11-02T10:09:48.998Z",
+          "finalFrozen": true,
+          "candidate": "C99"
+        }
+      ],
+      "purpose": {
+        "userTask": "불변 과거 참조와 생성 시각 검증",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "현재 준비 원본 참조",
+          "저장된 자기/앞선/없는 참조 차단",
+          "PostgreSQL 시각 직접 비교",
+          "실제 SQL 실행 미수락"
+        ],
+        "preservation": "기존 원관측·원금액·과거 판본·공통 예산과 명시 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "동결된 C99 후보 코드의 명시 범위를 확인했습니다. 현재 정식은 C98입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "C99 전체311개 검사군과 신규 의미검사15개를 실행했습니다. 새 SQL 전송은 모형 계약검사입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "C99 새 실제 화면 실행0회입니다. C98의5회 이력은 별도입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "scope": "루트의 정상 검증2회에서 G2B 계약 조회·체크포인트 검증과 수집 진전을 확인했습니다. 전체 과거 수집 완료는 아닙니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "scope": "정상2회차에서 저장된 불변 보존 참조를 실제 PostgreSQL에서 읽고 시각·이력 검증을 통과했습니다. 새로운 금융 원값/지문 대조는 아닙니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "scope": "보존 참조1개와 기존 이력을 유지하고 재계획1회 뒤0회,원천 표기202610252358까지 진전한 범위입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "C99 운영 결과 또는 새 Excel 출력을 수락하지 않았습니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "C99 정식 승격과 공개200/무로그인 API401의 명시 범위만 확인했습니다. 정상 수집이나 실제 SQL 재진입의 통과가 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다."
+    },
+    {
+      "componentID": "REVIEW133-g2b-replan-budget",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "재계획의 기한·미게시 관측 경계",
+      "lifecycle": "정식 C99의 정상 검증2회 명시 범위를 확인했고 추가 백필 결과는 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-enrichment.mjs",
+          "sha256": "e16847a0f0e7bc67d5eca49037253b1a399b447a6e72e50911274133d56c1592",
+          "observedAt": "2026-11-02T10:09:48.998Z",
+          "finalFrozen": true,
+          "candidate": "C99"
+        }
+      ],
+      "purpose": {
+        "userTask": "재계획의 기한·미게시 관측 경계",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "호출당1회",
+          "원조회 기준시각 유지",
+          "미게시 증가분 대기",
+          "기존 요청/시간/자료/바이트 한도"
+        ],
+        "preservation": "기존 원관측·원금액·과거 판본·공통 예산과 명시 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "동결된 C99 후보 코드의 명시 범위를 확인했습니다. 현재 정식은 C98입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "C99 전체311개 검사군과 신규 의미검사15개를 실행했습니다. 새 SQL 전송은 모형 계약검사입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "C99 새 실제 화면 실행0회입니다. C98의5회 이력은 별도입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "scope": "루트의 정상 검증2회에서 G2B 계약 조회·체크포인트 검증과 수집 진전을 확인했습니다. 전체 과거 수집 완료는 아닙니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "scope": "정상2회차에서 저장된 불변 보존 참조를 실제 PostgreSQL에서 읽고 시각·이력 검증을 통과했습니다. 새로운 금융 원값/지문 대조는 아닙니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "scope": "보존 참조1개와 기존 이력을 유지하고 재계획1회 뒤0회,원천 표기202610252358까지 진전한 범위입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "C99 운영 결과 또는 새 Excel 출력을 수락하지 않았습니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "C99 정식 승격과 공개200/무로그인 API401의 명시 범위만 확인했습니다. 정상 수집이나 실제 SQL 재진입의 통과가 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다."
+    },
+    {
+      "componentID": "REVIEW133-partner-snapshot-size-boundary",
+      "parentID": "OPS132-05",
+      "kind": "storage-consumer",
+      "label": "원천 참조판본 크기·저장 소비자 경계",
+      "lifecycle": "실제 저장 실패를 확인해 원인을 진단 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/maintenance-runtime.mjs",
+          "sha256": "b7071402d1dd3a2b3897bcbb29fcd776d0b9b2d837f26c10edeac9544eadc0c9",
+          "candidate": "C99",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T10:09:48.998Z"
+        },
+        {
+          "path": "server/partner-collector.mjs",
+          "sha256": "c309ea96d2469dae57b1922cba211fc81a97e276c821ec6f8d86ce693f37f0cd",
+          "candidate": "C99",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T10:09:48.998Z"
+        }
+      ],
+      "purpose": {
+        "userTask": "원본을 보존하면서 원천 수집 결과를 저장하는 경계를 확인합니다.",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "원천 결과 합치기",
+          "전체 참조판본 직렬화",
+          "32MiB 저장 상한",
+          "신규 판본 확정/기존 판본 보존"
+        ],
+        "preservation": "원본 삭제·임의 상한 증가·금액 변형으로 실패를 숨기지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "contentReviewed",
+          "scope": "현행 C99가 크기 초과를 거절한 사실과 저장 소비자 경계를 확인 중입니다. 원인은 아직 확정하지 않았습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "scope": "기존311개 검사군 통과를 이번 실제 증가 자료의 정상 저장 검사로 승계하지 않습니다. 새 원인 반례는 아직 확인 중입니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "사용자 화면 결함이나 새 실제 화면 검수로 보고하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "fail",
+          "scope": "두 번째 백필의 업체자료 수집에서 PARTNER_SNAPSHOT_TOO_LARGE가 실제 발생했습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "block",
+          "scope": "초과된 신규 원천 판본의 확정 저장은 차단됐으며 직전 성공 판본을 유지했습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "scope": "실패한 실행은 최신 판본이 아니며 직전 판본·완료 범위를 유지한 메타정보를 확인했습니다. 전체 금융 원값 지문 대조는 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "block",
+          "scope": "새 원천 판본 출력은 실패했으며 요구사항 Excel은 marker0/export0으로 보류합니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false
     }
   ],
   "popupCandidates": [
@@ -808161,15 +808677,15 @@
   },
   "currentOwnerJsonObservation": null,
   "currentRegression": {
-    "id": "REVIEW133-C98-REGRESSION",
-    "path": "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
-    "sha256": "404319806247c50af047f25089d0f0df5d506f528ab4531e0c09b0729a62d60c",
+    "id": "REVIEW133-C99-REGRESSION",
+    "path": "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+    "sha256": "c0704aaca38d07cfebecbd30c7ce0036b07e27e9295a721d163791ab114edabb",
     "version": "0.13.0",
-    "candidate": "C98",
-    "passed": 310,
+    "candidate": "C99",
+    "passed": 311,
     "failed": 0,
     "preparationBlocked": 0,
-    "sourcePins": 651,
+    "sourcePins": 652,
     "sourceChanged": [],
     "validSingleFinalSource": true,
     "isNotUICount": true
@@ -811466,21 +811982,21 @@
     "baseRelease": "C96",
     "priorRecords": 5208,
     "priorRecordsSha256": "84d7dde29ceed9c33fb55c385255f46412846e1a2ec43a3d36c16424aa9de202",
-    "addedRecords": 18,
-    "totalRecords": 5226,
-    "status": "정식 C98 중간 상태이며 C99 복구는 진행 중입니다.",
+    "addedRecords": 23,
+    "totalRecords": 5231,
+    "status": "정식 C99를 유지하며 실제 원천 참조판본 크기 초과 결함의 원인을 확인 중입니다.",
     "allStatesAccepted": false,
-    "checkpoint": "C98",
+    "checkpoint": "C99",
     "initialAddedRecords": 8,
     "additionalConsumerRecords": 10,
     "release": {
-      "candidate": "C98",
-      "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
-      "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+      "candidate": "C99",
+      "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
+      "deploymentId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
       "htmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
       "htmlBytes": 6938519,
-      "promotedAt": "2026-11-02T09:08:40.214Z",
-      "publicVerifiedAt": "2026-11-02T09:09:24.834Z",
+      "promotedAt": "2026-11-02T10:18:30.451Z",
+      "publicVerifiedAt": "2026-11-02T10:18:37.849Z",
       "httpStatus": 200,
       "unauthenticatedApis": {
         "workspace": 401,
@@ -811488,119 +812004,115 @@
         "employeeDirectory": 401
       },
       "productionAliasMatched": true,
+      "actualBuildAccessCounts": {
+        "regularCount": 12,
+        "sampleCount": 6,
+        "unionCount": 18,
+        "overlapCount": 0
+      },
+      "mailSent": false,
       "authenticatedMemberTested": false
     },
     "automatic": {
-      "evidence": "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
-      "sha256": "404319806247c50af047f25089d0f0df5d506f528ab4531e0c09b0729a62d60c",
-      "passed": 310,
+      "evidence": "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+      "sha256": "c0704aaca38d07cfebecbd30c7ce0036b07e27e9295a721d163791ab114edabb",
+      "passed": 311,
       "failed": 0,
       "preparationBlocked": 0,
-      "sourcePins": 651,
+      "sourcePins": 652,
       "sourceChangedDuringRun": 0,
       "validSingleFinalSource": true,
-      "meaning": "검사군310개이며 사용자 기능310개를 뜻하지 않습니다. C99 수정본의 통과로 승계하지 않습니다.",
-      "kacem": {
-        "passed": 22,
-        "synthetic": 17,
-        "actualOriginalPdf": 5,
-        "priorOfficialCases": 3,
-        "newTimeBoundaryCases": 2
-      },
-      "focused": {
-        "g2bTokenizer": 13,
-        "g2bDiagnostics": 12,
-        "dartReceipt": 9,
-        "dartRuntime": 13,
-        "providedObservations": 27,
-        "providedDisplay": 20
-      }
+      "newG2bChecks": 15,
+      "kacemChecks": 22,
+      "actualOriginalPdfChecks": 5,
+      "meaning": "정식 C99의 검사군311개이며 기능311개나 실제 원천 복구 완료를 뜻하지 않습니다."
     },
     "native": {
+      "newExecutions": 0,
+      "identicalHtmlHistoricalCandidate": "C98",
+      "identicalHtmlHistoricalExecutions": 5,
       "htmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
-      "executions": 5,
-      "pageErrors": 0,
-      "companyDetail": {
-        "executions": 4,
-        "widths": [
-          1280,
-          390
-        ],
-        "cases": [
-          "금액이 있는 정정 공시",
-          "공식 금액은 미확정이고 기존 제공값만 있는 공시"
-        ],
-        "amountCellReachable": true,
-        "closeReopen": true,
-        "rawValuesPreserved": true
-      },
-      "sampleCore": {
-        "executions": 1,
-        "width": 1280,
-        "projects": 3,
-        "globalRequests": 0,
-        "regularAccountReturn": true
-      },
-      "scope": "격리된 브라우저에서 모든 요청을 합성 응답으로 대체한 명시 범위입니다. 운영 회원 로그인이나 실제 업무 저장은 수행하지 않았습니다. 과거8회·15회 결과를 합산하지 않습니다.",
-      "evidence": "docs/review132-provided-dart-view.md"
+      "byteEquivalent": true,
+      "acceptedAsNewExecutions": false,
+      "scope": "정식 파일은 C98과 바이트가 같으며 기존5회는 이력과 동등성으로만 보존합니다."
     },
     "actualCollection": {
-      "triggerCount": 1,
-      "partnerRunId": "2551aba5-a03a-43f9-af71-0af38e0356d7",
-      "startedAt": "2026-11-02T09:15:41.332922Z",
-      "finishedAt": "2026-11-02T09:16:54.932339Z",
-      "status": "일부 원천은 미완료입니다.",
-      "sourceCounts": {
-        "failed": 0,
-        "success": 218,
-        "not_modified": 1,
-        "partial_failure": 2,
-        "configuration_missing": 3
-      },
-      "completeSourceStates": 219,
-      "partialSourceStates": 2,
-      "configurationMissingStates": 3,
-      "allSourcesComplete": false,
-      "kacem": {
-        "status": "성공했습니다.",
-        "pages": 27,
-        "validatedOriginalRows": 100,
-        "currentTopRows": 30,
-        "periodFrom": "2026-01-01",
-        "periodThrough": "2026-09-30",
-        "originalSha256": "216cebafe0ca74bfd3bf4f548d1df1da9109ffb1a1b7dfcfb0ff4ae8886b1ed3",
-        "elapsedMs": 8339,
-        "selectedTimeoutMs": 30000,
-        "sourceRemainingAtStartMs": 58559,
-        "meaning": "공식 발표 원문과 원문행 연결입니다. 업체명이나 순위를 법적 회사 동일성으로 승격하지 않습니다."
-      },
-      "dart": {
-        "contractsComplete": true,
-        "currentVerifiedProfiles": 1,
-        "identityComplete": true,
-        "errorCode": null,
-        "storedVerifiedProfiles": 2,
-        "storedObservations": 5,
-        "historicalProfilePromotedToCurrent": 0,
-        "scope": "현재 표에 속한 법인1개만 승인된 공시 범위로 조회했습니다. 과거 법인1개의 관측4개를 현재 회사로 추가하지 않았습니다."
-      },
-      "g2b": {
-        "status": "부분 상태입니다.",
-        "parserFailureRecurred": false,
-        "completedThrough": "202610231158",
-        "activeObservedRecords": 300,
-        "errorCode": "G2B_TOTAL_CHANGED",
+      "candidate": "C99",
+      "executed": true,
+      "status": "정식 C99를 유지하며 실제 원천 참조판본 크기 초과 결함의 원인을 확인 중입니다.",
+      "previousC98History": "previousC98Checkpoint.actualCollection",
+      "newPostgresReentryAccepted": true,
+      "triggered": true,
+      "triggerCount": 4,
+      "triggerAt": "2026-11-02T10:21:29.341Z",
+      "cliExitCode": 0,
+      "cliFinishedAt": "2026-11-02T10:21:32.391Z",
+      "serverOutcomeAccepted": false,
+      "validation": {
+        "candidate": "C99",
+        "normalVerificationCalls": 2,
+        "completedVerificationCalls": 2,
+        "firstPartnerRunId": "212c61c7-beac-4b0b-898c-d26bdc41c44c",
+        "secondPartnerRunId": "265edcff-5323-4af6-9953-e2bc9b6a0d9d",
+        "status": "정상 검증2회의 명시 범위를 확인했으며 전체 과거 수집은 미완료입니다.",
+        "firstSourceCounts": {
+          "failed": 0,
+          "success": 190,
+          "deferred": 0,
+          "not_modified": 1,
+          "partial_failure": 2,
+          "configuration_missing": 3
+        },
+        "firstCountPreservationChecksPassed": 8,
+        "firstReplanCount": 1,
+        "secondReplanCount": 0,
+        "preservedReplanReferences": 1,
+        "completedThroughBefore": "202610231158",
+        "completedThroughAfterFirst": "202610232358",
+        "completedThroughAfterSecond": "202610252358",
+        "pendingErrorCodeAfterSecond": null,
+        "storedPastReferenceSqlRuntimeReentryVerified": true,
         "recoveryComplete": false,
-        "nextCandidate": "C99",
-        "nextScope": "기존 관측을 보존하며 집계 건수 변경 시 재계획하는 코드 복구를 진행 중입니다. 배포·실행·수락은 아직 하지 않았습니다."
+        "additionalBackfill": {
+          "maximumCalls": 6,
+          "callsExecuted": 2,
+          "stopped": true,
+          "stopReason": "PARTNER_SNAPSHOT_TOO_LARGE",
+          "stoppedBeforeCallLimit": true,
+          "additionalCallsAfterStop": 0,
+          "recoveryComplete": false
+        },
+        "evidenceScope": "첫 원천 결과 메타와 루트가 확인한 두 번째 저장 참조 재진입 결과입니다. 회사 원문·금액·금융 지문을 반환하지 않았습니다."
       },
-      "afterMetadata": {
-        "storedVerifiedProfiles": 2,
-        "storedObservations": 5,
-        "historicalProfilePromotedToCurrent": 0,
-        "workspaceRevision": 59
-      },
-      "evidenceDisposition": "상세 적용·배포·공개 확인·실제 원천 결과의 원본 영수증은 비공개 운영 증거로 보관합니다. 공개 요약에는 회사 식별번호·금액·직원 원문·키를 넣지 않습니다."
+      "totalNormalCalls": 4,
+      "validationNormalCalls": 2,
+      "backfillNormalCalls": 2,
+      "serverOutcomeObserved": true,
+      "normalVerificationScopedAccepted": true,
+      "wholeCollectionAccepted": false,
+      "snapshotSizeBlock": {
+        "status": "실제 원천 참조판본 저장이 상한에서 차단돼 원인을 확인 중입니다.",
+        "errorCode": "PARTNER_SNAPSHOT_TOO_LARGE",
+        "partnerRunId": "bb5120e4-6f87-445e-94f2-c7f2c62f0e19",
+        "dailyRunId": "5c407241-5a25-4a6e-ba29-cbbd7b119ea1",
+        "startedAt": "2026-11-02T10:42:26.073919+00:00",
+        "finishedAt": "2026-11-02T10:43:41.705681+00:00",
+        "validationNormalCalls": 2,
+        "backfillNormalCalls": 2,
+        "totalNormalCalls": 4,
+        "backfillMaximumCalls": 6,
+        "stoppedBeforeCallLimit": true,
+        "stopCause": "원천 참조판본의32×1024×1024바이트 상한 초과입니다.",
+        "latestSuccessfulReference": "99cad3dd-01ba-44e1-8117-de8c35a5c3c9",
+        "latestReferenceRetained": true,
+        "failedRunPublished": false,
+        "completedThrough": "202610261458",
+        "targetCompleteThrough": "202611021938",
+        "recoveryComplete": false,
+        "additionalCallsAfterStop": 0,
+        "diagnosis": "원본을 삭제하거나 상한을 임의로 늘리지 않고 자료가 여러 저장 소비자에 연결되는 경계를 진단 중입니다. 중복이 실제 원인이라고 아직 확정하지 않았습니다.",
+        "scope": "기존 C99의311개 검사군 통과와 이후 실제 자료에서 발생한 저장 실패를 구분합니다. 호출 한도 도달이나 전체 업무 완료로 마감하지 않습니다."
+      }
     },
     "registration": {
       "status": "루트의 실제 적용과 확정 응답을 확인했습니다.",
@@ -811636,7 +812148,7 @@
       {
         "id": "OPS132-05",
         "status": "미완료입니다.",
-        "scope": "G2B 복구는 C99 진행 중이며 신용평가기관과 법인 연결 근거, 실제 원계약·같은 범위 면적·금액과 부가세를 갖춘 단가 확정이 남아 있습니다."
+        "scope": "C99 원천 참조판본의32MiB 초과 저장 실패 원인을 확인 중입니다. 신용기관/법인 근거와 원계약·같은 범위 면적·금액/부가세 단가도 미완료입니다."
       },
       {
         "id": "SEC132-02",
@@ -811686,6 +812198,225 @@
     },
     "allPlatformAccepted": false,
     "countMeaning": "기록과 반복실행 수는 고유 기능 수가 아닙니다.",
-    "evidence": "docs/review133-current-verification.json"
+    "evidence": "docs/review133-current-verification.json",
+    "c99Candidate": {
+      "candidate": "C99",
+      "status": "정식 C99를 유지하며 실제 원천 참조판본 크기 초과 결함의 원인을 확인 중입니다.",
+      "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
+      "currentProductionStill": "C99",
+      "scope": "G2B 집계 건수 변경의 호출당1회 재계획과 기존 관측 보존 참조를 보완했습니다.",
+      "automatic": {
+        "evidence": "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+        "sha256": "c0704aaca38d07cfebecbd30c7ce0036b07e27e9295a721d163791ab114edabb",
+        "passed": 311,
+        "failed": 0,
+        "preparationBlocked": 0,
+        "sourcePins": 652,
+        "sourceChangedDuringRun": 0,
+        "validSingleFinalSource": true,
+        "newG2bChecks": 15,
+        "kacemChecks": 22,
+        "actualOriginalPdfChecks": 5
+      },
+      "sourceChanges": [
+        "server/partner-enrichment.mjs",
+        "server/maintenance-runtime.mjs",
+        "tests/review132-g2b-total-replan.mjs"
+      ],
+      "sourcePins": {
+        "server/partner-enrichment.mjs": "e16847a0f0e7bc67d5eca49037253b1a399b447a6e72e50911274133d56c1592",
+        "server/maintenance-runtime.mjs": "b7071402d1dd3a2b3897bcbb29fcd776d0b9b2d837f26c10edeac9544eadc0c9",
+        "tests/review132-g2b-total-replan.mjs": "59c089d868ead958b4c940c16b215ba290c6a9a111cb2be8e463917d36861f52"
+      },
+      "builtProductionHtml": {
+        "sha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
+        "bytes": 6938519,
+        "byteEquivalentToC98": true,
+        "meaning": "재빌드 파일의 동등성입니다. C99 정식 주소 검수나 실제 운영 검수는 아닙니다."
+      },
+      "native": {
+        "newExecutions": 0,
+        "existingC98Executions": 5,
+        "acceptedAsNewC99Executions": false,
+        "scope": "같은 파일의 C98 검수 이력과 바이트 동등성만 보존합니다."
+      },
+      "deploymentAccepted": true,
+      "normalCollectionAccepted": false,
+      "newPostgresReentryAccepted": true,
+      "limitation": "자동검사는 모형 계약검사였고 정상2회차에서 실제 저장 참조 SQL 재진입을 확인했습니다. 전체 과거 수집·신용·단가·정식 보안 보고 완료는 아닙니다.",
+      "excelExported": false,
+      "publicVerified": true,
+      "normalCollectionStarted": true,
+      "normalVerificationScopedAccepted": true,
+      "snapshotSizeBlocked": true
+    },
+    "c99CandidateConsumerRecords": 4,
+    "priorC98CheckpointRecords": 5226,
+    "priorC98PrefixSha256": "8c8a9cfdbd8154c9b832a5bdf12cb1755f53f0de131c317085a9dda899a55eba",
+    "c98DeployedCheckpoint": {
+      "release": {
+        "candidate": "C98",
+        "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
+        "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+        "htmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
+        "htmlBytes": 6938519,
+        "promotedAt": "2026-11-02T09:08:40.214Z",
+        "publicVerifiedAt": "2026-11-02T09:09:24.834Z",
+        "httpStatus": 200,
+        "unauthenticatedApis": {
+          "workspace": 401,
+          "notifications": 401,
+          "employeeDirectory": 401
+        },
+        "productionAliasMatched": true,
+        "authenticatedMemberTested": false
+      },
+      "automatic": {
+        "evidence": "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+        "sha256": "404319806247c50af047f25089d0f0df5d506f528ab4531e0c09b0729a62d60c",
+        "passed": 310,
+        "failed": 0,
+        "preparationBlocked": 0,
+        "sourcePins": 651,
+        "sourceChangedDuringRun": 0,
+        "validSingleFinalSource": true,
+        "meaning": "검사군310개이며 사용자 기능310개를 뜻하지 않습니다. C99 수정본의 통과로 승계하지 않습니다.",
+        "kacem": {
+          "passed": 22,
+          "synthetic": 17,
+          "actualOriginalPdf": 5,
+          "priorOfficialCases": 3,
+          "newTimeBoundaryCases": 2
+        },
+        "focused": {
+          "g2bTokenizer": 13,
+          "g2bDiagnostics": 12,
+          "dartReceipt": 9,
+          "dartRuntime": 13,
+          "providedObservations": 27,
+          "providedDisplay": 20
+        }
+      },
+      "native": {
+        "htmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
+        "executions": 5,
+        "pageErrors": 0,
+        "companyDetail": {
+          "executions": 4,
+          "widths": [
+            1280,
+            390
+          ],
+          "cases": [
+            "금액이 있는 정정 공시",
+            "공식 금액은 미확정이고 기존 제공값만 있는 공시"
+          ],
+          "amountCellReachable": true,
+          "closeReopen": true,
+          "rawValuesPreserved": true
+        },
+        "sampleCore": {
+          "executions": 1,
+          "width": 1280,
+          "projects": 3,
+          "globalRequests": 0,
+          "regularAccountReturn": true
+        },
+        "scope": "격리된 브라우저에서 모든 요청을 합성 응답으로 대체한 명시 범위입니다. 운영 회원 로그인이나 실제 업무 저장은 수행하지 않았습니다. 과거8회·15회 결과를 합산하지 않습니다.",
+        "evidence": "docs/review132-provided-dart-view.md"
+      },
+      "actualCollection": {
+        "triggerCount": 1,
+        "partnerRunId": "2551aba5-a03a-43f9-af71-0af38e0356d7",
+        "startedAt": "2026-11-02T09:15:41.332922Z",
+        "finishedAt": "2026-11-02T09:16:54.932339Z",
+        "status": "일부 원천은 미완료입니다.",
+        "sourceCounts": {
+          "failed": 0,
+          "success": 218,
+          "not_modified": 1,
+          "partial_failure": 2,
+          "configuration_missing": 3
+        },
+        "completeSourceStates": 219,
+        "partialSourceStates": 2,
+        "configurationMissingStates": 3,
+        "allSourcesComplete": false,
+        "kacem": {
+          "status": "성공했습니다.",
+          "pages": 27,
+          "validatedOriginalRows": 100,
+          "currentTopRows": 30,
+          "periodFrom": "2026-01-01",
+          "periodThrough": "2026-09-30",
+          "originalSha256": "216cebafe0ca74bfd3bf4f548d1df1da9109ffb1a1b7dfcfb0ff4ae8886b1ed3",
+          "elapsedMs": 8339,
+          "selectedTimeoutMs": 30000,
+          "sourceRemainingAtStartMs": 58559,
+          "meaning": "공식 발표 원문과 원문행 연결입니다. 업체명이나 순위를 법적 회사 동일성으로 승격하지 않습니다."
+        },
+        "dart": {
+          "contractsComplete": true,
+          "currentVerifiedProfiles": 1,
+          "identityComplete": true,
+          "errorCode": null,
+          "storedVerifiedProfiles": 2,
+          "storedObservations": 5,
+          "historicalProfilePromotedToCurrent": 0,
+          "scope": "현재 표에 속한 법인1개만 승인된 공시 범위로 조회했습니다. 과거 법인1개의 관측4개를 현재 회사로 추가하지 않았습니다."
+        },
+        "g2b": {
+          "status": "부분 상태입니다.",
+          "parserFailureRecurred": false,
+          "completedThrough": "202610231158",
+          "activeObservedRecords": 300,
+          "errorCode": "G2B_TOTAL_CHANGED",
+          "recoveryComplete": false,
+          "nextCandidate": "C99",
+          "nextScope": "기존 관측을 보존하며 집계 건수 변경 시 재계획하는 코드 복구를 진행 중입니다. 배포·실행·수락은 아직 하지 않았습니다."
+        },
+        "afterMetadata": {
+          "storedVerifiedProfiles": 2,
+          "storedObservations": 5,
+          "historicalProfilePromotedToCurrent": 0,
+          "workspaceRevision": 59
+        },
+        "evidenceDisposition": "상세 적용·배포·공개 확인·실제 원천 결과의 원본 영수증은 비공개 운영 증거로 보관합니다. 공개 요약에는 회사 식별번호·금액·직원 원문·키를 넣지 않습니다."
+      }
+    },
+    "currentStorageDefectRecords": 1,
+    "dependencyRefresh": {
+      "evidence": "docs/review133-dependency-refresh.json",
+      "queriedAt": "2026-11-02T10:32:30.550Z",
+      "httpStatus": 200,
+      "directPackageVersions": 6,
+      "advisoryCount": 0,
+      "installationOrUpdatePerformed": false,
+      "dependencyFilesChanged": false,
+      "scope": "공개 직접 의존성6개 정확 버전의 보조 조회입니다. 전이 의존성·전체 플랫폼 안전성·정식 보안 보고 완료를 뜻하지 않습니다."
+    },
+    "currentSnapshotBlock": {
+      "status": "실제 원천 참조판본 저장이 상한에서 차단돼 원인을 확인 중입니다.",
+      "errorCode": "PARTNER_SNAPSHOT_TOO_LARGE",
+      "partnerRunId": "bb5120e4-6f87-445e-94f2-c7f2c62f0e19",
+      "dailyRunId": "5c407241-5a25-4a6e-ba29-cbbd7b119ea1",
+      "startedAt": "2026-11-02T10:42:26.073919+00:00",
+      "finishedAt": "2026-11-02T10:43:41.705681+00:00",
+      "validationNormalCalls": 2,
+      "backfillNormalCalls": 2,
+      "totalNormalCalls": 4,
+      "backfillMaximumCalls": 6,
+      "stoppedBeforeCallLimit": true,
+      "stopCause": "원천 참조판본의32×1024×1024바이트 상한 초과입니다.",
+      "latestSuccessfulReference": "99cad3dd-01ba-44e1-8117-de8c35a5c3c9",
+      "latestReferenceRetained": true,
+      "failedRunPublished": false,
+      "completedThrough": "202610261458",
+      "targetCompleteThrough": "202611021938",
+      "recoveryComplete": false,
+      "additionalCallsAfterStop": 0,
+      "diagnosis": "원본을 삭제하거나 상한을 임의로 늘리지 않고 자료가 여러 저장 소비자에 연결되는 경계를 진단 중입니다. 중복이 실제 원인이라고 아직 확정하지 않았습니다.",
+      "scope": "기존 C99의311개 검사군 통과와 이후 실제 자료에서 발생한 저장 실패를 구분합니다. 호출 한도 도달이나 전체 업무 완료로 마감하지 않습니다."
+    }
   }
 }

@@ -1,0 +1,57 @@
+{
+  "startedAt": "2026-11-02T10:32:30.047Z",
+  "queriedAt": "2026-11-02T10:32:30.550Z",
+  "status": "queried",
+  "endpoint": "https://registry.npmjs.org/-/npm/v1/security/advisories/bulk",
+  "httpStatus": 200,
+  "packages": [
+    {
+      "name": "better-auth",
+      "version": "1.7.8",
+      "advisoryCount": 0,
+      "advisories": []
+    },
+    {
+      "name": "kysely",
+      "version": "0.29.6",
+      "advisoryCount": 0,
+      "advisories": []
+    },
+    {
+      "name": "nodemailer",
+      "version": "10.1.4",
+      "advisoryCount": 0,
+      "advisories": []
+    },
+    {
+      "name": "pg",
+      "version": "8.23.1",
+      "advisoryCount": 0,
+      "advisories": []
+    },
+    {
+      "name": "pdf2json",
+      "version": "4.1.0",
+      "advisoryCount": 0,
+      "advisories": []
+    },
+    {
+      "name": "read-excel-file",
+      "version": "9.3.12",
+      "advisoryCount": 0,
+      "advisories": []
+    }
+  ],
+  "totalAdvisoryCount": 0,
+  "requestBodySha256": "4aa7bc51fffc202a74c17fbe84e77029e2a0e0e3e0b6944830239af72ead5aac",
+  "responseBodySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "responseBytes": 2,
+  "scope": "허용된6개 직접 의존성의 정확 버전만 조회했습니다. 전이 의존성·전체 플랫폼의 안전성·정식 보안 보고가 아닙니다.",
+  "sourceOrBusinessOrStaffOrPasswordsSent": false,
+  "transitiveDependenciesSent": false,
+  "authorizationHeaderSent": false,
+  "redirectFollowed": false,
+  "installationOrUpdatePerformed": false,
+  "dependencyFilesChanged": [],
+  "officialSchemaReference": "https://docs.npmjs.com/cli/v11/commands/npm-audit/#bulk-advisory-endpoint"
+}
