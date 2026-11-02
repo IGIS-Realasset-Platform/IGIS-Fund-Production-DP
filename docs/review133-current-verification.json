@@ -329,7 +329,7 @@
     ],
     "consumerRecords": 7,
     "implementation": "pass",
-    "automatic": "집중 범위 통과·전체 재실행 대기",
+    "automatic": "새 단일 전체313개 검사군 통과·실패/준비차단0·655파일 지문 변경0입니다.",
     "actualDeployment": "pass",
     "actualDatabase": "notrun",
     "actualReentry": "notrun",
@@ -850,5 +850,15 @@
         "dependencyDocumentsChangedDuringRun": 0
       }
     }
+  },
+  "documentSourceReview": {
+    "topLevelItems": 35,
+    "listedTopLevelItems": 29,
+    "filenameCandidates": 8,
+    "childFoldersRead": false,
+    "fileBodiesRead": false,
+    "officialReadConnectionEstablished": false,
+    "wholeSourceReviewed": false,
+    "scope": "지정 공용폴더는 최상위35개 중29개 목록과 후보8개만 확인했습니다. 하위폴더와 본문은 읽지 못했으며 공식 읽기 연결도 확보하지 못했습니다. 전체 자료 검토 완료가 아닙니다."
   }
 }
