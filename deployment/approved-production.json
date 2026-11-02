@@ -8,12 +8,12 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review133-c98-verified-candidate-live-verification-pending",
+  "status": "review133-c98-formal-verified-scoped-sources-c99-in-progress",
   "preparedAt": "2026-11-02",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
   "actualBrowser": "Exact C98 production Git HTML e6708189: four company-detail viewport/case runs and one sample-access viewport run; page errors0; real user authentication/cookies/database not used.",
-  "actualAuthenticatedServer": "C98 candidate pending deployment. Current real server C97 collection revealed the two source boundaries. Existing account policy unchanged; actual C98 collection pending.",
+  "actualAuthenticatedServer": "C98 exact public file200, workspace/notifications/employee-directory unauthenticated401, production alias matched. Actual build allowed12+sample6=18/overlap0, mailSentfalse. KACEM and provided DART contracts succeeded in one normal collection; G2B total-drift recovery remains C99 work.",
   "previousRelease": {
     "version": "0.13.0",
     "candidate": "C97",
@@ -79,8 +79,28 @@
     },
     "currentNativeRuns": 5,
     "businessWorkspaceWrites": 0,
-    "providedEvidenceRegistration": "root-prepare-only-not-applied",
-    "productionRunExecuted": false,
-    "wholeTaskComplete": false
+    "providedEvidenceRegistration": {
+      "insertedSnapshots": 1,
+      "updatedOrDeletedExistingSnapshots": 0,
+      "issuers": 2,
+      "observations": 5,
+      "eligibleUnitCosts": 0,
+      "workspaceAndOrgdbWrites": 0
+    },
+    "productionRunExecuted": true,
+    "wholeTaskComplete": false,
+    "release": {
+      "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
+      "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+      "publicEvidence": ".build/review132/public-verified-1793610564836.json",
+      "actualNativeRuns": 5
+    },
+    "remaining": {
+      "g2b": "C99 bounded total-drift replan in progress",
+      "credit": "Agency-to-legal-entity evidence unconfirmed",
+      "unitCost": "Original contract and same amount/area scope unconfirmed",
+      "kosis": "Direct source not configured; existing KICT source remains distinct",
+      "formalSecurityReport": "Official access requirement unmet; not replaced by product tests"
+    }
   }
 }

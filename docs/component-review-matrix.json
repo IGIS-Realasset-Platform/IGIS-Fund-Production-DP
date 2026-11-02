@@ -2,14 +2,14 @@
   "schemaVersion": "component-review-matrix-v1",
   "deployedRelease": {
     "version": "0.13.0",
-    "candidate": "C93",
-    "date": "2026-10-29",
-    "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
-    "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
-    "productionDeploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
-    "formalHtmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
-    "bytes": 6910675,
-    "verification": "docs/review131-final-verification.json",
+    "candidate": "C98",
+    "date": "2026-11-02",
+    "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
+    "productionDeploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+    "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+    "formalHtmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
+    "bytes": 6938519,
+    "verification": "docs/review133-current-verification.json",
     "allComponentsAccepted": false
   },
   "at": "2026-10-23T04:12:22.096Z",
@@ -45,7 +45,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5216,
+    "totalMatrixRecords": 5226,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -744200,14 +744200,15 @@
       "parentID": "OPS132-05",
       "kind": "external-source-or-report-consumer",
       "label": "G2B 당사자 오류의 유한 형태 진단",
-      "lifecycle": "specified-in-progress",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/partner-enrichment.mjs",
-          "sha256": "a09ec5cd5bcf2211b529e9ab0dd2285116512c1014095fb9c3facfdf0aafa086",
-          "observedAt": "2026-11-02T06:13:21.574Z",
-          "finalFrozen": false
+          "sha256": "92ed6764868282f35bf8ee014809765d0582ac90887c3d80c0d2ffe5c1fb98a4",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
         }
       ],
       "policyBasis": [
@@ -744229,51 +744230,151 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 정상 원천 실행 또는 실제 등록의 해당 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록 당시 허용 경로 외 보존 검사와 이후 법인2/관측5/과거 회사 현재 승격0의 해당 메타정보를 확인했습니다. 금융 원값의 새 지문 대조는 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "운영 결과의 유한 메타정보를 확인했습니다. 금융 원문/엑셀/인쇄 출력 검수는 아닙니다.",
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "history": [
+        {
+          "candidate": "C97-준비",
+          "record": {
+            "componentID": "REVIEW133-g2b-parser",
+            "parentID": "OPS132-05",
+            "kind": "external-source-or-report-consumer",
+            "label": "G2B 당사자 오류의 유한 형태 진단",
+            "lifecycle": "specified-in-progress",
+            "visibleUserControl": false,
+            "source": [
+              {
+                "path": "server/partner-enrichment.mjs",
+                "sha256": "a09ec5cd5bcf2211b529e9ab0dd2285116512c1014095fb9c3facfdf0aafa086",
+                "observedAt": "2026-11-02T06:13:21.574Z",
+                "finalFrozen": false
+              }
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-user-continuation",
+                "reference": "docs/review133-external-security-spec.md"
+              }
+            ],
+            "purpose": {
+              "userTask": "G2B 당사자 오류의 유한 형태 진단",
+              "reference": "docs/review133-external-security-spec.md"
+            },
+            "content": {
+              "consumers": [
+                "파서 입력/검증실패",
+                "자료형/그룹/필드/공란/식별형식/중복 개수"
+              ],
+              "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+            },
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "automatic": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualDatabase": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "output": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              }
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ],
+      "currentLimitation": "C98 파싱 호환과 유한 진단은 확인했으나 G2B_TOTAL_CHANGED에 따른 복구는 C99에서 진행 중입니다."
     },
     {
       "componentID": "REVIEW133-g2b-coverage",
       "parentID": "OPS132-05",
       "kind": "external-source-or-report-consumer",
       "label": "일반·계획·본문·복구의 진단 전파",
-      "lifecycle": "specified-in-progress",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/partner-enrichment.mjs",
-          "sha256": "a09ec5cd5bcf2211b529e9ab0dd2285116512c1014095fb9c3facfdf0aafa086",
-          "observedAt": "2026-11-02T06:13:21.578Z",
-          "finalFrozen": false
+          "sha256": "92ed6764868282f35bf8ee014809765d0582ac90887c3d80c0d2ffe5c1fb98a4",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
         }
       ],
       "policyBasis": [
@@ -744297,51 +744398,153 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 정상 원천 실행 또는 실제 등록의 해당 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록 당시 허용 경로 외 보존 검사와 이후 법인2/관측5/과거 회사 현재 승격0의 해당 메타정보를 확인했습니다. 금융 원값의 새 지문 대조는 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "output": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "운영 결과의 유한 메타정보를 확인했습니다. 금융 원문/엑셀/인쇄 출력 검수는 아닙니다.",
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "history": [
+        {
+          "candidate": "C97-준비",
+          "record": {
+            "componentID": "REVIEW133-g2b-coverage",
+            "parentID": "OPS132-05",
+            "kind": "external-source-or-report-consumer",
+            "label": "일반·계획·본문·복구의 진단 전파",
+            "lifecycle": "specified-in-progress",
+            "visibleUserControl": false,
+            "source": [
+              {
+                "path": "server/partner-enrichment.mjs",
+                "sha256": "a09ec5cd5bcf2211b529e9ab0dd2285116512c1014095fb9c3facfdf0aafa086",
+                "observedAt": "2026-11-02T06:13:21.578Z",
+                "finalFrozen": false
+              }
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-user-continuation",
+                "reference": "docs/review133-external-security-spec.md"
+              }
+            ],
+            "purpose": {
+              "userTask": "일반·계획·본문·복구의 진단 전파",
+              "reference": "docs/review133-external-security-spec.md"
+            },
+            "content": {
+              "consumers": [
+                "collectG2bContracts",
+                "count계획",
+                "본문/후속page",
+                "sources coverage"
+              ],
+              "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+            },
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "automatic": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualDatabase": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "output": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              }
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ],
+      "currentLimitation": "C98 파싱 호환과 유한 진단은 확인했으나 G2B_TOTAL_CHANGED에 따른 복구는 C99에서 진행 중입니다."
     },
     {
       "componentID": "REVIEW133-g2b-preservation",
       "parentID": "OPS132-05",
       "kind": "external-source-or-report-consumer",
       "label": "기존 관측·이벤트·체크포인트·댓글 보존",
-      "lifecycle": "specified-in-progress",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/partner-enrichment.mjs",
-          "sha256": "a09ec5cd5bcf2211b529e9ab0dd2285116512c1014095fb9c3facfdf0aafa086",
-          "observedAt": "2026-11-02T06:13:21.578Z",
-          "finalFrozen": false
+          "sha256": "92ed6764868282f35bf8ee014809765d0582ac90887c3d80c0d2ffe5c1fb98a4",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
         }
       ],
       "policyBasis": [
@@ -744365,51 +744568,153 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 정상 원천 실행 또는 실제 등록의 해당 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록 당시 허용 경로 외 보존 검사와 이후 법인2/관측5/과거 회사 현재 승격0의 해당 메타정보를 확인했습니다. 금융 원값의 새 지문 대조는 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "output": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "history": [
+        {
+          "candidate": "C97-준비",
+          "record": {
+            "componentID": "REVIEW133-g2b-preservation",
+            "parentID": "OPS132-05",
+            "kind": "external-source-or-report-consumer",
+            "label": "기존 관측·이벤트·체크포인트·댓글 보존",
+            "lifecycle": "specified-in-progress",
+            "visibleUserControl": false,
+            "source": [
+              {
+                "path": "server/partner-enrichment.mjs",
+                "sha256": "a09ec5cd5bcf2211b529e9ab0dd2285116512c1014095fb9c3facfdf0aafa086",
+                "observedAt": "2026-11-02T06:13:21.578Z",
+                "finalFrozen": false
+              }
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-user-continuation",
+                "reference": "docs/review133-external-security-spec.md"
+              }
+            ],
+            "purpose": {
+              "userTask": "기존 관측·이벤트·체크포인트·댓글 보존",
+              "reference": "docs/review133-external-security-spec.md"
+            },
+            "content": {
+              "consumers": [
+                "records/checkpoint",
+                "merge",
+                "원금액/법적식별",
+                "과거판본"
+              ],
+              "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+            },
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "automatic": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualDatabase": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "output": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              }
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ],
+      "currentLimitation": "C98 파싱 호환과 유한 진단은 확인했으나 G2B_TOTAL_CHANGED에 따른 복구는 C99에서 진행 중입니다."
     },
     {
       "componentID": "REVIEW133-kacem-document",
       "parentID": "OPS132-05",
       "kind": "external-source-or-report-consumer",
       "label": "검수한 기존 공식 HTTP 문서1개와 불변 지문",
-      "lifecycle": "specified-in-progress",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/partner-collector.mjs",
-          "sha256": "43aa84a8d76133af9817135d65744b4c6f261950e2a2d7ca1f8ae5407194c2c6",
-          "observedAt": "2026-11-02T06:13:21.579Z",
-          "finalFrozen": false
+          "sha256": "c309ea96d2469dae57b1922cba211fc81a97e276c821ec6f8d86ce693f37f0cd",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
         }
       ],
       "policyBasis": [
@@ -744433,51 +744738,152 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 실제 원천 성공을 확인했습니다. 파서8,339ms/선택30,000ms/남은58,559ms와 정확 원문 지문을 대조했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 원천 성공과 참조판본 저장의 명시 범위입니다. 원문27쪽/100행 검증·현재30행 연결이며 법적 회사 동일성을 확정하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "output": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "history": [
+        {
+          "candidate": "C97-준비",
+          "record": {
+            "componentID": "REVIEW133-kacem-document",
+            "parentID": "OPS132-05",
+            "kind": "external-source-or-report-consumer",
+            "label": "검수한 기존 공식 HTTP 문서1개와 불변 지문",
+            "lifecycle": "specified-in-progress",
+            "visibleUserControl": false,
+            "source": [
+              {
+                "path": "server/partner-collector.mjs",
+                "sha256": "43aa84a8d76133af9817135d65744b4c6f261950e2a2d7ca1f8ae5407194c2c6",
+                "observedAt": "2026-11-02T06:13:21.579Z",
+                "finalFrozen": false
+              }
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-user-continuation",
+                "reference": "docs/review133-external-security-spec.md"
+              }
+            ],
+            "purpose": {
+              "userTask": "검수한 기존 공식 HTTP 문서1개와 불변 지문",
+              "reference": "docs/review133-external-security-spec.md"
+            },
+            "content": {
+              "consumers": [
+                "정확한 원URL",
+                "요청제한",
+                "반환 전 digest",
+                "원출처 metadata"
+              ],
+              "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+            },
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "automatic": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualDatabase": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "output": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              }
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW133-kacem-worker",
       "parentID": "OPS132-05",
       "kind": "external-source-or-report-consumer",
       "label": "정상27쪽 원문과 KACEM 한정 PDF 자원상한",
-      "lifecycle": "specified-in-progress",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/partner-rankings.mjs",
-          "sha256": "9455dbf313852bdd45b4c8633d34b07b83426cd27cb2e07a4a088f5a67567980",
-          "observedAt": "2026-11-02T06:13:21.580Z",
-          "finalFrozen": false
+          "sha256": "a21e4074c5b1395d62ac8a0968fa2b368d6f13da5213ead3f4153d992316d7a9",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
         }
       ],
       "policyBasis": [
@@ -744501,51 +744907,152 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 실제 원천 성공을 확인했습니다. 파서8,339ms/선택30,000ms/남은58,559ms와 정확 원문 지문을 대조했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 원천 성공과 참조판본 저장의 명시 범위입니다. 원문27쪽/100행 검증·현재30행 연결이며 법적 회사 동일성을 확정하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "output": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "history": [
+        {
+          "candidate": "C97-준비",
+          "record": {
+            "componentID": "REVIEW133-kacem-worker",
+            "parentID": "OPS132-05",
+            "kind": "external-source-or-report-consumer",
+            "label": "정상27쪽 원문과 KACEM 한정 PDF 자원상한",
+            "lifecycle": "specified-in-progress",
+            "visibleUserControl": false,
+            "source": [
+              {
+                "path": "server/partner-rankings.mjs",
+                "sha256": "9455dbf313852bdd45b4c8633d34b07b83426cd27cb2e07a4a088f5a67567980",
+                "observedAt": "2026-11-02T06:13:21.580Z",
+                "finalFrozen": false
+              }
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-user-continuation",
+                "reference": "docs/review133-external-security-spec.md"
+              }
+            ],
+            "purpose": {
+              "userTask": "정상27쪽 원문과 KACEM 한정 PDF 자원상한",
+              "reference": "docs/review133-external-security-spec.md"
+            },
+            "content": {
+              "consumers": [
+                "worker512MB/30쪽",
+                "시간/파일제한",
+                "기존다른PDF256MB",
+                "오류종류 구분"
+              ],
+              "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+            },
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "automatic": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualDatabase": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "output": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              }
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW133-kacem-normalizer",
       "parentID": "OPS132-05",
       "kind": "external-source-or-report-consumer",
       "label": "공식 표·발표 식별·기존30행 연결",
-      "lifecycle": "specified-in-progress",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/partner-rankings.mjs",
-          "sha256": "9455dbf313852bdd45b4c8633d34b07b83426cd27cb2e07a4a088f5a67567980",
-          "observedAt": "2026-11-02T06:13:21.580Z",
-          "finalFrozen": false
+          "sha256": "a21e4074c5b1395d62ac8a0968fa2b368d6f13da5213ead3f4153d992316d7a9",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
         }
       ],
       "policyBasis": [
@@ -744569,51 +745076,152 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 실제 원천 성공을 확인했습니다. 파서8,339ms/선택30,000ms/남은58,559ms와 정확 원문 지문을 대조했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 원천 성공과 참조판본 저장의 명시 범위입니다. 원문27쪽/100행 검증·현재30행 연결이며 법적 회사 동일성을 확정하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "output": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "history": [
+        {
+          "candidate": "C97-준비",
+          "record": {
+            "componentID": "REVIEW133-kacem-normalizer",
+            "parentID": "OPS132-05",
+            "kind": "external-source-or-report-consumer",
+            "label": "공식 표·발표 식별·기존30행 연결",
+            "lifecycle": "specified-in-progress",
+            "visibleUserControl": false,
+            "source": [
+              {
+                "path": "server/partner-rankings.mjs",
+                "sha256": "9455dbf313852bdd45b4c8633d34b07b83426cd27cb2e07a4a088f5a67567980",
+                "observedAt": "2026-11-02T06:13:21.580Z",
+                "finalFrozen": false
+              }
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-user-continuation",
+                "reference": "docs/review133-external-security-spec.md"
+              }
+            ],
+            "purpose": {
+              "userTask": "공식 표·발표 식별·기존30행 연결",
+              "reference": "docs/review133-external-security-spec.md"
+            },
+            "content": {
+              "consumers": [
+                "독립 원표",
+                "행/열/단위/기간",
+                "동일발표 원문행",
+                "기존 키/댓글 보존"
+              ],
+              "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+            },
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "automatic": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualDatabase": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "output": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              }
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW133-provider-evidence",
       "parentID": "OPS132-05",
       "kind": "external-source-or-report-consumer",
       "label": "DART·신용·단가 원근거와 검증된 법인 연결",
-      "lifecycle": "specified-in-progress",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
       "visibleUserControl": false,
       "source": [
         {
           "path": "server/maintenance-runtime.mjs",
-          "sha256": "2ec945bf6b7f00c5d645349f42988b35789f1581602363340d16cadbf0b2c588",
-          "observedAt": "2026-11-02T06:13:21.581Z",
-          "finalFrozen": false
+          "sha256": "db1280ce058be57483c43829df6c3078bc90240658f9d181a092881a8d500b0f",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
         }
       ],
       "policyBasis": [
@@ -744637,44 +745245,144 @@
       },
       "verification": {
         "implementation": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "contentReviewed",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "DART 연결은 반영했으나 신용·단가 확정은 미완료입니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
-          "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "DART만 완료했으며 신용·단가의 전체 연결은 수락하지 않았습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "일부 입력/조회 사실을 이 소비자의 전체 운영 저장·화면 검수로 확대하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "현재 완료한 하위 범위와 미확정/미수행 상태를 별도로 남겼습니다.",
           "allDynamicConditionsAccepted": false
         },
         "output": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "history": [
+        {
+          "candidate": "C97-준비",
+          "record": {
+            "componentID": "REVIEW133-provider-evidence",
+            "parentID": "OPS132-05",
+            "kind": "external-source-or-report-consumer",
+            "label": "DART·신용·단가 원근거와 검증된 법인 연결",
+            "lifecycle": "specified-in-progress",
+            "visibleUserControl": false,
+            "source": [
+              {
+                "path": "server/maintenance-runtime.mjs",
+                "sha256": "2ec945bf6b7f00c5d645349f42988b35789f1581602363340d16cadbf0b2c588",
+                "observedAt": "2026-11-02T06:13:21.581Z",
+                "finalFrozen": false
+              }
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-user-continuation",
+                "reference": "docs/review133-external-security-spec.md"
+              }
+            ],
+            "purpose": {
+              "userTask": "DART·신용·단가 원근거와 검증된 법인 연결",
+              "reference": "docs/review133-external-security-spec.md"
+            },
+            "content": {
+              "consumers": [
+                "원사이트5건",
+                "법적ID 종류",
+                "runtime query/evidence 전달",
+                "후보/실적/미확정 분리"
+              ],
+              "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+            },
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "automatic": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualDatabase": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "output": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              }
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ]
     },
     {
       "componentID": "REVIEW133-formal-report",
       "parentID": "SEC132-02",
       "kind": "external-source-or-report-consumer",
       "label": "정식 보안 보고의 승인된 재개와 실제 완료 경계",
-      "lifecycle": "specified-in-progress",
+      "lifecycle": "접근 조건 미충족으로 미완료입니다.",
       "visibleUserControl": false,
       "source": [
         {
@@ -744705,36 +745413,1103 @@
       "verification": {
         "implementation": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "정식 보고 완료를 확인하지 못했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "automatic": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "정식 보고를 자동검사 통과로 대신하지 않습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualScreen": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "block",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "정식 보고 계정 접근 조건이 충족되지 않았습니다.",
           "allDynamicConditionsAccepted": false
         },
         "actualDatabase": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "새 정식 보고 저장은 수행하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "block",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "정식 보고 완료 상태가 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "block",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "정식 보안 보고 산출물을 완료하지 못했습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": [
+        {
+          "candidate": "C97-준비",
+          "record": {
+            "componentID": "REVIEW133-formal-report",
+            "parentID": "SEC132-02",
+            "kind": "external-source-or-report-consumer",
+            "label": "정식 보안 보고의 승인된 재개와 실제 완료 경계",
+            "lifecycle": "specified-in-progress",
+            "visibleUserControl": false,
+            "source": [
+              {
+                "path": "docs/review133-external-security-spec.md",
+                "sha256": "c50badf8d3a18ddf5aedebd11fde83e7bc5093225b7837a79d1a18a023f30a7c",
+                "observedAt": "2026-11-02T06:13:21.583Z",
+                "finalFrozen": false
+              }
+            ],
+            "policyBasis": [
+              {
+                "kind": "latest-user-continuation",
+                "reference": "docs/review133-external-security-spec.md"
+              }
+            ],
+            "purpose": {
+              "userTask": "정식 보안 보고의 승인된 재개와 실제 완료 경계",
+              "reference": "docs/review133-external-security-spec.md"
+            },
+            "content": {
+              "consumers": [
+                "같은 스캔/동결 대상",
+                "허용된 계정 경로",
+                "정식완료/제품검증 분리"
+              ],
+              "preservation": "원본/금액/과거/식별/권한과 실제검증 범위를 보존하며 미확정을 정상완료로 대체하지 않습니다."
+            },
+            "verification": {
+              "implementation": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "automatic": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualScreen": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "서버/문서 소비자이며 새 사용자 화면을 만들지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "actualDatabase": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              },
+              "output": {
+                "status": "notrun",
+                "evidence": [],
+                "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+                "allDynamicConditionsAccepted": false
+              }
+            },
+            "allStatesAccepted": false
+          }
+        }
+      ]
+    },
+    {
+      "componentID": "REVIEW133-dart-raw-observations",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "제공 DART 원관측의 원문값·자료형 보존",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/provided-dart-observations.mjs",
+          "sha256": "1e40cf614e1968a29e556c901c1b39adf67337f3ad19eef5304514248b617bb1",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "제공 DART 원관측의 원문값·자료형 보존",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "입력3필드",
+          "법인2개/관측5개",
+          "미확정 원계약 식별자",
+          "원문 금액/면적/정정행 보존"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 정상 원천 실행 또는 실제 등록의 해당 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록 당시 허용 경로 외 보존 검사와 이후 법인2/관측5/과거 회사 현재 승격0의 해당 메타정보를 확인했습니다. 금융 원값의 새 지문 대조는 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
           "allDynamicConditionsAccepted": false
         },
         "output": {
           "status": "notrun",
-          "evidence": [],
-          "scope": "재개 명세의 실제 수행 범위에 따라 갱신합니다. 이전 회차 통과를 승계하지 않습니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "history": []
+    },
+    {
+      "componentID": "REVIEW133-dart-profile-binding",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "기존 원문행과 법적 식별의 정확한 연결",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/maintenance-runtime.mjs",
+          "sha256": "db1280ce058be57483c43829df6c3078bc90240658f9d181a092881a8d500b0f",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "기존 원문행과 법적 식별의 정확한 연결",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "기존회사만 허용",
+          "비어 있지 않은 원문행 식별자",
+          "법적 식별 충돌 차단",
+          "현재/과거 표 분리"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 정상 원천 실행 또는 실제 등록의 해당 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록 당시 허용 경로 외 보존 검사와 이후 법인2/관측5/과거 회사 현재 승격0의 해당 메타정보를 확인했습니다. 금융 원값의 새 지문 대조는 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": []
+    },
+    {
+      "componentID": "REVIEW133-dart-receipt-query",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "승인 공시 범위의 실제 API 조회",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-enrichment.mjs",
+          "sha256": "92ed6764868282f35bf8ee014809765d0582ac90887c3d80c0d2ffe5c1fb98a4",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "승인 공시 범위의 실제 API 조회",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "현재 표 법인",
+          "관측일/공시번호 전달",
+          "범위 밖 본문 조회 제외",
+          "미발견 부분 상태"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 정상 원천 실행 또는 실제 등록의 해당 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록 당시 허용 경로 외 보존 검사와 이후 법인2/관측5/과거 회사 현재 승격0의 해당 메타정보를 확인했습니다. 금융 원값의 새 지문 대조는 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": []
+    },
+    {
+      "componentID": "REVIEW133-dart-checkpoint-scope",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "공시 조회 범위와 이전 수집 상태 보존",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-enrichment.mjs",
+          "sha256": "92ed6764868282f35bf8ee014809765d0582ac90887c3d80c0d2ffe5c1fb98a4",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공시 조회 범위와 이전 수집 상태 보존",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "조회 범위 식별자",
+          "이전 범위 변경 차단",
+          "기존 관측/커서 보존",
+          "잘못된 이전 법적 식별 차단"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "범위 변경·오류 이전 상태의 반례는 격리 자동검사이며 운영에서 인위적으로 만들지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "일부 입력/조회 사실을 이 소비자의 전체 운영 저장·화면 검수로 확대하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "현재 완료한 하위 범위와 미확정/미수행 상태를 별도로 남겼습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": []
+    },
+    {
+      "componentID": "REVIEW133-dart-unit-eligibility",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "관측과 확정 단가 계산 자료의 분리",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/provided-dart-observations.mjs",
+          "sha256": "1e40cf614e1968a29e556c901c1b39adf67337f3ad19eef5304514248b617bb1",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "관측과 확정 단가 계산 자료의 분리",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "관측5/확정0",
+          "원계약/지분/면적 범위",
+          "부가세/0/미입력",
+          "기존 단가 주장 보존"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "실제 단가 원천은 설정 미충족 상태이며 관측5개를 확정 단가로 승격하지 않은 경계만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록 당시 허용 경로 외 보존 검사와 이후 법인2/관측5/과거 회사 현재 승격0의 해당 메타정보를 확인했습니다. 금융 원값의 새 지문 대조는 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": []
+    },
+    {
+      "componentID": "REVIEW133-dart-display-current",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "같은 공시의 현재 표 표시 합성",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "src/partners.js",
+          "sha256": "16f5d9816bb76e2fdfb033865a739e6f49c1be52f123b17d34697d54bea1c1bd",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "같은 공시의 현재 표 표시 합성",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "누락된 과거 이벤트만 연결",
+          "정정/취소/계약일",
+          "다른 공시/유형 분리",
+          "원배열/실제 반환객체 불변"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "정확 C98 파일의 현재 회사 상세4회 중 해당 정상/미확정 금액 범위를 확인했습니다. 합성 응답·격리 브라우저이며 운영 로그인이 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 정상 원천 실행 또는 실제 등록의 해당 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "일부 입력/조회 사실을 이 소비자의 전체 운영 저장·화면 검수로 확대하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": []
+    },
+    {
+      "componentID": "REVIEW133-dart-display-history",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "같은 공시의 과거 판본 표시 소비자",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "src/partners.js",
+          "sha256": "16f5d9816bb76e2fdfb033865a739e6f49c1be52f123b17d34697d54bea1c1bd",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "같은 공시의 과거 판본 표시 소비자",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "과거 조회 연결",
+          "동일 공시 표시",
+          "다른 원문 보존",
+          "현재와 과거 원객체 불변"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "과거 표시의 자동검사는 통과했지만 실제 브라우저의 과거 판본 동작은 이번5회에 포함되지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 정상 원천 실행 또는 실제 등록의 해당 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "일부 입력/조회 사실을 이 소비자의 전체 운영 저장·화면 검수로 확대하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": []
+    },
+    {
+      "componentID": "REVIEW133-dart-display-null",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "공식 미확정 금액과 기존 제공값 표시",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "src/partners.js",
+          "sha256": "16f5d9816bb76e2fdfb033865a739e6f49c1be52f123b17d34697d54bea1c1bd",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "공식 미확정 금액과 기존 제공값 표시",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "공식 null 보존",
+          "기존 제공값 확인 필요",
+          "명시0/미입력 구별",
+          "복수 금액 충돌 보존"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "정확 C98 파일의 현재 회사 상세4회 중 해당 정상/미확정 금액 범위를 확인했습니다. 합성 응답·격리 브라우저이며 운영 로그인이 아닙니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 정상 원천 실행 또는 실제 등록의 해당 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "일부 입력/조회 사실을 이 소비자의 전체 운영 저장·화면 검수로 확대하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": []
+    },
+    {
+      "componentID": "REVIEW133-provided-immutable-registration",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "불변 참조판본 등록과 기존 자료 보존",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/provided-dart-observations.mjs",
+          "sha256": "1e40cf614e1968a29e556c901c1b39adf67337f3ad19eef5304514248b617bb1",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "불변 참조판본 등록과 기존 자료 보존",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "서버 내부 복제/삽입1",
+          "기존판본 수정/삭제0",
+          "수집 상태/커서/과거참조",
+          "업무/직원/권한 쓰기0"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "정규310개 검사군에 개인 실행기를 포함했다고 주장하지 않습니다. 실제 적용의 서버 내부 보존 검사는 별도 단계입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "루트의 실제 등록 트랜잭션에서 새 불변 판본1개를 확정했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "실제 삽입1·수정/삭제0,허용 경로 외 자료/출처/상태/과거참조 보존 검사 전부 통과했습니다. 업무 원장·직원 원본·권한 쓰기0입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": []
+    },
+    {
+      "componentID": "REVIEW133-kacem-time-bound",
+      "parentID": "OPS132-05",
+      "kind": "external-source-or-report-consumer",
+      "label": "KACEM 파서 시간과 남은 원천 기한",
+      "lifecycle": "C98의 명시 범위만 검수했습니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-rankings.mjs",
+          "sha256": "a21e4074c5b1395d62ac8a0968fa2b368d6f13da5213ead3f4153d992316d7a9",
+          "observedAt": "2026-11-02T08:30:41.731Z",
+          "finalFrozen": true,
+          "candidate": "C98"
+        }
+      ],
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md"
+        }
+      ],
+      "purpose": {
+        "userTask": "KACEM 파서 시간과 남은 원천 기한",
+        "reference": "docs/review133-current-verification.json"
+      },
+      "content": {
+        "consumers": [
+          "KACEM만30초",
+          "남은 기한보다 긴 처리 금지",
+          "실제 제한/경과 기록",
+          "다른 PDF10초 보존"
+        ],
+        "preservation": "원자료·원금액·원문행·현재/과거·미확정·실제 수행 범위를 보존합니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 게시 소스의 명시 소비자 구현을 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 전체310개 검사군 및 해당 집중 검사 범위입니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 실제5회에 이 소비자의 별도 화면 전수검수는 포함하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 실제 원천 성공을 확인했습니다. 파서8,339ms/선택30,000ms/남은58,559ms와 정확 원문 지문을 대조했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "C98 원천 성공과 참조판본 저장의 명시 범위입니다. 원문27쪽/100행 검증·현재30행 연결이며 법적 회사 동일성을 확정하지 않습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "pass",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "등록의 수집 상태·과거참조 보존과 C98의 실제 결과 중 명시 범위만 확인했습니다.",
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "scope": "이번 작업에서 이 소비자의 새 Excel/PDF/인쇄 출력을 수락하지 않았습니다.",
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "history": []
     }
   ],
   "popupCandidates": [
@@ -806386,14 +808161,17 @@
   },
   "currentOwnerJsonObservation": null,
   "currentRegression": {
-    "id": "REVIEW130-C86-REGRESSION",
-    "path": ".build/center-20261020/logic-2026-10-28T12-46-53.197Z.json",
-    "sha256": "0f224524946887e2b0fb4afdd032d59d24ba0357f289365ed72849f512e07ca1",
+    "id": "REVIEW133-C98-REGRESSION",
+    "path": "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+    "sha256": "404319806247c50af047f25089d0f0df5d506f528ab4531e0c09b0729a62d60c",
     "version": "0.13.0",
-    "candidate": "C86",
-    "passed": 257,
+    "candidate": "C98",
+    "passed": 310,
     "failed": 0,
+    "preparationBlocked": 0,
+    "sourcePins": 651,
     "sourceChanged": [],
+    "validSingleFinalSource": true,
     "isNotUICount": true
   },
   "currentScenarioCounting": {
@@ -809683,14 +811461,231 @@
     }
   },
   "review133": {
-    "at": "2026-11-02T06:13:21.646Z",
+    "at": "2026-11-02T09:52:41.114Z",
     "spec": "docs/review133-external-security-spec.md",
     "baseRelease": "C96",
     "priorRecords": 5208,
     "priorRecordsSha256": "84d7dde29ceed9c33fb55c385255f46412846e1a2ec43a3d36c16424aa9de202",
-    "addedRecords": 8,
-    "totalRecords": 5216,
-    "status": "in-progress-not-accepted",
-    "allStatesAccepted": false
+    "addedRecords": 18,
+    "totalRecords": 5226,
+    "status": "정식 C98 중간 상태이며 C99 복구는 진행 중입니다.",
+    "allStatesAccepted": false,
+    "checkpoint": "C98",
+    "initialAddedRecords": 8,
+    "additionalConsumerRecords": 10,
+    "release": {
+      "candidate": "C98",
+      "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
+      "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+      "htmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
+      "htmlBytes": 6938519,
+      "promotedAt": "2026-11-02T09:08:40.214Z",
+      "publicVerifiedAt": "2026-11-02T09:09:24.834Z",
+      "httpStatus": 200,
+      "unauthenticatedApis": {
+        "workspace": 401,
+        "notifications": 401,
+        "employeeDirectory": 401
+      },
+      "productionAliasMatched": true,
+      "authenticatedMemberTested": false
+    },
+    "automatic": {
+      "evidence": "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+      "sha256": "404319806247c50af047f25089d0f0df5d506f528ab4531e0c09b0729a62d60c",
+      "passed": 310,
+      "failed": 0,
+      "preparationBlocked": 0,
+      "sourcePins": 651,
+      "sourceChangedDuringRun": 0,
+      "validSingleFinalSource": true,
+      "meaning": "검사군310개이며 사용자 기능310개를 뜻하지 않습니다. C99 수정본의 통과로 승계하지 않습니다.",
+      "kacem": {
+        "passed": 22,
+        "synthetic": 17,
+        "actualOriginalPdf": 5,
+        "priorOfficialCases": 3,
+        "newTimeBoundaryCases": 2
+      },
+      "focused": {
+        "g2bTokenizer": 13,
+        "g2bDiagnostics": 12,
+        "dartReceipt": 9,
+        "dartRuntime": 13,
+        "providedObservations": 27,
+        "providedDisplay": 20
+      }
+    },
+    "native": {
+      "htmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
+      "executions": 5,
+      "pageErrors": 0,
+      "companyDetail": {
+        "executions": 4,
+        "widths": [
+          1280,
+          390
+        ],
+        "cases": [
+          "금액이 있는 정정 공시",
+          "공식 금액은 미확정이고 기존 제공값만 있는 공시"
+        ],
+        "amountCellReachable": true,
+        "closeReopen": true,
+        "rawValuesPreserved": true
+      },
+      "sampleCore": {
+        "executions": 1,
+        "width": 1280,
+        "projects": 3,
+        "globalRequests": 0,
+        "regularAccountReturn": true
+      },
+      "scope": "격리된 브라우저에서 모든 요청을 합성 응답으로 대체한 명시 범위입니다. 운영 회원 로그인이나 실제 업무 저장은 수행하지 않았습니다. 과거8회·15회 결과를 합산하지 않습니다.",
+      "evidence": "docs/review132-provided-dart-view.md"
+    },
+    "actualCollection": {
+      "triggerCount": 1,
+      "partnerRunId": "2551aba5-a03a-43f9-af71-0af38e0356d7",
+      "startedAt": "2026-11-02T09:15:41.332922Z",
+      "finishedAt": "2026-11-02T09:16:54.932339Z",
+      "status": "일부 원천은 미완료입니다.",
+      "sourceCounts": {
+        "failed": 0,
+        "success": 218,
+        "not_modified": 1,
+        "partial_failure": 2,
+        "configuration_missing": 3
+      },
+      "completeSourceStates": 219,
+      "partialSourceStates": 2,
+      "configurationMissingStates": 3,
+      "allSourcesComplete": false,
+      "kacem": {
+        "status": "성공했습니다.",
+        "pages": 27,
+        "validatedOriginalRows": 100,
+        "currentTopRows": 30,
+        "periodFrom": "2026-01-01",
+        "periodThrough": "2026-09-30",
+        "originalSha256": "216cebafe0ca74bfd3bf4f548d1df1da9109ffb1a1b7dfcfb0ff4ae8886b1ed3",
+        "elapsedMs": 8339,
+        "selectedTimeoutMs": 30000,
+        "sourceRemainingAtStartMs": 58559,
+        "meaning": "공식 발표 원문과 원문행 연결입니다. 업체명이나 순위를 법적 회사 동일성으로 승격하지 않습니다."
+      },
+      "dart": {
+        "contractsComplete": true,
+        "currentVerifiedProfiles": 1,
+        "identityComplete": true,
+        "errorCode": null,
+        "storedVerifiedProfiles": 2,
+        "storedObservations": 5,
+        "historicalProfilePromotedToCurrent": 0,
+        "scope": "현재 표에 속한 법인1개만 승인된 공시 범위로 조회했습니다. 과거 법인1개의 관측4개를 현재 회사로 추가하지 않았습니다."
+      },
+      "g2b": {
+        "status": "부분 상태입니다.",
+        "parserFailureRecurred": false,
+        "completedThrough": "202610231158",
+        "activeObservedRecords": 300,
+        "errorCode": "G2B_TOTAL_CHANGED",
+        "recoveryComplete": false,
+        "nextCandidate": "C99",
+        "nextScope": "기존 관측을 보존하며 집계 건수 변경 시 재계획하는 코드 복구를 진행 중입니다. 배포·실행·수락은 아직 하지 않았습니다."
+      },
+      "afterMetadata": {
+        "storedVerifiedProfiles": 2,
+        "storedObservations": 5,
+        "historicalProfilePromotedToCurrent": 0,
+        "workspaceRevision": 59
+      },
+      "evidenceDisposition": "상세 적용·배포·공개 확인·실제 원천 결과의 원본 영수증은 비공개 운영 증거로 보관합니다. 공개 요약에는 회사 식별번호·금액·직원 원문·키를 넣지 않습니다."
+    },
+    "registration": {
+      "status": "루트의 실제 적용과 확정 응답을 확인했습니다.",
+      "inserted": 1,
+      "updated": 0,
+      "deleted": 0,
+      "newVersion": "f2a09bb3-c383-450e-8e09-88feb2635120",
+      "parentVersion": "19198a54-f04f-48f6-b123-85faebaf9878",
+      "committedAt": "2026-11-02T09:11:44.577Z",
+      "issuerCount": 2,
+      "sourceObservations": 5,
+      "eligibleUnitCosts": 0,
+      "allPreservationChecksPassed": true,
+      "checks": {
+        "prior_snapshot_retained": true,
+        "new_snapshot_once": true,
+        "new_snapshot_is_latest": true,
+        "all_other_payload_paths_unchanged": true,
+        "all_other_source_paths_unchanged": true,
+        "exact_raw_evidence_and_binding": true,
+        "exact_registration_metadata": true,
+        "exact_two_profile_identity_fields": true,
+        "enrichment_state_unchanged": true,
+        "previous_publications_unchanged": true,
+        "parent_snapshot_unchanged": true,
+        "wrapper_state_equals_new_payload_state": true
+      },
+      "maintenanceStateRebased": false,
+      "workspacePersonalPermissionsOrgdbWrites": 0,
+      "scope": "기존 참조판본을 서버 안에서 복제한 새 불변 판본입니다. 원본의 금액·날짜·단가·댓글·수집 상태를 임의 확정하거나 덮어쓰지 않았습니다."
+    },
+    "remaining": [
+      {
+        "id": "OPS132-05",
+        "status": "미완료입니다.",
+        "scope": "G2B 복구는 C99 진행 중이며 신용평가기관과 법인 연결 근거, 실제 원계약·같은 범위 면적·금액과 부가세를 갖춘 단가 확정이 남아 있습니다."
+      },
+      {
+        "id": "SEC132-02",
+        "status": "미완료입니다.",
+        "scope": "정식 보안 보고에 필요한 계정 접근 조건이 충족되지 않았습니다. 제품 회귀검사 통과가 정식 보고 완료를 대신하지 않습니다."
+      },
+      {
+        "id": "KOSIS",
+        "status": "직접 수집이 미등록 상태입니다.",
+        "scope": "기존 KICT 공식자료 연결과 통계계열의 역할을 구분해 보존합니다. 이번8개 원천 영수증에 KICT 항목이 없어 C98의 새 KICT 재검증으로 세지 않습니다."
+      }
+    ],
+    "requirementCheckpoint": {
+      "items": 517,
+      "fields": 6204,
+      "checked": 428,
+      "open": 89,
+      "SEC13202Checked": false,
+      "OPS13205Checked": false,
+      "existingC96Excel": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C96.xlsx",
+      "existingC96ExcelSha256": "80b8c7ba5e2bff8554ab8377e94fd163787a4e7af9eacf2b97d92970d0f47a9b",
+      "rewritten": false,
+      "nextExport": "C99 최종 수락 상태를 확정한 뒤 새 Excel을 한 번 생성합니다."
+    },
+    "previousRootCurrentRegression": {
+      "id": "REVIEW130-C86-REGRESSION",
+      "path": ".build/center-20261020/logic-2026-10-28T12-46-53.197Z.json",
+      "sha256": "0f224524946887e2b0fb4afdd032d59d24ba0357f289365ed72849f512e07ca1",
+      "version": "0.13.0",
+      "candidate": "C86",
+      "passed": 257,
+      "failed": 0,
+      "sourceChanged": [],
+      "isNotUICount": true
+    },
+    "previousDeployedMetadata": {
+      "version": "0.13.0",
+      "candidate": "C93",
+      "date": "2026-10-29",
+      "sourceCommit": "1166cab67a8e9ac32d2af0e4c29982122aef18d1",
+      "deploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+      "productionDeploymentId": "dpl_3pVpQyQv5L7N2iw3TBpZFCFnTQLc",
+      "formalHtmlSha256": "0284982811d2ec1ebc178c1c36dd78f90e5a4b4bad033ab8250414b6276f5ebc",
+      "bytes": 6910675,
+      "verification": "docs/review131-final-verification.json",
+      "allComponentsAccepted": false
+    },
+    "allPlatformAccepted": false,
+    "countMeaning": "기록과 반복실행 수는 고유 기능 수가 아닙니다.",
+    "evidence": "docs/review133-current-verification.json"
   }
 }
