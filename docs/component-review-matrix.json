@@ -2,11 +2,11 @@
   "schemaVersion": "component-review-matrix-v1",
   "deployedRelease": {
     "version": "0.13.0",
-    "candidate": "C99",
+    "candidate": "C100",
     "date": "2026-11-02",
-    "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
-    "productionDeploymentId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
-    "deploymentId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
+    "sourceCommit": "857bab6e70567a4947e7b16e11b8eb93877734de",
+    "productionDeploymentId": "dpl_6o38TXCneNUc8ShKQCwsVrag26uA",
+    "deploymentId": "dpl_6o38TXCneNUc8ShKQCwsVrag26uA",
     "formalHtmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
     "bytes": 6938519,
     "verification": "docs/review133-current-verification.json",
@@ -747075,7 +747075,7 @@
       ],
       "kind": "storage-consumer",
       "label": "전역 과거 원천 사건의 불변 판본 보존",
-      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "lifecycle": "C100 정식·공개 확인을 마쳤고 실제 원천 저장·재진입은 아직 미검증입니다.",
       "visibleUserControl": false,
       "source": [
         {
@@ -747163,6 +747163,14 @@
             "docs/review133-storage-spec.md"
           ],
           "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "정식 alias·source·공개200/무로그인 API401·실제build18의 명시 범위를 확인했습니다. 실제 업무 저장·재진입은 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -747183,7 +747191,7 @@
       ],
       "kind": "storage-consumer",
       "label": "과거 사건 해석과 재수집 합치기 검사",
-      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "lifecycle": "C100 정식·공개 확인을 마쳤고 실제 원천 저장·재진입은 아직 미검증입니다.",
       "visibleUserControl": false,
       "source": [
         {
@@ -747271,6 +747279,14 @@
             "docs/review133-storage-spec.md"
           ],
           "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "정식 alias·source·공개200/무로그인 API401·실제build18의 명시 범위를 확인했습니다. 실제 업무 저장·재진입은 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -747291,7 +747307,7 @@
       ],
       "kind": "storage-consumer",
       "label": "의미를 보존한 참조판본 저장 크기",
-      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "lifecycle": "C100 정식·공개 확인을 마쳤고 실제 원천 저장·재진입은 아직 미검증입니다.",
       "visibleUserControl": false,
       "source": [
         {
@@ -747379,6 +747395,14 @@
             "docs/review133-storage-spec.md"
           ],
           "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "정식 alias·source·공개200/무로그인 API401·실제build18의 명시 범위를 확인했습니다. 실제 업무 저장·재진입은 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -747399,7 +747423,7 @@
       ],
       "kind": "storage-consumer",
       "label": "저장 참조의 종류·순서·원문 검증",
-      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "lifecycle": "C100 정식·공개 확인을 마쳤고 실제 원천 저장·재진입은 아직 미검증입니다.",
       "visibleUserControl": false,
       "source": [
         {
@@ -747487,6 +747511,14 @@
             "docs/review133-storage-spec.md"
           ],
           "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "정식 alias·source·공개200/무로그인 API401·실제build18의 명시 범위를 확인했습니다. 실제 업무 저장·재진입은 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -747507,7 +747539,7 @@
       ],
       "kind": "storage-consumer",
       "label": "수집부터 불변 저장·다음 실행까지의 연결",
-      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "lifecycle": "C100 정식·공개 확인을 마쳤고 실제 원천 저장·재진입은 아직 미검증입니다.",
       "visibleUserControl": false,
       "source": [
         {
@@ -747595,6 +747627,14 @@
             "docs/review133-storage-spec.md"
           ],
           "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "정식 alias·source·공개200/무로그인 API401·실제build18의 명시 범위를 확인했습니다. 실제 업무 저장·재진입은 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -747615,7 +747655,7 @@
       ],
       "kind": "storage-consumer",
       "label": "회사별 계약·수주·단가·과거 발표 조회",
-      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "lifecycle": "C100 정식·공개 확인을 마쳤고 실제 원천 저장·재진입은 아직 미검증입니다.",
       "visibleUserControl": false,
       "source": [
         {
@@ -747710,6 +747750,14 @@
             "docs/review133-storage-spec.md"
           ],
           "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "정식 alias·source·공개200/무로그인 API401·실제build18의 명시 범위를 확인했습니다. 실제 업무 저장·재진입은 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
         }
       },
       "allStatesAccepted": false,
@@ -747730,7 +747778,7 @@
       ],
       "kind": "storage-consumer",
       "label": "독립 실패검사와 실제 저장 검증 경계",
-      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "lifecycle": "C100 정식·공개 확인을 마쳤고 실제 원천 저장·재진입은 아직 미검증입니다.",
       "visibleUserControl": false,
       "source": [
         {
@@ -747816,6 +747864,14 @@
           "scope": "새 참조판본·회사 DTO·Excel 출력은 미수행입니다.",
           "evidence": [
             "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDeployment": {
+          "status": "pass",
+          "scope": "정식 alias·source·공개200/무로그인 API401·실제build18의 명시 범위를 확인했습니다. 실제 업무 저장·재진입은 아닙니다.",
+          "evidence": [
+            "docs/review133-current-verification.json"
           ],
           "allDynamicConditionsAccepted": false
         }
@@ -809480,15 +809536,15 @@
   },
   "currentOwnerJsonObservation": null,
   "currentRegression": {
-    "id": "REVIEW133-C99-REGRESSION",
-    "path": "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
-    "sha256": "c0704aaca38d07cfebecbd30c7ce0036b07e27e9295a721d163791ab114edabb",
+    "id": "REVIEW133-C100-REGRESSION",
+    "path": "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+    "sha256": "b644dd135a092f9e68f809e1d5bdc3a24b5056450346ce7658d70b8e5170d1f0",
     "version": "0.13.0",
-    "candidate": "C99",
-    "passed": 311,
+    "candidate": "C100",
+    "passed": 313,
     "failed": 0,
     "preparationBlocked": 0,
-    "sourcePins": 652,
+    "sourcePins": 655,
     "sourceChanged": [],
     "validSingleFinalSource": true,
     "isNotUICount": true
@@ -812787,19 +812843,19 @@
     "priorRecordsSha256": "84d7dde29ceed9c33fb55c385255f46412846e1a2ec43a3d36c16424aa9de202",
     "addedRecords": 30,
     "totalRecords": 5238,
-    "status": "정식 C99를 유지하며 실제 원천 참조판본 크기 초과 결함의 원인을 확인 중입니다.",
+    "status": "정식 C100 배포·공개 확인을 마쳤습니다. 실제 정상 수집은 실행 조건 확인으로 아직 시작하지 않았습니다.",
     "allStatesAccepted": false,
-    "checkpoint": "C99",
+    "checkpoint": "C100",
     "initialAddedRecords": 8,
     "additionalConsumerRecords": 10,
     "release": {
-      "candidate": "C99",
-      "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
-      "deploymentId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
+      "candidate": "C100",
+      "sourceCommit": "857bab6e70567a4947e7b16e11b8eb93877734de",
+      "deploymentId": "dpl_6o38TXCneNUc8ShKQCwsVrag26uA",
+      "branch": "preview/core-v0.11.0",
       "htmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
       "htmlBytes": 6938519,
-      "promotedAt": "2026-11-02T10:18:30.451Z",
-      "publicVerifiedAt": "2026-11-02T10:18:37.849Z",
+      "publicVerifiedAt": "2026-11-02T13:07:07.324Z",
       "httpStatus": 200,
       "unauthenticatedApis": {
         "workspace": 401,
@@ -812840,82 +812896,15 @@
       "scope": "정식 파일은 C98과 바이트가 같으며 기존5회는 이력과 동등성으로만 보존합니다."
     },
     "actualCollection": {
-      "candidate": "C99",
-      "executed": true,
-      "status": "정식 C99를 유지하며 실제 원천 참조판본 크기 초과 결함의 원인을 확인 중입니다.",
-      "previousC98History": "previousC98Checkpoint.actualCollection",
-      "newPostgresReentryAccepted": true,
-      "triggered": true,
-      "triggerCount": 4,
-      "triggerAt": "2026-11-02T10:21:29.341Z",
-      "cliExitCode": 0,
-      "cliFinishedAt": "2026-11-02T10:21:32.391Z",
-      "serverOutcomeAccepted": false,
-      "validation": {
-        "candidate": "C99",
-        "normalVerificationCalls": 2,
-        "completedVerificationCalls": 2,
-        "firstPartnerRunId": "212c61c7-beac-4b0b-898c-d26bdc41c44c",
-        "secondPartnerRunId": "265edcff-5323-4af6-9953-e2bc9b6a0d9d",
-        "status": "정상 검증2회의 명시 범위를 확인했으며 전체 과거 수집은 미완료입니다.",
-        "firstSourceCounts": {
-          "failed": 0,
-          "success": 190,
-          "deferred": 0,
-          "not_modified": 1,
-          "partial_failure": 2,
-          "configuration_missing": 3
-        },
-        "firstCountPreservationChecksPassed": 8,
-        "firstReplanCount": 1,
-        "secondReplanCount": 0,
-        "preservedReplanReferences": 1,
-        "completedThroughBefore": "202610231158",
-        "completedThroughAfterFirst": "202610232358",
-        "completedThroughAfterSecond": "202610252358",
-        "pendingErrorCodeAfterSecond": null,
-        "storedPastReferenceSqlRuntimeReentryVerified": true,
-        "recoveryComplete": false,
-        "additionalBackfill": {
-          "maximumCalls": 6,
-          "callsExecuted": 2,
-          "stopped": true,
-          "stopReason": "PARTNER_SNAPSHOT_TOO_LARGE",
-          "stoppedBeforeCallLimit": true,
-          "additionalCallsAfterStop": 0,
-          "recoveryComplete": false
-        },
-        "evidenceScope": "첫 원천 결과 메타와 루트가 확인한 두 번째 저장 참조 재진입 결과입니다. 회사 원문·금액·금융 지문을 반환하지 않았습니다."
-      },
-      "totalNormalCalls": 4,
-      "validationNormalCalls": 2,
-      "backfillNormalCalls": 2,
-      "serverOutcomeObserved": true,
-      "normalVerificationScopedAccepted": true,
-      "wholeCollectionAccepted": false,
-      "snapshotSizeBlock": {
-        "status": "실제 원천 참조판본 저장이 상한에서 차단돼 원인을 확인 중입니다.",
-        "errorCode": "PARTNER_SNAPSHOT_TOO_LARGE",
-        "partnerRunId": "bb5120e4-6f87-445e-94f2-c7f2c62f0e19",
-        "dailyRunId": "5c407241-5a25-4a6e-ba29-cbbd7b119ea1",
-        "startedAt": "2026-11-02T10:42:26.073919+00:00",
-        "finishedAt": "2026-11-02T10:43:41.705681+00:00",
-        "validationNormalCalls": 2,
-        "backfillNormalCalls": 2,
-        "totalNormalCalls": 4,
-        "backfillMaximumCalls": 6,
-        "stoppedBeforeCallLimit": true,
-        "stopCause": "원천 참조판본의32×1024×1024바이트 상한 초과입니다.",
-        "latestSuccessfulReference": "99cad3dd-01ba-44e1-8117-de8c35a5c3c9",
-        "latestReferenceRetained": true,
-        "failedRunPublished": false,
-        "completedThrough": "202610261458",
-        "targetCompleteThrough": "202611021938",
-        "recoveryComplete": false,
-        "additionalCallsAfterStop": 0,
-        "diagnosis": "원본을 삭제하거나 상한을 임의로 늘리지 않고 자료가 여러 저장 소비자에 연결되는 경계를 진단 중입니다. 중복이 실제 원인이라고 아직 확정하지 않았습니다.",
-        "scope": "기존 C99의311개 검사군 통과와 이후 실제 자료에서 발생한 저장 실패를 구분합니다. 호출 한도 도달이나 전체 업무 완료로 마감하지 않습니다."
-      }
+      "candidate": "C100",
+      "status": "실제 정상 수집은 아직 시작하지 않았습니다. 운영 검증 실행 조건을 확인한 뒤 저장·재진입·백필을 별도로 판정합니다.",
+      "verifiedNormalCalls": 0,
+      "normalOperatingSaveAccepted": false,
+      "normalOperatingReentryAccepted": false,
+      "entireHistoricalRecoveryComplete": false,
+      "previousC99History": "previousC99Checkpoint.actualCollection",
+      "executionStarted": false,
+      "normalCronCalls": 0
     },
     "registration": {
       "status": "루트의 실제 적용과 확정 응답을 확인했습니다.",
@@ -813223,7 +813212,7 @@
     },
     "c100Candidate": {
       "candidate": "C100",
-      "status": "새 단일 전체313개 검사군을 통과했고 게시·배포 검증을 준비 중입니다.",
+      "status": "정식 C100과 공개 검증을 확인했습니다. 실제 원천 저장·재진입·백필 결과는 아직 확인 중입니다.",
       "spec": "docs/review133-storage-spec.md",
       "requirements": [
         "C100-01",
@@ -813237,7 +813226,7 @@
       "consumerRecords": 7,
       "implementation": "pass",
       "automatic": "집중 범위 통과·전체 재실행 대기",
-      "actualDeployment": "notrun",
+      "actualDeployment": "pass",
       "actualDatabase": "notrun",
       "actualReentry": "notrun",
       "allStatesAccepted": false,
@@ -813275,6 +813264,110 @@
     },
     "c100CandidateConsumerRecords": 7,
     "preC100Records": 5231,
-    "preC100PrefixSha256": "b17ed6817c0289141ce3287c2cd5321b2b34d44e541af741c0bae9697c995489"
+    "preC100PrefixSha256": "b17ed6817c0289141ce3287c2cd5321b2b34d44e541af741c0bae9697c995489",
+    "previousC99Production": {
+      "release": {
+        "candidate": "C99",
+        "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
+        "deploymentId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
+        "htmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
+        "htmlBytes": 6938519,
+        "promotedAt": "2026-11-02T10:18:30.451Z",
+        "publicVerifiedAt": "2026-11-02T10:18:37.849Z",
+        "httpStatus": 200,
+        "unauthenticatedApis": {
+          "workspace": 401,
+          "notifications": 401,
+          "employeeDirectory": 401
+        },
+        "productionAliasMatched": true,
+        "actualBuildAccessCounts": {
+          "regularCount": 12,
+          "sampleCount": 6,
+          "unionCount": 18,
+          "overlapCount": 0
+        },
+        "mailSent": false,
+        "authenticatedMemberTested": false
+      },
+      "actualCollection": {
+        "candidate": "C99",
+        "executed": true,
+        "status": "정식 C99를 유지하며 실제 원천 참조판본 크기 초과 결함의 원인을 확인 중입니다.",
+        "previousC98History": "previousC98Checkpoint.actualCollection",
+        "newPostgresReentryAccepted": true,
+        "triggered": true,
+        "triggerCount": 4,
+        "triggerAt": "2026-11-02T10:21:29.341Z",
+        "cliExitCode": 0,
+        "cliFinishedAt": "2026-11-02T10:21:32.391Z",
+        "serverOutcomeAccepted": false,
+        "validation": {
+          "candidate": "C99",
+          "normalVerificationCalls": 2,
+          "completedVerificationCalls": 2,
+          "firstPartnerRunId": "212c61c7-beac-4b0b-898c-d26bdc41c44c",
+          "secondPartnerRunId": "265edcff-5323-4af6-9953-e2bc9b6a0d9d",
+          "status": "정상 검증2회의 명시 범위를 확인했으며 전체 과거 수집은 미완료입니다.",
+          "firstSourceCounts": {
+            "failed": 0,
+            "success": 190,
+            "deferred": 0,
+            "not_modified": 1,
+            "partial_failure": 2,
+            "configuration_missing": 3
+          },
+          "firstCountPreservationChecksPassed": 8,
+          "firstReplanCount": 1,
+          "secondReplanCount": 0,
+          "preservedReplanReferences": 1,
+          "completedThroughBefore": "202610231158",
+          "completedThroughAfterFirst": "202610232358",
+          "completedThroughAfterSecond": "202610252358",
+          "pendingErrorCodeAfterSecond": null,
+          "storedPastReferenceSqlRuntimeReentryVerified": true,
+          "recoveryComplete": false,
+          "additionalBackfill": {
+            "maximumCalls": 6,
+            "callsExecuted": 2,
+            "stopped": true,
+            "stopReason": "PARTNER_SNAPSHOT_TOO_LARGE",
+            "stoppedBeforeCallLimit": true,
+            "additionalCallsAfterStop": 0,
+            "recoveryComplete": false
+          },
+          "evidenceScope": "첫 원천 결과 메타와 루트가 확인한 두 번째 저장 참조 재진입 결과입니다. 회사 원문·금액·금융 지문을 반환하지 않았습니다."
+        },
+        "totalNormalCalls": 4,
+        "validationNormalCalls": 2,
+        "backfillNormalCalls": 2,
+        "serverOutcomeObserved": true,
+        "normalVerificationScopedAccepted": true,
+        "wholeCollectionAccepted": false,
+        "snapshotSizeBlock": {
+          "status": "실제 원천 참조판본 저장이 상한에서 차단돼 원인을 확인 중입니다.",
+          "errorCode": "PARTNER_SNAPSHOT_TOO_LARGE",
+          "partnerRunId": "bb5120e4-6f87-445e-94f2-c7f2c62f0e19",
+          "dailyRunId": "5c407241-5a25-4a6e-ba29-cbbd7b119ea1",
+          "startedAt": "2026-11-02T10:42:26.073919+00:00",
+          "finishedAt": "2026-11-02T10:43:41.705681+00:00",
+          "validationNormalCalls": 2,
+          "backfillNormalCalls": 2,
+          "totalNormalCalls": 4,
+          "backfillMaximumCalls": 6,
+          "stoppedBeforeCallLimit": true,
+          "stopCause": "원천 참조판본의32×1024×1024바이트 상한 초과입니다.",
+          "latestSuccessfulReference": "99cad3dd-01ba-44e1-8117-de8c35a5c3c9",
+          "latestReferenceRetained": true,
+          "failedRunPublished": false,
+          "completedThrough": "202610261458",
+          "targetCompleteThrough": "202611021938",
+          "recoveryComplete": false,
+          "additionalCallsAfterStop": 0,
+          "diagnosis": "원본을 삭제하거나 상한을 임의로 늘리지 않고 자료가 여러 저장 소비자에 연결되는 경계를 진단 중입니다. 중복이 실제 원인이라고 아직 확정하지 않았습니다.",
+          "scope": "기존 C99의311개 검사군 통과와 이후 실제 자료에서 발생한 저장 실패를 구분합니다. 호출 한도 도달이나 전체 업무 완료로 마감하지 않습니다."
+        }
+      }
+    }
   }
 }

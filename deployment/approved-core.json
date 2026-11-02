@@ -8,12 +8,12 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "C100 새 전체313검사를 통과했고 배포·실제 운영 검증은 대기 중입니다.",
+  "status": "정식 C100과 공개 검증을 확인했으며 실제 정상 수집은 아직 시작하지 않았습니다.",
   "preparedAt": "2026-11-02",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
   "actualBrowser": "새 실제 화면 실행0회입니다. 두origin 파일은 C99/C98과 바이트가 같고 기존 C98의5회는 이력으로만 보존합니다.",
-  "actualAuthenticatedServer": "C100 stage·실제 운영은 아직 미검증입니다. C99의4회 정상호출과32MiB 저장 차단 이력은 별도로 보존합니다.",
+  "actualAuthenticatedServer": "정식 source857/배포6o의 별칭·공개200/무로그인 API3개401·실제build12/6/18/0·메일 미발송을 확인했습니다. 실제 정상 수집·새 원천 저장·후속 재진입·백필은 미검증입니다.",
   "previousRelease": {
     "version": "0.13.0",
     "candidate": "C99",
@@ -199,6 +199,21 @@
         "queriedAt": "2026-11-02T10:32:30.550Z",
         "notFormalSecurityReport": true
       }
+    },
+    "productionDeployment": {
+      "id": "dpl_6o38TXCneNUc8ShKQCwsVrag26uA",
+      "sourceCommit": "857bab6e70567a4947e7b16e11b8eb93877734de",
+      "branch": "preview/core-v0.11.0",
+      "publicVerifiedAt": "2026-11-02T13:07:07.324Z",
+      "publicHtmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
+      "publicHtmlBytes": 6938519,
+      "actualBuildAccessCounts": {
+        "regularCount": 12,
+        "sampleCount": 6,
+        "unionCount": 18,
+        "overlapCount": 0
+      },
+      "mailSent": false
     }
   }
 }
