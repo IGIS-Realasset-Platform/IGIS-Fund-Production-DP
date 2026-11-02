@@ -132,6 +132,22 @@ function proofMatchesLegacy(legacy,proof){return !!proof&&legacy.recordCount===p
 export function verifyG2bLegacyReference(legacy,previous,{sourceReferenceVersion=null,g2bLegacyReferenceProofs=[]}={}){
  if(!legacy?.reference)return false;const {version,path}=legacy.reference,proof=version===sourceReferenceVersion?currentLegacyProof(version,path,previous):g2bLegacyReferenceProofs.find(p=>p.version===version&&p.path===path);return proofMatchesLegacy(legacy,proof);
 }
+export function verifyG2bReplanReference(entry,previous,{sourceReferenceVersion=null,g2bLegacyReferenceProofs=[]}={}){
+ const fields=['version','reason','reference','recordCount','recordsSha256','observationSha256','query','checkpoint','evidence','evidenceSha256'],exact=(value,keys)=>object(value)&&Object.keys(value).length===keys.length&&Object.keys(value).every(k=>keys.includes(k)),validVersion=value=>typeof value==='string'&&value.length>0&&value.length<=500&&value===value.trim()&&!/[\u0000-\u001f\u007f]/.test(value);
+ if(!exact(entry,fields)||entry.version!==1||entry.reason!=='G2B_TOTAL_CHANGED'||!exact(entry.reference,['version','path'])||!validVersion(entry.reference.version)||entry.reference.path!=='g2b'||!validVersion(sourceReferenceVersion)||!Number.isInteger(entry.recordCount)||entry.recordCount<1||entry.recordCount>3000||['recordsSha256','observationSha256','evidenceSha256'].some(k=>!/^[a-f0-9]{64}$/.test(entry[k]||''))||!exact(entry.query,['from','to'])||!exact(entry.checkpoint,['kindIndex','page'])||!Number.isInteger(entry.checkpoint.kindIndex)||entry.checkpoint.kindIndex<0||entry.checkpoint.kindIndex>2||!Number.isInteger(entry.checkpoint.page)||entry.checkpoint.page<1||entry.checkpoint.page>1000)return false;
+ try{g2bMinuteDate(entry.query.from);g2bMinuteDate(entry.query.to);if(entry.query.from>=entry.query.to)return false;}catch{return false;}
+ const {version,path}=entry.reference;let proof;
+ if(version===sourceReferenceVersion){
+  if((previous?.automation?.enrichmentState?.g2bReplans||[]).some(r=>r?.reference?.version===version))return false;
+  const observation=previous?.automation?.enrichmentState?.g2b;if(observation?.window?.version!==2||observation.window.mode!=='recovery')return false;proof=currentLegacyProof(version,path,previous);
+ }else{proof=g2bLegacyReferenceProofs.find(p=>p.version===version&&p.path===path);if(proof?.isPriorSnapshot!==true||proof.referenceHistoryValid!==true)return false;}
+ return proofMatchesLegacy(entry,proof);
+}
+export function verifyG2bReplanHistory(state,previous,options={}){
+ const history=state.g2bReplans,prior=previous?.automation?.enrichmentState?.g2bReplans;if(history===undefined)return prior===undefined||Array.isArray(prior)&&prior.length===0;
+ if(!Array.isArray(history)||history.length>16||prior!==undefined&&!Array.isArray(prior)||history.length<(prior?.length||0)||history.length>(prior?.length||0)+1||history.length&&state.g2bProgress?.version!==2)return false;
+ const seen=new Set();for(let i=0;i<history.length;i++){if(i<(prior?.length||0)&&g2bMaterial(history[i])!==g2bMaterial(prior[i]))return false;const token=JSON.stringify(history[i]?.reference);if(seen.has(token)||!verifyG2bReplanReference(history[i],previous,options))return false;seen.add(token);}return true;
+}
 function g2bCheckpointFits(state){return (state.g2b?.records?.length||0)+(state.g2bLegacy?.inline?.records?.length||0)<=3000&&Buffer.byteLength(JSON.stringify(state))<=4*1024*1024;}
 function preserveG2bLegacy(state,previous,{sourceReferenceVersion,g2bLegacyReferenceProofs},checkedAt){
  const old=state.g2b;if(old&&old.window?.version!==2){
@@ -154,8 +170,19 @@ function upgradedG2bProgress(old,checkedAt){
 }
 async function collectG2bRecovery({state,previous,configuration,get,clock,operation,timeLeft,sourceReferenceVersion=null,g2bLegacyReferenceProofs=[]}){
  const checkedAt=clock().toISOString(),observedThrough=g2bClosedMinute(checkedAt),progress=upgradedG2bProgress(state.g2bProgress,checkedAt);if(configuration.g2bRecoveryStart!==G2B_RECOVERY_START)fail('INVALID_G2B_RECOVERY_STATE');
+ if(!verifyG2bReplanHistory(state,previous,{sourceReferenceVersion,g2bLegacyReferenceProofs}))fail('G2B_REPLAN_REFERENCE_UNVERIFIED');
  preserveG2bLegacy(state,previous,{sourceReferenceVersion,g2bLegacyReferenceProofs},checkedAt);state.g2bProgress=progress;
- const completedWindows=[],published=[],oldPublic=previous.automation?.publicContracts||[];let rawStatus='not_modified',issue=null,missingKind=null,sourceUrl,bodyBatches=0,iterations=0,partyShape=null;
+ const completedWindows=[],published=[],oldPublic=previous.automation?.publicContracts||[];let rawStatus='not_modified',issue=null,missingKind=null,sourceUrl,bodyBatches=0,iterations=0,partyShape=null,replans=0,replanWait=null;
+ const replan=()=>{
+  if(replans>=1){replanWait='per-call-limit';return false;}const active=state.g2b,history=state.g2bReplans||[];
+  if(!active?.records?.length)return false;if(history.length>=16){replanWait='history-limit';return false;}
+  const actual=previous?.automation?.enrichmentState?.g2b;if(!sourceReferenceVersion||!actual||g2bMaterial(active)!==g2bMaterial(actual)){replanWait='immutable-publication-required';return false;}
+  const proof=currentLegacyProof(sourceReferenceVersion,'g2b',previous);if(!proof){replanWait='immutable-publication-required';return false;}
+  const{version:ignoredVersion,path:ignoredPath,...metadata}=proof,entry={version:1,reason:'G2B_TOTAL_CHANGED',reference:{version:sourceReferenceVersion,path:'g2b'},...metadata};
+  if(!verifyG2bReplanReference(entry,previous,{sourceReferenceVersion,g2bLegacyReferenceProofs})){replanWait='immutable-publication-required';return false;}
+  const window={...copy(active.window),totals:{}};if(window.plan)window.plan={...window.plan,status:'counting',totals:{},nextKindIndex:0};
+  const next={query:copy(active.query),checkpoint:{kindIndex:0,page:1},records:[],window},candidate={...state,g2b:next,g2bReplans:[...history,entry]};if(!g2bCheckpointFits(candidate))fail('SOURCE_CHECKPOINT_RECORD_LIMIT');state.g2b=next;state.g2bReplans=candidate.g2bReplans;replans++;replanWait=null;return true;
+ };
  for(;iterations<200&&completedWindows.length<2;iterations++){
   if(!timeLeft()){rawStatus='deferred';issue='SOURCE_BUDGET_DEFERRED';break;}
   const saved=state.g2b;let query=saved?.query||g2bRecoveryQuery(progress,observedThrough);if(!query)break;
@@ -179,16 +206,17 @@ async function collectG2bRecovery({state,previous,configuration,get,clock,operat
     if(!g2bCheckpointFits({...state,g2b:next}))fail('SOURCE_CHECKPOINT_RECORD_LIMIT');
     const position=resume||{kindIndex:0,page:1},advanced=result.coverage.length>0&&(next.checkpoint.kindIndex>position.kindIndex||next.checkpoint.kindIndex===position.kindIndex&&next.checkpoint.page>position.page);
     state.g2b=next;issue=result.errorCode||(!advanced?'G2B_NO_PROGRESS':'SOURCE_PROVIDER_NOT_COMPLETE');
+    if(issue==='G2B_TOTAL_CHANGED'&&replan())continue;
     if(result.status==='partial_failure'&&(!result.errorCode||result.errorCode==='SOURCE_PROVIDER_NOT_COMPLETE')&&advanced&&timeLeft())continue;
     break;
    }
    if(records.length+(state.g2bLegacy?.inline?.records?.length||0)>3000)fail('SOURCE_CHECKPOINT_RECORD_LIMIT');
    const completedAt=clock().toISOString();published.push(...records);completedWindows.push({...query,mode:'recovery',queriedAt:window.queriedAt,completedAt,records:records.length});
    progress.completedThrough=g2bPreviousMinute(query.to);progress.lastCompletedAt=completedAt;delete state.g2b;
-  }catch(error){issue=safeCode(error);rawStatus='partial_failure';break;}
+  }catch(error){issue=safeCode(error);rawStatus='partial_failure';if(issue==='G2B_TOTAL_CHANGED'&&replan())continue;break;}
  }
  const nextQuery=g2bRecoveryQuery(progress,observedThrough),recoveryComplete=nextQuery===null&&!state.g2b,legacy=state.g2bLegacy,coverage={policy:'closed-calendar-day-overlap',queryBasis:{contract:'registration_datetime',amendment:'change_datetime',cancellation:'deletion_datetime'},timeZone:'Asia/Seoul',precision:'minute',boundaryPolicy:'overlap-minute',lateProviderUpdates:'not_guaranteed',startDate:progress.startDate,observedThrough,targetCompleteThrough:g2bPreviousMinute(observedThrough),completedThrough:progress.completedThrough,lastCompletedAt:progress.lastCompletedAt,nextQuery,activeQuery:state.g2b?.query||null,nextPosition:state.g2b?.checkpoint||null,activeRecords:state.g2b?.records?.length||0,planning:state.g2b?.window?.plan||null,legacyObservationPending:false,legacyObservationPreserved:!!legacy,legacyObservationStatus:legacy?.status||null,legacyReferenceVerified:!!legacy?.reference,legacyRecordCount:legacy?.recordCount||0,legacyInlineRecords:legacy?.inline?.records?.length||0,recoveryComplete,completedWindows,bodyBatches,iterationLimitReached:iterations>=200,pendingErrorCode:iterations>=200?'SOURCE_BUDGET_DEFERRED':issue};
- return{status:completedWindows.length?'success':rawStatus,sourceResponseValidated:completedWindows.length>0,records:published,checkpoint:null,missingKind,requiredConfiguration:missingKind==='credential'?['DP_G2B_SERVICE_KEY']:[],coverage:{...coverage,...(partyShape?{partyShape}:{})},...(sourceUrl?{sourceUrl}:{})};
+ return{status:completedWindows.length?'success':rawStatus,sourceResponseValidated:completedWindows.length>0,records:published,checkpoint:null,missingKind,requiredConfiguration:missingKind==='credential'?['DP_G2B_SERVICE_KEY']:[],coverage:{...coverage,...(partyShape?{partyShape}:{}),...(replans||replanWait||state.g2bReplans?.length?{replan:{attemptedCount:replans,waitReason:replanWait,preservedObservationCount:state.g2bReplans?.length||0,historyLimit:16}}:{})},...(sourceUrl?{sourceUrl}:{})};
 }
 
 export function calculateVerifiedUnitCost(input){const reasons=[];if(!object(input))return{eligible:false,reasons:['EVIDENCE_MISSING']};const{amount,area}=input;if(!matchLegalEntity(input.companyIdentity,input.sourceLegalIdentity).matched)reasons.push('LEGAL_IDENTITY_UNCONFIRMED');if(!['contract','amendment'].includes(input.eventType))reasons.push('NOT_ACTIVE_CONSTRUCTION_CONTRACT');if(input.joint===true)reasons.push('JOINT_SHARE_SCOPE_REQUIRES_REVIEW');if(!object(amount)||amount.confirmed!==true||amount.currency!=='KRW'||amount.scope!=='whole_construction_contract'||!['included','excluded'].includes(amount.vat))reasons.push('AMOUNT_SCOPE_OR_VAT_UNCONFIRMED');if(!object(area)||area.confirmed!==true||area.unit!=='m2'||area.basis!=='gross_floor_area'||area.scope!=='whole_construction_contract'||!input.contractId||area.contractId!==input.contractId)reasons.push('GROSS_AREA_OR_CONTRACT_SCOPE_UNCONFIRMED');let amountValue,areaValue;try{amountValue=money(amount?.value);if(amountValue<=0)throw Error();if(typeof area?.value!=='string'&&typeof area?.value!=='number')throw Error();const s=String(area.value);if(!/^\d+(?:\.\d{1,6})?$/.test(s)||Number(s)<=0||Number(s)>100000000)throw Error();areaValue=s;officialUrl(amount.sourceUrl);officialUrl(area.sourceUrl);}catch{reasons.push('NUMERIC_OR_SOURCE_EVIDENCE_MISSING');}if(reasons.length)return{eligible:false,reasons:[...new Set(reasons)]};const decimals=(areaValue.split('.')[1]||'').length,scale=10n**BigInt(decimals),areaInt=BigInt(areaValue.replace('.','')),numerator=BigInt(amountValue)*400n*scale,denominator=areaInt*121n,rounded=(numerator+denominator/2n)/denominator;if(rounded>BigInt(Number.MAX_SAFE_INTEGER))return{eligible:false,reasons:['UNIT_AMOUNT_OUT_OF_RANGE']};return{eligible:true,record:{id:'verified-unit:'+sha({contractId:input.contractId,amount:amountValue,area:areaValue,vat:amount.vat}).slice(0,40),contractId:input.contractId,amount_krw:amountValue,floor_area_m2:Number(areaValue),floor_area_m2_text:areaValue,unit_cost_krw_per_m2:amountValue/Number(areaValue),unit_cost_krw_per_py:Number(rounded),vat:amount.vat,confidence:'High',amountScope:'whole_construction_contract',areaBasis:'gross_floor_area',calculationVersion:'verified-unit-v1',evidence:{amountUrl:amount.sourceUrl,areaUrl:area.sourceUrl,legalIdentity:matchLegalEntity(input.companyIdentity,input.sourceLegalIdentity).evidence}}};}

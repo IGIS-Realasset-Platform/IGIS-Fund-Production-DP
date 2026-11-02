@@ -1,6 +1,6 @@
 {
   "version": "0.13.0",
-  "candidate": "C98",
+  "candidate": "C99",
   "origin": "https://igis-development-project-platform.vercel.app",
   "htmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2",
   "bytes": 6938519,
@@ -8,18 +8,18 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review133-c98-formal-verified-scoped-sources-c99-in-progress",
+  "status": "review133-c99-final-regression-passed-live-pending",
   "preparedAt": "2026-11-02",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
-  "actualBrowser": "Exact C98 production Git HTML e6708189: four company-detail viewport/case runs and one sample-access viewport run; page errors0; real user authentication/cookies/database not used.",
-  "actualAuthenticatedServer": "C98 exact public file200, workspace/notifications/employee-directory unauthenticated401, production alias matched. Actual build allowed12+sample6=18/overlap0, mailSentfalse. KACEM and provided DART contracts succeeded in one normal collection; G2B total-drift recovery remains C99 work.",
+  "actualBrowser": "No new browser run. C98 five isolated flows used identical HTML; exact C99 rebuilt artifact equivalence remains a release gate.",
+  "actualAuthenticatedServer": "C99 live verification pending. Preserve historical C98 source results separately.",
   "previousRelease": {
     "version": "0.13.0",
-    "candidate": "C97",
-    "sourceCommit": "5393065e845a61cb58ce51673c504bfadc6e9106",
-    "productionDeploymentId": "dpl_7pTxTzF8BC8ceVUuXUZ9zfdQogvf",
-    "formalHtmlSha256": "63e4b0a093e28a5eafd3dcf37b1f899f6f580e22436d26aa96d7429d4e422ea1"
+    "candidate": "C98",
+    "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
+    "productionDeploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+    "formalHtmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2"
   },
   "review131": {
     "status": "historical-C93-scope-preserved",
@@ -62,14 +62,14 @@
   "review133": {
     "spec": "docs/review133-external-security-spec.md",
     "fullRegression": {
-      "passed": 310,
+      "passed": 311,
       "failed": 0,
       "preparationBlocked": 0,
-      "sourcePins": 651,
+      "sourcePins": 652,
       "sourceChanged": 0,
       "validSingleFinalSource": true,
-      "evidence": "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
-      "sha256": "404319806247c50af047f25089d0f0df5d506f528ab4531e0c09b0729a62d60c"
+      "evidence": "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+      "sha256": "c0704aaca38d07cfebecbd30c7ce0036b07e27e9295a721d163791ab114edabb"
     },
     "officialDocument": {
       "kacemChecks": 22,
@@ -77,30 +77,54 @@
       "newTimingCases": 2,
       "officialFixtureExecuted": true
     },
-    "currentNativeRuns": 5,
+    "currentNativeRuns": 0,
+    "historicalC98NativeRuns": 5,
     "businessWorkspaceWrites": 0,
-    "providedEvidenceRegistration": {
-      "insertedSnapshots": 1,
-      "updatedOrDeletedExistingSnapshots": 0,
-      "issuers": 2,
-      "observations": 5,
-      "eligibleUnitCosts": 0,
-      "workspaceAndOrgdbWrites": 0
-    },
-    "productionRunExecuted": true,
+    "productionRunExecuted": false,
     "wholeTaskComplete": false,
-    "release": {
-      "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
-      "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
-      "publicEvidence": ".build/review132/public-verified-1793610564836.json",
-      "actualNativeRuns": 5
-    },
-    "remaining": {
-      "g2b": "C99 bounded total-drift replan in progress",
-      "credit": "Agency-to-legal-entity evidence unconfirmed",
-      "unitCost": "Original contract and same amount/area scope unconfirmed",
-      "kosis": "Direct source not configured; existing KICT source remains distinct",
-      "formalSecurityReport": "Official access requirement unmet; not replaced by product tests"
+    "historicalC98": {
+      "spec": "docs/review133-external-security-spec.md",
+      "fullRegression": {
+        "passed": 310,
+        "failed": 0,
+        "preparationBlocked": 0,
+        "sourcePins": 651,
+        "sourceChanged": 0,
+        "validSingleFinalSource": true,
+        "evidence": "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+        "sha256": "404319806247c50af047f25089d0f0df5d506f528ab4531e0c09b0729a62d60c"
+      },
+      "officialDocument": {
+        "kacemChecks": 22,
+        "originalOfficialCases": 3,
+        "newTimingCases": 2,
+        "officialFixtureExecuted": true
+      },
+      "currentNativeRuns": 5,
+      "businessWorkspaceWrites": 0,
+      "providedEvidenceRegistration": {
+        "insertedSnapshots": 1,
+        "updatedOrDeletedExistingSnapshots": 0,
+        "issuers": 2,
+        "observations": 5,
+        "eligibleUnitCosts": 0,
+        "workspaceAndOrgdbWrites": 0
+      },
+      "productionRunExecuted": true,
+      "wholeTaskComplete": false,
+      "release": {
+        "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
+        "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+        "publicEvidence": ".build/review132/public-verified-1793610564836.json",
+        "actualNativeRuns": 5
+      },
+      "remaining": {
+        "g2b": "C99 bounded total-drift replan in progress",
+        "credit": "Agency-to-legal-entity evidence unconfirmed",
+        "unitCost": "Original contract and same amount/area scope unconfirmed",
+        "kosis": "Direct source not configured; existing KICT source remains distinct",
+        "formalSecurityReport": "Official access requirement unmet; not replaced by product tests"
+      }
     }
   }
 }
