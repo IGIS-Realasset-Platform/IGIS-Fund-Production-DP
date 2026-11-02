@@ -45,7 +45,7 @@
     "businessCounterexamples": 1,
     "currentObservedDefinitions": 975,
     "historicalRecords": 3238,
-    "totalMatrixRecords": 5231,
+    "totalMatrixRecords": 5238,
     "allPriorIDsPreserved": true,
     "currentActualCohortCountsAreNotAddedToHistoricCounts": true,
     "sourceCandidateCohort": "C44 historical, not current visible controls",
@@ -746543,7 +746543,7 @@
       "verification": {
         "implementation": {
           "status": "pass",
-          "scope": "동결된 C99 후보 코드의 명시 범위를 확인했습니다. 현재 정식은 C98입니다.",
+          "scope": "현재 정식 C99의 명시 구현 검수 이력입니다. 이후 원천 저장 크기 차단은 별도 결함으로 기록합니다.",
           "evidence": [
             "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
             "docs/review133-current-verification.json"
@@ -746597,7 +746597,7 @@
         },
         "output": {
           "status": "notrun",
-          "scope": "C99 운영 결과 또는 새 Excel 출력을 수락하지 않았습니다.",
+          "scope": "C99 검증2회의 운영 메타정보는 확인했고 이후 백필 저장 실패는 별도입니다. 새 Excel·금융 원문 내보내기 검수는 수행하지 않았습니다.",
           "evidence": [
             "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
             "docs/review133-current-verification.json"
@@ -746614,7 +746614,14 @@
         }
       },
       "allStatesAccepted": false,
-      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다."
+      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다.",
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md",
+          "scope": "C98 실제 확인과 C99 건수변경 복구의 한도·불변 원관측·참조·실제 검증 구분 기준입니다."
+        }
+      ]
     },
     {
       "componentID": "REVIEW133-g2b-replan-history",
@@ -746648,7 +746655,7 @@
       "verification": {
         "implementation": {
           "status": "pass",
-          "scope": "동결된 C99 후보 코드의 명시 범위를 확인했습니다. 현재 정식은 C98입니다.",
+          "scope": "현재 정식 C99의 명시 구현 검수 이력입니다. 이후 원천 저장 크기 차단은 별도 결함으로 기록합니다.",
           "evidence": [
             "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
             "docs/review133-current-verification.json"
@@ -746702,7 +746709,7 @@
         },
         "output": {
           "status": "notrun",
-          "scope": "C99 운영 결과 또는 새 Excel 출력을 수락하지 않았습니다.",
+          "scope": "C99 검증2회의 운영 메타정보는 확인했고 이후 백필 저장 실패는 별도입니다. 새 Excel·금융 원문 내보내기 검수는 수행하지 않았습니다.",
           "evidence": [
             "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
             "docs/review133-current-verification.json"
@@ -746719,7 +746726,14 @@
         }
       },
       "allStatesAccepted": false,
-      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다."
+      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다.",
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md",
+          "scope": "C98 실제 확인과 C99 건수변경 복구의 한도·불변 원관측·참조·실제 검증 구분 기준입니다."
+        }
+      ]
     },
     {
       "componentID": "REVIEW133-g2b-replan-reference-sql",
@@ -746753,7 +746767,7 @@
       "verification": {
         "implementation": {
           "status": "pass",
-          "scope": "동결된 C99 후보 코드의 명시 범위를 확인했습니다. 현재 정식은 C98입니다.",
+          "scope": "현재 정식 C99의 명시 구현 검수 이력입니다. 이후 원천 저장 크기 차단은 별도 결함으로 기록합니다.",
           "evidence": [
             "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
             "docs/review133-current-verification.json"
@@ -746807,7 +746821,7 @@
         },
         "output": {
           "status": "notrun",
-          "scope": "C99 운영 결과 또는 새 Excel 출력을 수락하지 않았습니다.",
+          "scope": "C99 검증2회의 운영 메타정보는 확인했고 이후 백필 저장 실패는 별도입니다. 새 Excel·금융 원문 내보내기 검수는 수행하지 않았습니다.",
           "evidence": [
             "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
             "docs/review133-current-verification.json"
@@ -746824,7 +746838,14 @@
         }
       },
       "allStatesAccepted": false,
-      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다."
+      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다.",
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md",
+          "scope": "C98 실제 확인과 C99 건수변경 복구의 한도·불변 원관측·참조·실제 검증 구분 기준입니다."
+        }
+      ]
     },
     {
       "componentID": "REVIEW133-g2b-replan-budget",
@@ -746858,7 +746879,7 @@
       "verification": {
         "implementation": {
           "status": "pass",
-          "scope": "동결된 C99 후보 코드의 명시 범위를 확인했습니다. 현재 정식은 C98입니다.",
+          "scope": "현재 정식 C99의 명시 구현 검수 이력입니다. 이후 원천 저장 크기 차단은 별도 결함으로 기록합니다.",
           "evidence": [
             "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
             "docs/review133-current-verification.json"
@@ -746912,7 +746933,7 @@
         },
         "output": {
           "status": "notrun",
-          "scope": "C99 운영 결과 또는 새 Excel 출력을 수락하지 않았습니다.",
+          "scope": "C99 검증2회의 운영 메타정보는 확인했고 이후 백필 저장 실패는 별도입니다. 새 Excel·금융 원문 내보내기 검수는 수행하지 않았습니다.",
           "evidence": [
             "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
             "docs/review133-current-verification.json"
@@ -746929,7 +746950,14 @@
         }
       },
       "allStatesAccepted": false,
-      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다."
+      "currentOperationalBlock": "기존 검증2회의 통과는 보존하지만 이후 원천 판본32MiB 초과 저장 실패를 새 결함으로 분리해 진단 중입니다.",
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-external-security-spec.md",
+          "scope": "C98 실제 확인과 C99 건수변경 복구의 한도·불변 원관측·참조·실제 검증 구분 기준입니다."
+        }
+      ]
     },
     {
       "componentID": "REVIEW133-partner-snapshot-size-boundary",
@@ -747025,7 +747053,782 @@
           "allDynamicConditionsAccepted": false
         }
       },
-      "allStatesAccepted": false
+      "allStatesAccepted": false,
+      "policyBasis": [
+        {
+          "kind": "observed-operational-counterexample",
+          "reference": "docs/review133-current-verification.json",
+          "scope": "actualCollection.snapshotSizeBlock의 실제 C99 저장 실패와 직전 판본 보존입니다."
+        },
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-storage-spec.md",
+          "scope": "원문 보존·임의 상한 증가 금지·실제 저장/재진입 검수 기준입니다."
+        }
+      ]
+    },
+    {
+      "componentID": "REVIEW133-C100-preserved-events",
+      "parentID": "OPS132-05",
+      "requirementIDs": [
+        "C100-01"
+      ],
+      "kind": "storage-consumer",
+      "label": "전역 과거 원천 사건의 불변 판본 보존",
+      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/public-contract-archive.mjs",
+          "sha256": "c849446d67fd6f72d848e58827e24a1be815e4bcf03f4d679cd95680116db96d",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        },
+        {
+          "path": "server/partner-collector.mjs",
+          "sha256": "2d985fb6800199394392724f36afaca7859534b2f4c9780a4a47307bc32a6798",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        }
+      ],
+      "purpose": {
+        "userTask": "전역 과거 원천 사건의 불변 판본 보존",
+        "reference": "docs/review133-storage-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "전역 과거 사건",
+          "실존 판본/고정 경로",
+          "새 사건 구분",
+          "원문 필드·ID·미입력/0 보존"
+        ],
+        "preservation": "기존 불변 판본·원사건·원금액·회사별 조회·32MiB 상한을 보존합니다. UI 미사용을 삭제 근거로 삼지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "C100 동결된 해당 소스와 원본 보존 소비자 구현을 확인했습니다. 정식은 아직 C99입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "저장10·runtime16·독립34·실제품SQL합성PG18과 새 단일 전체313개/655파일이 명시 범위를 통과했습니다. 운영 앱 저장·재진입은 아직 미검증입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "새 실제 화면 검수는 수행하지 않았습니다. 기존 화면을 임의로 바꾸지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "scope": "C100 실제 배포·원천 실행을 수행하지 않았습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "scope": "실제 새 저장·참조 로더 재진입은 미검증입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "notrun",
+          "scope": "실제 C100 저장 전후의 원본·이력·권한 보존을 아직 수락하지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "새 참조판본·회사 DTO·Excel 출력은 미수행입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-storage-spec.md",
+          "requirement": "C100-01",
+          "scope": "루트가 작성한 C100 원천 사건 보존·저장 경계의 정확 하위 요구입니다."
+        }
+      ]
+    },
+    {
+      "componentID": "REVIEW133-C100-merge-conflict",
+      "parentID": "OPS132-05",
+      "requirementIDs": [
+        "C100-02"
+      ],
+      "kind": "storage-consumer",
+      "label": "과거 사건 해석과 재수집 합치기 검사",
+      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/public-contract-archive.mjs",
+          "sha256": "c849446d67fd6f72d848e58827e24a1be815e4bcf03f4d679cd95680116db96d",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        },
+        {
+          "path": "server/partner-enrichment.mjs",
+          "sha256": "c106f652181cb4adc7c99d874dc7183dff12e249aa094acec005ee37b136a9c7",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        }
+      ],
+      "purpose": {
+        "userTask": "과거 사건 해석과 재수집 합치기 검사",
+        "reference": "docs/review133-storage-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "참조 해석",
+          "같은 사건/금액 충돌",
+          "정정/완료집합",
+          "빈 배열로 실패 숨김 차단"
+        ],
+        "preservation": "기존 불변 판본·원사건·원금액·회사별 조회·32MiB 상한을 보존합니다. UI 미사용을 삭제 근거로 삼지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "C100 동결된 해당 소스와 원본 보존 소비자 구현을 확인했습니다. 정식은 아직 C99입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "저장10·runtime16·독립34·실제품SQL합성PG18과 새 단일 전체313개/655파일이 명시 범위를 통과했습니다. 운영 앱 저장·재진입은 아직 미검증입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "새 실제 화면 검수는 수행하지 않았습니다. 기존 화면을 임의로 바꾸지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "scope": "C100 실제 배포·원천 실행을 수행하지 않았습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "scope": "실제 새 저장·참조 로더 재진입은 미검증입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "notrun",
+          "scope": "실제 C100 저장 전후의 원본·이력·권한 보존을 아직 수락하지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "새 참조판본·회사 DTO·Excel 출력은 미수행입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-storage-spec.md",
+          "requirement": "C100-02",
+          "scope": "루트가 작성한 C100 원천 사건 보존·저장 경계의 정확 하위 요구입니다."
+        }
+      ]
+    },
+    {
+      "componentID": "REVIEW133-C100-size-budget",
+      "parentID": "OPS132-05",
+      "requirementIDs": [
+        "C100-03"
+      ],
+      "kind": "storage-consumer",
+      "label": "의미를 보존한 참조판본 저장 크기",
+      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/public-contract-archive.mjs",
+          "sha256": "c849446d67fd6f72d848e58827e24a1be815e4bcf03f4d679cd95680116db96d",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        },
+        {
+          "path": "server/maintenance-runtime.mjs",
+          "sha256": "7c09c09253cb539d223bdcf9ecbaaa06915516ec32302cef1a9fb18e24e96dfc",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        }
+      ],
+      "purpose": {
+        "userTask": "의미를 보존한 참조판본 저장 크기",
+        "reference": "docs/review133-storage-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "기존32MiB 상한",
+          "작은 자료 호환",
+          "새 사건의 실제 저장",
+          "임의 삭제·중복 제거·금액 분배 차단"
+        ],
+        "preservation": "기존 불변 판본·원사건·원금액·회사별 조회·32MiB 상한을 보존합니다. UI 미사용을 삭제 근거로 삼지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "C100 동결된 해당 소스와 원본 보존 소비자 구현을 확인했습니다. 정식은 아직 C99입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "저장10·runtime16·독립34·실제품SQL합성PG18과 새 단일 전체313개/655파일이 명시 범위를 통과했습니다. 운영 앱 저장·재진입은 아직 미검증입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "새 실제 화면 검수는 수행하지 않았습니다. 기존 화면을 임의로 바꾸지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "scope": "C100 실제 배포·원천 실행을 수행하지 않았습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "scope": "실제 새 저장·참조 로더 재진입은 미검증입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "notrun",
+          "scope": "실제 C100 저장 전후의 원본·이력·권한 보존을 아직 수락하지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "새 참조판본·회사 DTO·Excel 출력은 미수행입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-storage-spec.md",
+          "requirement": "C100-03",
+          "scope": "루트가 작성한 C100 원천 사건 보존·저장 경계의 정확 하위 요구입니다."
+        }
+      ]
+    },
+    {
+      "componentID": "REVIEW133-C100-reference-loader",
+      "parentID": "OPS132-05",
+      "requirementIDs": [
+        "C100-04"
+      ],
+      "kind": "storage-consumer",
+      "label": "저장 참조의 종류·순서·원문 검증",
+      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/public-contract-archive.mjs",
+          "sha256": "c849446d67fd6f72d848e58827e24a1be815e4bcf03f4d679cd95680116db96d",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        },
+        {
+          "path": "server/maintenance-runtime.mjs",
+          "sha256": "7c09c09253cb539d223bdcf9ecbaaa06915516ec32302cef1a9fb18e24e96dfc",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        }
+      ],
+      "purpose": {
+        "userTask": "저장 참조의 종류·순서·원문 검증",
+        "reference": "docs/review133-storage-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "종류/고정경로/판본",
+          "실재/순서/건수/원문 일치",
+          "자기/앞선/순환/누락/변조",
+          "유한 자원·이력 보존"
+        ],
+        "preservation": "기존 불변 판본·원사건·원금액·회사별 조회·32MiB 상한을 보존합니다. UI 미사용을 삭제 근거로 삼지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "C100 동결된 해당 소스와 원본 보존 소비자 구현을 확인했습니다. 정식은 아직 C99입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "저장10·runtime16·독립34·실제품SQL합성PG18과 새 단일 전체313개/655파일이 명시 범위를 통과했습니다. 운영 앱 저장·재진입은 아직 미검증입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "새 실제 화면 검수는 수행하지 않았습니다. 기존 화면을 임의로 바꾸지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "scope": "C100 실제 배포·원천 실행을 수행하지 않았습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "scope": "실제 새 저장·참조 로더 재진입은 미검증입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "notrun",
+          "scope": "실제 C100 저장 전후의 원본·이력·권한 보존을 아직 수락하지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "새 참조판본·회사 DTO·Excel 출력은 미수행입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-storage-spec.md",
+          "requirement": "C100-04",
+          "scope": "루트가 작성한 C100 원천 사건 보존·저장 경계의 정확 하위 요구입니다."
+        }
+      ]
+    },
+    {
+      "componentID": "REVIEW133-C100-save-reentry",
+      "parentID": "OPS132-05",
+      "requirementIDs": [
+        "C100-05"
+      ],
+      "kind": "storage-consumer",
+      "label": "수집부터 불변 저장·다음 실행까지의 연결",
+      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/partner-collector.mjs",
+          "sha256": "2d985fb6800199394392724f36afaca7859534b2f4c9780a4a47307bc32a6798",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        },
+        {
+          "path": "server/maintenance-runtime.mjs",
+          "sha256": "7c09c09253cb539d223bdcf9ecbaaa06915516ec32302cef1a9fb18e24e96dfc",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        }
+      ],
+      "purpose": {
+        "userTask": "수집부터 불변 저장·다음 실행까지의 연결",
+        "reference": "docs/review133-storage-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "수집/합치기/검증",
+          "확정 저장",
+          "저장 참조 재진입",
+          "실패시 원본·원장·권한 보존"
+        ],
+        "preservation": "기존 불변 판본·원사건·원금액·회사별 조회·32MiB 상한을 보존합니다. UI 미사용을 삭제 근거로 삼지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "C100 동결된 해당 소스와 원본 보존 소비자 구현을 확인했습니다. 정식은 아직 C99입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "저장10·runtime16·독립34·실제품SQL합성PG18과 새 단일 전체313개/655파일이 명시 범위를 통과했습니다. 운영 앱 저장·재진입은 아직 미검증입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "새 실제 화면 검수는 수행하지 않았습니다. 기존 화면을 임의로 바꾸지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "scope": "C100 실제 배포·원천 실행을 수행하지 않았습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "scope": "실제 새 저장·참조 로더 재진입은 미검증입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "notrun",
+          "scope": "실제 C100 저장 전후의 원본·이력·권한 보존을 아직 수락하지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "새 참조판본·회사 DTO·Excel 출력은 미수행입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-storage-spec.md",
+          "requirement": "C100-05",
+          "scope": "루트가 작성한 C100 원천 사건 보존·저장 경계의 정확 하위 요구입니다."
+        }
+      ]
+    },
+    {
+      "componentID": "REVIEW133-C100-company-dto",
+      "parentID": "OPS132-05",
+      "requirementIDs": [
+        "C100-06"
+      ],
+      "kind": "storage-consumer",
+      "label": "회사별 계약·수주·단가·과거 발표 조회",
+      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "server/center-services.mjs",
+          "sha256": "3de34d72f7b719edecdef14b94c35a6b57c80d2a181e3c7a31c44166183ce7a3",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        },
+        {
+          "path": "server/reference-router.mjs",
+          "sha256": "3a645c8071fd912f7493c6c2b518d393db667b58ee25729e3bf8ae0d965ba149",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        },
+        {
+          "path": "src/partners.js",
+          "sha256": "16f5d9816bb76e2fdfb033865a739e6f49c1be52f123b17d34697d54bea1c1bd",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        }
+      ],
+      "purpose": {
+        "userTask": "회사별 계약·수주·단가·과거 발표 조회",
+        "reference": "docs/review133-storage-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "전역 서버 사건과 회사 조회 구분",
+          "source_contracts/recent_awards",
+          "단가/과거 발표 DTO",
+          "기존 화면·법인 역할 보존"
+        ],
+        "preservation": "기존 불변 판본·원사건·원금액·회사별 조회·32MiB 상한을 보존합니다. UI 미사용을 삭제 근거로 삼지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "C100 동결된 해당 소스와 원본 보존 소비자 구현을 확인했습니다. 정식은 아직 C99입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "저장10·runtime16·독립34·실제품SQL합성PG18과 새 단일 전체313개/655파일이 명시 범위를 통과했습니다. 운영 앱 저장·재진입은 아직 미검증입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "새 실제 화면 검수는 수행하지 않았습니다. 기존 화면을 임의로 바꾸지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "scope": "C100 실제 배포·원천 실행을 수행하지 않았습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "scope": "실제 새 저장·참조 로더 재진입은 미검증입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "notrun",
+          "scope": "실제 C100 저장 전후의 원본·이력·권한 보존을 아직 수락하지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "새 참조판본·회사 DTO·Excel 출력은 미수행입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-storage-spec.md",
+          "requirement": "C100-06",
+          "scope": "루트가 작성한 C100 원천 사건 보존·저장 경계의 정확 하위 요구입니다."
+        }
+      ]
+    },
+    {
+      "componentID": "REVIEW133-C100-acceptance",
+      "parentID": "OPS132-05",
+      "requirementIDs": [
+        "C100-07"
+      ],
+      "kind": "storage-consumer",
+      "label": "독립 실패검사와 실제 저장 검증 경계",
+      "lifecycle": "C100 구현·집중·새 전체 회귀를 통과했고 배포·운영 검증은 대기 중입니다.",
+      "visibleUserControl": false,
+      "source": [
+        {
+          "path": "tests/review132-public-contract-storage.mjs",
+          "sha256": "e57003df5636c3a9dd37ee29dd7feabce48fda4e0f697df928a02881773b912f",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        },
+        {
+          "path": "tests/review132-qa-public-contract-runtime.mjs",
+          "sha256": "253abbece7d685634878b4cfae6b1ad591ef453dc7166b386360060638bc64c0",
+          "candidate": "C100",
+          "finalFrozen": true,
+          "observedAt": "2026-11-02T12:02:46.502Z"
+        }
+      ],
+      "purpose": {
+        "userTask": "독립 실패검사와 실제 저장 검증 경계",
+        "reference": "docs/review133-storage-spec.md"
+      },
+      "content": {
+        "consumers": [
+          "독립 기대값의 실패검사",
+          "연결 회귀/최종 전체검사",
+          "실제 저장/참조 재진입",
+          "합성 크기와 실자료 용량 측정 구분"
+        ],
+        "preservation": "기존 불변 판본·원사건·원금액·회사별 조회·32MiB 상한을 보존합니다. UI 미사용을 삭제 근거로 삼지 않습니다."
+      },
+      "verification": {
+        "implementation": {
+          "status": "pass",
+          "scope": "C100 동결된 해당 소스와 원본 보존 소비자 구현을 확인했습니다. 정식은 아직 C99입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "automatic": {
+          "status": "pass",
+          "scope": "저장10·runtime16·독립34·실제품SQL합성PG18과 새 단일 전체313개/655파일이 명시 범위를 통과했습니다. 운영 앱 저장·재진입은 아직 미검증입니다.",
+          "evidence": [
+            "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+            "docs/review133-current-verification.json"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualScreen": {
+          "status": "notrun",
+          "scope": "새 실제 화면 검수는 수행하지 않았습니다. 기존 화면을 임의로 바꾸지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualServer": {
+          "status": "notrun",
+          "scope": "C100 실제 배포·원천 실행을 수행하지 않았습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualDatabase": {
+          "status": "notrun",
+          "scope": "실제 새 저장·참조 로더 재진입은 미검증입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "actualState": {
+          "status": "notrun",
+          "scope": "실제 C100 저장 전후의 원본·이력·권한 보존을 아직 수락하지 않습니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        },
+        "output": {
+          "status": "notrun",
+          "scope": "새 참조판본·회사 DTO·Excel 출력은 미수행입니다.",
+          "evidence": [
+            "docs/review133-storage-spec.md"
+          ],
+          "allDynamicConditionsAccepted": false
+        }
+      },
+      "allStatesAccepted": false,
+      "policyBasis": [
+        {
+          "kind": "latest-user-continuation",
+          "reference": "docs/review133-storage-spec.md",
+          "requirement": "C100-07",
+          "scope": "루트가 작성한 C100 원천 사건 보존·저장 경계의 정확 하위 요구입니다."
+        }
+      ]
     }
   ],
   "popupCandidates": [
@@ -811982,8 +812785,8 @@
     "baseRelease": "C96",
     "priorRecords": 5208,
     "priorRecordsSha256": "84d7dde29ceed9c33fb55c385255f46412846e1a2ec43a3d36c16424aa9de202",
-    "addedRecords": 23,
-    "totalRecords": 5231,
+    "addedRecords": 30,
+    "totalRecords": 5238,
     "status": "정식 C99를 유지하며 실제 원천 참조판본 크기 초과 결함의 원인을 확인 중입니다.",
     "allStatesAccepted": false,
     "checkpoint": "C99",
@@ -812417,6 +813220,61 @@
       "additionalCallsAfterStop": 0,
       "diagnosis": "원본을 삭제하거나 상한을 임의로 늘리지 않고 자료가 여러 저장 소비자에 연결되는 경계를 진단 중입니다. 중복이 실제 원인이라고 아직 확정하지 않았습니다.",
       "scope": "기존 C99의311개 검사군 통과와 이후 실제 자료에서 발생한 저장 실패를 구분합니다. 호출 한도 도달이나 전체 업무 완료로 마감하지 않습니다."
-    }
+    },
+    "c100Candidate": {
+      "candidate": "C100",
+      "status": "새 단일 전체313개 검사군을 통과했고 게시·배포 검증을 준비 중입니다.",
+      "spec": "docs/review133-storage-spec.md",
+      "requirements": [
+        "C100-01",
+        "C100-02",
+        "C100-03",
+        "C100-04",
+        "C100-05",
+        "C100-06",
+        "C100-07"
+      ],
+      "consumerRecords": 7,
+      "implementation": "pass",
+      "automatic": "집중 범위 통과·전체 재실행 대기",
+      "actualDeployment": "notrun",
+      "actualDatabase": "notrun",
+      "actualReentry": "notrun",
+      "allStatesAccepted": false,
+      "uiRedesignAllowed": false,
+      "sourceDeletionAllowed": false,
+      "arbitraryLimitIncreaseAllowed": false,
+      "fieldLevelActualPayloadSizingPerformed": false,
+      "excelTarget": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C100.xlsx",
+      "excelExports": 0,
+      "focused": {
+        "storage": 10,
+        "runtime": 16,
+        "independentConsumer": 34,
+        "actualProductSqlSynthetic": 18
+      },
+      "firstWhole": {
+        "passed": 312,
+        "failed": 1,
+        "preparationBlocked": 0,
+        "evidence": "docs/review132-qa-full-2026-11-02T12-02-46.678Z.json",
+        "cause": "신규 검수 행 policyBasis 누락을 보완했습니다. 제품 실패로 보고하지 않습니다."
+      },
+      "freshWholeAccepted": true,
+      "freshWhole": {
+        "passed": 313,
+        "failed": 0,
+        "preparationBlocked": 0,
+        "sourcePins": 655,
+        "validSingleFinalSource": true,
+        "evidence": "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+        "sha256": "b644dd135a092f9e68f809e1d5bdc3a24b5056450346ce7658d70b8e5170d1f0",
+        "dependencyDocumentsDuringRun": 311,
+        "dependencyDocumentsChangedDuringRun": 0
+      }
+    },
+    "c100CandidateConsumerRecords": 7,
+    "preC100Records": 5231,
+    "preC100PrefixSha256": "b17ed6817c0289141ce3287c2cd5321b2b34d44e541af741c0bae9697c995489"
   }
 }

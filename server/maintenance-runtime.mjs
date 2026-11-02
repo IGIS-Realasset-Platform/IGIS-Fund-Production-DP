@@ -10,6 +10,7 @@ import {verifyProviderConnections} from './provider-connection-check.mjs';
 import {normalizeDartApiKey,normalizeG2bServiceKey,trimProviderCredentialWhitespace} from './provider-credential-format.mjs';
 import {G2B_RECOVERY_START,g2bMinuteDate,g2bClosedMinute,g2bNextMinute,g2bRecoveryQuery,g2bPartitionEnd,g2bCheckPrefix,g2bLegacyEvidence,g2bLegacyObservationProof,verifyG2bLegacyReference,verifyG2bReplanHistory} from './partner-enrichment.mjs';
 import {normalizeProvidedDartObservations} from './provided-dart-observations.mjs';
+import {loadPublicContractContext,validatePublicContractStorage,PUBLIC_CONTRACT_LIMITS,PUBLIC_CONTRACT_ERRORS} from './public-contract-archive.mjs';
 const S='development_project_platform',table=n=>S+'.'+n;
 const json=(v,s=200)=>Response.json(v,{status:s,headers:{'cache-control':'private, no-store'}}),object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v),same=(a,b)=>JSON.stringify(a)===JSON.stringify(b),hash=v=>createHash('sha256').update(JSON.stringify(v)).digest('hex');
 const key=v=>typeof v==='string'&&v.length>0&&v.length<=500&&!/[\u0000-\u001f\u007f]/.test(v),fail=code=>{throw Error(code);};
@@ -155,6 +156,7 @@ export function validatePartnerResult(value,previous,env,options={}){
  const successes=sources.filter(s=>s.complete&&['success','not_modified'].includes(s.status));if(value.checkedCount!==successes.length)fail('PARTNER_RESULT_INVALID');let continuation=null;if(value.continuation!==null&&value.continuation!==undefined){if(!object(value.continuation)||Object.keys(value.continuation).join(',')!=='afterCompanyKey'||!key(value.continuation.afterCompanyKey))fail('PARTNER_CURSOR_INVALID');continuation={afterCompanyKey:value.continuation.afterCompanyKey};}
  const status=successes.length===sources.length&&!continuation?'success':successes.length?'partial_failure':sources.every(s=>s.status==='configuration_missing')?'configuration_missing':'failed';if(value.status!==status)fail('PARTNER_RESULT_INVALID');
  if(successes.length){if(!object(value.payload.companies)||!Array.isArray(value.payload.groups)||!object(value.payload.market))fail('PARTNER_RESULT_INVALID');for(const[k,profile]of Object.entries(previous.companies||{})){const next=value.payload.companies[k];if(!object(next))fail('PARTNER_PRESERVATION_FAILED');for(const field of ['sourceCommentKey','officialComments','legacyOnlineComments'])if(Object.hasOwn(profile,field)&&!same(profile[field],next[field]))fail('PARTNER_PRESERVATION_FAILED');}for(const source of sources.filter(s=>!s.complete&&rankGroups[s.sourceId])){const before=previous.groups?.find(g=>g.key===rankGroups[source.sourceId]),after=value.payload.groups.find(g=>g.key===rankGroups[source.sourceId]);if(!sourceOwnedRankPreserved(before,after,previous,value.payload,successes))fail('PARTNER_PRESERVATION_FAILED');}}
+ validatePublicContractStorage(value.payload,previous,{sourceReferenceVersion:options.sourceReferenceVersion,context:options.publicContractContext||value.publicContractContext});
  const serialized=assertNoSecrets(value.payload,env);if(Buffer.byteLength(serialized)>32*1024*1024)fail('PARTNER_SNAPSHOT_TOO_LARGE');assertNoSecrets(sources,env);const enrichmentState=validatePartnerEnrichmentState(value.payload.automation?.enrichmentState,value.payload,env,{...options,referencePayload:previous});return{status,sources,successes,continuation,serialized,enrichmentState};
 }
 
@@ -167,6 +169,88 @@ async function readG2bLegacyReferenceProofs(client,candidates,{sourceReferenceVe
   const result=await client.query(`SELECT payload#>$2::text[] AS observation,payload#>'{automation,sources,g2b-contracts,coverage}' AS source_coverage,payload#>'{automation,sources,g2b-recovery,coverage}' AS recovery_coverage,payload#>'{automation,enrichmentState,g2bLegacy,evidence}' AS legacy_evidence${extra} FROM ${table('reference_snapshots')} snapshot WHERE kind='partners' AND version=$1`,[reference.version,path,...(replan?[sourceReferenceVersion]:[])]),row=result.rows[0];if(result.rows.length!==1||!row?.observation)checkpointFailure();
   const evidence=reference.path==='g2b'?g2bLegacyEvidence(row.observation,row.source_coverage,row.recovery_coverage):row.legacy_evidence,proof=g2bLegacyObservationProof(reference.version,reference.path,row.observation,evidence);if(!proof)checkpointFailure();if(replan){proof.isPriorSnapshot=row.is_prior_snapshot===true;proof.referenceHistoryValid=row.reference_history_valid===true&&row.observation.window?.version===2&&row.observation.window.mode==='recovery';}proofs.push(proof);
  }return proofs;
+}
+
+// 전체 고정 원문 proof는 DB 안에서 계산하고 요청한 ID의 원사건만 반환합니다.
+export const PUBLIC_CONTRACT_ARCHIVE_SQL=`/* C100_PUBLIC_CONTRACT_ARCHIVE */
+WITH pc_source AS MATERIALIZED (
+ SELECT s.version,s.created_at,s.payload#>'{automation,publicContracts}' AS events,
+ s.payload#>'{automation,publicContractArchives}' AS history,
+ EXISTS(SELECT 1 FROM ${table('reference_snapshots')} cur WHERE cur.kind='partners' AND cur.version=$2 AND s.created_at<cur.created_at) AS is_prior_snapshot
+ FROM ${table('reference_snapshots')} s WHERE s.kind='partners' AND s.version=$1
+), pc_encoded AS MATERIALIZED (
+ SELECT *,CASE WHEN jsonb_typeof(events)='array' THEN convert_to(events::text,'UTF8') END AS db_bytes FROM pc_source
+), pc_ids AS MATERIALIZED (
+ SELECT count(*)::integer AS total,count(DISTINCT e.item->>'id')::integer AS distinct_ids,
+ COALESCE(bool_and(jsonb_typeof(e.item)='object' AND jsonb_typeof(e.item->'id')='string' AND length(e.item->>'id') BETWEEN 1 AND 500 AND btrim(e.item->>'id',U&'\\0009\\000A\\000B\\000C\\000D\\0020\\00A0\\1680\\2000\\2001\\2002\\2003\\2004\\2005\\2006\\2007\\2008\\2009\\200A\\2028\\2029\\202F\\205F\\3000\\FEFF')=e.item->>'id' AND (e.item->>'id')!~'[[:cntrl:]]'),true) AS ids_valid
+ FROM pc_source s CROSS JOIN LATERAL jsonb_array_elements(CASE WHEN jsonb_typeof(s.events)='array' THEN s.events ELSE '[]'::jsonb END) e(item)
+), pc_history AS MATERIALIZED (
+ SELECT h.item,h.ordinality,p.version AS prior_version,p.created_at AS prior_created_at,
+ lag(p.created_at) OVER(ORDER BY h.ordinality) AS previous_created_at
+ FROM pc_source s CROSS JOIN LATERAL jsonb_array_elements(CASE WHEN jsonb_typeof(s.history)='array' THEN s.history ELSE '[]'::jsonb END) WITH ORDINALITY h(item,ordinality)
+ LEFT JOIN ${table('reference_snapshots')} p ON p.kind='partners' AND p.version=h.item->>'sourceReferenceVersion'
+), pc_header AS MATERIALIZED (
+ SELECT s.version,s.events,s.is_prior_snapshot,
+ CASE WHEN jsonb_typeof(s.events)='array' THEN jsonb_array_length(s.events) END AS record_count,
+ octet_length(s.db_bytes) AS proof_bytes,encode(sha256(s.db_bytes),'hex') AS proof_sha256,
+ (i.ids_valid AND i.total=i.distinct_ids AND
+ (s.history IS NULL OR jsonb_typeof(s.history)='array' AND jsonb_array_length(s.history)<=16 AND
+ NOT EXISTS(SELECT 1 FROM pc_history h WHERE
+ jsonb_typeof(h.item) IS DISTINCT FROM 'object' OR
+ (SELECT count(*) FROM jsonb_object_keys(CASE WHEN jsonb_typeof(h.item)='object' THEN h.item ELSE '{}'::jsonb END))<>6 OR
+ EXISTS(SELECT 1 FROM jsonb_object_keys(CASE WHEN jsonb_typeof(h.item)='object' THEN h.item ELSE '{}'::jsonb END) k WHERE k NOT IN('version','sourceReferenceVersion','path','recordCount','bytes','sha256')) OR
+ h.item->'version' IS DISTINCT FROM '1'::jsonb OR
+ jsonb_typeof(h.item->'sourceReferenceVersion') IS DISTINCT FROM 'string' OR length(h.item->>'sourceReferenceVersion') NOT BETWEEN 1 AND 500 OR btrim(h.item->>'sourceReferenceVersion')<>h.item->>'sourceReferenceVersion' OR
+ h.item->>'path' IS DISTINCT FROM 'automation.publicContracts' OR
+ CASE WHEN jsonb_typeof(h.item->'recordCount')='number' THEN (h.item->>'recordCount')::numeric<1 OR (h.item->>'recordCount')::numeric>9007199254740991 OR trunc((h.item->>'recordCount')::numeric)<>(h.item->>'recordCount')::numeric ELSE true END OR
+ CASE WHEN jsonb_typeof(h.item->'bytes')='number' THEN (h.item->>'bytes')::numeric<1 OR (h.item->>'bytes')::numeric>9007199254740991 OR trunc((h.item->>'bytes')::numeric)<>(h.item->>'bytes')::numeric ELSE true END OR
+ jsonb_typeof(h.item->'sha256') IS DISTINCT FROM 'string' OR (h.item->>'sha256')!~'^[a-f0-9]{64}$' OR
+ h.prior_version IS NULL OR h.prior_created_at>=s.created_at OR h.ordinality>1 AND (h.previous_created_at IS NULL OR h.prior_created_at<=h.previous_created_at))
+ AND (SELECT count(DISTINCT item->>'sourceReferenceVersion') FROM pc_history)=jsonb_array_length(s.history))) AS reference_history_valid
+ FROM pc_encoded s CROSS JOIN pc_ids i
+), pc_selected AS MATERIALIZED (
+ SELECT COALESCE(jsonb_agg(e.item ORDER BY e.ordinality),'[]'::jsonb) AS events
+ FROM pc_source s CROSS JOIN LATERAL jsonb_array_elements(CASE WHEN jsonb_typeof(s.events)='array' THEN s.events ELSE '[]'::jsonb END) WITH ORDINALITY e(item,ordinality)
+ WHERE $3='lookup' AND e.item->>'id'=ANY($5::text[])
+), pc_output AS MATERIALIZED (
+ SELECT h.*,p.events AS selected_events,CASE WHEN jsonb_array_length(p.events)=0 THEN 0 ELSE octet_length(convert_to(p.events::text,'UTF8')) END AS read_bytes
+ FROM pc_header h CROSS JOIN pc_selected p
+)
+SELECT version,record_count,proof_bytes,proof_sha256,is_prior_snapshot,reference_history_valid,
+ CASE WHEN $3='current' THEN events=$4::jsonb ELSE NULL END AS matches_expected,
+ read_bytes,read_bytes>$6::bigint AS read_budget_exceeded,
+ CASE WHEN reference_history_valid IS TRUE AND read_bytes<=$6::bigint AND
+ (($3='current' AND events=$4::jsonb AND record_count=$7::bigint) OR
+ ($3='lookup' AND is_prior_snapshot IS TRUE AND record_count=$7::bigint AND proof_bytes=$8::bigint AND proof_sha256=$9::text))
+ THEN selected_events ELSE NULL END AS events FROM pc_output`;
+
+export function createPublicContractArchiveReader({query,sourceReferenceVersion}={}){
+ const valid=value=>typeof value==='string'&&value.length>0&&value.length<=500&&value===value.trim()&&!/[\u0000-\u001f\u007f]/.test(value);
+ if(typeof query!=='function'||!valid(sourceReferenceVersion))fail('PUBLIC_CONTRACT_CONTEXT_REQUIRED');
+ const seenIds=new Set();let returnedBytes=0;
+ const integer=(v,min=0)=>{if(typeof v!=='number'&&!(typeof v==='string'&&/^(?:0|[1-9]\d*)$/.test(v)))fail('PUBLIC_CONTRACT_REFERENCE_UNVERIFIED');const n=Number(v);if(!Number.isSafeInteger(n)||n<min)fail('PUBLIC_CONTRACT_REFERENCE_UNVERIFIED');return n;};
+ return async(ref,options={})=>{
+  const purpose=options.purpose,fields=purpose==='current'?['version','sourceReferenceVersion','path','recordCount']:['version','sourceReferenceVersion','path','recordCount','bytes','sha256'];
+  if(!['current','lookup'].includes(purpose)||!object(ref)||Object.keys(ref).length!==fields.length||Object.keys(ref).some(k=>!fields.includes(k))||ref.version!==1||!valid(ref.sourceReferenceVersion)||ref.path!=='automation.publicContracts'||!Number.isSafeInteger(ref.recordCount)||ref.recordCount<0)fail('PUBLIC_CONTRACT_REFERENCE_INVALID');
+  if(options.sourceReferenceVersion!==undefined&&options.sourceReferenceVersion!==sourceReferenceVersion)fail('PUBLIC_CONTRACT_REFERENCE_INVALID');
+  if(purpose==='lookup'&&(ref.recordCount<1||!Number.isSafeInteger(ref.bytes)||ref.bytes<1||!/^[a-f0-9]{64}$/.test(ref.sha256||'')))fail('PUBLIC_CONTRACT_REFERENCE_INVALID');
+  if(purpose==='current'&&(ref.sourceReferenceVersion!==sourceReferenceVersion||!Array.isArray(options.expectedEvents)||options.expectedEvents.length!==ref.recordCount))fail('PUBLIC_CONTRACT_CURRENT_REQUIRED');
+  const ids=options.ids;if(!Array.isArray(ids)||ids.length>PUBLIC_CONTRACT_LIMITS.lookupIds||ids.some(id=>!valid(id))||new Set(ids).size!==ids.length||purpose==='current'&&ids.length)fail('PUBLIC_CONTRACT_LOOKUP_LIMIT');
+  for(const id of ids)seenIds.add(id);if(seenIds.size>PUBLIC_CONTRACT_LIMITS.distinctIds)fail('PUBLIC_CONTRACT_LOOKUP_LIMIT');
+  if(!Number.isSafeInteger(options.remainingBytes)||options.remainingBytes<0||options.remainingBytes>PUBLIC_CONTRACT_LIMITS.returnedBytes)fail('PUBLIC_CONTRACT_READ_LIMIT');
+  const remainingBytes=Math.min(options.remainingBytes,PUBLIC_CONTRACT_LIMITS.returnedBytes-returnedBytes);
+  let result;try{result=await query(PUBLIC_CONTRACT_ARCHIVE_SQL,[ref.sourceReferenceVersion,sourceReferenceVersion,purpose,purpose==='current'?JSON.stringify(options.expectedEvents):null,ids,remainingBytes,ref.recordCount,purpose==='lookup'?ref.bytes:null,purpose==='lookup'?ref.sha256:null]);}catch{fail('PUBLIC_CONTRACT_REFERENCE_UNAVAILABLE');}
+  const row=result?.rows?.[0];if(result?.rows?.length!==1||!row)fail('PUBLIC_CONTRACT_REFERENCE_UNAVAILABLE');
+  const recordCount=integer(row.record_count),bytes=integer(row.proof_bytes,1),readBytes=integer(row.read_bytes);
+  if(row.version!==ref.sourceReferenceVersion||!/^[a-f0-9]{64}$/.test(row.proof_sha256||'')||row.reference_history_valid!==true||typeof row.is_prior_snapshot!=='boolean'||typeof row.read_budget_exceeded!=='boolean'||recordCount!==ref.recordCount)fail('PUBLIC_CONTRACT_REFERENCE_UNVERIFIED');
+  if(purpose==='current'&&row.matches_expected!==true)fail('PUBLIC_CONTRACT_SOURCE_UNVERIFIED');
+  if(purpose==='lookup'&&(row.is_prior_snapshot!==true||bytes!==ref.bytes||row.proof_sha256!==ref.sha256))fail('PUBLIC_CONTRACT_REFERENCE_UNVERIFIED');
+  if(row.read_budget_exceeded===true||readBytes>remainingBytes)fail('PUBLIC_CONTRACT_READ_LIMIT');
+  if(!Array.isArray(row.events)||purpose==='current'&&row.events.length)fail('PUBLIC_CONTRACT_REFERENCE_UNVERIFIED');
+  const seen=new Set();for(const event of row.events){if(!object(event)||!valid(event.id)||!ids.includes(event.id)||seen.has(event.id))fail('PUBLIC_CONTRACT_REFERENCE_UNVERIFIED');seen.add(event.id);}
+  const actualBytes=row.events.length?Buffer.byteLength(JSON.stringify(row.events)):0;if(actualBytes>remainingBytes)fail('PUBLIC_CONTRACT_READ_LIMIT');returnedBytes+=Math.max(actualBytes,readBytes);
+  return{version:row.version,recordCount,bytes,sha256:row.proof_sha256,isPriorSnapshot:row.is_prior_snapshot===true,referenceHistoryValid:true,matchesExpected:row.matches_expected===true,events:row.events,readBytes:Math.max(actualBytes,readBytes)};
+ };
 }
 export function createMaintenanceRuntime({environment=()=>process.env,loadDrivers=loadProductionDrivers,clock=()=>new Date(),monotonic=()=>performance.now(),collector=collectLawSnapshot,partnerCollector=collectPartnerSnapshot,fetcher=fetch}={}){
  return async function maintenance(request){
@@ -220,11 +304,12 @@ export function createMaintenanceRuntime({environment=()=>process.env,loadDriver
      results[job]=await performLaw(run);
     }else{
      const prepared=await transaction(async client=>{const found=await client.query(`SELECT version,payload FROM ${table('reference_snapshots')} WHERE kind='partners' ORDER BY checked_at DESC,created_at DESC LIMIT 1`),row=found.rows[0];if(!row||!key(row.version)||!object(row.payload))fail('PARTNER_REFERENCE_UNAVAILABLE');return{version:row.version,payload:row.payload,fingerprint:hash(row.payload)};});
+     const publicContractArchiveReader=createPublicContractArchiveReader({sourceReferenceVersion:prepared.version,query:(sql,args)=>transaction(client=>client.query(sql,args))}),publicContractContext=await loadPublicContractContext(prepared.payload,{sourceReferenceVersion:prepared.version,readArchive:publicContractArchiveReader});
      assertNoSecrets(run.enrichmentCheckpoint,env);const replanReferences=[];for(const value of [run.enrichmentCheckpoint?.state?.g2bReplans,prepared.payload.automation?.enrichmentState?.g2bReplans])if(value!==undefined){if(!Array.isArray(value)||value.length>16)checkpointFailure();for(const entry of value){if(!entry?.reference||entry.reference.path!=='g2b')checkpointFailure();replanReferences.push(entry.reference);}}const candidates=[run.enrichmentCheckpoint?.state?.g2bLegacy?.reference,prepared.payload.automation?.enrichmentState?.g2bLegacy?.reference,...replanReferences].filter(Boolean),g2bLegacyReferenceProofs=candidates.length?await transaction(client=>readG2bLegacyReferenceProofs(client,candidates,{sourceReferenceVersion:prepared.version,replanReferences})):[],continuation=readPartnerCursor(run.cursor),enrichmentState=restorePartnerEnrichmentCheckpoint(run.enrichmentCheckpoint,prepared.version,prepared.payload,env,{now:clock(),g2bLegacyReferenceProofs}),budget=Math.floor(Math.min(70000,remaining()-40000));if(budget<1)fail('MAINTENANCE_TIME_BUDGET');
-     const collected=await boundedCollection(partnerCollector,{previous:structuredClone(prepared.payload),sourceReferenceVersion:prepared.version,configuration:partnerConfiguration(env,prepared.payload),companySelector:partnerCompanies,clock,continuation,enrichmentState,g2bLegacyReferenceProofs,rankingsCollector:collectPartnerRankings},budget),checked=validatePartnerResult(collected,prepared.payload,env,{now:clock(),sourceReferenceVersion:prepared.version,g2bLegacyReferenceProofs}),counts=Object.fromEntries(['success','not_modified','partial_failure','failed','configuration_missing','deferred'].map(status=>[status,checked.sources.filter(s=>s.status===status).length])),details={requestedCount:collected.requestedCount,checkedCount:collected.checkedCount,sourceCount:checked.sources.length,sourceCounts:counts,sources:checked.sources,hasMore:checked.continuation!==null,coverage:collected.coverage||null,configurationMissing:['DP_DART_API_KEY','DP_G2B_SERVICE_KEY','DP_KOSIS_API_KEY'].filter(name=>!env[name])};const statusDetails=checked.enrichmentState===undefined?undefined:{...details,enrichmentCheckpoint:{version:1,sourceReferenceVersion:checked.successes.length?run.id:prepared.version,savedAt:clock().toISOString(),state:checked.enrichmentState}};
+     const collected=await boundedCollection(partnerCollector,{previous:structuredClone(prepared.payload),sourceReferenceVersion:prepared.version,configuration:partnerConfiguration(env,prepared.payload),companySelector:partnerCompanies,clock,continuation,enrichmentState,g2bLegacyReferenceProofs,publicContractContext,publicContractArchiveReader,rankingsCollector:collectPartnerRankings},budget),checked=validatePartnerResult(collected,prepared.payload,env,{now:clock(),sourceReferenceVersion:prepared.version,g2bLegacyReferenceProofs,publicContractContext}),counts=Object.fromEntries(['success','not_modified','partial_failure','failed','configuration_missing','deferred'].map(status=>[status,checked.sources.filter(s=>s.status===status).length])),details={requestedCount:collected.requestedCount,checkedCount:collected.checkedCount,sourceCount:checked.sources.length,sourceCounts:counts,sources:checked.sources,hasMore:checked.continuation!==null,coverage:collected.coverage||null,configurationMissing:['DP_DART_API_KEY','DP_G2B_SERVICE_KEY','DP_KOSIS_API_KEY'].filter(name=>!env[name])};const statusDetails=checked.enrichmentState===undefined?undefined:{...details,enrichmentCheckpoint:{version:1,sourceReferenceVersion:checked.successes.length?run.id:prepared.version,savedAt:clock().toISOString(),state:checked.enrichmentState}};
      results[job]=await finish(job,run,{status:checked.status,errorCode:checked.status==='success'?null:checked.status==='partial_failure'?'PARTNER_SOURCES_INCOMPLETE':'PARTNER_COLLECTION_INCOMPLETE',details},{statusDetails,cursor:checked.continuation?JSON.stringify(checked.continuation):null,advanceCursor:checked.successes.length>0,save:checked.successes.length?async client=>{await client.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',['development-project-platform:reference:partners']);const latest=await client.query(`SELECT version,payload FROM ${table('reference_snapshots')} WHERE kind='partners' ORDER BY checked_at DESC,created_at DESC LIMIT 1`),current=latest.rows[0];if(!current||current.version!==prepared.version||hash(current.payload)!==prepared.fingerprint)fail('PARTNER_REFERENCE_CONFLICT');await client.query(`INSERT INTO ${table('reference_snapshots')}(kind,version,checked_at,source,payload) VALUES('partners',$1,now(),$2::jsonb,$3::jsonb)`,[run.id,JSON.stringify({title:'공식기관·공개피드 직접수집',url:'https://cost.kict.re.kr/'}),checked.serialized]);}:undefined});
     }
-   }catch(error){const code=['PARTNER_ENRICHMENT_CHECKPOINT_INVALID','PARTNER_REFERENCE_CONFLICT','PARTNER_PRESERVATION_FAILED','PARTNER_CURSOR_INVALID','PARTNER_RESULT_INVALID','PARTNER_SECRET_IN_RESULT','PARTNER_SNAPSHOT_TOO_LARGE','PARTNER_COMPANY_IDENTITY_INVALID','PARTNER_REFERENCE_UNAVAILABLE','MAINTENANCE_TIME_BUDGET'].includes(error?.message)?error.message:job==='law'?(lawFailureCodes.has(error?.message)?error.message:'LAW_COLLECTION_FAILED'):job==='partners'?'PARTNER_COLLECTION_FAILED':'QUARTER_TASK_FAILED',result={status:'failed',errorCode:code};if(run)try{results[job]=await finish(job,run,result);continue;}catch{}results[job]=result;}}
+   }catch(error){const archiveCode=PUBLIC_CONTRACT_ERRORS.find(code=>code===error?.code||code===error?.message),code=archiveCode||(['PARTNER_ENRICHMENT_CHECKPOINT_INVALID','PARTNER_REFERENCE_CONFLICT','PARTNER_PRESERVATION_FAILED','PARTNER_CURSOR_INVALID','PARTNER_RESULT_INVALID','PARTNER_SECRET_IN_RESULT','PARTNER_SNAPSHOT_TOO_LARGE','PARTNER_COMPANY_IDENTITY_INVALID','PARTNER_REFERENCE_UNAVAILABLE','MAINTENANCE_TIME_BUDGET'].includes(error?.message)?error.message:job==='law'?(lawFailureCodes.has(error?.message)?error.message:'LAW_COLLECTION_FAILED'):job==='partners'?'PARTNER_COLLECTION_FAILED':'QUARTER_TASK_FAILED'),result={status:'failed',errorCode:code};if(run)try{results[job]=await finish(job,run,result);continue;}catch{}results[job]=result;}}
    const incomplete=Object.values(results).some(r=>!['success','skipped'].includes(r.status));try{const finished=await finish('daily',daily,{status:incomplete?'partial_failure':'success',details:{jobs:Object.fromEntries(Object.entries(results).map(([job,r])=>[job,r.status]))}},{advanceCursor:false});if(finished.status==='superseded')results.daily=finished;}catch{results.daily={status:'failed',errorCode:'DAILY_STATUS_SAVE_FAILED'};}return json({jobs:results},incomplete||results.daily?207:200);
   }catch{return unavailableResponse();}
  };

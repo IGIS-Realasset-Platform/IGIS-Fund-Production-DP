@@ -1,0 +1,49 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createMaintenanceRuntime,createPublicContractArchiveReader,PUBLIC_CONTRACT_ARCHIVE_SQL} from '../server/maintenance-runtime.mjs';
+
+// 실제 PostgreSQL VALUES에서 얻은 합성3건의 opaque proof입니다. 운영 자료가 아닙니다.
+const eventText='[{"id":"C100-test-fixture-a","amount":null,"n":1.230e-5,"text":"한글"},{"id":"C100-test-fixture-b","amount":0,"n":2},{"id":"C100-test-fixture-c","amount":1001,"n":3}]';
+const events=JSON.parse(eventText),proof={recordCount:3,bytes:189,sha256:'456edb6e86ed6cb7591ebec494b47eb0216b09eea5f1b5e6b3539b0dbf9f36e3'},copy=structuredClone,checks=[];
+const fixtureSource=fs.readFileSync('tests/center120-partner-maintenance.mjs','utf8'),start=fixtureSource.indexOf('const now='),end=fixtureSource.indexOf('\nlet passed=',start);assert(start>=0&&end>start);
+function setup({missing=false,referenceChange}={}){
+ let db;const archiveCalls=[];
+ const wrap=options=>createMaintenanceRuntime({
+  ...options,
+  loadDrivers:async config=>{
+   const drivers=await options.loadDrivers(config),connect=drivers.pool.connect.bind(drivers.pool);
+   return{...drivers,pool:{connect:async()=>{
+    const client=await connect(),query=client.query.bind(client);
+    return{...client,query:async(sql,args=[])=>{
+     if(String(sql).includes('C100_PUBLIC_CONTRACT_ARCHIVE')){
+      archiveCalls.push({sql,args:copy(args)});if(missing)return{rows:[]};
+      return{rows:[{version:args[0],record_count:3,proof_bytes:189,proof_sha256:proof.sha256,is_prior_snapshot:args[0]!=='runtime-current',reference_history_valid:true,matches_expected:true,read_bytes:0,read_budget_exceeded:false,events:[]}]};
+     }
+     return query(sql,args);
+    }};
+   }}};
+  }
+ });
+ const tools=new Function('createMaintenanceRuntime','assert',fixtureSource.slice(start,end)+';return{fixture,env,req,result,original};')(wrap,assert),reference=copy(tools.original);reference.automation={publicContracts:copy(events)};if(referenceChange)referenceChange(reference);
+ let contextSeen=false;const h=tools.fixture({reference,referenceVersion:'runtime-current',partner:async options=>{contextSeen=typeof options.publicContractContext?.lookup==='function';assert(contextSeen,'실제 수집 호출에 archive context가 있어야 합니다.');assert.equal(db.checkedOut,0);assert.deepEqual(await options.publicContractContext.lookup(['C100-test-fixture-a']),[events[0]]);return tools.result({status:'configuration_missing',success:false,continuation:null,payload:options.previous});}});db=h.db;return{...h,tools,reference,archiveCalls,contextSeen:()=>contextSeen};
+}
+async function check(name,fn){try{await fn();checks.push({name,status:'passed'});}catch(error){checks.push({name,status:'failed',message:error.message});}}
+await check('PCRUNTIME-01 실제 runtime은 예산 시작 전에 원본 context를 준비해 수집 호출에 전달합니다.',async()=>{const h=setup(),before=copy(h.reference),body=await(await h.runtime(h.tools.req())).json();assert.equal(body.jobs.partners.status,'configuration_missing');assert.equal(h.contextSeen(),true);assert(h.archiveCalls.length>=1);assert.deepEqual(h.reference,before);assert.equal(h.db.state.snapshots.length,1);});
+await check('PCRUNTIME-02 실재하지 않는 보존 참조는 외부 수집 전에 중단하고 이전 판본을 보존합니다.',async()=>{const h=setup({missing:true,referenceChange:p=>{p.automation.publicContractArchives=[{version:1,sourceReferenceVersion:'runtime-missing',path:'automation.publicContracts',...proof}];}}),body=await(await h.runtime(h.tools.req())).json();assert.equal(h.db.partnerCalls.length,0);assert.equal(body.jobs.partners.status,'failed');assert.equal(body.jobs.partners.errorCode,'PUBLIC_CONTRACT_REFERENCE_UNAVAILABLE');assert.equal(h.db.state.snapshots.length,1);assert.deepEqual(h.db.state.snapshots[0].payload,h.reference);});
+const ref={version:1,sourceReferenceVersion:'runtime-prior',path:'automation.publicContracts',...proof},options={purpose:'lookup',sourceReferenceVersion:'runtime-current',ids:['C100-test-fixture-a'],remainingBytes:64*1024*1024};
+function reader(patch={},response){const calls=[];return{calls,read:createPublicContractArchiveReader({sourceReferenceVersion:'runtime-current',query:async(sql,args)=>{calls.push({sql,args:copy(args)});if(response)return response(sql,args);return{rows:[{version:args[0],record_count:3,proof_bytes:189,proof_sha256:proof.sha256,is_prior_snapshot:true,reference_history_valid:true,matches_expected:true,read_bytes:80,read_budget_exceeded:false,events:[copy(events[0])],...copy(patch)}]};}})};}
+await check('PCRUNTIME-03 current proof는 전체189B를 확인하고 반환 예산0에서도 원문을 반환하지 않습니다.',async()=>{const h=reader({events:[],read_bytes:0,is_prior_snapshot:false}),r=await h.read({version:1,sourceReferenceVersion:'runtime-current',path:'automation.publicContracts',recordCount:3},{purpose:'current',sourceReferenceVersion:'runtime-current',expectedEvents:events,ids:[],remainingBytes:0});assert.equal(r.bytes,189);assert.equal(r.readBytes,0);assert.deepEqual(r.events,[]);assert.deepEqual(h.calls[0].args.slice(0,3),['runtime-current','runtime-current','current']);assert.deepEqual(JSON.parse(h.calls[0].args[3]),events);assert.equal(h.calls[0].args[5],0);});
+await check('PCRUNTIME-04 전체proof가64MiB보다 커도 작은 선택 반환은 허용합니다(큰 원문은 모형 헤더입니다).',async()=>{const bytes=80*1024*1024,h=reader({proof_bytes:bytes}),r=await h.read({...ref,bytes},{...options,remainingBytes:200});assert.equal(r.bytes,bytes);assert.equal(r.events[0].amount,null);assert.equal(r.readBytes,80);});
+await check('PCRUNTIME-05 없는 원판본은 빈 배열 성공으로 바뀌지 않습니다.',async()=>{const h=reader({},async()=>({rows:[]}));await assert.rejects(h.read(ref,options),/PUBLIC_CONTRACT_REFERENCE_UNAVAILABLE/);});
+await check('PCRUNTIME-06 전체 건수·bytes·SHA 변조는 선택 사건이 같아도 거부합니다.',async()=>{for(const patch of [{record_count:4},{proof_bytes:190},{proof_sha256:'0'.repeat(64)}])await assert.rejects(reader(patch).read(ref,options),/PUBLIC_CONTRACT_REFERENCE_UNVERIFIED/);});
+await check('PCRUNTIME-07 앞선/자기 판본 또는 잘못된 원문 이력·ID shape는 거부합니다.',async()=>{for(const patch of [{is_prior_snapshot:false},{reference_history_valid:false}])await assert.rejects(reader(patch).read(ref,options),/PUBLIC_CONTRACT_REFERENCE_UNVERIFIED/);});
+await check('PCRUNTIME-08 current의 실제 DB 원tail 동등이 false이면 새 proof로 승인하지 않습니다.',async()=>{const h=reader({events:[],read_bytes:0,matches_expected:false});await assert.rejects(h.read({version:1,sourceReferenceVersion:'runtime-current',path:'automation.publicContracts',recordCount:3},{purpose:'current',expectedEvents:events,ids:[],remainingBytes:100}),/PUBLIC_CONTRACT_SOURCE_UNVERIFIED/);});
+await check('PCRUNTIME-09 요청하지 않은 ID와 중복 반환을 원사건으로 채택하지 않습니다.',async()=>{for(const value of [[events[2]],[events[0],events[0]]])await assert.rejects(reader({events:value}).read(ref,options),/PUBLIC_CONTRACT_REFERENCE_UNVERIFIED/);});
+await check('PCRUNTIME-10 SQL 반환 상한 초과는 null을 빈 성공으로 만들지 않습니다.',async()=>{await assert.rejects(reader({read_budget_exceeded:true,events:null,read_bytes:101}).read(ref,{...options,remainingBytes:100}),/PUBLIC_CONTRACT_READ_LIMIT/);await assert.rejects(reader({read_bytes:101}).read(ref,{...options,remainingBytes:100}),/PUBLIC_CONTRACT_READ_LIMIT/);});
+await check('PCRUNTIME-11 누락/null 메타를 숫자0으로 정상화하지 않습니다.',async()=>{for(const patch of [{record_count:null},{proof_bytes:null},{read_bytes:null}])await assert.rejects(reader(patch).read(ref,options),/PUBLIC_CONTRACT_REFERENCE_UNVERIFIED/);});
+await check('PCRUNTIME-12 고정 경로·purpose·중복/과다ID·예산 인자는 DB 호출 전에 차단합니다.',async()=>{for(const [r,o] of [[{...ref,path:'automation.other'},options],[ref,{...options,purpose:'other'}],[ref,{...options,ids:['x','x']}],[ref,{...options,ids:Array.from({length:3001},(_,i)=>'id-'+i)}],[ref,{...options,remainingBytes:-1}]]){const h=reader();await assert.rejects(h.read(r,o),/PUBLIC_CONTRACT_(REFERENCE_INVALID|LOOKUP_LIMIT|READ_LIMIT)/);assert.equal(h.calls.length,0);}});
+await check('PCRUNTIME-13 실제 없음이 확인된 ID는 유효 proof와 함께 빈 결과로 반환합니다.',async()=>{const h=reader({events:[],read_bytes:0}),r=await h.read(ref,{...options,ids:['C100-test-fixture-new'],remainingBytes:0});assert.deepEqual(r.events,[]);assert.equal(r.bytes,189);assert.equal(r.readBytes,0);});
+await check('PCRUNTIME-14 호출별 distinct9000 뒤 새ID는 추가 원문을 읽지 않습니다.',async()=>{const h=reader({events:[],read_bytes:0});for(let batch=0;batch<3;batch++)await h.read(ref,{...options,ids:Array.from({length:3000},(_,i)=>'C100-id-'+(batch*3000+i))});await assert.rejects(h.read(ref,{...options,ids:['C100-id-over']}),/PUBLIC_CONTRACT_LOOKUP_LIMIT/);assert.equal(h.calls.length,3);});
+await check('PCRUNTIME-15 reader 누적 반환 예산은 caller가 remaining을 재설정해도 넘지 않습니다(반환bytes는 모형입니다).',async()=>{const h=reader({read_bytes:40*1024*1024});await h.read(ref,options);await assert.rejects(h.read(ref,options),/PUBLIC_CONTRACT_READ_LIMIT/);assert(h.calls[1].args[5]<40*1024*1024);});
+await check('PCRUNTIME-16 실제 SQL은 원문 전체proof와 ID subset·이력/시각을 같은 고정 경계로 계산합니다.',()=>{assert(PUBLIC_CONTRACT_ARCHIVE_SQL.includes("payload#>'{automation,publicContracts}'"));assert(PUBLIC_CONTRACT_ARCHIVE_SQL.includes("convert_to(events::text,'UTF8')"));assert(PUBLIC_CONTRACT_ARCHIVE_SQL.includes('sha256(s.db_bytes)'));assert(PUBLIC_CONTRACT_ARCHIVE_SQL.includes('count(DISTINCT e.item'));assert(PUBLIC_CONTRACT_ARCHIVE_SQL.includes('WITH ORDINALITY'));assert(PUBLIC_CONTRACT_ARCHIVE_SQL.includes('s.created_at<cur.created_at'));assert(PUBLIC_CONTRACT_ARCHIVE_SQL.includes('previous_created_at'));assert(PUBLIC_CONTRACT_ARCHIVE_SQL.includes('read_bytes>$6'));});
+const result={suite:'review132-qa-public-contract-runtime',checks,passed:checks.filter(c=>c.status==='passed').length,failed:checks.filter(c=>c.status==='failed').length,scope:'실제 유지관리 경계와 격리 SQL 전송 모형입니다. 독립 합성 PG proof만 사용하며 운영 DB·원문·금융 지문을 조회하지 않았습니다.',productionDatabaseCalls:0,realProviderRequests:0};const index=process.argv.indexOf('--output');if(index>=0)fs.writeFileSync(process.argv[index+1],JSON.stringify(result,null,2));console.log(JSON.stringify(result));if(result.failed)process.exitCode=1;

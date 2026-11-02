@@ -1,6 +1,6 @@
 {
   "version": "0.13.0",
-  "candidate": "C99",
+  "candidate": "C100",
   "origin": "https://development-project-platform-preview-git-preview-b5dda7-igisra.vercel.app",
   "htmlSha256": "5fb5f04a060be4bf8857a30cc805b38875fa3e8a5b49a57568023790a1eab806",
   "bytes": 6938548,
@@ -8,17 +8,17 @@
   "realProjectDataIncluded": false,
   "mode": "authenticated-private-schema-runtime-with-optional-source",
   "localBuildVerified": true,
-  "status": "review133-c99-production-verified-backfill-size-blocked",
+  "status": "C100 새 전체313검사를 통과했고 배포·실제 운영 검증은 대기 중입니다.",
   "preparedAt": "2026-11-02",
   "wholeRequirementsComplete": false,
   "wholePlatformComponentsAccepted": false,
-  "actualBrowser": "No new browser run. Rebuilt C99 production and preview artifacts are byte-identical to C98; historical isolated C98 native five runs remain historical only.",
-  "actualAuthenticatedServer": "Exact C99 public HTML200, unauthenticated workspace/notifications/employee-directory401. Actual build regular12/sample6/union18/overlap0. Two normal validation runs proved persisted reference re-entry and progress; two further normal backfill calls ended on PARTNER_SNAPSHOT_TOO_LARGE. Previous immutable snapshot retained.",
+  "actualBrowser": "새 실제 화면 실행0회입니다. 두origin 파일은 C99/C98과 바이트가 같고 기존 C98의5회는 이력으로만 보존합니다.",
+  "actualAuthenticatedServer": "C100 stage·실제 운영은 아직 미검증입니다. C99의4회 정상호출과32MiB 저장 차단 이력은 별도로 보존합니다.",
   "previousRelease": {
     "version": "0.13.0",
-    "candidate": "C98",
-    "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
-    "productionDeploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+    "candidate": "C99",
+    "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
+    "productionDeploymentId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
     "formalHtmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2"
   },
   "review131": {
@@ -60,39 +60,54 @@
     "status": "historical-C96-release"
   },
   "review133": {
-    "spec": "docs/review133-external-security-spec.md",
+    "spec": "docs/review133-storage-spec.md",
     "fullRegression": {
-      "passed": 311,
+      "passed": 313,
       "failed": 0,
       "preparationBlocked": 0,
-      "sourcePins": 652,
+      "sourcePins": 655,
       "sourceChanged": 0,
       "validSingleFinalSource": true,
-      "evidence": "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
-      "sha256": "c0704aaca38d07cfebecbd30c7ce0036b07e27e9295a721d163791ab114edabb"
+      "evidence": "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+      "sha256": "b644dd135a092f9e68f809e1d5bdc3a24b5056450346ce7658d70b8e5170d1f0"
+    },
+    "dependencyDocumentsDuringRun": {
+      "count": 311,
+      "changed": 0,
+      "scope": "실행 중 고정 증거입니다. 이후 사실 기록은 별도 후속diff로 검증합니다."
     },
     "officialDocument": {
+      "officialFixtureExecuted": true,
       "kacemChecks": 22,
-      "originalOfficialCases": 3,
-      "newTimingCases": 2,
-      "officialFixtureExecuted": true
+      "actualOriginalPdfChecks": 5
+    },
+    "storage": {
+      "snapshotLimitBytes": 33554432,
+      "references": 16,
+      "lookupIds": 3000,
+      "distinctIds": 9000,
+      "returnedBytesPerCall": 67108864,
+      "wholeHistoryByteCap": false,
+      "companyDtoPreserved": true
     },
     "currentNativeRuns": 0,
-    "historicalC98NativeRuns": 5,
+    "historicalIdenticalHtmlC98NativeRuns": 5,
+    "independentConsumerChecks": 34,
+    "actualProductSqlSyntheticCases": 18,
     "businessWorkspaceWrites": 0,
-    "productionRunExecuted": true,
+    "productionRunExecuted": false,
     "wholeTaskComplete": false,
-    "historicalC98": {
+    "historicalC99": {
       "spec": "docs/review133-external-security-spec.md",
       "fullRegression": {
-        "passed": 310,
+        "passed": 311,
         "failed": 0,
         "preparationBlocked": 0,
-        "sourcePins": 651,
+        "sourcePins": 652,
         "sourceChanged": 0,
         "validSingleFinalSource": true,
-        "evidence": "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
-        "sha256": "404319806247c50af047f25089d0f0df5d506f528ab4531e0c09b0729a62d60c"
+        "evidence": "docs/review132-qa-full-2026-11-02T10-02-06.637Z.json",
+        "sha256": "c0704aaca38d07cfebecbd30c7ce0036b07e27e9295a721d163791ab114edabb"
       },
       "officialDocument": {
         "kacemChecks": 22,
@@ -100,66 +115,90 @@
         "newTimingCases": 2,
         "officialFixtureExecuted": true
       },
-      "currentNativeRuns": 5,
+      "currentNativeRuns": 0,
+      "historicalC98NativeRuns": 5,
       "businessWorkspaceWrites": 0,
-      "providedEvidenceRegistration": {
-        "insertedSnapshots": 1,
-        "updatedOrDeletedExistingSnapshots": 0,
-        "issuers": 2,
-        "observations": 5,
-        "eligibleUnitCosts": 0,
-        "workspaceAndOrgdbWrites": 0
-      },
       "productionRunExecuted": true,
       "wholeTaskComplete": false,
-      "release": {
-        "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
-        "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
-        "publicEvidence": ".build/review132/public-verified-1793610564836.json",
-        "actualNativeRuns": 5
+      "historicalC98": {
+        "spec": "docs/review133-external-security-spec.md",
+        "fullRegression": {
+          "passed": 310,
+          "failed": 0,
+          "preparationBlocked": 0,
+          "sourcePins": 651,
+          "sourceChanged": 0,
+          "validSingleFinalSource": true,
+          "evidence": "docs/review132-qa-full-2026-11-02T08-21-40.443Z.json",
+          "sha256": "404319806247c50af047f25089d0f0df5d506f528ab4531e0c09b0729a62d60c"
+        },
+        "officialDocument": {
+          "kacemChecks": 22,
+          "originalOfficialCases": 3,
+          "newTimingCases": 2,
+          "officialFixtureExecuted": true
+        },
+        "currentNativeRuns": 5,
+        "businessWorkspaceWrites": 0,
+        "providedEvidenceRegistration": {
+          "insertedSnapshots": 1,
+          "updatedOrDeletedExistingSnapshots": 0,
+          "issuers": 2,
+          "observations": 5,
+          "eligibleUnitCosts": 0,
+          "workspaceAndOrgdbWrites": 0
+        },
+        "productionRunExecuted": true,
+        "wholeTaskComplete": false,
+        "release": {
+          "sourceCommit": "ca69d231d8210dc7adb605a5060ee45ddb262b79",
+          "deploymentId": "dpl_AURx5NKpNFQhmDSSuKZnJJSuJHAi",
+          "publicEvidence": ".build/review132/public-verified-1793610564836.json",
+          "actualNativeRuns": 5
+        },
+        "remaining": {
+          "g2b": "C99 bounded total-drift replan in progress",
+          "credit": "Agency-to-legal-entity evidence unconfirmed",
+          "unitCost": "Original contract and same amount/area scope unconfirmed",
+          "kosis": "Direct source not configured; existing KICT source remains distinct",
+          "formalSecurityReport": "Official access requirement unmet; not replaced by product tests"
+        }
       },
-      "remaining": {
-        "g2b": "C99 bounded total-drift replan in progress",
-        "credit": "Agency-to-legal-entity evidence unconfirmed",
-        "unitCost": "Original contract and same amount/area scope unconfirmed",
-        "kosis": "Direct source not configured; existing KICT source remains distinct",
-        "formalSecurityReport": "Official access requirement unmet; not replaced by product tests"
+      "deployment": {
+        "productionId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
+        "previewId": "dpl_4hS8BmkTV5B9QrGxtojx8K9z84yc",
+        "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
+        "publicObservation": ".build/review132/public-verified-1793614717852.json",
+        "productionPublicHtmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2"
+      },
+      "actualBuildAccessCounts": {
+        "regularCount": 12,
+        "sampleCount": 6,
+        "unionCount": 18,
+        "overlapCount": 0
+      },
+      "runtimeCheckpoint": {
+        "validationNormalCalls": 2,
+        "backfillNormalCalls": 2,
+        "storedReferenceRuntimeReentryObserved": true,
+        "completedThrough": "202610261458",
+        "recoveryComplete": false,
+        "latestSuccessfulReference": "99cad3dd-01ba-44e1-8117-de8c35a5c3c9",
+        "stopReason": "PARTNER_SNAPSHOT_TOO_LARGE",
+        "businessWorkspaceWritesByVerifier": 0,
+        "sourceLimitsIncreased": false,
+        "failedRunWasNotLatestSnapshot": true,
+        "failedSnapshotExistenceDirectlyQueried": true,
+        "failedSnapshotInserted": false,
+        "failedSnapshotExistenceEvidence": ".build/review133/c99-failed-snapshot-existence.json"
+      },
+      "dependencyRefresh": {
+        "evidence": "docs/review133-dependency-refresh.json",
+        "exactDirectPackages": 6,
+        "advisoryCount": 0,
+        "queriedAt": "2026-11-02T10:32:30.550Z",
+        "notFormalSecurityReport": true
       }
-    },
-    "deployment": {
-      "productionId": "dpl_BryT2Up4veBVtPK8pHoqBqerhRd4",
-      "previewId": "dpl_4hS8BmkTV5B9QrGxtojx8K9z84yc",
-      "sourceCommit": "ebf383229f72bc66f4ae79978d94f39f0c7359b6",
-      "publicObservation": ".build/review132/public-verified-1793614717852.json",
-      "productionPublicHtmlSha256": "e6708189018c1cdc3fc98fff400ad1343a10f49cbe6eba4d05ebe27f7189c2e2"
-    },
-    "actualBuildAccessCounts": {
-      "regularCount": 12,
-      "sampleCount": 6,
-      "unionCount": 18,
-      "overlapCount": 0
-    },
-    "runtimeCheckpoint": {
-      "validationNormalCalls": 2,
-      "backfillNormalCalls": 2,
-      "storedReferenceRuntimeReentryObserved": true,
-      "completedThrough": "202610261458",
-      "recoveryComplete": false,
-      "latestSuccessfulReference": "99cad3dd-01ba-44e1-8117-de8c35a5c3c9",
-      "stopReason": "PARTNER_SNAPSHOT_TOO_LARGE",
-      "businessWorkspaceWritesByVerifier": 0,
-      "sourceLimitsIncreased": false,
-      "failedRunWasNotLatestSnapshot": true,
-      "failedSnapshotExistenceDirectlyQueried": true,
-      "failedSnapshotInserted": false,
-      "failedSnapshotExistenceEvidence": ".build/review133/c99-failed-snapshot-existence.json"
-    },
-    "dependencyRefresh": {
-      "evidence": "docs/review133-dependency-refresh.json",
-      "exactDirectPackages": 6,
-      "advisoryCount": 0,
-      "queriedAt": "2026-11-02T10:32:30.550Z",
-      "notFormalSecurityReport": true
     }
   }
 }

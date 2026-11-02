@@ -159,7 +159,16 @@
       "recoveryComplete": false,
       "additionalCallsAfterStop": 0,
       "diagnosis": "원본을 삭제하거나 상한을 임의로 늘리지 않고 자료가 여러 저장 소비자에 연결되는 경계를 진단 중입니다. 중복이 실제 원인이라고 아직 확정하지 않았습니다.",
-      "scope": "기존 C99의311개 검사군 통과와 이후 실제 자료에서 발생한 저장 실패를 구분합니다. 호출 한도 도달이나 전체 업무 완료로 마감하지 않습니다."
+      "scope": "기존 C99의311개 검사군 통과와 이후 실제 자료에서 발생한 저장 실패를 구분합니다. 호출 한도 도달이나 전체 업무 완료로 마감하지 않습니다.",
+      "snapshotExistence": {
+        "observedAt": "2026-11-02 10:51:13.004438+00",
+        "failedSnapshotExists": false,
+        "previousSuccessfulSnapshotExists": true,
+        "originalC98SnapshotExists": true,
+        "firstC99SnapshotExists": true,
+        "secondC99SnapshotExists": true,
+        "scope": "판본의 실재 여부만 확인한 SQL 불리언입니다. 금융 원값·용량·지문 조회가 아닙니다."
+      }
     }
   },
   "remaining": [
@@ -189,14 +198,15 @@
     "existingC96Excel": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C96.xlsx",
     "existingC96ExcelSha256": "80b8c7ba5e2bff8554ab8377e94fd163787a4e7af9eacf2b97d92970d0f47a9b",
     "rewritten": false,
-    "nextExport": "새 저장 결함과 최종 운영 상태를 확인한 뒤 최종 원문을 확정하고 새 Excel을 한 번 생성합니다."
+    "nextExport": "새 저장 결함과 최종 운영 상태를 확인한 뒤 최종 원문을 확정하고 새 Excel을 한 번 생성합니다.",
+    "nextExcelTarget": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C100.xlsx"
   },
   "limits": [
     "전체 동적 상태·실회원 화면·새 업무 원장 저장·설치 Excel·새 인쇄 출력은 전수 수락하지 않았습니다.",
     "C97의305/644와 C96의303/642는 당시 이력으로 보존합니다.",
     "등록 트랜잭션의 허용 경로 외 전체 동등 검사는 당시 적용 범위입니다. 이후 모든 금융 원값을 새 지문으로 다시 조회했다는 뜻이 아닙니다."
   ],
-  "updatedAt": "2026-11-02T10:49:48.954Z",
+  "updatedAt": "2026-11-02T10:58:45.463Z",
   "nextCandidate": {
     "candidate": "C99",
     "status": "정식 C99를 유지하며 실제 원천 참조판본 크기 초과 결함의 원인을 확인 중입니다.",
@@ -419,5 +429,57 @@
     "installationOrUpdatePerformed": false,
     "dependencyFilesChanged": false,
     "scope": "공개 직접 의존성6개 정확 버전의 보조 조회입니다. 전이 의존성·전체 플랫폼 안전성·정식 보안 보고 완료를 뜻하지 않습니다."
+  },
+  "c100Candidate": {
+    "candidate": "C100",
+    "status": "새 단일 전체313개 검사군을 통과했고 게시·배포 검증을 준비 중입니다.",
+    "spec": "docs/review133-storage-spec.md",
+    "requirements": [
+      "C100-01",
+      "C100-02",
+      "C100-03",
+      "C100-04",
+      "C100-05",
+      "C100-06",
+      "C100-07"
+    ],
+    "consumerRecords": 7,
+    "implementation": "pass",
+    "automatic": "집중 범위 통과·전체 재실행 대기",
+    "actualDeployment": "notrun",
+    "actualDatabase": "notrun",
+    "actualReentry": "notrun",
+    "allStatesAccepted": false,
+    "uiRedesignAllowed": false,
+    "sourceDeletionAllowed": false,
+    "arbitraryLimitIncreaseAllowed": false,
+    "fieldLevelActualPayloadSizingPerformed": false,
+    "excelTarget": "docs/checklists/개발사업관리플랫폼_요구사항_체크리스트_v0.13.0_C100.xlsx",
+    "excelExports": 0,
+    "focused": {
+      "storage": 10,
+      "runtime": 16,
+      "independentConsumer": 34,
+      "actualProductSqlSynthetic": 18
+    },
+    "firstWhole": {
+      "passed": 312,
+      "failed": 1,
+      "preparationBlocked": 0,
+      "evidence": "docs/review132-qa-full-2026-11-02T12-02-46.678Z.json",
+      "cause": "신규 검수 행 policyBasis 누락을 보완했습니다. 제품 실패로 보고하지 않습니다."
+    },
+    "freshWholeAccepted": true,
+    "freshWhole": {
+      "passed": 313,
+      "failed": 0,
+      "preparationBlocked": 0,
+      "sourcePins": 655,
+      "validSingleFinalSource": true,
+      "evidence": "docs/review132-qa-full-2026-11-02T12-23-11.773Z.json",
+      "sha256": "b644dd135a092f9e68f809e1d5bdc3a24b5056450346ce7658d70b8e5170d1f0",
+      "dependencyDocumentsDuringRun": 311,
+      "dependencyDocumentsChangedDuringRun": 0
+    }
   }
 }
