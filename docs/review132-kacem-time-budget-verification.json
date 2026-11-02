@@ -1,0 +1,11 @@
+{
+  "review":"C98 KACEM132-06..08",
+  "date":"2026-11-02",
+  "status":"implemented-focused-verified-live-C98-pending",
+  "spec":"docs/review132-kacem-time-budget-spec.md",
+  "c97ObservedFailure":"SOURCE_DOCUMENT_TIMEOUT; selected min(10000,remaining) value not stored, so actual cap versus remaining bound unknown",
+  "implementation":{"productChanged":["server/partner-rankings.mjs"],"kacemParserMaxMs":30000,"actualTimeout":"min(kacem cap, source remaining at parser start)","otherPDFDefaultMaxMs":10000,"kacemWorkerMB":512,"otherWorkerMB":256,"wholeOverallOrSaveBudgetChanged":false,"parserCoverage":["stage","configuredCapMs","sourceRemainingAtStartMs","selectedTimeoutMs","limitBound","elapsedMs","outcome"],"rawBodyCompanyOrAmountAddedToDiagnostics":false},
+  "verification":{"red":{"passed":20,"failed":2,"evidence":".build/review132-kacem/c98-red.json"},"green":{"passed":22,"failed":0,"officialFixtureExecuted":true,"defaultSyntheticChecks":17,"officialFixtureChecks":5,"evidence":".build/review132-kacem/c98-final-green.json"},"adjacent":{"passed":53,"failed":0,"suites":3,"evidence":".build/review132-kacem/c98-adjacent.json"},"actualOriginalPdfSha256":"216cebafe0ca74bfd3bf4f548d1df1da9109ffb1a1b7dfcfb0ff4ae8886b1ed3","actualOriginalPdfPages":27,"independentTargetRows":30,"independentNumericCells":360,"shortSourceBudgetMs":250,"liveC98":"pending root deployment and one normal official run"},
+  "freeze":{"at":"2026-11-02T07:34:43.792Z","evidence":".build/review132-kacem/c98-freeze.json","pins":{"server/partner-rankings.mjs":"a21e4074c5b1395d62ac8a0968fa2b368d6f13da5213ead3f4153d992316d7a9","tests/review132-kacem-rankings.mjs":"be5951e56646bdb117e7f5f083f9026e0fa6b404e44fd5157c78b0a9f28fbd64","server/partner-collector.mjs":"c309ea96d2469dae57b1922cba211fc81a97e276c821ec6f8d86ce693f37f0cd","server/maintenance-runtime.mjs":"2ec945bf6b7f00c5d645349f42988b35789f1581602363340d16cadbf0b2c588"}},
+  "limitations":["C97 actual selected timeout unknown","No claim of C98 cloud success before actual run","No CPU or memory root cause inferred from the error alone","No page truncation or unbounded timeout","Upstream certificate expiry and pinned HTTP restrictions unchanged","No operational writes by implementer"]
+}
