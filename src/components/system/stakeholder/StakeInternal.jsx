@@ -4,20 +4,6 @@ import { getProfileImageSrc } from '../../../utils/profileImage';
 
 const stakeholderGroups = [
                     {
-                        groupTitle: 'CM부문',
-                        members: [
-                            {
-                                name: '양준모',
-                                photo: 'default_avatar',
-                                roles: ['CM부문', '펀딩스트레티지2파트/파트장+', '이사'],
-                                email: 'brian.yang@igisam.com',
-                                phone: '010-9558-3968',
-                                officePhone: '02-6952-2057',
-                                activityLogs: [],
-                            },
-                        ],
-                    },
-                    {
                         groupTitle: 'CFT 총괄',
                         members: [
                             {
@@ -447,6 +433,21 @@ const stakeholderGroups = [
                             },
                         ]
                     },
+                    {
+                        groupTitle: 'CM',
+                        members: [
+                            {
+                                name: '양준모',
+                                photo: '양준모',
+                                roles: ['CM부문', '펀딩스트레트지2파트/파트장+', '이사'],
+                                responsibility: 'CM 책임인력',
+                                email: 'brian.yang@igisam.com',
+                                phone: '010-9558-3968',
+                                officePhone: '02-6952-2057',
+                                activityLogs: [],
+                            },
+                        ],
+                    },
 ];
 
 export default function StakeInternal() {
@@ -720,7 +721,7 @@ export default function StakeInternal() {
                         </tr>
 
                         {/* 전략자문 */}
-                        <tr className="border-b-0">
+                        <tr className="border-b border-[#333]">
                             <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">전략자문</td>
                             <td className="px-[14px] py-[16px] ">
                                 {renderLeader('권순일', '사업1파트장')}
@@ -728,6 +729,17 @@ export default function StakeInternal() {
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">사업1파트 실무진</td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">거시경제 분석 및 자본시장 전략 자문</td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af]">사업그룹</td>
+                        </tr>
+
+                        {/* CM */}
+                        <tr className="border-b-0">
+                            <td className="px-[24px] py-[16px] text-[14px] font-normal text-[#E5E5E5] border-r border-[#333]">CM</td>
+                            <td className="px-[14px] py-[16px]">
+                                {renderLeader('양준모', '펀딩스트레트지2파트장')}
+                            </td>
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">CM 실무진</td>
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">펀딩 전략·자본조달 구조 수립<br/>국내외 투자자 발굴·출자 유치<br/>투자조건 협의 및 펀드레이징 실행</td>
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af]">CM부문</td>
                         </tr>
                     </tbody>
                 </table>
