@@ -9,7 +9,7 @@ DECLARE result jsonb; cid text;
 BEGIN
  IF NOT public.can_access_iota_work_feed('committee') OR NOT public.can_access_iota_work_feed('open') THEN RAISE EXCEPTION 'allowed member rejected'; END IF;
  result := public.mutate_iota_work_feed('committee','save','__feed_security_committee__','{"work_date":"2026-11-06","summary":"Security test","raw_text":"Rollback only","metadata":{"comments":[{"text":"spoof"}],"permissions":{"groups":["all"]}}}');
- IF jsonb_array_length(result->'metadata'->'comments') <> 0 OR result->'metadata' ? 'permissions' THEN RAISE EXCEPTION 'metadata spoof accepted'; END IF;
+ IF jsonb_array_length(result->'metadata'->'comments') <> 0 OR result->'metadata'->'permissions'->'individuals' <> '["이철승","강순용","권순일","양준모"]'::jsonb THEN RAISE EXCEPTION 'metadata spoof accepted'; END IF;
  result := public.mutate_iota_work_feed('open','save','__feed_security_open__','{"work_date":"2026-11-06","summary":"Open test","raw_text":"Rollback only"}');
  result := public.mutate_iota_work_feed('committee','comment','__feed_security_committee__','{"text":"Reply","author_email":"spoof@example.com"}');
  cid := result->'metadata'->'comments'->0->>'id';

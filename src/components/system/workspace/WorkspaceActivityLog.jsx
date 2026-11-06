@@ -46,6 +46,7 @@ const fetchWorkspaceLogData = async ({
     const cachedEntry = workspaceLogCache.get(cacheKey);
     if (
         preferCache
+        && !feedKind
         && cachedEntry
         && Date.now() - cachedEntry.cachedAt < WORKSPACE_LOG_CACHE_TTL_MS
     ) {
@@ -100,7 +101,7 @@ const fetchWorkspaceLogData = async ({
         if (error) throw error;
 
         const logs = data || [];
-        workspaceLogCache.set(cacheKey, { logs, cachedAt: Date.now() });
+        if (!feedKind) workspaceLogCache.set(cacheKey, { logs, cachedAt: Date.now() });
         return logs;
     })().finally(() => {
         pendingWorkspaceLogRequests.delete(cacheKey);

@@ -12,6 +12,9 @@ import {
     fetchPmoTaskOptions,
     replaceLogTaskLinks,
 } from '../../utils/pmoTaskLinks.js';
+import WorkFeedVisibilityModal from './WorkFeedVisibilityModal';
+import { COMMITTEE_READERS, getWorkFeedPermissions } from '../../utils/workFeedPermissions';
+import { getMemberIotaOrganization, normalizeIotaOrganization } from '../../utils/iotaOrganizations';
 import { mutateWorkFeed } from '../../utils/workFeeds';
 import { useAuth } from '../../context/AuthContext';
 import PmoTaskPickerModal from './pmo/PmoTaskPickerModal.jsx';
@@ -66,8 +69,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
     const [isContentFocused, setIsContentFocused] = useState(false);
 
     // Permission states
-    const [visibilityGroups, setVisibilityGroups] = useState([]);
-    const [visibilityIndividuals, setVisibilityIndividuals] = useState([]);
+    const [visibilityGroups, setVisibilityGroups] = useState(() => feedKind ? getWorkFeedPermissions(feedKind, initialData?.metadata?.permissions).groups : []);
+    const [visibilityIndividuals, setVisibilityIndividuals] = useState(() => feedKind ? getWorkFeedPermissions(feedKind, initialData?.metadata?.permissions).individuals.map(contact_name => ({contact_name})) : []);
     const [showVisibilityModal, setShowVisibilityModal] = useState(false);
     const [showPublicWarningModal, setShowPublicWarningModal] = useState(false);
     
@@ -155,7 +158,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                 if (meta.priority) setPriority(meta.priority);
                 
 
-                if (meta.permissions) {
+                if (feedKind) {
+                    const permissions = getWorkFeedPermissions(feedKind, meta.permissions);
+                    setVisibilityGroups(permissions.groups);
+                    setVisibilityIndividuals(permissions.individuals.map(contact_name => ({contact_name})));
+                } else if (meta.permissions) {
                     if (meta.permissions.groups) setVisibilityGroups(meta.permissions.groups);
                     if (meta.permissions.individuals && masterStakeholders && masterStakeholders.length > 0) {
                         const indivs = meta.permissions.individuals.map(name => masterStakeholders.find(s => s.contact_name === name)).filter(Boolean);
@@ -575,7 +582,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                 setCompanyQuery('');
                 setContactQuery('');
                 setVisibilityGroups([]);
-                setVisibilityIndividuals([]);
+                setVisibilityIndividuals(feedKind === 'committee' ? COMMITTEE_READERS.map(contact_name => ({contact_name})) : []);
                 setMentionedEntities([]);
                 setAttachedFiles([]);
                 setLinkedTaskIds([]);
@@ -1212,6 +1219,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                                 {isUploadingFile ? '업로드 중...' : '파일 첨부'}
                             </button>
                         )}
+                        {feedKind && <button type="button" onClick={() => { fetchMasterStakeholders?.(true, true); setShowVisibilityModal(true); }} className="flex h-10 items-center gap-2 rounded-[9px] border border-[#914743] px-4 text-[13px] font-black text-[#e17f79] hover:bg-[#ff453a]/5 cursor-pointer"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>열람권한</button>}
                         {!feedKind && (<button
                             type="button"
                             onClick={() => setShowVisibilityModal(true)}
@@ -1278,7 +1286,24 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
             )}
 
             {/* Permission Modal */}
-            {showVisibilityModal && (
+            {showVisibilityModal && feedKind && <WorkFeedVisibilityModal
+                locked={feedKind === 'committee'}
+                groups={[...new Set(pilotMembers.filter(member => member.is_active !== false).map(member => getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name)).filter(Boolean))]}
+                members={feedKind === 'committee' ? COMMITTEE_READERS.map(name => {
+                    const member = pilotMembers.find(member => member.staff_name === name);
+                    return {id:name, name, group: getMemberIotaOrganization(member, '')};
+                }) : pilotMembers.filter(member => member.is_active !== false).map(member => ({id:member.staff_name, name:member.staff_name, email:member.email, group:getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name)}))}
+                selectedGroups={visibilityGroups}
+                selectedIndividuals={visibilityIndividuals.map(member => member.contact_name)}
+                onClose={() => setShowVisibilityModal(false)}
+                onApply={(groups, individuals) => {
+                    const permissions = getWorkFeedPermissions(feedKind, {groups, individuals});
+                    setVisibilityGroups(permissions.groups);
+                    setVisibilityIndividuals(permissions.individuals.map(contact_name => ({contact_name})));
+                    setShowVisibilityModal(false);
+                }}
+            />}
+            {showVisibilityModal && !feedKind && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center">
                     <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowVisibilityModal(false)}></div>
                     <div className="relative bg-[#262626] rounded-[24px] border border-[#333] w-full max-w-[500px] overflow-hidden shadow-2xl flex flex-col max-h-[85vh]">
