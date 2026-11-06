@@ -57,7 +57,7 @@ export default function WorkFeedComposer({ memberInfo, expanded, setExpanded, ed
             <div className="relative mt-4">
                 <div className="mb-2 flex items-center gap-2">
                     <button type="button" onMouseDown={event => event.preventDefault()} onClick={applyBold} aria-label="굵게 적용 또는 해제" aria-keyshortcuts="Control+b Meta+b" title="굵게 적용/해제 (⌘B / Ctrl+B)" className="grid h-8 w-8 shrink-0 place-items-center rounded-[6px] border border-[#454545] text-[#ddd] hover:bg-[#363636] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#78add6]"><Icon type="bold" size={16} /></button>
-                    <span className="text-[12px] text-[#999]">문장 선택 후 B · **강조할 내용**은 등록 시 굵게 표시</span>
+                    <span className="text-[12px] text-[#999]">문장 선택 후 B · **강조할 내용**은 등록 시 굵게 표시 · URL은 자동으로 링크됩니다.</span>
                 </div>
                 <textarea ref={textareaRef} id={`log-textarea-${formId}`} aria-label="본문" value={fields.content} onChange={onContentChange} onFocus={onRefreshDirectory} onKeyDown={event => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'b' && !event.nativeEvent.isComposing) { event.preventDefault(); applyBold(); } if (event.key === 'Escape') onCloseMentions(); }} placeholder={'진행 이력, 협업 요청, 리스크 판단 필요사항, 의사결정 필요항목을 입력하세요.\n(@로 담당부서 또는 담당자를 멘션할 수 있습니다)'} className="min-h-[150px] w-full resize-y bg-transparent text-[15px] leading-7 text-[#e5e5e5] outline-none placeholder:text-[#8f8d87]" />
                 {showMentions && mentions.length > 0 && <div className="absolute left-0 top-[70px] z-40 max-h-[240px] w-[300px] max-w-full overflow-y-auto rounded-[10px] border border-[#444] bg-[#202020] py-1.5 shadow-2xl">

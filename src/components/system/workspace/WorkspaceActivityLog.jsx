@@ -1,5 +1,5 @@
 import WorkFeedComments from '../WorkFeedComments';
-import { splitFeedBold } from '../../../utils/workFeedBold';
+import WorkFeedText from '../WorkFeedText';
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { supabase } from '../../../utils/supabaseClient';
@@ -483,6 +483,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     const { user, memberInfo } = useAuth();
     const userId = user?.id;
     const [loadError, setLoadError] = useState(false);
+    const [pendingFeedStatuses, setPendingFeedStatuses] = useState({});
+    const [feedStatusErrors, setFeedStatusErrors] = useState({});
     const pendingFeedReactions = React.useRef(new Set());
     
     // Logs State
@@ -535,10 +537,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     ].filter(Boolean)));
     const filteredCommentMentions = commentMentionCandidates.filter(name => name.toLowerCase().includes(commentMentionQuery.toLowerCase())).slice(0, 5);
 
-    const renderLogTextWithMentions = (text, plain = false) => {
-        if (feedKind && !plain) return splitFeedBold(text).map((part, index) => part.bold
-            ? <strong key={index}>{renderLogTextWithMentions(part.text, true)}</strong>
-            : <React.Fragment key={index}>{renderLogTextWithMentions(part.text, true)}</React.Fragment>);
+    const renderLogTextWithMentions = (text) => {
+        if (feedKind) return <WorkFeedText text={text} mentions={[
+            ...(masterStakeholders?.map(member => member.contact_name) || []),
+            ...buildMentionCandidates(pilotMembers),
+        ]} />;
         if (!text) return null;
         const names = Array.from(new Set([
             ...(masterStakeholders?.map(s => s.contact_name) || []),
@@ -837,6 +840,22 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 textarea.setSelectionRange(newPos, newPos);
             }
         }, 0);
+    };
+
+    const updateFeedStatus = async (logId, status) => {
+        if (pendingFeedStatuses[logId]) return;
+        setPendingFeedStatuses(previous => ({...previous, [logId]: true}));
+        setFeedStatusErrors(previous => ({...previous, [logId]: ''}));
+        try {
+            const {data, error} = await supabase.rpc('update_iota_work_feed_status', {p_feed: feedKind, p_log_id: logId, p_status: status});
+            if (error) throw error;
+            // Merge only the changed status so a concurrent comment/reaction response is retained.
+            setLogs(previous => previous.map(log => log.log_id === logId ? {...log, updated_at:data.updated_at, metadata:{...log.metadata, issue_status:data.metadata.issue_status}} : log));
+            workspaceLogCache.delete(getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId, feedKind, userId }));
+        } catch (error) {
+            setFeedStatusErrors(previous => ({...previous, [logId]: '진행상태를 저장하지 못했습니다. 다시 시도해 주세요.'}));
+            console.error('Feed status update failed:', error);
+        } finally { setPendingFeedStatuses(previous => ({...previous, [logId]: false})); }
     };
 
     const saveFeedComment = async (logId, text, commentId = null) => {
@@ -1797,7 +1816,16 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                 <img src={getProfileImageSrc(log.writer_name)} alt={log.writer_name} className="h-8 w-8 rounded-full border border-white/10 object-cover" onError={event => { event.currentTarget.onerror=null; event.currentTarget.src=`${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                                                 <div><div className="flex items-center gap-2"><strong className="text-[14px] text-white">{log.writer_name}</strong><span className="shrink-0 rounded-[4px] bg-[#82afb9]/10 px-2 py-0.5 text-[11px] font-bold text-[#82afb9]">{getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}</span>{isRecentFeedPost(log) && <b className="rounded-[3px] bg-[#ff3b30] px-1 py-0.5 text-[10px] leading-none text-white">N</b>}</div><span className="text-[11px] text-[#86868B]">{new Date(log.created_at).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})}</span></div>
                                             </div>
-                                            {memberInfo?.email === log.writer_staff_id && <div className="flex shrink-0 items-center gap-2"><button type="button" onClick={() => setEditingLogId(log.log_id)} className="h-8 cursor-pointer rounded-[7px] border border-[#444] px-3 text-[12px] text-[#A1A1AA] hover:text-white">수정하기</button><button type="button" onClick={() => setLogToDelete(log)} className="h-8 cursor-pointer rounded-[7px] border border-[#5a3937] px-3 text-[12px] text-[#cc8580] hover:bg-[#333]">삭제</button></div>}
+                                            <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+                                                <label className="flex h-8 items-center gap-2 rounded-[7px] border border-[#3e566b] bg-[#24313b] px-2">
+                                                    <span className="text-[11px] font-bold text-[#8eb8dc]">진행상태</span>
+                                                    {memberInfo?.email === log.writer_staff_id ? <select aria-label="게시글 진행상태 변경" value={log.metadata?.issue_status || '검토중'} disabled={pendingFeedStatuses[log.log_id]} onChange={event => updateFeedStatus(log.log_id, event.target.value)} className="cursor-pointer bg-transparent text-[12px] font-bold text-white outline-none disabled:cursor-wait disabled:opacity-50">
+                                                        {['신규','검토중','진행중','보류','완료'].map(status => <option key={status} value={status} className="bg-[#222] text-white">{status}</option>)}
+                                                    </select> : <span className="text-[12px] font-bold text-white">{log.metadata?.issue_status || '검토중'}</span>}
+                                                </label>
+                                                {memberInfo?.email === log.writer_staff_id && <div className="flex shrink-0 items-center gap-2"><button type="button" onClick={() => setEditingLogId(log.log_id)} className="h-8 cursor-pointer rounded-[7px] border border-[#444] px-3 text-[12px] text-[#A1A1AA] hover:text-white">수정하기</button><button type="button" onClick={() => setLogToDelete(log)} className="h-8 cursor-pointer rounded-[7px] border border-[#5a3937] px-3 text-[12px] text-[#cc8580] hover:bg-[#333]">삭제</button></div>}
+                                                {feedStatusErrors[log.log_id] && <p role="alert" className="w-full text-right text-[12px] text-[#df827e]">{feedStatusErrors[log.log_id]}</p>}
+                                            </div>
                                         </div>}
                                         {/* Right Floating Badges */}
                                         <div className={feedKind ? "hidden" : "float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[12px]"}>
