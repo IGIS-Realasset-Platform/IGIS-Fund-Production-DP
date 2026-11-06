@@ -1880,7 +1880,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                     </div>
                                                 </div>
                                             ) : (
-                                                <div className={feedKind ? "whitespace-pre-wrap break-words text-[14px] leading-[27px] text-[#D1D1D6]" : `whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
+                                                <div className={feedKind ? "whitespace-pre-wrap break-words text-[15px] leading-[26px] text-[#D1D1D6]" : `whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
                                                     {renderLogTextWithMentions(log.raw_text)}
                                                 </div>
                                             )
