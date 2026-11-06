@@ -1304,12 +1304,10 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
 
             {/* Permission Modal */}
             {showVisibilityModal && feedKind && <WorkFeedVisibilityModal
-                locked={feedKind === 'committee'}
+                requiredIndividuals={feedKind === 'committee' ? COMMITTEE_READERS : []}
+                allowGroups={feedKind !== 'committee'}
                 groups={[...new Set(pilotMembers.filter(member => member.is_active !== false).map(member => getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name)).filter(Boolean))]}
-                members={feedKind === 'committee' ? COMMITTEE_READERS.map(name => {
-                    const member = pilotMembers.find(member => member.staff_name === name);
-                    return {id:name, name, group: getMemberIotaOrganization(member, '')};
-                }) : pilotMembers.filter(member => member.is_active !== false).map(member => ({id:member.staff_name, name:member.staff_name, email:member.email, group:getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name)}))}
+                members={pilotMembers.filter(member => member.is_active !== false).map(member => ({id:member.staff_name, name:member.staff_name, email:member.email, group:getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name)}))}
                 selectedGroups={visibilityGroups}
                 selectedIndividuals={visibilityIndividuals.map(member => member.contact_name)}
                 onClose={() => setShowVisibilityModal(false)}

@@ -26,33 +26,38 @@ function ModalShell({ title, description, onClose, width = 'max-w-[560px]', chil
   );
 }
 
-export default function WorkFeedVisibilityModal({ groups, members, selectedGroups, selectedIndividuals, onApply, onClose, locked = false }) {
+export default function WorkFeedVisibilityModal({ groups, members, selectedGroups, selectedIndividuals, onApply, onClose, requiredIndividuals = [], allowGroups = true }) {
   const [draftGroups, setDraftGroups] = useState(selectedGroups);
   const [draftIndividuals, setDraftIndividuals] = useState(selectedIndividuals);
   const [query, setQuery] = useState('');
-  const filteredMembers = members.filter((member) => (
+  const orderedMembers = requiredIndividuals.length ? [...members].sort((left, right) => {
+    const leftIndex = requiredIndividuals.indexOf(left.id);
+    const rightIndex = requiredIndividuals.indexOf(right.id);
+    return (leftIndex < 0 ? requiredIndividuals.length : leftIndex) - (rightIndex < 0 ? requiredIndividuals.length : rightIndex);
+  }) : members;
+  const filteredMembers = orderedMembers.filter((member) => (
     !query || `${member.name} ${member.group} ${member.email}`.toLowerCase().includes(query.toLowerCase())
   ));
 
   const toggle = (list, value) => (list.includes(value) ? list.filter((item) => item !== value) : [...list, value]);
-  const publicPost = !locked && draftGroups.length === 0 && draftIndividuals.length === 0;
+  const publicPost = requiredIndividuals.length === 0 && draftGroups.length === 0 && draftIndividuals.length === 0;
 
   return (
     <ModalShell
       title="열람 권한 설정"
-      description="이 게시물을 볼 수 있는 그룹과 특정 인원을 지정합니다."
+      description={allowGroups ? "이 게시물을 볼 수 있는 그룹과 특정 인원을 지정합니다." : "기본 열람 인원 외에 이 게시물을 볼 수 있는 인원을 추가합니다."}
       onClose={onClose}
       footer={(
         <div className="flex items-center gap-3">
           <p className={`mr-auto text-[12px] font-bold ${publicPost ? 'text-[#e2aa29]' : 'text-[#79b7e8]'}`}>
-            {publicPost ? '설정하지 않으면 전체 공개로 게시됩니다.' : '선택한 그룹과 인원만 열람합니다.'}
+            {publicPost ? '설정하지 않으면 전체 공개로 게시됩니다.' : allowGroups ? '선택한 그룹과 인원만 열람합니다.' : '선택한 인원만 열람합니다.'}
           </p>
           <button type="button" onClick={onClose} className="h-10 rounded-[9px] border border-[#484848] px-4 text-[13px] font-bold text-[#bbb]">취소</button>
           <button type="button" onClick={() => onApply(draftGroups, draftIndividuals)} className="h-10 rounded-[9px] bg-[#2b8de4] px-5 text-[13px] font-black text-white">확인</button>
         </div>
       )}
     >
-      {!locked && <div>
+      {allowGroups && <div>
         <h4 className="mb-3 text-[14px] font-black text-[#d5d5d7]">1. 그룹 선택 (다중 선택 가능)</h4>
         <div className="flex flex-wrap gap-2">
           {groups.map((group) => {
@@ -71,8 +76,8 @@ export default function WorkFeedVisibilityModal({ groups, members, selectedGroup
           {groups.length === 0 && <p className="text-[13px] text-[#777]">등록된 그룹이 없습니다.</p>}
         </div>
       </div>}
-      <div className={locked ? "" : "mt-7"}>
-        <h4 className="mb-3 text-[14px] font-black text-[#d5d5d7]">{locked ? "열람 대상" : "2. 특정 인원 추가"}</h4>
+      <div className={allowGroups ? "mt-7" : ""}>
+        <h4 className="mb-3 text-[14px] font-black text-[#d5d5d7]">{allowGroups ? "2. 특정 인원 추가" : "열람 인원 추가"}</h4>
         <label className="relative block">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#777]" />
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="이름·소속 검색" className="h-10 w-full rounded-[9px] border border-[#444] bg-[#1b1b1b] pl-9 pr-3 text-[13px] text-white outline-none focus:border-[#4c8bbd]" />
@@ -84,13 +89,13 @@ export default function WorkFeedVisibilityModal({ groups, members, selectedGroup
               <button
                 key={member.id}
                 type="button"
-                disabled={locked}
+                disabled={requiredIndividuals.includes(member.id)}
                 aria-pressed={selected}
                 onClick={() => setDraftIndividuals((current) => toggle(current, member.id))}
                 className="flex w-full items-center gap-3 border-b border-[#343434] px-3 py-2.5 text-left last:border-0 hover:bg-white/[0.04]"
               >
                 <span className={`grid h-5 w-5 place-items-center rounded-[5px] border ${selected ? 'border-[#4b9bd9] bg-[#4b9bd9] text-white' : 'border-[#555] text-transparent'}`}><Check size={13} /></span>
-                <span className="text-[13px] font-bold text-[#ddd]">{member.name}</span>
+                <span className="text-[13px] font-bold text-[#ddd]">{member.name}{requiredIndividuals.includes(member.id) && <span className="ml-2 text-[11px] font-normal text-[#85858b]">기본</span>}</span>
                 <span className="ml-auto text-[12px] text-[#85858b]">{member.group || member.email}</span>
               </button>
             );

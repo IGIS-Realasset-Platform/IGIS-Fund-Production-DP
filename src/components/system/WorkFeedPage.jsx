@@ -7,19 +7,25 @@ import WorkspaceActivityLog from './workspace/WorkspaceActivityLog';
 export default function WorkFeedPage({ feedKind = 'committee' }) {
     const { user, memberInfo, loading } = useAuth();
     const [access, setAccess] = useState(null);
+    const [canCreate, setCanCreate] = useState(false);
     const [accessError, setAccessError] = useState(false);
     const feed = WORK_FEEDS[feedKind];
 
     useEffect(() => {
         let active = true;
         setAccess(null);
+        setCanCreate(false);
         setAccessError(false);
         if (loading) return () => { active = false; };
         if (!user) { setAccess(false); return () => { active = false; }; }
-        supabase.rpc('can_access_iota_work_feed', { p_feed: feedKind }).then(({ data, error }) => {
+        Promise.all([
+            supabase.rpc('can_access_iota_work_feed', { p_feed: 'open' }),
+            supabase.rpc('can_access_iota_work_feed', { p_feed: feedKind }),
+        ]).then(([listing, writing]) => {
             if (!active) return;
-            setAccessError(Boolean(error));
-            setAccess(!error && data === true);
+            setAccessError(Boolean(listing.error || writing.error));
+            setAccess(!listing.error && listing.data === true);
+            setCanCreate(!writing.error && writing.data === true);
         }).catch(() => { if (active) { setAccessError(true); setAccess(false); } });
         return () => { active = false; };
     }, [feedKind, user?.id, memberInfo?.is_active, loading]);
@@ -33,7 +39,7 @@ export default function WorkFeedPage({ feedKind = 'committee' }) {
             {access === null || (access && !memberInfo) ? (
                 <div className="py-[48px] text-center text-[#A1A1AA]">불러오는 중입니다...</div>
             ) : access ? (
-                <WorkspaceActivityLog key={`${user.id}:${feedKind}`} workspaceCode={feed.code} workspaceLabel={feed.title} feedKind={feedKind} />
+                <WorkspaceActivityLog key={`${user.id}:${feedKind}`} canCreate={canCreate} workspaceCode={feed.code} workspaceLabel={feed.title} feedKind={feedKind} />
             ) : (
                 <div role="alert" className="rounded-[16px] border border-[#333] bg-[#252525] p-[40px] text-center text-[#A1A1AA]">
                     {accessError ? '접근 권한을 확인하지 못했습니다. 새로고침 후 다시 시도해 주세요.' : '접근 권한이 없습니다.'}

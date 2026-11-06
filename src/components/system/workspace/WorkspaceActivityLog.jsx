@@ -59,6 +59,11 @@ const fetchWorkspaceLogData = async ({
     }
 
     const request = (async () => {
+        if (feedKind === 'committee') {
+            const {data, error} = await supabase.rpc('list_iota_committee_feed');
+            if (error) throw error;
+            return data || [];
+        }
         let query = supabase
             .from(feedKind ? 'iota_work_feed_logs' : 'iota_seoul_logs')
             .select(feedKind ? '*' : `
@@ -479,7 +484,7 @@ const renderSystemLogChanges = (rawText) => {
     );
 };
 
-export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null }) {
+export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null, canCreate = true }) {
     const { user, memberInfo } = useAuth();
     const userId = user?.id;
     const [loadError, setLoadError] = useState(false);
@@ -1110,12 +1115,13 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     };
 
     const toggleExpand = (id) => {
+        if (feedKind && logs.find(log => log.log_id === id)?.can_read === false) return;
         setExpandedLogs(prev => ({ ...prev, [id]: !prev[id] }));
     };
 
     const logsPerPage = isTaskBoard ? 9999 : (logsViewMode === 'summary' ? 5 : 20);
     const checkUserAccess = (log) => {
-        if (feedKind) return true;
+        if (feedKind) return log.can_read !== false;
         const perms = log.metadata?.permissions;
         if (!perms) return true;
         
@@ -1178,6 +1184,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         if (!logSearchQuery) return true;
         const query = logSearchQuery.toLowerCase();
         return (
+            log.summary?.toLowerCase().includes(query) ||
             log.raw_text?.toLowerCase().includes(query) ||
             log.writer_name?.toLowerCase().includes(query) ||
             log.metadata?.workspace_label?.toLowerCase().includes(query) ||
@@ -1259,7 +1266,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             
             <div className={isTaskBoard ? "mt-0 mb-0" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>
                 <div className="w-full flex flex-col mt-0">{/* Task Input Form */}
-            {!isTaskBoard && (
+            {!isTaskBoard && canCreate && (
                 <LogWriteBox feedKind={feedKind}
                     memberInfo={memberInfo}
                     masterStakeholders={masterStakeholders}
@@ -1643,7 +1650,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         <div id={log.log_id} key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
                             {/* Main Row */}
                             <div 
-                                className="w-full flex items-center justify-between cursor-pointer"
+                                className={`w-full flex items-center justify-between ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'}`}
+                                aria-disabled={!checkUserAccess(log)}
                                 onClick={() => toggleExpand(log.log_id)}
                             >
                                 {/* Left Section */}
@@ -1716,7 +1724,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                         </div>
                                                     </div>
                                                 )}
-                                                <span className="truncate">{log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}</span>
+                                                {checkUserAccess(log) ? <span className="truncate">{log.summary || (log.raw_text ? log.raw_text.split('\n')[0] : '')}</span> : <span className="flex min-w-0 items-center gap-2 text-[#86868B]" aria-label="열람 권한이 없는 글"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span className="truncate">열람 권한이 없는 글입니다.</span></span>}
                                                 {linkedTasksByLogId[log.log_id]?.length > 0 && (
                                                     <span className="shrink-0 rounded-[5px] border border-[#30d158]/30 bg-[#30d158]/10 px-[6px] py-[2px] text-[11px] font-bold text-[#4ade80]">
                                                         연결업무 {linkedTasksByLogId[log.log_id].length}
@@ -1798,7 +1806,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
                             {/* Expanded Box */}
                             <AnimatePresence>
-                                {expandedLogs[log.log_id] && (
+                                {expandedLogs[log.log_id] && checkUserAccess(log) && (
                                     <motion.div 
                                         className="w-full flex overflow-hidden"
                                         initial={{ height: 0, opacity: 0, marginTop: 0 }}
