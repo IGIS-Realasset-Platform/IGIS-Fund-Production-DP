@@ -451,6 +451,7 @@ const stakeholderGroups = [
 ];
 
 export default function StakeInternal() {
+    const showDetailedProfiles = false;
     const [hoveredRow, setHoveredRow] = useState(null);
     const [hoveredImage, setHoveredImage] = useState(null);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -541,7 +542,7 @@ export default function StakeInternal() {
                 <form onSubmit={(e) => { 
                     e.preventDefault(); 
                     setActiveSearch(searchQuery); 
-                    if (searchQuery.trim() !== '') setIsTableCollapsed(true);
+                    if (showDetailedProfiles && searchQuery.trim() !== '') setIsTableCollapsed(true);
                     else setIsTableCollapsed(false);
                 }} className="relative">
                     <div className="absolute inset-y-0 left-[14px] flex items-center pointer-events-none">
@@ -730,7 +731,7 @@ export default function StakeInternal() {
                                 {renderLeader('양준모', '펀딩스트레트지2파트장')}
                             </td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">CM 실무진</td>
-                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">펀딩 전략·자본조달 구조 수립<br/>국내외 투자자 발굴·출자 유치<br/>투자조건 협의 및 펀드레이징 실행</td>
+                            <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af] border-r border-[#333] leading-[22px]">펀딩 전략·자본조달 구조 수립<br/>투자자 발굴·출자 유치 및 조건 협의</td>
                             <td className="px-[14px] py-[16px] text-[13px] text-[#bbb9af]">CM부문</td>
                         </tr>
                     </tbody>
@@ -739,6 +740,7 @@ export default function StakeInternal() {
             )}
 
             {/* Profiles & Activity Logs Section */}
+            {showDetailedProfiles && (
             <section aria-label="상세 프로필 및 활동로그 비공개" className="relative w-full mt-[80px] h-[360px] overflow-hidden rounded-[16px] select-none">
             <div inert aria-hidden="true" className="w-full flex flex-col gap-[60px] blur-[14px] opacity-20 pointer-events-none">
                 {/* Dummy Data Array */}
@@ -842,6 +844,7 @@ export default function StakeInternal() {
                     </div>
                 </div>
             </section>
+            )}
 
             {hoveredRow && (
                 <div 
