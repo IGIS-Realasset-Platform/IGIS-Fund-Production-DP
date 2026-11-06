@@ -1,4 +1,5 @@
 import React from 'react';
+import { getProfileImageSrc } from '../../utils/profileImage';
 
 export default function ReactionAvatarStack({ reactionEmails, pilotMembers }) {
     if (!reactionEmails || reactionEmails.length === 0) return null;
@@ -20,7 +21,7 @@ export default function ReactionAvatarStack({ reactionEmails, pilotMembers }) {
                         style={{ zIndex: 10 - idx }}
                     >
                         <img 
-                            src={`${import.meta.env.BASE_URL}${name}.webp`} 
+                            src={getProfileImageSrc(name)}
                             alt={name} 
                             className="w-full h-full object-cover rounded-full"
                             onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}

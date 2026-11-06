@@ -8,7 +8,7 @@ import GovFundRnR from './governance/GovFundRnR';
 import GovWorkingGroup from './governance/GovWorkingGroup';
 import GovExternalComm from './governance/GovExternalComm';
 import GovRiskTop10 from './governance/GovRiskTop10';
-import GovMeetingLogs from './GovMeetingLogs';
+import WorkFeedPage from './WorkFeedPage';
 import StakeInternal from './stakeholder/StakeInternal';
 import StakeLp from './stakeholder/StakeLp';
 import StakeTenant from './stakeholder/StakeTenant';
@@ -84,7 +84,8 @@ export default function PlatformCenter({ currentPath = '' }) {
             case 'platform/iotaseoul/governance/working-group': return <GovWorkingGroup />;
             case 'platform/iotaseoul/governance/external-comm': return <GovExternalComm />;
             case 'platform/iotaseoul/governance/risk-top10': return <GovRiskTop10 />;
-            case 'platform/iotaseoul/meeting-logs': return <GovMeetingLogs />;
+            case 'platform/iotaseoul/meeting-logs': return <WorkFeedPage key="committee" feedKind="committee" />;
+            case 'platform/iotaseoul/open-feed': return <WorkFeedPage key="open" feedKind="open" />;
             default: return null;
         }
     };

@@ -16,6 +16,10 @@ import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
 import ReactionAvatarStack from '../ReactionAvatarStack';
+import WorkFeedReactionButton, { FeedReactionAvatarStack, FeedReactionIcon, collectFeedReactionEmails } from '../WorkFeedReactions';
+import { mutateWorkFeed } from '../../../utils/workFeeds';
+import { getProfileImageSrc } from '../../../utils/profileImage';
+import { isRecentFeedPost } from '../../../utils/workFeedIndicators';
 
 const LazyPmoTaskBoardStaging = React.lazy(() => import('../pmo/PmoTaskBoardStaging.jsx'));
 const WORKSPACE_LOG_CACHE_TTL_MS = 30 * 1000;
@@ -23,7 +27,8 @@ const WORKSPACE_LOG_CACHE_TTL_MS = 30 * 1000;
 const workspaceLogCache = new Map();
 const pendingWorkspaceLogRequests = new Map();
 
-const getWorkspaceLogCacheKey = ({ workspaceCode, isTaskBoard, taskId }) => (
+const getWorkspaceLogCacheKey = ({ workspaceCode, isTaskBoard, taskId, feedKind, userId }) => (
+    feedKind ? `feed:${feedKind}:${userId}` :
     isTaskBoard
         ? `task:${String(taskId || '')}`
         : `workspace:${String(workspaceCode || '')}`
@@ -35,8 +40,9 @@ const fetchWorkspaceLogData = async ({
     isTaskBoard,
     taskId,
     preferCache = false,
+    feedKind, userId,
 }) => {
-    const cacheKey = getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId });
+    const cacheKey = getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId, feedKind, userId });
     const cachedEntry = workspaceLogCache.get(cacheKey);
     if (
         preferCache
@@ -51,8 +57,8 @@ const fetchWorkspaceLogData = async ({
 
     const request = (async () => {
         let query = supabase
-            .from('iota_seoul_logs')
-            .select(`
+            .from(feedKind ? 'iota_work_feed_logs' : 'iota_seoul_logs')
+            .select(feedKind ? '*' : `
                 log_id,
                 work_date,
                 raw_text,
@@ -67,7 +73,9 @@ const fetchWorkspaceLogData = async ({
                 iota_seoul_log_stakeholders(sh_name, role_category)
             `);
 
-        if (isTaskBoard && taskId) {
+        if (feedKind) {
+            query = query.eq('feed_kind', feedKind);
+        } else if (isTaskBoard && taskId) {
             query = query.eq('metadata->>task_id', String(taskId));
         } else if (!isTaskBoard && workspaceCode) {
             const workspaceAliases = getIotaWorkspaceCodeAliases(workspaceCode);
@@ -468,13 +476,16 @@ const renderSystemLogChanges = (rawText) => {
     );
 };
 
-export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false }) {
-    const { memberInfo } = useAuth();
+export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null }) {
+    const { user, memberInfo } = useAuth();
+    const userId = user?.id;
+    const [loadError, setLoadError] = useState(false);
+    const pendingFeedReactions = React.useRef(new Set());
     
     // Logs State
     const [isLoading, setIsLoading] = useState(true);
     const [logs, setLogs] = useState([]);
-    const [logsViewMode, setLogsViewMode] = useState('summary');
+    const [logsViewMode, setLogsViewMode] = useState(feedKind ? 'full' : 'summary');
     const [currentPage, setCurrentPage] = useState(1);
     const [expandedLogs, setExpandedLogs] = useState({});
     const [logSearchQuery, setLogSearchQuery] = useState('');
@@ -491,6 +502,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     // Filter states
     const [filterStakeholder, setFilterStakeholder] = useState('');
     const [filterCell, setFilterCell] = useState(() => {
+        if (feedKind) return '';
         if (workspaceLabel === '사업 PM') return '사업PM';
         return workspaceLabel || '';
     });
@@ -555,13 +567,14 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
     const fetchLogs = async ({ preferCache = false } = {}) => {
         setIsLoading(true);
+        setLoadError(false);
         try {
             const fetchedLogs = await fetchWorkspaceLogData({
                 workspaceCode,
                 workspaceLabel,
                 isTaskBoard,
                 taskId,
-                preferCache,
+                preferCache, feedKind, userId,
             });
             setLogs(fetchedLogs);
             if (isTaskBoard) setLinkedTasksByLogId({});
@@ -575,6 +588,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             }
         } catch (e) {
             console.error('Error fetching logs:', e);
+            setLoadError(true);
+            if (feedKind) setLogs([]);
         } finally {
             setIsLoading(false);
         }
@@ -583,12 +598,12 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     useEffect(() => {
         fetchLogs({ preferCache: true });
         fetchMasterStakeholders();
-    }, [taskId, workspaceCode]);
+    }, [taskId, workspaceCode, feedKind, userId]);
 
     useEffect(() => {
         const handleUpdate = (e) => {
             if (String(e.detail?.taskId || '') === String(taskId || '')) {
-                const cacheKey = getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId });
+                const cacheKey = getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId, feedKind, userId });
                 workspaceLogCache.delete(cacheKey);
                 pendingWorkspaceLogRequests.delete(cacheKey);
                 fetchLogs();
@@ -596,7 +611,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         };
         window.addEventListener('iota_log_updated', handleUpdate);
         return () => window.removeEventListener('iota_log_updated', handleUpdate);
-    }, [taskId]);
+    }, [taskId, workspaceCode, feedKind, userId]);
 
     const handleTargetLog = () => {
         const params = new URLSearchParams(window.location.search);
@@ -623,7 +638,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 
                 // Calculate which page targetLog belongs to in the filtered list
                 const tempFiltered = logs.filter(log => {
-                    if (getCellName(log.writer_name) === '기타') return false;
+                    if (!feedKind && getCellName(log.writer_name) === '기타') return false;
                     const cell = getLogCell(log);
                     if (targetCell && cell !== targetCell) return false;
                     return true;
@@ -733,41 +748,23 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     const handleDelete = async (logId) => {
         setIsDeleting(true);
         try {
+            if (feedKind) {
+                await mutateWorkFeed(feedKind, 'delete', logId);
+            } else {
             await supabase.from('iota_seoul_log_links').delete().eq('log_id', logId);
             await supabase.from('iota_seoul_log_stakeholders').delete().eq('log_id', logId);
             const { error } = await supabase.from('iota_seoul_logs').delete().eq('log_id', logId);
             if (error) throw error;
+            }
             
             setLogs(prev => prev.filter(l => l.log_id !== logId));
-            workspaceLogCache.delete(getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId }));
+            workspaceLogCache.delete(getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId, feedKind, userId }));
             setLogToDelete(null);
         } catch (error) {
             console.error('Error deleting log:', error);
             alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
         } finally {
             setIsDeleting(false);
-        }
-    };
-
-    const handleSaveEdit = async (logId) => {
-        if (!editingContent.trim()) return;
-        setIsSavingEdit(true);
-        try {
-            const { error } = await supabase
-                .from('iota_seoul_logs')
-                .update({ raw_text: editingContent, updated_at: new Date().toISOString() })
-                .eq('log_id', logId);
-            
-            if (error) throw error;
-            
-            setLogs(prev => prev.map(l => l.log_id === logId ? { ...l, raw_text: editingContent, updated_at: new Date().toISOString() } : l));
-            setEditingLogId(null);
-            setEditingContent('');
-        } catch (err) {
-            console.error('Error updating log:', err);
-            alert('서버 연결 지연으로 인해 일시적인 오류가 발생했습니다. 페이지를 새로고침합니다.');
-        } finally {
-            setIsSavingEdit(false);
         }
     };
 
@@ -840,6 +837,13 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         if (!commentContent.trim()) return;
         setIsSavingComment(true);
         try {
+            if (feedKind) {
+                const saved = await mutateWorkFeed(feedKind, 'comment', logId, { text: commentContent });
+                setLogs(prev => prev.map(log => log.log_id === logId ? saved : log));
+                workspaceLogCache.delete(getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId, feedKind, userId }));
+                setCommentingLogId(null); setCommentContent('');
+                return;
+            }
             const log = logs.find(l => l.log_id === logId);
             const metadata = log.metadata || {};
             const comments = metadata.comments || [];
@@ -883,6 +887,13 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     const handleDeleteComment = async (logId, commentId) => {
         setIsDeleting(true);
         try {
+            if (feedKind) {
+                const saved = await mutateWorkFeed(feedKind, 'delete_comment', logId, { comment_id: commentId });
+                setLogs(prev => prev.map(log => log.log_id === logId ? saved : log));
+                workspaceLogCache.delete(getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId, feedKind, userId }));
+
+                return;
+            }
             const log = logs.find(l => l.log_id === logId);
             const metadata = log.metadata || {};
             const comments = (metadata.comments || []).filter(c => c.id !== commentId);
@@ -907,7 +918,16 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     };
 
     const handleToggleReaction = async (logId, type, commentId = null) => {
+        if (feedKind && pendingFeedReactions.current.has(logId)) return;
+        if (feedKind) pendingFeedReactions.current.add(logId);
         try {
+            if (feedKind) {
+                const saved = await mutateWorkFeed(feedKind, 'react', logId, { reaction: type, comment_id: commentId });
+                setLogs(prev => prev.map(log => log.log_id === logId ? saved : log));
+                workspaceLogCache.delete(getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId, feedKind, userId }));
+
+                return;
+            }
             const log = logs.find(l => l.log_id === logId);
             if (!log) return;
             const myEmail = memberInfo?.email;
@@ -964,6 +984,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             console.error('Error toggling reaction:', e);
             alert('일시적인 오류가 발생했습니다.');
             fetchLogs();
+        } finally {
+            pendingFeedReactions.current.delete(logId);
         }
     };
 
@@ -972,7 +994,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         e.stopPropagation();
         try {
             const { data, error } = await supabase.storage
-                .from('task-attachments')
+                .from(feedKind ? 'iota-work-feed-attachments' : 'task-attachments')
                 .createSignedUrl(filePath, 60);
 
             if (error) throw error;
@@ -1062,6 +1084,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
     const logsPerPage = isTaskBoard ? 9999 : (logsViewMode === 'summary' ? 5 : 20);
     const checkUserAccess = (log) => {
+        if (feedKind) return true;
         const perms = log.metadata?.permissions;
         if (!perms) return true;
         
@@ -1108,7 +1131,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             );
         }
         // Filter out non-members
-        if (getCellName(log.writer_name) === '기타') return false;
+        if (!feedKind && getCellName(log.writer_name) === '기타') return false;
 
         // Prevent Phase 2 Task Board test logs from leaking into Phase 1 workspaces
         if (log.metadata?.is_task_board) return false;
@@ -1142,7 +1165,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         let isActive = true;
 
         const loadDisplayedLogTaskLinks = async () => {
-            if (isTaskBoard || displayedLogs.length === 0) {
+            if (feedKind || isTaskBoard || displayedLogs.length === 0) {
                 if (isActive && isTaskBoard) setLinkedTasksByLogId({});
                 return;
             }
@@ -1166,15 +1189,16 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         return () => {
             isActive = false;
         };
-    }, [displayedLogLinkKey, isTaskBoard]);
+    }, [displayedLogLinkKey, isTaskBoard, feedKind]);
 
     return (
         <div className="w-full flex flex-col mt-0">
+            {loadError && <div role="alert" className="mb-4 text-[#d1a5a5]">게시글을 불러오지 못했습니다. <button type="button" onClick={() => fetchLogs()} className="underline cursor-pointer">다시 시도</button></div>}
             {/* Log Viewer */}
             {!isTaskBoard && (
                 <div className="flex justify-between items-center mt-[-14px] mb-[12px]">
                     <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
-                        {getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
+                        {feedKind ? '게시글' : getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
                     </h2>
                     <div className="flex items-center gap-[12px]">
                         {/* Search Box */}
@@ -1205,7 +1229,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             <div className={isTaskBoard ? "mt-0 mb-0" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>
                 <div className="w-full flex flex-col mt-0">{/* Task Input Form */}
             {!isTaskBoard && (
-                <LogWriteBox 
+                <LogWriteBox feedKind={feedKind}
                     memberInfo={memberInfo}
                     masterStakeholders={masterStakeholders}
                     pilotMembers={pilotMembers}
@@ -1241,7 +1265,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                             </div>
                         </div>
                         <div className="flex gap-[12px] shrink-0 ml-[12px] justify-end items-center">
-                            <div className="w-[90px] shrink-0"></div>
+                            <div className="w-[90px] shrink-0 flex items-center justify-center" aria-label={feedKind ? "반응자" : undefined} title={feedKind ? "좋아요·체크 반응자" : undefined}>{feedKind && <FeedReactionIcon size={15} strokeWidth={1.8} />}</div>
                             <div className="w-[110px] mr-[4px] text-center flex items-center justify-center">
                                 <select 
                                     value={filterStakeholder}
@@ -1312,7 +1336,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30d158" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                                         ) : (
                                             <img 
-                                                src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
+                                                src={getProfileImageSrc(log.writer_name)}
                                                 alt={log.writer_name} 
                                                 className="w-full h-full object-cover rounded-full"
                                                 onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
@@ -1323,7 +1347,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         <div className="w-full flex items-center justify-between">
                                             <div className="flex items-center gap-1.5">
                                                 <span className="text-[14px] font-bold text-white leading-tight">{log.writer_name}</span>
-                                                {((log.created_at && new Date(log.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && new Date(log.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
+                                                {!feedKind && ((log.created_at && new Date(log.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && new Date(log.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
                                                     <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[0px]">
                                                         N
                                                     </span>
@@ -1414,7 +1438,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             {/* Like Reaction Button */}
                                             <button
                                                 type="button"
-                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
+                                                aria-label="좋아요"
+                                                            aria-pressed={log.metadata?.reactions?.like?.includes(memberInfo?.email) || false}
+                                                            onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
                                                 className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer text-[12px] ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-[#E5E5E5]'}`}
                                             >
                                                 <svg width="12" height="12" viewBox="0 0 24 24" fill={log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -1424,7 +1450,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             {/* Check Reaction Button */}
                                             <button
                                                 type="button"
-                                                onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
+                                                aria-label="체크"
+                                                            aria-pressed={log.metadata?.reactions?.check?.includes(memberInfo?.email) || false}
+                                                            onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
                                                 className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer text-[12px] ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-transparent border-[#333] hover:border-[#444] text-[#86868B] hover:text-[#E5E5E5]'}`}
                                             >
                                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
@@ -1627,7 +1655,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[10px]">
                                             <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444]">
                                                 <img 
-                                                    src={`${import.meta.env.BASE_URL}${log.writer_name}.webp`} 
+                                                    src={getProfileImageSrc(log.writer_name)}
                                                     alt={log.writer_name} 
                                                     className="w-full h-full object-cover"
                                                     onError={(e) => { e.target.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }}
@@ -1635,7 +1663,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             </div>
                                             <div className="flex items-center gap-[6px]">
                                                 <span className="text-[14px] font-bold text-white">{log.writer_name}</span>
-                                                {((log.created_at && new Date(log.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && new Date(log.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
+                                                {!feedKind && ((log.created_at && new Date(log.created_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.created_at)) < 48 * 60 * 60 * 1000) || (log.updated_at && new Date(log.updated_at).getTime() >= new Date('2026-07-13T09:02:39Z').getTime() && (new Date() - new Date(log.updated_at)) < 48 * 60 * 60 * 1000)) && (
                                                     <span className="shrink-0 inline-flex items-center justify-center px-[4px] py-[2px] rounded-[3px] text-[10px] font-black bg-[#ff3b30] text-white leading-none tracking-wider relative top-[1px]">
                                                         N
                                                     </span>
@@ -1663,7 +1691,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                         연결업무 {linkedTasksByLogId[log.log_id].length}
                                                     </span>
                                                 )}
-                                                {log.metadata?.comments?.length > 0 && <span className="text-[#3b82f6] ml-[6px] font-bold text-[13px] shrink-0">({log.metadata.comments.length})</span>}
+                                                {log.metadata?.comments?.length > 0 && <span aria-label={`댓글 ${log.metadata.comments.length}개`} title={`댓글 ${log.metadata.comments.length}개`} className={feedKind ? "inline-flex h-[22px] shrink-0 items-center gap-1 rounded-full border border-[#45484b] bg-[#2b2d2f] px-2 text-[12px] font-bold text-[#a6aaae]" : "text-[#3b82f6] ml-[6px] font-bold text-[13px] shrink-0"}>{feedKind && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>}{log.metadata.comments.length}</span>}
+                                                {feedKind && isRecentFeedPost(log) && <span title="최근 48시간 이내 등록·수정된 글" aria-label="새 글" className="shrink-0 rounded-[3px] bg-[#ff3b30] px-1 py-0.5 text-[10px] font-bold text-white">N</span>}
                                             </div>
                                         </div>
                                     </div>
@@ -1672,8 +1701,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 {/* Right Section */}
                                 <div className="flex items-center gap-[12px] shrink-0 ml-[12px] justify-end">
                                     {/* Reactions Indicator */}
-                                    <div className="shrink-0 flex items-center justify-end gap-[6px] w-[90px]">
-                                        {(log.metadata?.reactions?.like?.length > 0 || log.metadata?.reactions?.check?.length > 0) && (
+                                    <div className="shrink-0 flex items-center justify-center gap-[6px] w-[90px]">
+                                        {feedKind && <FeedReactionAvatarStack emails={collectFeedReactionEmails(log)} pilotMembers={pilotMembers} label="본문과 댓글 반응" maxVisible={5} />}
+                                        {!feedKind && (log.metadata?.reactions?.like?.length > 0 || log.metadata?.reactions?.check?.length > 0) && (
                                             <div className="flex items-center gap-[8px]">
                                                 {log.metadata?.reactions?.like?.length > 0 && (
                                                     <div className="flex items-center gap-[4px]">
@@ -1813,7 +1843,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         
                                         {/* Attached Files List */}
                                         {checkUserAccess(log) && log.metadata?.attachedFiles && log.metadata.attachedFiles.length > 0 && (
-                                            <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
+                                            <div className={feedKind ? "mt-4 space-y-2 mb-[16px]" : "flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]"}>
                                                 <div className="text-[12px] font-bold text-[#86868B] mb-[4px]">첨부파일</div>
                                                 <div className="flex flex-wrap gap-[8px]">
                                                     {log.metadata.attachedFiles.map((file, idx) => (
@@ -1832,11 +1862,18 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             </div>
                                         )}
 
+                                        {feedKind && (
+                                            <div className="mt-5 flex items-center gap-4 border-y border-[#333] py-3">
+                                                {['like', 'check'].map(type => <WorkFeedReactionButton key={type} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
+                                                <span className="ml-auto flex items-center gap-1.5 text-[12px] text-[#86868B]"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
+                                            </div>
+                                        )}
+
                                         {/* Comments List */}
                                         {log.writer_name !== '시스템' && checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
-                                            <div className="flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]">
+                                            <div className={feedKind ? "mt-4 space-y-2 mb-[16px]" : "flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]"}>
                                                 {log.metadata.comments.map(comment => (
-                                                    <div key={comment.id} className="bg-[#222] rounded-[8px] p-[12px] flex justify-between group">
+                                                    <div key={comment.id} className={feedKind ? "rounded-[10px] border border-[#333] bg-white/[0.02] px-4 pb-3 pt-4 flex justify-between group" : "bg-[#222] rounded-[8px] p-[12px] flex justify-between group"}>
                                                         <div className="flex-1 min-w-0 pr-[16px]">
                                                             <div className="flex items-center gap-[8px] mb-[4px]">
                                                                 <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444] shrink-0">
@@ -1860,6 +1897,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                                 </span>
                                                             </div>
                                                             <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[36px] mb-[6px]">{comment.text}</div>
+                                                            {feedKind ? (
+                                                                <div className="mt-3 ml-[36px] flex gap-3">
+                                                                    {['like', 'check'].map(type => <WorkFeedReactionButton key={type} compact type={type} reactions={comment.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type, comment.id)} />)}
+                                                                </div>
+                                                            ) : (
                                                             <div className="flex items-center gap-[8px] ml-[36px]">
                                                                 <button
                                                                     type="button"
@@ -1886,6 +1928,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                                     )}
                                                                 </button>
                                                             </div>
+                                                            )}
                                                         </div>
                                                         {comment.author_email === memberInfo?.email && (
                                                             <button
@@ -1952,9 +1995,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             {log.writer_name !== '시스템' && checkUserAccess(log) && (
                                                 <div className="flex items-center gap-[8px]">
                                                     {/* Post Reactions */}
-                                                    <div className="flex items-center gap-[6px] mr-[8px]">
+                                                    {!feedKind && (<div className="flex items-center gap-[6px] mr-[8px]">
                                                         <button
                                                             type="button"
+                                                            aria-label="좋아요"
+                                                            aria-pressed={log.metadata?.reactions?.like?.includes(memberInfo?.email) || false}
                                                             onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'like'); }}
                                                             className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.like?.includes(memberInfo?.email) ? 'bg-[#ff3b30]/10 border-[#ff3b30]/30 text-[#ff3b30]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
                                                         >
@@ -1967,6 +2012,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                         </button>
                                                         <button
                                                             type="button"
+                                                            aria-label="체크"
+                                                            aria-pressed={log.metadata?.reactions?.check?.includes(memberInfo?.email) || false}
                                                             onClick={(e) => { e.stopPropagation(); handleToggleReaction(log.log_id, 'check'); }}
                                                             className={`flex items-center gap-[4px] px-[8px] py-[4px] rounded-[6px] transition-colors border cursor-pointer ${log.metadata?.reactions?.check?.includes(memberInfo?.email) ? 'bg-[#2997ff]/10 border-[#2997ff]/30 text-[#2997ff]' : 'bg-[#222] border-[#333] hover:border-[#444] text-[#A1A1AA] hover:text-[#E5E5E5]'}`}
                                                         >
@@ -1977,7 +2024,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                                 <span className="text-[12px] font-medium">0</span>
                                                             )}
                                                         </button>
-                                                    </div>
+                                                    </div>)}
                                                     {!editingLogId && (
                                                         <button
                                                             type="button"
@@ -2045,7 +2092,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
             {isTaskBoard && (
                 <div className="mt-[10px] w-full">
-                    <LogWriteBox 
+                    <LogWriteBox feedKind={feedKind}
                         memberInfo={memberInfo}
                         masterStakeholders={masterStakeholders}
                         pilotMembers={pilotMembers}
@@ -2073,7 +2120,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         className="w-full max-w-[1000px] rounded-[24px] p-[2px] my-auto"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <LogWriteBox 
+                        <LogWriteBox feedKind={feedKind}
                             memberInfo={memberInfo}
                             masterStakeholders={masterStakeholders}
                             pilotMembers={pilotMembers}

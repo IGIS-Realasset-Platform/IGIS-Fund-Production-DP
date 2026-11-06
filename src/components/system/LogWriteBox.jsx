@@ -12,9 +12,12 @@ import {
     fetchPmoTaskOptions,
     replaceLogTaskLinks,
 } from '../../utils/pmoTaskLinks.js';
+import { mutateWorkFeed } from '../../utils/workFeeds';
+import { useAuth } from '../../context/AuthContext';
 import PmoTaskPickerModal from './pmo/PmoTaskPickerModal.jsx';
 
-export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembers = [], fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false }) {
+export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembers = [], fetchLogs, fetchMasterStakeholders, workspaceCode, workspaceLabel, defaultExpanded = false, editMode = false, initialData = null, onCancel = null, onSuccess = null, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null }) {
+    const { user } = useAuth();
     const uniqueIdSuffix = editMode ? `${workspaceCode}-edit` : workspaceCode;
     // Form States
     const [projectId, setProjectId] = useState('IOTA_COMMON');
@@ -98,7 +101,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
 
 
     useEffect(() => {
-        if (!editMode) {
+        if (!editMode && !feedKind) {
             try {
                 const draft = localStorage.getItem('iota_log_draft');
                 if (draft) {
@@ -183,7 +186,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
     useEffect(() => {
         let isMounted = true;
         const loadExistingTaskLinks = async () => {
-            if (!editMode || isTaskBoard) {
+            if (!editMode || isTaskBoard || feedKind) {
                 setTaskLinksReady(true);
                 return;
             }
@@ -355,10 +358,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                 }
                 const fileExt = file.name.split('.').pop();
                 const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-                const filePath = `uploads/${fileName}`;
+                if (feedKind && !user?.id) throw new Error('로그인이 필요합니다.');
+                const filePath = feedKind ? `${feedKind}/${user.id}/${fileName}` : `uploads/${fileName}`;
 
                 const { error: uploadError } = await supabase.storage
-                    .from('task-attachments')
+                    .from(feedKind ? 'iota-work-feed-attachments' : 'task-attachments')
                     .upload(filePath, file);
                 
                 if (uploadError) {
@@ -367,13 +371,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                     continue;
                 }
 
-                const { data: urlData } = supabase.storage
-                    .from('task-attachments')
-                    .getPublicUrl(filePath);
-                
                 newAttachments.push({
                     name: file.name,
-                    url: urlData.publicUrl,
                     size: file.size,
                     path: filePath
                 });
@@ -479,6 +478,15 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                 }
             };
 
+            if (feedKind) {
+                await mutateWorkFeed(feedKind, 'save', logId, {
+                    ...logData,
+                    stakeholders: (stakeholderCat || companyQuery || contactQuery) ? [{
+                        sh_name: [companyQuery, contactQuery].filter(Boolean).join(' - '),
+                        role_category: stakeholderCat,
+                    }] : [],
+                });
+            } else {
             // 1. Update or Insert into iota_seoul_logs
             if (isEditing) {
                 const { error: logError } = await executeWithTimeout(supabase.from('iota_seoul_logs').update(logData).eq('log_id', logId));
@@ -558,6 +566,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                 if (shError) throw shError;
             }
 
+            }
+
             // Success, reset form
             if (!editMode) {
                 setTitle('');
@@ -605,11 +615,11 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
             resolvedTitle = content.trim().split('\n')[0].slice(0, 50) || '업무 로그';
         }
         if (!resolvedTitle.trim() || !content.trim()) return;
-        if (editMode && !isTaskBoard && !taskLinksReady) {
+        if (editMode && !isTaskBoard && !feedKind && !taskLinksReady) {
             alert(taskPickerError || '기존 통합업무 연결정보를 확인 중입니다. 잠시 후 다시 시도해 주세요.');
             return;
         }
-        if (isTaskBoard) {
+        if (isTaskBoard || feedKind) {
             handleSubmit(e);
         } else if (visibilityGroups.length === 0 && visibilityIndividuals.length === 0) {
             setShowPublicWarningModal(true);
@@ -625,6 +635,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
             resolvedTitle = content.trim().split('\n')[0].slice(0, 50) || '업무 로그';
         }
         if (!resolvedTitle.trim() || !content.trim()) return;
+
+        if (feedKind) { await processSubmit(); return; }
 
         if (!companyQuery && contactQuery) {
             setShowCompanyWarningModal(true);
@@ -1172,7 +1184,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                             className="hidden" 
                             multiple 
                         />
-                        {!isTaskBoard && (
+                        {!isTaskBoard && !feedKind && (
                             <button
                                 type="button"
                                 onClick={openTaskPicker}
@@ -1200,13 +1212,13 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                                 {isUploadingFile ? '업로드 중...' : '파일 첨부'}
                             </button>
                         )}
-                        <button 
+                        {!feedKind && (<button
                             type="button"
                             onClick={() => setShowVisibilityModal(true)}
                             className={`${mobileMode ? 'px-[10px]' : 'px-[16px]'} ${btnPadding} ${btnRounding} border ${isTaskBoard ? 'border-[#444] text-[#E5E5E5]' : 'border-red-500/50 text-red-500'} font-bold text-[13px] ${isTaskBoard ? 'hover:bg-[#333] hover:border-[#555]' : 'hover:bg-red-500/10 hover:border-red-500 hover:text-red-400'} transition-colors cursor-pointer whitespace-nowrap relative left-[2px]`}
                         >
                             열람권한
-                        </button>
+                        </button>)}
                         {editMode ? (
                             <>
                                 <button 
@@ -1245,7 +1257,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
 
             {/* Modals */}
 
-            {showTaskPickerModal && !isTaskBoard && (
+            {showTaskPickerModal && !isTaskBoard && !feedKind && (
                 <PmoTaskPickerModal
                     tasks={pmoTaskOptions}
                     selectedTaskIds={linkedTaskIds}
