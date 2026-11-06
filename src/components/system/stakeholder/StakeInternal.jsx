@@ -488,10 +488,6 @@ export default function StakeInternal() {
                      onMouseLeave={() => setHoveredImage(null)}
                      onClick={(e) => {
                          e.stopPropagation();
-                         const target = document.getElementById(`member-${cleanName}`);
-                         if (target) {
-                             target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                         }
                      }}
                 >
                     <div className="w-[21px] h-[21px] shrink-0 rounded-full bg-[#3c3c3c] overflow-hidden">
@@ -511,10 +507,6 @@ export default function StakeInternal() {
              onMouseLeave={() => setHoveredImage(null)}
              onClick={(e) => {
                  e.stopPropagation();
-                 const target = document.getElementById(`member-${cleanName}`);
-                 if (target) {
-                     target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                 }
              }}
         >
             <div className="relative w-[38px] h-[38px] shrink-0 rounded-full bg-[#3c3c3c] flex items-center justify-center overflow-hidden">
@@ -747,7 +739,8 @@ export default function StakeInternal() {
             )}
 
             {/* Profiles & Activity Logs Section */}
-            <div className="w-full mt-[80px] flex flex-col gap-[60px]">
+            <section aria-label="상세 프로필 및 활동로그 비공개" className="relative w-full mt-[80px] h-[360px] overflow-hidden rounded-[16px] select-none">
+            <div inert aria-hidden="true" className="w-full flex flex-col gap-[60px] blur-[14px] opacity-20 pointer-events-none">
                 {/* Dummy Data Array */}
                 {(activeSearch.trim() === '' ? stakeholderGroups : stakeholderGroups.map(group => {
                     const searchLower = activeSearch.toLowerCase();
@@ -839,6 +832,16 @@ export default function StakeInternal() {
                     </div>
                 ))}
             </div>
+                <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#222]/80 cursor-not-allowed">
+                    <div className="flex flex-col items-center gap-[12px] text-[#A1A1AA]">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                            <rect x="5" y="10" width="14" height="11" rx="2" />
+                            <path d="M8 10V7a4 4 0 0 1 8 0v3" />
+                        </svg>
+                        <span className="text-[14px]">상세 프로필 · 활동로그 비공개</span>
+                    </div>
+                </div>
+            </section>
 
             {hoveredRow && (
                 <div 
