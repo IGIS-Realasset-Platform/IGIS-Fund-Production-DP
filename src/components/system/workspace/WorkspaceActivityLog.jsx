@@ -1278,16 +1278,16 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 {!isTaskBoard && (
                     <div className="w-full px-[20px] py-[12px] flex items-center border-b border-[#3c3c3c] bg-transparent rounded-t-[24px]">
                         <div className="flex flex-1 min-w-0">
-                            <div className="w-[86px] mr-[16px] text-center">
+                            <div className={`${feedKind ? 'w-[81px]' : 'w-[86px]'} mr-[16px] text-center`}>
                                 <span className="text-[13px] font-bold text-[#86868B]">프로젝트</span>
                             </div>
                             <div className="flex flex-1 min-w-0 translate-x-[-20px]">
-                                <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
+                                <div className={`${feedKind ? 'w-[75px]' : 'w-[80px]'} shrink-0 translate-x-[4px] flex justify-center`}>
                                     <div className="text-[13px] font-bold text-[#86868B] px-[2px] py-[4px] text-center w-[60px]">
                                         기능셀
                                     </div>
                                 </div>
-                                <div className="w-[110px] shrink-0 translate-x-[10px] flex items-center">
+                                <div className={`${feedKind ? 'w-[105px]' : 'w-[110px]'} shrink-0 translate-x-[10px] flex items-center`}>
                                     <span className="text-[13px] font-bold text-[#86868B] pl-[20px]">등록자</span>
                                 </div>
                                 <div className="flex-1 min-w-0 translate-x-[2px] flex items-center">
@@ -1668,7 +1668,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         else if (projName === 'IOTA 공통') textColorClass = 'text-[#A1A1AA] border-[#333]';
                                         
                                         return (
-                                            <div className={`py-[6px] border rounded-[8px] text-[12px] font-bold ${textColorClass} shrink-0 mr-[16px] w-[86px] text-center bg-transparent`}>
+                                            <div className={`py-[6px] border rounded-[8px] text-[12px] font-bold ${textColorClass} shrink-0 mr-[16px] ${feedKind ? 'w-[81px]' : 'w-[86px]'} text-center bg-transparent`}>
                                                 {projName}
                                             </div>
                                         );
@@ -1676,14 +1676,14 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
                                     <div className={`flex items-center flex-1 min-w-0 ${isTaskBoard ? '' : 'translate-x-[-20px]'}`}>
                                         {/* Cell Name */}
-                                        <div className="w-[80px] shrink-0 translate-x-[4px] flex justify-center">
+                                        <div className={`${feedKind ? 'w-[75px]' : 'w-[80px]'} shrink-0 translate-x-[4px] flex justify-center`}>
                                             <span className="text-[13px] font-medium text-[#86868B]">
                                                 {getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}
                                             </span>
                                         </div>
 
                                         {/* Avatar & Name */}
-                                        <div className="flex items-center gap-[8px] w-[110px] shrink-0 translate-x-[10px]">
+                                        <div className={`flex items-center gap-[8px] ${feedKind ? 'w-[105px]' : 'w-[110px]'} shrink-0 translate-x-[10px]`}>
                                             <div className="w-[28px] h-[28px] rounded-full bg-[#333] overflow-hidden border border-[#444]">
                                                 <img 
                                                     src={getProfileImageSrc(log.writer_name)}
@@ -1808,7 +1808,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     >
                                     <div 
                                         className={`${feedKind ? 'rounded-[20px]' : 'rounded-[12px]'} p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1`}
-                                        style={{ marginLeft: feedKind ? '86px' : '166px', marginRight: '72px' }}
+                                        style={{ marginLeft: feedKind ? '81px' : '166px', marginRight: '72px' }}
                                     >
                                         <div className={feedKind ? "bg-[#1F1F1E] rounded-[19px] px-8 py-6 w-full h-full" : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
                                         {feedKind && <div className="mb-5 flex items-start justify-between gap-6">
