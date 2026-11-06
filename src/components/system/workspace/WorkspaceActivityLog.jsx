@@ -1234,11 +1234,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             {loadError && <div role="alert" className="mb-4 text-[#d1a5a5]">게시글을 불러오지 못했습니다. <button type="button" onClick={() => fetchLogs()} className="underline cursor-pointer">다시 시도</button></div>}
             {/* Log Viewer */}
             {!isTaskBoard && (
-                <div className={`flex ${feedKind ? 'justify-end' : 'justify-between'} items-center mt-[-14px] mb-[12px]`}>
+                <div className={feedKind ? "relative flex justify-end items-center mt-[12px] mb-[12px] md:mt-0 md:h-0" : "flex justify-between items-center mt-[-14px] mb-[12px]"}>
                     {!feedKind && <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
                         {getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
                     </h2>}
-                    <div className="flex items-center gap-[12px]">
+                    <div className={`flex items-center gap-[12px] ${feedKind ? 'md:absolute md:right-0 md:bottom-0' : ''}`}>
                         {/* Search Box */}
                         <div className="relative">
                             <div className="absolute inset-y-0 left-[12px] flex items-center pointer-events-none">
