@@ -22,6 +22,7 @@ import WorkFeedReactionButton, { FeedReactionAvatarStack, FeedReactionIcon, coll
 import { mutateWorkFeed } from '../../../utils/workFeeds';
 import { getProfileImageSrc } from '../../../utils/profileImage';
 import { isRecentFeedPost } from '../../../utils/workFeedIndicators';
+import { getWorkFeedPermissions } from '../../../utils/workFeedPermissions';
 
 const LazyPmoTaskBoardStaging = React.lazy(() => import('../pmo/PmoTaskBoardStaging.jsx'));
 const WORKSPACE_LOG_CACHE_TTL_MS = 30 * 1000;
@@ -1084,7 +1085,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     };
 
     const getPermissionString = (log) => {
-        const perms = log.metadata?.permissions;
+        const perms = feedKind ? getWorkFeedPermissions(feedKind, log.metadata?.permissions) : log.metadata?.permissions;
         if (!perms) return '';
         const parts = [];
         if (perms.groups && perms.groups.length > 0) parts.push(...perms.groups);
@@ -1919,9 +1920,12 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         )}
 
                                         {feedKind && (
-                                            <div className="mt-5 flex items-center gap-4 py-[6px]">
+                                            <div className="mt-5 flex items-center gap-4 pt-[6px] pb-[2px]">
                                                 {['like', 'check'].map(type => <WorkFeedReactionButton key={type} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
-                                                <span className="ml-auto flex items-center gap-1.5 text-[12px] text-[#86868B]"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
+                                                <div className="ml-auto flex min-w-0 flex-1 items-center justify-end gap-4 text-[12px] text-[#86868B]">
+                                                    <span className="min-w-0 break-words text-right">열람권한: {getPermissionString(log) || '전체 이용자'}</span>
+                                                    <span className="flex shrink-0 items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
+                                                </div>
                                             </div>
                                         )}
 
