@@ -4,6 +4,20 @@ import { getProfileImageSrc } from '../../../utils/profileImage';
 
 const stakeholderGroups = [
                     {
+                        groupTitle: 'CM부문',
+                        members: [
+                            {
+                                name: '양준모',
+                                photo: 'default_avatar',
+                                roles: ['CM부문', '펀딩스트레티지2파트/파트장+', '이사'],
+                                email: 'brian.yang@igisam.com',
+                                phone: '010-9558-3968',
+                                officePhone: '02-6952-2057',
+                                activityLogs: [],
+                            },
+                        ],
+                    },
+                    {
                         groupTitle: 'CFT 총괄',
                         members: [
                             {
@@ -763,6 +777,7 @@ export default function StakeInternal() {
                                         <div className="flex flex-col gap-[2px] mt-[12px]">
                                             <span className="text-[12px] text-[#666] tracking-tight">{member.email}</span>
                                             <span className="text-[12px] text-[#666] tracking-tight">{member.phone}</span>
+                                            {member.officePhone && <span className="text-[12px] text-[#666] tracking-tight">{member.officePhone}</span>}
                                         </div>
                                     </div>
                                     
@@ -779,13 +794,13 @@ export default function StakeInternal() {
                                         </div>
                                         
                                         {/* Table Rows (Dummy Data) */}
-                                        {[
+                                        {(member.activityLogs ?? [
                                             { log: '816 관련 소노인터내셔널 협업 미팅', project: 'IOTA2 816', purpose: '리스크판단', status: '진행중', stakeholder: '소노인터내셔널 서준혁 회장', date: '2026.05.02' },
                                             { log: "중순위 대주 '한투리얼에셋자산운용' 재참여설득", project: '421 Fund', purpose: '협업', status: '완료', stakeholder: '한투리얼에셋 서준혁 회장', date: '2026.05.01' },
                                             { log: '816 투자자 협의(kt estate IR day 후..', project: 'IOTA1 427', purpose: '의사결정', status: '검토중', stakeholder: 'KT estate 서준혁 회장', date: '2026.04.30' },
                                             { log: 'LG전자 지주 제안 관련 미팅', project: 'IOTA1 427', purpose: '협업', status: '진행중', stakeholder: 'LG전자 서준혁 회장', date: '2026.04.30' },
                                             { log: '427 호텔 및 남대문교회 진행사항 보고', project: 'IOTA2 427', purpose: '리스크판단', status: '진행중', stakeholder: '현대건설 서준혁 회장', date: '2026.04.28' },
-                                        ].map((row, rIdx) => (
+                                        ]).map((row, rIdx) => (
                                             <div key={rIdx} className="grid grid-cols-[1fr_80px_70px_60px_160px_80px] gap-[16px] py-[4px] group cursor-pointer hover:bg-white/5 transition-colors -ml-[8px] pl-[8px] mr-[4px] rounded-[8px] items-center">
                                                 <span className="text-[13px] text-[#E5E5E5] group-hover:text-[#bbb9af] transition-colors tracking-tight truncate leading-tight">{row.log}</span>
                                                 <span className="text-[13px] text-[#E5E5E5] group-hover:text-[#bbb9af] transition-colors tracking-tight truncate leading-tight">{row.project}</span>
