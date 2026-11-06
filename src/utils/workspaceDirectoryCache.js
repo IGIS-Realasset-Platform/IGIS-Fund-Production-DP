@@ -12,8 +12,8 @@ export const fetchWorkspaceDirectoryData = async ({ force = false } = {}) => {
         && Date.now() - cachedWorkspaceDirectoryAt < DIRECTORY_CACHE_TTL_MS
     );
 
+    if (pendingWorkspaceDirectoryRequest) return pendingWorkspaceDirectoryRequest;
     if (!force && hasFreshCache) return cachedWorkspaceDirectory;
-    if (!force && pendingWorkspaceDirectoryRequest) return pendingWorkspaceDirectoryRequest;
 
     pendingWorkspaceDirectoryRequest = (async () => {
         const [stakeholdersResult, pilotMembersResult] = await Promise.all([

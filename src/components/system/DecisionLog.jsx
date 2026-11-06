@@ -217,10 +217,10 @@ export default function DecisionLog() {
         return null;
     };
 
-    const fetchMasterStakeholders = async () => {
+    const fetchMasterStakeholders = async (force = false, membersOnly = false) => {
         try {
-            const directory = await fetchWorkspaceDirectoryData();
-            setMasterStakeholders(directory.stakeholders);
+            const directory = await fetchWorkspaceDirectoryData({ force });
+            if (!membersOnly) setMasterStakeholders(directory.stakeholders);
             setPilotMembers(directory.pilotMembers);
         } catch (e) {
             console.error(e);

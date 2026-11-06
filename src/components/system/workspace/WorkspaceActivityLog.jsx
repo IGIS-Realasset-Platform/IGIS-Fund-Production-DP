@@ -528,7 +528,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
     const commentMentionCandidates = Array.from(new Set([
         ...(masterStakeholders?.map(s => s.contact_name) || []),
-        ...(pilotMembers?.map(m => m.staff_name) || [])
+        ...buildMentionCandidates(pilotMembers).map(mention => mention.label)
     ].filter(Boolean)));
     const filteredCommentMentions = commentMentionCandidates.filter(name => name.toLowerCase().includes(commentMentionQuery.toLowerCase())).slice(0, 5);
 
@@ -555,10 +555,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         });
     };
 
-    const fetchMasterStakeholders = async (force = false) => {
+    const fetchMasterStakeholders = async (force = false, membersOnly = false) => {
         try {
             const directory = await fetchWorkspaceDirectoryData({ force });
-            setMasterStakeholders(directory.stakeholders);
+            if (!membersOnly) setMasterStakeholders(directory.stakeholders);
             setPilotMembers(directory.pilotMembers);
         } catch (directoryError) {
             console.error('Workspace directory could not be loaded.', directoryError);
@@ -1561,7 +1561,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                 id={`comment-textarea-${log.log_id}`}
                                                 value={commentingLogId === log.log_id ? commentContent : ''}
                                                 onChange={(e) => handleCommentContentChange(e, log.log_id)}
-                                                onFocus={() => setCommentingLogId(log.log_id)}
+                                                onFocus={() => { setCommentingLogId(log.log_id); fetchMasterStakeholders(true, true); }}
                                                 placeholder="댓글을 입력하세요... (@를 입력하여 담당자를 멘션할 수 있습니다)"
                                                 className="w-full bg-[#2a2a2c]/50 border border-[#333] rounded-[8px] p-[10px] text-[13px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[60px]"
                                             />
@@ -1950,6 +1950,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                     id={`comment-textarea-${log.log_id}`}
                                                     value={commentContent}
                                                     onChange={(e) => handleCommentContentChange(e, log.log_id)}
+                                                    onFocus={() => fetchMasterStakeholders(true, true)}
                                                     placeholder="댓글을 입력하세요... (@를 입력하여 담당자를 멘션할 수 있습니다)"
                                                     className="w-full bg-[#2a2a2c] border border-[#444] rounded-[8px] p-[12px] text-[14px] text-[#E5E5E5] leading-relaxed resize-y focus:outline-none focus:border-[#2997ff] min-h-[90px]"
                                                 />

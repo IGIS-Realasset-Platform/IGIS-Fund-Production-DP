@@ -1,5 +1,6 @@
 import {
     getMemberIotaOrganization,
+    normalizeIotaOrganization,
     IOTA_ORGANIZATION_ORDER,
 } from './iotaOrganizations.js';
 
@@ -25,14 +26,13 @@ const normalizeMentionEntity = (mention) => {
 export const buildMentionCandidates = (members = []) => {
     const activeMembers = members.filter((member) => (
         member?.staff_name
-        && member?.auth_id
         && member?.is_active !== false
     ));
     const departmentMap = new Map();
     const personMap = new Map();
 
     activeMembers.forEach((member) => {
-        const organization = getMemberIotaOrganization(member, '');
+        const organization = getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name);
         if (organization && organization !== '공통' && !departmentMap.has(organization)) {
             departmentMap.set(organization, {
                 type: 'department',
@@ -103,7 +103,7 @@ export const resolveMentionedAuthIds = ({
             && String(member.email || '').toLowerCase() !== normalizedWriterEmail
         ))
         .filter((member) => {
-            const organization = getMemberIotaOrganization(member, '');
+            const organization = getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name);
             const isExplicitPerson = explicitlyMentionedPeople.has(member.staff_name);
             const isExplicitDepartment = explicitlyMentionedDepartments.has(organization);
             const isTypedPersonMention = hasMentionToken(content, member.staff_name);

@@ -967,7 +967,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                         value={content}
                         placeholder={'진행 이력, 협업 요청, 리스크 판단 필요사항, 의사결정 필요항목을 입력하세요.\n(@로 담당부서 또는 담당자를 맨션할 수 있습니다)'}
                         onChange={handleContentChange}
-                        onFocus={() => setIsContentFocused(true)}
+                        onFocus={() => { setIsContentFocused(true); fetchMasterStakeholders?.(true, true); }}
                         onBlur={() => setIsContentFocused(false)}
                         onScroll={(e) => {
                             const bg = document.getElementById(`highlight-bg-${uniqueIdSuffix}`);

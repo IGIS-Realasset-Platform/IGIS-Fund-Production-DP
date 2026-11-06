@@ -18,6 +18,7 @@ export const IOTA_ORGANIZATION_ORDER = [
     '공간솔루션',
     'KAM',
     'IPR',
+    'CM',
     '기획추진',
     'CFT 총괄',
     '공통',
@@ -33,6 +34,7 @@ const MARKETING_MEMBERS = new Set(['김민지', '고아라']);
 const SPATIAL_MEMBERS = new Set(['김현수', '현철호', '신민호', '이가현', '정수명', '임수빈']);
 const KAM_MEMBERS = new Set(['김행단']);
 const IPR_MEMBERS = new Set(['윤용택']);
+const CM_MEMBERS = new Set(['양준모']);
 
 const WORKSPACE_CODE_ALIASES = {
     WS_PM1: ['WS_PM1', 'WS_PM'],
@@ -64,6 +66,7 @@ export const normalizeIotaOrganization = (value, fallback = '') => {
     if (['파이낸싱', '파이낸싱LFC', 'LFC금융', 'DEPTLFC', 'WSFINANCING', 'WSLFC'].includes(compactName) || compactName.startsWith('LFC')) return 'LFC';
     if (['펀드운용', '펀드운용KAM', 'DEPTKAM', 'WSFUND', 'WSKAM'].includes(compactName) || compactName.startsWith('KAM')) return 'KAM';
     if (['IPRWG', 'DEPTIPR', 'WSIPR'].includes(compactName) || compactName.startsWith('IPR')) return 'IPR';
+    if (['CM', 'CM부문', 'DEPTCM', 'WSCM', '펀딩스트레트지2파트', '펀딩스트레티지2파트', '펀딩스트래티지2파트'].includes(compactName)) return 'CM';
     if (['전부서', 'DEPTALL'].includes(compactName)) return '전부서';
     if (compactName.includes('기획추진')) return '기획추진';
     if (compactName.includes('CFT') || compactName.includes('총괄')) return 'CFT 총괄';
@@ -92,6 +95,7 @@ export const getIotaOrganizationByStaff = (staffName, fallback = '공통') => {
     if (SPATIAL_MEMBERS.has(staffName)) return '공간솔루션';
     if (KAM_MEMBERS.has(staffName)) return 'KAM';
     if (IPR_MEMBERS.has(staffName)) return 'IPR';
+    if (CM_MEMBERS.has(staffName)) return 'CM';
     return fallback;
 };
 
@@ -106,6 +110,7 @@ export const getIotaStaffNamesByOrganization = (organizationName) => {
         공간솔루션: SPATIAL_MEMBERS,
         KAM: KAM_MEMBERS,
         IPR: IPR_MEMBERS,
+        CM: CM_MEMBERS,
     };
     return [...(membersByOrganization[normalizedOrganization] || [])];
 };
@@ -117,6 +122,7 @@ export const getIotaWorkspaceCodeAliases = (workspaceCode) => {
 
 export const getIotaOrganizationFromWorkspace = (workspaceCode, staffName = '', fallback = '') => {
     const normalizedCode = normalizeIotaWorkspaceCode(workspaceCode, staffName);
+    if (normalizedCode === 'WS_CM') return 'CM';
     const workspace = IOTA_WORKSPACES.find(({ code }) => code === normalizedCode);
     return workspace?.label || fallback;
 };
