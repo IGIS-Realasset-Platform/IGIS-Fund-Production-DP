@@ -12,6 +12,7 @@ import {
     fetchPmoTaskOptions,
     replaceLogTaskLinks,
 } from '../../utils/pmoTaskLinks.js';
+import WorkFeedComposer from './WorkFeedComposer';
 import WorkFeedVisibilityModal from './WorkFeedVisibilityModal';
 import { COMMITTEE_READERS, getWorkFeedPermissions } from '../../utils/workFeedPermissions';
 import { getMemberIotaOrganization, normalizeIotaOrganization } from '../../utils/iotaOrganizations';
@@ -715,6 +716,21 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
     return (
         <div className={`w-full ${isTaskBoard ? 'rounded-[16px] bg-[#5d5d5d]' : 'rounded-[24px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86]'} p-[1px] mb-[11px] ${editMode ? 'shadow-2xl' : ''}`}>
             <div className={`w-full h-full bg-[#262626] ${isTaskBoard ? 'rounded-[15px]' : 'rounded-[23px]'} overflow-hidden`}>
+                {feedKind ? <WorkFeedComposer
+                    memberInfo={memberInfo} expanded={isExpanded} setExpanded={setIsExpanded}
+                    editMode={editMode} onCancel={onCancel}
+                    fields={{projectId, triageType, issueStatus, priority, workDate, title, content, companyQuery, contactQuery}}
+                    setters={{projectId:setProjectId, triageType:setTriageType, issueStatus:setIssueStatus, priority:setPriority, workDate:setWorkDate, title:setTitle, content:setContent, companyQuery:setCompanyQuery, contactQuery:setContactQuery}}
+                    textareaRef={textareaRef} formId={uniqueIdSuffix}
+                    onContentChange={handleContentChange} onRefreshDirectory={() => fetchMasterStakeholders?.(true, true)}
+                    mentions={filteredMentions} showMentions={showMentionDropdown} onMentionSelect={handleMentionSelect} onCloseMentions={() => setShowMentionDropdown(false)}
+                    companyOptions={filteredCompanies} contactOptions={filteredContacts}
+                    permissions={[...visibilityGroups, ...visibilityIndividuals.map(member => member.contact_name)]}
+                    files={attachedFiles} onRemoveFile={removeFile} fileInputRef={fileInputRef} onFileUpload={handleFileUpload}
+                    onChooseFiles={() => setShowFileSecurityModal(true)} uploading={isUploadingFile}
+                    onVisibility={() => { fetchMasterStakeholders?.(true, true); setShowVisibilityModal(true); }}
+                    onSubmit={handlePreSubmit} submitting={isSubmitting}
+                /> : <>
                 {/* Header */}
                 {!editMode && !isTaskBoard && (
                     <div 
@@ -1261,6 +1277,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                         </motion.div>
                     )}
                 </AnimatePresence>
+                </>}
             </div>
 
             {/* Modals */}

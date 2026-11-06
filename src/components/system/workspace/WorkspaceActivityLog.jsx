@@ -1,3 +1,5 @@
+import WorkFeedComments from '../WorkFeedComments';
+import { splitFeedBold } from '../../../utils/workFeedBold';
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { supabase } from '../../../utils/supabaseClient';
@@ -533,7 +535,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     ].filter(Boolean)));
     const filteredCommentMentions = commentMentionCandidates.filter(name => name.toLowerCase().includes(commentMentionQuery.toLowerCase())).slice(0, 5);
 
-    const renderLogTextWithMentions = (text) => {
+    const renderLogTextWithMentions = (text, plain = false) => {
+        if (feedKind && !plain) return splitFeedBold(text).map((part, index) => part.bold
+            ? <strong key={index}>{renderLogTextWithMentions(part.text, true)}</strong>
+            : <React.Fragment key={index}>{renderLogTextWithMentions(part.text, true)}</React.Fragment>);
         if (!text) return null;
         const names = Array.from(new Set([
             ...(masterStakeholders?.map(s => s.contact_name) || []),
@@ -832,6 +837,12 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 textarea.setSelectionRange(newPos, newPos);
             }
         }, 0);
+    };
+
+    const saveFeedComment = async (logId, text, commentId = null) => {
+        const saved = await mutateWorkFeed(feedKind, commentId ? 'edit_comment' : 'comment', logId, { text, ...(commentId ? {comment_id: commentId} : {}) });
+        setLogs(previous => previous.map(log => log.log_id === logId ? saved : log));
+        workspaceLogCache.delete(getWorkspaceLogCacheKey({ workspaceCode, isTaskBoard, taskId, feedKind, userId }));
     };
 
     const handleSaveComment = async (logId) => {
@@ -1753,7 +1764,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     </div>
                                     
                                     {/* Delete Button (Absolute positioned outside content flow) */}
-                                    {log.writer_staff_id === memberInfo?.email && (
+                                    {!feedKind && log.writer_staff_id === memberInfo?.email && (
                                         <button 
                                             type="button"
                                             onClick={(e) => { e.stopPropagation(); setLogToDelete(log); }}
@@ -1778,11 +1789,18 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     >
                                     <div 
                                         className="rounded-[12px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1"
-                                        style={{ marginLeft: '166px', marginRight: '72px' }}
+                                        style={{ marginLeft: feedKind ? '86px' : '166px', marginRight: '72px' }}
                                     >
-                                        <div className="bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full">
+                                        <div className={feedKind ? "bg-[#202020] rounded-[11px] px-8 py-6 w-full h-full" : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
+                                        {feedKind && <div className="mb-5 flex items-start justify-between gap-6">
+                                            <div className="flex min-w-0 items-center gap-2">
+                                                <img src={getProfileImageSrc(log.writer_name)} alt={log.writer_name} className="h-8 w-8 rounded-full border border-white/10 object-cover" onError={event => { event.currentTarget.onerror=null; event.currentTarget.src=`${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                                <div><div className="flex items-center gap-2"><strong className="text-[14px] text-white">{log.writer_name}</strong><span className="shrink-0 rounded-[4px] bg-[#82afb9]/10 px-2 py-0.5 text-[11px] font-bold text-[#82afb9]">{getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}</span>{isRecentFeedPost(log) && <b className="rounded-[3px] bg-[#ff3b30] px-1 py-0.5 text-[10px] leading-none text-white">N</b>}</div><span className="text-[11px] text-[#86868B]">{new Date(log.created_at).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})}</span></div>
+                                            </div>
+                                            {memberInfo?.email === log.writer_staff_id && <div className="flex shrink-0 items-center gap-2"><button type="button" onClick={() => setEditingLogId(log.log_id)} className="h-8 cursor-pointer rounded-[7px] border border-[#444] px-3 text-[12px] text-[#A1A1AA] hover:text-white">수정하기</button><button type="button" onClick={() => setLogToDelete(log)} className="h-8 cursor-pointer rounded-[7px] border border-[#5a3937] px-3 text-[12px] text-[#cc8580] hover:bg-[#333]">삭제</button></div>}
+                                        </div>}
                                         {/* Right Floating Badges */}
-                                        <div className="float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[12px]">
+                                        <div className={feedKind ? "hidden" : "float-right ml-[16px] mb-[12px] flex flex-col items-end gap-[12px]"}>
                                             {hasRestrictedPermissions(log) && (
                                                 <div className="flex flex-col items-end gap-[4px]">
                                                     <span className="text-[11px] font-bold text-[#86868B] pr-[14px]">열람 권한</span>
@@ -1808,6 +1826,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             )}
                                         </div>
                                         
+                                        {feedKind && <h3 className="mb-3 text-[18px] font-bold leading-7 text-white">{log.summary || '업무 메시지'}</h3>}
                                         {/* Original Text */}
                                         {checkUserAccess(log) ? (
                                             log.writer_name === '시스템' ? (
@@ -1824,7 +1843,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                     </div>
                                                 </div>
                                             ) : (
-                                                <div className={`whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
+                                                <div className={feedKind ? "whitespace-pre-wrap break-words text-[14px] leading-7 text-[#D1D1D6]" : `whitespace-pre-wrap break-words text-[15px] leading-relaxed ${commentingLogId === log.log_id ? 'text-[#86868B] opacity-70' : 'text-[#E5E5E5]'}`}>
                                                     {renderLogTextWithMentions(log.raw_text)}
                                                 </div>
                                             )
@@ -1870,6 +1889,15 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             </div>
                                         )}
 
+                                        {feedKind && log.writer_name !== '시스템' && checkUserAccess(log) ? <WorkFeedComments
+                                            comments={log.metadata?.comments || []} actorEmail={memberInfo?.email} members={pilotMembers}
+                                            onRefreshDirectory={() => fetchMasterStakeholders(true, true)}
+                                            onSave={text => saveFeedComment(log.log_id, text)}
+                                            onEdit={(commentId, text) => saveFeedComment(log.log_id, text, commentId)}
+                                            onDelete={commentId => setCommentToDelete({logId:log.log_id, commentId})}
+                                            onReact={(type, commentId) => handleToggleReaction(log.log_id, type, commentId)}
+                                            renderText={renderLogTextWithMentions}
+                                        /> : <>
                                         {/* Comments List */}
                                         {log.writer_name !== '시스템' && checkUserAccess(log) && log.metadata?.comments && log.metadata.comments.length > 0 && (
                                             <div className={feedKind ? "mt-4 space-y-2 mb-[16px]" : "flex flex-col gap-[8px] mb-[16px] border-t border-[#333] pt-[12px]"}>
@@ -1989,8 +2017,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                 </div>
                                             </div>
                                         )}
+                                        </>}
                                         
-                                        <div className="mt-[14px] flex items-end justify-between">
+                                        <div className={feedKind ? "hidden" : "mt-[14px] flex items-end justify-between"}>
                                             <div className="text-[12px] text-[#555] font-medium">
                                                 수정일자: {log.updated_at ? new Date(log.updated_at).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) : new Date(log.created_at || log.work_date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })}
                                             </div>
