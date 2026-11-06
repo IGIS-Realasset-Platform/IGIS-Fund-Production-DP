@@ -1810,7 +1810,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         className="rounded-[12px] p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1"
                                         style={{ marginLeft: feedKind ? '86px' : '166px', marginRight: '72px' }}
                                     >
-                                        <div className={feedKind ? "bg-[#202020] rounded-[11px] px-8 py-6 w-full h-full" : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
+                                        <div className={feedKind ? "bg-[#1F1F1E] rounded-[11px] px-8 py-6 w-full h-full" : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
                                         {feedKind && <div className="mb-5 flex items-start justify-between gap-6">
                                             <div className="flex min-w-0 items-center gap-2">
                                                 <img src={getProfileImageSrc(log.writer_name)} alt={log.writer_name} className="h-8 w-8 rounded-full border border-white/10 object-cover" onError={event => { event.currentTarget.onerror=null; event.currentTarget.src=`${import.meta.env.BASE_URL}default_avatar.svg`; }} />
