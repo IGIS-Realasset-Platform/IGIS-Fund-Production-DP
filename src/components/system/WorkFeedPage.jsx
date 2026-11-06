@@ -33,7 +33,7 @@ export default function WorkFeedPage({ feedKind = 'committee' }) {
     return (
         <div className="w-full max-w-[1200px] mx-auto px-[24px] pt-[28px] pb-[100px]">
             <h1 className="text-[32px] font-bold text-white tracking-tight leading-none mb-[8px]">{feed.title}</h1>
-            <p className="text-[16px] text-[#86868B] leading-[26px] mb-[40px]">
+            <p className="text-[16px] text-[#86868B] leading-[26px] mb-[16px]">
                 {feedKind === 'committee' ? '주요 이슈를 논의하고 검토 의견과 진행 상황을 확인합니다.' : '업무 이슈와 아이디어를 공유하고 자유롭게 의견을 나눕니다.'}
             </p>
             {access === null || (access && !memberInfo) ? (

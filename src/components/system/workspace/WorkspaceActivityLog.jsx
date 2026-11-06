@@ -1119,7 +1119,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         setExpandedLogs(prev => ({ ...prev, [id]: !prev[id] }));
     };
 
-    const logsPerPage = isTaskBoard ? 9999 : (logsViewMode === 'summary' ? 5 : 20);
+    const logsPerPage = isTaskBoard ? 9999 : (feedKind ? 20 : logsViewMode === 'summary' ? 5 : 20);
     const checkUserAccess = (log) => {
         if (feedKind) return log.can_read !== false;
         const perms = log.metadata?.permissions;
@@ -1234,10 +1234,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             {loadError && <div role="alert" className="mb-4 text-[#d1a5a5]">게시글을 불러오지 못했습니다. <button type="button" onClick={() => fetchLogs()} className="underline cursor-pointer">다시 시도</button></div>}
             {/* Log Viewer */}
             {!isTaskBoard && (
-                <div className="flex justify-between items-center mt-[-14px] mb-[12px]">
-                    <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
-                        {feedKind ? '게시글' : getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
-                    </h2>
+                <div className={`flex ${feedKind ? 'justify-end' : 'justify-between'} items-center mt-[-14px] mb-[12px]`}>
+                    {!feedKind && <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
+                        {getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
+                    </h2>}
                     <div className="flex items-center gap-[12px]">
                         {/* Search Box */}
                         <div className="relative">
@@ -1252,13 +1252,13 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 className="bg-[#222] border border-[#333] hover:border-[#444] rounded-[8px] pl-[32px] pr-[12px] py-[6px] text-[12px] text-white w-[180px] focus:outline-none focus:border-[#2997ff] transition-all"
                             />
                         </div>
-                        <button 
+                        {!feedKind && (<button
                             type="button"
                             onClick={() => { setLogsViewMode(prev => prev === 'summary' ? 'full' : 'summary'); setCurrentPage(1); }} 
                             className="px-[12px] py-[6px] rounded-[8px] bg-[#222] border border-[#333] text-[12px] text-[#A1A1AA] hover:text-white hover:border-[#444] transition-all font-medium"
                         >
                             {logsViewMode === 'summary' ? '전체보기' : '간략히 보기'}
-                        </button>
+                        </button>)}
                     </div>
                 </div>
             )}
