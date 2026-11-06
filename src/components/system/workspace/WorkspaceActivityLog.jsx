@@ -1297,7 +1297,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         </div>
                         <div className="flex gap-[12px] shrink-0 ml-[12px] justify-end items-center">
                             <div className="w-[90px] shrink-0 flex items-center justify-center" aria-label={feedKind ? "반응자" : undefined} title={feedKind ? "좋아요·체크 반응자" : undefined}>{feedKind && <FeedReactionIcon size={15} strokeWidth={1.8} />}</div>
-                            <div className="w-[110px] mr-[4px] text-center flex items-center justify-center">
+                            <div className={`${feedKind ? 'w-[80px]' : 'w-[110px]'} mr-[4px] text-center flex items-center justify-center`}>
                                 <select 
                                     value={filterStakeholder}
                                     onChange={e => { setFilterStakeholder(e.target.value); setCurrentPage(1); }}
@@ -1753,7 +1753,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     </div>
                                     
                                     {/* Stakeholder Info */}
-                                    <div className="shrink-0 flex justify-center w-[110px] mr-[4px]">
+                                    <div className={`shrink-0 flex justify-center ${feedKind ? 'w-[80px]' : 'w-[110px]'} mr-[4px]`}>
                                         {checkUserAccess(log) && log.iota_seoul_log_stakeholders?.[0]?.sh_name && (
                                             <span className="text-[13px] text-[#A1A1AA] text-center truncate" title={log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}>
                                                 {log.iota_seoul_log_stakeholders[0].sh_name.split(' - ')[0]}
