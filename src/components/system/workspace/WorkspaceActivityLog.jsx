@@ -1731,7 +1731,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                     </span>
                                                 )}
                                                 {log.metadata?.comments?.length > 0 && <span aria-label={`댓글 ${log.metadata.comments.length}개`} title={`댓글 ${log.metadata.comments.length}개`} className={feedKind ? "inline-flex h-[22px] shrink-0 items-center gap-1 rounded-full border border-[#45484b] bg-[#2b2d2f] px-2 text-[12px] font-bold text-[#a6aaae]" : "text-[#3b82f6] ml-[6px] font-bold text-[13px] shrink-0"}>{feedKind && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>}{log.metadata.comments.length}</span>}
-                                                {feedKind && isRecentFeedPost(log) && <span title="최근 48시간 이내 등록·수정된 글" aria-label="새 글" className="shrink-0 rounded-[3px] bg-[#ff3b30] px-1 py-0.5 text-[10px] font-bold text-white">N</span>}
+                                                {feedKind && isRecentFeedPost(log) && <span title="최근 48시간 이내 등록·수정된 글" aria-label="새 글" className="shrink-0 rounded-[3px] bg-[#ff3b30] px-1 py-0.5 text-[10px] leading-none font-bold text-white">N</span>}
                                             </div>
                                         </div>
                                     </div>
