@@ -1919,7 +1919,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         )}
 
                                         {feedKind && (
-                                            <div className="mt-5 flex items-center gap-4 pt-3 pb-[6px]">
+                                            <div className="mt-5 flex items-center gap-4 py-[6px]">
                                                 {['like', 'check'].map(type => <WorkFeedReactionButton key={type} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
                                                 <span className="ml-auto flex items-center gap-1.5 text-[12px] text-[#86868B]"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
                                             </div>
