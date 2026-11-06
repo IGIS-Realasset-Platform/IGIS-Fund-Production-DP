@@ -1920,7 +1920,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         )}
 
                                         {feedKind && (
-                                            <div className="mt-5 flex items-center gap-4 pt-[6px] pb-[2px]">
+                                            <div className="mt-5 flex items-center gap-4 py-[2px]">
                                                 {['like', 'check'].map(type => <WorkFeedReactionButton key={type} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
                                                 <div className="ml-auto flex min-w-0 flex-1 items-center justify-end gap-4 text-[12px] text-[#86868B]">
                                                     <span className="min-w-0 break-words text-right">열람권한: {getPermissionString(log) || '전체 이용자'}</span>
