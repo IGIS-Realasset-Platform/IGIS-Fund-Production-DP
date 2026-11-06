@@ -14,7 +14,7 @@ function CommentInput({ label, value, onChange, members, onRefreshDirectory, pla
             const cursor = event.target.selectionStart;
             const match = event.target.value.slice(0, cursor).match(/@([^\s@]*)$/u);
             setMention(match ? { query: match[1], start: match.index, end: cursor } : null);
-        }} onKeyDown={event => { if (event.key === 'Escape') setMention(null); }} placeholder={placeholder} className={editing ? 'min-h-[88px] w-full resize-y rounded-[8px] border border-[#4b5965] bg-[#29292B] px-3 py-2 text-[13px] leading-6 text-white outline-none focus:border-[#6f9fc7]' : 'min-h-[76px] w-full resize-y rounded-[10px] border border-[#3A3A3C] bg-[#29292B] p-3 pr-24 text-[13px] leading-6 text-white outline-none focus:border-[#6f9fc7]'} />
+        }} onKeyDown={event => { if (event.key === 'Escape') setMention(null); }} placeholder={placeholder} className={editing ? 'min-h-[88px] w-full resize-y rounded-[16px] border border-[#4b5965] bg-[#29292B] px-3 py-2 text-[13px] leading-6 text-white outline-none focus:border-[#6f9fc7]' : 'min-h-[76px] w-full resize-y rounded-[16px] border border-[#3A3A3C] bg-[#29292B] p-3 pr-24 text-[13px] leading-6 text-white outline-none focus:border-[#6f9fc7]'} />
         {options.length > 0 && <div className="absolute bottom-full left-0 z-50 mb-2 max-h-[240px] w-[300px] max-w-full overflow-y-auto rounded-[10px] border border-[#444] bg-[#202020] py-1.5 shadow-2xl">
             {options.map(option => <button key={`${option.type}:${option.label}`} type="button" onMouseDown={event => event.preventDefault()} onClick={() => {
                 const text = `${value.slice(0, mention.start)}@${option.label} ${value.slice(mention.end)}`;
@@ -46,7 +46,7 @@ export default function WorkFeedComments({ comments = [], actorEmail, members, o
         finally { setPending(false); }
     };
     return <div className="[&_button]:cursor-pointer [&_button:disabled]:cursor-not-allowed">
-        <div className="mt-4 space-y-2">{comments.map(comment => <div key={comment.id} className="rounded-[10px] border border-[#333] bg-white/[0.02] px-4 pb-3 pt-4">
+        <div className="mt-4 space-y-2">{comments.map(comment => <div key={comment.id} className="rounded-[16px] border border-[#333] bg-white/[0.02] px-4 pb-3 pt-4">
             <div className="flex items-start gap-3">
                 <img src={getProfileImageSrc(comment.author)} alt={comment.author} className="h-7 w-7 shrink-0 rounded-full border border-white/10 bg-[#333] object-cover" onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                 <div className="min-w-0 flex-1">
