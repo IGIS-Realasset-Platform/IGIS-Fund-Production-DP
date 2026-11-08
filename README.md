@@ -2,6 +2,7 @@
 
 ## iOS 실행 모드
 
+- 새 iPhone으로 교체한 경우: 먼저 USB 연결 및 잠금 해제 후 iPhone에서 컴퓨터 신뢰를 완료합니다. `npm run ios:open`으로 Xcode를 열어 Window > Devices and Simulators에서 새 기기를 준비한 뒤 `npm run ios:ready`를 실행합니다. 점검은 연결 불가 상태의 이전 기기를 제외하고 연결된 iPhone을 우선 확인합니다.
 - 빠른 기본 실행: `npm run ios:ready`를 사용합니다. 웹 번들 동기화, iPhone 연결 점검, Xcode 열기를 순서대로 수행합니다.
 - Xcode가 빌드 완료 후 멈추면 `npm run ios:doctor`로 기기 터널을 확인합니다. 실패 시 iPhone 잠금/네트워크/USB 연결을 확인하고, Xcode 종료 후 `pkill -x CoreDeviceService`를 실행한 다음 다시 시도합니다.
 - Live Reload: `npm run dev:staging`으로 8082 서버를 실행한 뒤 `npm run ios:live:sync`를 실행합니다.

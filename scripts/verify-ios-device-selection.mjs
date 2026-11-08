@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {getIPhoneCandidates} from './ios-device-selection.mjs';
+const phone = (identifier, tunnelState, pairingState = 'paired') => ({identifier,hardwareProperties:{deviceType:'iPhone'},connectionProperties:{tunnelState,pairingState}});
+const oldPhone = phone('old','unavailable');
+const newPhone = phone('new','connected');
+const discoverable = phone('wifi','disconnected');
+assert.deepEqual(getIPhoneCandidates([oldPhone,newPhone]).map(device => device.identifier),['new']);
+assert.deepEqual(getIPhoneCandidates([oldPhone]),[]);
+assert.deepEqual(getIPhoneCandidates([discoverable,newPhone]).map(device => device.identifier),['new','wifi']);
+assert.deepEqual(getIPhoneCandidates([phone('unpaired','connected','unpaired')]),[]);
+assert.deepEqual(getIPhoneCandidates([{...newPhone,hardwareProperties:{deviceType:'iPad'}}]),[]);
+assert.deepEqual(getIPhoneCandidates(),[]);
+console.log('PASS: replacement iPhone selection, unavailable/unpaired exclusion, connected priority');
