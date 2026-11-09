@@ -257,10 +257,6 @@ export default function MobileCollaborationContainer({ memberInfo, entryRequest,
     return (
         <div className="w-full flex-1 min-h-0 flex flex-col bg-[#141415] overflow-hidden">
             <div className="flex-none pt-3 pb-[10px] border-b border-[#3c3c3c]">
-                <div className="px-[16px] mb-[11px]">
-                    <h1 className="text-[19px] font-bold tracking-tight text-white">기능셀</h1>
-                </div>
-
                 <div className="px-[16px] mb-[9px]">
                     <div className="grid grid-cols-3 gap-[6px] p-[4px] rounded-[12px] bg-[#202022] border border-white/[0.07]">
                         {feedFilters.map((filter) => {
