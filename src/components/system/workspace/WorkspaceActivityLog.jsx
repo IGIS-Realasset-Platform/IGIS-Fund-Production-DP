@@ -1646,14 +1646,14 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
                     // Render original workspace table-row layout
                     return (
-                        <div id={log.log_id} key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
+                        <div id={log.log_id} key={log.log_id} className={`relative w-full px-[20px] ${feedKind && mobileMode ? 'py-[12px]' : 'py-[16px]'} flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
                             {/* Main Row */}
                             {feedKind && mobileMode ? <button type="button" aria-expanded={Boolean(expandedLogs[log.log_id])} aria-disabled={!checkUserAccess(log)} onClick={() => toggleExpand(log.log_id)} className={`w-full min-w-0 text-left ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'} ${log.metadata?.issue_status === '완료' ? 'opacity-75' : ''}`}>
-                                <div className="mb-2 flex items-center gap-2">
-                                    <img src={getProfileImageSrc(log.writer_name)} alt="" className="h-7 w-7 rounded-full object-cover" onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                <div className="mb-1.5 flex items-center gap-2">
+                                    <img src={getProfileImageSrc(log.writer_name)} alt="" className="h-6 w-6 shrink-0 rounded-full object-cover" onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                                     <span className="text-[13px] font-bold text-white">{log.writer_name}</span>
                                     <span className="min-w-0 flex-1 truncate text-[11px] text-[#86868B]">{getLogCell(log)}</span>
-                                    <span className={`shrink-0 rounded-[7px] border px-2 py-1 text-[11px] font-semibold ${FEED_STATUS_STYLES[log.metadata?.issue_status || '진행중'] || FEED_STATUS_STYLES['신규']}`}>{log.metadata?.issue_status || '진행중'}</span>
+                                    <span className={`shrink-0 rounded-[7px] border px-2 py-[3px] text-[11px] font-semibold ${FEED_STATUS_STYLES[log.metadata?.issue_status || '진행중'] || FEED_STATUS_STYLES['신규']}`}>{log.metadata?.issue_status || '진행중'}</span>
                                 </div>
                                 <div className="flex items-start gap-2 text-[15px] font-semibold leading-6 text-[#E5E5E5]">
                                     <span className="min-w-0 flex-1 break-words">{checkUserAccess(log) ? log.summary || log.raw_text?.split('\n')[0] || '업무 메시지' : '열람 권한이 없는 글입니다.'}</span>
@@ -1661,7 +1661,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 </div>
                                 <div className="mt-2 flex items-center justify-between text-[11px] text-[#86868B]">
                                     <span>{formatDateYYMMDD(log.work_date)}</span>
-                                    {checkUserAccess(log) && <span>댓글 {log.metadata?.comments?.length || 0} · 좋아요 {log.metadata?.reactions?.like?.length || 0} · 체크 {log.metadata?.reactions?.check?.length || 0}</span>}
+                                    {checkUserAccess(log) && <div className="flex items-center gap-2">
+                                        <FeedReactionAvatarStack emails={collectFeedReactionEmails(log)} pilotMembers={pilotMembers} label="본문과 댓글 좋아요·체크" maxVisible={5} />
+                                        <span>댓글 {log.metadata?.comments?.length || 0}</span>
+                                    </div>}
                                 </div>
                             </button> : <div
                                 className={`w-full flex items-center justify-between ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'} ${feedKind && log.metadata?.issue_status === '완료' ? 'opacity-75 hover:opacity-100 transition-opacity duration-200' : ''}`}
