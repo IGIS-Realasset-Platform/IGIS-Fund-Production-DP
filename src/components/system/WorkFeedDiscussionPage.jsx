@@ -29,7 +29,7 @@ export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false
             <p className="min-w-0 flex-1 text-[15px] leading-[26px] text-[#86868B]">{WORK_FEEDS[feedKind].description}</p>
             <div ref={setSearchTarget} className="ml-auto w-[180px] shrink-0" />
         </header>}
-        {mobileMode && <div className="mb-2 flex items-center gap-1">
+        {mobileMode && <div className="mb-3 flex items-center gap-1">
             {tabs}
             <button type="button" aria-label={mobileSearchOpen ? '검색 닫기' : '게시글 검색 열기'} aria-expanded={mobileSearchOpen} onClick={() => setMobileSearchOpen(open => !open)} className={`grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-[10px] border border-[#3c3c3c] bg-[#262626] transition-colors hover:bg-[#333] ${mobileSearchOpen ? 'text-[#c7e1ee]' : 'text-[#A1A1AA]'}`}>
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">{mobileSearchOpen ? <path d="m6 6 12 12M6 18 18 6" /> : <><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></>}</svg>

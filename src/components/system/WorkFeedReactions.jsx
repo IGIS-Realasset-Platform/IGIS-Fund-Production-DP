@@ -38,6 +38,21 @@ export function FeedReactionAvatarStack({ emails = [], pilotMembers = [], label 
     </div>;
 }
 
+export function MobileFeedEngagementSummary({ log, pilotMembers }) {
+    const emails = collectFeedReactionEmails(log);
+    const commentCount = log.metadata?.comments?.length || 0;
+    return <div className="flex shrink-0 items-center gap-3" aria-label="게시글 반응 및 댓글">
+        <div className="flex items-center gap-1" aria-label={`좋아요·체크 반응자 ${emails.length}명`}>
+            <span className="inline-flex items-center gap-0.5" aria-hidden="true"><FeedReactionIcon type="like" size={13} /><FeedReactionIcon type="check" size={13} /></span>
+            {emails.length ? <FeedReactionAvatarStack emails={emails} pilotMembers={pilotMembers} label="본문과 댓글 좋아요·체크" maxVisible={5} /> : <span>0</span>}
+        </div>
+        <span className="inline-flex shrink-0 items-center gap-1" aria-label={`댓글 ${commentCount}개`}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+            {commentCount}
+        </span>
+    </div>;
+}
+
 export default function WorkFeedReactionButton({ type, reactions, actorEmail, pilotMembers, disabled, onToggle, compact = false }) {
     const emails = reactions?.[type] || [];
     const active = emails.some(email => email.toLowerCase() === actorEmail?.toLowerCase());

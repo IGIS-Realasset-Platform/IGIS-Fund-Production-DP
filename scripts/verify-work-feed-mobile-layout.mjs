@@ -10,6 +10,7 @@ import {createRoot} from 'react-dom/client';
 import Composer from './src/components/system/WorkFeedComposer.jsx';
 import Search from './src/components/system/WorkFeedSearchField.jsx';
 import Visibility from './src/components/system/WorkFeedVisibilityModal.jsx';
+import {MobileFeedEngagementSummary} from './src/components/system/WorkFeedReactions.jsx';
 function Fixture(){
  const [mobile,setMobile]=useState(true), [edit,setEdit]=useState(false), [expanded,setExpanded]=useState(false), [query,setQuery]=useState(''), [modal,setModal]=useState(false);
  const [permissions,setPermissions]=useState(['이철승','권순일','양준모','강순용']);
@@ -18,6 +19,7 @@ function Fixture(){
  const setters=Object.fromEntries(Object.keys(fields).map(key=>[key,value=>setFields(old=>({...old,[key]:value}))]));
  window.fixtureMobile=setMobile;window.fixtureEdit=setEdit;
  return <main className="w-full px-4 pt-3" style={{maxWidth:1200,margin:'auto'}}>
+  <div className="w-full px-5 text-[11px]"><div className="flex flex-wrap items-center justify-between gap-2"><span>26.11.09</span><MobileFeedEngagementSummary log={{metadata:{reactions:{like:['a@x','b@x','c@x'],check:['a@x','d@x','e@x','f@x']},comments:[{id:'test'}]}}} pilotMembers={[]}/></div></div>
   <Search value={query} onChange={setQuery} mobileMode={mobile}/>
   <div className="mt-3 w-full rounded-[24px] border border-[#82afb9] bg-[#262626] overflow-hidden">
    <Composer mobileMode={mobile} editMode={edit} memberInfo={{staff_name:'테스트 사용자'}} expanded={expanded} setExpanded={setExpanded} onCancel={()=>setEdit(false)} fields={fields} setters={setters} textareaRef={textRef} formId="layout-check"
@@ -71,6 +73,10 @@ try {
   await page.getByLabel('활용목적',{exact:true}).selectOption('의사결정');
   await page.getByLabel('업무 기한',{exact:true}).fill('2026-11-20');
   await checkBounds('expanded '+width);
+  assert.equal(await page.getByLabel('좋아요·체크 반응자 6명',{exact:true}).count(),1,'Reactions are deduplicated and labeled separately');
+  assert.equal(await page.getByLabel('댓글 1개',{exact:true}).count(),1);
+  const reactions=await page.getByLabel('게시글 반응 및 댓글',{exact:true}).boundingBox();
+  assert(reactions.x>=0 && reactions.x+reactions.width<=width,'Reaction summary fits mobile width');
   const file=await page.getByRole('button',{name:'파일 첨부',exact:true}).boundingBox();
   const permission=await page.getByRole('button',{name:'열람권한',exact:true}).boundingBox();
   const submit=await page.getByRole('button',{name:'작성하기',exact:true}).boundingBox();
@@ -114,6 +120,12 @@ try {
   await page.addScriptTag({content:headerBundle.outputFiles[0].text});
   assert.equal(await page.getByLabel('게시글 검색',{exact:true}).count(),0,'Search starts collapsed');
   assert.equal(await page.getByRole('heading',{name:'논의/협업',exact:true}).count(),0,'No large mobile title');
+  const tabs=await page.getByRole('tablist').boundingBox();
+  const panel=await page.getByRole('tabpanel').boundingBox();
+  const searchButton=await page.getByRole('button',{name:'게시글 검색 열기',exact:true}).boundingBox();
+  assert.equal(tabs.y,12,'Header top gap is 12px');
+  assert.equal(panel.y-(tabs.y+tabs.height),12,'Header bottom gap is 12px');
+  assert.equal(searchButton.y,tabs.y);assert.equal(searchButton.height,tabs.height);
   await page.getByRole('button',{name:'게시글 검색 열기',exact:true}).click();
   await page.getByLabel('게시글 검색',{exact:true}).fill('검색 테스트');
   await checkBounds('mobile tab header '+width);

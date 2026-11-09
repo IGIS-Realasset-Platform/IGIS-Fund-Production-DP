@@ -19,7 +19,7 @@ import { useAuth } from '../../../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import LogWriteBox from '../LogWriteBox';
 import ReactionAvatarStack from '../ReactionAvatarStack';
-import WorkFeedReactionButton, { FeedReactionAvatarStack, FeedReactionIcon, collectFeedReactionEmails } from '../WorkFeedReactions';
+import WorkFeedReactionButton, { FeedReactionAvatarStack, FeedReactionIcon, collectFeedReactionEmails, MobileFeedEngagementSummary } from '../WorkFeedReactions';
 import { mutateWorkFeed } from '../../../utils/workFeeds';
 import { getProfileImageSrc } from '../../../utils/profileImage';
 import { isRecentFeedPost } from '../../../utils/workFeedIndicators';
@@ -1664,12 +1664,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     <span className="min-w-0 flex-1 break-words">{checkUserAccess(log) ? log.summary || log.raw_text?.split('\n')[0] || '업무 메시지' : '열람 권한이 없는 글입니다.'}</span>
                                     {checkUserAccess(log) && isRecentFeedPost(log) && <span className="mt-1 shrink-0 rounded-[3px] bg-[#ff3b30] px-1 py-0.5 text-[10px] leading-none text-white" aria-label="새 글">N</span>}
                                 </div>
-                                <div className="mt-2 flex items-center justify-between text-[11px] text-[#86868B]">
+                                <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-[11px] text-[#86868B]">
                                     <span>{formatDateYYMMDD(log.work_date)}</span>
-                                    {checkUserAccess(log) && <div className="flex items-center gap-2">
-                                        <FeedReactionAvatarStack emails={collectFeedReactionEmails(log)} pilotMembers={pilotMembers} label="본문과 댓글 좋아요·체크" maxVisible={5} />
-                                        <span>댓글 {log.metadata?.comments?.length || 0}</span>
-                                    </div>}
+                                    {checkUserAccess(log) && <MobileFeedEngagementSummary log={log} pilotMembers={pilotMembers} />}
                                 </div>
                             </button> : <div
                                 className={`w-full flex items-center justify-between ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'} ${feedKind && log.metadata?.issue_status === '완료' ? 'opacity-75 hover:opacity-100 transition-opacity duration-200' : ''}`}
