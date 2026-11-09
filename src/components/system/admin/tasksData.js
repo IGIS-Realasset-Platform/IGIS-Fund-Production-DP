@@ -1638,5 +1638,16 @@ export const tasksData = [
     "작업 유형": "개발환경",
     "URL": "http://localhost:8082",
     "내용 상세": "아이폰 테스트 앱을 기존 8082 개발 서버에 연결. 고정 IP 대신 현재 LAN 주소 자동 선택 및 서버 응답 사전 확인. 로컬 네트워크 사용 설명과 접근 설정 추가. 원본 Capacitor 설정은 동기화 후 복원. iOS 실기기 빌드와 서명 검증, 설치 및 실행 확인."
+  },
+  {
+    "대분류": "플랫폼 개발",
+    "작업 이름": "iOS 27 앱 시작 종료 오류 수정",
+    "상태": "완료",
+    "담당자": "전기영",
+    "마감일": "2026-11-09",
+    "우선순위": "높음",
+    "작업 유형": "개발환경",
+    "URL": "http://localhost:8082",
+    "내용 상세": "실기기 crash 보고서에서 UIScene lifecycle 미채택으로 인한 SIGTRAP 확인. SceneDelegate와 UIApplicationSceneManifest 적용, 기존 Capacitor 화면 및 콜드/웜 URL 전달 유지. iOS 27 실기기 빌드·서명·설치 검증, 앱 로그 WebView loaded 및 Vite connected로 8082 로딩과 실시간 연결 확인."
   }
 ];
