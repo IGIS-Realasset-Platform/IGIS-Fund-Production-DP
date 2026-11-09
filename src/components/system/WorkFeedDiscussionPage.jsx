@@ -17,8 +17,8 @@ export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false
         window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
         setSelectedFeed(kind);
     };
-    const tabs = <div role="tablist" aria-label="논의/협업 게시판" className={`flex border border-[#3c3c3c] bg-[#262626] ${mobileMode ? 'mb-4 gap-1 rounded-[12px] p-1' : 'shrink-0 gap-0.5 rounded-[10px] p-0.5'}`}>
-        {Object.entries(WORK_FEEDS).map(([kind, feed]) => <button key={kind} type="button" role="tab" id={'feed-tab-' + kind} aria-selected={feedKind === kind} aria-controls="work-feed-panel" onClick={() => selectFeed(kind)} className={`cursor-pointer font-semibold transition-colors ${mobileMode ? 'flex-1 rounded-[9px] px-3 py-2.5 text-[14px]' : 'whitespace-nowrap rounded-[7px] px-3 py-1.5 text-[12px]'} ${feedKind === kind ? 'bg-[#35434b] text-[#c7e1ee]' : 'text-[#A1A1AA] hover:bg-[#333] hover:text-white'}`}>{feed.title}</button>)}
+    const tabs = <div role="tablist" aria-label="논의/협업 게시판" className={`flex border border-[#3c3c3c] bg-[#262626] ${mobileMode ? 'mb-[14px] h-11 gap-1 rounded-[12px] p-1' : 'shrink-0 gap-0.5 rounded-[10px] p-0.5'}`}>
+        {Object.entries(WORK_FEEDS).map(([kind, feed]) => <button key={kind} type="button" role="tab" id={'feed-tab-' + kind} aria-selected={feedKind === kind} aria-controls="work-feed-panel" onClick={() => selectFeed(kind)} className={`cursor-pointer font-semibold transition-colors ${mobileMode ? 'min-w-0 flex-1 rounded-[9px] px-3 text-[14px]' : 'whitespace-nowrap rounded-[7px] px-3 py-1.5 text-[12px]'} ${feedKind === kind ? 'bg-[#35434b] text-[#c7e1ee]' : 'text-[#A1A1AA] hover:bg-[#333] hover:text-white'}`}>{feed.title}</button>)}
     </div>;
     return <section className={mobileMode ? 'w-full min-w-0 px-4 pt-3 pb-6' : 'w-full max-w-[1200px] mx-auto px-6 pt-7 pb-16'}>
         <header className={mobileMode ? 'mb-[11px]' : 'mb-[6px] flex items-center gap-4'}>

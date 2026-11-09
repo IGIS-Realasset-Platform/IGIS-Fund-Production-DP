@@ -1239,7 +1239,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     }, [displayedLogLinkKey, isTaskBoard, feedKind]);
 
     const searchBar = !isTaskBoard && (
-                <div className={searchPortalTarget ? "flex items-center" : feedKind ? "relative flex justify-end items-center mb-[12px]" : "flex justify-between items-center mt-[-14px] mb-[12px]"}>
+                <div className={searchPortalTarget ? "flex items-center" : feedKind ? `relative flex justify-end items-center ${mobileMode ? "mb-[10px]" : "mb-[12px]"}` : "flex justify-between items-center mt-[-14px] mb-[12px]"}>
                     {!feedKind && <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
                         {getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
                     </h2>}
