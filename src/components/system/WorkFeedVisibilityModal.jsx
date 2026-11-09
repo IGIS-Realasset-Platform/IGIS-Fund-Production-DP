@@ -28,7 +28,7 @@ function ModalShell({ title, description, onClose, width = 'max-w-[560px]', chil
 
 export default function WorkFeedVisibilityModal({ groups, members, selectedGroups, selectedIndividuals, onApply, onClose, requiredIndividuals = [], allowGroups = true }) {
   const [draftGroups, setDraftGroups] = useState(selectedGroups);
-  const [draftIndividuals, setDraftIndividuals] = useState(selectedIndividuals);
+  const [draftIndividuals, setDraftIndividuals] = useState(() => [...new Set([...requiredIndividuals, ...selectedIndividuals])]);
   const [query, setQuery] = useState('');
   const orderedMembers = requiredIndividuals.length ? [...members].sort((left, right) => {
     const leftIndex = requiredIndividuals.indexOf(left.id);
@@ -78,6 +78,21 @@ export default function WorkFeedVisibilityModal({ groups, members, selectedGroup
       </div>}
       <div className={allowGroups ? "mt-7" : ""}>
         <h4 className="mb-3 text-[14px] font-black text-[#d5d5d7]">{allowGroups ? "2. 특정 인원 추가" : "열람 인원 추가"}</h4>
+        <div aria-live="polite" className="mb-3">
+          <p className="text-[12px] font-bold text-[#79b7e8]">추가된 인원 {draftIndividuals.length}명</p>
+          {draftIndividuals.length > 0 && <div className="mt-2 flex flex-wrap gap-2">
+            {draftIndividuals.map((id) => {
+              const member = members.find((item) => item.id === id);
+              const required = requiredIndividuals.includes(id);
+              return (
+                <span key={id} className="inline-flex items-center gap-2 rounded-[9px] border border-[#418dcc] bg-[#2b8de4]/20 px-2.5 py-1.5 text-[12px] text-[#9fd2ff]">
+                  {member?.name || id}
+                  {required ? <span className="text-[11px] text-[#85858b]">기본</span> : <button type="button" aria-label={`${member?.name || id} 열람 인원에서 제외`} onClick={() => setDraftIndividuals((current) => current.filter((value) => value !== id))} className="rounded text-[#9fd2ff] transition-colors hover:text-white"><X size={13} /></button>}
+                </span>
+              );
+            })}
+          </div>}
+        </div>
         <label className="relative block">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#777]" />
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="이름·소속 검색" className="h-10 w-full rounded-[9px] border border-[#444] bg-[#1b1b1b] pl-9 pr-3 text-[13px] text-white outline-none focus:border-[#4c8bbd]" />
@@ -92,10 +107,11 @@ export default function WorkFeedVisibilityModal({ groups, members, selectedGroup
                 disabled={requiredIndividuals.includes(member.id)}
                 aria-pressed={selected}
                 onClick={() => setDraftIndividuals((current) => toggle(current, member.id))}
-                className="flex w-full items-center gap-3 border-b border-[#343434] px-3 py-2.5 text-left last:border-0 hover:bg-white/[0.04]"
+                className={`flex w-full items-center gap-3 border-b border-[#343434] px-3 py-2.5 text-left transition-colors last:border-0 hover:bg-white/[0.04] ${selected ? 'bg-[#2b8de4]/10' : ''}`}
               >
                 <span className={`grid h-5 w-5 place-items-center rounded-[5px] border ${selected ? 'border-[#4b9bd9] bg-[#4b9bd9] text-white' : 'border-[#555] text-transparent'}`}><Check size={13} /></span>
                 <span className="text-[13px] font-bold text-[#ddd]">{member.name}{requiredIndividuals.includes(member.id) && <span className="ml-2 text-[11px] font-normal text-[#85858b]">기본</span>}</span>
+                {selected && <span className="shrink-0 text-[11px] font-bold text-[#79b7e8]">추가됨</span>}
                 <span className="ml-auto text-[12px] text-[#85858b]">{member.group || member.email}</span>
               </button>
             );
