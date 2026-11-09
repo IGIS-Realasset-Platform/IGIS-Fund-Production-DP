@@ -1,5 +1,5 @@
 import { getProfileImageSrc } from '../../utils/profileImage';
-import React from 'react';
+import React, { useState } from 'react';
 import { toggleFeedBold } from '../../utils/workFeedBold';
 
 function Icon({ type, size = 15 }) {
@@ -25,7 +25,15 @@ function SelectField({ label, value, onChange, options, color = 'text-[#e5e5e5]'
 }
 
 // Presentation only: uploads, permissions and mutations remain in LogWriteBox.
-export default function WorkFeedComposer({ memberInfo, expanded, setExpanded, editMode, onCancel, fields, setters, textareaRef, formId, onContentChange, onRefreshDirectory, mentions, showMentions, onMentionSelect, onCloseMentions, companyOptions, contactOptions, permissions, files, onRemoveFile, fileInputRef, onFileUpload, onChooseFiles, uploading, onVisibility, onSubmit, submitting }) {
+export default function WorkFeedComposer({ memberInfo, expanded, setExpanded, editMode, onCancel, fields, setters, textareaRef, formId, onContentChange, onRefreshDirectory, onRefreshContacts, onContactSelect, mentions, showMentions, onMentionSelect, onCloseMentions, companyOptions, contactOptions, permissions, files, onRemoveFile, fileInputRef, onFileUpload, onChooseFiles, uploading, onVisibility, onSubmit, submitting }) {
+    const [contactsOpen, setContactsOpen] = useState(false);
+    const [contactsLoading, setContactsLoading] = useState(false);
+    const [activeContact, setActiveContact] = useState(-1);
+    const selectContact = (name) => {
+        onContactSelect(name);
+        setContactsOpen(false);
+        setActiveContact(-1);
+    };
     const avatar = <img src={getProfileImageSrc(memberInfo?.staff_name)} alt={memberInfo?.staff_name || '사용자'} className="h-10 w-10 shrink-0 rounded-full border border-white/10 bg-[#333] object-cover" onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />;
     const applyBold = () => {
         const input = textareaRef.current;
@@ -70,7 +78,25 @@ export default function WorkFeedComposer({ memberInfo, expanded, setExpanded, ed
         <footer className="flex flex-wrap items-center gap-2 border-t border-[#383838] px-5 py-3">
             <span className="shrink-0 text-[12px] font-black text-[#8f8f94]">이해관계자</span>
             <label className="relative min-w-[150px] flex-1"><span className="sr-only">회사·기관명</span><input list={`${formId}-companies`} value={fields.companyQuery} onChange={event => { setters.companyQuery(event.target.value); setters.contactQuery(''); }} placeholder="회사·기관명" className="h-10 w-full rounded-[9px] border border-[#414141] bg-[#222] px-3 text-[13px] text-white outline-none focus:border-[#4f89b7]" /><datalist id={`${formId}-companies`}>{companyOptions.map(name => <option key={name} value={name} />)}</datalist></label>
-            <label className="relative min-w-[130px] flex-1"><span className="sr-only">담당자명</span><input list={`${formId}-contacts`} value={fields.contactQuery} onChange={event => setters.contactQuery(event.target.value)} placeholder="담당자명" className="h-10 w-full rounded-[9px] border border-[#414141] bg-[#222] px-3 text-[13px] text-white outline-none focus:border-[#4f89b7]" /><datalist id={`${formId}-contacts`}>{contactOptions.map(name => <option key={name} value={name} />)}</datalist></label>
+            <div className="relative min-w-[130px] flex-1" onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setContactsOpen(false); }}>
+                <input aria-label="담당자명" role="combobox" aria-autocomplete="list" aria-expanded={contactsOpen} aria-controls={`${formId}-contacts`} aria-activedescendant={contactsOpen && contactOptions[activeContact] ? `${formId}-contact-${activeContact}` : undefined} autoComplete="off" value={fields.contactQuery}
+                    onChange={event => { setters.contactQuery(event.target.value); setContactsOpen(true); setActiveContact(-1); }}
+                    onFocus={async () => { setContactsOpen(true); setActiveContact(-1); setContactsLoading(true); try { await onRefreshContacts?.(); } finally { setContactsLoading(false); } }}
+                    onKeyDown={event => {
+                        if (event.nativeEvent.isComposing) return;
+                        if (event.key === 'Escape') setContactsOpen(false);
+                        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+                            event.preventDefault(); setContactsOpen(true);
+                            setActiveContact(current => contactOptions.length ? (current + (event.key === 'ArrowDown' ? 1 : -1) + contactOptions.length) % contactOptions.length : -1);
+                        }
+                        if (event.key === 'Enter' && contactsOpen && contactOptions[activeContact]) { event.preventDefault(); selectContact(contactOptions[activeContact]); }
+                    }}
+                    placeholder="담당자명 검색/입력" className="h-10 w-full rounded-[9px] border border-[#414141] bg-[#222] px-3 text-[13px] text-white outline-none focus:border-[#4f89b7]" />
+                {contactsOpen && <div id={`${formId}-contacts`} role="listbox" aria-label="담당자 검색 결과" className="absolute bottom-full left-0 z-50 mb-2 max-h-[180px] w-full overflow-y-auto rounded-[9px] border border-[#444] bg-[#222] py-1 shadow-xl">
+                    {contactOptions.map((name, index) => <button key={name} id={`${formId}-contact-${index}`} type="button" role="option" aria-selected={fields.contactQuery === name} onMouseDown={event => event.preventDefault()} onClick={() => selectContact(name)} className={`block w-full px-3 py-2 text-left text-[13px] text-[#ddd] transition-colors hover:bg-[#333] ${activeContact === index ? 'bg-[#333]' : ''}`}>{name}</button>)}
+                    {contactOptions.length === 0 && <p role="status" className="px-3 py-2 text-[12px] text-[#999]">{contactsLoading ? '담당자 불러오는 중…' : fields.contactQuery ? '일치하는 담당자가 없습니다. 직접 입력할 수 있습니다.' : fields.companyQuery ? '해당 회사에 등록된 담당자가 없습니다. 직접 입력할 수 있습니다.' : '등록된 담당자가 없습니다. 직접 입력할 수 있습니다.'}</p>}
+                </div>}
+            </div>
             <input type="file" ref={fileInputRef} onChange={onFileUpload} className="hidden" multiple />
             <button type="button" onClick={onChooseFiles} disabled={uploading} className="flex h-10 items-center gap-2 rounded-[9px] border border-[#464646] px-4 text-[13px] font-black text-[#bbb] hover:bg-white/[0.04]"><Icon type="clip" />{uploading ? '업로드 중...' : '파일 첨부'}</button>
             <button type="button" onClick={onVisibility} className="flex h-10 items-center gap-2 rounded-[9px] border border-[#914743] px-4 text-[13px] font-black text-[#e17f79] hover:bg-[#ff453a]/5"><Icon type="lock" />열람권한</button>

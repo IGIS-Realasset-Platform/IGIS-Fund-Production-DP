@@ -723,6 +723,14 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                     setters={{projectId:setProjectId, triageType:setTriageType, issueStatus:setIssueStatus, priority:setPriority, workDate:setWorkDate, title:setTitle, content:setContent, companyQuery:setCompanyQuery, contactQuery:setContactQuery}}
                     textareaRef={textareaRef} formId={uniqueIdSuffix}
                     onContentChange={handleContentChange} onRefreshDirectory={() => fetchMasterStakeholders?.(true, true)}
+                    onRefreshContacts={() => fetchMasterStakeholders?.(true)}
+                    onContactSelect={name => {
+                        setContactQuery(name);
+                        if (!companyQuery) {
+                            const contact = masterStakeholders.find(stakeholder => stakeholder.contact_name === name);
+                            if (contact?.company_name) setCompanyQuery(contact.company_name);
+                        }
+                    }}
                     mentions={filteredMentions} showMentions={showMentionDropdown} onMentionSelect={handleMentionSelect} onCloseMentions={() => setShowMentionDropdown(false)}
                     companyOptions={filteredCompanies} contactOptions={filteredContacts}
                     permissions={[...visibilityGroups, ...visibilityIndividuals.map(member => member.contact_name)]}
