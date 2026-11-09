@@ -369,7 +369,7 @@ export default function IotaMyPage() {
                 <div className="p-6 border-t border-[#333333]">
                     <p className="text-[11px] font-bold text-[#A1A1AA]">통합 조회 범위</p>
                     <p className="text-[11px] leading-relaxed text-[#636366] mt-1">
-                        통합업무 상세 글 · 단발성 업무 · 워크스페이스 게시글 · Director 보고 · 모든 상세 댓글
+                        통합업무 상세 글 · 단발성 업무 · 기능셀 게시글 · Director 보고 · 모든 상세 댓글
                     </p>
                 </div>
             </aside>

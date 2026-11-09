@@ -768,7 +768,7 @@ export default function DecisionLog() {
                     <div className="flex justify-between items-end w-full">
                         {/* Left: Title & Search Box */}
                         <div className="flex items-center gap-[16px]">
-                            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">통합업무보드</h1>
+                            <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">통합업무</h1>
                             {/* Search Input Box directly to the right of title */}
                             <div className="relative w-[280px] self-center ml-[10px]">
                                 <input 
@@ -874,7 +874,7 @@ export default function DecisionLog() {
                 <div className="flex flex-col gap-[10px] mb-[12px]">
                     <div className="flex justify-between items-center w-full">
                         <h2 className="text-[20px] font-bold text-white tracking-tight shrink-0 flex items-center gap-2">
-                            <span>{isStaging ? 'Director 주요업무 보고' : 'IOTA CFT 통합 업무 로그'}</span>
+                            <span>{isStaging ? '디렉터 주요업무보고' : 'IOTA CFT 통합 업무 로그'}</span>
                             <span className="text-[12px] bg-[#3b82f6]/20 text-[#60a5fa] px-2 py-0.5 rounded-md font-semibold font-mono animate-pulse">LIVE</span>
                         </h2>
                         

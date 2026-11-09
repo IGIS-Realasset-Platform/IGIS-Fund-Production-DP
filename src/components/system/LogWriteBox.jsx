@@ -716,7 +716,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
     return (
         <div className={`w-full ${isTaskBoard ? 'rounded-[16px] bg-[#5d5d5d]' : 'rounded-[24px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86]'} p-[1px] mb-[11px] ${editMode ? 'shadow-2xl' : ''}`}>
             <div className={`w-full h-full bg-[#262626] ${isTaskBoard ? 'rounded-[15px]' : 'rounded-[23px]'} overflow-hidden`}>
-                {feedKind ? <WorkFeedComposer
+                {feedKind ? <WorkFeedComposer mobileMode={mobileMode}
                     memberInfo={memberInfo} expanded={isExpanded} setExpanded={setIsExpanded}
                     editMode={editMode} onCancel={onCancel}
                     fields={{projectId, triageType, issueStatus, priority, workDate, title, content, companyQuery, contactQuery}}

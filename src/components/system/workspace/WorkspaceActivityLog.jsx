@@ -1242,7 +1242,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             {loadError && <div role="alert" className="mb-4 text-[#d1a5a5]">게시글을 불러오지 못했습니다. <button type="button" onClick={() => fetchLogs()} className="underline cursor-pointer">다시 시도</button></div>}
             {/* Log Viewer */}
             {!isTaskBoard && (
-                <div className={feedKind ? "relative flex justify-end items-center mt-[12px] mb-[12px] md:mt-0 md:h-0" : "flex justify-between items-center mt-[-14px] mb-[12px]"}>
+                <div className={feedKind ? "relative flex justify-end items-center mb-[12px]" : "flex justify-between items-center mt-[-14px] mb-[12px]"}>
                     {!feedKind && <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
                         {getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
                     </h2>}
@@ -1275,7 +1275,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             <div className={isTaskBoard ? "mt-0 mb-0" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>
                 <div className="w-full flex flex-col mt-0">{/* Task Input Form */}
             {!isTaskBoard && canCreate && (
-                <LogWriteBox feedKind={feedKind}
+                <LogWriteBox feedKind={feedKind} mobileMode={mobileMode}
                     memberInfo={memberInfo}
                     masterStakeholders={masterStakeholders}
                     pilotMembers={pilotMembers}
@@ -1290,7 +1290,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             )}
             <div className={isTaskBoard ? "w-full flex flex-col gap-4 bg-transparent border-0 rounded-none shadow-none" : "w-full border border-[#3c3c3c] rounded-[24px] flex flex-col bg-[#252525]"}>
                 {/* Header Row (Only for workspace mode) */}
-                {!isTaskBoard && (
+                {!isTaskBoard && !(feedKind && mobileMode) && (
                     <div className="w-full px-[20px] py-[12px] flex items-center border-b border-[#3c3c3c] bg-transparent rounded-t-[24px]">
                         <div className="flex flex-1 min-w-0">
                             <div className={`${feedKind ? 'w-[81px]' : 'w-[86px]'} mr-[16px] text-center`}>
@@ -1657,7 +1657,22 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                     return (
                         <div id={log.log_id} key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
                             {/* Main Row */}
-                            <div 
+                            {feedKind && mobileMode ? <button type="button" aria-expanded={Boolean(expandedLogs[log.log_id])} aria-disabled={!checkUserAccess(log)} onClick={() => toggleExpand(log.log_id)} className={`w-full min-w-0 text-left ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'} ${log.metadata?.issue_status === '완료' ? 'opacity-75' : ''}`}>
+                                <div className="mb-2 flex items-center gap-2">
+                                    <img src={getProfileImageSrc(log.writer_name)} alt="" className="h-7 w-7 rounded-full object-cover" onError={event => { event.currentTarget.onerror = null; event.currentTarget.src = `${import.meta.env.BASE_URL}default_avatar.svg`; }} />
+                                    <span className="text-[13px] font-bold text-white">{log.writer_name}</span>
+                                    <span className="min-w-0 flex-1 truncate text-[11px] text-[#86868B]">{getLogCell(log)}</span>
+                                    <span className={`shrink-0 rounded-[7px] border px-2 py-1 text-[11px] font-semibold ${FEED_STATUS_STYLES[log.metadata?.issue_status || '진행중'] || FEED_STATUS_STYLES['신규']}`}>{log.metadata?.issue_status || '진행중'}</span>
+                                </div>
+                                <div className="flex items-start gap-2 text-[15px] font-semibold leading-6 text-[#E5E5E5]">
+                                    <span className="min-w-0 flex-1 break-words">{checkUserAccess(log) ? log.summary || log.raw_text?.split('\n')[0] || '업무 메시지' : '열람 권한이 없는 글입니다.'}</span>
+                                    {checkUserAccess(log) && isRecentFeedPost(log) && <span className="mt-1 shrink-0 rounded-[3px] bg-[#ff3b30] px-1 py-0.5 text-[10px] leading-none text-white" aria-label="새 글">N</span>}
+                                </div>
+                                <div className="mt-2 flex items-center justify-between text-[11px] text-[#86868B]">
+                                    <span>{formatDateYYMMDD(log.work_date)}</span>
+                                    {checkUserAccess(log) && <span>댓글 {log.metadata?.comments?.length || 0} · 좋아요 {log.metadata?.reactions?.like?.length || 0} · 체크 {log.metadata?.reactions?.check?.length || 0}</span>}
+                                </div>
+                            </button> : <div
                                 className={`w-full flex items-center justify-between ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'} ${feedKind && log.metadata?.issue_status === '완료' ? 'opacity-75 hover:opacity-100 transition-opacity duration-200' : ''}`}
                                 aria-disabled={!checkUserAccess(log)}
                                 onClick={() => toggleExpand(log.log_id)}
@@ -1816,7 +1831,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         </button>
                                     )}
                                 </div>
-                            </div>
+                            </div>}
 
                             {/* Expanded Box */}
                             <AnimatePresence>
@@ -1830,10 +1845,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     >
                                     <div 
                                         className={`${feedKind ? 'rounded-[20px]' : 'rounded-[12px]'} p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1`}
-                                        style={{ marginLeft: feedKind ? '81px' : '166px', marginRight: '72px' }}
+                                        style={{ marginLeft: feedKind && mobileMode ? 0 : feedKind ? '81px' : '166px', marginRight: feedKind && mobileMode ? 0 : '72px' }}
                                     >
-                                        <div className={feedKind ? "bg-[#1F1F1E] rounded-[19px] px-8 py-6 w-full h-full" : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
-                                        {feedKind && <div className="mb-5 flex items-start justify-between gap-6">
+                                        <div className={feedKind ? `bg-[#1F1F1E] rounded-[19px] w-full h-full ${mobileMode ? "px-3 py-4" : "px-8 py-6"}` : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
+                                        {feedKind && <div className={`mb-5 flex items-start justify-between ${mobileMode ? "flex-col gap-3" : "gap-6"}`}>
                                             <div className="flex min-w-0 items-center gap-2">
                                                 <img src={getProfileImageSrc(log.writer_name)} alt={log.writer_name} className="h-8 w-8 rounded-full border border-white/10 object-cover" onError={event => { event.currentTarget.onerror=null; event.currentTarget.src=`${import.meta.env.BASE_URL}default_avatar.svg`; }} />
                                                 <div><div className="flex items-center gap-2"><strong className="text-[14px] text-white">{log.writer_name}</strong><span className="shrink-0 rounded-[4px] bg-[#82afb9]/10 px-2 py-0.5 text-[11px] font-bold text-[#82afb9]">{getLogCell(log).replace(/-(LFC|DSC|EMC|SSC|KAM)$/, '')}</span>{isRecentFeedPost(log) && <b className="rounded-[3px] bg-[#ff3b30] px-1 py-0.5 text-[10px] leading-none text-white">N</b>}</div><span className="text-[11px] text-[#86868B]">{new Date(log.created_at).toLocaleString('ko-KR', {month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false})}</span></div>
@@ -1933,9 +1948,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         )}
 
                                         {feedKind && (
-                                            <div className="mt-5 flex items-center gap-4 py-[2px]">
+                                            <div className={`mt-5 flex items-center gap-4 py-[2px] ${mobileMode ? "flex-wrap" : ""}`}>
                                                 {['like', 'check'].map(type => <WorkFeedReactionButton key={type} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
-                                                <div className="ml-auto flex min-w-0 flex-1 items-center justify-end gap-4 text-[12px] text-[#86868B]">
+                                                <div className={`ml-auto flex min-w-0 items-center justify-end gap-4 text-[12px] text-[#86868B] ${mobileMode ? "w-full flex-wrap" : "flex-1"}`}>
                                                     <span className="min-w-0 break-words rounded-[8px] border border-[#914743]/70 bg-[#df7f7a]/5 px-2.5 py-1 text-right font-medium leading-5 text-[#df7f7a]">열람권한: {getPermissionString(log) || '전체 이용자'}</span>
                                                     <span className="flex shrink-0 items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
                                                 </div>

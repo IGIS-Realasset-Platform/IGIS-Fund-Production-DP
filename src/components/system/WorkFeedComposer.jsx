@@ -25,7 +25,7 @@ function SelectField({ label, value, onChange, options, color = 'text-[#e5e5e5]'
 }
 
 // Presentation only: uploads, permissions and mutations remain in LogWriteBox.
-export default function WorkFeedComposer({ memberInfo, expanded, setExpanded, editMode, onCancel, fields, setters, textareaRef, formId, onContentChange, onRefreshDirectory, onRefreshContacts, onContactSelect, mentions, showMentions, onMentionSelect, onCloseMentions, companyOptions, contactOptions, permissions, files, onRemoveFile, fileInputRef, onFileUpload, onChooseFiles, uploading, onVisibility, onSubmit, submitting }) {
+export default function WorkFeedComposer({ mobileMode = false, memberInfo, expanded, setExpanded, editMode, onCancel, fields, setters, textareaRef, formId, onContentChange, onRefreshDirectory, onRefreshContacts, onContactSelect, mentions, showMentions, onMentionSelect, onCloseMentions, companyOptions, contactOptions, permissions, files, onRemoveFile, fileInputRef, onFileUpload, onChooseFiles, uploading, onVisibility, onSubmit, submitting }) {
     const [contactsOpen, setContactsOpen] = useState(false);
     const [contactsLoading, setContactsLoading] = useState(false);
     const [activeContact, setActiveContact] = useState(-1);
@@ -43,9 +43,9 @@ export default function WorkFeedComposer({ memberInfo, expanded, setExpanded, ed
         onCloseMentions();
         requestAnimationFrame(() => { input.focus(); input.setSelectionRange(next.start, next.end); });
     };
-    if (!expanded && !editMode) return <button type="button" onClick={() => setExpanded(true)} className="flex w-full items-center gap-4 rounded-[23px] bg-[#262626] px-[18px] py-[13px] text-left hover:bg-[#2a2a2a] cursor-pointer">
-        {avatar}<span className="min-w-0 flex-1 text-[16px] font-bold text-[#bcdbdb]">업무 메시지, 협업 사항 또는 공유할 내용을 등록하세요.</span>
-        <span className="shrink-0 rounded-[8px] border border-[#83adb5] bg-[#222] px-4 py-2 text-[13px] font-black text-[#e5e5e5]">글작성하기</span>
+    if (!expanded && !editMode) return <button type="button" onClick={() => setExpanded(true)} className={`flex w-full items-center rounded-[23px] bg-[#262626] py-[13px] text-left hover:bg-[#2a2a2a] cursor-pointer ${mobileMode ? "gap-2 px-3" : "gap-4 px-[18px]"}`}>
+        {avatar}<span className={`min-w-0 flex-1 font-bold text-[#bcdbdb] ${mobileMode ? "text-[13px]" : "text-[16px]"}`}>{mobileMode ? "업무 이슈를 공유하세요." : "업무 메시지, 협업 사항 또는 공유할 내용을 등록하세요."}</span>
+        <span className={`shrink-0 rounded-[8px] border border-[#83adb5] bg-[#222] py-2 text-[13px] font-black text-[#e5e5e5] ${mobileMode ? "px-2" : "px-4"}`}>글작성하기</span>
     </button>;
     return <section className="[&_button]:cursor-pointer [&_button:disabled]:cursor-not-allowed [&_select]:cursor-pointer">
         <header className="flex flex-wrap items-center gap-3 border-b border-[#383838] px-5 py-3">

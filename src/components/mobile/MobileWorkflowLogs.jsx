@@ -223,7 +223,7 @@ export default function MobileWorkflowLogs({
             <div className="p-4 flex flex-col gap-4">
                 <div className="flex justify-between items-center gap-3 mb-2 px-1">
                     <h1 className="min-w-0 text-[18px] font-bold text-white tracking-tight flex flex-wrap items-center gap-2">
-                        <span>Director 주요업무 보고</span>
+                        <span>디렉터 주요업무보고</span>
                         <span className="text-[11px] bg-[#3b82f6]/20 text-[#60a5fa] px-2 py-0.5 rounded-md font-semibold">{filteredLogs.length}건</span>
                     </h1>
                     <button

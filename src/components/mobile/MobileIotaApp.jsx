@@ -1,3 +1,4 @@
+import { MOBILE_PRIMARY_TABS, isMobileTabActive } from '../../utils/workFeedNavigation';
 import { getWorkFeedNotificationTarget } from '../../utils/notificationState';
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
@@ -12,11 +13,11 @@ import { requestFirebaseNotificationPermission } from '../../utils/firebase';
 import { getInitialWorkspace } from './mobileIotaData';
 import { getMemberIotaOrganization } from '../../utils/iotaOrganizations';
 
-const MobileWorkFeedPage = React.lazy(() => import('../system/WorkFeedPage'));
+const MobileDiscussionPage = React.lazy(() => import('../system/WorkFeedDiscussionPage'));
 
 export default function MobileIotaApp({ navigateTo }) {
     const { user, memberInfo, signOut } = useAuth();
-    const [activeTab, setActiveTab] = useState(0); // 0: 주요업무, 1: 협업게시판, 2: 내업무, 3: 알림
+    const [activeTab, setActiveTab] = useState(0); // 0: 통합업무 요약, 1: 전체 업무/보고, 2: 기능셀, 3: MY, 4: 알림, 5: 논의/협업
     const [notificationFeed, setNotificationFeed] = useState(null);
     const [highlightLogId, setHighlightLogId] = useState(null);
     const [highlightTaskId, setHighlightTaskId] = useState(null);
@@ -192,19 +193,6 @@ export default function MobileIotaApp({ navigateTo }) {
         top: 0,
         left: 0
     };
-    if (notificationFeed) return (
-        <div className="h-full overflow-auto bg-[#1F1F1E] text-[#E5E5E5]">
-            <button type="button" onClick={() => {
-                setNotificationFeed(null);
-                const params = new URLSearchParams(window.location.search);
-                params.delete('logId'); params.delete('commentId');
-                window.history.replaceState(null, '', `${window.location.pathname}${params.size ? `?${params}` : ''}`);
-            }} className="m-4 cursor-pointer rounded-[10px] border border-[#444] px-4 py-2 text-[14px] transition-colors hover:bg-[#333]">← 알림으로 돌아가기</button>
-            <React.Suspense fallback={<p className="p-6">불러오는 중입니다...</p>}>
-                <MobileWorkFeedPage feedKind={notificationFeed} />
-            </React.Suspense>
-        </div>
-    );
     return (
         <div 
             className="flex flex-col bg-[#1F1F1E] text-[#E5E5E5] font-sans relative overflow-hidden"
@@ -270,7 +258,7 @@ export default function MobileIotaApp({ navigateTo }) {
                     </div>
                 </div>
                 {activeTab === 0 && (
-                    <MobileHome 
+                    <MobileHome key={refreshTrigger}
                         memberInfo={memberInfo}
                         onNavigateToTab={(tabIdx, filterStr, options = {}) => {
                             setTaskDefaultFilter(filterStr || null);
@@ -322,6 +310,11 @@ export default function MobileIotaApp({ navigateTo }) {
                         entryRequest={collaborationEntryRequest}
                         onEntryHandled={() => setCollaborationEntryRequest(null)}
                     />
+                )}
+                {activeTab === 5 && (
+                    <React.Suspense fallback={<p className="p-6 text-[#A1A1AA]">불러오는 중입니다...</p>}>
+                        <MobileDiscussionPage key={`${user?.id}:${notificationFeed || "default"}`} initialFeed={notificationFeed} mobileMode />
+                    </React.Suspense>
                 )}
                 {activeTab === 3 && (
                     <MobileMyTasks
@@ -384,6 +377,7 @@ export default function MobileIotaApp({ navigateTo }) {
                                     const target = new URL(feedTarget, window.location.href);
                                     window.history.replaceState(null, '', `${window.location.pathname}${target.search}`);
                                     setNotificationFeed(noti.reference_id.split('|')[1] === 'FEED_COMMITTEE' ? 'committee' : 'open');
+                                    setActiveTab(5);
                                     return;
                                 }
                                 console.log('[MobileIotaApp] 알림 터치 수신:', noti);
@@ -441,7 +435,8 @@ export default function MobileIotaApp({ navigateTo }) {
                                         setTargetMobileWorkspace(wsCode);
                                         console.log('[MobileIotaApp] targetMobileWorkspace 설정:', wsCode);
                                     }
-                                    setActiveTab(1);
+                                    setCollaborationEntryRequest({department: '전체', itemId: logId ? 'log-' + logId : null, requestedAt: Date.now()});
+                                    setActiveTab(2);
                                 } else if (isTaskNotif) {
                                     let taskId = null;
                                     let wsCode = null;
@@ -506,7 +501,13 @@ export default function MobileIotaApp({ navigateTo }) {
                                     if (wsCode) {
                                         setTargetMobileWorkspace(wsCode);
                                     }
-                                    setActiveTab(0);
+                                    if (taskId) {
+                                        const url = new URL(window.location.href);
+                                        url.searchParams.set('taskId', taskId);
+                                        window.history.replaceState(null, '', url.pathname + url.search);
+                                    }
+                                    setTaskEntryRequest({ viewMode: 'pmo', returnToHome: false, requestedAt: Date.now() });
+                                    setActiveTab(1);
                                 }
                             } catch (err) {
                                 console.error("Error in onNotificationClick:", err);
@@ -537,16 +538,16 @@ export default function MobileIotaApp({ navigateTo }) {
             <div className={`flex absolute bottom-0 left-0 w-full bg-[#272726] border-t border-[#3c3c3c] z-30 pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-in-out ${
                 showBottomNav ? 'translate-y-0' : 'translate-y-full pointer-events-none'
             }`}>
-                {[
-                    { id: 0, label: '홈', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /> },
-                    { id: 1, label: '통합업무보드', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /> },
-                    { id: 2, label: '워크스페이스', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /> },
-                    { id: 3, label: '마이', icon: <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /> }
-                ].map(tab => (
+                {MOBILE_PRIMARY_TABS.map(tab => ({...tab, icon: ({
+                    0: <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />,
+                    2: <path strokeLinecap="round" strokeLinejoin="round" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" />,
+                    5: <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />,
+                    3: <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />,
+                })[tab.id]})).map(tab => (
                     <button 
                         key={tab.id}
                         onClick={() => {
-                            if (tab.id === 1) {
+                            if (tab.id === 0) {
                                 setTaskDefaultFilter(null);
                                 setTaskEntryRequest({
                                     viewMode: 'pmo',
@@ -562,16 +563,22 @@ export default function MobileIotaApp({ navigateTo }) {
                                     requestedAt: Date.now(),
                                 });
                             }
+                            if (tab.id === 0 || tab.id === 5) {
+                                const url = new URL(window.location.href);
+                                ['taskId', 'logId', 'commentId'].forEach(key => url.searchParams.delete(key));
+                                window.history.replaceState(null, '', url.pathname + url.search + url.hash);
+                            }
+                            if (tab.id === 5) setNotificationFeed(null);
                             setActiveTab(tab.id);
                         }}
-                        className={`flex-1 flex flex-col items-center justify-center pt-[8px] pb-[4px] relative ${activeTab === tab.id ? 'text-[#60a5fa]' : 'text-[#9A9A98]'}`}
+                        className={`flex-1 flex flex-col items-center justify-center pt-[8px] pb-[4px] relative ${isMobileTabActive(activeTab, tab.id) ? 'text-[#60a5fa]' : 'text-[#9A9A98]'}`}
                     >
                         <div className="relative">
-                            <svg className={`w-[18px] h-[18px] mb-[1px] ${activeTab === tab.id ? 'stroke-2' : 'stroke-[1.5]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className={`w-[18px] h-[18px] mb-[1px] ${isMobileTabActive(activeTab, tab.id) ? 'stroke-2' : 'stroke-[1.5]'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 {tab.icon}
                             </svg>
                         </div>
-                        <span className={`text-[11px] ${activeTab === tab.id ? 'font-semibold' : 'font-medium'}`}>{tab.label}</span>
+                        <span className={`text-[11px] ${isMobileTabActive(activeTab, tab.id) ? 'font-semibold' : 'font-medium'}`}>{tab.label}</span>
                     </button>
                 ))}
             </div>
@@ -585,7 +592,7 @@ export default function MobileIotaApp({ navigateTo }) {
                         setIsComposerOpen(false);
                         triggerRefresh();
                     }} 
-                    activeTab={activeTab}
+                    activeTab={activeTab === 0 ? 1 : activeTab}
                     initialWorkspaceCode={selectedWorkspaceCode}
                 />
             )}

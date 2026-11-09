@@ -85,8 +85,8 @@ const getLogSource = (log, taskMap) => {
     if (metadata.workspace_code || workspaceLabel) {
         return {
             sourceType: 'workspace',
-            sourceLabel: '워크스페이스 게시글',
-            contextTitle: workspaceLabel || '워크스페이스',
+            sourceLabel: '기능셀 게시글',
+            contextTitle: workspaceLabel || '기능셀',
             contextLabel: getDirectorLogCell(log),
             logId: log.log_id || log.id,
             workspaceCode: metadata.workspace_code || '',

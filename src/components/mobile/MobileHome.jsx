@@ -10,10 +10,8 @@ import {
 } from '../../utils/pmoTaskPriority';
 import {
     fetchDirectorWorkflowLogs,
-    getDirectorLogCell,
     getDirectorStaffCell,
 } from '../../utils/directorWorkflowLogs';
-import { getMemberIotaOrganization } from '../../utils/iotaOrganizations';
 
 const GRADE_CONFIG = [
     { grade: 'A', label: '즉시회의', color: '#f87171' },
@@ -23,7 +21,6 @@ const GRADE_CONFIG = [
 ];
 
 const HOME_LIST_LIMIT = 5;
-const COLLABORATION_FALLBACK_DEPARTMENT = '사업2파트';
 
 const formatShortDate = (dateString) => {
     if (!dateString) return '기한 미정';
@@ -139,31 +136,14 @@ const getTaskGuidance = (task, memberInfo) => {
     return { reasons };
 };
 
-const getNotificationWorkspaceDepartment = (referenceId) => {
-    const [, workspaceCode = ''] = String(referenceId || '').split('|');
-    if (!workspaceCode || workspaceCode === 'WS_PM') return '전체';
-    return getDirectorLogCell({ metadata: { workspace_code: workspaceCode } });
-};
-
-const isBusinessPm2LeadTask = (task) => {
-    const leadDepartment = normalizeMatchText(
-        task?.lead_dept?.dept_name || task?.lead_dept_code
-    );
-    return ['사업pm2', '사업2파트', '사업관리2파트', 'deptpm2']
-        .some((term) => leadDepartment.includes(normalizeMatchText(term)));
-};
-
 export default function MobileHome({ memberInfo, onNavigateToTab }) {
     const [tasks, setTasks] = useState([]);
     const [directorReports, setDirectorReports] = useState([]);
-    const [pendingCollaborationItems, setPendingCollaborationItems] = useState([]);
     const [selectedSummaryGrade, setSelectedSummaryGrade] = useState(null);
     const [taskLoading, setTaskLoading] = useState(true);
     const [reportLoading, setReportLoading] = useState(true);
-    const [collaborationLoading, setCollaborationLoading] = useState(true);
     const [taskError, setTaskError] = useState('');
     const [reportError, setReportError] = useState('');
-    const [collaborationError, setCollaborationError] = useState('');
 
     const fetchTasks = useCallback(async (showLoading = true) => {
         if (showLoading) setTaskLoading(true);
@@ -227,58 +207,10 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
         }
     }, []);
 
-    const fetchCollaborations = useCallback(async (showLoading = true) => {
-        if (showLoading) setCollaborationLoading(true);
-        setCollaborationError('');
-
-        try {
-            if (!memberInfo?.auth_id) {
-                setPendingCollaborationItems([]);
-                return;
-            }
-
-            const notificationResult = await supabase
-                .from('iota_notifications')
-                .select('id, title, body, reference_id, created_at, type')
-                .eq('user_id', memberInfo.auth_id)
-                .eq('is_read', false)
-                .in('type', ['log', 'logs', 'comment', 'comments'])
-                .order('created_at', { ascending: false })
-                .limit(HOME_LIST_LIMIT);
-
-            if (notificationResult.error) {
-                console.warn('Mobile home collaboration notification load failed:', notificationResult.error);
-                setPendingCollaborationItems([]);
-                return;
-            }
-
-            const pendingItems = (notificationResult.data || []).map((notification) => {
-                const [logId] = String(notification.reference_id || '').split('|');
-                return {
-                    id: `notification-${notification.id}`,
-                    logId: logId || null,
-                    department: getNotificationWorkspaceDepartment(notification.reference_id),
-                    title: notification.title || '확인할 협업',
-                    summary: notification.body || '',
-                    date: notification.created_at,
-                    isPending: true,
-                    type: 'notification',
-                };
-            });
-
-            setPendingCollaborationItems(pendingItems);
-        } catch (error) {
-            console.error('Failed to load mobile home collaborations:', error);
-            setCollaborationError('협업 내용을 불러오지 못했습니다.');
-        } finally {
-            if (showLoading) setCollaborationLoading(false);
-        }
-    }, [memberInfo?.auth_id]);
 
     useEffect(() => {
         fetchTasks();
         fetchReports();
-        fetchCollaborations();
 
         let refreshTimeoutId;
         const scheduleTaskRefresh = () => {
@@ -295,24 +227,10 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             }, scheduleTaskRefresh)
             .subscribe();
 
-        let collaborationChannel = null;
-        if (memberInfo?.auth_id) {
-            collaborationChannel = supabase
-                .channel(`mobile-home-collaboration-${memberInfo.auth_id}`)
-                .on('postgres_changes', {
-                    event: '*',
-                    schema: 'public',
-                    table: 'iota_notifications',
-                    filter: `user_id=eq.${memberInfo.auth_id}`,
-                }, () => fetchCollaborations(false))
-                .subscribe();
-        }
-
         const handleVisibilityChange = () => {
             if (document.visibilityState !== 'visible') return;
             scheduleTaskRefresh();
             fetchReports(false);
-            fetchCollaborations(false);
         };
         document.addEventListener('visibilitychange', handleVisibilityChange);
 
@@ -320,9 +238,8 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             window.clearTimeout(refreshTimeoutId);
             document.removeEventListener('visibilitychange', handleVisibilityChange);
             supabase.removeChannel(channel);
-            if (collaborationChannel) supabase.removeChannel(collaborationChannel);
         };
-    }, [fetchCollaborations, fetchReports, fetchTasks, memberInfo?.auth_id]);
+    }, [fetchReports, fetchTasks]);
 
     const activeTasks = useMemo(
         () => tasks.filter((task) => matchesPmoStatusFilter(task, '전체')),
@@ -332,35 +249,11 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
     const guidanceTasks = useMemo(() => {
         const tasksWithGuidance = activeTasks
             .map((task) => ({ ...task, ...getTaskGuidance(task, memberInfo) }));
-        const attentionTasks = tasksWithGuidance.filter((task) => task.reasons.length > 0);
-        const candidates = attentionTasks.length > 0 ? attentionTasks : tasksWithGuidance;
-
-        return candidates
-            .sort(comparePmoTasksByPriority)
+        return tasksWithGuidance
+            .sort((a, b) => Number(b.reasons.length > 0) - Number(a.reasons.length > 0) || comparePmoTasksByPriority(a, b))
             .slice(0, HOME_LIST_LIMIT);
     }, [activeTasks, memberInfo]);
 
-    const collaborationItems = useMemo(() => {
-        const fallbackTasks = activeTasks
-            .filter(isBusinessPm2LeadTask)
-            .sort(comparePmoTasksByPriority)
-            .slice(0, HOME_LIST_LIMIT)
-            .map((task) => ({
-                id: `pm2-task-${task.id}`,
-                taskId: task.id,
-                department: COLLABORATION_FALLBACK_DEPARTMENT,
-                title: task.task_name || '제목 없음',
-                summary: task.support_needed || task.sector_detail || '',
-                date: task.due_date,
-                isPending: false,
-                type: 'task',
-                priorityScore: getStoredPmoPriorityScore(task),
-                status: task.status || '진행중',
-            }));
-
-        return [...pendingCollaborationItems, ...fallbackTasks]
-            .slice(0, HOME_LIST_LIMIT);
-    }, [activeTasks, pendingCollaborationItems]);
 
     const gradeCounts = useMemo(() => activeTasks.reduce((counts, task) => {
         const grade = getPmoMeetingGrade(getStoredPmoPriorityScore(task));
@@ -393,17 +286,11 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
         });
     };
 
-    const openCollaborations = (item = null) => {
-        onNavigateToTab(2, null, {
-            collaborationDept: item?.department || getMemberIotaOrganization(memberInfo),
-            collaborationItemId: item?.logId ? `log-${item.logId}` : null,
-        });
-    };
 
     return (
         <div className="w-full h-full overflow-y-auto hide-scrollbar px-4 pt-3 pb-8">
             <header className="mb-3 flex items-center justify-between gap-3">
-                <h1 className="text-[19px] font-bold tracking-tight text-white">오늘의 CFT 브리핑</h1>
+                <h1 className="text-[19px] font-bold tracking-tight text-white">통합업무</h1>
                 <p className="shrink-0 text-right text-[11px] font-medium text-[#86868B]">
                     {getTodayLabel()} · {memberInfo?.staff_name || '사용자'}
                 </p>
@@ -553,7 +440,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             <section className="mt-5">
                 <div className="mb-2.5 flex items-center justify-between">
                     <div>
-                        <h2 className="text-[16px] font-bold text-white">우선 확인필요 업무</h2>
+                        <h2 className="text-[16px] font-bold text-white">통합업무</h2>
                         <p className="mt-0.5 text-[10px] text-[#86868B]">지금 먼저 확인해야 할 주요 업무 5건</p>
                     </div>
                     <button
@@ -561,7 +448,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                         onClick={() => openTaskBoard()}
                         className="text-[11px] font-bold text-[#60a5fa]"
                     >
-                        전체보기
+                        더보기
                     </button>
                 </div>
 
@@ -636,7 +523,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
             <section className="mt-5">
                 <div className="mb-2.5 flex items-center justify-between">
                     <div>
-                        <h2 className="text-[16px] font-bold text-white">Director 최신 보고</h2>
+                        <h2 className="text-[16px] font-bold text-white">디렉터 주요업무보고</h2>
                         <p className="mt-0.5 text-[10px] text-[#86868B]">디렉터 T5T 중 이오타서울 관련업무를 추림</p>
                     </div>
                     <button
@@ -644,7 +531,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                         onClick={() => openDirectorReports()}
                         className="text-[11px] font-bold text-[#60a5fa]"
                     >
-                        전체보기
+                        더보기
                     </button>
                 </div>
 
@@ -689,85 +576,6 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                 </div>
             </section>
 
-            <section className="mt-5">
-                <div className="mb-2.5 flex items-center justify-between gap-3">
-                    <div className="min-w-0">
-                        <h2 className="text-[16px] font-bold text-white">협업 확인사항</h2>
-                        <p className="mt-0.5 truncate text-[10px] text-[#86868B]">
-                            협업 요청과 사업2파트 실행주관 업무 5건
-                        </p>
-                    </div>
-                    <button
-                        type="button"
-                        onClick={() => openCollaborations()}
-                        className="shrink-0 text-[11px] font-bold text-[#60a5fa]"
-                    >
-                        협업보기
-                    </button>
-                </div>
-
-                <div className="overflow-hidden rounded-[16px] border border-[#3c3c3c]/70 bg-[#272726]">
-                    {collaborationLoading ? (
-                        [...Array(HOME_LIST_LIMIT)].map((_, index) => (
-                            <div key={index} className="h-[72px] animate-pulse border-b border-white/[0.06] last:border-b-0" />
-                        ))
-                    ) : collaborationError ? (
-                        <button
-                            type="button"
-                            onClick={() => fetchCollaborations()}
-                            className="w-full px-4 py-6 text-[12px] text-[#f87171]"
-                        >
-                            {collaborationError} 다시 시도
-                        </button>
-                    ) : collaborationItems.length === 0 ? (
-                        <div className="py-6 text-center text-[12px] text-[#86868B]">
-                            표시할 협업 내용이 없습니다.
-                        </div>
-                    ) : collaborationItems.map((item, index) => (
-                        <button
-                            key={item.id}
-                            type="button"
-                            onClick={() => (
-                                item.type === 'task'
-                                    ? openTaskBoard(item.taskId)
-                                    : openCollaborations(item)
-                            )}
-                            className={`w-full px-3.5 py-3 text-left active:bg-[#30302f] ${index < collaborationItems.length - 1 ? 'border-b border-white/[0.06]' : ''}`}
-                        >
-                            <div className="flex items-center justify-between gap-3 text-[9px]">
-                                <div className="flex min-w-0 items-center gap-1.5">
-                                    <span className="truncate rounded-[4px] bg-[#30d158]/10 px-1.5 py-0.5 font-bold text-[#34d399]">
-                                        {item.department}
-                                    </span>
-                                    <span className={`shrink-0 font-bold ${item.isPending ? 'text-[#fbbf24]' : 'text-[#86868B]'}`}>
-                                        {item.isPending ? '확인 필요' : '실행주관 업무'}
-                                    </span>
-                                </div>
-                                <span className={`shrink-0 font-bold ${
-                                    item.type === 'task' && item.priorityScore >= 60
-                                        ? 'text-[#f87171]'
-                                        : 'text-[#86868B]'
-                                }`}>
-                                    {item.type === 'task' ? `우선 ${item.priorityScore}` : formatShortDate(item.date)}
-                                </span>
-                            </div>
-                            <h3 className="mt-1.5 truncate text-[13px] font-bold text-white">{item.title}</h3>
-                            {item.type === 'task' ? (
-                                <div className="mt-1 flex items-center justify-between gap-3 text-[10px] text-[#A1A1AA]">
-                                    <span className="truncate">{item.summary || '등록된 지원사항이 없습니다.'}</span>
-                                    <span className="shrink-0 font-bold text-[#D1D1D6]">
-                                        {item.status} · {getDueLabel(item.date, item.status)}
-                                    </span>
-                                </div>
-                            ) : item.summary && (
-                                <p className="mt-1 line-clamp-2 break-keep text-[10px] leading-[1.4] text-[#A1A1AA]">
-                                    {item.summary}
-                                </p>
-                            )}
-                        </button>
-                    ))}
-                </div>
-            </section>
         </div>
     );
 }

@@ -230,7 +230,7 @@ export default function MobileComposerSheet({ memberInfo, onClose, onSuccess, ac
                     
                     {/* Common Workspace Selector */}
                     <div className="flex flex-col gap-1.5">
-                        <label className="text-[13px] font-bold text-[#86868B] ml-1">소속 워크스페이스</label>
+                        <label className="text-[13px] font-bold text-[#86868B] ml-1">소속 기능셀</label>
                         <div className="relative">
                             <select 
                                 value={workspace.code} 

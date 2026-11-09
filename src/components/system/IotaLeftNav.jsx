@@ -8,7 +8,7 @@ import useSidebarCollapse from './useSidebarCollapse';
 const phase1MenuItems = [
     {
         id: 7,
-        label: '통합업무보드',
+        label: '통합업무',
         path: 'platform/iotaseoul/workflow',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,19 +66,9 @@ const phase1MenuItems = [
         ),
     },
     {
-        id: 'meeting-logs',
-        label: '운영위 논의사항',
-        path: 'platform/iotaseoul/meeting-logs',
-        icon: (
-            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
-        ),
-    },
-    {
-        id: 'open-feed',
-        label: '자유 업무피드',
-        path: 'platform/iotaseoul/open-feed',
+        id: 'discussion',
+        label: '논의/협업',
+        path: 'platform/iotaseoul/discussion',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -100,7 +90,7 @@ const phase2MenuItems = [
     },
     {
         id: 7,
-        label: '통합업무보드',
+        label: '통합업무',
         path: 'platform/iotaseoul/workflow',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,19 +119,9 @@ const phase2MenuItems = [
         ),
     },
     {
-        id: 'meeting-logs',
-        label: '운영위 논의사항',
-        path: 'platform/iotaseoul/meeting-logs',
-        icon: (
-            <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-            </svg>
-        ),
-    },
-    {
-        id: 'open-feed',
-        label: '자유 업무피드',
-        path: 'platform/iotaseoul/open-feed',
+        id: 'discussion',
+        label: '논의/협업',
+        path: 'platform/iotaseoul/discussion',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -364,7 +344,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
 
                 <div className="flex flex-col gap-0">
                     {menuItems.map((item) => {
-                        const isActive = currentPath === item.path;
+                        const isActive = currentPath.split('?')[0] === item.path || (item.id === 'discussion' && /\/(meeting-logs|open-feed)$/.test(currentPath.split('?')[0]));
                         const hasSubItems = item.subItems && item.subItems.length > 0;
                         const isExpanded = item.id === 2 ? isVehicleOpen : false;
 
@@ -456,7 +436,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                         className="flex items-center justify-between font-semibold mb-[7px] text-[13px] text-[#86868B] hover:text-white cursor-pointer transition-colors duration-300 px-[7px]"
                         onClick={() => setIsWorkspaceOpen(!isWorkspaceOpen)}
                     >
-                        <span>워크스페이스</span>
+                        <span>기능셀</span>
                         <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${isWorkspaceOpen ? 'rotate-0' : '-rotate-90'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -561,7 +541,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
                     className={`flex items-center justify-center py-2 hover:bg-[#3b82f6]/10 rounded-md cursor-pointer transition-colors duration-300 border border-[#3b82f6]/40 text-[#60a5fa] font-bold text-[13px] ${currentPath === 'platform/iotaseoul/my-page' ? 'bg-[#3b82f6]/20' : ''}`}
                 >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                    <span>MY Workspace</span>
+                    <span>MY</span>
                 </div>
             </div>}
 
