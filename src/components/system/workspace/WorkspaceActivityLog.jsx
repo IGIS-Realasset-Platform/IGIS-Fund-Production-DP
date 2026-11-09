@@ -1241,6 +1241,21 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         };
     }, [displayedLogLinkKey, isTaskBoard, feedKind]);
 
+    const feedComposer = !isTaskBoard && canCreate ? (
+                <LogWriteBox feedKind={feedKind} mobileMode={mobileMode}
+                    memberInfo={memberInfo}
+                    masterStakeholders={masterStakeholders}
+                    pilotMembers={pilotMembers}
+                    fetchLogs={fetchLogs}
+                    fetchMasterStakeholders={fetchMasterStakeholders}
+                    workspaceCode={workspaceCode}
+                    workspaceLabel={workspaceLabel}
+                    isTaskBoard={isTaskBoard}
+                    taskId={taskId}
+                    taskProject={taskProject}
+                />
+    ) : null;
+
     const searchBar = !isTaskBoard && (!(feedKind && mobileMode) || mobileSearchOpen) && (
                 <div className={searchPortalTarget ? "flex items-center" : feedKind ? `relative flex justify-end items-center ${mobileMode ? "mb-[10px]" : "mb-[12px]"}` : "flex justify-between items-center mt-[-14px] mb-[12px]"}>
                     {!feedKind && <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
@@ -1268,21 +1283,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             
             <div className={isTaskBoard ? "mt-0 mb-0" : feedKind && mobileMode ? "mb-[40px]" : `-mx-[7px] p-[6px] border ${mobileMode ? "border-transparent" : "border-[#333]"} rounded-[30px] mb-[40px]`}>
                 <div className="w-full flex flex-col mt-0">{/* Task Input Form */}
-            {!isTaskBoard && canCreate && (
-                <LogWriteBox feedKind={feedKind} mobileMode={mobileMode}
-                    memberInfo={memberInfo}
-                    masterStakeholders={masterStakeholders}
-                    pilotMembers={pilotMembers}
-                    fetchLogs={fetchLogs}
-                    fetchMasterStakeholders={fetchMasterStakeholders}
-                    workspaceCode={workspaceCode}
-                    workspaceLabel={workspaceLabel}
-                    isTaskBoard={isTaskBoard}
-                    taskId={taskId}
-                    taskProject={taskProject}
-                />
-            )}
-            <div className={isTaskBoard ? "w-full flex flex-col gap-4 bg-transparent border-0 rounded-none shadow-none" : feedKind && mobileMode ? "w-full flex flex-col bg-transparent" : "w-full border border-[#3c3c3c] rounded-[24px] flex flex-col bg-[#252525]"}>
+            {!(feedKind && mobileMode) && feedComposer}
+            <div className={isTaskBoard ? "w-full flex flex-col gap-4 bg-transparent border-0 rounded-none shadow-none" : "w-full border border-[#3c3c3c] rounded-[24px] flex flex-col bg-[#252525]"}>
                 {/* Header Row (Only for workspace mode) */}
                 {!isTaskBoard && !(feedKind && mobileMode) && (
                     <div className="w-full px-[20px] py-[12px] flex items-center border-b border-[#3c3c3c] bg-transparent rounded-t-[24px]">
@@ -1649,7 +1651,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
                     // Render original workspace table-row layout
                     return (
-                        <div id={log.log_id} key={log.log_id} className={`relative w-full ${feedKind && mobileMode ? 'px-0 py-[12px]' : 'px-[20px] py-[16px]'} flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
+                        <div id={log.log_id} key={log.log_id} className={`relative w-full ${feedKind && mobileMode ? 'px-[20px] py-[12px]' : 'px-[20px] py-[16px]'} flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
                             {/* Main Row */}
                             {feedKind && mobileMode ? <button type="button" aria-expanded={Boolean(expandedLogs[log.log_id])} aria-disabled={!checkUserAccess(log)} onClick={() => toggleExpand(log.log_id)} className={`w-full min-w-0 text-left ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'} ${log.metadata?.issue_status === '완료' ? 'opacity-75' : ''}`}>
                                 <div className="mb-1.5 flex items-center gap-2">
@@ -2184,6 +2186,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         >다음</button>
                     </div>
                 )}
+                {feedKind && mobileMode && canCreate && <div className="border-t border-[#3c3c3c] px-3 pt-2 pb-1">
+                    {feedComposer}
+                </div>}
             </div>
 
             {isTaskBoard && (

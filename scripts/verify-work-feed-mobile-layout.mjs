@@ -124,7 +124,7 @@ try {
   assert.equal(await page.getByRole('tab',{name:'운영위 논의사항',exact:true}).getAttribute('aria-selected'),'true');
   assert.equal(await page.getByLabel('게시글 검색',{exact:true}).count(),0,'Switching tabs closes search');
  }
- console.log('PASS mobile underline tabs, search toggle and header bounds');
+ console.log('PASS mobile button tabs, search toggle and header bounds');
  assert.deepEqual(errors,[],'No runtime errors');
  console.log('PASS desktop layout and runtime regression');
 } finally { await browser.close(); }
