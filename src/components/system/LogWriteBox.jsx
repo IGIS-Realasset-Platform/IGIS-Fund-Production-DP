@@ -713,7 +713,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                     setters={{projectId:setProjectId, triageType:setTriageType, issueStatus:setIssueStatus, priority:setPriority, workDate:setWorkDate, title:setTitle, content:setContent, companyQuery:setCompanyQuery, contactQuery:setContactQuery}}
                     textareaRef={textareaRef} formId={uniqueIdSuffix}
                     onContentChange={handleContentChange} onRefreshDirectory={() => fetchMasterStakeholders?.(true, true)}
-                    onRefreshContacts={() => fetchMasterStakeholders?.(true)}
+                    onRefreshContacts={() => fetchMasterStakeholders?.(!mobileMode)}
                     onContactSelect={name => {
                         setContactQuery(name);
                         if (!companyQuery) {

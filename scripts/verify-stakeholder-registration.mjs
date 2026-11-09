@@ -11,11 +11,11 @@ await assert.rejects(registerStakeholder({},normalizeStakeholder('','담당자',
 const fixture = `
 import React,{useState} from 'react';import {createRoot} from 'react-dom/client';
 import LogWriteBox from './src/components/system/LogWriteBox.jsx';
-window.fixtureDB={rows:[],inserts:[],saves:[],failInsert:false};
+window.fixtureDB={rows:window.initialDirectoryFixture||[],inserts:[],saves:[],failInsert:false,refreshes:[]};
 function Fixture(){
- const [members,setMembers]=useState([]);
+ const [members,setMembers]=useState(window.initialDirectoryFixture||[]);
  window.refreshDirectory=()=>setMembers([...window.fixtureDB.rows]);
- return <main style={{width:'100%',maxWidth:1100,margin:'auto',padding:16}}><LogWriteBox editMode={Boolean(window.initialEditFixture)} initialData={window.initialEditFixture || null} defaultExpanded mobileMode={window.mobileFixture} feedKind={window.feedFixture} workspaceCode="FEED_TEST" workspaceLabel="검증 게시판" memberInfo={{email:'tester@example.com',staff_name:'테스트 사용자',org_name:'기획추진'}} masterStakeholders={members} pilotMembers={[]} fetchLogs={()=>{}} fetchMasterStakeholders={async()=>{setMembers([...window.fixtureDB.rows]);}} /></main>;
+ return <main style={{width:'100%',maxWidth:1100,margin:'auto',padding:16}}><LogWriteBox editMode={Boolean(window.initialEditFixture)} initialData={window.initialEditFixture || null} defaultExpanded mobileMode={window.mobileFixture} feedKind={window.feedFixture} workspaceCode="FEED_TEST" workspaceLabel="검증 게시판" memberInfo={{email:'tester@example.com',staff_name:'테스트 사용자',org_name:'기획추진'}} masterStakeholders={members} pilotMembers={[]} fetchLogs={()=>{}} fetchMasterStakeholders={async(force)=>{window.fixtureDB.refreshes.push(Boolean(force));if(window.failDirectoryRefresh)throw Error("Directory unavailable");setMembers([...window.fixtureDB.rows]);}} /></main>;
 }
 createRoot(document.getElementById('root')).render(<Fixture/>);`;
 const client = `export const supabase={from(table){
@@ -40,7 +40,7 @@ const cssName=(await fs.readdir('dist/assets')).find(name=>name.endsWith('.css')
 const css=await fs.readFile('dist/assets/'+cssName,'utf8');
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 try {
- const page=await browser.newPage();page.setDefaultTimeout(10000);
+ const page=await browser.newPage({hasTouch:true});page.setDefaultTimeout(10000);
  const errors=[];page.on('pageerror',error=>errors.push(error.message));
  await page.route('**/*',r=>r.request().resourceType()==='image'?r.fulfill({contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg"/>'}):r.abort());
  for(const mobile of [false,true])for(const feed of ['committee','open']){
@@ -108,5 +108,46 @@ try {
  assert.equal(await page.getByLabel('본문',{exact:true}).inputValue(),'수정 중인 본문');
  assert.equal(await page.getByPlaceholder('회사·기관명').inputValue(),'수정한 회사');
  console.log('PASS directory refresh preserves an in-progress edit');
+ for(const feed of ['committee','open']) {
+  await page.goto('about:blank');
+  await page.setViewportSize({width:375,height:812});
+  await page.setContent('<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>'+css+'</style></head><body style="margin:0"><div id="root"></div></body></html>');
+  await page.evaluate(feed=>{
+   window.mobileFixture=true;window.feedFixture=feed;
+   window.initialDirectoryFixture=Array.from({length:5000},(_,i)=>({id:'person-'+i,company_name:'회사 '+i,contact_name:'담당 '+i,role_category:'운영 파트너'}));
+  },feed);
+  await page.addScriptTag({content:bundle.outputFiles[0].text});
+  const company=page.getByLabel('회사·기관명',{exact:true});
+  const contact=page.getByLabel('담당자명',{exact:true});
+  await company.tap();
+  assert.equal(await page.locator('input[list],datalist').count(),0,'Mobile must not invoke the native iPhone datalist picker');
+  assert.equal(await page.getByRole('listbox').getByRole('option').count(),20,'A 5,000-row directory renders only 20 candidates');
+  await company.fill('회사 4999');
+  await page.getByRole('option',{name:'회사 4999',exact:true}).tap();
+  assert.equal(await company.inputValue(),'회사 4999','Touch selects a company without blur losing the selection');
+  await contact.tap();
+  assert.equal(await page.getByRole('listbox').getByRole('option').count(),1,'Contacts remain scoped to the selected company');
+  await page.getByRole('option',{name:'담당 4999',exact:true}).tap();
+  assert.equal(await contact.inputValue(),'담당 4999');
+  for(let i=0;i<8;i++){await company.tap();await contact.tap()}
+  assert((await page.evaluate(()=>window.fixtureDB.refreshes)).every(force=>!force),'Repeated focus uses the cached directory instead of forced DB reloads');
+  // Keyboard-sized viewport: switching input and tapping a result must remain responsive.
+  await page.setViewportSize({width:375,height:400});
+  await company.fill('');await contact.fill('담당 4998');
+  await page.getByRole('option',{name:'담당 4998',exact:true}).tap();
+  assert.equal(await company.inputValue(),'회사 4998','Selecting a contact alone restores its company');
+  await company.fill('신규 터치 회사');await contact.fill('신규 터치 담당자');
+  await page.getByLabel('제목',{exact:true}).tap();
+  assert.equal(await page.getByRole('listbox').count(),0,'Outside touch dismisses suggestions');
+  await page.getByRole('status').filter({hasText:'신규 등록할 수 있습니다.'}).waitFor();
+  await page.evaluate(()=>window.failDirectoryRefresh=true);
+  await company.tap();
+  await page.getByRole('status').filter({hasText:'목록을 불러오지 못했습니다.'}).waitFor();
+  await company.fill('오류 후에도 입력 가능');
+  await page.getByRole('button',{name:'글쓰기 접기',exact:true}).tap();
+  await page.getByRole('button',{name:'글쓰기',exact:true}).tap();
+  assert.equal(await company.inputValue(),'오류 후에도 입력 가능');
+  console.log('PASS '+feed+' mobile touch: 5,000 records, bounded options, linked selection, repeated focus, keyboard viewport, failed refresh, draft preservation');
+ }
  assert.deepEqual(errors,[]);
 }finally{await browser.close()}
