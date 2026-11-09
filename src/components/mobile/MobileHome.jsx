@@ -34,12 +34,6 @@ const getDueLabel = (dateString, status) => {
     return `D-${difference}`;
 };
 
-const getTodayLabel = () => {
-    const today = new Date();
-    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-    return `${today.getMonth() + 1}월 ${today.getDate()}일 ${weekdays[today.getDay()]}요일`;
-};
-
 const normalizeMatchText = (value) => String(value || '')
     .replace(/[\s·/_-]+/g, '')
     .toLowerCase();
@@ -266,7 +260,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
         <div className="w-full h-full overflow-y-auto hide-scrollbar px-4 pt-3 pb-8">
             <header className="mb-2 flex items-center justify-end">
                 <p className="shrink-0 text-right text-[11px] font-medium text-[#86868B]">
-                    {getTodayLabel()} · {memberInfo?.staff_name || '사용자'}
+                    {memberInfo?.staff_name || '사용자'}
                 </p>
             </header>
 
