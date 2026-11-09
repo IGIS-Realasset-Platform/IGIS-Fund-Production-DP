@@ -169,6 +169,7 @@ try {
   const edit=await page.getByRole('button',{name:'수정하기',exact:true}).boundingBox();
   const remove=await page.getByRole('button',{name:'수정하기',exact:true}).locator('..').getByRole('button',{name:'삭제',exact:true}).boundingBox();
   assert.equal(status.y,edit.y);assert.equal(edit.y,remove.y);
+  assert(Math.abs(status.width-edit.width)<1 && Math.abs(edit.width-remove.width)<1,'Mobile management controls have equal widths');
   const input=await page.getByLabel('댓글 작성').boundingBox();
   assert(input.y>=edit.y+edit.height,'Actions precede the comment input');
   const comment=await page.getByText('댓글 본문',{exact:true}).boundingBox();
