@@ -59,9 +59,9 @@ export default function WorkFeedReactionButton({ type, reactions, actorEmail, pi
     const isLike = type === 'like';
     return <div className={`flex items-center gap-1 ${mobileMode ? "min-w-0 max-w-full flex-wrap" : ""}`}>
         <button type="button" disabled={disabled} onClick={event => { event.stopPropagation(); onToggle(); }} aria-label={isLike ? '좋아요' : '확인'} aria-pressed={active}
-            className={`${mobileMode ? 'h-11 px-2.5' : compact ? 'h-7 px-2' : 'h-8 px-2.5'} shrink-0 flex cursor-pointer items-center gap-1 rounded-[7px] border text-[12px] font-semibold transition-colors disabled:cursor-default disabled:opacity-60 ${active ? (isLike ? 'border-[#cc8580]/45 bg-[#cc8580]/10 text-[#cc8580]' : 'border-[#6f9fc7]/45 bg-[#6f9fc7]/10 text-[#82add0]') : 'border-[#3A3A3C] text-[#86868B] hover:border-[#555] hover:text-white'}`}>
+            className={`${mobileMode ? 'h-7 px-2' : compact ? 'h-7 px-2' : 'h-8 px-2.5'} shrink-0 flex cursor-pointer items-center gap-1 rounded-[7px] border text-[12px] font-semibold transition-colors disabled:cursor-default disabled:opacity-60 ${active ? (isLike ? 'border-[#cc8580]/45 bg-[#cc8580]/10 text-[#cc8580]' : 'border-[#6f9fc7]/45 bg-[#6f9fc7]/10 text-[#82add0]') : 'border-[#3A3A3C] text-[#86868B] hover:border-[#555] hover:text-white'}`}>
             <FeedReactionIcon type={type} active={active} />{emails.length}
         </button>
-        <FeedReactionAvatarStack emails={emails} pilotMembers={pilotMembers} label={isLike ? '좋아요' : '확인'} />
+        <FeedReactionAvatarStack maxVisible={mobileMode ? 1 : 3} emails={emails} pilotMembers={pilotMembers} label={isLike ? '좋아요' : '확인'} />
     </div>;
 }

@@ -1940,9 +1940,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             </div>
                                         )}
 
-                                        {feedKind && mobileMode && <div className="mt-3">{feedStatusActions}</div>}
-
-                                        {feedKind && (
+                                        {feedKind && !mobileMode && (
                                             <div className={`mt-5 flex items-center gap-4 py-[2px] ${mobileMode ? "flex-wrap" : ""}`}>
                                                 {['like', 'check'].map(type => <WorkFeedReactionButton key={type} mobileMode={mobileMode} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
                                                 <div className={`ml-auto flex min-w-0 items-center justify-end gap-4 text-[12px] text-[#86868B] ${mobileMode ? "w-full flex-wrap" : "flex-1"}`}>
@@ -1952,7 +1950,15 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             </div>
                                         )}
 
-                                        {feedKind && log.writer_name !== '시스템' && checkUserAccess(log) ? <WorkFeedComments mobileMode={mobileMode}
+                                        {feedKind && mobileMode && <div className="mt-3 space-y-3">
+                                            <div className="text-left"><span className="inline-block max-w-full break-words rounded-[8px] border border-[#914743]/70 bg-[#df7f7a]/5 px-2.5 py-1 text-[12px] font-medium leading-5 text-[#df7f7a]">열람권한: {getPermissionString(log) || '전체 이용자'}</span></div>
+                                            <div className="flex min-w-0 items-center gap-2">
+                                                {['like', 'check'].map(type => <WorkFeedReactionButton key={type} mobileMode type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
+                                                <span className="ml-auto inline-flex shrink-0 items-center gap-1 text-[11px] text-[#86868B]"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
+                                            </div>
+                                        </div>}
+
+                                        {feedKind && log.writer_name !== '시스템' && checkUserAccess(log) ? <WorkFeedComments mobileMode={mobileMode} beforeComposer={mobileMode ? feedStatusActions : null}
                                             comments={log.metadata?.comments || []} actorEmail={memberInfo?.email} members={pilotMembers}
                                             onRefreshDirectory={() => fetchMasterStakeholders(true, true)}
                                             onSave={text => saveFeedComment(log.log_id, text)}

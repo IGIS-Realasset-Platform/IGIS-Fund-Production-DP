@@ -27,7 +27,7 @@ function CommentInput({ label, value, onChange, members, onRefreshDirectory, pla
     </div>;
 }
 
-export default function WorkFeedComments({ comments = [], actorEmail, members, onRefreshDirectory, onSave, onEdit, onDelete, onReact, renderText, mobileMode = false }) {
+export default function WorkFeedComments({ comments = [], actorEmail, members, onRefreshDirectory, onSave, onEdit, onDelete, onReact, renderText, mobileMode = false, beforeComposer = null }) {
     const [draft, setDraft] = useState('');
     const [editingId, setEditingId] = useState(null);
     const [editDraft, setEditDraft] = useState('');
@@ -68,7 +68,7 @@ export default function WorkFeedComments({ comments = [], actorEmail, members, o
                 </div>
             </div>
         </div>)}</div>
-        <div className="mt-4"><CommentInput mobileMode={mobileMode} label="댓글 작성" value={draft} onChange={setDraft} members={members} onRefreshDirectory={onRefreshDirectory} placeholder="댓글을 입력하세요... (@를 입력하여 담당자를 멘션할 수 있습니다)">
+        <div className="mt-4">{beforeComposer && <div className="mb-3">{beforeComposer}</div>}<CommentInput mobileMode={mobileMode} label="댓글 작성" value={draft} onChange={setDraft} members={members} onRefreshDirectory={onRefreshDirectory} placeholder="댓글을 입력하세요... (@를 입력하여 담당자를 멘션할 수 있습니다)">
             <button type="button" disabled={pending || !draft.trim()} onClick={() => submit(false)} className={`${mobileMode ? "mt-2 h-11 w-full" : "absolute bottom-3 right-3 h-8"} rounded-[7px] bg-[#3279b4] px-4 text-[12px] font-bold text-white hover:bg-[#3e89c6] disabled:opacity-40`}>{pending && !editingId ? '저장 중...' : '댓글 등록'}</button>
         </CommentInput></div>
         {error && <p role="alert" className="mt-2 text-[12px] text-[#df827e]">{error}</p>}

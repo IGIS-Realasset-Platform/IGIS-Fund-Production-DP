@@ -53,9 +53,8 @@ import Comments from './src/components/system/WorkFeedComments.jsx';
 const reactions={like:Array.from({length:12},(_,i)=>i+'@example.com'),check:Array.from({length:12},(_,i)=>i+'@example.com')};
 createRoot(document.getElementById('root')).render(<main className="px-4"><section aria-label="상세 검증" style={{marginLeft:9,marginRight:9}} className="border px-2 py-4">
 <p>모바일 상세 본문</p>
-<Actions mobileMode isOwner status="검토중" onStatusChange={value=>window.statusChange=value} onEdit={()=>window.editAction=true} onDelete={()=>window.deleteAction=true}/>
-<div className="mt-5 flex flex-wrap items-center gap-4">{['like','check'].map(type=><Reaction key={type} mobileMode type={type} reactions={reactions} pilotMembers={[]} onToggle={()=>{}}/>)}</div>
-<Comments mobileMode comments={[{id:'test',author:'검증 사용자',author_email:'test@example.com',created_at:'2026-11-09',text:'댓글 본문',reactions}]} actorEmail="test@example.com" members={[]} onSave={text=>{window.savedComment=text;}} onEdit={()=>{}} onDelete={()=>{}} onReact={()=>{}} renderText={text=>text}/>
+<div className="mt-5 flex min-w-0 items-center gap-2">{['like','check'].map(type=><Reaction key={type} mobileMode type={type} reactions={reactions} pilotMembers={[]} onToggle={()=>{}}/>)}<span className="ml-auto shrink-0 text-[11px]">댓글 12</span></div>
+<Comments mobileMode beforeComposer={<Actions mobileMode isOwner status="검토중" onStatusChange={value=>window.statusChange=value} onEdit={()=>window.editAction=true} onDelete={()=>window.deleteAction=true}/>} comments={[{id:'test',author:'검증 사용자',author_email:'test@example.com',created_at:'2026-11-09',text:'댓글 본문',reactions}]} actorEmail="test@example.com" members={[]} onSave={text=>{window.savedComment=text;}} onEdit={()=>{}} onDelete={()=>{}} onReact={()=>{}} renderText={text=>text}/>
 </section></main>);`,resolveDir:process.cwd(),loader:'jsx'},bundle:true,write:false,format:'iife',platform:'browser',define:{'import.meta.env.BASE_URL':'"/"','process.env.NODE_ENV':'"production"'}});
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 try {
@@ -161,6 +160,13 @@ try {
   await page.getByRole('button',{name:'댓글 등록',exact:true}).click();
   assert.equal(await page.evaluate(()=>window.savedComment),'모바일 댓글 검증');
   await checkBounds('detail actions '+width);
+  const status=await page.getByLabel('게시글 진행상태 변경').locator('..').boundingBox();
+  const edit=await page.getByRole('button',{name:'수정하기',exact:true}).boundingBox();
+  const remove=await page.getByRole('button',{name:'삭제',exact:true}).last().boundingBox();
+  assert.equal(status.y,edit.y);assert.equal(edit.y,remove.y);
+  const input=await page.getByLabel('댓글 작성').boundingBox();
+  assert(input.y>=edit.y+edit.height,'Actions immediately precede the comment input');
+  assert.equal((await page.getByRole('button',{name:'좋아요',exact:true}).first().boundingBox()).height,28,'Compact mobile reaction height');
   const overlaps=await page.getByLabel('상세 검증',{exact:true}).evaluate(root=>{
    const controls=[...root.querySelectorAll('button,select,textarea')].map(el=>({name:el.getAttribute('aria-label')||el.textContent,box:el.getBoundingClientRect()}));
    const failures=[];const bounds=root.getBoundingClientRect();
