@@ -1,4 +1,5 @@
 import { readWorkFeedLocation, writeWorkFeedLocation } from '../../../utils/workFeedLocation';
+import { maskCommitteePostForPreview } from '../../../utils/workFeedPreview';
 import WorkFeedMobileFooter from '../WorkFeedMobileFooter';
 import WorkFeedPostActions from '../WorkFeedPostActions';
 import WorkFeedSearchField from '../WorkFeedSearchField';
@@ -496,7 +497,7 @@ const renderSystemLogChanges = (rawText) => {
     );
 };
 
-export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null, canCreate = true, initialFeedResult = null, searchPortalTarget = null, mobileSearchOpen = true }) {
+export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null, canCreate = true, initialFeedResult = null, searchPortalTarget = null, mobileSearchOpen = true, previewDenied = false }) {
     const { user, memberInfo } = useAuth();
     const userId = user?.id;
     const [loadError, setLoadError] = useState(Boolean(initialFeedResult?.error));
@@ -506,7 +507,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     
     // Logs State
     const [isLoading, setIsLoading] = useState(!initialFeedResult);
-    const [logs, setLogs] = useState(() => initialFeedResult?.logs || []);
+    const [sourceLogs, setLogs] = useState(() => initialFeedResult?.logs || []);
+    const logs = React.useMemo(() => previewDenied && feedKind === 'committee'
+        ? sourceLogs.map(maskCommitteePostForPreview) : sourceLogs, [sourceLogs, previewDenied, feedKind]);
     const [logsViewMode, setLogsViewMode] = useState(feedKind ? 'full' : 'summary');
     const [currentPage, setCurrentPage] = useState(1);
     const [expandedLogs, setExpandedLogs] = useState({});
