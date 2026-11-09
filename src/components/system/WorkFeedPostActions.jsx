@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default function WorkFeedPostActions({ mobileMode = false, isOwner, status, pending, error, onStatusChange, onEdit, onDelete }) {
+    if (mobileMode) return isOwner ? <div className="grid shrink-0 grid-cols-2 gap-1">
+        <button type="button" onClick={onEdit} className="h-7 cursor-pointer rounded-[7px] border border-[#444] px-2 text-[11px] text-[#A1A1AA] hover:text-white">수정하기</button>
+        <button type="button" onClick={onDelete} className="h-7 cursor-pointer rounded-[7px] border border-[#5a3937] px-2 text-[11px] text-[#cc8580] hover:bg-[#333]">삭제</button>
+    </div> : null;
     return <div className={mobileMode ? 'grid min-w-0 grid-cols-3 items-center gap-1' : 'flex shrink-0 flex-wrap items-center justify-end gap-2'}>
         <label className={`flex items-center rounded-[7px] border border-[#3e566b] bg-[#24313b] ${mobileMode ? 'h-8 min-w-0 flex-col justify-center gap-0 px-1' : 'h-8 gap-2 px-2'}`}>
             <span className={`shrink-0 font-bold text-[#8eb8dc] ${mobileMode ? "text-[9px] leading-[10px]" : "text-[11px]"}`}>진행상태</span>

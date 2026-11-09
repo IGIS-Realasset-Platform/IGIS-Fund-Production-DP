@@ -47,14 +47,12 @@ const headerBundle = await build({
 });
 const detailBundle = await build({stdin:{contents:`
 import React from 'react';import {createRoot} from 'react-dom/client';
-import Actions from './src/components/system/WorkFeedPostActions.jsx';
-import Reaction from './src/components/system/WorkFeedReactions.jsx';
+import Footer from './src/components/system/WorkFeedMobileFooter.jsx';
 import Comments from './src/components/system/WorkFeedComments.jsx';
 const reactions={like:Array.from({length:12},(_,i)=>i+'@example.com'),check:Array.from({length:12},(_,i)=>i+'@example.com')};
 createRoot(document.getElementById('root')).render(<main className="px-4"><div style={{paddingLeft:21,paddingRight:21}}><p data-testid="list-text">목록 텍스트</p></div><section aria-label="상세 검증" style={{marginLeft:21,marginRight:21}} className="py-4">
 <p data-testid="detail-text">모바일 상세 본문</p>
-<div className="mt-5 flex min-w-0 items-center gap-2">{['like','check'].map(type=><Reaction key={type} mobileMode type={type} reactions={reactions} pilotMembers={[]} onToggle={()=>{}}/>)}<span className="ml-auto shrink-0 text-[11px]">댓글 12</span></div>
-<Actions mobileMode isOwner status="검토중" onStatusChange={value=>window.statusChange=value} onEdit={()=>window.editAction=true} onDelete={()=>window.deleteAction=true}/>
+<Footer log={{writer_staff_id:'test@example.com',metadata:{reactions,comments:Array.from({length:12},(_,id)=>({id}))}}} actorEmail="test@example.com" members={[]} permissionText="이철승, 강순용, 권순일, 양준모, CM, 공간솔루션" onReact={()=>{}} onEdit={()=>window.editAction=true} onDelete={()=>window.deleteAction=true}/>
 <Comments mobileMode comments={[{id:'test',author:'검증 사용자',author_email:'test@example.com',created_at:'2026-11-09',text:'댓글 본문',reactions}]} actorEmail="test@example.com" members={[]} onSave={text=>{window.savedComment=text;}} onEdit={()=>{}} onDelete={()=>{}} onReact={()=>{}} renderText={text=>text}/>
 </section></main>);`,resolveDir:process.cwd(),loader:'jsx'},bundle:true,write:false,format:'iife',platform:'browser',define:{'import.meta.env.BASE_URL':'"/"','process.env.NODE_ENV':'"production"'}});
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
@@ -153,8 +151,7 @@ try {
   await page.setViewportSize({width,height:1200});
   await page.setContent('<html><head><style>'+css+'</style></head><body style="margin:0"><div id="root"></div></body></html>');
   await page.addScriptTag({content:detailBundle.outputFiles[0].text});
-  await page.getByLabel('게시글 진행상태 변경').selectOption('완료');
-  assert.equal(await page.evaluate(()=>window.statusChange),'완료');
+  assert.equal(await page.getByLabel('게시글 진행상태 변경').count(),0,'No duplicate status control in mobile detail');
   await page.getByRole('button',{name:'수정하기',exact:true}).click();
   assert.equal(await page.evaluate(()=>window.editAction),true);
   await page.getByLabel('댓글 작성').fill('모바일 댓글 검증');
@@ -165,11 +162,16 @@ try {
   const detailText=await page.getByTestId('detail-text').boundingBox();
   assert.equal(detailText.x,listText.x,'Detail text left edge matches list');
   assert.equal(detailText.width,listText.width,'Detail text right edge matches list');
-  const status=await page.getByLabel('게시글 진행상태 변경').locator('..').boundingBox();
+  const like=await page.getByRole('button',{name:'좋아요',exact:true}).first().boundingBox();
   const edit=await page.getByRole('button',{name:'수정하기',exact:true}).boundingBox();
   const remove=await page.getByRole('button',{name:'수정하기',exact:true}).locator('..').getByRole('button',{name:'삭제',exact:true}).boundingBox();
-  assert.equal(status.y,edit.y);assert.equal(edit.y,remove.y);
-  assert(Math.abs(status.width-edit.width)<1 && Math.abs(edit.width-remove.width)<1,'Mobile management controls have equal widths');
+  assert.equal(like.y,edit.y);assert.equal(edit.y,remove.y);
+  assert(Math.abs(edit.width-remove.width)<1,'Mobile edit/delete controls have equal widths');
+  const permissions=await page.getByText(/^열람권한:/).boundingBox();
+  const count=await page.getByText('댓글 12',{exact:true}).boundingBox();
+  assert.equal(permissions.y,count.y,'Comment count shares permission row');
+  assert(count.x>=permissions.x+permissions.width,'Comment count is right-aligned beside permissions');
+  assert(like.y>=permissions.y+permissions.height,'Reactions are below permissions');
   const input=await page.getByLabel('댓글 작성').boundingBox();
   assert(input.y>=edit.y+edit.height,'Actions precede the comment input');
   const comment=await page.getByText('댓글 본문',{exact:true}).boundingBox();
