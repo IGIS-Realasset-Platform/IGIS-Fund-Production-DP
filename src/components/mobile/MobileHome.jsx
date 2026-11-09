@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { supabase } from '../../utils/supabaseClient';
 import {
     comparePmoTasksByPriority,
-    getPmoMeetingGrade,
     getStoredPmoPriorityScore,
     matchesPmoStatusFilter,
     parseTaskBoolean,
@@ -12,13 +10,6 @@ import {
     fetchDirectorWorkflowLogs,
     getDirectorStaffCell,
 } from '../../utils/directorWorkflowLogs';
-
-const GRADE_CONFIG = [
-    { grade: 'A', label: '즉시회의', color: '#f87171' },
-    { grade: 'B', label: '회의점검', color: '#fbbf24' },
-    { grade: 'C', label: '주간관리', color: '#60a5fa' },
-    { grade: 'D', label: '대기', color: '#86868B' },
-];
 
 const HOME_LIST_LIMIT = 5;
 
@@ -139,7 +130,6 @@ const getTaskGuidance = (task, memberInfo) => {
 export default function MobileHome({ memberInfo, onNavigateToTab }) {
     const [tasks, setTasks] = useState([]);
     const [directorReports, setDirectorReports] = useState([]);
-    const [selectedSummaryGrade, setSelectedSummaryGrade] = useState(null);
     const [taskLoading, setTaskLoading] = useState(true);
     const [reportLoading, setReportLoading] = useState(true);
     const [taskError, setTaskError] = useState('');
@@ -255,21 +245,6 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
     }, [activeTasks, memberInfo]);
 
 
-    const gradeCounts = useMemo(() => activeTasks.reduce((counts, task) => {
-        const grade = getPmoMeetingGrade(getStoredPmoPriorityScore(task));
-        counts[grade] += 1;
-        return counts;
-    }, { A: 0, B: 0, C: 0, D: 0 }), [activeTasks]);
-
-    const selectedGradeTasks = useMemo(() => {
-        if (!selectedSummaryGrade) return [];
-        return activeTasks
-            .filter((task) => getPmoMeetingGrade(getStoredPmoPriorityScore(task)) === selectedSummaryGrade)
-            .sort(comparePmoTasksByPriority);
-    }, [activeTasks, selectedSummaryGrade]);
-
-    const selectedGradeConfig = GRADE_CONFIG.find(({ grade }) => grade === selectedSummaryGrade);
-
     const openTaskBoard = (taskId = null) => {
         onNavigateToTab(1, null, {
             viewMode: 'pmo',
@@ -295,148 +270,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
                 </p>
             </header>
 
-            <section className="w-full rounded-[18px] border border-[#3c3c3c] bg-[#272726] px-3.5 py-3">
-                <div className="flex items-center justify-between">
-                    <span className="text-[12px] font-semibold text-[#A1A1AA]">미완료 통합업무</span>
-                    <strong className="text-[18px] font-bold text-white">
-                        {taskLoading ? '-' : `${activeTasks.length}건`}
-                    </strong>
-                </div>
-
-                <div className="mt-2.5 grid grid-cols-4 divide-x divide-white/[0.07]">
-                    {GRADE_CONFIG.map(({ grade, label, color }) => {
-                        const isSelected = selectedSummaryGrade === grade;
-                        return (
-                        <button
-                            key={grade}
-                            type="button"
-                            aria-expanded={isSelected}
-                            onClick={() => setSelectedSummaryGrade(isSelected ? null : grade)}
-                            className={`mx-1 rounded-[9px] px-1 py-1.5 text-center transition-colors first:ml-0 last:mr-0 ${
-                                isSelected ? 'bg-white/[0.08]' : 'active:bg-white/[0.05]'
-                            }`}
-                        >
-                            <div className="flex items-baseline justify-center gap-1">
-                                <span className="text-[15px] font-black" style={{ color }}>{grade}</span>
-                                <strong className="text-[15px] font-bold text-white">
-                                    {taskLoading ? '-' : gradeCounts[grade]}
-                                </strong>
-                            </div>
-                            <span className={`mt-0.5 block truncate text-[10px] ${isSelected ? 'text-white' : 'text-[#86868B]'}`}>
-                                {label}
-                            </span>
-                        </button>
-                        );
-                    })}
-                </div>
-
-                {!taskLoading && activeTasks.length > 0 && (
-                    <div className="mt-2.5 flex h-1.5 overflow-hidden rounded-full bg-[#1A1A1A]">
-                        {GRADE_CONFIG.map(({ grade, color }) => gradeCounts[grade] > 0 && (
-                            <span
-                                key={grade}
-                                style={{ backgroundColor: color, flexGrow: gradeCounts[grade] }}
-                            />
-                        ))}
-                    </div>
-                )}
-
-                <AnimatePresence mode="wait">
-                    {selectedGradeConfig && (
-                    <motion.div
-                        key={selectedGradeConfig.grade}
-                        initial={{ height: 0, opacity: 0, y: -8 }}
-                        animate={{
-                            height: 'auto',
-                            opacity: 1,
-                            y: 0,
-                            transition: {
-                                height: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
-                                opacity: { duration: 0.2, delay: 0.04 },
-                                y: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
-                            },
-                        }}
-                        exit={{
-                            height: 0,
-                            opacity: 0,
-                            y: -4,
-                            transition: { duration: 0.13, ease: 'easeIn' },
-                        }}
-                        className="overflow-hidden"
-                    >
-                    <div className="mt-3 border-t border-white/[0.07] pt-2.5">
-                        <div className="mb-2 flex items-center justify-between gap-3">
-                            <div className="flex min-w-0 items-center gap-2">
-                                <span
-                                    className="h-2 w-2 shrink-0 rounded-full"
-                                    style={{ backgroundColor: selectedGradeConfig.color }}
-                                />
-                                <strong className="truncate text-[12px] text-white">
-                                    {selectedGradeConfig.grade} · {selectedGradeConfig.label}
-                                </strong>
-                                <span className="shrink-0 text-[10px] text-[#86868B]">
-                                    {selectedGradeTasks.length}건
-                                </span>
-                            </div>
-                            <button
-                                type="button"
-                                onClick={() => setSelectedSummaryGrade(null)}
-                                className="shrink-0 text-[10px] font-semibold text-[#86868B]"
-                            >
-                                접기
-                            </button>
-                        </div>
-
-                        {selectedGradeTasks.length === 0 ? (
-                            <div className="rounded-[10px] border border-dashed border-[#3c3c3c] py-4 text-center text-[11px] text-[#86868B]">
-                                해당 등급의 미완료 업무가 없습니다.
-                            </div>
-                        ) : (
-                            <div className="flex flex-col gap-1.5">
-                                {selectedGradeTasks.map((task) => {
-                                    const priorityScore = getStoredPmoPriorityScore(task);
-                                    const leadDepartment = task.lead_dept?.dept_name || task.lead_dept_code || '실행주관 미정';
-                                    return (
-                                        <button
-                                            key={task.id}
-                                            type="button"
-                                            onClick={() => openTaskBoard(task.id)}
-                                            className="w-full rounded-[11px] border border-white/[0.06] bg-[#1F1F1E] px-3 py-2 text-left active:bg-[#30302f]"
-                                        >
-                                            <div className="flex items-start justify-between gap-3">
-                                                <div className="min-w-0">
-                                                    <span className="block truncate text-[9px] font-bold text-[#60a5fa]">
-                                                        {task.project_code || '전사'}
-                                                    </span>
-                                                    <strong className="mt-0.5 block line-clamp-2 break-keep text-[12px] leading-[1.35] text-white">
-                                                        {task.task_name || '제목 없음'}
-                                                    </strong>
-                                                </div>
-                                                <span
-                                                    className="shrink-0 text-[11px] font-bold"
-                                                    style={{ color: selectedGradeConfig.color }}
-                                                >
-                                                    {priorityScore}점
-                                                </span>
-                                            </div>
-                                            <div className="mt-1.5 flex items-center justify-between gap-3 text-[9px] text-[#86868B]">
-                                                <span className="truncate">{leadDepartment}</span>
-                                                <span className={`shrink-0 font-semibold ${task.status === '지연' ? 'text-[#f87171]' : 'text-[#D1D1D6]'}`}>
-                                                    {getDueLabel(task.due_date, task.status)}
-                                                </span>
-                                            </div>
-                                        </button>
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </div>
-                    </motion.div>
-                    )}
-                </AnimatePresence>
-            </section>
-
-            <section className="mt-5">
+            <section>
                 <div className="mb-2.5 flex items-center justify-between">
                     <div>
                         <h2 className="text-[16px] font-bold text-white">통합업무</h2>
