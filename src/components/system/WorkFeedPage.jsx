@@ -8,7 +8,7 @@ import { fetchWorkspaceDirectoryData } from '../../utils/workspaceDirectoryCache
 
 const loadWorkFeed = createWorkFeedLoader(supabase);
 
-export default function WorkFeedPage({ feedKind = 'committee', mobileMode = false, embedded = false, showDescription = true }) {
+export default function WorkFeedPage({ feedKind = 'committee', mobileMode = false, embedded = false, showDescription = true, searchPortalTarget = null }) {
     const { user, memberInfo, loading } = useAuth();
     const [result, setResult] = useState(null);
     const scope = JSON.stringify([user?.id, feedKind, memberInfo?.is_active]);
@@ -36,7 +36,7 @@ export default function WorkFeedPage({ feedKind = 'committee', mobileMode = fals
             {!current || (current.access && !memberInfo) ? (
                 <div className="py-[48px] text-center text-[#A1A1AA]">불러오는 중입니다...</div>
             ) : current.access ? (
-                <WorkspaceActivityLog mobileMode={mobileMode} key={scope} initialFeedResult={current.initialFeedResult} canCreate={current.canCreate} workspaceCode={feed.code} workspaceLabel={feed.title} feedKind={feedKind} />
+                <WorkspaceActivityLog searchPortalTarget={searchPortalTarget} mobileMode={mobileMode} key={scope} initialFeedResult={current.initialFeedResult} canCreate={current.canCreate} workspaceCode={feed.code} workspaceLabel={feed.title} feedKind={feedKind} />
             ) : (
                 <div role="alert" className="rounded-[16px] border border-[#333] bg-[#252525] p-[40px] text-center text-[#A1A1AA]">
                     {current.accessError ? '접근 권한을 확인하지 못했습니다. 새로고침 후 다시 시도해 주세요.' : '접근 권한이 없습니다.'}

@@ -492,7 +492,7 @@ const renderSystemLogChanges = (rawText) => {
     );
 };
 
-export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null, canCreate = true, initialFeedResult = null }) {
+export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null, canCreate = true, initialFeedResult = null, searchPortalTarget = null }) {
     const { user, memberInfo } = useAuth();
     const userId = user?.id;
     const [loadError, setLoadError] = useState(Boolean(initialFeedResult?.error));
@@ -1237,23 +1237,20 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         };
     }, [displayedLogLinkKey, isTaskBoard, feedKind]);
 
-    return (
-        <div className="w-full flex flex-col mt-0">
-            {loadError && <div role="alert" className="mb-4 text-[#d1a5a5]">게시글을 불러오지 못했습니다. <button type="button" onClick={() => fetchLogs()} className="underline cursor-pointer">다시 시도</button></div>}
-            {/* Log Viewer */}
-            {!isTaskBoard && (
-                <div className={feedKind ? "relative flex justify-end items-center mb-[12px]" : "flex justify-between items-center mt-[-14px] mb-[12px]"}>
+    const searchBar = !isTaskBoard && (
+                <div className={searchPortalTarget ? "flex items-center" : feedKind ? "relative flex justify-end items-center mb-[12px]" : "flex justify-between items-center mt-[-14px] mb-[12px]"}>
                     {!feedKind && <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
                         {getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
                     </h2>}
-                    <div className={`flex items-center gap-[12px] ${feedKind ? 'md:absolute md:right-0 md:bottom-0' : ''}`}>
+                    <div className={`flex items-center gap-[12px] ${feedKind && !searchPortalTarget ? 'md:absolute md:right-0 md:bottom-0' : ''}`}>
                         {/* Search Box */}
                         <div className="relative">
                             <div className="absolute inset-y-0 left-[12px] flex items-center pointer-events-none">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                             </div>
                             <input 
-                                type="text" 
+                                type="text"
+                                aria-label="게시글 검색"
                                 placeholder="검색어 입력..." 
                                 value={logSearchQuery}
                                 onChange={(e) => setLogSearchQuery(e.target.value)}
@@ -1269,7 +1266,13 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         </button>)}
                     </div>
                 </div>
-            )}
+            );
+
+    return (
+        <div className="w-full flex flex-col mt-0">
+            {loadError && <div role="alert" className="mb-4 text-[#d1a5a5]">게시글을 불러오지 못했습니다. <button type="button" onClick={() => fetchLogs()} className="underline cursor-pointer">다시 시도</button></div>}
+            {/* Log Viewer */}
+            {searchPortalTarget ? createPortal(searchBar, searchPortalTarget) : searchBar}
             
             
             <div className={isTaskBoard ? "mt-0 mb-0" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>

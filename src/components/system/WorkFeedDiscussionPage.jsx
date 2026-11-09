@@ -6,6 +6,7 @@ import WorkFeedPage from './WorkFeedPage';
 
 export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false }) {
     const { memberInfo } = useAuth();
+    const [searchTarget, setSearchTarget] = useState(null);
     const [selectedFeed, setSelectedFeed] = useState(initialFeed || null);
     const feedKind = resolveWorkFeed(memberInfo, selectedFeed);
     const selectFeed = (kind) => {
@@ -23,11 +24,12 @@ export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false
         <header className={mobileMode ? 'mb-4' : 'mb-[6px] flex items-center gap-4'}>
             <h1 className={mobileMode ? 'text-[22px] font-bold text-white' : 'shrink-0 text-[32px] font-bold text-white'}>논의/협업</h1>
             {!mobileMode && tabs}
-            {!mobileMode && <p className="min-w-0 text-[16px] leading-[26px] text-[#86868B]">{WORK_FEEDS[feedKind].description}</p>}
+            {!mobileMode && <p className="min-w-0 flex-1 text-[16px] leading-[26px] text-[#86868B]">{WORK_FEEDS[feedKind].description}</p>}
+            {!mobileMode && <div ref={setSearchTarget} className="ml-auto w-[180px] shrink-0" />}
         </header>
         {mobileMode && tabs}
         <div role="tabpanel" id="work-feed-panel" aria-labelledby={'feed-tab-' + feedKind}>
-            <WorkFeedPage key={feedKind} feedKind={feedKind} mobileMode={mobileMode} embedded showDescription={mobileMode} />
+            <WorkFeedPage key={feedKind} feedKind={feedKind} mobileMode={mobileMode} embedded showDescription={mobileMode} searchPortalTarget={mobileMode ? null : searchTarget} />
         </div>
     </section>;
 }
