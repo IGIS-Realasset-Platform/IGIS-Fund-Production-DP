@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
+import { normalizeStakeholder, findRegisteredStakeholder, registerStakeholder } from '../../utils/stakeholderRegistration';
 import { executeWithTimeout } from '../../utils/supabaseHelper';
 import { motion, AnimatePresence } from 'framer-motion';
 import { notifyMembersOnLogCreation } from '../../utils/notificationHelpers';
@@ -51,6 +52,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
     
     // Modal states
     const [showNewStakeholderModal, setShowNewStakeholderModal] = useState(false);
+    const [stakeholderError, setStakeholderError] = useState('');
+    const registrationPending = React.useRef(false);
+    const initializedEditLog = React.useRef(null);
     const [showCompanyWarningModal, setShowCompanyWarningModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showTaskPickerModal, setShowTaskPickerModal] = useState(false);
@@ -139,7 +143,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
 
     // Edit Mode Initialization
     useEffect(() => {
-        if (editMode && initialData) {
+        if (editMode && initialData && initializedEditLog.current !== initialData.log_id) {
+            initializedEditLog.current = initialData.log_id;
             setTitle(initialData.summary || '');
             setContent(initialData.raw_text || '');
             if (initialData.work_date) {
@@ -165,8 +170,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                     setVisibilityIndividuals(permissions.individuals.map(contact_name => ({contact_name})));
                 } else if (meta.permissions) {
                     if (meta.permissions.groups) setVisibilityGroups(meta.permissions.groups);
-                    if (meta.permissions.individuals && masterStakeholders && masterStakeholders.length > 0) {
-                        const indivs = meta.permissions.individuals.map(name => masterStakeholders.find(s => s.contact_name === name)).filter(Boolean);
+                    if (meta.permissions.individuals) {
+                        const indivs = meta.permissions.individuals.map(name => (masterStakeholders || []).find(s => s.contact_name === name) || { contact_name: name });
                         setVisibilityIndividuals(indivs);
                     }
                 }
@@ -418,41 +423,42 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
     };
 
     const registerMasterStakeholder = async () => {
-
-        if (!stakeholderCat) return alert('이해관계자 분류를 선택해주세요.');
+        if (registrationPending.current) return;
+        const input = normalizeStakeholder(companyQuery, contactQuery, stakeholderCat);
+        setStakeholderError('');
+        if (!input.company_name || !input.role_category) {
+            setStakeholderError(!input.company_name ? '회사·기관명을 입력해주세요.' : '이해관계자 분류를 선택해주세요.');
+            return;
+        }
+        registrationPending.current = true;
         setIsSubmitting(true);
         try {
-            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 10000));
-            const insertPromise = supabase.from('iota_stakeholder_master').insert({
-                company_name: companyQuery,
-                contact_name: contactQuery || null,
-                role_category: stakeholderCat || null
-            });
-
-            const result = await Promise.race([insertPromise, timeoutPromise]);
-            const masterError = result.error;
-
-            if (masterError && masterError.code !== '23505') {
-                console.error('Master insert error:', masterError);
-                alert('이해관계자 등록 중 오류가 발생했습니다.');
-            } else {
-                if(fetchMasterStakeholders) await fetchMasterStakeholders(true);
-                setShowNewStakeholderModal(false);
-            }
-        } catch (err) {
-            console.error('Master insert exception:', err);
-            alert('데이터베이스 연결 지연이 발생했습니다. 새로고침 후 다시 시도해주세요.');
+            const registered = await registerStakeholder(supabase, input);
             setShowNewStakeholderModal(false);
+            // Registration must finish before saving the post. Do not stop at closing the modal.
+            if ((title.trim() || isTaskBoard) && content.trim()) {
+                await processSubmit(registered);
+            }
+            // Directory refresh failure must not turn a successful registration into a failed save.
+            Promise.resolve(fetchMasterStakeholders?.(true)).catch(error => console.error('Stakeholder refresh failed:', error));
+        } catch (error) {
+            console.error('Stakeholder registration failed:', error);
+            setStakeholderError(`이해관계자를 등록하지 못했습니다. ${error.message || '잠시 후 다시 시도해주세요.'}`);
         } finally {
+            registrationPending.current = false;
             setIsSubmitting(false);
         }
     };
 
-    const processSubmit = async () => {
+    const processSubmit = async (registeredStakeholder = null) => {
         setIsSubmitting(true);
         setShowNewStakeholderModal(false);
 
         try {
+            const stakeholder = normalizeStakeholder(companyQuery, contactQuery, stakeholderCat);
+            const company = stakeholder.company_name;
+            const contact = stakeholder.contact_name;
+            const category = stakeholder.role_category || registeredStakeholder?.role_category || '';
             const isEditing = editMode && initialData;
             const logId = isEditing ? initialData.log_id : `iota_issue_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
             const writerId = isEditing ? initialData.writer_staff_id : (memberInfo?.email || 'unknown');
@@ -489,9 +495,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
             if (feedKind) {
                 await mutateWorkFeed(feedKind, 'save', logId, {
                     ...logData,
-                    stakeholders: (stakeholderCat || companyQuery || contactQuery) ? [{
-                        sh_name: [companyQuery, contactQuery].filter(Boolean).join(' - '),
-                        role_category: stakeholderCat,
+                    stakeholders: (category || company || contact) ? [{
+                        sh_name: [company, contact].filter(Boolean).join(' - '),
+                        role_category: category,
                     }] : [],
                 });
             } else {
@@ -545,31 +551,14 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                 }
             }
 
-            // 4. Update master DB if new
-            if (companyQuery) {
-                const existing = masterStakeholders.find(s => s.company_name === companyQuery && (s.contact_name || '') === (contactQuery || ''));
-                if (!existing) {
-                    const { error: masterError } = await executeWithTimeout(supabase.from('iota_stakeholder_master').insert({
-                        company_name: companyQuery,
-                        contact_name: contactQuery || null,
-                        role_category: stakeholderCat || null
-                    }));
-                    if (masterError && masterError.code !== '23505') {
-                        console.error('Master insert error:', masterError);
-                    } else {
-                        if(fetchMasterStakeholders) fetchMasterStakeholders(true);
-                    }
-                }
-            }
-
             // 5. Insert into iota_seoul_log_stakeholders
-            if (stakeholderCat || companyQuery || contactQuery) {
-                const combinedName = [companyQuery, contactQuery].filter(Boolean).join(' - ');
+            if (category || company || contact) {
+                const combinedName = [company, contact].filter(Boolean).join(' - ');
                 const { error: shError } = await executeWithTimeout(supabase.from('iota_seoul_log_stakeholders').insert({
                     sh_id: `sh_${logId}`,
                     log_id: logId,
                     sh_name: combinedName || null,
-                    role_category: stakeholderCat
+                    role_category: category
                 }));
                 if (shError) throw shError;
             }
@@ -582,6 +571,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                 setContent('');
                 setCompanyQuery('');
                 setContactQuery('');
+                setStakeholderCat('');
                 setVisibilityGroups([]);
                 setVisibilityIndividuals(feedKind === 'committee' ? COMMITTEE_READERS.map(contact_name => ({contact_name})) : []);
                 setMentionedEntities([]);
@@ -644,24 +634,23 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
         }
         if (!resolvedTitle.trim() || !content.trim()) return;
 
-        if (feedKind) { await processSubmit(); return; }
-
-        if (!companyQuery && contactQuery) {
+        if (isSubmitting || registrationPending.current) return;
+        const input = normalizeStakeholder(companyQuery, contactQuery, stakeholderCat);
+        setStakeholderError('');
+        if (!input.company_name && input.contact_name) {
             setShowCompanyWarningModal(true);
             return;
         }
 
-        if (companyQuery || contactQuery) {
-            const existing = masterStakeholders.find(s => 
-                (companyQuery ? s.company_name === companyQuery : true) && 
-                (contactQuery ? s.contact_name === contactQuery : true)
-            );
+        let existing = null;
+        if (input.company_name || input.contact_name) {
+            existing = findRegisteredStakeholder(masterStakeholders, input);
             if (!existing) {
                 setShowNewStakeholderModal(true);
                 return;
             }
         }
-        await processSubmit();
+        await processSubmit(existing);
     };
 
     const mentionCandidates = buildMentionCandidates(pilotMembers);
@@ -1466,16 +1455,17 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
             )}
 
             {showNewStakeholderModal && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60">
+                <div role="dialog" aria-modal="true" aria-label="신규 이해관계자 등록" className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 px-3">
                     <div className="bg-[#222] border border-[#333] rounded-[16px] w-[320px] p-[24px] shadow-2xl flex flex-col items-center">
                         <div className="w-[48px] h-[48px] rounded-full bg-white/10 flex items-center justify-center mb-[16px]">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2997ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                         </div>
                         <h3 className="text-[16px] font-bold text-white mb-[8px]">신규 이해관계자 등록</h3>
                         <p className="text-[13px] text-[#86868B] text-center mb-[20px]">입력하신 정보가 마스터 데이터에 없습니다.<br/>신규 등록 후 로그를 저장하시겠습니까?</p>
+                        <p className="mb-4 w-full break-words text-[13px] text-[#ddd]">{[companyQuery.trim(), contactQuery.trim()].filter(Boolean).join(' · ')}</p>
                         
                         <div className="w-full mb-[24px] relative">
-                            <select 
+                            <select aria-label="신규 이해관계자 분류"
                                 value={stakeholderCat}
                                 onChange={(e) => setStakeholderCat(e.target.value)}
                                 className="w-full bg-[#1A1A1A] border border-[#333] rounded-[8px] pl-[12px] pr-[30px] py-[10px] text-[13px] text-white outline-none focus:border-[#2997ff] appearance-none cursor-pointer"
@@ -1492,9 +1482,10 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                             </div>
                         </div>
 
+                        {stakeholderError && <p role="alert" className="mb-3 w-full text-[12px] text-[#df827e]">{stakeholderError}</p>}
                         <div className="flex items-center gap-[12px] w-full">
-                            <button onClick={() => setShowNewStakeholderModal(false)} className="flex-1 py-[10px] rounded-[8px] bg-[#333] hover:bg-[#444] text-white text-[13px] font-medium transition-colors">취소</button>
-                            <button onClick={registerMasterStakeholder} disabled={isSubmitting} className="flex-1 py-[10px] rounded-[8px] bg-[#2997ff] hover:bg-[#0071e3] text-white text-[13px] font-bold transition-colors">{isSubmitting ? '등록 중...' : '등록 후 저장'}</button>
+                            <button type="button" disabled={isSubmitting} onClick={() => setShowNewStakeholderModal(false)} className="flex-1 py-[10px] rounded-[8px] bg-[#333] hover:bg-[#444] text-white text-[13px] font-medium transition-colors">취소</button>
+                            <button type="button" onClick={registerMasterStakeholder} disabled={isSubmitting} className="flex-1 py-[10px] rounded-[8px] bg-[#2997ff] hover:bg-[#0071e3] text-white text-[13px] font-bold transition-colors">{isSubmitting ? '등록 중...' : '등록 후 저장'}</button>
                         </div>
                     </div>
                 </div>
