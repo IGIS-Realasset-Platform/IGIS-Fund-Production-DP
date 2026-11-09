@@ -45,6 +45,18 @@ const headerBundle = await build({
   builder.onLoad({filter:/.*/,namespace:'fixture'},({path})=>({loader:'jsx',resolveDir:process.cwd(),contents:path==='database' ? 'export const supabase={};' : path==='auth' ? 'export const useAuth=()=>({memberInfo:{staff_name:"테스트 사용자"}});' : `import React from 'react';export default function Feed({mobileSearchOpen}){return mobileSearchOpen ? <input aria-label="게시글 검색" autoFocus/> : null;}`}));
  }}]
 });
+const detailBundle = await build({stdin:{contents:`
+import React from 'react';import {createRoot} from 'react-dom/client';
+import Actions from './src/components/system/WorkFeedPostActions.jsx';
+import Reaction from './src/components/system/WorkFeedReactions.jsx';
+import Comments from './src/components/system/WorkFeedComments.jsx';
+const reactions={like:Array.from({length:12},(_,i)=>i+'@example.com'),check:Array.from({length:12},(_,i)=>i+'@example.com')};
+createRoot(document.getElementById('root')).render(<main className="px-4"><section aria-label="상세 검증" style={{marginLeft:9,marginRight:9}} className="border px-2 py-4">
+<p>모바일 상세 본문</p>
+<Actions mobileMode isOwner status="검토중" onStatusChange={value=>window.statusChange=value} onEdit={()=>window.editAction=true} onDelete={()=>window.deleteAction=true}/>
+<div className="mt-5 flex flex-wrap items-center gap-4">{['like','check'].map(type=><Reaction key={type} mobileMode type={type} reactions={reactions} pilotMembers={[]} onToggle={()=>{}}/>)}</div>
+<Comments mobileMode comments={[{id:'test',author:'검증 사용자',author_email:'test@example.com',created_at:'2026-11-09',text:'댓글 본문',reactions}]} actorEmail="test@example.com" members={[]} onSave={text=>{window.savedComment=text;}} onEdit={()=>{}} onDelete={()=>{}} onReact={()=>{}} renderText={text=>text}/>
+</section></main>);`,resolveDir:process.cwd(),loader:'jsx'},bundle:true,write:false,format:'iife',platform:'browser',define:{'import.meta.env.BASE_URL':'"/"','process.env.NODE_ENV':'"production"'}});
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 try {
  const page=await browser.newPage();
@@ -137,6 +149,29 @@ try {
   assert.equal(await page.getByLabel('게시글 검색',{exact:true}).count(),0,'Switching tabs closes search');
  }
  console.log('PASS mobile button tabs, search toggle and header bounds');
+ for (const width of [320,375,430]) {
+  await page.setViewportSize({width,height:1200});
+  await page.setContent('<html><head><style>'+css+'</style></head><body style="margin:0"><div id="root"></div></body></html>');
+  await page.addScriptTag({content:detailBundle.outputFiles[0].text});
+  await page.getByLabel('게시글 진행상태 변경').selectOption('완료');
+  assert.equal(await page.evaluate(()=>window.statusChange),'완료');
+  await page.getByRole('button',{name:'수정하기',exact:true}).click();
+  assert.equal(await page.evaluate(()=>window.editAction),true);
+  await page.getByLabel('댓글 작성').fill('모바일 댓글 검증');
+  await page.getByRole('button',{name:'댓글 등록',exact:true}).click();
+  assert.equal(await page.evaluate(()=>window.savedComment),'모바일 댓글 검증');
+  await checkBounds('detail actions '+width);
+  const overlaps=await page.getByLabel('상세 검증',{exact:true}).evaluate(root=>{
+   const controls=[...root.querySelectorAll('button,select,textarea')].map(el=>({name:el.getAttribute('aria-label')||el.textContent,box:el.getBoundingClientRect()}));
+   const failures=[];const bounds=root.getBoundingClientRect();
+   for(let i=0;i<controls.length;i++){
+    const a=controls[i];if(a.box.left<bounds.left||a.box.right>bounds.right)failures.push(a.name+' outside detail');
+    for(let j=i+1;j<controls.length;j++){const b=controls[j];if(Math.min(a.box.right,b.box.right)-Math.max(a.box.left,b.box.left)>1&&Math.min(a.box.bottom,b.box.bottom)-Math.max(a.box.top,b.box.top)>1)failures.push(a.name+' overlaps '+b.name);}
+   }return failures;
+  });
+  assert.deepEqual(overlaps,[],'No detail control overlap at '+width);
+ }
+ console.log('PASS narrow mobile detail actions, reactions and comment submission without overlap');
  assert.deepEqual(errors,[],'No runtime errors');
  console.log('PASS desktop layout and runtime regression');
 } finally { await browser.close(); }

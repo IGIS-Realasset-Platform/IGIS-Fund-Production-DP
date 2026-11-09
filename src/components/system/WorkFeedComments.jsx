@@ -4,7 +4,7 @@ import { buildMentionCandidates } from '../../utils/mentionHelpers';
 import WorkFeedReactionButton from './WorkFeedReactions';
 import { isRecentFeedPost } from '../../utils/workFeedIndicators';
 
-function CommentInput({ label, value, onChange, members, onRefreshDirectory, placeholder, children, editing = false }) {
+function CommentInput({ label, value, onChange, members, onRefreshDirectory, placeholder, children, editing = false, mobileMode = false }) {
     const textarea = useRef(null);
     const [mention, setMention] = useState(null);
     const options = mention ? buildMentionCandidates(members).filter(option => `${option.label} ${option.organization}`.toLowerCase().includes(mention.query.toLowerCase())).slice(0, 8) : [];
@@ -14,7 +14,7 @@ function CommentInput({ label, value, onChange, members, onRefreshDirectory, pla
             const cursor = event.target.selectionStart;
             const match = event.target.value.slice(0, cursor).match(/@([^\s@]*)$/u);
             setMention(match ? { query: match[1], start: match.index, end: cursor } : null);
-        }} onKeyDown={event => { if (event.key === 'Escape') setMention(null); }} placeholder={placeholder} className={editing ? 'min-h-[88px] w-full resize-y rounded-[16px] border border-[#4b5965] bg-[#29292B] px-3 py-2 text-[13px] leading-6 text-white outline-none focus:border-[#6f9fc7]' : 'min-h-[76px] w-full resize-y rounded-[16px] border border-[#3A3A3C] bg-[#29292B] p-3 pr-24 text-[13px] leading-6 text-white outline-none focus:border-[#6f9fc7]'} />
+        }} onKeyDown={event => { if (event.key === 'Escape') setMention(null); }} placeholder={placeholder} className={mobileMode ? 'min-h-[88px] w-full min-w-0 resize-y rounded-[16px] border border-[#3A3A3C] bg-[#29292B] p-3 text-[16px] leading-6 text-white outline-none focus:border-[#6f9fc7]' : editing ? 'min-h-[88px] w-full resize-y rounded-[16px] border border-[#4b5965] bg-[#29292B] px-3 py-2 text-[13px] leading-6 text-white outline-none focus:border-[#6f9fc7]' : 'min-h-[76px] w-full resize-y rounded-[16px] border border-[#3A3A3C] bg-[#29292B] p-3 pr-24 text-[13px] leading-6 text-white outline-none focus:border-[#6f9fc7]'} />
         {options.length > 0 && <div className="absolute bottom-full left-0 z-50 mb-2 max-h-[240px] w-[300px] max-w-full overflow-y-auto rounded-[10px] border border-[#444] bg-[#202020] py-1.5 shadow-2xl">
             {options.map(option => <button key={`${option.type}:${option.label}`} type="button" onMouseDown={event => event.preventDefault()} onClick={() => {
                 const text = `${value.slice(0, mention.start)}@${option.label} ${value.slice(mention.end)}`;
@@ -27,7 +27,7 @@ function CommentInput({ label, value, onChange, members, onRefreshDirectory, pla
     </div>;
 }
 
-export default function WorkFeedComments({ comments = [], actorEmail, members, onRefreshDirectory, onSave, onEdit, onDelete, onReact, renderText }) {
+export default function WorkFeedComments({ comments = [], actorEmail, members, onRefreshDirectory, onSave, onEdit, onDelete, onReact, renderText, mobileMode = false }) {
     const [draft, setDraft] = useState('');
     const [editingId, setEditingId] = useState(null);
     const [editDraft, setEditDraft] = useState('');
@@ -61,15 +61,15 @@ export default function WorkFeedComments({ comments = [], actorEmail, members, o
                         </div>}
                     </div>
                     {editingId === comment.id ? <div className="mt-2">
-                        <CommentInput editing label="댓글 수정" value={editDraft} onChange={setEditDraft} members={members} onRefreshDirectory={onRefreshDirectory} />
+                        <CommentInput mobileMode={mobileMode} editing label="댓글 수정" value={editDraft} onChange={setEditDraft} members={members} onRefreshDirectory={onRefreshDirectory} />
                         <div className="mt-2 flex justify-end gap-2"><button type="button" disabled={pending} onClick={() => setEditingId(null)} className="h-8 rounded-[7px] border border-[#444] px-3 text-[11px] text-[#A1A1AA] hover:bg-[#333] disabled:opacity-40">취소</button><button type="button" disabled={pending || !editDraft.trim()} onClick={() => submit(true)} className="h-8 rounded-[7px] bg-[#3279b4] px-3 text-[11px] font-bold text-white hover:bg-[#3e89c6] disabled:opacity-40">{pending ? '저장 중...' : '저장'}</button></div>
                     </div> : <p className="mt-2 whitespace-pre-wrap break-words text-[14px] leading-6 text-[#B8B8BD]">{renderText(comment.text)}</p>}
-                    <div className="mt-3 flex gap-3">{['like','check'].map(type => <WorkFeedReactionButton key={type} compact type={type} reactions={comment.reactions} actorEmail={actorEmail} pilotMembers={members} onToggle={() => onReact(type, comment.id)} />)}</div>
+                    <div className={`mt-3 flex gap-3 ${mobileMode ? "min-w-0 flex-wrap" : ""}`}>{['like','check'].map(type => <WorkFeedReactionButton key={type} mobileMode={mobileMode} compact type={type} reactions={comment.reactions} actorEmail={actorEmail} pilotMembers={members} onToggle={() => onReact(type, comment.id)} />)}</div>
                 </div>
             </div>
         </div>)}</div>
-        <div className="mt-4"><CommentInput label="댓글 작성" value={draft} onChange={setDraft} members={members} onRefreshDirectory={onRefreshDirectory} placeholder="댓글을 입력하세요... (@를 입력하여 담당자를 멘션할 수 있습니다)">
-            <button type="button" disabled={pending || !draft.trim()} onClick={() => submit(false)} className="absolute bottom-3 right-3 h-8 rounded-[7px] bg-[#3279b4] px-4 text-[12px] font-bold text-white hover:bg-[#3e89c6] disabled:opacity-40">{pending && !editingId ? '저장 중...' : '댓글 등록'}</button>
+        <div className="mt-4"><CommentInput mobileMode={mobileMode} label="댓글 작성" value={draft} onChange={setDraft} members={members} onRefreshDirectory={onRefreshDirectory} placeholder="댓글을 입력하세요... (@를 입력하여 담당자를 멘션할 수 있습니다)">
+            <button type="button" disabled={pending || !draft.trim()} onClick={() => submit(false)} className={`${mobileMode ? "mt-2 h-11 w-full" : "absolute bottom-3 right-3 h-8"} rounded-[7px] bg-[#3279b4] px-4 text-[12px] font-bold text-white hover:bg-[#3e89c6] disabled:opacity-40`}>{pending && !editingId ? '저장 중...' : '댓글 등록'}</button>
         </CommentInput></div>
         {error && <p role="alert" className="mt-2 text-[12px] text-[#df827e]">{error}</p>}
     </div>;

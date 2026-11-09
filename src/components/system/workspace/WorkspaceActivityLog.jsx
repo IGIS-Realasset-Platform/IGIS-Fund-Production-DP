@@ -1,3 +1,4 @@
+import WorkFeedPostActions from '../WorkFeedPostActions';
 import WorkFeedSearchField from '../WorkFeedSearchField';
 import WorkFeedComments from '../WorkFeedComments';
 import WorkFeedText from '../WorkFeedText';
@@ -1368,18 +1369,11 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                 )}
 
                 {displayedLogs.map((log, index) => {
-                    const feedStatusActions = feedKind ? (
-                        <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
-                            <label className="flex h-8 items-center gap-2 rounded-[7px] border border-[#3e566b] bg-[#24313b] px-2">
-                                <span className="text-[11px] font-bold text-[#8eb8dc]">진행상태</span>
-                                {memberInfo?.email === log.writer_staff_id ? <select aria-label="게시글 진행상태 변경" value={log.metadata?.issue_status || '검토중'} disabled={pendingFeedStatuses[log.log_id]} onChange={event => updateFeedStatus(log.log_id, event.target.value)} className="cursor-pointer bg-transparent text-[12px] font-bold text-white outline-none disabled:cursor-wait disabled:opacity-50">
-                                    {['신규','검토중','진행중','보류','완료'].map(status => <option key={status} value={status} className="bg-[#222] text-white">{status}</option>)}
-                                </select> : <span className="text-[12px] font-bold text-white">{log.metadata?.issue_status || '검토중'}</span>}
-                            </label>
-                            {memberInfo?.email === log.writer_staff_id && <div className="flex shrink-0 items-center gap-2"><button type="button" onClick={() => setEditingLogId(log.log_id)} className="h-8 cursor-pointer rounded-[7px] border border-[#444] px-3 text-[12px] text-[#A1A1AA] hover:text-white">수정하기</button><button type="button" onClick={() => setLogToDelete(log)} className="h-8 cursor-pointer rounded-[7px] border border-[#5a3937] px-3 text-[12px] text-[#cc8580] hover:bg-[#333]">삭제</button></div>}
-                            {feedStatusErrors[log.log_id] && <p role="alert" className="w-full text-right text-[12px] text-[#df827e]">{feedStatusErrors[log.log_id]}</p>}
-                        </div>
-                    ) : null;
+                    const feedStatusActions = feedKind ? <WorkFeedPostActions mobileMode={mobileMode}
+                        isOwner={memberInfo?.email === log.writer_staff_id} status={log.metadata?.issue_status || '검토중'}
+                        pending={pendingFeedStatuses[log.log_id]} error={feedStatusErrors[log.log_id]}
+                        onStatusChange={status => updateFeedStatus(log.log_id, status)}
+                        onEdit={() => setEditingLogId(log.log_id)} onDelete={() => setLogToDelete(log)} /> : null;
                     if (isTaskBoard) {
                         return (
                             <div id={log.log_id} key={log.log_id} className={`w-full flex flex-col bg-[#1c1c1e] border border-[#2c2c2e] rounded-[16px] transition-all hover:border-[#444] relative group ${mobileMode ? 'gap-[10px] p-[12px]' : 'gap-[12px] p-[20px]'}`}>
@@ -1845,17 +1839,17 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                             <AnimatePresence>
                                 {expandedLogs[log.log_id] && checkUserAccess(log) && (
                                     <motion.div 
-                                        className="w-full flex overflow-hidden"
+                                        className={feedKind && mobileMode ? "-mx-3 w-[calc(100%+24px)] min-w-0 flex overflow-hidden" : "w-full flex overflow-hidden"}
                                         initial={{ height: 0, opacity: 0, marginTop: 0 }}
                                         animate={{ height: 'auto', opacity: 1, marginTop: 14 }}
                                         exit={{ height: 0, opacity: 0, marginTop: 0 }}
                                         transition={{ duration: 0.2, ease: "easeInOut" }}
                                     >
                                     <div 
-                                        className={`${feedKind ? 'rounded-[20px]' : 'rounded-[12px]'} p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1`}
+                                        className={`${feedKind ? 'rounded-[20px]' : 'rounded-[12px]'} min-w-0 p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1`}
                                         style={{ marginLeft: feedKind && mobileMode ? 0 : feedKind ? '81px' : '166px', marginRight: feedKind && mobileMode ? 0 : '72px' }}
                                     >
-                                        <div className={feedKind ? `bg-[#1F1F1E] rounded-[19px] w-full h-full ${mobileMode ? "px-3 py-4" : "px-8 py-6"}` : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
+                                        <div className={feedKind ? `bg-[#1F1F1E] rounded-[19px] w-full h-full ${mobileMode ? "px-2 py-4" : "px-8 py-6"}` : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
                                         {feedKind && !mobileMode && <div className="mb-5 flex items-start justify-between gap-6">
                                             <div className="flex min-w-0 items-center gap-2">
                                                 <img src={getProfileImageSrc(log.writer_name)} alt={log.writer_name} className="h-8 w-8 rounded-full border border-white/10 object-cover" onError={event => { event.currentTarget.onerror=null; event.currentTarget.src=`${import.meta.env.BASE_URL}default_avatar.svg`; }} />
@@ -1950,7 +1944,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
                                         {feedKind && (
                                             <div className={`mt-5 flex items-center gap-4 py-[2px] ${mobileMode ? "flex-wrap" : ""}`}>
-                                                {['like', 'check'].map(type => <WorkFeedReactionButton key={type} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
+                                                {['like', 'check'].map(type => <WorkFeedReactionButton key={type} mobileMode={mobileMode} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
                                                 <div className={`ml-auto flex min-w-0 items-center justify-end gap-4 text-[12px] text-[#86868B] ${mobileMode ? "w-full flex-wrap" : "flex-1"}`}>
                                                     <span className="min-w-0 break-words rounded-[8px] border border-[#914743]/70 bg-[#df7f7a]/5 px-2.5 py-1 text-right font-medium leading-5 text-[#df7f7a]">열람권한: {getPermissionString(log) || '전체 이용자'}</span>
                                                     <span className="flex shrink-0 items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
@@ -1958,7 +1952,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             </div>
                                         )}
 
-                                        {feedKind && log.writer_name !== '시스템' && checkUserAccess(log) ? <WorkFeedComments
+                                        {feedKind && log.writer_name !== '시스템' && checkUserAccess(log) ? <WorkFeedComments mobileMode={mobileMode}
                                             comments={log.metadata?.comments || []} actorEmail={memberInfo?.email} members={pilotMembers}
                                             onRefreshDirectory={() => fetchMasterStakeholders(true, true)}
                                             onSave={text => saveFeedComment(log.log_id, text)}
