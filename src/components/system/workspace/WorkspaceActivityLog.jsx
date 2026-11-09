@@ -1666,7 +1666,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     <span className="min-w-0 flex-1 truncate text-[11px] text-[#86868B]">{getLogCell(log)}</span>
                                     <span className={`shrink-0 rounded-[7px] border px-2 py-[3px] text-[11px] font-semibold ${FEED_STATUS_STYLES[log.metadata?.issue_status || '진행중'] || FEED_STATUS_STYLES['신규']}`}>{log.metadata?.issue_status || '진행중'}</span>
                                 </div>
-                                <div className="flex items-start gap-2 text-[17px] font-semibold leading-6 text-[#E5E5E5]">
+                                <div className="flex items-start gap-2 text-[16px] font-bold leading-6 text-[#E5E5E5]">
                                     <span className="min-w-0 flex-1 break-words">{checkUserAccess(log) ? log.summary || log.raw_text?.split('\n')[0] || '업무 메시지' : '열람 권한이 없는 글입니다.'}</span>
                                     {checkUserAccess(log) && isRecentFeedPost(log) && <span className="mt-1 shrink-0 rounded-[3px] bg-[#ff3b30] px-1 py-0.5 text-[10px] leading-none text-white" aria-label="새 글">N</span>}
                                 </div>
