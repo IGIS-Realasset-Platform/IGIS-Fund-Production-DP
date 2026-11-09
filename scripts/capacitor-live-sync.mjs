@@ -1,5 +1,6 @@
 import { spawnSync } from 'node:child_process';
 import { readFile, writeFile } from 'node:fs/promises';
+import { networkInterfaces } from 'node:os';
 
 const platform = process.argv[2];
 
@@ -10,6 +11,15 @@ if (!['ios', 'android'].includes(platform)) {
 const configPath = new URL('../capacitor.config.json', import.meta.url);
 const originalConfig = await readFile(configPath, 'utf8');
 const baseConfig = JSON.parse(originalConfig);
+const interfaces = Object.entries(networkInterfaces()).sort(([a], [b]) =>
+  Number(b === 'en0') - Number(a === 'en0'));
+const host = process.env.IOS_LIVE_HOST || interfaces.flatMap(([, addresses]) => addresses)
+  .find(address => address.family === 'IPv4' && !address.internal && !address.address.startsWith('169.254.'))?.address;
+if (!host) throw new Error('개발 서버에 사용할 LAN 주소가 없습니다. Wi-Fi 연결을 확인하세요.');
+const serverUrl = `http://${host}:8082`;
+const response = await fetch(serverUrl, { signal: AbortSignal.timeout(5000) });
+if (!response.ok) throw new Error(`8082 개발 서버가 응답하지 않습니다: ${response.status}`);
+console.log(`모바일 테스트 서버: ${serverUrl}`);
 const liveConfig = {
   ...baseConfig,
   ios: {
@@ -17,7 +27,7 @@ const liveConfig = {
     webContentsDebuggingEnabled: true,
   },
   server: {
-    url: 'http://172.16.100.191:8082',
+    url: serverUrl,
     cleartext: true,
   },
 };
