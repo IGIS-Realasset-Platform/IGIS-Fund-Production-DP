@@ -26,6 +26,13 @@ import { getWorkFeedPermissions } from '../../../utils/workFeedPermissions';
 
 const LazyPmoTaskBoardStaging = React.lazy(() => import('../pmo/PmoTaskBoardStaging.jsx'));
 const WORKSPACE_LOG_CACHE_TTL_MS = 30 * 1000;
+const FEED_STATUS_STYLES = {
+    '신규': 'border-[#A8B0BC]/50 bg-[#A8B0BC]/10 text-[#C0C7D1]',
+    '검토중': 'border-[#B5A3D1]/50 bg-[#B5A3D1]/10 text-[#C5B4DF]',
+    '진행중': 'border-[#85B5D6]/50 bg-[#85B5D6]/10 text-[#A1C9E4]',
+    '보류': 'border-[#C4AA7B]/50 bg-[#C4AA7B]/10 text-[#D4BD94]',
+    '완료': 'border-[#82B59B]/50 bg-[#82B59B]/10 text-[#A1CBB4]',
+};
 
 const workspaceLogCache = new Map();
 const pendingWorkspaceLogRequests = new Map();
@@ -1651,7 +1658,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                         <div id={log.log_id} key={log.log_id} className={`relative w-full px-[20px] py-[16px] flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
                             {/* Main Row */}
                             <div 
-                                className={`w-full flex items-center justify-between ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'}`}
+                                className={`w-full flex items-center justify-between ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'} ${feedKind && log.metadata?.issue_status === '완료' ? 'opacity-75 hover:opacity-100 transition-opacity duration-200' : ''}`}
                                 aria-disabled={!checkUserAccess(log)}
                                 onClick={() => toggleExpand(log.log_id)}
                             >
@@ -1772,7 +1779,13 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     {!isTaskBoard && (
                                         <>
                                             <div className="h-[24px] flex items-center w-[60px] justify-center translate-x-[6px]"><span className="text-[13px] text-[#A1A1AA] truncate">{log.metadata?.triage_type || '공유'}</span></div>
-                                            <div className="h-[24px] flex items-center w-[60px] justify-center"><span className="text-[13px] text-[#E5E5E5]">{log.metadata?.issue_status || '진행중'}</span></div>
+                                            <div className="h-[24px] flex items-center w-[60px] justify-center">
+                                                <span className={feedKind
+                                                    ? `inline-flex h-[24px] items-center justify-center rounded-[7px] border px-[7px] text-[12px] font-semibold whitespace-nowrap ${FEED_STATUS_STYLES[log.metadata?.issue_status || '진행중'] || FEED_STATUS_STYLES['신규']}`
+                                                    : 'text-[13px] text-[#E5E5E5]'}>
+                                                    {log.metadata?.issue_status || '진행중'}
+                                                </span>
+                                            </div>
                                             <div className="h-[24px] flex items-center w-[40px] justify-center">
                                                 <span className={`text-[13px] font-bold ${log.metadata?.priority === '높음' ? 'text-[#FF453A]' : (log.metadata?.priority === '낮음' ? 'text-[#86868B]' : 'text-[#3b82f6]')}`}>
                                                     {log.metadata?.priority || '중간'}
