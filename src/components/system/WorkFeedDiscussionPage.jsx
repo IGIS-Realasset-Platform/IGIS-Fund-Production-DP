@@ -1,3 +1,4 @@
+import useMobileTabState from '../../hooks/useMobileTabState';
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { WORK_FEEDS } from '../../utils/workFeeds';
@@ -5,10 +6,10 @@ import { resolveWorkFeed } from '../../utils/workFeedNavigation';
 import WorkFeedPage from './WorkFeedPage';
 
 export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false }) {
-    const { memberInfo } = useAuth();
+    const { user, memberInfo } = useAuth();
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
     const [searchTarget, setSearchTarget] = useState(null);
-    const [selectedFeed, setSelectedFeed] = useState(initialFeed || null);
+    const [selectedFeed, setSelectedFeed] = useMobileTabState('discussion', mobileMode ? user?.id : null, initialFeed || null, ['committee', 'open'], initialFeed);
     const feedKind = resolveWorkFeed(memberInfo, selectedFeed);
     const selectFeed = (kind) => {
         if (kind === feedKind) return;

@@ -1,3 +1,4 @@
+import useMobileTabState from '../../hooks/useMobileTabState';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../../utils/supabaseClient';
@@ -82,8 +83,8 @@ const getMessageContent = (log) => {
 
 export default function MobileCollaborationContainer({ memberInfo, entryRequest, onEntryHandled }) {
     const memberDepartment = getMemberIotaOrganization(memberInfo);
-    const [selectedFeed, setSelectedFeed] = useState('전체');
-    const [selectedDept, setSelectedDept] = useState(entryRequest?.department || memberDepartment);
+    const [selectedFeed, setSelectedFeed] = useMobileTabState('cell-feed', memberInfo?.auth_id, '전체', feedFilters);
+    const [selectedDept, setSelectedDept] = useMobileTabState('cell-department', memberInfo?.auth_id, memberDepartment, departmentsList, entryRequest?.department);
     const [highlightItemId, setHighlightItemId] = useState(entryRequest?.itemId || null);
     const [loading, setLoading] = useState(true);
     const [workspaceMessages, setWorkspaceMessages] = useState([]);

@@ -1,3 +1,4 @@
+import useMobileTabState from '../../hooks/useMobileTabState';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { supabase } from '../../utils/supabaseClient';
@@ -61,7 +62,7 @@ const fetchAllPages = async (queryFactory, pageSize = 1000) => {
 };
 
 export default function MobileMyTasks({ memberInfo, onNavigateToSource }) {
-    const [activeTab, setActiveTab] = useState('posts');
+    const [activeTab, setActiveTab] = useMobileTabState('my', memberInfo?.auth_id, 'posts', tabs.map(tab => tab.id));
     const [searchQuery, setSearchQuery] = useState('');
     const [dbLogs, setDbLogs] = useState([]);
     const [directorLogs, setDirectorLogs] = useState([]);

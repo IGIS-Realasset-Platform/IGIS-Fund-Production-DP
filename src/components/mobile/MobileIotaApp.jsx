@@ -1,3 +1,4 @@
+import useMobileTabState from '../../hooks/useMobileTabState';
 import { MOBILE_PRIMARY_TABS, isMobileTabActive } from '../../utils/workFeedNavigation';
 import { getWorkFeedNotificationTarget } from '../../utils/notificationState';
 import React, { useState, useEffect, useRef } from 'react';
@@ -17,7 +18,7 @@ const MobileDiscussionPage = React.lazy(() => import('../system/WorkFeedDiscussi
 
 export default function MobileIotaApp({ navigateTo }) {
     const { user, memberInfo, signOut } = useAuth();
-    const [activeTab, setActiveTab] = useState(0); // 0: 통합업무 요약, 1: 전체 업무/보고, 2: 기능셀, 3: MY, 4: 알림, 5: 논의/협업
+    const [activeTab, setActiveTab] = useMobileTabState('menu', user?.id, 0, [0, 1, 2, 3, 4, 5]); // 0: 통합업무 요약, 1: 전체 업무/보고, 2: 기능셀, 3: MY, 4: 알림, 5: 논의/협업
     const [notificationFeed, setNotificationFeed] = useState(null);
     const [highlightLogId, setHighlightLogId] = useState(null);
     const [highlightTaskId, setHighlightTaskId] = useState(null);

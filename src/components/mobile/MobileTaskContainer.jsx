@@ -1,3 +1,4 @@
+import useMobileTabState from '../../hooks/useMobileTabState';
 import React, { useState, useEffect } from 'react';
 import MobilePmoTaskList from './MobilePmoTaskList';
 import MobileWorkflowLogs from './MobileWorkflowLogs';
@@ -12,7 +13,7 @@ export default function MobileTaskContainer({
     onReturnToHome,
 }) {
     // viewMode: 'pmo' | 'director'
-    const [viewMode, setViewMode] = useState(entryRequest?.viewMode || 'pmo');
+    const [viewMode, setViewMode] = useMobileTabState('tasks', memberInfo?.auth_id, 'pmo', ['pmo', 'director'], entryRequest?.viewMode);
     const [returnToHomeOnDetailClose, setReturnToHomeOnDetailClose] = useState(
         Boolean(entryRequest?.returnToHome)
     );
