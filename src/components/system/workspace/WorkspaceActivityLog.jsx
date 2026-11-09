@@ -1309,7 +1309,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                             </div>
                         </div>
                         <div className="flex gap-[12px] shrink-0 ml-[12px] justify-end items-center">
-                            <div className="w-[90px] shrink-0 flex items-center justify-center" aria-label={feedKind ? "반응자" : undefined} title={feedKind ? "좋아요·체크 반응자" : undefined}>{feedKind && <FeedReactionIcon size={15} strokeWidth={1.8} />}</div>
+                            <div className="w-[90px] shrink-0 flex items-center justify-center" aria-label={feedKind ? "반응자" : undefined} title={feedKind ? "좋아요 반응자" : undefined}>{feedKind && <FeedReactionIcon size={15} strokeWidth={1.8} />}</div>
                             <div className={`${feedKind ? 'w-[70px]' : 'w-[110px]'} mr-[4px] text-center flex items-center justify-center`}>
                                 <select 
                                     value={filterStakeholder}
@@ -1767,7 +1767,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                 <div className="flex items-center gap-[12px] shrink-0 ml-[12px] justify-end">
                                     {/* Reactions Indicator */}
                                     <div className="shrink-0 flex items-center justify-center gap-[6px] w-[90px]">
-                                        {feedKind && <FeedReactionAvatarStack emails={collectFeedReactionEmails(log)} pilotMembers={pilotMembers} label="본문과 댓글 반응" maxVisible={5} />}
+                                        {feedKind && <FeedReactionAvatarStack emails={collectFeedReactionEmails(log)} pilotMembers={pilotMembers} label="본문과 댓글 좋아요" maxVisible={5} />}
                                         {!feedKind && (log.metadata?.reactions?.like?.length > 0 || log.metadata?.reactions?.check?.length > 0) && (
                                             <div className="flex items-center gap-[8px]">
                                                 {log.metadata?.reactions?.like?.length > 0 && (
@@ -1943,7 +1943,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
                                         {feedKind && !mobileMode && (
                                             <div className={`mt-5 flex items-center gap-4 py-[2px] ${mobileMode ? "flex-wrap" : ""}`}>
-                                                {['like', 'check'].map(type => <WorkFeedReactionButton key={type} mobileMode={mobileMode} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
+                                                <WorkFeedReactionButton mobileMode={mobileMode} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, 'like')} />
                                                 <div className={`ml-auto flex min-w-0 items-center justify-end gap-4 text-[12px] text-[#86868B] ${mobileMode ? "w-full flex-wrap" : "flex-1"}`}>
                                                     <span className="min-w-0 break-words rounded-[8px] border border-[#914743]/70 bg-[#df7f7a]/5 px-2.5 py-1 text-right font-medium leading-5 text-[#df7f7a]">열람권한: {getPermissionString(log) || '전체 이용자'}</span>
                                                     <span className="flex shrink-0 items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
@@ -1995,7 +1995,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                                             <div className="text-[13px] text-[#A1A1AA] whitespace-pre-wrap break-words ml-[36px] mb-[6px]">{comment.text}</div>
                                                             {feedKind ? (
                                                                 <div className="mt-3 ml-[36px] flex gap-3">
-                                                                    {['like', 'check'].map(type => <WorkFeedReactionButton key={type} compact type={type} reactions={comment.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type, comment.id)} />)}
+                                                                    <WorkFeedReactionButton compact reactions={comment.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, 'like', comment.id)} />
                                                                 </div>
                                                             ) : (
                                                             <div className="flex items-center gap-[8px] ml-[36px]">

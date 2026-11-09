@@ -64,7 +64,7 @@ export default function WorkFeedComments({ comments = [], actorEmail, members, o
                         <CommentInput mobileMode={mobileMode} editing label="댓글 수정" value={editDraft} onChange={setEditDraft} members={members} onRefreshDirectory={onRefreshDirectory} />
                         <div className="mt-2 flex justify-end gap-2"><button type="button" disabled={pending} onClick={() => setEditingId(null)} className="h-8 rounded-[7px] border border-[#444] px-3 text-[11px] text-[#A1A1AA] hover:bg-[#333] disabled:opacity-40">취소</button><button type="button" disabled={pending || !editDraft.trim()} onClick={() => submit(true)} className="h-8 rounded-[7px] bg-[#3279b4] px-3 text-[11px] font-bold text-white hover:bg-[#3e89c6] disabled:opacity-40">{pending ? '저장 중...' : '저장'}</button></div>
                     </div> : <p className="mt-2 whitespace-pre-wrap break-words text-[14px] leading-6 text-[#B8B8BD]">{renderText(comment.text)}</p>}
-                    <div className={`mt-3 flex gap-3 ${mobileMode ? "min-w-0 flex-wrap" : ""}`}>{['like','check'].map(type => <WorkFeedReactionButton key={type} mobileMode={mobileMode} compact type={type} reactions={comment.reactions} actorEmail={actorEmail} pilotMembers={members} onToggle={() => onReact(type, comment.id)} />)}</div>
+                    <div className={`mt-3 flex gap-3 ${mobileMode ? "min-w-0 flex-wrap" : ""}`}><WorkFeedReactionButton mobileMode={mobileMode} compact reactions={comment.reactions} actorEmail={actorEmail} pilotMembers={members} onToggle={() => onReact('like', comment.id)} /></div>
                 </div>
             </div>
         </div>)}</div>

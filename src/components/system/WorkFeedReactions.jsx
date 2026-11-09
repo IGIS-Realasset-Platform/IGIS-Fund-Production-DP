@@ -2,18 +2,17 @@ import React from 'react';
 import { getProfileImageSrc } from '../../utils/profileImage';
 
 // UI ported from the localhost:8083 Songhyeon feed; IOTA uses email arrays.
-export function FeedReactionIcon({ type = 'like', size = 13, active = false, strokeWidth = 2 }) {
-    return <svg width={size} height={size} viewBox="0 0 24 24" fill={type === 'like' && active ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        {type === 'like' ? <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /> : <><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></>}
+export function FeedReactionIcon({ size = 13, active = false, strokeWidth = 2 }) {
+    return <svg width={size} height={size} viewBox="0 0 24 24" fill={active ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
     </svg>;
 }
 
 export function collectFeedReactionEmails(log) {
     return [...new Set([
         ...(log.metadata?.reactions?.like || []),
-        ...(log.metadata?.reactions?.check || []),
         ...(log.metadata?.comments || []).flatMap(comment => [
-            ...(comment.reactions?.like || []), ...(comment.reactions?.check || []),
+            ...(comment.reactions?.like || []),
         ]),
     ].map(email => email.toLowerCase()))];
 }
@@ -42,9 +41,9 @@ export function MobileFeedEngagementSummary({ log, pilotMembers }) {
     const emails = collectFeedReactionEmails(log);
     const commentCount = log.metadata?.comments?.length || 0;
     return <div className="flex shrink-0 items-center gap-3" aria-label="게시글 반응 및 댓글">
-        <div className="flex items-center gap-1" aria-label={`좋아요·체크 반응자 ${emails.length}명`}>
-            <span className="inline-flex items-center gap-0.5" aria-hidden="true"><FeedReactionIcon type="like" size={13} /><FeedReactionIcon type="check" size={13} /></span>
-            {emails.length ? <FeedReactionAvatarStack emails={emails} pilotMembers={pilotMembers} label="본문과 댓글 좋아요·체크" maxVisible={5} /> : <span>0</span>}
+        <div className="flex items-center gap-1" aria-label={`좋아요 반응자 ${emails.length}명`}>
+            <span className="inline-flex items-center gap-0.5" aria-hidden="true"><FeedReactionIcon size={13} /></span>
+            {emails.length ? <FeedReactionAvatarStack emails={emails} pilotMembers={pilotMembers} label="본문과 댓글 좋아요" maxVisible={5} /> : <span>0</span>}
         </div>
         <span className="inline-flex shrink-0 items-center gap-1" aria-label={`댓글 ${commentCount}개`}>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
@@ -53,15 +52,14 @@ export function MobileFeedEngagementSummary({ log, pilotMembers }) {
     </div>;
 }
 
-export default function WorkFeedReactionButton({ type, reactions, actorEmail, pilotMembers, disabled, onToggle, compact = false, mobileMode = false }) {
-    const emails = reactions?.[type] || [];
+export default function WorkFeedReactionButton({ reactions, actorEmail, pilotMembers, disabled, onToggle, compact = false, mobileMode = false }) {
+    const emails = reactions?.like || [];
     const active = emails.some(email => email.toLowerCase() === actorEmail?.toLowerCase());
-    const isLike = type === 'like';
     return <div className={`flex items-center gap-1 ${mobileMode ? "min-w-0 max-w-full flex-wrap" : ""}`}>
-        <button type="button" disabled={disabled} onClick={event => { event.stopPropagation(); onToggle(); }} aria-label={isLike ? '좋아요' : '확인'} aria-pressed={active}
-            className={`${mobileMode ? 'h-7 px-2' : compact ? 'h-7 px-2' : 'h-8 px-2.5'} shrink-0 flex cursor-pointer items-center gap-1 rounded-[7px] border text-[12px] font-semibold transition-colors disabled:cursor-default disabled:opacity-60 ${active ? (isLike ? 'border-[#cc8580]/45 bg-[#cc8580]/10 text-[#cc8580]' : 'border-[#6f9fc7]/45 bg-[#6f9fc7]/10 text-[#82add0]') : 'border-[#3A3A3C] text-[#86868B] hover:border-[#555] hover:text-white'}`}>
-            <FeedReactionIcon type={type} active={active} />{emails.length}
+        <button type="button" disabled={disabled} onClick={event => { event.stopPropagation(); onToggle(); }} aria-label="좋아요" aria-pressed={active}
+            className={`${mobileMode ? 'h-7 px-2' : compact ? 'h-7 px-2' : 'h-8 px-2.5'} shrink-0 flex cursor-pointer items-center gap-1 rounded-[7px] border text-[12px] font-semibold transition-colors disabled:cursor-default disabled:opacity-60 ${active ? 'border-[#cc8580]/45 bg-[#cc8580]/10 text-[#cc8580]' : 'border-[#3A3A3C] text-[#86868B] hover:border-[#555] hover:text-white'}`}>
+            <FeedReactionIcon active={active} />{emails.length}
         </button>
-        <FeedReactionAvatarStack maxVisible={mobileMode ? 1 : 3} emails={emails} pilotMembers={pilotMembers} label={isLike ? '좋아요' : '확인'} />
+        <FeedReactionAvatarStack maxVisible={3} emails={emails} pilotMembers={pilotMembers} label="좋아요" />
     </div>;
 }

@@ -83,7 +83,7 @@ try {
   await page.getByLabel('활용목적',{exact:true}).selectOption('의사결정');
   await page.getByLabel('업무 기한',{exact:true}).fill('2026-11-20');
   await checkBounds('expanded '+width);
-  assert.equal(await page.getByLabel('좋아요·체크 반응자 6명',{exact:true}).count(),1,'Reactions are deduplicated and labeled separately');
+  assert.equal(await page.getByLabel('좋아요 반응자 3명',{exact:true}).count(),1,'Only likes are included; check-only users are excluded');
   assert.equal(await page.getByLabel('댓글 1개',{exact:true}).count(),1);
   const reactions=await page.getByLabel('게시글 반응 및 댓글',{exact:true}).boundingBox();
   assert(reactions.x>=0 && reactions.x+reactions.width<=width,'Reaction summary fits mobile width');
@@ -158,6 +158,8 @@ try {
   await page.getByRole('button',{name:'댓글 등록',exact:true}).click();
   assert.equal(await page.evaluate(()=>window.savedComment),'모바일 댓글 검증');
   await checkBounds('detail actions '+width);
+  assert.equal(await page.getByRole('button',{name:'확인',exact:true}).count(),0,'Check reaction controls are absent');
+  assert.equal(await page.getByRole('button',{name:'좋아요',exact:true}).count(),2,'Only post and comment like controls remain');
   const listText=await page.getByTestId('list-text').boundingBox();
   const detailText=await page.getByTestId('detail-text').boundingBox();
   assert.equal(detailText.x,listText.x,'Detail text left edge matches list');
