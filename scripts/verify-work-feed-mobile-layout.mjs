@@ -51,10 +51,11 @@ import Actions from './src/components/system/WorkFeedPostActions.jsx';
 import Reaction from './src/components/system/WorkFeedReactions.jsx';
 import Comments from './src/components/system/WorkFeedComments.jsx';
 const reactions={like:Array.from({length:12},(_,i)=>i+'@example.com'),check:Array.from({length:12},(_,i)=>i+'@example.com')};
-createRoot(document.getElementById('root')).render(<main className="px-4"><div style={{paddingLeft:21,paddingRight:21}}><p data-testid="list-text">목록 텍스트</p></div><section aria-label="상세 검증" style={{marginLeft:9,marginRight:9}} className="border px-[11px] py-4">
+createRoot(document.getElementById('root')).render(<main className="px-4"><div style={{paddingLeft:21,paddingRight:21}}><p data-testid="list-text">목록 텍스트</p></div><section aria-label="상세 검증" style={{marginLeft:21,marginRight:21}} className="py-4">
 <p data-testid="detail-text">모바일 상세 본문</p>
 <div className="mt-5 flex min-w-0 items-center gap-2">{['like','check'].map(type=><Reaction key={type} mobileMode type={type} reactions={reactions} pilotMembers={[]} onToggle={()=>{}}/>)}<span className="ml-auto shrink-0 text-[11px]">댓글 12</span></div>
-<Comments mobileMode beforeComposer={<Actions mobileMode isOwner status="검토중" onStatusChange={value=>window.statusChange=value} onEdit={()=>window.editAction=true} onDelete={()=>window.deleteAction=true}/>} comments={[{id:'test',author:'검증 사용자',author_email:'test@example.com',created_at:'2026-11-09',text:'댓글 본문',reactions}]} actorEmail="test@example.com" members={[]} onSave={text=>{window.savedComment=text;}} onEdit={()=>{}} onDelete={()=>{}} onReact={()=>{}} renderText={text=>text}/>
+<Actions mobileMode isOwner status="검토중" onStatusChange={value=>window.statusChange=value} onEdit={()=>window.editAction=true} onDelete={()=>window.deleteAction=true}/>
+<Comments mobileMode comments={[{id:'test',author:'검증 사용자',author_email:'test@example.com',created_at:'2026-11-09',text:'댓글 본문',reactions}]} actorEmail="test@example.com" members={[]} onSave={text=>{window.savedComment=text;}} onEdit={()=>{}} onDelete={()=>{}} onReact={()=>{}} renderText={text=>text}/>
 </section></main>);`,resolveDir:process.cwd(),loader:'jsx'},bundle:true,write:false,format:'iife',platform:'browser',define:{'import.meta.env.BASE_URL':'"/"','process.env.NODE_ENV':'"production"'}});
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 try {
@@ -166,10 +167,12 @@ try {
   assert.equal(detailText.width,listText.width,'Detail text right edge matches list');
   const status=await page.getByLabel('게시글 진행상태 변경').locator('..').boundingBox();
   const edit=await page.getByRole('button',{name:'수정하기',exact:true}).boundingBox();
-  const remove=await page.getByRole('button',{name:'삭제',exact:true}).last().boundingBox();
+  const remove=await page.getByRole('button',{name:'수정하기',exact:true}).locator('..').getByRole('button',{name:'삭제',exact:true}).boundingBox();
   assert.equal(status.y,edit.y);assert.equal(edit.y,remove.y);
   const input=await page.getByLabel('댓글 작성').boundingBox();
-  assert(input.y>=edit.y+edit.height,'Actions immediately precede the comment input');
+  assert(input.y>=edit.y+edit.height,'Actions precede the comment input');
+  const comment=await page.getByText('댓글 본문',{exact:true}).boundingBox();
+  assert(comment.y>=edit.y+edit.height,'Actions precede existing comments too');
   assert.equal((await page.getByRole('button',{name:'좋아요',exact:true}).first().boundingBox()).height,28,'Compact mobile reaction height');
   const overlaps=await page.getByLabel('상세 검증',{exact:true}).evaluate(root=>{
    const controls=[...root.querySelectorAll('button,select,textarea')].map(el=>({name:el.getAttribute('aria-label')||el.textContent,box:el.getBoundingClientRect()}));

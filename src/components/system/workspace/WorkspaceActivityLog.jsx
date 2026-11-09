@@ -1657,7 +1657,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
                     // Render original workspace table-row layout
                     return (
-                        <div id={log.log_id} key={log.log_id} className={`relative w-full ${feedKind && mobileMode ? 'px-[20px] py-[12px]' : 'px-[20px] py-[16px]'} flex flex-col group transition-all duration-500 hover:bg-white/5 last:rounded-b-[24px] ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
+                        <div id={log.log_id} key={log.log_id} className={`relative w-full ${feedKind && mobileMode ? 'px-[20px] py-[12px]' : 'px-[20px] py-[16px]'} flex flex-col group transition-all duration-500 hover:bg-white/5 ${feedKind && mobileMode && expandedLogs[log.log_id] && checkUserAccess(log) ? "rounded-none shadow-[inset_0_0_0_1px_#82afb9]" : "last:rounded-b-[24px]"} ${index !== displayedLogs.length - 1 ? 'border-b border-[#3c3c3c]' : ''}`}>
                             {/* Main Row */}
                             {feedKind && mobileMode ? <button type="button" aria-expanded={Boolean(expandedLogs[log.log_id])} aria-disabled={!checkUserAccess(log)} onClick={() => toggleExpand(log.log_id)} className={`w-full min-w-0 text-left ${checkUserAccess(log) ? 'cursor-pointer' : 'cursor-default'} ${log.metadata?.issue_status === '완료' ? 'opacity-75' : ''}`}>
                                 <div className="mb-1.5 flex items-center gap-2">
@@ -1839,17 +1839,17 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                             <AnimatePresence>
                                 {expandedLogs[log.log_id] && checkUserAccess(log) && (
                                     <motion.div 
-                                        className={feedKind && mobileMode ? "-mx-3 w-[calc(100%+24px)] min-w-0 flex overflow-hidden" : "w-full flex overflow-hidden"}
+                                        className="w-full min-w-0 flex overflow-hidden"
                                         initial={{ height: 0, opacity: 0, marginTop: 0 }}
                                         animate={{ height: 'auto', opacity: 1, marginTop: 14 }}
                                         exit={{ height: 0, opacity: 0, marginTop: 0 }}
                                         transition={{ duration: 0.2, ease: "easeInOut" }}
                                     >
                                     <div 
-                                        className={feedKind && mobileMode ? 'min-w-0 flex-1 border border-[#82afb9]' : `${feedKind ? 'rounded-[20px]' : 'rounded-[12px]'} min-w-0 p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1`}
+                                        className={feedKind && mobileMode ? 'min-w-0 flex-1' : `${feedKind ? 'rounded-[20px]' : 'rounded-[12px]'} min-w-0 p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1`}
                                         style={{ marginLeft: feedKind && mobileMode ? 0 : feedKind ? '81px' : '166px', marginRight: feedKind && mobileMode ? 0 : '72px' }}
                                     >
-                                        <div className={feedKind ? (mobileMode ? "w-full h-full bg-transparent px-[11px] py-4" : "bg-[#1F1F1E] rounded-[19px] w-full h-full px-8 py-6") : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
+                                        <div className={feedKind ? (mobileMode ? "w-full h-full bg-transparent py-4" : "bg-[#1F1F1E] rounded-[19px] w-full h-full px-8 py-6") : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
                                         {feedKind && !mobileMode && <div className="mb-5 flex items-start justify-between gap-6">
                                             <div className="flex min-w-0 items-center gap-2">
                                                 <img src={getProfileImageSrc(log.writer_name)} alt={log.writer_name} className="h-8 w-8 rounded-full border border-white/10 object-cover" onError={event => { event.currentTarget.onerror=null; event.currentTarget.src=`${import.meta.env.BASE_URL}default_avatar.svg`; }} />
@@ -1958,7 +1958,9 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             </div>
                                         </div>}
 
-                                        {feedKind && log.writer_name !== '시스템' && checkUserAccess(log) ? <WorkFeedComments mobileMode={mobileMode} beforeComposer={mobileMode ? feedStatusActions : null}
+                                        {feedKind && mobileMode && <div className="mt-3">{feedStatusActions}</div>}
+
+                                        {feedKind && log.writer_name !== '시스템' && checkUserAccess(log) ? <WorkFeedComments mobileMode={mobileMode}
                                             comments={log.metadata?.comments || []} actorEmail={memberInfo?.email} members={pilotMembers}
                                             onRefreshDirectory={() => fetchMasterStakeholders(true, true)}
                                             onSave={text => saveFeedComment(log.log_id, text)}
