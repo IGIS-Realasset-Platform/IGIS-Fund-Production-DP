@@ -1,5 +1,7 @@
+import useWorkFeedLocation from '../../hooks/useWorkFeedLocation';
+import { writeWorkFeedLocation } from '../../utils/workFeedLocation';
 import useMobileTabState from '../../hooks/useMobileTabState';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { WORK_FEEDS } from '../../utils/workFeeds';
 import { resolveWorkFeed } from '../../utils/workFeedNavigation';
@@ -7,16 +9,20 @@ import WorkFeedPage from './WorkFeedPage';
 
 export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false }) {
     const { user, memberInfo } = useAuth();
+    const location = useWorkFeedLocation();
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
     const [searchTarget, setSearchTarget] = useState(null);
-    const [selectedFeed, setSelectedFeed] = useMobileTabState('discussion', mobileMode ? user?.id : null, initialFeed || null, ['committee', 'open'], initialFeed);
+    const [selectedFeed, setSelectedFeed] = useMobileTabState('discussion', mobileMode ? user?.id : null, initialFeed || null, ['committee', 'open'], location.feed || initialFeed);
+    useEffect(() => {
+        if (location.feed) setSelectedFeed(location.feed);
+    }, [location.feed]);
     const feedKind = resolveWorkFeed(memberInfo, selectedFeed);
+    useEffect(() => {
+        if (memberInfo && !location.feed) writeWorkFeedLocation(feedKind, location.logId, { replace: true });
+    }, [memberInfo, location.feed]);
     const selectFeed = (kind) => {
         if (kind === feedKind) return;
-        const url = new URL(window.location.href);
-        url.searchParams.delete('logId');
-        url.searchParams.delete('commentId');
-        window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+        writeWorkFeedLocation(kind);
         setMobileSearchOpen(false);
         setSelectedFeed(kind);
     };

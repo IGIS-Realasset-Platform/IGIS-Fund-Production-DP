@@ -42,11 +42,11 @@ try {
  await page.reload();assert.equal(await page.getByRole('tab',{name:'운영위 논의사항'}).getAttribute('aria-selected'),'true');
  assert(page.url().includes('logId=post-1') && page.url().includes('commentId=comment-1'));
  // A different signed-in account must not inherit the former account's menu/feed.
- await page.addInitScript(()=>{window.fixtureUser='director';window.fixtureName='권순일'});await page.reload();
+ await page.addInitScript(()=>{window.fixtureUser='director';window.fixtureName='권순일'});await page.goto('http://mobile-fixture.test/');
  await page.getByRole('button',{name:'보고 더보기'}).waitFor();
  await page.getByRole('button',{name:'논의/협업',exact:true}).click();
  assert.equal(await page.getByRole('tab',{name:'운영위 논의사항'}).getAttribute('aria-selected'),'true');
- await page.evaluate(()=>{sessionStorage.setItem('iota:mobile-tabs:v1:director:menu','bad json');sessionStorage.setItem('iota:mobile-tabs:v1:director:discussion','"invalid-feed"')});await page.reload();
+ await page.evaluate(()=>{sessionStorage.setItem('iota:mobile-tabs:v1:director:menu','bad json');sessionStorage.setItem('iota:mobile-tabs:v1:director:discussion','"invalid-feed"')});await page.goto('http://mobile-fixture.test/');
  await page.getByRole('button',{name:'보고 더보기'}).waitFor();
  await page.getByRole('button',{name:'논의/협업',exact:true}).click();
  assert.equal(await page.getByRole('tab',{name:'운영위 논의사항'}).getAttribute('aria-selected'),'true');

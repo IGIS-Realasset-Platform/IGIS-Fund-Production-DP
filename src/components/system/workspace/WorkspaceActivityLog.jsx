@@ -1,3 +1,4 @@
+import { readWorkFeedLocation, writeWorkFeedLocation } from '../../../utils/workFeedLocation';
 import WorkFeedMobileFooter from '../WorkFeedMobileFooter';
 import WorkFeedPostActions from '../WorkFeedPostActions';
 import WorkFeedSearchField from '../WorkFeedSearchField';
@@ -606,7 +607,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             });
             setLogs(fetchedLogs);
             if (isTaskBoard) setLinkedTasksByLogId({});
-            if (mobileMode) {
+            if (mobileMode && !feedKind) {
                 setExpandedLogs((current) => fetchedLogs.reduce((expanded, log) => {
                     if (log.writer_name !== '시스템' && log.metadata?.comments?.length > 0) {
                         expanded[log.log_id] = true;
@@ -641,7 +642,41 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         return () => window.removeEventListener('iota_log_updated', handleUpdate);
     }, [taskId, workspaceCode, feedKind, userId]);
 
+    const appliedFeedTarget = React.useRef(null);
+    const handleFeedTarget = () => {
+        const target = readWorkFeedLocation();
+        if (target.feed && target.feed !== feedKind) return;
+        const key = `${feedKind}:${target.logId || ''}`;
+        if (appliedFeedTarget.current === key) return;
+        if (!target.logId) {
+            appliedFeedTarget.current = key;
+            setExpandedLogs({});
+            return;
+        }
+        if (isLoading) return;
+        const index = logs.findIndex(log => String(log.log_id) === target.logId);
+        if (index < 0 || logs[index].can_read === false) {
+            setExpandedLogs({});
+            return;
+        }
+        appliedFeedTarget.current = key;
+        setFilterStakeholder('');
+        setFilterPurpose('');
+        setFilterStatus('');
+        setFilterPriority('');
+        setFilterCell('');
+        setLogSearchQuery('');
+        setCurrentPage(Math.floor(index / logsPerPage) + 1);
+        setExpandedLogs({ [target.logId]: true });
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            if (readWorkFeedLocation().logId === target.logId) {
+                document.getElementById(target.logId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }));
+    };
+
     const handleTargetLog = () => {
+        if (feedKind) { handleFeedTarget(); return; }
         const params = new URLSearchParams(window.location.search);
         let targetLogId = params.get('logId') || localStorage.getItem('iota_target_log_id');
         console.log('[WorkspaceActivityLog] handleTargetLog 실행됨. targetLogId:', targetLogId, 'logs.length:', logs.length);
@@ -712,12 +747,13 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     useEffect(() => {
         console.log('[WorkspaceActivityLog] useEffect 실행됨 (logs 변경). logs.length:', logs.length, 'workspaceCode:', workspaceCode);
         handleTargetLog();
-    }, [logs]);
+    }, [logs, isLoading]);
 
     useEffect(() => {
-        window.addEventListener('popstate', handleTargetLog);
-        return () => window.removeEventListener('popstate', handleTargetLog);
-    }, [logs]);
+        const onPopState = () => { appliedFeedTarget.current = null; handleTargetLog(); };
+        window.addEventListener('popstate', onPopState);
+        return () => window.removeEventListener('popstate', onPopState);
+    }, [logs, isLoading, feedKind]);
 
     useEffect(() => {
         const syncEmbeddedTaskDetail = () => {
@@ -1130,6 +1166,14 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
     const toggleExpand = (id) => {
         if (feedKind && logs.find(log => log.log_id === id)?.can_read === false) return;
+        if (feedKind) {
+            const opening = !expandedLogs[id];
+            const currentTarget = readWorkFeedLocation().logId;
+            if (opening || currentTarget === String(id)) {
+                writeWorkFeedLocation(feedKind, opening ? id : null);
+                appliedFeedTarget.current = `${feedKind}:${opening ? id : ''}`;
+            }
+        }
         setExpandedLogs(prev => ({ ...prev, [id]: !prev[id] }));
     };
 

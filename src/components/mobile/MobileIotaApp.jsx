@@ -1,3 +1,4 @@
+import useWorkFeedLocation from '../../hooks/useWorkFeedLocation';
 import useMobileTabState from '../../hooks/useMobileTabState';
 import { MOBILE_PRIMARY_TABS, isMobileTabActive } from '../../utils/workFeedNavigation';
 import { getWorkFeedNotificationTarget } from '../../utils/notificationState';
@@ -18,7 +19,21 @@ const MobileDiscussionPage = React.lazy(() => import('../system/WorkFeedDiscussi
 
 export default function MobileIotaApp({ navigateTo }) {
     const { user, memberInfo, signOut } = useAuth();
-    const [activeTab, setActiveTab] = useMobileTabState('menu', user?.id, 0, [0, 1, 2, 3, 4, 5]); // 0: 통합업무 요약, 1: 전체 업무/보고, 2: 기능셀, 3: MY, 4: 알림, 5: 논의/협업
+    const feedLocation = useWorkFeedLocation();
+    const [activeTab, setStoredActiveTab] = useMobileTabState('menu', user?.id, 0, [0, 1, 2, 3, 4, 5], feedLocation.feed ? 5 : undefined); // 0: 통합업무 요약, 1: 전체 업무/보고, 2: 기능셀, 3: MY, 4: 알림, 5: 논의/협업
+    const setActiveTab = (tab) => {
+        if (tab !== 5) {
+            const url = new URL(window.location.href);
+            if (url.searchParams.has('feed')) {
+                ['feed', 'logId', 'commentId'].forEach(key => url.searchParams.delete(key));
+                window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+            }
+        }
+        setStoredActiveTab(tab);
+    };
+    useEffect(() => {
+        if (feedLocation.feed) setActiveTab(5);
+    }, [feedLocation]);
     const [notificationFeed, setNotificationFeed] = useState(null);
     const [highlightLogId, setHighlightLogId] = useState(null);
     const [highlightTaskId, setHighlightTaskId] = useState(null);
@@ -376,7 +391,8 @@ export default function MobileIotaApp({ navigateTo }) {
                                 const feedTarget = getWorkFeedNotificationTarget(noti, import.meta.env.BASE_URL);
                                 if (feedTarget) {
                                     const target = new URL(feedTarget, window.location.href);
-                                    window.history.replaceState(null, '', `${window.location.pathname}${target.search}`);
+                                    window.history.replaceState(null, '', `${window.location.pathname}${target.search}&feed=${noti.reference_id.split('|')[1] === 'FEED_COMMITTEE' ? 'committee' : 'open'}`);
+                                    window.dispatchEvent(new Event('iota:feed-navigation'));
                                     setNotificationFeed(noti.reference_id.split('|')[1] === 'FEED_COMMITTEE' ? 'committee' : 'open');
                                     setActiveTab(5);
                                     return;
@@ -548,6 +564,7 @@ export default function MobileIotaApp({ navigateTo }) {
                     <button 
                         key={tab.id}
                         onClick={() => {
+                            if (tab.id === activeTab) return;
                             if (tab.id === 0) {
                                 setTaskDefaultFilter(null);
                                 setTaskEntryRequest({
@@ -564,9 +581,9 @@ export default function MobileIotaApp({ navigateTo }) {
                                     requestedAt: Date.now(),
                                 });
                             }
-                            if (tab.id === 0 || tab.id === 5) {
+                            {
                                 const url = new URL(window.location.href);
-                                ['taskId', 'logId', 'commentId'].forEach(key => url.searchParams.delete(key));
+                                ['taskId', 'logId', 'commentId', 'feed'].forEach(key => url.searchParams.delete(key));
                                 window.history.replaceState(null, '', url.pathname + url.search + url.hash);
                             }
                             if (tab.id === 5) setNotificationFeed(null);

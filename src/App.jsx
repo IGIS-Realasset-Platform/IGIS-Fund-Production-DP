@@ -1,3 +1,4 @@
+import { readWorkFeedLocation } from './utils/workFeedLocation';
 import React from 'react';
 import { useAnimations } from './hooks/useAnimations';
 import { useLanguage } from './context/LanguageContext';
@@ -82,8 +83,8 @@ export default function App() {
       };
   }, [currentPage]);
 
-  const navigateTo = (page) => {
-      window.history.pushState(null, '', toUrl(page));
+  const navigateTo = (page, { search = '', replace = false } = {}) => {
+      window.history[replace ? 'replaceState' : 'pushState'](null, '', toUrl(page) + search);
       setCurrentPage(page);
   };
 
@@ -105,7 +106,7 @@ export default function App() {
       }
 
       if (!loading && !user && (currentPage.startsWith('platform') || currentPage.startsWith('mobile')) && !recoveryMode) {
-          if (currentPage.startsWith('mobile')) return;
+          if (currentPage.startsWith('mobile') || readWorkFeedLocation().feed) return;
           navigateTo('auth-setup');
           return;
       }
@@ -120,9 +121,13 @@ export default function App() {
           const forcePC = localStorage.getItem('force_pc_mode') === 'true';
 
           if (isMobile && !forcePC && currentPage.startsWith('platform')) {
-              navigateTo('mobile');
+              const target = readWorkFeedLocation();
+              const params = new URLSearchParams(window.location.search);
+              if (target.feed) params.set('feed', target.feed);
+              navigateTo('mobile', { search: params.size ? `?${params}` : '', replace: true });
           } else if (forcePC && currentPage.startsWith('mobile')) {
-              navigateTo('platform/iotaseoul/home');
+              const target = readWorkFeedLocation();
+              navigateTo(target.feed ? 'platform/iotaseoul/discussion' : 'platform/iotaseoul/home', { search: target.feed ? window.location.search : '', replace: true });
           }
       }
   }, [user, loading, currentPage, recoveryMode]);
@@ -175,7 +180,10 @@ export default function App() {
           <AuthSetup
             onLogin={() => {
               const forcePCMode = localStorage.getItem('force_pc_mode') === 'true';
-              navigateTo(isMobile && !forcePCMode ? 'mobile' : 'platform/iotaseoul/home');
+              const target = readWorkFeedLocation();
+              const params = new URLSearchParams(window.location.search);
+              if (target.feed) params.set('feed', target.feed);
+              navigateTo(isMobile && !forcePCMode ? 'mobile' : target.feed ? 'platform/iotaseoul/discussion' : 'platform/iotaseoul/home', { search: target.feed ? `?${params}` : '', replace: true });
             }}
           />
         </div>
