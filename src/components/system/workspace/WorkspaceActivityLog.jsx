@@ -1846,10 +1846,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         transition={{ duration: 0.2, ease: "easeInOut" }}
                                     >
                                     <div 
-                                        className={`${feedKind ? 'rounded-[20px]' : 'rounded-[12px]'} min-w-0 p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1`}
+                                        className={feedKind && mobileMode ? 'min-w-0 flex-1 border border-[#82afb9]' : `${feedKind ? 'rounded-[20px]' : 'rounded-[12px]'} min-w-0 p-[1px] bg-gradient-to-br from-[#d6efe9] via-[#82afb9] to-[#4c6e86] flex-1`}
                                         style={{ marginLeft: feedKind && mobileMode ? 0 : feedKind ? '81px' : '166px', marginRight: feedKind && mobileMode ? 0 : '72px' }}
                                     >
-                                        <div className={feedKind ? `bg-[#1F1F1E] rounded-[19px] w-full h-full ${mobileMode ? "px-[11px] py-4" : "px-8 py-6"}` : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
+                                        <div className={feedKind ? (mobileMode ? "w-full h-full bg-transparent px-[11px] py-4" : "bg-[#1F1F1E] rounded-[19px] w-full h-full px-8 py-6") : "bg-[#1c1c1e] rounded-[11px] p-[16px] w-full h-full"}>
                                         {feedKind && !mobileMode && <div className="mb-5 flex items-start justify-between gap-6">
                                             <div className="flex min-w-0 items-center gap-2">
                                                 <img src={getProfileImageSrc(log.writer_name)} alt={log.writer_name} className="h-8 w-8 rounded-full border border-white/10 object-cover" onError={event => { event.currentTarget.onerror=null; event.currentTarget.src=`${import.meta.env.BASE_URL}default_avatar.svg`; }} />
