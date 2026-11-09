@@ -2,8 +2,9 @@ import { getWorkFeedNotificationTarget } from '../utils/notificationState';
 import React, { useRef, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import toast from 'react-hot-toast';
+import BrowserPushSettings from './BrowserPushSettings';
 
-export default function NotificationDropdown({ isOpen, onClose, notifications, unreadCount, onMarkAsRead, onMarkAllAsRead }) {
+export default function NotificationDropdown({ userId, isOpen, onClose, notifications, unreadCount, onMarkAsRead, onMarkAllAsRead }) {
     const dropdownRef = useRef(null);
 
     const handleNotifClick = async (notif) => {
@@ -293,6 +294,7 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
                 )}
             </div>
 
+            <BrowserPushSettings userId={userId} />
             {/* List */}
             <div className="flex-1 overflow-y-auto custom-scrollbar">
                 {notifications.length === 0 ? (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 
 import { deduplicateNotifications } from '../../utils/notificationState';
+import BrowserPushSettings from '../BrowserPushSettings';
 
 export default function MobileNotifications({ memberInfo, onRead, onNotificationClick }) {
     const [notifications, setNotifications] = useState([]);
@@ -141,6 +142,7 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
                 )}
             </div>
 
+            <BrowserPushSettings userId={memberInfo?.auth_id} />
             {loading ? (
                 <div className="flex justify-center items-center py-20">
                     <div className="animate-spin w-8 h-8 border-4 border-[#3b82f6] border-t-transparent rounded-full"></div>

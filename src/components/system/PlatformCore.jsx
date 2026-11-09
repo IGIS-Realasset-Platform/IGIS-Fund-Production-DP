@@ -20,7 +20,7 @@ export default function PlatformCore({ isPlatform = true, isIotaWorkspaceOverrid
     const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications(user?.id);
 
     useEffect(() => {
-        // 백그라운드 푸시 알림 권한 요청 및 토큰 저장
+        // 이미 허용한 브라우저만 재연결. 최초 권한은 알림 패널에서 직접 요청합니다.
         if (user?.id) {
             requestFirebaseNotificationPermission(user.id);
         }
@@ -80,6 +80,7 @@ export default function PlatformCore({ isPlatform = true, isIotaWorkspaceOverrid
                 </button>
 
                 <NotificationDropdown 
+                    userId={user?.id}
                     isOpen={isNotificationOpen} 
                     onClose={() => setIsNotificationOpen(false)}
                     notifications={notifications}
