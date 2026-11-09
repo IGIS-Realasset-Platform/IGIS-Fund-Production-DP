@@ -1988,6 +1988,10 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                         {feedKind && !mobileMode && (
                                             <div className={`mt-5 flex items-center gap-4 py-[2px] ${mobileMode ? "flex-wrap" : ""}`}>
                                                 <WorkFeedReactionButton mobileMode={mobileMode} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, 'like')} />
+                                                {log.iota_seoul_log_stakeholders?.some(stakeholder => stakeholder.sh_name?.trim()) && <div className="min-w-0 max-w-[40%] text-[12px] leading-5">
+                                                    <span className="mr-2 text-[#86868B]">이해관계자</span>
+                                                    <span className="break-words text-[#C7C7CC]">{log.iota_seoul_log_stakeholders.map(stakeholder => stakeholder.sh_name?.trim()).filter(Boolean).join(' · ')}</span>
+                                                </div>}
                                                 <div className={`ml-auto flex min-w-0 items-center justify-end gap-4 text-[12px] text-[#86868B] ${mobileMode ? "w-full flex-wrap" : "flex-1"}`}>
                                                     <span className="min-w-0 break-words rounded-[8px] border border-[#914743]/70 bg-[#df7f7a]/5 px-2.5 py-1 text-right font-medium leading-5 text-[#df7f7a]">열람권한: {getPermissionString(log) || '전체 이용자'}</span>
                                                     <span className="flex shrink-0 items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
