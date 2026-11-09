@@ -289,7 +289,7 @@ export default function MobileHome({ memberInfo, onNavigateToTab }) {
 
     return (
         <div className="w-full h-full overflow-y-auto hide-scrollbar px-4 pt-3 pb-8">
-            <header className="mb-3 flex items-center justify-between gap-3">
+            <header className="mb-[11px] flex items-center justify-between gap-3">
                 <h1 className="text-[19px] font-bold tracking-tight text-white">통합업무</h1>
                 <p className="shrink-0 text-right text-[11px] font-medium text-[#86868B]">
                     {getTodayLabel()} · {memberInfo?.staff_name || '사용자'}

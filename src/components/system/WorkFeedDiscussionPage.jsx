@@ -21,7 +21,7 @@ export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false
         {Object.entries(WORK_FEEDS).map(([kind, feed]) => <button key={kind} type="button" role="tab" id={'feed-tab-' + kind} aria-selected={feedKind === kind} aria-controls="work-feed-panel" onClick={() => selectFeed(kind)} className={`cursor-pointer font-semibold transition-colors ${mobileMode ? 'flex-1 rounded-[9px] px-3 py-2.5 text-[14px]' : 'whitespace-nowrap rounded-[7px] px-3 py-1.5 text-[12px]'} ${feedKind === kind ? 'bg-[#35434b] text-[#c7e1ee]' : 'text-[#A1A1AA] hover:bg-[#333] hover:text-white'}`}>{feed.title}</button>)}
     </div>;
     return <section className={mobileMode ? 'w-full min-w-0 px-4 pt-3 pb-6' : 'w-full max-w-[1200px] mx-auto px-6 pt-7 pb-16'}>
-        <header className={mobileMode ? 'mb-3' : 'mb-[6px] flex items-center gap-4'}>
+        <header className={mobileMode ? 'mb-[11px]' : 'mb-[6px] flex items-center gap-4'}>
             <h1 className={mobileMode ? 'text-[19px] font-bold tracking-tight text-white' : 'shrink-0 text-[32px] font-bold text-white'}>논의/협업</h1>
             {!mobileMode && tabs}
             {!mobileMode && <p className="min-w-0 flex-1 text-[15px] leading-[26px] text-[#86868B]">{WORK_FEEDS[feedKind].description}</p>}

@@ -257,7 +257,7 @@ export default function MobileCollaborationContainer({ memberInfo, entryRequest,
     return (
         <div className="w-full flex-1 min-h-0 flex flex-col bg-[#141415] overflow-hidden">
             <div className="flex-none pt-3 pb-[10px] border-b border-[#3c3c3c]">
-                <div className="px-[16px] mb-[12px]">
+                <div className="px-[16px] mb-[11px]">
                     <h1 className="text-[19px] font-bold tracking-tight text-white">기능셀</h1>
                 </div>
 
