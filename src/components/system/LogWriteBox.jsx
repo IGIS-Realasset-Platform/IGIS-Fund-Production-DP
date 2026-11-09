@@ -723,6 +723,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                     }}
                     mentions={filteredMentions} showMentions={showMentionDropdown} onMentionSelect={handleMentionSelect} onCloseMentions={() => setShowMentionDropdown(false)}
                     companyOptions={filteredCompanies} contactOptions={filteredContacts}
+                    needsStakeholderRegistration={Boolean(companyQuery.trim()) && !findRegisteredStakeholder(masterStakeholders, normalizeStakeholder(companyQuery, contactQuery, stakeholderCat))}
                     permissions={[...visibilityGroups, ...visibilityIndividuals.map(member => member.contact_name)]}
                     files={attachedFiles} onRemoveFile={removeFile} fileInputRef={fileInputRef} onFileUpload={handleFileUpload}
                     onChooseFiles={() => setShowFileSecurityModal(true)} uploading={isUploadingFile}

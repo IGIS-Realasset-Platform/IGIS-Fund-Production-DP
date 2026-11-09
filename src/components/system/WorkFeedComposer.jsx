@@ -25,7 +25,7 @@ function SelectField({ label, value, onChange, options, mobileMode = false, colo
 }
 
 // Presentation only: uploads, permissions and mutations remain in LogWriteBox.
-export default function WorkFeedComposer({ mobileMode = false, memberInfo, expanded, setExpanded, editMode, onCancel, fields, setters, textareaRef, formId, onContentChange, onRefreshDirectory, onRefreshContacts, onContactSelect, mentions, showMentions, onMentionSelect, onCloseMentions, companyOptions, contactOptions, permissions, files, onRemoveFile, fileInputRef, onFileUpload, onChooseFiles, uploading, onVisibility, onSubmit, submitting }) {
+export default function WorkFeedComposer({ mobileMode = false, memberInfo, expanded, setExpanded, editMode, onCancel, fields, setters, textareaRef, formId, onContentChange, onRefreshDirectory, onRefreshContacts, onContactSelect, mentions, showMentions, onMentionSelect, onCloseMentions, companyOptions, contactOptions, needsStakeholderRegistration = false, permissions, files, onRemoveFile, fileInputRef, onFileUpload, onChooseFiles, uploading, onVisibility, onSubmit, submitting }) {
     const [contactsOpen, setContactsOpen] = useState(false);
     const [contactsLoading, setContactsLoading] = useState(false);
     const [activeContact, setActiveContact] = useState(-1);
@@ -106,9 +106,9 @@ export default function WorkFeedComposer({ mobileMode = false, memberInfo, expan
         </div>}
         <footer className={mobileMode ? "grid min-w-0 grid-cols-2 gap-3 border-t border-[#383838] px-3 py-4" : "flex flex-wrap items-center gap-2 border-t border-[#383838] px-5 py-3"}>
             <span className={`${mobileMode ? "col-span-2" : "shrink-0"} text-[12px] font-black text-[#8f8f94]`}>이해관계자</span>
-            <label className={mobileMode ? "relative col-span-2 min-w-0" : "relative min-w-[150px] flex-1"}><span className="sr-only">회사·기관명</span><input list={`${formId}-companies`} value={fields.companyQuery} onChange={event => { setters.companyQuery(event.target.value); setters.contactQuery(''); }} placeholder="회사·기관명" className={`${mobileMode ? "h-11 text-[16px]" : "h-10 text-[13px]"} w-full min-w-0 rounded-[9px] border border-[#414141] bg-[#222] px-3 text-white outline-none focus:border-[#4f89b7]`} /><datalist id={`${formId}-companies`}>{companyOptions.map(name => <option key={name} value={name} />)}</datalist></label>
+            <label className={mobileMode ? "relative col-span-2 min-w-0" : "relative min-w-[150px] flex-1"}><span className="sr-only">회사·기관명</span><input aria-describedby={needsStakeholderRegistration ? `${formId}-new-stakeholder-hint` : undefined} list={`${formId}-companies`} value={fields.companyQuery} onChange={event => { setters.companyQuery(event.target.value); setters.contactQuery(''); }} placeholder="회사·기관명" className={`${mobileMode ? "h-11 text-[16px]" : "h-10 text-[13px]"} w-full min-w-0 rounded-[9px] border border-[#414141] bg-[#222] px-3 text-white outline-none focus:border-[#4f89b7]`} /><datalist id={`${formId}-companies`}>{companyOptions.map(name => <option key={name} value={name} />)}</datalist></label>
             <div className={mobileMode ? "relative col-span-2 min-w-0" : "relative min-w-[130px] flex-1"} onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setContactsOpen(false); }}>
-                <input aria-label="담당자명" role="combobox" aria-autocomplete="list" aria-expanded={contactsOpen} aria-controls={`${formId}-contacts`} aria-activedescendant={contactsOpen && contactOptions[activeContact] ? `${formId}-contact-${activeContact}` : undefined} autoComplete="off" value={fields.contactQuery}
+                <input aria-label="담당자명" aria-describedby={needsStakeholderRegistration ? `${formId}-new-stakeholder-hint` : undefined} role="combobox" aria-autocomplete="list" aria-expanded={contactsOpen} aria-controls={`${formId}-contacts`} aria-activedescendant={contactsOpen && contactOptions[activeContact] ? `${formId}-contact-${activeContact}` : undefined} autoComplete="off" value={fields.contactQuery}
                     onChange={event => { setters.contactQuery(event.target.value); setContactsOpen(true); setActiveContact(-1); }}
                     onFocus={async () => { setContactsOpen(true); setActiveContact(-1); setContactsLoading(true); try { await onRefreshContacts?.(); } finally { setContactsLoading(false); } }}
                     onKeyDown={event => {
@@ -126,6 +126,12 @@ export default function WorkFeedComposer({ mobileMode = false, memberInfo, expan
                     {contactOptions.length === 0 && <p role="status" className="px-3 py-2 text-[12px] text-[#999]">{contactsLoading ? '담당자 불러오는 중…' : fields.contactQuery ? '일치하는 담당자가 없습니다. 직접 입력할 수 있습니다.' : fields.companyQuery ? '해당 회사에 등록된 담당자가 없습니다. 직접 입력할 수 있습니다.' : '등록된 담당자가 없습니다. 직접 입력할 수 있습니다.'}</p>}
                 </div>}
             </div>
+            {needsStakeholderRegistration && <div className={mobileMode ? "col-span-2 min-w-0" : "w-full min-w-0 basis-full"}>
+                <div id={`${formId}-new-stakeholder-hint`} role="status" aria-live="polite" className="relative mt-1 w-fit max-w-full rounded-[10px] border border-[#526c7d] bg-[#293740] px-3 py-2 text-[12px] leading-5 text-[#bdd9e8]">
+                    <span aria-hidden="true" className="absolute -top-[5px] left-5 h-2 w-2 rotate-45 border-l border-t border-[#526c7d] bg-[#293740]" />
+                    신규 등록할 수 있습니다. ‘{editMode ? '수정 완료' : '작성하기'}’를 누르면 등록 안내가 열립니다.
+                </div>
+            </div>}
             <input type="file" ref={fileInputRef} onChange={onFileUpload} className="hidden" multiple />
             <button type="button" onClick={onChooseFiles} disabled={uploading} className={`${mobileMode ? "h-11 min-w-0 justify-center px-2" : "h-10 px-4"} flex items-center gap-2 rounded-[9px] border border-[#464646] text-[13px] font-black text-[#bbb] hover:bg-white/[0.04]`}><Icon type="clip" />{uploading ? '업로드 중...' : '파일 첨부'}</button>
             <button type="button" onClick={onVisibility} className={`${mobileMode ? "h-11 min-w-0 justify-center px-2" : "h-10 px-4"} flex items-center gap-2 rounded-[9px] border border-[#914743] text-[13px] font-black text-[#e17f79] hover:bg-[#ff453a]/5`}><Icon type="lock" />열람권한</button>

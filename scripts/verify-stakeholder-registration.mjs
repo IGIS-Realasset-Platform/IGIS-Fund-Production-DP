@@ -53,6 +53,9 @@ try {
   await page.getByLabel('본문',{exact:true}).fill('등록 후 글 저장까지 검증하는 본문');
   await page.getByPlaceholder('회사·기관명').fill(' 신규회사 ');
   await page.getByLabel('담당자명',{exact:true}).fill(' 신규담당자 ');
+  assert.equal(await page.getByRole('status').filter({hasText:'신규 등록할 수 있습니다.'}).count(),1,'New company-contact pair shows the registration bubble');
+  const hint=await page.getByRole('status').filter({hasText:'신규 등록할 수 있습니다.'}).boundingBox();
+  assert(hint.x>=0 && hint.x+hint.width<=(mobile?375:1440),'Registration hint fits the viewport');
   await page.getByRole('button',{name:'작성하기',exact:true}).click();
   const modal=page.getByRole('dialog',{name:'신규 이해관계자 등록'});
   await modal.waitFor();
@@ -80,6 +83,7 @@ try {
   await page.getByPlaceholder('회사·기관명').fill('신규회사');
   await page.getByLabel('담당자명',{exact:true}).fill('신');
   await page.getByRole('option',{name:'신규담당자',exact:true}).click();
+  assert.equal(await page.getByRole('status').filter({hasText:'신규 등록할 수 있습니다.'}).count(),0,'Existing company-contact pair has no registration bubble');
   await page.getByLabel('제목',{exact:true}).fill('기존 이해관계자 재사용');
   await page.getByLabel('본문',{exact:true}).fill('등록된 회사 담당자를 재사용합니다.');
   await page.getByRole('button',{name:'작성하기',exact:true}).click();
