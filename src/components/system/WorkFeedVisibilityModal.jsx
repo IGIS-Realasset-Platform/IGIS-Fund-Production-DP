@@ -6,10 +6,10 @@ const Search = ({size = 15, className}) => <svg className={className} width={siz
 function ModalShell({ title, description, onClose, width = 'max-w-[560px]', children, footer }) {
   if (typeof document === 'undefined') return null;
   return createPortal(
-    <div className="fixed inset-0 z-[130000] flex items-center justify-center p-5 [&_button]:cursor-pointer [&_button:disabled]:cursor-not-allowed [&_select]:cursor-pointer [&_select:disabled]:cursor-not-allowed">
+    <div className="fixed inset-0 z-[130000] flex items-center justify-center p-3 sm:p-5 [&_button]:cursor-pointer [&_button:disabled]:cursor-not-allowed [&_select]:cursor-pointer [&_select:disabled]:cursor-not-allowed">
       <button type="button" aria-label={`${title} 닫기`} className="absolute inset-0 bg-black/75 backdrop-blur-[2px]" onClick={onClose} />
-      <section className={`relative flex max-h-[88vh] w-full ${width} flex-col overflow-hidden rounded-[22px] border border-[#414141] bg-[#232323] shadow-2xl`}>
-        <header className="flex items-start gap-4 border-b border-[#393939] px-6 py-5">
+      <section className={`relative flex max-h-[88dvh] w-full ${width} flex-col overflow-hidden rounded-[22px] border border-[#414141] bg-[#232323] shadow-2xl`}>
+        <header className="flex items-start gap-4 border-b border-[#393939] px-4 py-4 sm:px-6 sm:py-5">
           <div className="min-w-0">
             <h3 className="text-[20px] font-black text-white">{title}</h3>
             {description && <p className="mt-1 text-[13px] leading-5 text-[#939398]">{description}</p>}
@@ -18,8 +18,8 @@ function ModalShell({ title, description, onClose, width = 'max-w-[560px]', chil
             <X size={17} />
           </button>
         </header>
-        <div className="min-h-0 flex-1 overflow-y-auto p-6">{children}</div>
-        {footer && <footer className="border-t border-[#393939] px-6 py-4">{footer}</footer>}
+        <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6">{children}</div>
+        {footer && <footer className="border-t border-[#393939] px-4 py-4 sm:px-6">{footer}</footer>}
       </section>
     </div>,
     document.body,
@@ -48,12 +48,12 @@ export default function WorkFeedVisibilityModal({ groups, members, selectedGroup
       description={allowGroups ? "이 게시물을 볼 수 있는 그룹과 특정 인원을 지정합니다." : "기본 열람 인원 외에 이 게시물을 볼 수 있는 인원을 추가합니다."}
       onClose={onClose}
       footer={(
-        <div className="flex items-center gap-3">
-          <p className={`mr-auto text-[12px] font-bold ${publicPost ? 'text-[#e2aa29]' : 'text-[#79b7e8]'}`}>
+        <div className="flex flex-wrap items-center gap-3">
+          <p className={`mr-auto w-full text-[12px] font-bold sm:w-auto sm:flex-1 ${publicPost ? 'text-[#e2aa29]' : 'text-[#79b7e8]'}`}>
             {publicPost ? '설정하지 않으면 전체 공개로 게시됩니다.' : allowGroups ? '선택한 그룹과 인원만 열람합니다.' : '선택한 인원만 열람합니다.'}
           </p>
-          <button type="button" onClick={onClose} className="h-10 rounded-[9px] border border-[#484848] px-4 text-[13px] font-bold text-[#bbb]">취소</button>
-          <button type="button" onClick={() => onApply(draftGroups, draftIndividuals)} className="h-10 rounded-[9px] bg-[#2b8de4] px-5 text-[13px] font-black text-white">확인</button>
+          <button type="button" onClick={onClose} className="h-11 flex-1 whitespace-nowrap rounded-[9px] border border-[#484848] px-4 text-[13px] font-bold text-[#bbb] sm:h-10 sm:flex-none">취소</button>
+          <button type="button" onClick={() => onApply(draftGroups, draftIndividuals)} className="h-11 flex-1 whitespace-nowrap rounded-[9px] bg-[#2b8de4] px-5 text-[13px] font-black text-white sm:h-10 sm:flex-none">확인</button>
         </div>
       )}
     >
@@ -95,7 +95,7 @@ export default function WorkFeedVisibilityModal({ groups, members, selectedGroup
         </div>
         <label className="relative block">
           <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#777]" />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="이름·소속 검색" className="h-10 w-full rounded-[9px] border border-[#444] bg-[#1b1b1b] pl-9 pr-3 text-[13px] text-white outline-none focus:border-[#4c8bbd]" />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="이름·소속 검색" className="h-10 w-full rounded-[9px] border border-[#444] bg-[#1b1b1b] pl-9 pr-3 text-[16px] sm:text-[13px] text-white outline-none focus:border-[#4c8bbd]" />
         </label>
         <div className="mt-2 max-h-[220px] overflow-y-auto rounded-[10px] border border-[#3d3d3d]">
           {filteredMembers.map((member) => {

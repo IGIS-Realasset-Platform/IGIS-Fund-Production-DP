@@ -1,3 +1,4 @@
+import WorkFeedSearchField from '../WorkFeedSearchField';
 import WorkFeedComments from '../WorkFeedComments';
 import WorkFeedText from '../WorkFeedText';
 import React, { useState, useEffect } from 'react';
@@ -1242,21 +1243,8 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                     {!feedKind && <h2 className="text-[16px] font-bold text-white tracking-tight translate-y-[6px]">
                         {getWorkspaceMessageTitle(workspaceCode, workspaceLabel)}
                     </h2>}
-                    <div className={`flex items-center gap-[12px] ${feedKind && !searchPortalTarget ? 'md:absolute md:right-0 md:bottom-0' : ''}`}>
-                        {/* Search Box */}
-                        <div className="relative">
-                            <div className="absolute inset-y-0 left-[12px] flex items-center pointer-events-none">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#86868B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                            </div>
-                            <input 
-                                type="text"
-                                aria-label="게시글 검색"
-                                placeholder="검색어 입력..." 
-                                value={logSearchQuery}
-                                onChange={(e) => setLogSearchQuery(e.target.value)}
-                                className="bg-[#222] border border-[#333] hover:border-[#444] rounded-[8px] pl-[32px] pr-[12px] py-[6px] text-[12px] text-white w-[180px] focus:outline-none focus:border-[#2997ff] transition-all"
-                            />
-                        </div>
+                    <div className={`flex items-center gap-[12px] ${feedKind && mobileMode ? 'w-full min-w-0' : ''}`}>
+                        <WorkFeedSearchField value={logSearchQuery} onChange={setLogSearchQuery} mobileMode={Boolean(feedKind && mobileMode)} />
                         {!feedKind && (<button
                             type="button"
                             onClick={() => { setLogsViewMode(prev => prev === 'summary' ? 'full' : 'summary'); setCurrentPage(1); }} 
@@ -2214,7 +2202,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             {/* Edit Modal */}
             {editingLogId && (
                 <div 
-                    className="fixed inset-0 z-[100] flex items-start justify-center bg-black/60 p-[40px] overflow-y-auto"
+                    className={`fixed inset-0 z-[100] flex items-start justify-center bg-black/60 overflow-y-auto ${mobileMode ? "px-3 pb-[max(12px,env(safe-area-inset-bottom))] pt-[max(12px,env(safe-area-inset-top))]" : "p-[40px]"}`}
                     onWheel={(e) => e.stopPropagation()}
                     onTouchMove={(e) => e.stopPropagation()}
                 >
