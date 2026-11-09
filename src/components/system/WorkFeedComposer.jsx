@@ -54,10 +54,16 @@ export default function WorkFeedComposer({ mobileMode = false, memberInfo, expan
         <span className={`shrink-0 rounded-[8px] border border-[#83adb5] bg-[#222] py-2 text-[13px] font-black text-[#e5e5e5] ${mobileMode ? "px-2" : "px-4"}`}>글작성하기</span>
     </button>;
     return <section className="w-full min-w-0 [&_button]:cursor-pointer [&_button:disabled]:cursor-not-allowed [&_select]:cursor-pointer">
-        {mobileMode ? <header className="flex min-w-0 items-center gap-3 border-b border-[#383838] px-3 py-3">
-            {avatar}
-            <div className="min-w-0 flex-1"><p className="truncate text-[14px] font-bold text-white">{memberInfo?.staff_name || '작성자'}</p><p className="text-[12px] text-[#999]">{editMode ? '글 수정' : '새 글 작성'}</p></div>
-            <button type="button" onClick={editMode ? onCancel : () => setExpanded(false)} className="h-11 shrink-0 rounded-[9px] border border-[#454545] px-3 text-[13px] text-[#bbb] hover:bg-[#333]">{editMode ? '닫기' : '접기'}</button>
+        {mobileMode ? <header className="border-b border-[#383838]">
+            {editMode ? <div className="flex min-w-0 items-center gap-3 px-3 py-3">
+                {avatar}
+                <div className="min-w-0 flex-1"><p className="truncate text-[14px] font-bold text-white">{memberInfo?.staff_name || '작성자'}</p><p className="text-[12px] text-[#999]">글 수정</p></div>
+                <button type="button" onClick={onCancel} className="h-11 shrink-0 rounded-[9px] border border-[#454545] px-3 text-[13px] text-[#bbb] hover:bg-[#333]">닫기</button>
+            </div> : <button type="button" aria-label="글쓰기 접기" aria-expanded="true" onClick={() => setExpanded(false)} className="flex w-full min-w-0 items-center gap-3 px-3 py-3 text-left hover:bg-[#303030] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#78add6]">
+                {avatar}
+                <span className="min-w-0 flex-1"><span className="block truncate text-[14px] font-bold text-white">{memberInfo?.staff_name || '작성자'}</span><span className="block text-[12px] text-[#999]">새 글 작성</span></span>
+                <span className="flex h-11 shrink-0 items-center rounded-[9px] border border-[#454545] px-3 text-[13px] text-[#bbb]">접기</span>
+            </button>}
         </header> : <header className="flex flex-wrap items-center gap-3 border-b border-[#383838] px-5 py-3">
             {avatar}
             {settingsFields}

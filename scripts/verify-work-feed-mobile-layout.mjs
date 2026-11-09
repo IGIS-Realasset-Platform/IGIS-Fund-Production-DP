@@ -72,7 +72,8 @@ try {
   await checkBounds('permissions '+width);
   await page.getByRole('button',{name:/검증 사용자/}).click();
   await page.getByRole('button',{name:'확인',exact:true}).click();
-  await page.getByRole('button',{name:'접기',exact:true}).click();
+  // Tap the avatar side of the bar, outside the visible fold label.
+  await page.getByRole('button',{name:'글쓰기 접기',exact:true}).click({position:{x:15,y:15}});
   await page.getByRole('button',{name:/업무 이슈를 공유하세요/}).click();
   assert.equal(await page.getByLabel('제목',{exact:true}).inputValue(),'모바일 레이아웃 검증','Collapse preserves the draft');
   await page.getByRole('button',{name:'작성하기',exact:true}).click();
