@@ -1,6 +1,7 @@
+import WorkFeedMentionSuggestions from './WorkFeedMentionSuggestions';
 import StakeholderAutocomplete from './StakeholderAutocomplete';
 import { getProfileImageSrc } from '../../utils/profileImage';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toggleFeedBold } from '../../utils/workFeedBold';
 
 function Icon({ type, size = 15 }) {
@@ -26,7 +27,9 @@ function SelectField({ label, value, onChange, options, mobileMode = false, colo
 }
 
 // Presentation only: uploads, permissions and mutations remain in LogWriteBox.
-export default function WorkFeedComposer({ mobileMode = false, memberInfo, expanded, setExpanded, editMode, onCancel, fields, setters, textareaRef, formId, onContentChange, onRefreshDirectory, onRefreshContacts, onContactSelect, mentions, showMentions, onMentionSelect, onCloseMentions, companyOptions, contactOptions, needsStakeholderRegistration = false, permissions, files, onRemoveFile, fileInputRef, onFileUpload, onChooseFiles, uploading, onVisibility, onSubmit, submitting }) {
+export default function WorkFeedComposer({ mobileMode = false, memberInfo, expanded, setExpanded, editMode, onCancel, fields, setters, textareaRef, formId, onContentChange, onRefreshDirectory, onRefreshContacts, onContactSelect, mentions, mentionQuery, mentionPosition, showMentions, onMentionSelect, onCloseMentions, companyOptions, contactOptions, needsStakeholderRegistration = false, permissions, files, onRemoveFile, fileInputRef, onFileUpload, onChooseFiles, uploading, onVisibility, onSubmit, submitting }) {
+    const [activeMention, setActiveMention] = useState(0);
+    useEffect(() => setActiveMention(0), [mentionQuery]);
     const [contactsOpen, setContactsOpen] = useState(false);
     const [contactsLoading, setContactsLoading] = useState(false);
     const [activeContact, setActiveContact] = useState(-1);
@@ -90,10 +93,9 @@ export default function WorkFeedComposer({ mobileMode = false, memberInfo, expan
                     <button type="button" onMouseDown={event => event.preventDefault()} onClick={applyBold} aria-label="굵게 적용 또는 해제" aria-keyshortcuts="Control+b Meta+b" title="굵게 적용/해제 (⌘B / Ctrl+B)" className="grid h-8 w-8 shrink-0 place-items-center rounded-[6px] border border-[#454545] text-[#ddd] hover:bg-[#363636] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#78add6]"><Icon type="bold" size={16} /></button>
                     <span className="min-w-0 text-[12px] leading-5 text-[#999]">{mobileMode ? "텍스트 선택 후 B · @멘션 · URL 자동 링크" : "문장 선택 후 B · **강조할 내용**은 등록 시 굵게 표시 · URL은 자동으로 링크됩니다."}</span>
                 </div>
-                <textarea ref={textareaRef} id={`log-textarea-${formId}`} aria-label="본문" value={fields.content} onChange={onContentChange} onFocus={onRefreshDirectory} onKeyDown={event => { if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'b' && !event.nativeEvent.isComposing) { event.preventDefault(); applyBold(); } if (event.key === 'Escape') onCloseMentions(); }} placeholder={'진행 이력, 협업 요청, 리스크 판단 필요사항, 의사결정 필요항목을 입력하세요.\n(@로 담당부서 또는 담당자를 멘션할 수 있습니다)'} className={`w-full min-w-0 bg-transparent leading-7 text-[#e5e5e5] outline-none placeholder:text-[#8f8d87] ${mobileMode ? "min-h-[200px] resize-y text-[16px]" : "min-h-[150px] resize-y text-[15px]"}`} />
-                {showMentions && mentions.length > 0 && <div className={`z-40 max-h-[240px] max-w-full overflow-y-auto rounded-[10px] border border-[#444] bg-[#202020] py-1.5 shadow-2xl ${mobileMode ? "relative mt-2 w-full" : "absolute left-0 top-[70px] w-[300px]"}`}>
-                    {mentions.map(mention => <button key={`${mention.type}:${mention.label}`} type="button" onMouseDown={event => event.preventDefault()} onClick={() => onMentionSelect(mention)} className="flex w-full items-center gap-2 px-3 py-2.5 text-left hover:bg-[#333]"><span className={`shrink-0 rounded-[5px] px-2 py-1 text-[12px] font-black ${mention.type === 'department' ? 'bg-[#2c7eb6]/15 text-[#7fc5ee]' : 'bg-white/[0.07] text-[#bbb]'}`}>{mention.type === 'department' ? '부서' : '담당자'}</span><span className="truncate text-[13px] font-bold text-[#eee]">@{mention.label}</span><span className="ml-auto truncate text-[12px] text-[#777]">{mention.organization}</span></button>)}
-                </div>}
+                <textarea ref={textareaRef} id={`log-textarea-${formId}`} aria-label="본문" value={fields.content} onChange={onContentChange} onFocus={onRefreshDirectory} onBlur={onCloseMentions} onKeyDown={event => { if (showMentions && !event.nativeEvent.isComposing && event.nativeEvent.keyCode !== 229 && mentions.length) { if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); setActiveMention(index => (index + (event.key === 'ArrowDown' ? 1 : -1) + mentions.length) % mentions.length); return; } if (event.key === 'Enter') { event.preventDefault(); onMentionSelect(mentions[activeMention] || mentions[0]); return; } } if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'b' && !event.nativeEvent.isComposing) { event.preventDefault(); applyBold(); } if (event.key === 'Escape') onCloseMentions(); }} placeholder={'진행 이력, 협업 요청, 리스크 판단 필요사항, 의사결정 필요항목을 입력하세요.\n(@로 담당부서 또는 담당자를 멘션할 수 있습니다)'} className={`w-full min-w-0 bg-transparent leading-7 text-[#e5e5e5] outline-none placeholder:text-[#8f8d87] ${mobileMode ? "min-h-[200px] resize-y text-[16px]" : "min-h-[150px] resize-y text-[15px]"}`} />
+                {showMentions && <WorkFeedMentionSuggestions mobileMode={mobileMode} textareaRef={textareaRef} position={mentionPosition} mentions={mentions} activeIndex={activeMention} onSelect={onMentionSelect} onRefresh={onRefreshDirectory} />}
+
             </div>
             {files.length > 0 && <div className="mt-4 flex flex-wrap gap-2 border-t border-[#363636] pt-4">{files.map((file, index) => <span key={file.path || index} className="flex min-w-0 max-w-full items-center gap-2 rounded-[8px] border border-[#444] bg-[#222] px-3 py-2 text-[12px] font-bold text-[#ccc]"><Icon type="clip" size={14} /><span className="min-w-0 max-w-[240px] truncate">{file.name}</span><button type="button" aria-label={`${file.name} 첨부 제거`} onClick={() => onRemoveFile(index)} className="text-[#888] hover:text-[#ff8179]"><Icon type="close" size={13} /></button></span>)}</div>}
             {permissions.length > 0 && <p className="mt-3 w-full whitespace-normal break-words text-right text-[12px] font-black leading-5 text-[#df7f7a]">열람권한: {permissions.join(', ')}</p>}

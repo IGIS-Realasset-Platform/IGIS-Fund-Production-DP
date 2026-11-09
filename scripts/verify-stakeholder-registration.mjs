@@ -15,7 +15,7 @@ window.fixtureDB={rows:window.initialDirectoryFixture||[],inserts:[],saves:[],fa
 function Fixture(){
  const [members,setMembers]=useState(window.initialDirectoryFixture||[]);
  window.refreshDirectory=()=>setMembers([...window.fixtureDB.rows]);
- return <main style={{width:'100%',maxWidth:1100,margin:'auto',padding:16}}><LogWriteBox editMode={Boolean(window.initialEditFixture)} initialData={window.initialEditFixture || null} defaultExpanded mobileMode={window.mobileFixture} feedKind={window.feedFixture} workspaceCode="FEED_TEST" workspaceLabel="검증 게시판" memberInfo={{email:'tester@example.com',staff_name:'테스트 사용자',org_name:'기획추진'}} masterStakeholders={members} pilotMembers={[]} fetchLogs={()=>{}} fetchMasterStakeholders={async(force)=>{window.fixtureDB.refreshes.push(Boolean(force));if(window.failDirectoryRefresh)throw Error("Directory unavailable");setMembers([...window.fixtureDB.rows]);}} /></main>;
+ return <main style={{width:'100%',maxWidth:1100,margin:'auto',padding:16}}><LogWriteBox editMode={Boolean(window.initialEditFixture)} initialData={window.initialEditFixture || null} defaultExpanded mobileMode={window.mobileFixture} feedKind={window.feedFixture} workspaceCode="FEED_TEST" workspaceLabel="검증 게시판" memberInfo={{email:'tester@example.com',staff_name:'테스트 사용자',org_name:'기획추진'}} masterStakeholders={members} pilotMembers={[{staff_name:'양준모',org_name:'CM',auth_id:'yang',is_active:true}]} fetchLogs={()=>{}} fetchMasterStakeholders={async(force)=>{window.fixtureDB.refreshes.push(Boolean(force));if(window.failDirectoryRefresh)throw Error("Directory unavailable");setMembers([...window.fixtureDB.rows]);}} /></main>;
 }
 createRoot(document.getElementById('root')).render(<Fixture/>);`;
 const client = `export const supabase={from(table){
@@ -50,6 +50,16 @@ try {
   await page.evaluate(({mobile,feed})=>{window.mobileFixture=mobile;window.feedFixture=feed;},{mobile,feed});
   await page.addScriptTag({content:bundle.outputFiles[0].text});
   await page.getByLabel('제목',{exact:true}).fill('신규 이해관계자 등록 검증');
+  await page.getByLabel('본문',{exact:true}).fill('@양');
+  if(mobile){await page.setViewportSize({width:375,height:400});await page.waitForFunction(()=>{const r=document.querySelector('[aria-label="태그할 사람과 부서"]')?.getBoundingClientRect();return r&&r.top>=0&&r.bottom<=400;});await page.getByRole('option',{name:/@양준모/}).tap();await page.setViewportSize({width:375,height:1000});}else{await page.getByRole('option',{name:/@양준모/}).click();}
+  assert.equal(await page.getByLabel('본문',{exact:true}).inputValue(),'@양준모 ');
+  await page.getByLabel('본문',{exact:true}).fill('@');
+  assert.match(await page.getByRole('listbox',{name:'태그할 사람과 부서'}).getByRole('option').first().innerText(), /양준모/);
+  await page.getByLabel('본문',{exact:true}).press('Enter');
+  assert.equal(await page.getByLabel('본문',{exact:true}).inputValue(),'@양준모 ');
+  await page.getByLabel('본문',{exact:true}).fill('@CM');
+  await page.getByRole('option',{name:/부서.*@CM/}).click();
+  assert.equal(await page.getByLabel('본문',{exact:true}).inputValue(),'@CM ');
   await page.getByLabel('본문',{exact:true}).fill('등록 후 글 저장까지 검증하는 본문');
   await page.getByPlaceholder('회사·기관명').fill(' 신규회사 ');
   await page.getByLabel('담당자명',{exact:true}).fill(' 신규담당자 ');

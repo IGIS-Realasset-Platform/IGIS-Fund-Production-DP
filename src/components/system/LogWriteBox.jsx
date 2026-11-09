@@ -250,7 +250,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
     const getCaretCoordinates = (element, position) => {
         const div = document.createElement('div');
         const style = window.getComputedStyle(element);
-        for (const prop of style) {
+        for (let index = 0; index < style.length; index++) {
+            const prop = style.item(index);
             div.style[prop] = style[prop];
         }
         div.style.position = 'absolute';
@@ -659,7 +660,8 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
             mention.label.toLowerCase().includes(mentionQuery.toLowerCase())
             || mention.organization?.toLowerCase().includes(mentionQuery.toLowerCase())
         ))
-        .slice(0, 8);
+        .sort((left, right) => (left.type === 'person' ? 0 : 1) - (right.type === 'person' ? 0 : 1))
+        .slice(0, 30);
 
     const getParticle = (word) => {
         if (!word) return '와';
@@ -721,7 +723,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                             if (contact?.company_name) setCompanyQuery(contact.company_name);
                         }
                     }}
-                    mentions={filteredMentions} showMentions={showMentionDropdown} onMentionSelect={handleMentionSelect} onCloseMentions={() => setShowMentionDropdown(false)}
+                    mentions={filteredMentions} mentionQuery={mentionQuery} mentionPosition={mentionPosition} showMentions={showMentionDropdown} onMentionSelect={handleMentionSelect} onCloseMentions={() => setShowMentionDropdown(false)}
                     companyOptions={filteredCompanies} contactOptions={filteredContacts}
                     needsStakeholderRegistration={Boolean(companyQuery.trim()) && !findRegisteredStakeholder(masterStakeholders, normalizeStakeholder(companyQuery, contactQuery, stakeholderCat))}
                     permissions={[...visibilityGroups, ...visibilityIndividuals.map(member => member.contact_name)]}
