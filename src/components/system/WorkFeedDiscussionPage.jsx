@@ -4,7 +4,7 @@ import useMobileTabState from '../../hooks/useMobileTabState';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { WORK_FEEDS } from '../../utils/workFeeds';
-import { resolveWorkFeed } from '../../utils/workFeedNavigation';
+import { getDefaultWorkFeed, resolveWorkFeed } from '../../utils/workFeedNavigation';
 import WorkFeedPage from './WorkFeedPage';
 
 export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false }) {
@@ -12,7 +12,10 @@ export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false
     const location = useWorkFeedLocation();
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
     const [searchTarget, setSearchTarget] = useState(null);
-    const [selectedFeed, setSelectedFeed] = useMobileTabState('discussion', mobileMode ? user?.id : null, initialFeed || null, ['committee', 'open'], location.feed || initialFeed);
+    // Directors return to their default on a fresh menu entry. The URL still restores
+    // the selected tab on refresh and preserves explicit post/notification links.
+    const rememberPreviousVisit = mobileMode && getDefaultWorkFeed(memberInfo) !== 'committee';
+    const [selectedFeed, setSelectedFeed] = useMobileTabState('discussion', rememberPreviousVisit ? user?.id : null, initialFeed || null, ['committee', 'open'], location.feed || initialFeed);
     useEffect(() => {
         if (location.feed) setSelectedFeed(location.feed);
     }, [location.feed]);
