@@ -20,5 +20,7 @@ assert.equal(getIotaOrganizationByStaff('양준모'), 'CM');
 assert.deepEqual(resolveMentionedAuthIds({members, content:'@양준모 @CM'}), []);
 assert.deepEqual(resolveMentionedAuthIds({members:[{...members[0],auth_id:'enrolled-yang'}], content:'@CM'}), ['enrolled-yang']);
 assert.deepEqual(resolveMentionedAuthIds({members, content:'@새로운부서'}), ['new-dept-user']);
-assert.deepEqual(resolveMentionedAuthIds({members, content:'@신설부서직원',writerEmail:'new@example.test'}), []);
+assert.deepEqual(resolveMentionedAuthIds({members, content:'@신설부서직원',writerEmail:'new@example.test'}), ['new-dept-user']);
 console.log('PASS: 신규 직원·CM·신설 부서 자동완성, 중복 제거, 비활성 제외, 계정 연결 후 부서 멘션 수신');
+
+assert.deepEqual(resolveMentionedAuthIds({members, content:'@새로운부서 @신설부서직원',writerEmail:'NEW@example.test'}), ['new-dept-user']);

@@ -19,12 +19,14 @@ BEGIN
  result:=public.mutate_iota_work_feed('committee','save',post_id,jsonb_build_object('work_date',current_date,'summary','Rollback verification','raw_text','@'||recipient.staff_name||' @'||public.iota_work_feed_org(recipient)||' @'||excluded.staff_name||' @'||writer.staff_name,'metadata',jsonb_build_object('permissions',jsonb_build_object('groups','[]'::jsonb,'individuals',jsonb_build_array(recipient.staff_name)))));
  SELECT count(*) INTO total FROM public.iota_notifications WHERE reference_id=post_id||'|FEED_COMMITTEE' AND user_id=recipient.auth_id;
  IF total<>1 THEN RAISE EXCEPTION 'core recipient/dedup failed: %',total; END IF;
- IF EXISTS(SELECT 1 FROM public.iota_notifications WHERE reference_id LIKE post_id||'|%' AND user_id IN (writer.auth_id,excluded.auth_id)) THEN RAISE EXCEPTION 'self or denied recipient notified'; END IF;
+ IF (SELECT count(*) FROM public.iota_notifications WHERE reference_id=post_id||'|FEED_COMMITTEE' AND user_id=writer.auth_id)<>1 THEN RAISE EXCEPTION 'self post mention missing'; END IF;
+ IF EXISTS(SELECT 1 FROM public.iota_notifications WHERE reference_id LIKE post_id||'|%' AND user_id=excluded.auth_id) THEN RAISE EXCEPTION 'denied recipient notified'; END IF;
  result:=public.mutate_iota_work_feed('committee','react',post_id,'{"reaction":"like"}');
  IF (SELECT count(*) FROM public.iota_notifications WHERE reference_id=post_id||'|FEED_COMMITTEE' AND user_id=recipient.auth_id)<>1 THEN RAISE EXCEPTION 'reaction caused notification'; END IF;
- result:=public.mutate_iota_work_feed('committee','comment',post_id,jsonb_build_object('text','@'||recipient.staff_name||' 확인'));
+ result:=public.mutate_iota_work_feed('committee','comment',post_id,jsonb_build_object('text','@'||recipient.staff_name||' @'||writer.staff_name||' 확인'));
  cid:=result->'metadata'->'comments'->0->>'id';
  IF (SELECT count(*) FROM public.iota_notifications WHERE reference_id=post_id||'|FEED_COMMITTEE|'||cid AND user_id=recipient.auth_id)<>1 THEN RAISE EXCEPTION 'comment mention failed'; END IF;
+ IF (SELECT count(*) FROM public.iota_notifications WHERE reference_id=post_id||'|FEED_COMMITTEE|'||cid AND user_id=writer.auth_id)<>1 THEN RAISE EXCEPTION 'self comment mention missing'; END IF;
  result:=public.mutate_iota_work_feed('committee','edit_comment',post_id,jsonb_build_object('comment_id',cid,'text','@'||recipient.staff_name||' 내용만 수정'));
  IF (SELECT count(*) FROM public.iota_notifications WHERE reference_id=post_id||'|FEED_COMMITTEE|'||cid AND user_id=recipient.auth_id)<>1 THEN RAISE EXCEPTION 'unchanged mention repeated'; END IF;
  result:=public.mutate_iota_work_feed('committee','comment',post_id,jsonb_build_object('text','@'||recipient.staff_name||' 다른 댓글'));
@@ -32,8 +34,9 @@ BEGIN
  -- Explicitly adding a reader makes an existing mention newly deliverable.
  result:=public.mutate_iota_work_feed('committee','save',post_id,jsonb_build_object('work_date',current_date,'summary','Rollback verification','raw_text','@'||recipient.staff_name||' @'||excluded.staff_name,'metadata',jsonb_build_object('permissions',jsonb_build_object('groups','[]'::jsonb,'individuals',jsonb_build_array(excluded.staff_name)))));
  IF (SELECT count(*) FROM public.iota_notifications WHERE reference_id=post_id||'|FEED_COMMITTEE' AND user_id=excluded.auth_id)<>1 THEN RAISE EXCEPTION 'added reader mention failed'; END IF;
- result:=public.mutate_iota_work_feed('open','save',post_id||'_open',jsonb_build_object('work_date',current_date,'summary','Rollback verification','raw_text','@'||excluded.staff_name,'metadata',jsonb_build_object('permissions',jsonb_build_object('groups','[]'::jsonb,'individuals','[]'::jsonb))));
+ result:=public.mutate_iota_work_feed('open','save',post_id||'_open',jsonb_build_object('work_date',current_date,'summary','Rollback verification','raw_text','@'||excluded.staff_name||' @'||writer.staff_name,'metadata',jsonb_build_object('permissions',jsonb_build_object('groups','[]'::jsonb,'individuals','[]'::jsonb))));
  IF (SELECT count(*) FROM public.iota_notifications WHERE reference_id=post_id||'_open|FEED_OPEN' AND user_id=excluded.auth_id)<>1 THEN RAISE EXCEPTION 'public feed mention failed'; END IF;
+ IF (SELECT count(*) FROM public.iota_notifications WHERE reference_id=post_id||'_open|FEED_OPEN' AND user_id=writer.auth_id)<>1 THEN RAISE EXCEPTION 'public self mention missing'; END IF;
  IF EXISTS(SELECT 1 FROM public.iota_notifications WHERE reference_id LIKE post_id||'%' AND body LIKE '%Rollback verification%') THEN RAISE EXCEPTION 'private content leaked in notification'; END IF;
  -- Existing workspace post/comment destinations must also survive creation.
  INSERT INTO public.iota_seoul_logs(log_id,work_date,raw_text,summary,writer_staff_id,writer_name,input_status,source_system,metadata)
@@ -52,4 +55,4 @@ DO $$ DECLARE affected int; BEGIN
 END $$;
 RESET ROLE;
 ROLLBACK;
-SELECT 'PASS: person/department mentions, additional readers, denied/self exclusion, repeated comments, edit/reaction deduplication, both feeds, legacy links and recipient RLS; fixtures rolled back' AS result;
+SELECT 'PASS: person/department mentions, additional readers, self mentions and denied-reader exclusion, repeated comments, edit/reaction deduplication, both feeds, legacy links and recipient RLS; fixtures rolled back' AS result;

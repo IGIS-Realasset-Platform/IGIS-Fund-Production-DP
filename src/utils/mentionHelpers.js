@@ -81,7 +81,6 @@ export const resolveMentionedAuthIds = ({
     members = [],
     content = '',
     mentions = [],
-    writerEmail = '',
 }) => {
     const activeMentions = getActiveMentionEntities(content, mentions);
     const explicitlyMentionedPeople = new Set(
@@ -94,13 +93,11 @@ export const resolveMentionedAuthIds = ({
             .filter((mention) => mention.type === 'department')
             .map((mention) => mention.label)
     );
-    const normalizedWriterEmail = String(writerEmail || '').toLowerCase();
 
     const recipientIds = members
         .filter((member) => (
             member?.auth_id
             && member?.is_active !== false
-            && String(member.email || '').toLowerCase() !== normalizedWriterEmail
         ))
         .filter((member) => {
             const organization = getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name);
