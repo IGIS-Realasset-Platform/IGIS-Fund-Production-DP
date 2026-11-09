@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import { deduplicateNotifications, getWorkFeedNotificationTarget } from '../src/utils/notificationState.js';
+const first={ id:'one',title:'same',body:'same',reference_id:'post|FEED_OPEN' };
+const second={...first,id:'two'};
+assert.equal(deduplicateNotifications([first,second,first]).length,2,'distinct comment events must not disappear');
+assert.equal(getWorkFeedNotificationTarget(first),'/platform/iotaseoul/open-feed?logId=post');
+assert.equal(getWorkFeedNotificationTarget({ reference_id:'a b|FEED_COMMITTEE|c&d' },'/app/'),'/app/platform/iotaseoul/meeting-logs?logId=a+b&commentId=c%26d');
+assert.equal(getWorkFeedNotificationTarget({ reference_id:'post|WS_PMO' }),null);
+assert.equal(getWorkFeedNotificationTarget({ reference_id:'|FEED_OPEN' }),null);
+console.log('PASS: distinct notifications retained; same event deduplicated; feed routing and encoded IDs');

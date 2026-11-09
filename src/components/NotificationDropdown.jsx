@@ -1,3 +1,4 @@
+import { getWorkFeedNotificationTarget } from '../utils/notificationState';
 import React, { useRef, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import toast from 'react-hot-toast';
@@ -9,12 +10,14 @@ export default function NotificationDropdown({ isOpen, onClose, notifications, u
         try {
             if (!notif.is_read) {
                 try {
-                    onMarkAsRead(notif.id);
+                    await onMarkAsRead(notif.id);
                 } catch (e) {
                     console.error('[NotificationDropdown] markAsRead error:', e);
                 }
             }
             onClose();
+            const feedTarget = getWorkFeedNotificationTarget(notif, import.meta.env.BASE_URL);
+            if (feedTarget) { window.location.href = feedTarget; return; }
 
             console.log('[NotificationDropdown] 알림 전체 정보:', notif);
             

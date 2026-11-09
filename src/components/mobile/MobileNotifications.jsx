@@ -1,53 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 
-const deduplicateNotifications = (list) => {
-    if (!list) return [];
-    
-    // Pass 1: 동일한 제목과 본문을 가진 완전히 중복된 알림 제거
-    const seen = new Set();
-    const uniqueList = [];
-    list.forEach(n => {
-        const normBody = (n.body || '').replace(/\s+/g, ' ').trim();
-        const normTitle = (n.title || '').trim();
-        const key = `${normTitle}|${normBody}`;
-        if (!seen.has(key)) {
-            seen.add(key);
-            uniqueList.push(n);
-        }
-    });
-
-    // Pass 2: 동일 reference_id 접두사(log_id 또는 task_id 등)를 공유하는 그룹 중 상세 알림('업무명 :') 우선 노출
-    const groups = {};
-    uniqueList.forEach(n => {
-        if (n.reference_id) {
-            const refPrefix = n.reference_id.split('|')[0];
-            if (!groups[refPrefix]) {
-                groups[refPrefix] = [];
-            }
-            groups[refPrefix].push(n);
-        }
-    });
-
-    const idsToRemove = new Set();
-    Object.values(groups).forEach(group => {
-        if (group.length > 1) {
-            const detailed = group.find(n => n.body && n.body.includes('업무명 :')) || group[0];
-            if (detailed) {
-                group.forEach(n => {
-                    if (n !== detailed) {
-                        idsToRemove.add(n.id || `${n.reference_id}-${n.body}`);
-                    }
-                });
-            }
-        }
-    });
-
-    return uniqueList.filter(n => {
-        const key = n.id || `${n.reference_id}-${n.body}`;
-        return !idsToRemove.has(key);
-    });
-};
+import { deduplicateNotifications } from '../../utils/notificationState';
 
 export default function MobileNotifications({ memberInfo, onRead, onNotificationClick }) {
     const [notifications, setNotifications] = useState([]);
@@ -59,10 +13,24 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
             return;
         }
         fetchNotifications();
+        const refresh = () => fetchNotifications(false);
+        const onVisible = () => { if (document.visibilityState === 'visible') refresh(); };
+        const channel = supabase.channel(`mobile-notification-list-${memberInfo.auth_id}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'iota_notifications', filter: `user_id=eq.${memberInfo.auth_id}` }, refresh)
+            .subscribe(status => { if (status === 'SUBSCRIBED') refresh(); });
+        window.addEventListener('focus', refresh);
+        document.addEventListener('visibilitychange', onVisible);
+        const timer = setInterval(onVisible, 30000);
+        return () => {
+            clearInterval(timer);
+            window.removeEventListener('focus', refresh);
+            document.removeEventListener('visibilitychange', onVisible);
+            supabase.removeChannel(channel);
+        };
     }, [memberInfo?.auth_id]);
 
-    const fetchNotifications = async () => {
-        setLoading(true);
+    const fetchNotifications = async (showLoading = true) => {
+        if (showLoading) setLoading(true);
         try {
             const { data, error } = await supabase
                 .from('iota_notifications')
@@ -86,21 +54,22 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
         try {
             // Optimistic update
             setNotifications(prev => prev.map(n => n.id === noti.id ? { ...n, is_read: true } : n));
-            if (onRead) onRead();
 
             const { error } = await supabase
                 .from('iota_notifications')
                 .update({ is_read: true })
-                .eq('id', noti.id);
+                .eq('id', noti.id).eq('user_id', memberInfo.auth_id);
                 
             if (error) throw error;
+            if (onRead) onRead();
         } catch (err) {
             console.error("Failed to update notification status:", err);
+            fetchNotifications(false);
         }
     };
 
-    const handleNotifClick = (noti) => {
-        handleRead(noti);
+    const handleNotifClick = async (noti) => {
+        await handleRead(noti);
         if (onNotificationClick) {
             onNotificationClick(noti);
         }
@@ -111,15 +80,15 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
         if (!window.confirm("이 알림을 삭제하시겠습니까?")) return;
 
         setNotifications(prev => prev.filter(n => n.id !== notiId));
-        if (onRead) onRead();
 
         try {
             const { error } = await supabase
                 .from('iota_notifications')
                 .delete()
-                .eq('id', notiId);
+                .eq('id', notiId).eq('user_id', memberInfo.auth_id);
                 
             if (error) throw error;
+            if (onRead) onRead();
         } catch (err) {
             console.error("Failed to delete notification:", err);
             alert("알림 삭제에 실패했습니다.");
@@ -132,7 +101,6 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
         if (!memberInfo?.auth_id) return;
 
         setNotifications([]);
-        if (onRead) onRead();
 
         try {
             const { error } = await supabase
@@ -141,6 +109,7 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
                 .eq('user_id', memberInfo.auth_id);
                 
             if (error) throw error;
+            if (onRead) onRead();
         } catch (err) {
             console.error("Failed to delete all notifications:", err);
             alert("알림 전체 삭제에 실패했습니다.");

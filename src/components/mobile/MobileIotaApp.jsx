@@ -1,3 +1,4 @@
+import { getWorkFeedNotificationTarget } from '../../utils/notificationState';
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../utils/supabaseClient';
@@ -11,9 +12,12 @@ import { requestFirebaseNotificationPermission } from '../../utils/firebase';
 import { getInitialWorkspace } from './mobileIotaData';
 import { getMemberIotaOrganization } from '../../utils/iotaOrganizations';
 
+const MobileWorkFeedPage = React.lazy(() => import('../system/WorkFeedPage'));
+
 export default function MobileIotaApp({ navigateTo }) {
     const { user, memberInfo, signOut } = useAuth();
     const [activeTab, setActiveTab] = useState(0); // 0: 주요업무, 1: 협업게시판, 2: 내업무, 3: 알림
+    const [notificationFeed, setNotificationFeed] = useState(null);
     const [highlightLogId, setHighlightLogId] = useState(null);
     const [highlightTaskId, setHighlightTaskId] = useState(null);
     const [taskDefaultFilter, setTaskDefaultFilter] = useState(null);
@@ -22,6 +26,7 @@ export default function MobileIotaApp({ navigateTo }) {
     const [targetMobileWorkspace, setTargetMobileWorkspace] = useState(null);
     const [isComposerOpen, setIsComposerOpen] = useState(false);
     const [unreadNotiCount, setUnreadNotiCount] = useState(0);
+    const [notificationRefresh, setNotificationRefresh] = useState(0);
     const [isStandalone, setIsStandalone] = useState(false);
     const [showBottomNav, setShowBottomNav] = useState(true);
     const [lastScrollTop, setLastScrollTop] = useState(0);
@@ -144,17 +149,32 @@ export default function MobileIotaApp({ navigateTo }) {
 
     // Fetch unread notification count
     useEffect(() => {
-        if (!memberInfo?.auth_id) return;
+        if (!memberInfo?.auth_id) { setUnreadNotiCount(0); return; }
+        let active = true;
         const fetchUnread = async () => {
-            const { count } = await supabase
+            const { count, error } = await supabase
                 .from('iota_notifications')
                 .select('*', { count: 'exact', head: true })
                 .eq('user_id', memberInfo.auth_id)
                 .eq('is_read', false);
-            setUnreadNotiCount(count || 0);
+            if (active && !error) setUnreadNotiCount(count || 0);
         };
         fetchUnread();
-    }, [memberInfo?.auth_id, activeTab]);
+        const channel = supabase.channel(`mobile-notification-count-${memberInfo.auth_id}`)
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'iota_notifications', filter: `user_id=eq.${memberInfo.auth_id}` }, fetchUnread)
+            .subscribe(status => { if (status === 'SUBSCRIBED') fetchUnread(); });
+        const onVisible = () => { if (document.visibilityState === 'visible') fetchUnread(); };
+        window.addEventListener('focus', fetchUnread);
+        document.addEventListener('visibilitychange', onVisible);
+        const timer = setInterval(onVisible, 30000);
+        return () => {
+            active = false;
+            clearInterval(timer);
+            window.removeEventListener('focus', fetchUnread);
+            document.removeEventListener('visibilitychange', onVisible);
+            supabase.removeChannel(channel);
+        };
+    }, [memberInfo?.auth_id, activeTab, notificationRefresh]);
 
     const handleLogout = async () => {
         if (window.confirm("로그아웃 하시겠습니까?")) {
@@ -172,6 +192,19 @@ export default function MobileIotaApp({ navigateTo }) {
         top: 0,
         left: 0
     };
+    if (notificationFeed) return (
+        <div className="h-full overflow-auto bg-[#1F1F1E] text-[#E5E5E5]">
+            <button type="button" onClick={() => {
+                setNotificationFeed(null);
+                const params = new URLSearchParams(window.location.search);
+                params.delete('logId'); params.delete('commentId');
+                window.history.replaceState(null, '', `${window.location.pathname}${params.size ? `?${params}` : ''}`);
+            }} className="m-4 cursor-pointer rounded-[10px] border border-[#444] px-4 py-2 text-[14px] transition-colors hover:bg-[#333]">← 알림으로 돌아가기</button>
+            <React.Suspense fallback={<p className="p-6">불러오는 중입니다...</p>}>
+                <MobileWorkFeedPage feedKind={notificationFeed} />
+            </React.Suspense>
+        </div>
+    );
     return (
         <div 
             className="flex flex-col bg-[#1F1F1E] text-[#E5E5E5] font-sans relative overflow-hidden"
@@ -341,11 +374,18 @@ export default function MobileIotaApp({ navigateTo }) {
                     />
                 )}
                 {activeTab === 4 && (
-                    <MobileNotifications 
+                    <MobileNotifications key={memberInfo?.auth_id}
                         memberInfo={memberInfo} 
-                        onRead={() => setUnreadNotiCount(Math.max(0, unreadNotiCount - 1))} 
+                        onRead={() => setNotificationRefresh(value => value + 1)}
                         onNotificationClick={async (noti) => {
                             try {
+                                const feedTarget = getWorkFeedNotificationTarget(noti, import.meta.env.BASE_URL);
+                                if (feedTarget) {
+                                    const target = new URL(feedTarget, window.location.href);
+                                    window.history.replaceState(null, '', `${window.location.pathname}${target.search}`);
+                                    setNotificationFeed(noti.reference_id.split('|')[1] === 'FEED_COMMITTEE' ? 'committee' : 'open');
+                                    return;
+                                }
                                 console.log('[MobileIotaApp] 알림 터치 수신:', noti);
                                 const isLogNotif = noti.type === 'log' || 
                                                    noti.type === 'logs' || 
