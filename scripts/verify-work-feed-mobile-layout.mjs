@@ -59,6 +59,7 @@ try {
   await page.getByLabel('제목',{exact:true}).fill('모바일 레이아웃 검증');
   await page.getByLabel('본문',{exact:true}).fill('휴대폰에서 입력하는 긴 본문 '.repeat(10));
   await page.getByLabel('활용목적',{exact:true}).selectOption('의사결정');
+  await page.getByLabel('업무 기한',{exact:true}).fill('2026-11-20');
   await checkBounds('expanded '+width);
   const file=await page.getByRole('button',{name:'파일 첨부',exact:true}).boundingBox();
   const permission=await page.getByRole('button',{name:'열람권한',exact:true}).boundingBox();
@@ -78,6 +79,7 @@ try {
   assert.equal(await page.getByLabel('제목',{exact:true}).inputValue(),'모바일 레이아웃 검증','Collapse preserves the draft');
   await page.getByRole('button',{name:'작성하기',exact:true}).click();
   assert.equal(await page.evaluate(()=>window.submitted.contactQuery),'검증 담당자');
+  assert.equal(await page.evaluate(()=>window.submitted.workDate),'2026-11-20');
   await page.evaluate(()=>window.fixtureEdit(true));
   await page.getByRole('button',{name:'수정 완료',exact:true}).waitFor();
   await checkBounds('edit '+width);
@@ -87,6 +89,11 @@ try {
  await page.evaluate(()=>window.fixtureMobile(false));
  await page.waitForTimeout(100);
  await checkBounds('desktop');
+ await page.getByLabel('업무 기한',{exact:true}).fill('2026-11-25');
+ assert.equal(await page.getByLabel('업무 기한',{exact:true}).inputValue(),'2026-11-25');
+ const deadline=await page.getByLabel('업무 기한',{exact:true}).boundingBox();
+ const close=await page.getByRole('button',{name:'수정 닫기',exact:true}).boundingBox();
+ assert(deadline.x+deadline.width<=close.x && Math.abs(deadline.y-close.y)<2,'Desktop deadline stays immediately left of close/fold');
  assert.deepEqual(errors,[],'No runtime errors');
  console.log('PASS desktop layout and runtime regression');
 } finally { await browser.close(); }
