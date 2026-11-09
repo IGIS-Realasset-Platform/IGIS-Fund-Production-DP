@@ -485,17 +485,17 @@ const renderSystemLogChanges = (rawText) => {
     );
 };
 
-export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null, canCreate = true }) {
+export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, isTaskBoard = false, taskId = null, taskProject = null, mobileMode = false, feedKind = null, canCreate = true, initialFeedResult = null }) {
     const { user, memberInfo } = useAuth();
     const userId = user?.id;
-    const [loadError, setLoadError] = useState(false);
+    const [loadError, setLoadError] = useState(Boolean(initialFeedResult?.error));
     const [pendingFeedStatuses, setPendingFeedStatuses] = useState({});
     const [feedStatusErrors, setFeedStatusErrors] = useState({});
     const pendingFeedReactions = React.useRef(new Set());
     
     // Logs State
-    const [isLoading, setIsLoading] = useState(true);
-    const [logs, setLogs] = useState([]);
+    const [isLoading, setIsLoading] = useState(!initialFeedResult);
+    const [logs, setLogs] = useState(() => initialFeedResult?.logs || []);
     const [logsViewMode, setLogsViewMode] = useState(feedKind ? 'full' : 'summary');
     const [currentPage, setCurrentPage] = useState(1);
     const [expandedLogs, setExpandedLogs] = useState({});
@@ -611,7 +611,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     };
 
     useEffect(() => {
-        fetchLogs({ preferCache: true });
+        if (!initialFeedResult) fetchLogs({ preferCache: true });
         fetchMasterStakeholders();
     }, [taskId, workspaceCode, feedKind, userId]);
 
