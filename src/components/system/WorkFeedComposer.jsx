@@ -67,12 +67,14 @@ export default function WorkFeedComposer({ mobileMode = false, memberInfo, expan
         </header> : <header className="flex flex-wrap items-center gap-3 border-b border-[#383838] px-5 py-3">
             {avatar}
             {settingsFields}
-            <div className="ml-auto flex items-center gap-2">
+            <div className="flex items-center gap-2">
                 <span className="shrink-0 text-[12px] font-bold text-[#85858b]">업무 기한</span>
                 <label className="relative inline-flex h-9 cursor-pointer items-center gap-2 rounded-[8px] border border-[#3e3e3e] bg-[#222] px-3 text-[12px] font-bold text-[#ddd]">
                     <Icon type="calendar" size={14} />{new Date(`${fields.workDate}T12:00:00`).toLocaleDateString('ko-KR', {year:'numeric', month:'long', day:'numeric', weekday:'short'})}
                     <input aria-label="업무 기한" type="date" value={fields.workDate} onChange={event => setters.workDate(event.target.value)} onClick={event => event.currentTarget.showPicker?.()} className="absolute inset-0 h-full w-full cursor-pointer opacity-0" />
                 </label>
+            </div>
+            <div className="ml-auto">
             {editMode ? <button type="button" onClick={onCancel} aria-label="수정 닫기" className="grid h-9 w-9 place-items-center rounded-[8px] border border-[#454545] text-[#aaa] hover:bg-[#333]"><Icon type="close" size={16} /></button> : <button type="button" onClick={() => setExpanded(false)} className="rounded-[8px] border border-[#454545] px-3 py-2 text-[12px] font-bold text-[#bbb] hover:bg-[#333]">접기</button>}
             </div>
         </header>}

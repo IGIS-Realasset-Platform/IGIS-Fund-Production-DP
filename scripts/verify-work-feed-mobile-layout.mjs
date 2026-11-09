@@ -92,8 +92,11 @@ try {
  await page.getByLabel('업무 기한',{exact:true}).fill('2026-11-25');
  assert.equal(await page.getByLabel('업무 기한',{exact:true}).inputValue(),'2026-11-25');
  const deadline=await page.getByLabel('업무 기한',{exact:true}).boundingBox();
+ const deadlineGroup=await page.getByLabel('업무 기한',{exact:true}).locator('..').locator('..').boundingBox();
+ const priority=await page.getByLabel('중요도',{exact:true}).boundingBox();
+ assert(Math.abs(deadlineGroup.x-(priority.x+priority.width)-12)<2,'Desktop deadline follows priority with the standard field gap');
  const close=await page.getByRole('button',{name:'수정 닫기',exact:true}).boundingBox();
- assert(deadline.x+deadline.width<=close.x && Math.abs(deadline.y-close.y)<2,'Desktop deadline stays immediately left of close/fold');
+ assert(deadline.x+deadline.width<=close.x && Math.abs(deadline.y-close.y)<2,'Desktop deadline and close/fold remain aligned');
  assert.deepEqual(errors,[],'No runtime errors');
  console.log('PASS desktop layout and runtime regression');
 } finally { await browser.close(); }
