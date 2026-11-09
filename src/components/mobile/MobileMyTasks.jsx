@@ -185,6 +185,7 @@ export default function MobileMyTasks({ memberInfo, onNavigateToSource }) {
     return (
         <div className="flex flex-col w-full min-h-full bg-[#1F1F1E] pb-24">
             <div className="sticky top-0 z-20 shrink-0 bg-[#272726]/95 backdrop-blur-xl border-b border-[#3c3c3c] px-4 pt-3 pb-2.5">
+                <h1 className="mb-3 text-[19px] font-bold tracking-tight text-white">MY</h1>
                 <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#1A1A1A] rounded-[14px]">
                     {tabs.map((tab) => {
                         const isActive = activeTab === tab.id;

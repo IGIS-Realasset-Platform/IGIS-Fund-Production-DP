@@ -128,9 +128,9 @@ export default function MobileNotifications({ memberInfo, onRead, onNotification
     };
 
     return (
-        <div className="flex flex-col w-full pb-24 p-4 bg-[#1F1F1E]">
-            <div className="flex items-center justify-between mb-4 shrink-0 select-none">
-                <h2 className="text-[20px] font-bold text-white">알림</h2>
+        <div className="flex flex-col w-full px-4 pt-3 pb-24 bg-[#1F1F1E]">
+            <div className="flex items-start justify-between mb-3 shrink-0 select-none">
+                <h1 className="text-[19px] font-bold tracking-tight text-white">알림</h1>
                 {notifications.length > 0 && (
                     <button
                         onClick={handleDeleteAll}
