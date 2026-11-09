@@ -1263,7 +1263,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
             {searchPortalTarget ? createPortal(searchBar, searchPortalTarget) : searchBar}
             
             
-            <div className={isTaskBoard ? "mt-0 mb-0" : "-mx-[7px] p-[6px] border border-[#333] rounded-[30px] mb-[40px]"}>
+            <div className={isTaskBoard ? "mt-0 mb-0" : `-mx-[7px] p-[6px] border ${mobileMode ? "border-transparent" : "border-[#333]"} rounded-[30px] mb-[40px]`}>
                 <div className="w-full flex flex-col mt-0">{/* Task Input Form */}
             {!isTaskBoard && canCreate && (
                 <LogWriteBox feedKind={feedKind} mobileMode={mobileMode}
