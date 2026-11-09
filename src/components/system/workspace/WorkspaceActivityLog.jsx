@@ -1923,7 +1923,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                             <div className="mt-5 flex items-center gap-4 py-[2px]">
                                                 {['like', 'check'].map(type => <WorkFeedReactionButton key={type} type={type} reactions={log.metadata?.reactions} actorEmail={memberInfo?.email} pilotMembers={pilotMembers} onToggle={() => handleToggleReaction(log.log_id, type)} />)}
                                                 <div className="ml-auto flex min-w-0 flex-1 items-center justify-end gap-4 text-[12px] text-[#86868B]">
-                                                    <span className="min-w-0 break-words text-right">열람권한: {getPermissionString(log) || '전체 이용자'}</span>
+                                                    <span className="min-w-0 break-words rounded-[8px] border border-[#914743]/70 bg-[#df7f7a]/5 px-2.5 py-1 text-right font-medium leading-5 text-[#df7f7a]">열람권한: {getPermissionString(log) || '전체 이용자'}</span>
                                                     <span className="flex shrink-0 items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>댓글 {log.metadata?.comments?.length || 0}</span>
                                                 </div>
                                             </div>
