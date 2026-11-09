@@ -49,6 +49,9 @@ export default function WorkFeedComposer({ mobileMode = false, memberInfo, expan
             <SelectField mobileMode={mobileMode} label="진행상태" value={fields.issueStatus} onChange={setters.issueStatus} options={['신규','검토중','진행중','보류','완료']} />
             <SelectField mobileMode={mobileMode} label="중요도" value={fields.priority} onChange={setters.priority} options={['높음','중간','낮음']} color={fields.priority === '높음' ? 'text-[#de827e]' : fields.priority === '중간' ? 'text-[#7eb6e1]' : 'text-[#86b79c]'} />
     </>;
+    if (mobileMode && !expanded && !editMode) return <div className="flex justify-end">
+        <button type="button" onClick={() => setExpanded(true)} aria-expanded="false" className="inline-flex h-11 cursor-pointer items-center gap-1 rounded-[8px] px-2 text-[13px] font-semibold text-[#bcdbdb] transition-colors hover:bg-white/5"><span aria-hidden="true" className="text-[18px] font-normal">+</span> 글쓰기</button>
+    </div>;
     if (!expanded && !editMode) return <button type="button" onClick={() => setExpanded(true)} className={`flex w-full items-center rounded-[23px] bg-[#262626] py-[13px] text-left hover:bg-[#2a2a2a] cursor-pointer ${mobileMode ? "gap-2 px-3" : "gap-4 px-[18px]"}`}>
         {avatar}<span className={`min-w-0 flex-1 font-bold text-[#bcdbdb] ${mobileMode ? "text-[13px]" : "text-[16px]"}`}>{mobileMode ? "업무 이슈를 공유하세요." : "업무 메시지, 협업 사항 또는 공유할 내용을 등록하세요."}</span>
         <span className={`shrink-0 rounded-[8px] border border-[#83adb5] bg-[#222] py-2 text-[13px] font-black text-[#e5e5e5] ${mobileMode ? "px-2" : "px-4"}`}>글작성하기</span>

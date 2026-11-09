@@ -33,6 +33,16 @@ const bundle = await build({stdin:{contents:fixture,resolveDir:process.cwd(),loa
 const cssFile=(await fs.readdir('dist/assets')).find(name=>name.endsWith('.css'));
 assert(cssFile,'Run npm run build before the layout check');
 const css=await fs.readFile('dist/assets/'+cssFile,'utf8');
+const headerBundle = await build({
+ stdin:{contents:`import React from 'react';import {createRoot} from 'react-dom/client';import Discussion from './src/components/system/WorkFeedDiscussionPage.jsx';createRoot(document.getElementById('root')).render(<Discussion mobileMode initialFeed="open"/>);`,resolveDir:process.cwd(),loader:'jsx'},
+ bundle:true,write:false,format:'iife',platform:'browser',define:{'process.env.NODE_ENV':'"production"'},
+ plugins:[{name:'header-fixture',setup(builder){
+  builder.onResolve({filter:/supabaseClient$/},()=>({path:'database',namespace:'fixture'}));
+  builder.onResolve({filter:/context\/AuthContext$/},()=>({path:'auth',namespace:'fixture'}));
+  builder.onResolve({filter:/^\.\/WorkFeedPage$/},()=>({path:'feed',namespace:'fixture'}));
+  builder.onLoad({filter:/.*/,namespace:'fixture'},({path})=>({loader:'jsx',resolveDir:process.cwd(),contents:path==='database' ? 'export const supabase={};' : path==='auth' ? 'export const useAuth=()=>({memberInfo:{staff_name:"테스트 사용자"}});' : `import React from 'react';export default function Feed({mobileSearchOpen}){return mobileSearchOpen ? <input aria-label="게시글 검색" autoFocus/> : null;}`}));
+ }}]
+});
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 try {
  const page=await browser.newPage();
@@ -55,7 +65,7 @@ try {
   await page.getByLabel('게시글 검색').fill('검토');
   const search=await page.getByLabel('게시글 검색').boundingBox();
   assert(Math.abs(search.width-(width-32))<2, 'Mobile search fills the content width: '+JSON.stringify({width,search}));
-  await page.getByRole('button',{name:/업무 이슈를 공유하세요/}).click();
+  await page.getByRole('button',{name:'글쓰기',exact:true}).click();
   await page.getByLabel('제목',{exact:true}).fill('모바일 레이아웃 검증');
   await page.getByLabel('본문',{exact:true}).fill('휴대폰에서 입력하는 긴 본문 '.repeat(10));
   await page.getByLabel('활용목적',{exact:true}).selectOption('의사결정');
@@ -75,7 +85,7 @@ try {
   await page.getByRole('button',{name:'확인',exact:true}).click();
   // Tap the avatar side of the bar, outside the visible fold label.
   await page.getByRole('button',{name:'글쓰기 접기',exact:true}).click({position:{x:15,y:15}});
-  await page.getByRole('button',{name:/업무 이슈를 공유하세요/}).click();
+  await page.getByRole('button',{name:'글쓰기',exact:true}).click();
   assert.equal(await page.getByLabel('제목',{exact:true}).inputValue(),'모바일 레이아웃 검증','Collapse preserves the draft');
   await page.getByRole('button',{name:'작성하기',exact:true}).click();
   assert.equal(await page.evaluate(()=>window.submitted.contactQuery),'검증 담당자');
@@ -97,6 +107,24 @@ try {
  assert(Math.abs(deadlineGroup.x-(priority.x+priority.width)-12)<2,'Desktop deadline follows priority with the standard field gap');
  const close=await page.getByRole('button',{name:'수정 닫기',exact:true}).boundingBox();
  assert(deadline.x+deadline.width<=close.x && Math.abs(deadline.y-close.y)<2,'Desktop deadline and close/fold remain aligned');
+ for (const width of [320,375,430]) {
+  await page.setViewportSize({width,height:900});
+  await page.setContent('<html><head><style>'+css+'</style></head><body style="margin:0"><div id="root"></div></body></html>');
+  await page.evaluate(()=>{window.history.replaceState=()=>{};});
+  await page.addScriptTag({content:headerBundle.outputFiles[0].text});
+  assert.equal(await page.getByLabel('게시글 검색',{exact:true}).count(),0,'Search starts collapsed');
+  assert.equal(await page.getByRole('heading',{name:'논의/협업',exact:true}).count(),0,'No large mobile title');
+  await page.getByRole('button',{name:'게시글 검색 열기',exact:true}).click();
+  await page.getByLabel('게시글 검색',{exact:true}).fill('검색 테스트');
+  await checkBounds('mobile tab header '+width);
+  await page.getByRole('button',{name:'검색 닫기',exact:true}).click();
+  assert.equal(await page.getByLabel('게시글 검색',{exact:true}).count(),0,'Search closes');
+  await page.getByRole('button',{name:'게시글 검색 열기',exact:true}).click();
+  await page.getByRole('tab',{name:'운영위 논의사항',exact:true}).click();
+  assert.equal(await page.getByRole('tab',{name:'운영위 논의사항',exact:true}).getAttribute('aria-selected'),'true');
+  assert.equal(await page.getByLabel('게시글 검색',{exact:true}).count(),0,'Switching tabs closes search');
+ }
+ console.log('PASS mobile underline tabs, search toggle and header bounds');
  assert.deepEqual(errors,[],'No runtime errors');
  console.log('PASS desktop layout and runtime regression');
 } finally { await browser.close(); }
