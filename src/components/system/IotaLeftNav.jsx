@@ -344,7 +344,7 @@ export default function IotaLeftNav({ onMenuChange, currentPath = '' }) {
 
                 <div className="flex flex-col gap-0">
                     {menuItems.map((item) => {
-                        const isActive = currentPath.split('?')[0] === item.path || (item.id === 'discussion' && /\/(meeting-logs|open-feed)$/.test(currentPath.split('?')[0]));
+                        const isActive = currentPath.split('?')[0] === item.path || (item.id === 'discussion' && /\/(meeting-logs|open-feed|discussion\/(committee|work))\/?$/.test(currentPath.split('?')[0]));
                         const hasSubItems = item.subItems && item.subItems.length > 0;
                         const isExpanded = item.id === 2 ? isVehicleOpen : false;
 

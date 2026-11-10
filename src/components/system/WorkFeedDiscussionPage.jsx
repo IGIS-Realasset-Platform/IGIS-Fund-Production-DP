@@ -1,5 +1,5 @@
 import useWorkFeedLocation from '../../hooks/useWorkFeedLocation';
-import { writeWorkFeedLocation } from '../../utils/workFeedLocation';
+import { readWorkFeedLocation, writeWorkFeedLocation } from '../../utils/workFeedLocation';
 import useMobileTabState from '../../hooks/useMobileTabState';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
@@ -19,10 +19,13 @@ export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false
     useEffect(() => {
         if (location.feed) setSelectedFeed(location.feed);
     }, [location.feed]);
-    const feedKind = resolveWorkFeed(memberInfo, selectedFeed);
+    const feedKind = resolveWorkFeed(memberInfo, location.feed || selectedFeed);
     useEffect(() => {
-        if (memberInfo && !location.feed) writeWorkFeedLocation(feedKind, location.logId, { replace: true });
-    }, [memberInfo, location.feed]);
+        if (memberInfo) {
+            const current = readWorkFeedLocation();
+            writeWorkFeedLocation(current.feed || feedKind, current.logId, { replace: true, commentId: current.commentId });
+        }
+    }, [memberInfo, feedKind, location.feed, location.logId, location.commentId]);
     const selectFeed = (kind) => {
         if (kind === feedKind) return;
         writeWorkFeedLocation(kind);

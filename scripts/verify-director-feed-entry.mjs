@@ -23,7 +23,7 @@ import Discussion from './src/components/system/WorkFeedDiscussionPage.jsx';
 function Desktop(){
  const [path,setPath]=useState(window.location.pathname.slice(1));
  useEffect(()=>{const sync=()=>setPath(window.location.pathname.slice(1));window.addEventListener('popstate',sync);return()=>window.removeEventListener('popstate',sync)},[]);
- return <><Sidebar currentPath={path}/>{path==='platform/iotaseoul/discussion'?<Discussion/>:<p>다른 메뉴 내용</p>}</>;
+ return <><Sidebar currentPath={path}/>{path.startsWith('platform/iotaseoul/discussion')?<Discussion/>:<p>다른 메뉴 내용</p>}</>;
 }
 createRoot(document.getElementById('root')).render(window.innerWidth<768?<Mobile navigateTo={()=>{}}/>:<Desktop/>);`;
 const bundle=await build({stdin:{contents:fixture,resolveDir:process.cwd(),loader:'jsx'},bundle:true,write:false,platform:'browser',format:'iife',jsx:'automatic',define:{'import.meta.env.BASE_URL':'"/"','process.env.NODE_ENV':'"production"'},plugins:[{name:'offline',setup(b){
@@ -39,7 +39,7 @@ try {
   await page.addInitScript(({name})=>{window.fixtureUser=name;window.fixtureName=name;},{name});
   await page.route('**/*',route=>route.fulfill({contentType:'text/html',body:`<html><body><div id="root"></div><script>${bundle.outputFiles[0].text}</script></body></html>`}));
   const base='http://director-fixture.test'+(mobile?'/mobile/':'/platform/iotaseoul/workflow');
-  const menu=()=>mobile?page.getByRole('button',{name:'논의/협업',exact:true}):page.getByText('논의/협업',{exact:true}).first();
+  const menu=()=>mobile?page.getByRole('button',{name:'논의/협업',exact:true}):page.getByText('논의/협업 Feed',{exact:true}).first();
   const selected=async label=>assert.equal(await page.getByRole('tab',{name:label,exact:true}).getAttribute('aria-selected'),'true',`${name} ${mobile?'mobile':'PC'} ${label}`);
   await page.goto(base);
   await page.evaluate(name=>sessionStorage.setItem(`iota:mobile-tabs:v1:${name}:discussion`,'"open"'),name);

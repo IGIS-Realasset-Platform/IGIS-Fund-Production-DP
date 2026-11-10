@@ -11,7 +11,7 @@ export function deduplicateNotifications(list = []) {
 
 export function getWorkFeedNotificationTarget(notification, baseUrl = '/') {
     const [logId, code, commentId] = String(notification.reference_id || '').split('|');
-    const path = { FEED_COMMITTEE: 'platform/iotaseoul/meeting-logs', FEED_OPEN: 'platform/iotaseoul/open-feed' }[code];
+    const path = { FEED_COMMITTEE: 'platform/iotaseoul/discussion/committee', FEED_OPEN: 'platform/iotaseoul/discussion/work' }[code];
     if (!logId || !path) return null;
     const params = new URLSearchParams({ logId });
     if (commentId) params.set('commentId', commentId);

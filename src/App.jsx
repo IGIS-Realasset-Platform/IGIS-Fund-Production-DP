@@ -1,4 +1,4 @@
-import { readWorkFeedLocation } from './utils/workFeedLocation';
+import { readWorkFeedLocation, getWorkFeedPath, isWorkFeedRoute } from './utils/workFeedLocation';
 import React from 'react';
 import { useAnimations } from './hooks/useAnimations';
 import { useLanguage } from './context/LanguageContext';
@@ -33,7 +33,6 @@ export default function App() {
       const base = BASE.endsWith('/') ? BASE.slice(0, -1) : BASE;
       let path = window.location.pathname.replace(base, '').replace(/^\//, '');
       if (path.endsWith('/')) path = path.slice(0, -1);
-      if (path) return path;
 
       const isNativeApp = ['capacitor:', 'ionic:'].includes(window.location.protocol)
         || Boolean(window.Capacitor?.isNativePlatform?.());
@@ -41,6 +40,8 @@ export default function App() {
       const isMobileDevice = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase())
         || window.innerWidth < 768;
       const forcePC = localStorage.getItem('force_pc_mode') === 'true';
+
+      if (path) return (isNativeApp || isMobileDevice) && !forcePC && isWorkFeedRoute(path) ? 'mobile' : path;
 
       return (isNativeApp || isMobileDevice) && !forcePC
         ? 'mobile'
@@ -76,16 +77,18 @@ export default function App() {
       };
 
       window.addEventListener('popstate', handlePopState);
+      window.addEventListener('iota:feed-navigation', handlePopState);
       window.addEventListener('keydown', handleGlobalKeyDown);
       return () => {
           window.removeEventListener('popstate', handlePopState);
+          window.removeEventListener('iota:feed-navigation', handlePopState);
           window.removeEventListener('keydown', handleGlobalKeyDown);
       };
   }, [currentPage]);
 
   const navigateTo = (page, { search = '', replace = false } = {}) => {
       window.history[replace ? 'replaceState' : 'pushState'](null, '', toUrl(page) + search);
-      setCurrentPage(page);
+      setCurrentPage(getPage());
   };
 
   useAnimations(currentPage);
@@ -123,11 +126,13 @@ export default function App() {
           if (isMobile && !forcePC && currentPage.startsWith('platform')) {
               const target = readWorkFeedLocation();
               const params = new URLSearchParams(window.location.search);
-              if (target.feed) params.set('feed', target.feed);
-              navigateTo('mobile', { search: params.size ? `?${params}` : '', replace: true });
+              if (target.feed) params.delete('feed');
+              navigateTo(target.feed ? getWorkFeedPath(target.feed) : 'mobile', { search: params.size ? `?${params}` : '', replace: true });
           } else if (forcePC && currentPage.startsWith('mobile')) {
               const target = readWorkFeedLocation();
-              navigateTo(target.feed ? 'platform/iotaseoul/discussion' : 'platform/iotaseoul/home', { search: target.feed ? window.location.search : '', replace: true });
+              const params = new URLSearchParams(window.location.search);
+              params.delete('feed');
+              navigateTo(target.feed ? getWorkFeedPath(target.feed) : 'platform/iotaseoul/home', { search: target.feed && params.size ? `?${params}` : '', replace: true });
           }
       }
   }, [user, loading, currentPage, recoveryMode]);
@@ -182,8 +187,8 @@ export default function App() {
               const forcePCMode = localStorage.getItem('force_pc_mode') === 'true';
               const target = readWorkFeedLocation();
               const params = new URLSearchParams(window.location.search);
-              if (target.feed) params.set('feed', target.feed);
-              navigateTo(isMobile && !forcePCMode ? 'mobile' : target.feed ? 'platform/iotaseoul/discussion' : 'platform/iotaseoul/home', { search: target.feed ? `?${params}` : '', replace: true });
+              if (target.feed) params.delete('feed');
+              navigateTo(target.feed ? getWorkFeedPath(target.feed) : isMobile && !forcePCMode ? 'mobile' : 'platform/iotaseoul/home', { search: target.feed ? `?${params}` : '', replace: true });
             }}
           />
         </div>

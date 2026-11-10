@@ -84,6 +84,8 @@ export default function PlatformCenter({ currentPath = '' }) {
             case 'platform/iotaseoul/governance/working-group': return <GovWorkingGroup />;
             case 'platform/iotaseoul/governance/external-comm': return <GovExternalComm />;
             case 'platform/iotaseoul/governance/risk-top10': return <GovRiskTop10 />;
+            case 'platform/iotaseoul/discussion/committee':
+            case 'platform/iotaseoul/discussion/work':
             case 'platform/iotaseoul/discussion': return <WorkFeedDiscussionPage key="discussion" />;
             case 'platform/iotaseoul/meeting-logs': return <WorkFeedDiscussionPage key="committee" initialFeed="committee" />;
             case 'platform/iotaseoul/open-feed': return <WorkFeedDiscussionPage key="open" initialFeed="open" />;

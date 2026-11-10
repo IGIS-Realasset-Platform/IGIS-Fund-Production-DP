@@ -1,3 +1,4 @@
+import { clearMobileWorkFeedLocation } from '../../utils/workFeedLocation';
 import useWorkFeedLocation from '../../hooks/useWorkFeedLocation';
 import useMobileTabState from '../../hooks/useMobileTabState';
 import { MOBILE_PRIMARY_TABS, isMobileTabActive } from '../../utils/workFeedNavigation';
@@ -22,13 +23,7 @@ export default function MobileIotaApp({ navigateTo }) {
     const feedLocation = useWorkFeedLocation();
     const [activeTab, setStoredActiveTab] = useMobileTabState('menu', user?.id, 0, [0, 1, 2, 3, 4, 5], feedLocation.feed ? 5 : undefined); // 0: 통합업무 요약, 1: 전체 업무/보고, 2: 기능셀, 3: MY, 4: 알림, 5: 논의/협업
     const setActiveTab = (tab) => {
-        if (tab !== 5) {
-            const url = new URL(window.location.href);
-            if (url.searchParams.has('feed')) {
-                ['feed', 'logId', 'commentId'].forEach(key => url.searchParams.delete(key));
-                window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
-            }
-        }
+        if (tab !== 5) clearMobileWorkFeedLocation();
         setStoredActiveTab(tab);
     };
     useEffect(() => {
@@ -391,7 +386,7 @@ export default function MobileIotaApp({ navigateTo }) {
                                 const feedTarget = getWorkFeedNotificationTarget(noti, import.meta.env.BASE_URL);
                                 if (feedTarget) {
                                     const target = new URL(feedTarget, window.location.href);
-                                    window.history.replaceState(null, '', `${window.location.pathname}${target.search}&feed=${noti.reference_id.split('|')[1] === 'FEED_COMMITTEE' ? 'committee' : 'open'}`);
+                                    window.history.replaceState(null, '', target.pathname + target.search);
                                     window.dispatchEvent(new Event('iota:feed-navigation'));
                                     setNotificationFeed(noti.reference_id.split('|')[1] === 'FEED_COMMITTEE' ? 'committee' : 'open');
                                     setActiveTab(5);
