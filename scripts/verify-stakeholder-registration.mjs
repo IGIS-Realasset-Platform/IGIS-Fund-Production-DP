@@ -44,6 +44,7 @@ try {
  const errors=[];page.on('pageerror',error=>errors.push(error.message));
  await page.route('**/*',r=>r.request().resourceType()==='image'?r.fulfill({contentType:'image/svg+xml',body:'<svg xmlns="http://www.w3.org/2000/svg"/>'}):r.abort());
  for(const mobile of [false,true])for(const feed of ['committee','open']){
+  const category=mobile?'SI(기업)':feed==='open'?'LP':'대주';
   await page.setViewportSize({width:mobile?375:1440,height:1000});
   await page.goto('about:blank');
   await page.setContent('<html><head><style>'+css+'</style></head><body style="margin:0"><div id="root"></div></body></html>');
@@ -69,8 +70,10 @@ try {
   await page.getByRole('button',{name:'작성하기',exact:true}).click();
   const modal=page.getByRole('dialog',{name:'신규 이해관계자 등록'});
   await modal.waitFor();
+  for(const label of ['LP','대주','SI(기업)']) assert.equal(await modal.getByRole('option',{name:label,exact:true}).count(),1);
+  assert.equal(await modal.getByRole('option',{name:'LP I 대주 I SI',exact:true}).count(),0);
   assert.equal(await page.evaluate(()=>window.fixtureDB.saves.length),0,'Do not bypass registration');
-  await modal.getByLabel('신규 이해관계자 분류').selectOption('운영 파트너');
+  await modal.getByLabel('신규 이해관계자 분류').selectOption(category);
   await page.evaluate(()=>window.fixtureDB.failInsert=true);
   await modal.getByRole('button',{name:'등록 후 저장'}).click();
   await modal.getByRole('alert').waitFor();
@@ -79,7 +82,7 @@ try {
   assert.equal(await page.getByLabel('제목',{exact:true}).inputValue(),'신규 이해관계자 등록 검증');
   await page.evaluate(()=>window.fixtureDB.failInsert=false);
   // A concurrent registration must be reused rather than inserted twice.
-  if(feed==='committee')await page.evaluate(()=>window.fixtureDB.rows.push({id:'concurrent',company_name:'신규회사',contact_name:'신규담당자',role_category:'운영 파트너'}));
+  if(feed==='committee')await page.evaluate(category=>window.fixtureDB.rows.push({id:'concurrent',company_name:'신규회사',contact_name:'신규담당자',role_category:category}),category);
   await modal.getByRole('button',{name:'등록 후 저장'}).click();
   await modal.waitFor({state:'hidden'});
   await page.waitForFunction(()=>window.fixtureDB.saves.length===1);
@@ -87,7 +90,7 @@ try {
   assert.equal(db.rows.length,1);assert.equal(db.inserts.length,feed==='committee'?0:1);
   assert.equal(db.saves.length,1,'One click registers and saves exactly one post');
   assert.equal(db.saves[0].feed,feed);
-  assert.deepEqual(db.saves[0].payload.stakeholders,[{sh_name:'신규회사 - 신규담당자',role_category:'운영 파트너'}]);
+  assert.deepEqual(db.saves[0].payload.stakeholders,[{sh_name:'신규회사 - 신규담당자',role_category:category}]);
   assert.equal(await page.getByLabel('본문',{exact:true}).count()>0 ? await page.getByLabel('본문',{exact:true}).inputValue() : '', '');
   await page.getByRole('button',{name:mobile?'글쓰기':/글작성하기/}).click();
   await page.getByPlaceholder('회사·기관명').fill('신규회사');
@@ -100,7 +103,7 @@ try {
   await page.waitForFunction(()=>window.fixtureDB.saves.length===2);
   assert.equal(await modal.count(),0);
   assert.equal(await page.evaluate(()=>window.fixtureDB.rows.length),1,'Autocomplete reuses the registered record');
-  assert.equal(await page.evaluate(()=>window.fixtureDB.saves[1].payload.stakeholders[0].role_category),'운영 파트너');
+  assert.equal(await page.evaluate(()=>window.fixtureDB.saves[1].payload.stakeholders[0].role_category),category);
   console.log('PASS '+feed+' '+(mobile?'mobile':'desktop')+': registration, failure/retry, duplicate reuse, normalized company-contact association, post save');
  }
  await page.goto('about:blank');

@@ -1,3 +1,4 @@
+import { normalizeStakeholderCategory } from '../../utils/stakeholderCategories';
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { normalizeStakeholder, findRegisteredStakeholder, registerStakeholder } from '../../utils/stakeholderRegistration';
@@ -186,7 +187,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
             
             if (initialData.iota_seoul_log_stakeholders && initialData.iota_seoul_log_stakeholders.length > 0) {
                 const sh = initialData.iota_seoul_log_stakeholders[0];
-                if (sh.role_category) setStakeholderCat(sh.role_category);
+                if (sh.role_category) setStakeholderCat(normalizeStakeholderCategory(sh.role_category));
                 if (sh.sh_name) {
                     const parts = sh.sh_name.split(' - ');
                     if (parts.length > 0) setCompanyQuery(parts[0]);
@@ -833,11 +834,13 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                         <label className="relative flex items-center gap-[8px] cursor-pointer group">
                             <span className="text-[#86868B] text-[14px] font-medium shrink-0 group-hover:text-white transition-colors">이해관계자 분류</span>
                             <div className="inline-flex items-center text-[#E5E5E5] text-[14px] pr-[16px] group-hover:text-white transition-colors" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }}>
-                                {stakeholderCat === 'SI' ? 'LP I 대주 I SI' : stakeholderCat || '선택 안 함'}
+                                {normalizeStakeholderCategory(stakeholderCat) || '선택 안 함'}
                             </div>
                             <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none">
                                 <option value="">선택 안 함</option>
-                                <option value="SI">LP I 대주 I SI</option>
+                                <option value="LP">LP</option>
+                                <option value="대주">대주</option>
+                                <option value="SI(기업)">SI(기업)</option>
                                 <option value="잠재임차사">잠재임차사</option>
                                 <option value="운영 파트너">운영 파트너</option>
                                 <option value="IGIS 내부인력">IGIS 내부인력</option>
@@ -945,7 +948,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                             {!isTaskBoard && (
                                 <select value={stakeholderCat} onChange={(e) => setStakeholderCat(e.target.value)} className="bg-[#222] border border-[#444] rounded-[8px] px-[12px] py-[6px] text-[#E5E5E5] text-[13px] outline-none cursor-pointer appearance-none pr-[28px]" style={{ backgroundImage: iconChevronDark, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center' }}>
                                     <option value="">이해관계자 분류 안 함</option>
-                                    <option value="SI">LP I 대주 I SI</option>
+                                    <option value="LP">LP</option>
+                                <option value="대주">대주</option>
+                                <option value="SI(기업)">SI(기업)</option>
                                     <option value="잠재임차사">잠재임차사</option>
                                     <option value="운영 파트너">운영 파트너</option>
                                     <option value="IGIS 내부인력">IGIS 내부인력</option>
@@ -1474,7 +1479,9 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                                 className="w-full bg-[#1A1A1A] border border-[#333] rounded-[8px] pl-[12px] pr-[30px] py-[10px] text-[13px] text-white outline-none focus:border-[#2997ff] appearance-none cursor-pointer"
                             >
                                 <option value="" disabled>이해관계자 분류 선택</option>
-                                <option value="SI">LP I 대주 I SI</option>
+                                <option value="LP">LP</option>
+                                <option value="대주">대주</option>
+                                <option value="SI(기업)">SI(기업)</option>
                                 <option value="잠재임차사">잠재임차사</option>
                                 <option value="운영 파트너">운영 파트너</option>
                             </select>

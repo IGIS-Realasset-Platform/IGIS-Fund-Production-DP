@@ -1,3 +1,4 @@
+import StakeholderDirectory from './StakeholderDirectory';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { supabase } from '../../../utils/supabaseClient';
@@ -286,7 +287,8 @@ const TransparentTable = ({ title, items = [], isLoan, vehicle, expandedRow, tog
     );
 };
 
-export default function StakeLp() {
+export default function StakeLp({ category = 'LP' }) {
+    const isLender = category === '대주';
     const [searchTerm, setSearchTerm] = useState('');
     const [otherInvestors, setOtherInvestors] = useState([]);
     const [iotaData, setIotaData] = useState(null);
@@ -581,7 +583,7 @@ export default function StakeLp() {
         
         const checkPhase = (vehicle, phaseName, prefix) => {
             if (iotaData[vehicle] && iotaData[vehicle][phaseName]) {
-                const combined = [...iotaData[vehicle][phaseName].equity, ...iotaData[vehicle][phaseName].loan];
+                const combined = iotaData[vehicle][phaseName][isLender ? 'loan' : 'equity'];
                 const match = combined.find(i => i.name === instName);
                 if (match) {
                     const label = `IOTA ${vehicle} • ${prefix}${match.tranche ? ` • ${match.tranche}` : ''}`;
@@ -622,7 +624,7 @@ export default function StakeLp() {
         if (iotaData) {
             [427, 816, 421].forEach(vehicle => {
                 Object.keys(iotaData[vehicle]).forEach(phaseKey => {
-                    const types = ['equity', 'loan'];
+                    const types = [isLender ? 'loan' : 'equity'];
                     types.forEach(type => {
                         if (iotaData[vehicle][phaseKey][type]) {
                             iotaData[vehicle][phaseKey][type].forEach(item => {
@@ -709,9 +711,9 @@ export default function StakeLp() {
         <div className="w-full flex-1 flex flex-col pt-[28px] pb-[100px] max-w-[1112px] mx-auto">
             {/* Header */}
             <div className="flex items-center justify-between mb-[8px]">
-                <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">LP / 대주 / SI</h1>
+                <h1 className="text-[32px] font-bold text-white tracking-tight leading-none font-['Inter']">{category}</h1>
             </div>
-            <p className="text-[16px] text-[#86868B] mb-[24px] leading-[26px]">이지스 전체 파트너사 마스터 디렉토리 및 CRM 연동 현황</p>
+            <p className="text-[16px] text-[#86868B] mb-[24px] leading-[26px]">{isLender ? '프로젝트별 대출 참여기관 및 담당자 정보' : '프로젝트별 출자·수익자 및 투자기관 정보'}</p>
 
             {/* Content Area */}
             <div className="flex-1 overflow-y-auto hide-scrollbar">
@@ -722,7 +724,7 @@ export default function StakeLp() {
                     {/* IOTA Tables */}
                     <div className="flex flex-col gap-6">
                         
-                        {loading || !iotaData ? (
+                        {loading || !iotaData || iotaData.error ? (
                             <div className="text-center text-[#86868B] py-10">
                                 {iotaData && iotaData.error ? (
                                     <div className="flex flex-col items-center gap-2">
@@ -755,15 +757,15 @@ export default function StakeLp() {
                                             ))}
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-8">
+                                    <div className="grid grid-cols-1 gap-8">
                                         {(() => {
                                             const dbKey = { 'phase1': 'Phase1', 'phase2': 'Phase2', 'phase3': 'Bridge', 'phase4': 'Refinancing' }[phase427];
                                             const eData = iotaData[427][dbKey]?.equity || [];
                                             const lData = iotaData[427][dbKey]?.loan || [];
                                             return (
                                                 <>
-                                                    <div><TransparentTable title="Equity (수익자)" items={eData} isLoan={false} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
-                                                    <div><TransparentTable title="Loan (대주단)" items={lData} isLoan={true} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                                    {!isLender && <div><TransparentTable title="Equity (수익자)" items={eData} isLoan={false} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>}
+                                                    {isLender && <div><TransparentTable title="Loan (대주단)" items={lData} isLoan={true} vehicle={427} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>}
                                                 </>
                                             );
                                         })()}
@@ -793,15 +795,15 @@ export default function StakeLp() {
                                             ))}
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-8">
+                                    <div className="grid grid-cols-1 gap-8">
                                         {(() => {
                                             const dbKey = { 'phase1': 'Phase1', 'phase2': 'Phase2', 'phase3': 'Phase3', 'phase4': 'Bridge', 'phase5': 'Refinancing' }[phase816];
                                             const eData = iotaData[816][dbKey]?.equity || [];
                                             const lData = iotaData[816][dbKey]?.loan || [];
                                             return (
                                                 <>
-                                                    <div><TransparentTable title="Equity (수익자)" items={eData} isLoan={false} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
-                                                    <div><TransparentTable title="Loan (대주단)" items={lData} isLoan={true} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                                    {!isLender && <div><TransparentTable title="Equity (수익자)" items={eData} isLoan={false} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>}
+                                                    {isLender && <div><TransparentTable title="Loan (대주단)" items={lData} isLoan={true} vehicle={816} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>}
                                                 </>
                                             );
                                         })()}
@@ -811,9 +813,9 @@ export default function StakeLp() {
                                 {/* IOTA 421 */}
                                 <div id="section-421">
                                     <h2 className="text-[22px] font-bold text-white mb-[14px] tracking-tight">421호 펀드</h2>
-                                    <div className="grid grid-cols-2 gap-8">
-                                        <div><TransparentTable title="Equity (수익자)" items={iotaData[421]['Current']?.equity || []} isLoan={false} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
-                                        <div><TransparentTable title="Loan (대주단)" items={iotaData[421]['Current']?.loan || []} isLoan={true} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>
+                                    <div className="grid grid-cols-1 gap-8">
+                                        {!isLender && <div><TransparentTable title="Equity (수익자)" items={iotaData[421]['Current']?.equity || []} isLoan={false} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>}
+                                        {isLender && <div><TransparentTable title="Loan (대주단)" items={iotaData[421]['Current']?.loan || []} isLoan={true} vehicle={421} expandedRow={expandedRow} toggleRow={toggleRow} contactsCache={contactsCache} /></div>}
                                     </div>
                                 </div>
                             </>
@@ -821,7 +823,7 @@ export default function StakeLp() {
                     </div>
 
                     {/* Non-IOTA Investors */}
-                        <div className="mt-3">
+                    {!isLender && <div className="mt-3">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-[23px] font-bold text-white tracking-tight">기타 이지스 마스터 투자자</h2>
                                 {/* Search Bar Duplicate */}
@@ -895,8 +897,8 @@ export default function StakeLp() {
                                     )}
                                 </div>
                             </div>
-                        </div>
-
+                        </div>}
+                        <StakeholderDirectory category={category} embedded />
                     </div>
                 </div>
             </div>

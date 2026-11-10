@@ -1,3 +1,4 @@
+import { normalizeStakeholderCategory } from '../../../utils/stakeholderCategories';
 import { readWorkFeedLocation, writeWorkFeedLocation } from '../../../utils/workFeedLocation';
 import { maskCommitteePostForPreview } from '../../../utils/workFeedPreview';
 import WorkFeedMobileFooter from '../WorkFeedMobileFooter';
@@ -1220,7 +1221,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
     const filteredLogs = logs.filter(log => {
         if (isTaskBoard) {
             if (String(log.metadata?.task_id) !== String(taskId)) return false;
-            if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
+            if (filterStakeholder && normalizeStakeholderCategory(log.iota_seoul_log_stakeholders?.[0]?.role_category) !== filterStakeholder) return false;
             if (!logSearchQuery) return true;
             const query = logSearchQuery.toLowerCase();
             return (
@@ -1236,7 +1237,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
         const cell = getLogCell(log);
         
-        if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
+        if (filterStakeholder && normalizeStakeholderCategory(log.iota_seoul_log_stakeholders?.[0]?.role_category) !== filterStakeholder) return false;
         if (filterCell && cell !== filterCell) return false;
         if (filterPurpose && (log.metadata?.triage_type || '공유') !== filterPurpose) return false;
         if (filterStatus && (log.metadata?.issue_status || '진행중') !== filterStatus) return false;
@@ -1365,7 +1366,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
                                     style={{ textAlignLast: 'center' }}
                                 >
                                     <option value="" className="bg-[#222] text-[#E5E5E5]">이해관계자</option>
-                                    {['투자자', '대주', 'SI', '잠재임차자', '운영 파트너', 'IGIS 내부인력'].map(val => (
+                                    {['LP', '대주', 'SI(기업)', '잠재임차자', '운영 파트너', 'IGIS 내부인력'].map(val => (
                                         <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                     ))}
                                 </select>

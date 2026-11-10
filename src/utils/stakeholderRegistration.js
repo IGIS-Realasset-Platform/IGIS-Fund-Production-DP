@@ -1,10 +1,11 @@
+import { normalizeStakeholderCategory } from './stakeholderCategories.js';
 import { executeWithTimeout } from './supabaseHelper.js';
 
 export function normalizeStakeholder(company, contact, category) {
     return {
         company_name: String(company || '').trim(),
         contact_name: String(contact || '').trim() || null,
-        role_category: String(category || '').trim() || null,
+        role_category: normalizeStakeholderCategory(category) || null,
     };
 }
 

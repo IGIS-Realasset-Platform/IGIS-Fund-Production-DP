@@ -1,3 +1,4 @@
+import { normalizeStakeholderCategory } from '../../utils/stakeholderCategories';
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 import { useAuth } from '../../context/AuthContext';
@@ -645,7 +646,7 @@ export default function DecisionLog() {
     const searchFilteredLogs = logs.filter(log => {
         if (log.writer_name === '시스템 스케줄러') return false;
         if (showMyLogsOnly && log.writer_staff_id !== memberInfo?.email) return false;
-        if (filterStakeholder && log.iota_seoul_log_stakeholders?.[0]?.role_category !== filterStakeholder) return false;
+        if (filterStakeholder && normalizeStakeholderCategory(log.iota_seoul_log_stakeholders?.[0]?.role_category) !== filterStakeholder) return false;
         if (filterCell && getLogCell(log) !== filterCell) return false;
         if (filterPurpose && (log.metadata?.triage_type || '공유') !== filterPurpose) return false;
         if (filterStatus && (log.metadata?.issue_status || '진행중') !== filterStatus) return false;
@@ -1507,7 +1508,7 @@ export default function DecisionLog() {
                             >
                                 <option disabled value="" className="bg-[#222] text-[#86868B] font-bold">[ 이해관계자 ]</option>
                                 <option value="" className="bg-[#222] text-[#E5E5E5]">전체보기</option>
-                                {['투자자', '대주', 'SI', '잠재임차자', '운영 파트너', 'IGIS 내부인력'].map(val => (
+                                {['LP', '대주', 'SI(기업)', '잠재임차자', '운영 파트너', 'IGIS 내부인력'].map(val => (
                                     <option key={val} value={val} className="bg-[#222] text-[#E5E5E5]">{val}</option>
                                 ))}
                             </select>

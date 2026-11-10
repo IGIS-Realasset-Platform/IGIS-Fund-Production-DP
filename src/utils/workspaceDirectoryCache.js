@@ -1,3 +1,4 @@
+import { normalizeStakeholderCategory } from './stakeholderCategories';
 import { supabase } from './supabaseClient';
 
 const DIRECTORY_CACHE_TTL_MS = 10 * 60 * 1000;
@@ -30,7 +31,7 @@ export const fetchWorkspaceDirectoryData = async ({ force = false } = {}) => {
         if (pilotMembersResult.error) throw pilotMembersResult.error;
 
         cachedWorkspaceDirectory = {
-            stakeholders: stakeholdersResult.data || [],
+            stakeholders: (stakeholdersResult.data || []).map(row => ({ ...row, role_category: normalizeStakeholderCategory(row.role_category) })),
             pilotMembers: pilotMembersResult.data || [],
         };
         cachedWorkspaceDirectoryAt = Date.now();

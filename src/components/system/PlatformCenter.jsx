@@ -1,3 +1,4 @@
+import StakeholderDirectory from './stakeholder/StakeholderDirectory';
 import React, { useRef, useEffect } from 'react';
 import GovSystem from './governance/GovSystem';
 import GovPrinciples from './governance/GovPrinciples';
@@ -95,7 +96,9 @@ export default function PlatformCenter({ currentPath = '' }) {
 
     const renderStakeholder = () => {
         if (cleanPath === 'platform/iotaseoul/stakeholder/internal') return <StakeInternal />;
-        if (cleanPath === 'platform/iotaseoul/stakeholder/lp') return <StakeLp />;
+        if (cleanPath === 'platform/iotaseoul/stakeholder/lp') return <StakeLp category="LP" />;
+        if (cleanPath === 'platform/iotaseoul/stakeholder/lender') return <StakeLp category="대주" />;
+        if (cleanPath === 'platform/iotaseoul/stakeholder/si') return <StakeholderDirectory category="SI(기업)" />;
         if (cleanPath === 'platform/iotaseoul/stakeholder/tenant' || cleanPath.startsWith('platform/iotaseoul/stakeholder/tenant/')) {
             let tab = 'list';
             if (cleanPath.endsWith('/si')) tab = 'si';
