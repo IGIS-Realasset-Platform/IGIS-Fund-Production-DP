@@ -40,17 +40,17 @@ export default function WorkFeedVisibilityModal({ groups, members, selectedGroup
   ));
 
   const toggle = (list, value) => (list.includes(value) ? list.filter((item) => item !== value) : [...list, value]);
-  const publicPost = requiredIndividuals.length === 0 && draftGroups.length === 0 && draftIndividuals.length === 0;
+  const publicPost = allowGroups && requiredIndividuals.length === 0 && draftGroups.length === 0 && draftIndividuals.length === 0;
 
   return (
     <ModalShell
       title="열람 권한 설정"
-      description={allowGroups ? "이 게시물을 볼 수 있는 그룹과 특정 인원을 지정합니다." : "기본 열람 인원 외에 이 게시물을 볼 수 있는 인원을 추가합니다."}
+      description={allowGroups ? "이 게시물을 볼 수 있는 그룹과 특정 인원을 지정합니다." : "이 게시물을 볼 수 있는 인원을 선택하거나 제외합니다."}
       onClose={onClose}
       footer={(
         <div className="flex flex-wrap items-center gap-3">
           <p className={`mr-auto w-full text-[12px] font-bold sm:w-auto sm:flex-1 ${publicPost ? 'text-[#e2aa29]' : 'text-[#79b7e8]'}`}>
-            {publicPost ? '설정하지 않으면 전체 공개로 게시됩니다.' : allowGroups ? '선택한 그룹과 인원만 열람합니다.' : '선택한 인원만 열람합니다.'}
+            {publicPost ? '설정하지 않으면 전체 공개로 게시됩니다.' : allowGroups ? '선택한 그룹과 인원만 열람합니다.' : draftIndividuals.length ? '선택한 인원만 열람합니다.' : '추가 열람 인원이 없습니다.'}
           </p>
           <button type="button" onClick={onClose} className="h-11 flex-1 whitespace-nowrap rounded-[9px] border border-[#484848] px-4 text-[13px] font-bold text-[#bbb] sm:h-10 sm:flex-none">취소</button>
           <button type="button" onClick={() => onApply(draftGroups, draftIndividuals)} className="h-11 flex-1 whitespace-nowrap rounded-[9px] bg-[#2b8de4] px-5 text-[13px] font-black text-white sm:h-10 sm:flex-none">확인</button>
@@ -77,7 +77,7 @@ export default function WorkFeedVisibilityModal({ groups, members, selectedGroup
         </div>
       </div>}
       <div className={allowGroups ? "mt-7" : ""}>
-        <h4 className="mb-3 text-[14px] font-black text-[#d5d5d7]">{allowGroups ? "2. 특정 인원 추가" : "열람 인원 추가"}</h4>
+        <h4 className="mb-3 text-[14px] font-black text-[#d5d5d7]">{allowGroups ? "2. 특정 인원 추가" : "열람 인원 선택"}</h4>
         <div aria-live="polite" className="mb-3">
           <p className="text-[12px] font-bold text-[#79b7e8]">추가된 인원 {draftIndividuals.length}명</p>
           {draftIndividuals.length > 0 && <div className="mt-2 flex flex-wrap gap-2">

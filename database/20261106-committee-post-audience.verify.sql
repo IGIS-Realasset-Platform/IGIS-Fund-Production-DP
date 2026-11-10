@@ -27,7 +27,7 @@ DO $$ DECLARE masked jsonb; BEGIN
 END $$;
 SELECT set_config('request.jwt.claims',current_setting('test.writer'),true);
 DO $$ DECLARE saved jsonb; BEGIN
- saved:=public.mutate_iota_work_feed('committee','save','__committee_audience_verify__',jsonb_build_object('work_date','2026-11-06','summary','TOP_SECRET_TITLE','raw_text','TOP_SECRET_BODY','metadata',jsonb_build_object('permissions',jsonb_build_object('groups','[]'::jsonb,'individuals',jsonb_build_array(current_setting('test.invited_name'))),'attachedFiles',jsonb_build_array(jsonb_build_object('path',current_setting('test.file'),'name','TOP_SECRET_FILE')))));
+ saved:=public.mutate_iota_work_feed('committee','save','__committee_audience_verify__',jsonb_build_object('work_date','2026-11-06','summary','TOP_SECRET_TITLE','raw_text','TOP_SECRET_BODY','metadata',jsonb_build_object('permissions',jsonb_build_object('groups','[]'::jsonb,'individuals',jsonb_build_array('이철승','강순용','권순일','양준모',current_setting('test.invited_name'))),'attachedFiles',jsonb_build_array(jsonb_build_object('path',current_setting('test.file'),'name','TOP_SECRET_FILE')))));
  IF NOT (saved#>'{metadata,permissions,individuals}') ?& ARRAY['이철승','강순용','권순일','양준모',current_setting('test.invited_name')] THEN RAISE EXCEPTION 'default readers or addition lost'; END IF;
 END $$;
 SELECT set_config('request.jwt.claims',current_setting('test.invited'),true);
