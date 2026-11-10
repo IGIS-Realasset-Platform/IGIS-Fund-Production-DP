@@ -1,8 +1,11 @@
 -- A not-yet-linked member uses a synthetic JWT sub for policy tests only; no auth/member record is modified.
--- Run after 20261110-editable-committee-audience.sql. No test rows survive.
+-- Run after 20261110-committee-standard-visibility.sql. No test rows survive.
 BEGIN;
-DO $$ DECLARE writer record; saved jsonb; m record; recipients uuid[]; BEGIN
+DO $$ DECLARE writer record; saved jsonb; m record; recipients uuid[]; other_member record; BEGIN
  SELECT p.* INTO STRICT writer FROM public.iota_seoul_pilot_members p JOIN public.iota_work_feed_members a ON a.email=lower(p.email) WHERE a.is_planning AND p.is_active AND p.auth_id IS NOT NULL ORDER BY p.email LIMIT 1;
+ SELECT p.* INTO STRICT other_member FROM public.iota_seoul_pilot_members p WHERE p.is_active AND p.auth_id IS NOT NULL AND NOT EXISTS(SELECT 1 FROM public.iota_work_feed_members a WHERE a.email=lower(p.email)) ORDER BY p.email LIMIT 1;
+ PERFORM set_config('test.other',jsonb_build_object('sub',other_member.auth_id,'email',other_member.email)::text,true);
+ PERFORM set_config('test.group',public.iota_work_feed_org(other_member),true);
  PERFORM set_config('test.writer',jsonb_build_object('sub',writer.auth_id,'email',writer.email)::text,true);
  PERFORM set_config('test.file','committee/'||writer.auth_id||'/editable-audience-test.txt',true);
  PERFORM set_config('request.jwt.claims',current_setting('test.writer'),true);
@@ -43,13 +46,22 @@ DO $$ DECLARE saved jsonb;m record; BEGIN
  IF NOT EXISTS(SELECT 1 FROM public.iota_work_feed_logs WHERE log_id='__editable_audience_test__') THEN RAISE EXCEPTION 'Author access lost'; END IF;
  FOR m IN SELECT * FROM public.iota_seoul_pilot_members WHERE is_active AND staff_name IN ('이철승','강순용','권순일','양준모') LOOP
   PERFORM set_config('request.jwt.claims',jsonb_build_object('sub',coalesce(m.auth_id,'00000000-0000-4000-8000-000000000001'::uuid),'email',m.email)::text,true);
-  IF EXISTS(SELECT 1 FROM public.iota_work_feed_logs WHERE log_id='__editable_audience_test__') OR EXISTS(SELECT 1 FROM public.list_iota_committee_feed() v WHERE v->>'log_id'='__editable_audience_test__' AND v->>'can_read'='true') THEN RAISE EXCEPTION 'Empty audience grants director access'; END IF;
+  IF NOT EXISTS(SELECT 1 FROM public.iota_work_feed_logs WHERE log_id='__editable_audience_test__') OR NOT EXISTS(SELECT 1 FROM public.list_iota_committee_feed() v WHERE v->>'log_id'='__editable_audience_test__' AND v->>'can_read'='true') THEN RAISE EXCEPTION 'Empty audience must allow active readers'; END IF;
   IF NOT public.can_read_iota_work_feed_post('open',current_setting('test.writer')::jsonb->>'email','{"permissions":{"groups":[],"individuals":[]}}') THEN RAISE EXCEPTION 'Open public feed changed'; END IF;
  END LOOP;
 END $$;
+DO $$ DECLARE saved jsonb; BEGIN
+ PERFORM set_config('request.jwt.claims',current_setting('test.other'),true);
+ IF NOT EXISTS(SELECT 1 FROM public.iota_work_feed_logs WHERE log_id='__editable_audience_test__') THEN RAISE EXCEPTION 'Public committee excludes non-director'; END IF;
+ PERFORM set_config('request.jwt.claims',current_setting('test.writer'),true);
+ saved:=public.mutate_iota_work_feed('committee','save','__editable_audience_test__',jsonb_build_object('work_date','2026-11-10','summary','AUDIENCE_SECRET','raw_text','AUDIENCE_SECRET_BODY','metadata',jsonb_build_object('permissions',jsonb_build_object('groups',jsonb_build_array(current_setting('test.group')),'individuals','[]'::jsonb))));
+ IF saved#>'{metadata,permissions,groups}' <> jsonb_build_array(current_setting('test.group')) THEN RAISE EXCEPTION 'Committee group not saved'; END IF;
+ PERFORM set_config('request.jwt.claims',current_setting('test.other'),true);
+ IF NOT EXISTS(SELECT 1 FROM public.iota_work_feed_logs WHERE log_id='__editable_audience_test__') THEN RAISE EXCEPTION 'Selected group cannot read committee post'; END IF;
+END $$;
 RESET ROLE;
 DO $$ BEGIN
- IF EXISTS(SELECT 1 FROM public.iota_feed_mention_recipients('committee',current_setting('test.writer')::jsonb->>'email','{"permissions":{"groups":[],"individuals":[]}}','@이철승 @강순용 @권순일 @양준모',current_setting('test.writer')::jsonb->>'email')) THEN RAISE EXCEPTION 'Empty audience leaks notifications'; END IF;
+ IF NOT EXISTS(SELECT 1 FROM public.iota_feed_mention_recipients('committee',current_setting('test.writer')::jsonb->>'email','{"permissions":{"groups":[],"individuals":[]}}','@이철승 @강순용 @권순일 @양준모',current_setting('test.writer')::jsonb->>'email')) THEN RAISE EXCEPTION 'Public audience must permit mentions'; END IF;
 END $$;
 ROLLBACK;
-SELECT 'PASS: four defaults, director removal, saved empty audience, masked list, direct read, attachments, comment/reaction denial, mention recipients, legacy defaults and open feed; tests rolled back' AS result;
+SELECT 'PASS: four defaults, director removal, saved public audience, masked list, direct read, attachments, comment/reaction denial, mention recipients, groups, non-director public access, legacy defaults and open feed; tests rolled back' AS result;

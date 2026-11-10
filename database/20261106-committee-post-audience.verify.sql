@@ -54,7 +54,7 @@ DO $$ BEGIN
  IF NOT EXISTS(SELECT 1 FROM public.iota_work_feed_logs WHERE log_id='__committee_audience_verify__') THEN RAISE EXCEPTION 'default executive read denied'; END IF;
 END $$;
 SELECT set_config('request.jwt.claims',current_setting('test.writer'),true);
-SELECT public.mutate_iota_work_feed('committee','save','__committee_audience_verify__',jsonb_build_object('work_date','2026-11-06','summary','TOP_SECRET_TITLE','raw_text','TOP_SECRET_BODY','metadata',jsonb_build_object('permissions',jsonb_build_object('groups','[]'::jsonb,'individuals','[]'::jsonb),'attachedFiles',jsonb_build_array(jsonb_build_object('path',current_setting('test.file'),'name','TOP_SECRET_FILE')))));
+SELECT public.mutate_iota_work_feed('committee','save','__committee_audience_verify__',jsonb_build_object('work_date','2026-11-06','summary','TOP_SECRET_TITLE','raw_text','TOP_SECRET_BODY','metadata',jsonb_build_object('permissions',jsonb_build_object('groups','[]'::jsonb,'individuals','["이철승","강순용","권순일","양준모"]'::jsonb),'attachedFiles',jsonb_build_array(jsonb_build_object('path',current_setting('test.file'),'name','TOP_SECRET_FILE')))));
 SELECT set_config('request.jwt.claims',current_setting('test.invited'),true);
 DO $$ BEGIN
  IF EXISTS(SELECT 1 FROM public.iota_work_feed_logs WHERE log_id='__committee_audience_verify__') THEN RAISE EXCEPTION 'removed reader still reads'; END IF;

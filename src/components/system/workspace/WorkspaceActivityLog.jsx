@@ -1132,8 +1132,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
 
 
     const hasRestrictedPermissions = (log) => {
-        if (feedKind === 'committee') return true;
-        const perms = log.metadata?.permissions;
+        const perms = feedKind ? getWorkFeedPermissions(feedKind, log.metadata?.permissions) : log.metadata?.permissions;
         if (!perms) return false;
         return (perms.groups && perms.groups.length > 0) || (perms.individuals && perms.individuals.length > 0);
     };
@@ -1144,7 +1143,7 @@ export default function WorkspaceActivityLog({ workspaceCode, workspaceLabel, is
         const parts = [];
         if (perms.groups && perms.groups.length > 0) parts.push(...perms.groups);
         if (perms.individuals && perms.individuals.length > 0) parts.push(...perms.individuals);
-        return parts.join(', ') || (feedKind === 'committee' ? '작성자' : '');
+        return parts.join(', ');
     };
 
 

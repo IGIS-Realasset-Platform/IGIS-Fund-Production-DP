@@ -727,7 +727,7 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
                     mentions={filteredMentions} mentionQuery={mentionQuery} mentionPosition={mentionPosition} showMentions={showMentionDropdown} onMentionSelect={handleMentionSelect} onCloseMentions={() => setShowMentionDropdown(false)}
                     companyOptions={filteredCompanies} contactOptions={filteredContacts}
                     needsStakeholderRegistration={Boolean(companyQuery.trim()) && !findRegisteredStakeholder(masterStakeholders, normalizeStakeholder(companyQuery, contactQuery, stakeholderCat))}
-                    permissions={feedKind === 'committee' && visibilityIndividuals.length === 0 ? ['작성자'] : [...visibilityGroups, ...visibilityIndividuals.map(member => member.contact_name)]}
+                    permissions={[...visibilityGroups, ...visibilityIndividuals.map(member => member.contact_name)]}
                     files={attachedFiles} onRemoveFile={removeFile} fileInputRef={fileInputRef} onFileUpload={handleFileUpload}
                     onChooseFiles={() => setShowFileSecurityModal(true)} uploading={isUploadingFile}
                     onVisibility={() => { fetchMasterStakeholders?.(true, true); setShowVisibilityModal(true); }}
@@ -1310,7 +1310,6 @@ export default function LogWriteBox({ memberInfo, masterStakeholders, pilotMembe
 
             {/* Permission Modal */}
             {showVisibilityModal && feedKind && <WorkFeedVisibilityModal
-                allowGroups={feedKind !== 'committee'}
                 groups={[...new Set(pilotMembers.filter(member => member.is_active !== false).map(member => getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name)).filter(Boolean))]}
                 members={pilotMembers.filter(member => member.is_active !== false).map(member => ({id:member.staff_name, name:member.staff_name, email:member.email, group:getMemberIotaOrganization(member, '') || normalizeIotaOrganization(member.org_name)}))}
                 selectedGroups={visibilityGroups}

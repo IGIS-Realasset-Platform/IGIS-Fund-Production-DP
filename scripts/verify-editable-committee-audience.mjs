@@ -61,8 +61,7 @@ try {
   assert.deepEqual(saved.metadata.permissions.individuals,COMMITTEE_READERS);
   await mount(mobile,{...saved,log_id:'edit'});await open();
   for(const name of COMMITTEE_READERS)await page.getByRole('button',{name:name+' 열람 인원에서 제외',exact:true}).click();
-  assert.equal(await page.getByText('설정하지 않으면 전체 공개로 게시됩니다.',{exact:true}).count(),0);
-  await page.getByText('추가 열람 인원이 없습니다.',{exact:true}).waitFor();
+  await page.getByText('설정하지 않으면 전체 공개로 게시됩니다.',{exact:true}).waitFor();
   await page.getByRole('button',{name:'확인',exact:true}).click();
   await page.getByRole('button',{name:'수정 완료',exact:true}).click();await page.waitForFunction(()=>window.fixtureDB.saves.length===1);
   saved=await page.evaluate(()=>window.fixtureDB.saves[0].payload);
@@ -81,7 +80,14 @@ try {
   assert.deepEqual(saved.metadata.permissions.individuals,['양준모','추가 인원']);
   await mount(mobile,{...saved,log_id:'edit'});await open();
   assert.equal(await page.getByRole('button',{name:/열람 인원에서 제외/}).count(),2);
-  console.log('PASS '+(mobile?'mobile':'desktop')+': four defaults, individually removable, empty private save/reopen, re-add, additional reader, cancellation, saved subset remains');
+  await page.getByRole('button',{name:'CM',exact:true}).click();
+  await page.getByRole('button',{name:'확인',exact:true}).click();
+  await page.getByRole('button',{name:'수정 완료',exact:true}).click();await page.waitForFunction(()=>window.fixtureDB.saves.length===1);
+  saved=await page.evaluate(()=>window.fixtureDB.saves[0].payload);
+  assert.deepEqual(saved.metadata.permissions.groups,['CM']);
+  await mount(mobile,{...saved,log_id:'edit'});await open();
+  assert.equal(await page.getByRole('button',{name:'CM',exact:true}).count(),1);
+  console.log('PASS '+(mobile?'mobile':'desktop')+': four defaults, individually removable, empty public save/reopen, re-add, additional reader, cancellation, saved subset and group remain');
  }
  assert.deepEqual(errors,[]);
 }finally{await browser.close();}

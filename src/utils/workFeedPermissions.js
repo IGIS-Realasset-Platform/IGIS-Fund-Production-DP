@@ -4,8 +4,8 @@ const uniqueNames = values => [...new Set((Array.isArray(values) ? values : []).
 
 export function getWorkFeedPermissions(feedKind, permissions) {
     if (feedKind === 'committee') return {
-        groups: [],
-        // Defaults apply only when no audience was stored. An explicit empty list stays private.
+        groups: uniqueNames(permissions?.groups),
+        // Defaults apply only when no audience was stored. An explicit empty audience uses the standard public visibility.
         individuals: Array.isArray(permissions?.individuals)
             ? uniqueNames(permissions.individuals) : [...COMMITTEE_READERS],
     };
