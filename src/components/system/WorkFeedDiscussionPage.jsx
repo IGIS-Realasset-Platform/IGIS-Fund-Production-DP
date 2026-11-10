@@ -34,7 +34,7 @@ export default function WorkFeedDiscussionPage({ initialFeed, mobileMode = false
     </div>;
     return <section className={mobileMode ? 'w-full min-w-0 px-4 pt-3 pb-6' : 'w-full max-w-[1200px] mx-auto px-6 pt-7 pb-16'}>
         {!mobileMode && <header className="mb-[6px] flex items-center gap-4">
-            <h1 className="shrink-0 text-[32px] font-bold text-white">논의/협업</h1>
+            <h1 className="shrink-0 text-[32px] font-bold text-white">논의/협업 Feed</h1>
             {tabs}
             <p className="min-w-0 flex-1 text-[15px] leading-[26px] text-[#86868B]">{WORK_FEEDS[feedKind].description}</p>
             <div ref={setSearchTarget} className="ml-auto w-[180px] shrink-0" />

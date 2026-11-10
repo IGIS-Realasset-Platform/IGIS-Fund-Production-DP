@@ -67,7 +67,7 @@ const phase1MenuItems = [
     },
     {
         id: 'discussion',
-        label: '논의/협업',
+        label: '논의/협업 Feed',
         path: 'platform/iotaseoul/discussion',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -120,7 +120,7 @@ const phase2MenuItems = [
     },
     {
         id: 'discussion',
-        label: '논의/협업',
+        label: '논의/협업 Feed',
         path: 'platform/iotaseoul/discussion',
         icon: (
             <svg className="w-4.5 h-4.5 mr-[10px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
