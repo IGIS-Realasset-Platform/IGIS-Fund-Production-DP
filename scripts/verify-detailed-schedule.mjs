@@ -66,3 +66,9 @@ for (const [key,label,period] of [['S-069','견적 및 공사비 산출 (9/8)','
 }
 
 console.log('Detailed schedule verified: 91 items / 67 tasks / 41 scheduled / 26 unscheduled / 8 milestones');
+
+for (const [key,status,date] of [['S-069','completed','2026-09-08'],['S-077','completed','2026-10-29'],['S-078','in_progress',null]]) {
+ const item=items.find(row=>row.sourceKey===key);
+ assert.equal(item.progressStatus,status);
+ assert.equal(item.actualCompletedDate,date);
+}
