@@ -19,14 +19,14 @@ assert.equal(items.filter((item) => item.itemType === 'lv2').length, 16);
 assert.equal(tasks.length, 67);
 assert.equal(tasks.filter((item) => item.startPeriod && item.endPeriod).length, 41);
 assert.equal(tasks.filter((item) => !item.startPeriod || !item.endPeriod).length, 26);
-assert.equal(items.filter((item) => item.milestonePeriod).length, 5);
+assert.equal(items.filter((item) => item.milestonePeriod).length, 8);
 assert.ok(items.some((item) => item.lv1 === '주주/수익자 설명회'));
 assert.ok(items.some((item) => item.lv1 === '427 설계/시공'));
 assert.ok(items.some((item) => item.lv1 === '816 설계/시공'));
 
 items.forEach((item, index) => {
     assert.equal(item.sourceOrder, index + 1);
-    assert.equal(item.sourceKey, `S-${String(index + 1).padStart(3, '0')}`);
+    assert.ok(itemKeys.has(`S-${String(index + 1).padStart(3, '0')}`));
 
     if (item.parentSourceKey) {
         assert.ok(itemKeys.has(item.parentSourceKey), `${item.sourceKey} parent is missing`);
@@ -57,4 +57,12 @@ items.forEach((item, index) => {
     );
 });
 
-console.log('Detailed schedule verified: 91 items / 67 tasks / 41 scheduled / 26 unscheduled / 5 milestones');
+for (const [key,label,period] of [['S-069','견적 및 공사비 산출 (9/8)','2026-09-W2'],['S-077','해체공사 완료 (10/29)','2026-10-W4'],['S-078','본공사 착수 (10/30)','2026-10-W4']]) {
+    const item=items.find(row=>row.sourceKey===key);
+    assert.equal(item.parentSourceKey,'S-076');
+    assert.equal(item.displayName,label);
+    assert.equal(item.milestonePeriod,period);
+    assert.ok(items.findIndex(row=>row.sourceKey==='S-076') < items.indexOf(item));
+}
+
+console.log('Detailed schedule verified: 91 items / 67 tasks / 41 scheduled / 26 unscheduled / 8 milestones');
