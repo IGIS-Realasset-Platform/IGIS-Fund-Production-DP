@@ -1,0 +1,91 @@
+{
+  "requirement": "LOCAL-UI-166",
+  "projectId": "TEST-20261016-A",
+  "revisionBefore": 18,
+  "revisionAfter": 19,
+  "sourceNode": "c-102-ewjyqyz4",
+  "before": [
+    {
+      "name": "최초 언더라이팅",
+      "values": {
+        "funding": 210000000000,
+        "sale": 605000000000,
+        "duration": 72,
+        "cost": 512300000000,
+        "land": 93461540000,
+        "construction": 310475770000,
+        "interest": 33000000000
+      }
+    },
+    {
+      "name": "1차 리파이낸싱",
+      "values": {
+        "funding": 280000000000,
+        "sale": 613000000000,
+        "duration": 72,
+        "cost": 514500000000,
+        "land": 95661540000,
+        "construction": 310475770000,
+        "interest": 33000000000
+      }
+    },
+    {
+      "name": "본PF 1차",
+      "values": {
+        "funding": 305000000000,
+        "sale": 622000000000,
+        "duration": 72,
+        "cost": 516380000000,
+        "land": 97107690000,
+        "construction": 312604870000,
+        "interest": 31500000000
+      }
+    }
+  ],
+  "after": [
+    {
+      "name": "최초 언더라이팅",
+      "values": {
+        "funding": 210000000000,
+        "sale": 605000000000,
+        "duration": 72,
+        "cost": 512300000000,
+        "land": 93461540000,
+        "construction": 310475770000,
+        "interest": 33000000000
+      }
+    },
+    {
+      "name": "1차 리파이낸싱",
+      "values": {
+        "funding": 280000000000,
+        "sale": 613000000000,
+        "duration": 72,
+        "cost": 514500000000,
+        "land": 95661540000,
+        "construction": 310475770000,
+        "interest": 33000000000
+      }
+    },
+    {
+      "name": "본PF 1차",
+      "values": {
+        "funding": 305000000000,
+        "sale": 622000000000,
+        "duration": 72,
+        "cost": 520380000000,
+        "land": 97107690000,
+        "construction": 312604870000,
+        "interest": 35500000000
+      }
+    }
+  ],
+  "originalSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+  "checks": [
+    "native save persisted",
+    "reload values matched",
+    "past stages unchanged",
+    "other CBS rows/projects/loans/equities/contracts preserved",
+    "finance/cost-detail/cost-overview linked"
+  ]
+}

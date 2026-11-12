@@ -815723,6 +815723,7 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localFinanceIncrease166": {"requirement": "LOCAL-UI-166", "status": "로컬 DB revision18→19 저장 후 새로고침 확인. 금융비315→355억·총원가5163.8→5203.8억, 최초UW 대비 금융비+25억. 파이낸싱/세부사업비/원가현황 연동 확인. 다른항목·프로젝트·계약·조달·과거단계 및 원본파일 동일.", "evidence": "docs/local-finance-ui166-verification.json"},
     "localFinanceHeading165": {"requirement": "LOCAL-UI-165", "status": "desktop before/after verified", "marginBefore": 12, "marginAfter": 18, "nextPanelDelta": 6, "portfolio": "unchanged", "sourceSha256": "25e24c0dd2f19bc76a53acc0154b5e413411f27f4e601fc4c5989d780b660ecd"},
     "localMilestoneCapture164": {
       "requirement": "LOCAL-UI-164",
