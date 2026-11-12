@@ -330,7 +330,6 @@
 .studio-stage-editor-actions td > div {display:flex;justify-content:flex-end;gap:8px}
 .dp-app #content .studio-milestone-toolbar [data-milestone-add] {background:#fff;color:var(--ink);border:1px solid #cbd2df}
 
-/* LOCAL-UI-169: the header and metric rows share a quieter surface. */
-.dp-app #content .studio-stage-table table.studio-cost-bases > thead > tr > th,
-.dp-app #content .studio-stage-table table.studio-cost-bases > tbody > tr > :is(th,td) {background:#f3f5f7}
-.dp-app #content .studio-cost-bases {--studio-table-heading:#f3f5f7;--studio-table-surface:#f3f5f7}
+/* LOCAL-UI-171: preserve the original surfaces; unify only the divider colors. */
+.dp-app #content .studio-cost-bases {--studio-table-divider:#e4e7ed;--studio-table-row-divider:#e4e7ed}
+.dp-app #content .studio-stage-table table.studio-cost-bases > tbody > tr > :is(th,td) {border-bottom-color:var(--studio-table-row-divider)}

@@ -132,7 +132,7 @@ try{
  assert.ok(Math.abs(Number(gfaText.match(/[\d,.]+/)[0].replaceAll(',',''))-63500/3.305785)<=0.5,'기존 연면적을 평 단위로만 변환');
  assert.equal(await linkedTable.getByRole('rowheader',{name:'사업 준공 시점',exact:true}).count(),1);
  assert.equal(await linkedTable.getByRole('rowheader',{name:'사업 종료 예정',exact:true}).count(),0);
- assert.ok(await linkedTable.evaluate(el=>getComputedStyle(el.querySelector('thead th')).backgroundColor===getComputedStyle(el.querySelector('tbody th')).backgroundColor),'열 제목과 항목열은 같은 연한 바탕');
+ assert.ok(await linkedTable.evaluate(el=>getComputedStyle(el.querySelector('thead th'),'::after').backgroundColor===getComputedStyle(el.querySelector('tbody th')).borderBottomColor),'LOCAL-UI-171: 제목행과 항목행 구분선 색 일치');
  assert.ok(await stage.evaluate(el=>el.closest('.dp-finance').textContent.indexOf('개발 단계별 핵심 지표')<el.closest('.dp-finance').textContent.indexOf('대출현황')));
  assert.equal(await stage.evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 255, 255)');
  assert.equal(await linkedCost.locator('b').innerText(),currentCost);

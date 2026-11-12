@@ -815723,6 +815723,22 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localMetricDividers171": {
+      "requirement": "LOCAL-UI-171",
+      "status": "169 배경통일 오해를 폐기하고 이전 공통표 배경/선택/롤오버 복원. 제목행::after·본문th/td 구분선만 #e4e7ed로 통일. RED 배경불일치 재현 후 계산스타일·격리저장/취소·실제4178 화면 확인 통과. 사용자DB쓰기0.",
+      "replaces": "169 background uniformity requirement and assertion only",
+      "consumers": [
+        "header pseudo divider",
+        "body th/td borders",
+        "previous surfaces/selection/hover",
+        "edit/save/cancel"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/finance-overview.css": "c7d3a72895de852399639debca7d407d1d8d4e7a50349ea3b5a960b94181c70c",
+        "tests/local-finance-key-metrics.mjs": "ee7e3079db0baa13b27add11181f1a55ae459ee282b76cb339289630366f1658",
+        "tests/local-finance-browser.mjs": "f6bb8ae1fe2cc2b0331e43b1610bac0c4f4ae0b060df68c9a242827344abcea8"
+      }
+    },
     "localLandBaseline170": {
       "requirement": "LOCAL-UI-170",
       "status": "로컬DB revision19→20. 서울중구 토지매입비 세단계93,461,540,000원 동일, 총원가5123→5123→5167.3385억. native리파정정본/현재CBS저장·새로고침·파이낸싱/세부사업비/원가현황 대조. 기존단계/계약/다른항목·프로젝트/원본파일 동일.",

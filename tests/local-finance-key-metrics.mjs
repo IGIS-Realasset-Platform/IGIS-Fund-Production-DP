@@ -22,8 +22,10 @@ try{
  assert.equal(await page.getByText('사업 종료 예정',{exact:true}).count(),0);
  assert.match(await table.locator('tbody tr:first-child td').last().innerText(),/19,208\.75평/);
  await page.mouse.move(0,0);
- const colors=await table.evaluate(e=>[...e.querySelectorAll('thead th,tbody th[scope=row],tbody td')].map(c=>getComputedStyle(c).backgroundColor));
- assert.equal(new Set(colors).size,1);assert.equal(colors[0],'rgb(243, 245, 247)');
+ const colors=await table.evaluate(e=>({head:getComputedStyle(e.querySelector('thead th')).backgroundColor,body:getComputedStyle(e.querySelector('tbody td')).backgroundColor,lines:[...e.querySelectorAll('thead th')].map(c=>getComputedStyle(c,'::after').backgroundColor).concat([...e.querySelectorAll('tbody th,tbody td')].map(c=>getComputedStyle(c).borderBottomColor))}));
+ assert.equal(colors.head,'rgb(238, 240, 243)','LOCAL-UI-171: 이전 제목행 배경 복원');
+ assert.equal(colors.body,'rgb(246, 247, 249)','이전 본문 배경 복원');
+ assert.deepEqual([...new Set(colors.lines)],['rgb(228, 231, 237)'],'제목행/항목행 선 색만 통일');
  await table.locator('[data-stage-inline-edit=current]').click();
  const area=table.locator('[data-stage-input=gfa]');assert.equal(await area.getAttribute('aria-label'),'연면적 · 평');
  await table.locator('[data-stage-input=reason]').fill('단위 표시 검토');
