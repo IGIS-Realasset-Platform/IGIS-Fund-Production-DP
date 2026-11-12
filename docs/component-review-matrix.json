@@ -815723,6 +815723,7 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localComparison173": {"requirement":"LOCAL-UI-173","status":"verified desktop layouts and live formulas; writes0; finance regression passed","consumers":["four comparison cards","construction/interest per-pyeong","large numbers","stage selection/details/cancel","source preservation"]},
     "localDurationLabels172": {"requirement": "LOCAL-UI-172", "status": "verified local desktop", "consumers": ["UW display aliases", "duration M/phase/date rows", "stage selection", "details/date editing/reload", "source preservation"], "localRevision": "20→21", "duration": "72M→78M", "periodEnd": "2030-12", "preserved": ["past stages", "costs", "loans", "equities", "areas", "other projects", "original file"], "verification": ["comparison-layout desktop1366/1440/1920", "inline-stage save/reload/cancel/503/history", "finance-browser", "live4178"], "excluded": ["production", "mobile", "push"]},
     "localMetricDividers171": {
       "requirement": "LOCAL-UI-171",

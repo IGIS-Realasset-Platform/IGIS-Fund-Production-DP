@@ -1,0 +1,9 @@
+{
+  "requirement": "LOCAL-UI-173",
+  "verification": "LOCAL-UI-173 검수: 오른쪽4칸 제목고정/콘텐츠10px·화살표추가4px·증감추가1px상향, 총조달단계명 금액직전줄, 비교영역큰숫자800. 소수최대1자리·후행0생략. 공사비 최초1,616/현재1,627만원/평, 금융비172/185만원/평을 해당단계 연면적으로 독립대조. 1366/1440/1920 배치·단계전환·상세/추가/취소·기존저장회귀 통과. 실제4178 스크린샷과 계산스타일 확인·쓰기0·로컬revision21 유지. 기간78M/준공2030.12/과거/원금액/원본/운영보존. 모바일·배포 제외.",
+  "sha256": {
+    "scripts/local-preview/finance-overview.js": "0de921762c772a053766843391952aca6023e406aaa2d130a1e34e96f972a25a",
+    "scripts/local-preview/finance-overview.css": "9ef176c48dcc182992c46b023aa3d7754c80268184b9712b44e6a17ea5ede9ff",
+    "tests/local-finance-comparison-layout.mjs": "c173aef1b84eace9239014ed752c25245278fa6ce67515e9f9465cef5be364f8"
+  }
+}

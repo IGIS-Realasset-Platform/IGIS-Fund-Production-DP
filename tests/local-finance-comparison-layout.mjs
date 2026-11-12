@@ -29,6 +29,11 @@ try{
      return {key:e.dataset.stageField,rect:r.toJSON(),title:h.toJSON(),values:v,delta:delta?box(delta).toJSON():null};
     })};
    });
+   assert.equal(await panel.locator('[data-stage-field=construction] .studio-stage-unit-cost').count(),2,'LOCAL-UI-173 공사비 단계별 평당값');
+   assert.equal(await panel.locator('[data-stage-field=interest] .studio-stage-unit-cost').count(),2,'금융비 단계별 평당값');
+   assert.ok(await panel.locator('b').evaluateAll(es=>es.every(e=>getComputedStyle(e).fontWeight==='800')),'큰숫자 굵기800');
+   assert.ok(await panel.locator('.studio-stage-comparison-grid .studio-stage-values').evaluateAll(es=>es.every(e=>getComputedStyle(e).transform==='matrix(1, 0, 0, 1, 0, -10)')),'콘텐츠10px상향');
+   assert.ok(await panel.locator('.studio-stage-comparison-grid .studio-stage-values > span').evaluateAll(es=>es.every(e=>getComputedStyle(e).transform==='matrix(1, 0, 0, 1, 0, -4)')),'화살표추가4px상향');
    assert.equal(data.height,274,'IOTA source sets comparison height274px');
    const duration=panel.locator('[data-stage-field=duration]');
    assert.equal(await duration.locator('time').count(),2,'LOCAL-UI-172: 개발기간마다 단계 이슈 기준연월');
@@ -43,7 +48,7 @@ try{
      assert.ok(v.amount.left>=c.rect.left&&v.amount.right<=c.rect.right,'금액 카드 밖 넘침 없음');
      if(c.delta)assert.ok(c.delta.top>=v.amount.bottom,'금액과 증감 겹침 없음');
      assert.ok(c.key==='duration'?v.label.top>=v.amount.bottom:v.label.bottom<=v.amount.top,'개발기간만 단계명을 숫자 아래 배치');
-     if(c.key==='construction')assert.match(v.text,/^\d[\d,]*\.\d억원$|^—$/,'공사비 억원 한 자리');
+     if(c.key==='construction')assert.match(v.text,/^\d[\d,]*(\.[1-9])?억원$|^—$/,'공사비 억원 한 자리');
     }
     assert.ok(c.values[0].amount.right<c.values[1].amount.left,'이전/선택 금액 겹침 없음');
    }
@@ -52,7 +57,7 @@ try{
  await page.setViewportSize({width:1440,height:1100});
  await page.locator('[data-cost-basis=current]').click();
  // 3126.0487 must round directly to3126.0, not round the previous two-digit display again.
- assert.equal(await page.locator('[data-stage-field=construction] .studio-stage-values b').last().innerText(),'3,126.0억원');
+ assert.equal(await page.locator('[data-stage-field=construction] .studio-stage-values b').last().innerText(),'3,126억원');
  await panel.screenshot({path:'/private/tmp/idm-ui168-layout.png'});
  await page.locator('[data-stage-action=details]').click();await page.locator('.studio-cost-bases').waitFor();
  await page.locator('[data-milestone-add]').click();await page.locator('[data-stage-input=name]').fill('취소할 단계');

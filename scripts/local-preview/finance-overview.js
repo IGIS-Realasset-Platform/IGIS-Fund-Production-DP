@@ -91,19 +91,14 @@ function renderCapital(A,capital,summary,project,basis){
 }
 
 const fieldDisplay=(A,value,unit)=>value==null?'—':unit?A.num(value)+'개월':A.money(value);
-function changeText(A,value,previous,unit){
- if(value==null||previous==null)return '—';
- const delta=value-previous;
- return (delta>0?'+':delta<0?'−':'')+fieldDisplay(A,Math.abs(delta),unit);
-}
 function displayDate(date){return date.replaceAll('-','.');}
-function costUnitDisplay(A,row){
- const value=costPerPyeong(row);
+function costUnitDisplay(A,row,key='cost'){
+ const value=costPerPyeong({...row,values:{cost:row.values[key]}});
  return `<span class="studio-stage-unit-cost">${value===null?'평당 —':A.num(Math.round(value))+'만원/평'}</span>`;
 }
 function comparisonDisplay(A,value,unit,key){
  if(value==null)return '—';
- return key==='construction'?new Intl.NumberFormat('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(value/eok)+'억원':fieldDisplay(A,value,unit);
+ return unit?fieldDisplay(A,value,unit):new Intl.NumberFormat('ko-KR',{maximumFractionDigits:1}).format(value/eok)+'억원';
 }
 function durationComparison(A,baseline,stage){
  const period=row=>row.values.duration==null?'—':A.num(row.values.duration)+'M';
@@ -118,10 +113,10 @@ function stageComparison(A,field,baseline,stage){
  const compare=!!baseline;
  return `<article class="studio-stage-pair" data-stage-field="${key}"><h4>${summaryLabels[key]||label}</h4>
   <div class="studio-stage-values">
-   ${compare?`<div><span>${A.esc(baseline.name)}</span>${key==='cost'?costUnitDisplay(A,baseline):''}<b>${comparisonDisplay(A,initial,unit,key)}</b></div><span aria-hidden="true">→</span>`:''}
-   <div><span>${A.esc(stage.name)}</span>${key==='cost'?costUnitDisplay(A,stage):''}<b>${comparisonDisplay(A,value,unit,key)}</b></div>
+   ${compare?`<div><span>${A.esc(baseline.name)}</span>${['cost','construction','interest'].includes(key)?costUnitDisplay(A,baseline,key):''}<b>${comparisonDisplay(A,initial,unit,key)}</b></div><span aria-hidden="true">→</span>`:''}
+   <div><span>${A.esc(stage.name)}</span>${['cost','construction','interest'].includes(key)?costUnitDisplay(A,stage,key):''}<b>${comparisonDisplay(A,value,unit,key)}</b></div>
   </div>
-  ${compare&&delta!==null?`<small class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${key==='construction'?(delta>0?'+':delta<0?'−':'')+comparisonDisplay(A,Math.abs(delta),unit,key):changeText(A,value,initial,unit)}</small>`:''}
+  ${compare&&delta!==null?`<small class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${(delta>0?'+':delta<0?'−':'')+comparisonDisplay(A,Math.abs(delta),unit,key)}</small>`:''}
  </article>`;
 }
 export function decorateFinancing(A,content,project){

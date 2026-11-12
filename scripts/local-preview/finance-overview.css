@@ -156,6 +156,12 @@
 .studio-stage-values > div:first-child:not(:last-child) b {color:var(--muted)}
 .studio-stage-values > span {font-size:20px;line-height:1;font-weight:700;margin-bottom:1px}
 .studio-stage-pair > small {position:absolute;right:32px;bottom:10px;font-size:12px;line-height:14px;font-weight:600;text-align:right}
+/* LOCAL-UI-173: keep titles fixed while lifting the comparison content. */
+.studio-stage-comparison b {font-weight:800}
+.studio-stage-comparison-grid .studio-stage-values {transform:translateY(-10px)}
+.studio-stage-comparison-grid .studio-stage-values > span {transform:translateY(-4px)}
+.studio-stage-comparison-grid .studio-stage-pair > small {bottom:21px}
+.studio-stage-comparison-grid [data-stage-field="funding"] .studio-stage-values > div > span:first-child {margin-bottom:6px;line-height:18px}
 .studio-stage-project .studio-stage-values {justify-content:flex-start;align-items:flex-start;gap:12px}
 .studio-stage-project .studio-stage-values > div {flex-direction:column;align-items:flex-start;text-align:left}
 .studio-stage-project .studio-stage-values > div > span {margin:4px 0 0}
