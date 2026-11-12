@@ -144,8 +144,19 @@
   const signed = x => '<span class="' + (x < 0 ? 'rise' : '') + '">' + A.money(x) + '</span>';
   const inlineLabels={contract:{name:'계약명',type:'계약 유형',counterparty:'계약 상대방',period:'계약기간',status:'계약 상태',proposalNumber:'기안번호',companyId:'연결 업체',date:'계약일',file:'원본 경로',net:'공급가액',vat:'부가세',total:'계약총액',costAmount:'사업비 반영액'},document:{title:'문서명',category:'분류',number:'문서번호',date:'작성일',issuer:'발신자',recipient:'수신자',location:'원본 경로',related:'관련 내용',status:'상태',revision:'개정차수'},loan:{institution:'금융기관',rank:'상환순위',type:'대출 유형',commitment:'약정액',executed:'누적 실행액',balance:'대출 잔액',allIn:'All-in 금리',start:'약정 시작일',maturity:'최종 만기일',collateral:'담보·신용보강',sourcePath:'근거 경로'},equities:{company:'출자자',registration:'사업자·법인 등록번호',amount:'출자금액',purpose:'출자 목적'},guarantees:{category:'담보·신용보강 구분',provider:'제공자',amount:'담보·보증금액',detail:'조건·범위',expiry:'만료일'},guarantors:{name:'보증기관',type:'보증 유형',amount:'보증금액',scope:'보증 범위'}};
   Object.assign(inlineLabels.loan,{interestRate:'금리 (연 %)',upfrontFeeRate:'선취·취급 수수료 (%)',advisoryFeeRate:'금융자문 수수료 (%)',allIn:'ALL-IN (연 %)',allInAdvisoryBasis:'ALL-IN 기준',interestTerms:'금리·이자지급 조건',otherFees:'그 밖의 수수료',repaymentTerms:'상환 조건'});
-  const inline = (p, entity, id, field, value, type = 'text', options = [], label = inlineLabels[entity]?.[field]||field) => A.editable({ editScope:'record', projectId: p.id, entity, id, field, value, type:type==='percent'?'number':type, options:entity==='loan'&&['rank','type'].includes(field)?loanChoices(value,options):options, display: value==null||value===''||entity==='loan'&&(loanPricingFields.includes(field)&&!loanKnownPercent(value)||type==='money'&&initialLoanNumber(value)==null)?'—':type==='money'?A.esc(A.money(value)):type==='percent'?A.esc(A.num(value,2)+'%'):type==='select'?A.esc(options.find(x=>typeof x==='object'&&String(x.value)===String(value))?.label||value):A.esc(value), label });
-  const panelTable = (title, headers, rows, actions = '', toolbar = '') => '<section class="table-panel"><div class="table-toolbar"><div class="table-toolbar-left">' + (toolbar || '<strong>' + A.esc(title) + '</strong>') + '</div><div class="table-toolbar-right">' + actions + '</div></div>' + A.table(headers, rows) + '</section>';
+  function inline(p, entity, id, field, value, type = 'text', options = [], onValue = false) {
+    const missing=value==null||value===''||entity==='loan'&&(loanPricingFields.includes(field)&&!loanKnownPercent(value)||type==='money'&&initialLoanNumber(value)==null);
+    let display='—';
+    if(!missing){
+      if(type==='money')display=A.esc(A.money(value));
+      else if(type==='percent')display=A.esc(A.num(value,2)+'%');
+      else if(type==='select')display=A.esc(options.find(x=>typeof x==='object'&&String(x.value)===String(value))?.label||value);
+      else display=A.esc(onValue&&type==='date'&&/^\d{4}-\d{2}-\d{2}$/.test(value)?String(value).replaceAll('-','.'):value);
+    }
+    const inputValue=onValue&&type==='money'?loanEditorNumber(value,amount):onValue&&type==='percent'?loanEditorNumber(value,loanPercent):value;
+    return A.editable({editScope:onValue&&projectCanWrite(p)?'field':'record',activation:onValue?'value':'button',projectId:p.id,entity,id,field,value:inputValue,type:type==='percent'?'number':type,options:entity==='loan'&&['rank','type'].includes(field)?loanChoices(value,options):options,display,label:inlineLabels[entity]?.[field]||field});
+  }
+  const panelTable = (title, headers, rows, actions = '', toolbar = '', table = {}) => '<section class="table-panel"><div class="table-toolbar"><div class="table-toolbar-left">' + (toolbar || '<strong>' + A.esc(title) + '</strong>') + '</div><div class="table-toolbar-right">' + actions + '</div></div>' + A.table(headers, rows, table.className, table) + '</section>';
   const tableLink = (label, action, id, data = {}) => '<button type="button" class="table-link" data-action="' + action + '" data-id="' + A.esc(id) + '" '+(action==='document-select'?'aria-controls="document-detail-panel" ':'') + Object.entries(data).map(([k, v]) => 'data-' + k + '="' + A.esc(v) + '"').join(' ') + '>' + A.esc(label) + '</button>';
   const summaryStrip = items => '<section class="execution-summary recovery-summary">' + items.map(([k, v]) => '<div><span>' + A.esc(k) + '</span><b>' + v + '</b></div>').join('') + '</section>';
   function formContract(c) {
@@ -162,7 +173,7 @@
     validateAllocations(allocations, costAmount);
     return { id: A.uid('revision'), revision: (old?.revision || 0) + 1, date: date(v.date, '계약일'), total, net, vat, costAmount, taxStatus: net == null ? '미확인' : '확인', allocations, file: required(v.file, '계약 원본 경로'), note: v.note || '' };
   }
-  const contractParentOptions=(id,formKey='edit')=>{const projectId=A.current()?.id,returnTo=()=>{const p=A.current();if(!p||p.id!==projectId||!currentContracts(p).some(c=>c.id===id)){A.closeModal({userInitiated:true});return;}showContract(id);};return{...A.formParentOptions?.(returnTo),draftContext:'contract:'+id+':'+formKey};};
+  const contractParentOptions=(id,formKey='edit')=>{const projectId=A.current()?.id,parent=A.modalReturnContext?.(),returnTo=()=>{const p=A.current();if(!p||p.id!==projectId||!currentContracts(p).some(c=>c.id===id)){A.closeModal({userInitiated:true});return;}showContract(id,{returnTo:parent?.callback,returnContext:parent});};return{...A.formParentOptions?.(returnTo),draftContext:'contract:'+id+':'+formKey};};
   A.on('contract-add', b => {const owner=A.current();if(!requireProjectWrite(owner))return false;const boundary=projectWriteBoundary(owner);return A.form(b?.dataset?.cbsId?cbsName(owner,b.dataset.cbsId)+' · 계약 추가':'계약 추가', formContract(), v => {
     const p = boundary().project, revision = revisionValues(v), c = { id: A.uid('contract'), name: required(v.name, '계약명'), counterparty: required(v.counterparty, '계약 상대방'), companyId: v.companyId||'', type: v.type||'', date: v.date, period: v.period||'', file: v.file, proposalNumber: v.proposalNumber||'', status: v.status||'체결', revisions: [revision], obligations: [], payments: [], certifications: [],paymentCoverage:{status:'unknown'},paymentReviews:[] };
     if(b?.dataset?.cbsId)c.cbsId=b.dataset.cbsId;
@@ -180,13 +191,18 @@
   });
   A.on('contract-delete', b => {if(!requireProjectWrite())return false;let [p,c]=getContract(b.dataset.id);const id=c.id,boundary=projectWriteBoundary(p,owner=>uniqueRecord(owner.contracts,id));if(live(c.payments).length||live(p.fundForecasts).some(x=>x.replacedBy?.contractId===c.id))return A.toast('지급·예측이 연결된 계약은 삭제할 수 없습니다. 계약 상태를 변경해 주세요.');A.confirmDelete(c.name,()=>{const current=boundary();p=current.project;c=current.record;if(live(c.payments).length||live(p.fundForecasts).some(x=>x.replacedBy?.contractId===c.id))throw Error('지급·예측이 연결된 계약은 삭제할 수 없습니다. 계약 상태를 변경해 주세요.');const before=clone(c);c.deletedAt=A.today;A.audit('delete','contract',c.id,before,c,c.name+' 계약이 삭제되었습니다.',{view:'document',tab:'contracts',projectId:p.id});const restore=projectWriteBoundary(p,owner=>uniqueRecord(owner.contracts,id,true),'name',{includeDeleted:true});A.toast('계약을 삭제했습니다.',()=>{const target=restore(),row=target.record,gone=clone(row);row.deletedAt=null;A.audit('restore','contract',row.id,gone,row,row.name+' 계약이 복구되었습니다.',{projectId:target.project.id});A.render();});});});
   A.on('contract-detail', b => {cancelDocumentSearch();showContract(b.dataset.id);});
-  A.on('contract-detail-tab', b => { A.ui.contractDetailTab = b.dataset.tab; showContract(b.dataset.id); });
+  A.on('contract-detail-tab', b => {
+    const parent=A.modalReturnContext?.();
+    showContract(b.dataset.id,{tab:b.dataset.tab,returnTo:parent?.callback,returnContext:parent});
+  });
   A.on('contract-vat',b=>{if(!requireProjectWrite())return false;const [p,c]=getContract(b.dataset.id);if(!A.vat?.openEditor)return A.toast('부가세 편집기를 불러오지 못했습니다.');A.vat.openEditor(p,{kind:'contract',id:c.id},contractParentOptions(c.id,'vat'));});
-  function showContract(id) {
+  function showContract(id,options={}) {
     const [p, c] = getContract(id), r = latest(c), t = contractTotals(c);
     A.ui.contractModalId=id;
+    if(options.tab)A.ui.contractDetailTab=options.tab;
     const allocations = (r.allocations || []).map(x => [A.esc(cbsName(p, x.cbsId)), A.money(x.amount), button('배부 삭제', 'contract-allocation-delete', c.id, { cbs: x.cbsId })]);
-    const obs=confirmedObligations(c).map(o=>{const s=obligationStatus(c,o);return[A.esc(o.label),moneyOrDash(o.confirmedAmount),moneyOrDash(s.paid),moneyOrDash(s.confirmedUnpaid),A.esc(s.state),button('실제 지급 기록','payment-add',c.id,{record:o.id})];});
+    const editConditions=A.costPaymentOverview&&projectCanWrite(p);
+    const obs=confirmedObligations(c).map(o=>{const s=obligationStatus(c,o);return[A.esc(o.label),moneyOrDash(o.confirmedAmount),moneyOrDash(s.paid),moneyOrDash(s.confirmedUnpaid),A.esc(s.state),button('실제 지급 기록','payment-add',c.id,{record:o.id})+(editConditions?button('확정조건 수정','confirmed-payment-edit',c.id,{record:o.id}):'')];});
     const payments = live(c.payments).map(x => [A.esc(x.date??'—'), A.esc(live(c.obligations).find(o => o.id === x.obligationId)?.label || '회차 미연결'), A.money(x.amount), A.money(x.costAmount), A.esc(x.proposalNumber || '—'), button('수정', 'payment-edit', c.id, { record: x.id }) + button('삭제', 'contract-record-delete', c.id, { record: x.id, kind: 'payments' })]);
     const certs = live(c.certifications).map(x => [A.esc(x.date??'—'), A.money(x.amount), A.esc(x.note), button('수정', 'certification-edit', c.id, { record: x.id }) + button('삭제', 'contract-record-delete', c.id, { record: x.id, kind: 'certifications' })]);
     const revisions = c.revisions.map(x => [A.esc(x.revision + '차'), A.esc(x.date || '미입력'), A.money(x.total), moneyOrDash(x.net), moneyOrDash(x.vat), moneyOrDash(x.costAmount), A.esc(x.note)]);
@@ -195,12 +211,12 @@
     const summary = rows => '<div class="summary-table">' + rows.map(([key, value, source]) => '<div class="summary-table-row"><div>' + A.esc(key) + '</div><div class="recovery-wrap">' + A.esc(value ?? '') + '</div><div>' + A.esc(source || '') + '</div></div>').join('') + '</div>';
     let content;
     if (tab === 'core') content = A.table(['항목','내용'], [['계약목적', A.esc(s.purpose || '')], ['계약기간', inline(p,'contract',c.id,'period',c.period)], ['계약일', inline(p,'contract',c.id,'date',r.date,'date')], ['공급가액', inline(p,'contract',c.id,'net',r.net,'money')], ['부가세', inline(p,'contract',c.id,'vat',r.vat,'money')], ['계약총액', inline(p,'contract',c.id,'total',r.total,'money')], ['사업비 반영액', inline(p,'contract',c.id,'costAmount',r.costAmount,'money')], ...vatRows, ['기안번호', inline(p,'contract',c.id,'proposalNumber',c.proposalNumber)], ['업체 연결', inline(p,'contract',c.id,'companyId',c.companyId,'select',companyOptions())]]) + panelTable('CBS 사업비 배부',['CBS 항목','사업비 반영액',''],allocations,button('배부 추가','contract-allocation-add',c.id));
-    else if (tab === 'payment') content = summary((s.payment || []).map((v,i) => ['조건 '+(i+1),v,s.sources?.[i]?.clause])) + panelTable('확정 지급조건',['조건','확정 지급총액','실제 지급','확정 미지급','상태',''],obs) + panelTable('실제 지급',['지급일','회차','지급총액','사업비 반영액','기안번호',''],payments,button('지급 기록 추가','payment-add',c.id)+button('지급 누계 확인','payment-review',c.id)) + panelTable('기성 인정',['기준일','기성금액','메모',''],certs,button('기성 추가','certification-add',c.id));
+    else if (tab === 'payment') content = summary((s.payment || []).map((v,i) => ['조건 '+(i+1),v,s.sources?.[i]?.clause])) + panelTable('확정 지급조건',['조건','확정 지급총액','실제 지급','확정 미지급','상태',''],obs,editConditions?button('확정조건 추가','confirmed-payment-add',c.id):'') + panelTable('실제 지급',['지급일','회차','지급총액','사업비 반영액','기안번호',''],payments,button('지급 기록 추가','payment-add',c.id)+button('지급 누계 확인','payment-review',c.id)) + panelTable('기성 인정',['기준일','기성금액','메모',''],certs,button('기성 추가','certification-add',c.id));
     else if (tab === 'scope') content = summary([...(s.includes || []).map(v => ['포함',v,'과업내용서']),...(s.excludes || []).map(v => ['제외',v,'제외범위'])]);
     else if (tab === 'responsibility') content = summary([...(s.responsibilities || []).map(v => ['책임',v,'특수조건']),...(s.guarantees || []).map(v => ['보증',v,'보증조건']),...(s.termination || []).map(v => ['해지',v,'해지조항'])]);
     else if (tab === 'changes') content = panelTable('계약 변경이력',['차수','계약일','총액','공급가액','부가세','사업비 반영액','변경 내용'],revisions,button('변경계약','contract-edit',c.id)) + summary((s.changes || []).map(v => [v.date,v.title,v.detail]));
     else content = summary((s.sources || []).map(v => [v.clause,v.text,'']));
-    A.modal('계약조건 요약', '<div class="dp-contract-modal"><div class="contract-summary-line"><span>계약 <b>' + A.esc(c.name) + '</b></span><span>상대방 <b>' + A.esc(c.counterparty) + '</b></span><span>계약금액 <b>' + A.money(r.total) + '</b></span><span>계약기간 <b>' + A.esc(c.period) + '</b></span></div><div class="contract-origin-path"><span>원본 경로</span>'+inline(p,'contract',c.id,'file',r.file||c.file||'')+button('복사','contract-copy-path',c.id)+'</div><div class="contract-tabs">' + tabs.map(([key,label]) => '<button type="button" class="contract-tab ' + (tab===key?'active':'') + '" data-action="contract-detail-tab" data-id="' + A.esc(c.id) + '" data-tab="' + key + '">' + label + '</button>').join('') + '</div><div class="contract-content">' + content + '</div></div>');
+    A.modal('계약조건 요약', '<div class="dp-contract-modal"><div class="contract-summary-line"><span>계약 <b>' + A.esc(c.name) + '</b></span><span>상대방 <b>' + A.esc(c.counterparty) + '</b></span><span>계약금액 <b>' + A.money(r.total) + '</b></span><span>계약기간 <b>' + A.esc(c.period) + '</b></span></div><div class="contract-origin-path"><span>원본 경로</span>'+inline(p,'contract',c.id,'file',r.file||c.file||'')+button('복사','contract-copy-path',c.id)+'</div><div class="contract-tabs">' + tabs.map(([key,label]) => '<button type="button" class="contract-tab ' + (tab===key?'active':'') + '" data-action="contract-detail-tab" data-id="' + A.esc(c.id) + '" data-tab="' + key + '">' + label + '</button>').join('') + '</div><div class="contract-content">' + content + '</div></div>','',options);
   }
   A.on('contract-copy-path', b => { const [, c] = getContract(b.dataset.id); A.copy(latest(c).file || c.file || ''); });
   A.on('contract-allocation-add', b => {
@@ -266,6 +282,38 @@
     allocationForm(p,'pay',row?'지급 기록 수정':'지급 기록',A.field('date','지급일',row?(row.date??''):A.today,'date')+A.field('amount','지급액 (원)',row?.amount??'','number')+A.field('sourcePath','지급 근거 경로',row?.sourcePath||'')+'<details class="full dp-payment-more"><summary>추가 정보</summary><div class="form-grid">'+A.field('obligationId','연결 확정조건',row?.obligationId||(!isEdit?b.dataset.record:'')||'','select',option)+A.field('proposalNumber','기안번호',row?.proposalNumber||'')+A.field('costAmount','사업비 반영액 (원)',row?.costAmount??'','number')+allocationFields(p,row?.allocations||[],'pay')+A.field('note','메모',row?.note||'','textarea')+'</div></details>',v=>{const current=boundary();return upsertPayment(current.project,id,{...v,allocations:readAllocations(v,'pay')},row?.id);},'저장',contractParentOptions(c.id,'payment:'+(row?.id||('new:'+String(b.dataset.record||'unlinked')))));
   }
   A.on('payment-add', editPayment); A.on('payment-edit', editPayment);
+  function editConfirmedPayment(b) {
+    if(!A.costPaymentOverview||!requireProjectWrite())return false;
+    const [p,c]=getContract(b.dataset.id);
+    const rowId=b.dataset.record;
+    const row=rowId?uniqueRecord(confirmedObligations(c),rowId):null;
+    if(rowId&&!row)throw Error('수정할 확정 지급조건을 찾을 수 없습니다.');
+    const boundary=projectWriteBoundary(p,owner=>uniqueRecord(owner.contracts,c.id),'confirmedAt');
+    const fields=A.field('label','지급조건 이름',row?.label||'')+
+      A.field('confirmedAt','확정일',row?.confirmedAt||A.today,'date')+
+      A.field('confirmedAmount','확정 지급총액 (원)',row?.confirmedAmount??'','number')+
+      A.field('costAmount','사업비 반영액 (원)',row?.costAmount??'','number')+
+      A.field('sourcePath','확정 근거 경로',row?.sourcePath||'')+
+      allocationFields(p,row?.allocations||[],'due');
+    allocationForm(p,'due',row?'확정 지급조건 수정':'확정 지급조건 추가',fields,v=>{
+      const {project,record:contract}=boundary();
+      const confirmedAmount=amount(v.confirmedAmount,'확정 지급총액');
+      const costAmount=amount(v.costAmount,'사업비 반영액');
+      if(confirmedAmount<=0||costAmount>confirmedAmount)throw Error('확정 지급총액과 사업비 반영액을 확인해 주세요.');
+      const allocations=readAllocations(v,'due');
+      validateAllocations(allocations,costAmount,project,true);
+      const item={...row,id:rowId||A.uid('obligation'),label:required(v.label,'지급조건 이름'),
+        confirmedAt:date(v.confirmedAt,'확정일'),confirmedAmount,costAmount,allocations,
+        sourcePath:required(v.sourcePath,'확정 근거 경로')};
+      const previous=uniqueRecord(confirmedObligations(contract),rowId);
+      if(rowId&&!previous)throw Error('수정할 확정 지급조건을 찾을 수 없습니다.');
+      const before=previous?clone(previous):null;
+      if(previous)Object.assign(previous,item);else(contract.obligations||=[]).push(item);
+      mutate(project,'obligation',item.id,before,item,item.label+' 확정 지급조건을 저장했습니다.');
+    },'저장',contractParentOptions(c.id,'confirmed-payment:'+(rowId||'new')));
+  }
+  A.on('confirmed-payment-add',editConfirmedPayment);
+  A.on('confirmed-payment-edit',editConfirmedPayment);
   A.on('payment-link',b=>{if(!requireProjectWrite())return false;const[p,c]=getContract(b.dataset.id),record=uniqueRecord(c.payments,b.dataset.record);if(!record)return;const id=c.id,boundary=projectWriteBoundary(p,owner=>uniqueRecord(owner.contracts,id),'obligationId');A.form('확정 지급조건 연결',A.field('obligationId','확정 지급조건',record.obligationId||'','select',paymentLinkOptions(c,record)),v=>{const current=boundary();return linkPayment(current.project,id,record.id,v.obligationId);},'저장',contractParentOptions(c.id,'payment-link:'+record.id));});
   A.on('payment-review',b=>{if(!requireProjectWrite())return false;const[p,c]=getContract(b.dataset.id),id=c.id,boundary=projectWriteBoundary(p,owner=>uniqueRecord(owner.contracts,id),'asOf');A.form('지급내역 확인',A.field('asOf','확인 기준일',A.today,'date')+A.field('sourcePath','대사 근거 경로')+'<div class="full dp-payment-review-value">누적 지급 '+A.money(paymentTotal(c))+'</div>',v=>reviewPayments(boundary().project,id,v),'저장',contractParentOptions(c.id,'payment-review'));});
   function editCertification(b) {
@@ -332,15 +380,100 @@
     itemRef(p,id);const review={id:A.uid('fund-review'),cbsId:id,asOf:date(v.asOf,'대사 기준일'),sourcePath:required(v.sourcePath,'대사 근거'),fingerprint:reviewFingerprint(p,id,v.asOf),reviewedAt:A.today};
     return A.transaction(()=>{(p.fundItemReviews=p.fundItemReviews||[]).push(review);mutate(p,'fundItemReview',review.id,null,review,cbsName(p,id)+' 지급 누계가 확인되었습니다.','document','contracts');return review;});
   }
+  function openingCutoff(p,openings,key){
+    const exact=openings.filter(row=>row.cbsId===key);
+    if(exact.length)return exact.map(row=>row.asOf||'9999').sort().at(-1);
+    const node=(p.cbs||[]).find(row=>row.id===key);
+    if(!node?.managementAccount&&!managed(p).some(row=>row.id===key))return '';
+    const scope=itemSourceIds(p,key);
+    return openings.filter(row=>scope.has(row.cbsId)).map(row=>row.asOf||'9999').sort().at(-1)||'';
+  }
+  function contractAmounts(p,ids,openings,contracts,asOf){
+    const records=[],unknownIds=new Set();
+    let sourceConflict=false;
+    for(const opening of openings){
+      if(opening.contract==null){unknownIds.add(opening.cbsId);continue;}
+      records.push({cbsId:opening.cbsId,amount:Number(opening.contract),asOf:opening.asOf,opening});
+    }
+    for(const contract of contracts){
+      const keys=contractIds(contract).filter(key=>ids.has(key));
+      const revision=revisionAt(contract,asOf);
+      const tax=revision&&A.vat?.summaryFor(p,{kind:'contract',id:contract.id,asOf});
+      if(!revision||tax?.record&&(tax.sourceDrift||tax.costAmount==null||
+        revision.allocations?.length&&allocationsTotal(revision.allocations)!==tax.costAmount)){
+        keys.forEach(key=>unknownIds.add(key));
+        continue;
+      }
+      const allocations=(revision.allocations||[]).filter(row=>ids.has(row.cbsId));
+      const amounts=allocations.length?allocations:[{
+        cbsId:contract.cbsId||contractIds(contract)[0],
+        amount:tax?.record?tax.costAmount:revision.costAmount
+      }];
+      for(const row of amounts){
+        if(openingCutoff(p,openings,row.cbsId)){sourceConflict=true;continue;}
+        if(row.amount==null){unknownIds.add(row.cbsId);continue;}
+        records.push({cbsId:row.cbsId,amount:Number(row.amount),asOf:revision.date,contract});
+      }
+    }
+    const hasEvidence=records.length>0||(p.costs||[]).some(row=>row.contract===0&&ids.has(row.id));
+    return {records,unknownIds,amount:unknownIds.size?null:sum(records,'amount'),sourceConflict,hasEvidence};
+  }
+  function activeOpenings(p,ids,asOf){
+    return (p.executionOpeningBalances||[]).filter(row=>ids.has(row.cbsId)&&!row.replacedAt&&(!row.asOf||row.asOf<=asOf));
+  }
+  function contractAmountSources(p,asOf=fundsAsOf(p)){
+    const contracts=currentContracts(p);
+    const roots=A.cbsRows(p).filter(row=>!row.parentId).map(root=>{
+      const ids=itemSourceIds(p,root.id);
+      const linked=contracts.filter(contract=>contractIds(contract).some(key=>ids.has(key)));
+      return contractAmounts(p,ids,activeOpenings(p,ids,asOf),linked,asOf);
+    });
+    return {
+      records:roots.flatMap(root=>root.records),
+      unknownIds:new Set(roots.flatMap(root=>[...root.unknownIds])),
+      amount:roots.some(root=>root.hasEvidence)?completeSum(roots,'amount'):null
+    };
+  }
   function itemFunds(p,id,asOf=fundsAsOf(p)){
-    const ids=itemSourceIds(p,id),contracts=currentContracts(p).filter(c=>contractIds(c).some(key=>ids.has(key))),payments=sourcePayments(p,asOf).filter(r=>recordIds(r).some(key=>ids.has(key))),openings=(p.executionOpeningBalances||[]).filter(o=>ids.has(o.cbsId)&&!o.replacedAt&&(!o.asOf||o.asOf<=asOf));
-    const cutoff=key=>{const exact=openings.filter(o=>o.cbsId===key);if(exact.length)return exact.map(o=>o.asOf||'9999').sort().at(-1)||'';const node=(p.cbs||[]).find(x=>x.id===key),directManagement=node?.managementAccount||managed(p).some(x=>x.id===key);if(!directManagement)return'';const scope=itemSourceIds(p,key);return openings.filter(o=>scope.has(o.cbsId)).map(o=>o.asOf||'9999').sort().at(-1)||'';};
-    let paidKnown=sum(openings,'paid'),paidUnknown=0,contractKnown=sum(openings,'contract'),contractUnknown=0,sourceConflict=false;
+    const ids=itemSourceIds(p,id),contracts=currentContracts(p).filter(c=>contractIds(c).some(key=>ids.has(key))),payments=sourcePayments(p,asOf).filter(r=>recordIds(r).some(key=>ids.has(key))),openings=activeOpenings(p,ids,asOf);
+    const cutoff=key=>openingCutoff(p,openings,key);
+    const contract=contractAmounts(p,ids,openings,contracts,asOf);
+    let paidKnown=sum(openings,'paid'),paidUnknown=0,sourceConflict=contract.sourceConflict;
     for(const r of payments){const relevant=recordIds(r).filter(key=>ids.has(key)),allocs=(r.allocations||[]).filter(x=>ids.has(x.cbsId));if(allocs.length){for(const x of allocs){if(cutoff(x.cbsId)&&r.date<=cutoff(x.cbsId)){sourceConflict=true;continue;}paidKnown+=Number(x.amount);}continue;}const key=r.cbsId||relevant[0];if(cutoff(key)&&r.date<=cutoff(key)){sourceConflict=true;continue;}const cost=recordCost(r,ids);if(cost==null)paidUnknown++;else paidKnown+=cost;}
-    for(const c of contracts){const r=revisionAt(c,asOf);if(!r){contractUnknown++;continue;}const tax=A.vat?.summaryFor(p,{kind:'contract',id:c.id,asOf}),allocs=(r.allocations||[]).filter(x=>ids.has(x.cbsId));if(tax?.record&&(tax.sourceDrift||tax.costAmount==null||r.allocations?.length&&allocationsTotal(r.allocations)!==tax.costAmount)){contractUnknown++;continue;}if(allocs.length){for(const x of allocs){if(cutoff(x.cbsId)){sourceConflict=true;continue;}contractKnown+=Number(x.amount);}continue;}const key=c.cbsId||contractIds(c)[0];if(cutoff(key)){sourceConflict=true;continue;}const cost=tax?.record?tax.costAmount:r.costAmount;if(cost==null)contractUnknown++;else contractKnown+=cost;}
     const reviews=(p.fundItemReviews||[]).filter(x=>x.cbsId===id&&x.asOf===asOf),review=reviews.at(-1),confirmed=!!review&&review.fingerprint===reviewFingerprint(p,id,asOf)||!openings.length&&!payments.some(x=>x.independent)&&contracts.length>0&&contracts.every(c=>paymentStatus(c).coverage==='confirmed'&&c.paymentCoverage?.asOf===asOf),coverage=confirmed?'confirmed':payments.length||openings.length?'partial':'unknown';
     const paidCost=paidUnknown?null:paidKnown||coverage==='confirmed'||openings.length?paidKnown:null,current=A.amount(p,id),cashRows=payments.filter(r=>{const keys=recordIds(r).filter(key=>ids.has(key));return !keys.some(key=>cutoff(key)&&r.date<=cutoff(key))}),cashUnknown=openings.length||cashRows.some(r=>!r.cbsId&&recordIds(r).some(key=>!ids.has(key)));
-    return {id,current,contractAmount:contractUnknown?null:contractKnown,paidCost,paidKnown,cashPaid:cashUnknown?null:cashRows.length?sum(cashRows,'amount'):coverage==='confirmed'?0:null,remaining:current==null||paidCost==null||coverage!=='confirmed'||sourceConflict?null:current-paidCost,coverage,sourceConflict,openings,contracts,payments};
+    return {id,current,contractAmount:contract.amount,contractEvidence:contract.hasEvidence,paidCost,paidKnown,cashPaid:cashUnknown?null:cashRows.length?sum(cashRows,'amount'):coverage==='confirmed'?0:null,remaining:current==null||paidCost==null||coverage!=='confirmed'||sourceConflict?null:current-paidCost,coverage,sourceConflict,openings,contracts,payments};
+  }
+  function overviewFunds(p,id,asOf){
+    const ids=itemSourceIds(p,id),funds=itemFunds(p,id,asOf);
+    const afterOpening=(key,date)=>ids.has(key)&&date&&date<=asOf&&date>openingCutoff(p,funds.openings,key);
+    let certified=sum(funds.openings,'certified'),unpaid=certified-sum(funds.openings,'paid');
+    for(const contract of currentContracts(p)){
+      for(const record of live(contract.certifications)){
+        certified+=sum((record.allocations||[]).filter(row=>afterOpening(row.cbsId,record.date)),'amount');
+      }
+      for(const condition of confirmedObligations(contract)){
+        const allocations=condition.allocations||[];
+        const eligible=allocations.filter(row=>afterOpening(row.cbsId,condition.confirmedAt));
+        if(!eligible.length){
+          if(!allocations.length&&contractIds(contract).some(key=>afterOpening(key,condition.confirmedAt)))unpaid=null;
+          continue;
+        }
+        if(condition.costAmount==null||allocationsTotal(allocations)!==condition.costAmount){unpaid=null;continue;}
+        if(unpaid==null)continue;
+        unpaid+=sum(eligible,'amount');
+        const conditionIds=new Set(eligible.map(row=>row.cbsId));
+        for(const payment of funds.payments.filter(row=>row.contractId===contract.id&&row.obligationId===condition.id)){
+          const keys=recordIds(payment).filter(key=>afterOpening(key,payment.date));
+          if(keys.some(key=>!conditionIds.has(key))){unpaid=null;break;}
+          if(!keys.length)continue;
+          const paid=recordCost(payment,conditionIds);
+          if(paid==null){unpaid=null;break;}
+          unpaid-=paid;
+        }
+      }
+    }
+    return {contract:funds.contractAmount,contractEvidence:funds.contractEvidence,certified,paid:funds.paidCost,unpaid};
   }
   function moveItemPayment(p,payment,c,o){
     if(live(c.payments).some(x=>x.id===payment.id))throw Error('이미 연결된 지급 ID입니다.');
@@ -577,11 +710,32 @@
     const tools = (kind, id) => button('수정', 'financial-other-edit', id, { kind }) + button('삭제', 'financial-other-delete', id, { kind });
     return panelTable('출자자',['회사명','사업자등록번호','출자금액','지분율','참여목적',''],A.financeEquities(p).map(x=>[inline(p,'equities',x.id,'company',x.company),inline(p,'equities',x.id,'registration',x.registration),inline(p,'equities',x.id,'amount',x.amount,'money'),x.ratio==null?'—':A.num(x.ratio,2)+'%',inline(p,'equities',x.id,'purpose',x.purpose),tools('equities',x.id)]),createButton('출자자 추가','financial-other-add',{kind:'equities'},'primary'))+panelTable('담보·신용보강·보증',['구분','제공자','금액','내용','기한',''],live(p.guarantees).map(x=>[inline(p,'guarantees',x.id,'category',x.category),inline(p,'guarantees',x.id,'provider',x.provider),inline(p,'guarantees',x.id,'amount',x.amount,'money'),inline(p,'guarantees',x.id,'detail',x.detail),inline(p,'guarantees',x.id,'expiry',x.expiry,'date'),tools('guarantees',x.id)]),createButton('항목 추가','financial-other-add',{kind:'guarantees'},'primary'))+'<details class="recovery-report-guarantors" '+A.disclosureAttributes('finance-report-guarantors',false,p.id)+'><summary>보고 보증기관 '+live(p.reportParticipants.guarantors).length+'건</summary>'+panelTable('보고 보증기관',['보증기관','유형','금액','범위',''],live(p.reportParticipants.guarantors).map(x=>[inline(p,'guarantors',x.id,'name',x.name),inline(p,'guarantors',x.id,'type',x.type),inline(p,'guarantors',x.id,'amount',x.amount,'money'),inline(p,'guarantors',x.id,'scope',x.scope),tools('guarantors',x.id)]),createButton('보증기관 추가','financial-other-add',{kind:'guarantors'}))+'</details>';
   }
+  function renderLoanTable(p, loans) {
+    const editOnValue=A.localPreviewLoanEditing===true;
+    const heads=['금융기관','순위','유형','약정액','실행액','잔액','금리(연%)','선취·취급(%)','금융자문(%)','ALL-IN(연%)','ALL-IN 기준','약정일','만기일',''];
+    const rows=loans.map(loan=>{
+      const cell=(field,type,options,value=loan[field])=>inline(p,'loan',loan.id,field,value,type,options,editOnValue);
+      return [
+        editOnValue?cell('institution'):tableLink(loan.institution,'loan-detail',loan.id),
+        cell('rank','select',['선순위','중순위','후순위']),
+        cell('type','select',['브릿지론','본PF','기타 대출']),
+        cell('commitment','money'),cell('executed','money'),cell('balance','money'),
+        cell('interestRate','percent',[],loanNominalRate(loan)),cell('upfrontFeeRate','percent'),
+        cell('advisoryFeeRate','percent'),cell('allIn','percent'),
+        cell('allInAdvisoryBasis','select',[{value:'',label:'—'},{value:'included',label:'금융자문수수료 포함'},{value:'excluded',label:'금융자문수수료 제외'}]),
+        cell('start','date'),cell('maturity','date',[],loan.finalMaturity||loan.maturity),
+        editOnValue?tableLink('상세','loan-detail',loan.id):button('수정','loan-edit',loan.id),
+      ];
+    });
+    const actions=A.btn('대주별 분기 기준값','finance-quarter-list')+A.btn('금융 변경이력','finance-history-list')+createButton('대출 추가','loan-add',{},'primary');
+    const table=editOnValue?{className:'studio-loan-table',columns:heads.map(()=>({minWidth:48,nowrap:true}))}:undefined;
+    return panelTable('대출현황',heads,rows,actions,'',table);
+  }
   function financeView(p) {
     const loans = live(p.loans), commitment = financeTotal(loans, 'commitment'), priced=loans.filter(l=>l.commitment>0),weighted=commitment&&priced.every(l=>loanKnownPercent(l.allIn)&&['included','excluded'].includes(l.allInAdvisoryBasis))&&new Set(priced.map(l=>l.allInAdvisoryBasis)).size===1?priced.reduce((n,l)=>n+l.commitment*Number(l.allIn),0)/commitment:null;
     const equity=financeTotal(live(p.equities),'amount'),total=equity==null||commitment==null?null:equity+commitment,eqWidth=total?equity/total*100:0;
     const capital='<section class="panel"><div class="panel-header"><div class="panel-title"><h3>조달 구조</h3></div>'+A.btn('조달 내역 보기','finance-capital-detail',{},'small')+'</div><div class="panel-body"><button type="button" class="chart-interactive recovery-capital" data-action="finance-capital-detail"><div class="finance-mix"><div class="finance-mix-bar"><span style="width:'+eqWidth+'%;background:#10243E" data-tooltip="자기자본 '+A.esc(financeMoney(equity))+'"></span><span style="width:'+(total?100-eqWidth:0)+'%;background:#6F91B8" data-tooltip="대출 약정 '+A.esc(financeMoney(commitment))+'"></span></div><div class="finance-mix-value"><span>자기자본 <b>'+financeMoney(equity)+'</b></span><span>대출 약정 <b>'+financeMoney(commitment)+'</b></span></div></div></button></div></section>';
-    return summaryStrip([['총 조달규모',financeMoney(total)],['자기자본',financeMoney(equity)],['대출 잔액',financeMoney(financeTotal(loans,'balance'))],['가중평균 ALL-IN',weighted==null?'—':A.num(weighted,2)+'%']])+capital+panelTable('대출현황',['금융기관','순위','유형','약정액','실행액','잔액','금리(연%)','선취·취급(%)','금융자문(%)','ALL-IN(연%)','ALL-IN 기준','약정일','만기일',''],loans.map(l=>[tableLink(l.institution,'loan-detail',l.id),inline(p,'loan',l.id,'rank',l.rank,'select',['선순위','중순위','후순위']),inline(p,'loan',l.id,'type',l.type,'select',['브릿지론','본PF','기타 대출']),inline(p,'loan',l.id,'commitment',l.commitment,'money'),inline(p,'loan',l.id,'executed',l.executed,'money'),inline(p,'loan',l.id,'balance',l.balance,'money'),inline(p,'loan',l.id,'interestRate',loanNominalRate(l),'percent'),inline(p,'loan',l.id,'upfrontFeeRate',l.upfrontFeeRate,'percent'),inline(p,'loan',l.id,'advisoryFeeRate',l.advisoryFeeRate,'percent'),inline(p,'loan',l.id,'allIn',l.allIn,'percent'),inline(p,'loan',l.id,'allInAdvisoryBasis',l.allInAdvisoryBasis||'','select',[{value:'',label:'—'},{value:'included',label:'금융자문수수료 포함'},{value:'excluded',label:'금융자문수수료 제외'}]),inline(p,'loan',l.id,'start',l.start,'date'),inline(p,'loan',l.id,'maturity',l.finalMaturity||l.maturity,'date'),button('수정','loan-edit',l.id)]),A.btn('대주별 분기 기준값','finance-quarter-list')+A.btn('금융 변경이력','finance-history-list')+createButton('대출 추가','loan-add',{},'primary'))+renderEquityGuarantees(p);
+    return summaryStrip([['총 조달규모',financeMoney(total)],['자기자본',financeMoney(equity)],['대출 잔액',financeMoney(financeTotal(loans,'balance'))],['가중평균 ALL-IN',weighted==null?'—':A.num(weighted,2)+'%']])+capital+renderLoanTable(p,loans)+renderEquityGuarantees(p);
   }
   A.register('finance',p=>'<div class="dp-finance">'+financeView(p)+'</div>');
   A.on('finance-capital-detail',()=>{const p=A.current();A.modal('자금구성',A.table(['구분','약정·출자','실행·납입','잔액'],[['자기자본',financeMoney(financeTotal(live(p.equities),'amount')),financeMoney(financeTotal(live(p.equities),'amount')),financeMoney(financeTotal(live(p.equities),'amount'))],...live(p.loans).map(l=>[A.esc(l.institution+' · '+l.type),financeMoney(l.commitment),financeMoney(l.executed),financeMoney(l.balance)])]));});
@@ -642,7 +796,7 @@
   if(A.tabContracts)A.tabContracts.finance=['loans'];
   A.financeLoanNominalRate = loanNominalRate;
   A.financeLoansAsOf = financeLoansAsOf;
-  A.contracts={initialize,latest,revisionAt,allocationsTotal,validateAllocations,contractTotals,obligationStatus,paymentTotal,paymentStatus,upsertPayment,linkPayment,reviewPayments,fundsAsOf,formContract,reconcileOpening,validateSellDown,revisionValues,cbsFunds,hasCbsReferences,...(A.realMode?{}:{seedDemo}),financeLoansAsOf,inlineContract,inlineDocument,renderDocuments,showContract,itemFunds,upsertForecast,upsertItemPayment,reviewItemFunds,replaceForecast,linkItemPayment,sourcePayments,planningArchive};
+  A.contracts={initialize,latest,revisionAt,allocationsTotal,validateAllocations,contractTotals,obligationStatus,paymentTotal,paymentStatus,upsertPayment,linkPayment,reviewPayments,fundsAsOf,formContract,reconcileOpening,validateSellDown,revisionValues,cbsFunds,overviewFunds,contractAmountSources,hasCbsReferences,...(A.realMode?{}:{seedDemo}),financeLoansAsOf,inlineContract,inlineDocument,renderDocuments,showContract,itemFunds,upsertForecast,upsertItemPayment,reviewItemFunds,replaceForecast,linkItemPayment,sourcePayments,planningArchive};
   A.spec.featureContracts = A.spec.featureContracts || {};
   A.spec.featureContracts.contracts = { source: 'project.contracts 문서 계약 원장 단일 원천. CBS 예산은 별도이며 계약 저장으로 덮어쓰지 않는다.', revision: '같은 계약의 개정차수에서 최신 유효금액만 사용한다. 최초 이관 원자료는 originalSource로 보존한다.', money: '원 단위 정수. 공급가액+부가세=총액. 사업비 반영액은 별도 입력. 원자료 부가세가 없으면 미확인으로 보존한다.', allocation: '계약-CBS 다대다 배부. 지급/기성 각 기록에 당시 사업비 기준 배부를 보존하며 계약 배부 변경으로 과거 배부를 바꾸지 않는다.', payment: '예정회차에 확정 지급의무와 복수 부분지급을 연결한다. 미지급=확정 지급의무-연결 지급. 기성과 지급은 동일시하지 않으며 음수 잔액을 숨기지 않는다.', migration: '기존 원가표의 계약/기성/지급 누계를 기초잔액으로 보존하며 신규 원장에 중복 합산하지 않는다. 실제 상세 금액과 CBS 배부가 기준일 누계에 일치해야 대체한다.', financing: '대주별 분기기준값은 정정 전후를 보존한다. 셀다운은 양도·양수 약정/실행/잔액 총합을 보존하며 새 대주 연결과 변경이력을 함께 저장한다.', fields: ['companyId', 'proposalNumber 선택', 'file/sourcePath', 'revisions', 'allocations', 'certifications', 'obligations', 'payments'], prototype: '로컬 저장과 감사이력만 구현. 실제 AI/파일업로드/DB/API 연결 없음.' };
   A.spec.featureContracts.contracts.financingAsOf = '보고 기준일 이전 최신 대주별 분기값·변경·셀다운 기록만 선택한다. 기준일 이전 근거가 없는 경우 미래 현재값으로 대체하지 않는다.';

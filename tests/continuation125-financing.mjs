@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {makeHarness} from './recovery-harness.mjs';
+import {createSampleState} from './support/local-design-fixture.mjs';
 const sha=p=>createHash('sha256').update(fs.readFileSync(p)).digest('hex'),pins=Object.fromEntries(['src/contracts.js','src/contracts-recovery.css','src/audit-view.js','src/report.js'].map(p=>[p,sha(p)])),checks=[];
 const copy=x=>JSON.parse(JSON.stringify(x));
-function fixture(){const h=makeHarness({modules:['core','cbs','contracts','demo']}),A=h.A;A.initializers.forEach(fn=>fn(A.state));const p=A.current();p.loans=[{id:'finance125',institution:'검수은행',rank:'선순위',type:'본PF',commitment:1000000000,executed:700000000,balance:600000000,allIn:6.5,start:'2026-01-01',maturity:'2028-12-31',finalMaturity:'2028-12-31',collateral:'토지·건물 담보',sourcePath:'보존할 기존 원문 경로'}];p.loanEvents=[];p.loanQuarterlyRecords=[];return{...h,A,p,act:(name,data={})=>h.listeners.click[0]({target:{closest:()=>({dataset:{action:name,...data}})},preventDefault(){}}),html:()=>h.nodes.get('app-dialog').innerHTML};}
+function fixture(){const h=makeHarness({seed:createSampleState(),modules:['core','cbs','contracts']}),A=h.A;A.initializers.forEach(fn=>fn(A.state));const p=A.current();p.loans=[{id:'finance125',institution:'검수은행',rank:'선순위',type:'본PF',commitment:1000000000,executed:700000000,balance:600000000,allIn:6.5,start:'2026-01-01',maturity:'2028-12-31',finalMaturity:'2028-12-31',collateral:'토지·건물 담보',sourcePath:'보존할 기존 원문 경로'}];p.loanEvents=[];p.loanQuarterlyRecords=[];return{...h,A,p,act:(name,data={})=>h.listeners.click[0]({target:{closest:()=>({dataset:{action:name,...data}})},preventDefault(){}}),html:()=>h.nodes.get('app-dialog').innerHTML};}
 const inputs={institution:'검수은행',rank:'선순위',type:'본PF',commitment:'1000000000',executed:'700000000',balance:'600000000',interestRate:'5',upfrontFeeRate:'1',advisoryFeeRate:'0.3',allIn:'6.5',allInAdvisoryBasis:'excluded',interestTerms:'고정금리·매월 후취',repaymentTerms:'만기 일시상환',otherFees:'대리금융기관 수수료 연 100만원',start:'2026-01-01',maturity:'2028-12-31',collateral:'토지·건물 담보',note:'조건 확정'};
 async function check(name,fn){try{await fn();checks.push({name,status:'passed'});}catch(e){checks.push({name,status:'failed',error:e.message});}}
 await check('loan detail shows actual principal, pricing, terms and editable parent without a source-path row',()=>{const h=fixture();Object.assign(h.p.loans[0],{interestRate:5,upfrontFeeRate:1,advisoryFeeRate:.3,allInAdvisoryBasis:'excluded',interestTerms:inputs.interestTerms,repaymentTerms:inputs.repaymentTerms});const before=JSON.stringify(h.A.state);h.act('loan-detail',{id:'finance125'});const s=h.html();for(const t of ['금융기관','상환순위','금융 유형','약정액','누적 실행액','대출잔액','금리','선취·취급 수수료','금융자문 수수료','ALL-IN','상환 조건','담보·신용보강','대출 정보 수정'])assert(s.includes(t),t);assert(!s.includes('근거 경로'));assert(!s.includes('보존할 기존 원문 경로'));assert.equal(JSON.stringify(h.A.state),before);});
@@ -29,4 +30,39 @@ await check('empty financing has no confirmed zero principal, unlike explicit ze
 await check('legacy non-numeric JSON cannot become confirmed zero principal or rate in current consumers',()=>{for(const raw of [false,true,[],{}]){const h=fixture();Object.assign(h.p.loans[0],{commitment:raw,balance:raw,allIn:raw,allInAdvisoryBasis:'included'});h.A.go('finance','loans');const html=h.nodes.get('content').innerHTML;assert(html.includes('총 조달규모</span><b>—'),'invalid principal is not a known zero');assert(html.includes('대출 잔액</span><b>—'));assert(html.includes('가중평균 ALL-IN</span><b>—'));h.act('loan-detail',{id:'finance125'});assert(!h.html().includes('0%'));h.act('loan-edit',{id:'finance125'});for(const name of ['commitment','balance','allIn'])assert(h.html().match(new RegExp('<input[^>]*name="'+name+'"[^>]*>'))?.[0].includes('value=""'),'invalid legacy '+name+' must not be displayed as a numeric amount');}});
 await check('a confirmed zero-weight loan with unavailable pricing cannot poison a known weighted rate with NaN',()=>{const h=fixture();h.p.loans[0].allInAdvisoryBasis='excluded';h.p.loans.push({...copy(h.p.loans[0]),id:'zero-weight',commitment:0,executed:50,balance:0,allIn:'미확인 원문',allInAdvisoryBasis:null});h.A.go('finance','loans');const value=h.nodes.get('content').innerHTML.match(/가중평균 ALL-IN<\/span><b>([^<]+)/)?.[1];assert.equal(value,'6.5%');assert(!h.nodes.get('content').innerHTML.includes('NaN'));});
 await check('editing a name cannot erase a legacy unrecognized inclusion-basis value that the select cannot represent',async()=>{for(const basis of [false,7,{legacy:'unconfirmed'}]){const h=fixture();h.p.loans[0].allInAdvisoryBasis=copy(basis);h.act('loan-edit',{id:'finance125'});h.A.formEditor.setValues({...inputs,institution:'이름만 변경',interestRate:'',upfrontFeeRate:'',advisoryFeeRate:'',allInAdvisoryBasis:''});assert.equal(await h.A.formEditor.submit(),true);assert.deepEqual(copy(h.A.current().loans[0].allInAdvisoryBasis),basis);}});
+await check('local loan table has one editable value per field, dotted dates and a dedicated detail entry',()=>{
+ const h=fixture(),{A}=h,before=JSON.stringify(A.state);
+ A.go('finance','loans');
+ const original=h.nodes.get('content').innerHTML;
+ assert.match(original,/data-action="loan-edit"/);
+ assert.doesNotMatch(original,/class="cell-edit-trigger cell-value-trigger"/);
+ A.localPreviewLoanEditing=true;
+ A.go('finance','loans');
+ const html=h.nodes.get('content').innerHTML;
+ const table=html.match(/<table class="dense-table studio-loan-table\b[^>]*>[\s\S]*?<\/table>/)?.[0];
+ assert.ok(table,'local loan table');
+ assert.equal((table.match(/class="cell-edit-trigger cell-value-trigger"/g)||[]).length,13);
+ assert.match(table,/data-inline-field="start"[^>]*data-inline-value="2026-01-01"[^>]*><button[^>]*>2026\.01\.01<\/button>/);
+ assert.match(table,/data-inline-field="maturity"[^>]*data-inline-value="2028-12-31"[^>]*><button[^>]*>2028\.12\.31<\/button>/);
+ assert.equal((table.match(/data-action="loan-detail"/g)||[]).length,1);
+ assert.doesNotMatch(table,/data-action="loan-edit"/);
+ assert.equal(JSON.stringify(A.state),before);
+ A.canEditProject=()=>false;
+ A.render();
+ assert.doesNotMatch(h.nodes.get('content').innerHTML,/class="cell-edit-trigger cell-value-trigger"/);
+ assert.match(h.nodes.get('content').innerHTML,/2026\.01\.01/);
+});
+await check('loan inline maturity saves the raw date with history and rejects invalid dates atomically',()=>{
+ const {A,p}=fixture(),input={entity:'loan',id:'finance125',field:'maturity',projectId:p.id};
+ const before=JSON.stringify(A.state);
+ assert.throws(()=>A.commitInline({...input,value:'2025-12-31'}),/약정 시작일보다 빠를 수 없습니다/);
+ assert.equal(JSON.stringify(A.state),before);
+ A.commitInline({...input,value:'2029-03-07'});
+ const saved=A.current();
+ assert.equal(saved.loans[0].maturity,'2029-03-07');
+ assert.equal(saved.loans[0].finalMaturity,'2029-03-07');
+ assert.equal(saved.loanEvents.length,1);
+ assert.equal(saved.loanEvents[0].before.finalMaturity,'2028-12-31');
+ assert.equal(saved.loanEvents[0].after.finalMaturity,'2029-03-07');
+});
 const changed=Object.keys(pins).filter(p=>sha(p)!==pins[p]);const result={suite:'continuation125-financing',passed:checks.filter(c=>c.status==='passed').length,failed:checks.filter(c=>c.status==='failed').length,checks,pins,sourceChanged:changed,realDatabaseWrites:0,realNetwork:0,scope:'Actual form/transactions under isolated fixture; not live browser, contract cost/real external writes'};console.log(JSON.stringify(result));if(result.failed||changed.length)process.exitCode=1;

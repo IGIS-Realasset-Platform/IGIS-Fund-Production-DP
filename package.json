@@ -15,6 +15,7 @@
     "read-excel-file": "9.3.12"
   },
   "scripts": {
+    "dev:local": "node scripts/local-preview/server.mjs",
     "build": "node scripts/build-vercel.mjs"
   }
 }

@@ -33,7 +33,7 @@
  function collect(before,after,path,log,out,depth=0){if(equal(before,after)||depth>8)return;const key=path.split('.').at(-1)||log.field||'',isObj=v=>v&&typeof v==='object';if(key==='deletedAt'){out.push({label:'상태',before:before?'삭제':'사용 중',after:after?'삭제':'사용 중',delta:''});return}if(skip.has(key))return;
    if(Array.isArray(before)||Array.isArray(after)){const left=Array.isArray(before)?before:[],right=Array.isArray(after)?after:[];if([...left,...right].every(x=>!isObj(x))){out.push({label:labels[key]||'항목 순서',before:left.map(x=>typeof x==='string'?(/Ids?$/.test(key)?findName(x,log):x):String(x)).join(' → ')||'—',after:right.map(x=>typeof x==='string'?(/Ids?$/.test(key)?findName(x,log):x):String(x)).join(' → ')||'—',delta:''});return}const ids=[...new Set([...left,...right].map((x,i)=>x?.id||String(i)))];for(const id of ids){const a=left.find((x,i)=>(x?.id||String(i))===id),b=right.find((x,i)=>(x?.id||String(i))===id),name=b?.name||a?.name||b?.title||a?.title||'';const start=out.length;collect(a,b,'',log,out,depth+1);for(let i=start;i<out.length;i++)if(name)out[i].label=name+' · '+out[i].label}return}
    if(isObj(before)||isObj(after)){for(const k of new Set([...Object.keys(before||{}),...Object.keys(after||{})]))collect(before?.[k],after?.[k],path?path+'.'+k:k,log,out,depth+1);return}
-   out.push({label:log.field===key&&log.label?log.label:labelFor(key,log),before:scalar(before,key,log),after:scalar(after,key,log),delta:numericDelta(before,after,key,log),money:moneyKeys.has(key)||log.type==='money',rawBefore:before,rawAfter:after});
+   out.push({recordField:depth<=1?(path||key):'',label:log.field===key&&log.label?log.label:labelFor(key,log),before:scalar(before,key,log),after:scalar(after,key,log),delta:numericDelta(before,after,key,log),money:moneyKeys.has(key)||log.type==='money',rawBefore:before,rawAfter:after});
  }
  function stageRows(stage){if(!stage)return [];const roots=(stage.nodes||[]).filter(x=>!x.parentId),values=stage.values||{},info=A.domain.stageInfo(stage);return [{id:'stage-summary',name:stage.label||'사업비 시점',date:stage.date,amount:info.value,detailTotal:Object.values(values).some(x=>x!=null)?info.knownSum:null,reconciliationDifference:info.reconciliationDifference,gfaTotal:stage.area?.gfaTotal??null,acquisitionLandArea:stage.area?.acquisitionLandArea??null},...roots.map(x=>({id:x.id,name:x.name,amount:values[x.id]??null}))]}
  function contractView(c){if(c==null)return c;const r=(c.revisions||[]).filter(x=>!x.deletedAt).at(-1)||{};return {name:c.name,counterparty:c.counterparty,type:c.type,contractDate:c.date,period:c.period,file:r.file??c.file,proposalNumber:c.proposalNumber,status:c.status,companyId:c.companyId,revision:r.revision,revisionDate:r.date,total:r.total,net:r.net,vat:r.vat,costAmount:r.costAmount,allocations:r.allocations,note:r.note||r.reason}}
@@ -74,14 +74,27 @@
  }
  function valueCell(change,side){const raw=change[side==='before'?'rawBefore':'rawAfter'],exact=change.money&&Number.isSafeInteger(raw)&&Math.abs(raw)>=100000000&&Math.abs(raw)%1000000!==0;return E(change[side])+(exact?'<span class="cell-sub dp-audit-exact-money">'+E(A.num(raw,0)+'원')+'</span>':'');}
  function renderDetail(input,{project,costHistory=false}={}){const v=costHistory?costHistoryView(input,{project}):present(input);if(v.hidden)return A.empty('표시할 업무 변경이력이 없습니다.');const withTarget=v.changes.some(c=>c.target),heads=['변경 항목','변경 전','변경 후','증감',...(withTarget?['저장 대상']:[])],rows=v.changes.map(c=>[E(c.label),valueCell(c,'before'),valueCell(c,'after'),E(c.delta||'—'),...(withTarget?[E((c.target||'—')+(c.impact?.length?' · 공유: '+c.impact.join(', '):''))]:[])]);return `<div class="dp-audit-meta"><span>${E(A.formatTimestamp(v.at))}</span><span>${E(v.actor)}</span><span>${E(v.entity+' · '+v.action)}</span></div><div class="dp-audit-summary">${E(v.title)}</div>${v.changes.length?A.table(heads,rows,'dp-audit-table'):A.empty('추가 변경 항목이 없습니다.')}<dl class="dp-audit-details"><dt>사유</dt><dd>${E(prose(v.reason,v.log)||'—')}</dd><dt>근거</dt><dd>${E(prose(v.source,v.log)||'—')}</dd></dl>`}
- function renderCostHistory(events,{project,limit=Infinity}={}){
+ const costBookkeepingFields=new Set(['currentEvidenceResolved','budgetState','applicability','templateOnly']);
+ function compactCostChanges(view){
+  if(view.log.entity!=='cbs')return view.changes;
+  const current=view.changes.find(change=>change.recordField==='current');
+  return view.changes.filter(change=>!costBookkeepingFields.has(change.recordField)&&!(
+   change.recordField==='amount'&&current&&change.rawBefore===current.rawBefore&&change.rawAfter===current.rawAfter
+  ));
+ }
+ function renderCostHistory(events,{project,limit=Infinity,compact=false}={}){
   if(!project||!A.state.projects.some(p=>p.id===project.id&&!p.deletedAt))throw Error('프로젝트를 다시 확인해 주세요.');
   const rows=[];let visible=0;
   for(const event of events){
    if(event.projectId&&event.projectId!==project.id)throw Error('다른 프로젝트의 변경이력은 표시할 수 없습니다.');
-   const v=costHistoryView(event,{project});if(v.hidden)continue;if(visible>=limit)break;visible++;
-   const log=v.log,targetId=log.idRef||log.entityId,current=(project.cbs||[]).find(r=>r.id===targetId),historical=log.after?.name||log.before?.name||log.after?.label||log.before?.label||log.label||'',item=historical||current?.name||v.title,linked=historical&&current?.name&&historical!==current.name?'현재 연결: '+current.name:'',reason=prose(v.reason,log)||'—',source=prose(v.source,log),changes=v.changes.length?v.changes:[{label:v.action,before:'—',after:'—',delta:''}];
-   for(const c of changes){const field=c.label&&c.label!==item?'<span class="cell-sub">'+E(c.label)+'</span>':'';rows.push([E(item)+field+(linked?'<span class="cell-sub">'+E(linked)+'</span>':''),valueCell(c,'before'),valueCell(c,'after'),E(c.delta||'—'),E(reason)+(source?'<span class="cell-sub">근거: '+E(source)+'</span>':''),E(A.formatTimestamp(v.at)),E(v.actor)]);}
+   const v=costHistoryView(event,{project});
+   if(v.hidden)continue;
+   if(visible>=limit)break;
+   const changes=compact?compactCostChanges(v):v.changes;
+   if(v.changes.length&&!changes.length)continue;
+   visible++;
+   const log=v.log,targetId=log.idRef||log.entityId,current=(project.cbs||[]).find(r=>r.id===targetId),historical=log.after?.name||log.before?.name||log.after?.label||log.before?.label||log.label||'',item=historical||current?.name||v.title,linked=historical&&current?.name&&historical!==current.name?'현재 연결: '+current.name:'',reason=prose(v.reason,log)||'—',source=prose(v.source,log);
+   for(const c of changes.length?changes:[{label:v.action,before:'—',after:'—',delta:''}]){const field=c.label&&c.label!==item?'<span class="cell-sub">'+E(c.label)+'</span>':'';rows.push([E(item)+field+(linked?'<span class="cell-sub">'+E(linked)+'</span>':''),valueCell(c,'before'),valueCell(c,'after'),E(c.delta||'—'),E(reason)+(source?'<span class="cell-sub">근거: '+E(source)+'</span>':''),E(A.formatTimestamp(v.at)),E(v.actor)]);}
   }
   return '<div class="dp-cost-history">'+A.table(['항목','변경 전','변경 후','증감','사유','일시','담당자'],rows,'dp-audit-table dp-cost-history-table')+'</div>';
  }

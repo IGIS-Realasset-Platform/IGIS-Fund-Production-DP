@@ -11,3 +11,4 @@
 *.local
 /src/data/legacy-seed.json
 /src/data/notion-projects.json
+/scripts/local-preview/

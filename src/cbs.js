@@ -320,6 +320,64 @@
   const raw=profile.screenNodes(p,{expandedIds:[...new Set(expanded.map(node=>node.id))]});
   return A.costOrder?.orderedNodes?A.costOrder.orderedNodes(p,raw,{cacheDisplayTree:true}):raw;
  }
+ function costContractColumn(p,nodes){
+  const asOf=A.costPaymentOverview?.(p);
+  if(!asOf||!A.contracts?.contractAmountSources)return null;
+  const source=A.contracts.contractAmountSources(p,asOf);
+  const raw=new Map(A.cbsRows(p).map(node=>[node.id,node]));
+  const full=A.companyCostProfile?.enabled?A.companyCostProfile.fullNodes(p):[];
+  const display=new Map([...full,...nodes].map(node=>[node.id,node]));
+  const ancestry=node=>{
+   const chain=new Set();
+   while(node&&!chain.has(node.id)){
+    chain.add(node.id);
+    node=display.get(node.parentId);
+   }
+   return chain;
+  };
+  const commonOwner=candidates=>{
+   if(!candidates.length)return undefined;
+   const chains=candidates.map(ancestry);
+   const mostSpecific=chains.find(chain=>candidates.every(node=>chain.has(node.id)));
+   if(mostSpecific)return mostSpecific.values().next().value;
+   return [...chains[0]].find(id=>chains.every(chain=>chain.has(id)));
+  };
+  const valuesById=new Map(),mappedIds=new Map(),rows=[...display.values()];
+  function anchor(id){
+   if(mappedIds.has(id))return mappedIds.get(id);
+   let key=id,owner;
+   const visited=new Set();
+   while(key&&!visited.has(key)){
+    visited.add(key);
+    owner=display.has(key)?key:
+     commonOwner(rows.filter(node=>node.sourceIds?.includes(key)))||
+     commonOwner(rows.filter(node=>node.managementIds?.includes(key)));
+    if(owner)break;
+    key=raw.get(key)?.parentId;
+   }
+   mappedIds.set(id,owner);
+   return owner;
+  }
+  function add(id,amount){
+   for(const key of ancestry(display.get(anchor(id)))){
+    const cell=valuesById.get(key)||{amount:0,known:false,nonzero:false,unknown:false};
+    if(amount==null)cell.unknown=true;
+    else {cell.amount+=amount;cell.known=true;cell.nonzero||=amount!==0;}
+    valuesById.set(key,cell);
+   }
+  }
+  source.records.forEach(row=>add(row.cbsId,row.amount));
+  source.unknownIds.forEach(id=>add(id,null));
+  // A recorded zero proves coverage even when no opening row was imported.
+  for(const row of p.costs||[])if(row.contract===0)add(row.id,0);
+  function value(id){
+   if(id==='__total__')return {amount:source.amount,state:source.amount==null?'unknown':'known'};
+   const cell=valuesById.get(id);
+   if(!cell?.known||cell.unknown)return {amount:null,state:'unknown'};
+   return {amount:cell.amount,state:cell.nonzero?'known':'empty'};
+  }
+  return {value};
+ }
  function costExcelProjection(p,{mode=A.ui.cbsViewMode==='unit'?'unit':'amount',detail=A.companyCostProfile?.enabled?'management':'all'}={}){
   const previousCache=renderCache,profileScope=A.companyCostProfile?.beginRead?.(p);renderCache={projections:new WeakMap(),current:new Map(),rows:new WeakMap(),groups:new WeakMap(),metrics:new Map()};try{
   mode=mode==='unit'?'unit':'amount';
@@ -331,6 +389,16 @@
   const total=A.total(p),areaValue=(key,column)=>column.stage?stageArea(p,column.stage)[key]:currentArea(p)[key],cell=(node,column,isTotal=false)=>{const id=isTotal?'total':node.id,rawWon=modeValue(p,id,column.stage,'amount'),item=comparisonCell(p,isTotal?null:node,column.stage,mode),rawItem=mode==='amount'?item:comparisonCell(p,isTotal?null:node,column.stage,'amount'),status=mode==='unit'?unitInfo(p,rawWon,isTotal?'__total__':id,column.stage):{status:rawWon===null?'missing-amount':'ready',label:rawWon===null?'금액 미입력':''};return{columnId:column.id,value:item.value,delta:column.hasDelta?item.delta:null,rawWon,rawDeltaWon:column.hasDelta?rawItem.delta:null,valueStatus:status.status,valueLabel:status.label||'',hasDelta:column.hasDelta};};
   const byId=new Map(nodes.map(node=>[node.id,node]));const categoryName=node=>{let root=node,seen=new Set();while(root?.parentId){if(seen.has(root.id))throw Error('분류 연결이 순환합니다.');seen.add(root.id);root=byId.get(root.parentId);}return root?.name||dictionaryFor(p,node.id)?.name||'귀속 미확인 비용';};
   const rows=[...['gfaTotal','acquisitionLandArea'].map((key,index)=>({id:'area:'+key,kind:'area',level:0,categoryName:'',code:'',name:key==='gfaTotal'?'연면적':'취득대상 토지면적',role:'area',state:'현재·시점 원자료',composition:null,values:columns.map(column=>({columnId:column.id,value:areaValue(key,column),delta:null,rawWon:null,valueStatus:unknown(areaValue(key,column))?'missing-area':'ready',valueLabel:unknown(areaValue(key,column))?'면적 미입력':'',hasDelta:false}))})),{id:'__total__',kind:'total',level:0,categoryName:'',code:'',name:'총액',role:'total',state:'계산 합계',composition:total===null?null:1,values:columns.map(column=>cell(null,column,true))},...ordered.map(({node,level})=>{const rawWon=modeValue(p,node.id,null,'amount'),role=!node.parentId?'root-subtotal':node.modelDisplayGroup||node.isDisplayGroup?'display-group':node.historicalOnly?'historical':'input-or-model';return{id:node.id,parentId:node.parentId||null,categoryName:categoryName(node),kind:'cost',level,code:node.code||'',name:node.name,role,state:node.historicalOnly?'과거 확정본 전용':node.reviewRequired?'분류 확인 필요':'현재',composition:rawWon===null||total===null||total===0?null:rawWon/total,modelCatalogKey:node.modelCatalogKey||'',sourceRefs:node.modelSourceRefs||node.sourceRefs||'',companyActualRow:!!node.companyActualRow,companyProfileKey:node.companyProfileKey||'',companyTaxonomyTargetId:node.companyTaxonomyTargetId??null,companyTaxonomyRole:node.companyTaxonomyRole||'',companyManagementGroup:!!node.companyManagementGroup,companySingleActual:!!node.companySingleActual,values:columns.map(column=>cell(node,column))};})];
+  const contractColumn=mode==='amount'?costContractColumn(p,nodes):null;
+  if(contractColumn){
+   const index=columns.length-1;
+   columns.splice(index,0,{id:'contract-amount',label:'계약금액',role:'contract',hasDelta:false});
+   for(const row of rows){
+    const contract=row.kind==='area'?{amount:null,state:'empty'}:contractColumn.value(row.id);
+    row.values.splice(index,0,{columnId:'contract-amount',value:contract.amount,rawWon:contract.amount,
+     rawDeltaWon:null,valueStatus:contract.state,hasDelta:false});
+   }
+  }
   return{project:{id:p.id,name:p.name||p.basic?.name||p.id},mode,detail,displayUnit:mode==='unit'?'만원/평':'백만원 표시 · 원 저장',basis:basis?{id:basis.id,label:basis.label,date:basis.date||'',source:basis.source||''}:null,columns,rows,exportScope:'검색·행 접힘·열 접힘과 무관한 프로젝트 전체 표 투영',nullPolicy:'null은 미확보, 0은 확인된 0'};
   }finally{A.companyCostProfile?.endRead?.(profileScope);renderCache=previousCache;}
  }
@@ -412,12 +480,22 @@
  function renderCostDetail(p){
   const previousCache=renderCache,profileScope=A.companyCostProfile?.beginRead?.(p);renderCache={projections:new WeakMap(),current:new Map(),rows:new WeakMap(),groups:new WeakMap(),metrics:new Map()};try{
   const columns=tableColumns(p),nodes=tableNodes(p),q=String(A.ui.costSearch||'').toLowerCase(),mode=A.ui.cbsViewMode==='unit'?'unit':'amount',basis=viewBasis(p),total=A.total(p),widths=A.ui.cbsWidths?.[p.id]||{},nodeChildren=id=>nodes.filter(x=>x.parentId===id),itemWidth=costItemColumnWidth(p);
+  const contractColumn=mode==='amount'?costContractColumn(p,nodes):null;
+  const isContract=column=>column.id==='contract-amount';
+  if(contractColumn)columns.splice(columns.length-1,0,{id:'contract-amount'});
+  const contractCell=id=>{
+   const cell=contractColumn.value(id);
+   const label=cell.state==='unknown'?'—':cell.state==='empty'?'':formatMillion(cell.amount);
+   const title=cell.amount==null?'계약 자료 미확인':cell.amount.toLocaleString('ko-KR')+'원';
+   return '<td class="cbs-stage-start cbs-contract-column num" data-contract-amount="'+cell.state+'" title="'+esc(title)+'">'+esc(label)+'</td>';
+  };
   const matches=(n,seen=new Set())=>{if(seen.has(n.id))return false;seen.add(n.id);const members=n.isDisplayGroup?n.managementIds.flatMap(id=>[id,...managementSourceIds(p,id)]).map(id=>p.cbs.find(x=>x.id===id)?.name||''):[];return !q||[n.name,n.code,...members].join(' ').toLowerCase().includes(q)||nodeChildren(n.id).some(x=>matches(x,seen))};
-  const layout=c=>columnLayout(p,c,widths[c.id]||0,mode),width=c=>layout(c).total,hasDelta=c=>c.expanded&&c.role!=='basis',tableWidth=32+itemWidth+64+88+columns.reduce((n,c)=>n+width(c),0);
+  const layout=c=>columnLayout(p,c,widths[c.id]||0,mode),width=c=>isContract(c)?120:layout(c).total,hasDelta=c=>c.expanded&&c.role!=='basis',tableWidth=32+itemWidth+64+88+columns.reduce((n,c)=>n+width(c),0);
   const stageMeta=c=>c.stage?shortStageDate(c.stage.date):'';
-  const header=c=>{const meta=stageMeta(c);return'<th colspan="'+(hasDelta(c)?2:1)+'" class="cbs-phase-column cbs-stage-start cbs-role-'+c.role+(c.expanded?'':' cbs-col-collapsed')+'" data-column="'+esc(c.id)+'" style="--cbs-delta-width:'+layout(c).delta+'px"><div class="cbs-stage-head">'+A.btn(c.expanded?'▾':'▸','cbs-column-toggle',{id:c.id},'cbs-column-toggle')+(c.stage?A.btn(c.label,'stage-view',{id:c.id},'cbs-column-title'):esc(c.label))+'</div>'+(c.expanded?(meta?'<span class="stage-meta">'+esc(meta)+'</span>':'')+'<span class="cbs-column-labels"><span>'+(mode==='unit'?'평당가':'금액')+'</span>'+(hasDelta(c)?'<span>기준대비</span>':'')+'</span>':'')+(c.expanded?'<span class="cbs-resize-handle" data-col-resize="'+esc(c.id)+'" role="separator" aria-label="'+esc(c.label)+' 열 너비" aria-orientation="vertical" tabindex="0"></span>':'')+'</th>'};
+  const header=c=>{if(isContract(c))return '<th scope="col" class="cbs-stage-start cbs-contract-column">계약금액</th>';const meta=stageMeta(c);return'<th colspan="'+(hasDelta(c)?2:1)+'" class="cbs-phase-column cbs-stage-start cbs-role-'+c.role+(c.expanded?'':' cbs-col-collapsed')+'" data-column="'+esc(c.id)+'" style="--cbs-delta-width:'+layout(c).delta+'px"><div class="cbs-stage-head">'+A.btn(c.expanded?'▾':'▸','cbs-column-toggle',{id:c.id},'cbs-column-toggle')+(c.stage?A.btn(c.label,'stage-view',{id:c.id},'cbs-column-title'):esc(c.label))+'</div>'+(c.expanded?(meta?'<span class="stage-meta">'+esc(meta)+'</span>':'')+'<span class="cbs-column-labels"><span>'+(mode==='unit'?'평당가':'금액')+'</span>'+(hasDelta(c)?'<span>기준대비</span>':'')+'</span>':'')+(c.expanded?'<span class="cbs-resize-handle" data-col-resize="'+esc(c.id)+'" role="separator" aria-label="'+esc(c.label)+' 열 너비" aria-orientation="vertical" tabindex="0"></span>':'')+'</th>'};
   const costCells=(n,isTotal=false)=>{
    const value=isTotal?total:n.companyProfileNode?n.current:n.isDisplayGroup?n.current:n.historicalOnly?0:A.amount(p,n.id),cells=columns.map(c=>{
+    if(isContract(c))return contractCell(isTotal?'__total__':n.id);
     if(!c.expanded)return'<td class="cbs-col-collapsed cbs-stage-start cbs-role-'+c.role+'" aria-label="'+esc(c.label)+' 접힘"></td>';
     const item=comparisonCell(p,isTotal?null:n,c.stage,mode),companyCreate=c.id==='current'&&mode==='amount'&&!isTotal&&n.companyManagementGroup&&n.empty&&!n.costBreakdown,companySourceEdit=c.id==='current'&&mode==='amount'&&!isTotal&&n.companyManagementGroup&&n.companyHideActualRows&&!n.empty&&!n.costBreakdown,edit=c.id==='current'&&mode==='amount'&&!isTotal&&!n.isDisplayGroup&&!n.modelDisplayGroup&&!n.historicalOnly&&!n.signedAdjustment&&!n.managementAdjustment&&!n.costBreakdown&&!!n.parentId&&!nodeChildren(n.id).length,status=mode==='unit'?unitInfo(p,modeValue(p,isTotal?'total':n.id,c.stage,'amount'),isTotal?'__total__':n.id,c.stage):null;
     const percent=costTableDelta(item,mode);
@@ -432,7 +510,7 @@
   };
   let body='';
   for(const [key,label]of [['gfaTotal','연면적'],['acquisitionLandArea','취득대상 토지면적']]){
-   body+='<tr class="cbs-area-row" data-area-row="'+key+'"><td class="hier-handle-col"></td><th scope="row">'+esc(label)+'</th>'+columns.map(c=>'<td colspan="'+(hasDelta(c)?2:1)+'" class="num cbs-stage-start cbs-role-'+c.role+(c.expanded?'':' cbs-col-collapsed')+'">'+(!c.expanded?'':c.stage?areaText(stageArea(p,c.stage)[key]):canWriteArea(p)&&A.editable?A.editable({editScope:'record',entity:'areaCurrent',id:p.id,field:key,value:currentArea(p)[key],type:'number',projectId:p.id,display:areaText(currentArea(p)[key]),label}):areaText(currentArea(p)[key]))+'</td>').join('')+'<td class="cost-ratio-col"></td><td class="cost-delete-col">'+(key==='gfaTotal'&&canWriteArea(p)?A.btn('면적 수정','area-edit',{},'text'):'')+'</td></tr>';
+   body+='<tr class="cbs-area-row" data-area-row="'+key+'"><td class="hier-handle-col"></td><th scope="row">'+esc(label)+'</th>'+columns.map(c=>isContract(c)?'<td class="cbs-stage-start cbs-contract-column"></td>':'<td colspan="'+(hasDelta(c)?2:1)+'" class="num cbs-stage-start cbs-role-'+c.role+(c.expanded?'':' cbs-col-collapsed')+'">'+(!c.expanded?'':c.stage?areaText(stageArea(p,c.stage)[key]):canWriteArea(p)&&A.editable?A.editable({editScope:'record',entity:'areaCurrent',id:p.id,field:key,value:currentArea(p)[key],type:'number',projectId:p.id,display:areaText(currentArea(p)[key]),label}):areaText(currentArea(p)[key]))+'</td>').join('')+'<td class="cost-ratio-col"></td><td class="cost-delete-col">'+(key==='gfaTotal'&&canWriteArea(p)?A.btn('면적 수정','area-edit',{},'text'):'')+'</td></tr>';
   }
   body+='<tr class="total-row hier-total-row" data-testid="cost-total"><td class="hier-handle-col"></td><td>총액</td>'+costCells(null,true)+'</tr>';
   const visit=(n,level=0)=>{if(!matches(n))return;const kids=nodeChildren(n.id),offer=A.costBreakdown?.canOffer?.(p,n),group=kids.length>0||n.companyHasChildren||offer,open=isExpanded(p,n.id)||!!q,name=A.ui.showCodes?n.code+' '+n.name:n.name,orderId=n.costOrderId||'cost:'+n.id,companyLevel=n.companyLevel??level,companyKind=n.companyKind||'',companyClass=n.companyProfileNode?' cbs-company-row cbs-company-'+companyKind+(companyKind==='management'?' cbs-company-management':''):'',companyAttrs=n.companyProfileNode?' data-company-kind="'+esc(companyKind)+'" data-company-level="'+companyLevel+'" data-company-parent="'+esc(n.companyParentId||'')+'" data-company-taxonomy-target="'+esc(n.companyTaxonomyTargetId||'')+'" data-company-taxonomy-role="'+esc(n.companyTaxonomyRole||'')+'" aria-level="'+(companyLevel+1)+'"':'',nameStyle=n.companyProfileNode?'--company-level:'+companyLevel+';--company-indent:'+(12+companyLevel*24)+'px;--company-connector:'+Math.max(10,12+(companyLevel-1)*24)+'px':'padding-left:'+(8+level*10)+'px';
@@ -441,7 +519,7 @@
   nodes.filter(x=>!x.parentId).forEach(x=>visit(x));
   if(A.costBreakdown?.appendUiRows)body=A.costBreakdown.appendUiRows(p,nodes,body,columns.reduce((n,c)=>n+(hasDelta(c)?2:1),0)+3);
   const controls='<div class="table-toolbar"><div class="table-toolbar-left"><input class="control" id="costSearch" placeholder="사업비 항목 검색" value="'+esc(A.ui.costSearch||'')+'"><div class="cbs-view-switch" aria-label="사업비 보기">'+A.btn('사업비','cbs-view-mode',{mode:'amount'},mode==='amount'?'active':'')+A.btn('평당가','cbs-view-mode',{mode:'unit'},mode==='unit'?'active':'')+'</div><label class="cbs-basis-select">비교기준 <select id="cbs-compare-basis">'+activeStages(p).map(s=>'<option value="'+esc(s.id)+'" '+(s.id===basis?.id?'selected':'')+'>'+esc(s.label)+'</option>').join('')+'</select></label><span class="muted">단위: '+(mode==='unit'?'만원/평':'백만원')+'</span></div><div class="table-toolbar-right">'+A.btn('항목 선택·추가','cbs-catalog-open',{},'create')+(A.costUsePresets?A.btn('사업비 프리셋','cbs-use-preset-open'):'')+A.btn('비교 기준 추가','stage-open')+(A.costSnapshots&&A.cloudPersistence?.enabled?.()?A.btn('분기·주요시점 기록','cost-snapshots-open',{projectId:p.id}):'')+A.btn('엑셀 내려받기','cbs-export')+'</div></div>';
-  const html='<section class="table-panel cost-detail-simple cbs-recovery">'+controls+'<div class="table-wrap cbs-detail-wrap"><table class="cost-dense-table hier-table" data-testid="cost-detail-table" data-view-mode="'+mode+'" data-compare-basis="'+esc(basis?.id||'')+'" style="width:'+tableWidth+'px"><colgroup><col style="width:32px"><col data-cbs-item-col style="width:'+itemWidth+'px">'+columns.map(c=>'<col data-cbs-col="'+esc(c.id)+'" data-column-part="amount" style="width:'+layout(c).amount+'px">'+(hasDelta(c)?'<col data-cbs-delta-col="'+esc(c.id)+'" data-column-part="delta" style="width:'+layout(c).delta+'px">':'')).join('')+'<col style="width:64px"><col style="width:88px"></colgroup><thead><tr><th class="hier-handle-col"></th><th class="cost-item-col">원가항목<span class="cbs-item-resize-handle" data-cbs-item-resize role="separator" aria-label="원가항목 열 너비" aria-orientation="vertical" tabindex="0"></span></th>'+columns.map(header).join('')+'<th class="cost-ratio-col">구성비</th><th class="cost-delete-col">항목 관리</th></tr></thead><tbody>'+body+'</tbody></table></div></section>';
+  const html='<section class="table-panel cost-detail-simple cbs-recovery">'+controls+'<div class="table-wrap cbs-detail-wrap"><table class="cost-dense-table hier-table" data-testid="cost-detail-table" data-view-mode="'+mode+'" data-compare-basis="'+esc(basis?.id||'')+'" style="width:'+tableWidth+'px"><colgroup><col style="width:32px"><col data-cbs-item-col style="width:'+itemWidth+'px">'+columns.map(c=>isContract(c)?'<col style="width:'+width(c)+'px">':'<col data-cbs-col="'+esc(c.id)+'" data-column-part="amount" style="width:'+layout(c).amount+'px">'+(hasDelta(c)?'<col data-cbs-delta-col="'+esc(c.id)+'" data-column-part="delta" style="width:'+layout(c).delta+'px">':'')).join('')+'<col style="width:64px"><col style="width:88px"></colgroup><thead><tr><th class="hier-handle-col"></th><th class="cost-item-col">원가항목<span class="cbs-item-resize-handle" data-cbs-item-resize role="separator" aria-label="원가항목 열 너비" aria-orientation="vertical" tabindex="0"></span></th>'+columns.map(header).join('')+'<th class="cost-ratio-col">구성비</th><th class="cost-delete-col">항목 관리</th></tr></thead><tbody>'+body+'</tbody></table></div></section>';
   return html;
   }finally{A.companyCostProfile?.endRead?.(profileScope);renderCache=previousCache;}
  }
@@ -593,7 +671,15 @@
  function exportCostCsv(p,{download=true}={}){const ss=activeStages(p),cell=x=>'"'+String(x??'미확보').replace(/^[=+@-]/,"'").replaceAll('"','""')+'"',rows=[['원가코드','원가항목',...ss.map(s=>s.label+' 금액(원)'),'현재 금액(원)','현재 평당가 기준','연면적(㎡)','취득대상 토지면적(㎡)'],...displayNodes(p).map(n=>[n.code,n.name,...ss.map(s=>stageInfo(s,n.id).value),n.historicalOnly?0:A.amount(p,n.id),dictionaryFor(p,n.id)?.basis==='acquisitionLandArea'?'취득대상 토지면적':'연면적',currentArea(p).gfaTotal,currentArea(p).acquisitionLandArea])],name=p.id+'_사업비.csv',content='\uFEFF'+rows.map(r=>r.map(cell).join(',')).join('\r\n'),type='text/csv;charset=utf-8';if(download)A.download(name,content,type);return{name,content,type};}
  A.domain.exportCostCsv=exportCostCsv;
  A.on('cbs-export',()=>{const p=A.current();if(!A.costExcel?.downloadProject)throw Error('엑셀 내보내기 모듈을 불러오지 못했습니다.');return A.costExcel.downloadProject(p,{mode:A.ui.cbsViewMode==='unit'?'unit':'amount'});});
- function executionTotals(p){const list=liveRows(p).filter(x=>!x.parentId).map(x=>A.contracts?.cbsFunds?.(p,x.id));if(!list.some(Boolean))return{contract:null,certified:null,paid:null,unpaid:null};const sum=key=>list.some(x=>!x||x[key]===null)?null:list.reduce((n,x)=>n+Number(x[key]||0),0);return{contract:sum('contract'),certified:sum('certified'),paid:sum('paid'),unpaid:sum('unpaid')}}
+ function executionTotals(p){
+  const asOf=A.costPaymentOverview?.(p);
+  const list=liveRows(p).filter(row=>!row.parentId).map(row=>asOf?
+   A.contracts?.overviewFunds?.(p,row.id,asOf):A.contracts?.cbsFunds?.(p,row.id));
+  if(!list.some(Boolean))return{contract:null,certified:null,paid:null,unpaid:null};
+  const sum=key=>list.some(row=>row?.[key]==null)?null:list.reduce((n,row)=>n+row[key],0);
+  const contract=asOf&&!list.some(row=>row?.contractEvidence)?null:sum('contract');
+  return{contract,certified:sum('certified'),paid:sum('paid'),unpaid:sum('unpaid')};
+ }
  function companyCostNodes(p){return A.companyCostProfile?.managementNodes?.(p)||[];}
  function companyCostRoots(p){const nodes=companyCostNodes(p);return nodes.filter(node=>node.companyProfileRoot).map((node,index)=>({key:node.id,rootId:node.id,name:node.name,value:node.current,color:colors[index%colors.length],items:nodes.filter(child=>child.parentId===node.id).map(child=>child.name),node}));}
  function costSummary(p){const total=A.total(p),initial=A.total(p,'initial'),exec=executionTotals(p),direct=companyCostNodes(p).find(x=>x.companyConstructionBranch&&x.companyProfileKey==='direct'),diff=total===null||initial===null?null:total-initial;const cells=[['언더라이팅 예산',valueText(initial),'최초 기준'],['계약금액',valueText(exec.contract),'계약·집행 원천'],['지급금액',valueText(exec.paid),'지급 실적'],['최종 예상사업비',valueText(total),deltaText(diff)],['총사업비 평당가',compactUnit(p,total),'연면적 기준'],['직접공사비 평당가',direct?compactUnit(p,direct.current,direct.id):'자료 미확보','연면적 기준']];return `<section class="cost-kpi-row" data-testid="cost-kpi-row" aria-label="원가 핵심 지표">${cells.map(([label,value,meta])=>`<div class="cost-kpi-cell"><span class="cost-kpi-label">${esc(label)}</span><b class="cost-kpi-value">${esc(value)}</b><small class="cost-kpi-meta">${esc(meta)}</small></div>`).join('')}</section>`}

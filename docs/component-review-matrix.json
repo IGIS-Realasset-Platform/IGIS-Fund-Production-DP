@@ -813369,5 +813369,2380 @@
         }
       }
     }
+  },
+  "localDesign20261110": {
+    "date": "2026-11-10",
+    "scope": "127.0.0.1:4178 local-only; production C100 unchanged",
+    "specification": "docs/local-design-system.md",
+    "policyBasis": "2026-11-10 latest direct user approval: whole local UI plus reference sidebar width/icons/spacing",
+    "baselineRed": {
+      "sidebarWidth": {
+        "actual": 232,
+        "expected": 190,
+        "unit": "px",
+        "status": "fail"
+      },
+      "menuIcons": {
+        "actual": 0,
+        "expected": 10,
+        "status": "fail"
+      },
+      "projectSelectRadius": {
+        "actual": 4,
+        "expected": 11,
+        "unit": "px",
+        "status": "fail"
+      }
+    },
+    "components": [
+      {
+        "requirementID": "LOCAL-UI-01",
+        "component": "전체 주 메뉴·하위탭",
+        "purposeAndGeometry": "밝은 공통 외관·제목 계층",
+        "consumers": [
+          "10개 주 메뉴",
+          "실제 노출 하위탭",
+          "프로젝트 전환",
+          "재렌더"
+        ],
+        "verification": {
+          "implementation": "implemented-local",
+          "automatic": "route/data guards pass; CSS not a full automated visual test",
+          "actualScreen": "scoped-pass; see evidence",
+          "preservationAndOutput": "original/source preserved; output execution notrun"
+        }
+      },
+      {
+        "requirementID": "LOCAL-UI-02",
+        "component": "사이드바·메뉴 버튼·아이콘",
+        "purposeAndGeometry": "190px 폭·34px 높이·4px 간격·9px 아이콘 간격·16px 아이콘",
+        "consumers": [
+          "기존 목적지",
+          "접기/펼치기",
+          "포커스",
+          "모바일",
+          "재렌더"
+        ],
+        "verification": {
+          "implementation": "implemented-local",
+          "automatic": "route/data guards pass; CSS not a full automated visual test",
+          "actualScreen": "scoped-pass; see evidence",
+          "preservationAndOutput": "original/source preserved; output execution notrun"
+        }
+      },
+      {
+        "requirementID": "LOCAL-UI-03",
+        "component": "박스·입력·버튼·표",
+        "purposeAndGeometry": "18/11/24px 모서리·표 밀도 예외",
+        "consumers": [
+          "CBS 조회/수정/도구",
+          "명칭·금액 열",
+          "필터",
+          "집계"
+        ],
+        "verification": {
+          "implementation": "implemented-local",
+          "automatic": "route/data guards pass; CSS not a full automated visual test",
+          "actualScreen": "scoped-pass; see evidence",
+          "preservationAndOutput": "original/source preserved; output execution notrun"
+        }
+      },
+      {
+        "requirementID": "LOCAL-UI-04",
+        "component": "본문·구역·폼·도구모음",
+        "purposeAndGeometry": "24/18/16/8px 간격과 모바일16px",
+        "consumers": [
+          "단일 스크롤",
+          "고정 표 머리글",
+          "하단 버튼",
+          "긴 내용"
+        ],
+        "verification": {
+          "implementation": "implemented-local",
+          "automatic": "route/data guards pass; CSS not a full automated visual test",
+          "actualScreen": "scoped-pass; see evidence",
+          "preservationAndOutput": "original/source preserved; output execution notrun"
+        }
+      },
+      {
+        "requirementID": "LOCAL-UI-05",
+        "component": "선택창·상세·수정폼·하위 팝업",
+        "purposeAndGeometry": "선택→조작→저장/취소→오류→부모 복귀",
+        "consumers": [
+          "원래 선택값",
+          "change 동작",
+          "검색/분류 접힘",
+          "Escape",
+          "입력값 보존"
+        ],
+        "verification": {
+          "implementation": "implemented-local",
+          "automatic": "route/data guards pass; CSS not a full automated visual test",
+          "actualScreen": "scoped-pass selection/cancel/parent return; all save/error states notrun",
+          "preservationAndOutput": "original/source preserved; output execution notrun"
+        }
+      },
+      {
+        "requirementID": "LOCAL-UI-06",
+        "component": "원본·저장·계산·보고서 출력",
+        "purposeAndGeometry": "A/B/C·사용자 편집자료·운영·인쇄 보존",
+        "consumers": [
+          "workspace 값/revision",
+          "격리 저장 검사",
+          "독립 report iframe",
+          "운영 src"
+        ],
+        "verification": {
+          "implementation": "implemented-local",
+          "automatic": "route/data guards pass; CSS not a full automated visual test",
+          "actualScreen": "scoped-pass; see evidence",
+          "preservationAndOutput": "original/source preserved; output execution notrun"
+        }
+      },
+      {
+        "requirementID": "LOCAL-UI-07",
+        "component": "구역 제목·필터·표·폼·모달 정렬",
+        "purposeAndGeometry": "공통 좌우 기준선·같은 행 입력/버튼 상하 기준선과 역할별 폭·중첩 패딩 방지·넓은 사업비 표의 가로스크롤 예외",
+        "consumers": [
+          "패널 제목/본문/도구모음",
+          "표 첫/마지막 셀 내용선",
+          "입력/선택/버튼",
+          "오류 공간",
+          "모바일 줄바꿈",
+          "넓은 표 스크롤 경계"
+        ],
+        "policyBasis": "2026-11-10 user follow-up: coherent layout and aligned vertical edges",
+        "implementationNote": "패널 본문 바로 아래 도구모음의 중첩 패딩 제거와 연결; 전체 화면 검수 통과를 뜻하지 않음",
+        "verification": {
+          "implementation": "implemented-local",
+          "automatic": "route/data guards pass; CSS not a full automated visual test",
+          "actualScreen": "scoped-pass; see evidence",
+          "preservationAndOutput": "original/source preserved; output execution notrun"
+        }
+      },
+      {
+        "requirementID": "LOCAL-UI-08",
+        "supersededBy": "LOCAL-UI-22",
+        "component": "사용 안내(기존 플랫폼 명세)·내부8탭·3개복사/다운로드 조작",
+        "purposeAndGeometry": "로컬 내부 개발자료 화면을 9개 업무 메뉴 기능안내 표로 대체; 메뉴/페이지 제목 사용 안내",
+        "consumers": [
+          "사이드바 spec 버튼",
+          "spec 경로",
+          "재렌더/재진입",
+          "App.spec 원본 객체",
+          "src/spec.js 운영 원본",
+          "다른 업무 내보내기/백업/오류복구"
+        ],
+        "policyBasis": "2026-11-10 direct user request to remove unnecessary platform specification items",
+        "removedLocalUi": [
+          "개요/기능정의서/SDD/TDD·검수/데이터 구조/개발이력/피드백/전체 JSON 내부8탭",
+          "개발/검수/과거요구 JSON 자료",
+          "JSON 복사",
+          "명세 내려받기",
+          "해당 화면의 전체 데이터 내려받기"
+        ],
+        "preservationException": "Only local platform-spec internal UI/actions; preserve App.spec, production src/spec.js, all original business data and other business exports",
+        "verification": {
+          "implementation": "implemented-local",
+          "automatic": "route/data guards pass; CSS not a full automated visual test",
+          "actualScreen": "scoped-pass; see evidence",
+          "preservationAndOutput": "original/source preserved; output execution notrun"
+        }
+      }
+    ],
+    "allLocalUiAccepted": false,
+    "productionAcceptanceInherited": false,
+    "evidence": ".build/local-preview/ui-verification-20261110.json",
+    "followupAudit": {
+      "requirements": [
+        "LOCAL-UI-09",
+        "LOCAL-UI-10"
+      ],
+      "status": "implemented-local; scoped UI pass; exceptions explicit",
+      "components": [
+        "dialog head/body/form footer",
+        "nested panel/table",
+        "permit intake fieldset",
+        "partner panel head/nav/body",
+        "notification list/detail",
+        "permit duplicate focus banner",
+        "sidebar toggle/open/mobile/keyboard/reduced-motion"
+      ],
+      "preserved": [
+        "original workspace",
+        "all business actions",
+        "src",
+        "report iframe/print"
+      ],
+      "actualScreen": [
+        "프로젝트 등록: 진입/모바일 하단 입력 스크롤/취소",
+        "개요: 사업개요 펼침/현안 추가/취소",
+        "원가: 현황/세부/항목선택 팝업/닫기/공사비 비교/유사사업 추가/취소",
+        "파이낸싱: A은행 상세/수정/취소→상세/닫기",
+        "인허가: 부지/심의/공사 전체수정/취소/매각 추가/취소/개발업 등록/전문인력 추가/취소",
+        "인허가: 직접입력/취소, 상세4탭/수정/취소→동일 상세탭/Escape, 목록↔일정맵",
+        "계약: 샘플 설계 계약 상세6탭/닫기/문서 추가/취소",
+        "보고서: 기재자료 확인/저장한 보고서 목록/닫기",
+        "협력사:7개분야 진입, 외부자료 실패로 상세 미검증",
+        "법령:3개하위탭 진입, 외부자료 미지원으로 상세 미검증",
+        "사용 안내:9개기능행 유지",
+        "알림:목록/여백/스크롤/Escape; 읽음처리·삭제 미실행",
+        "메뉴:PC 접기/Enter 재열기, 모바일 열기/닫기/메뉴선택 자동접힘, 종료 후 ghost0"
+      ],
+      "notVerified": [
+        "all dynamic popup instances and save/error/output paths not exhaustively exercised",
+        "external company/law/staff lookup unsupported locally",
+        "partner detail/permit intake special fieldset: static style correction only, no actual rendered entry in this data",
+        "notification detail not opened to avoid read-state write",
+        "browser read-only evaluate does not expose document.getAnimations; frame timing not measured, controller tested separately",
+        "legacy browser test updated for removed banner, not run through shell; real UI used CUA"
+      ],
+      "geometry": {
+        "before": {
+          "dialogHeadPaddingX": 20,
+          "dialogBodyPaddingX": 18,
+          "formFooterExtraInset": 18
+        },
+        "afterDesktopDocumentForm": {
+          "titleLeft": 383,
+          "inputLeft": 383,
+          "inputRight": 1525,
+          "saveRight": 1525
+        },
+        "afterMobileProjectForm": {
+          "viewport": [
+            390,
+            844
+          ],
+          "titleLeft": 43,
+          "inputLeft": 43,
+          "inputRight": 347,
+          "saveRight": 347,
+          "footerBottom": 796,
+          "lastInputBottomAfterScroll": 646,
+          "footerTopAfterScroll": 723
+        },
+        "notification": {
+          "headPaddingX": 18,
+          "bodyPadding": 0,
+          "rowPaddingX": 18
+        },
+        "permits": {
+          "duplicateBanner": 0,
+          "originalRows": 6,
+          "editSectionOuterBorder": 0
+        },
+        "sidebar": {
+          "icons": 10,
+          "ghostsAfterFinish": 0,
+          "collapsedHidden": true,
+          "collapsedFocus": "메뉴 펼치기"
+        }
+      },
+      "automatic": [
+        "local-sidebar-motion:PASS (180ms/controller, cancel/reduced-motion/mobile/deferred render/fallback)",
+        "local-design-guide:PASS",
+        "local-design-preview:PASS isolated save/conflict/restart/local isolation",
+        "syntax and diff whitespace:PASS"
+      ],
+      "evidence": ".build/local-preview/ui-alignment-verification-20261110.json",
+      "allDynamicPopupsAccepted": false
+    },
+    "cursorAudit": {
+      "requirement": "LOCAL-UI-11",
+      "components": [
+        "project and filter selects",
+        "options and checkbox/radio with labels",
+        "buttons, links, summaries, actionable rows/charts",
+        "text entry, column resize, row reorder and disabled exceptions"
+      ],
+      "red": "Chrome: project switch auto on 10 main views, document/report selects default, permit checkbox and labels default",
+      "status": "implemented-local; scoped Chrome verification passed",
+      "implementation": "local screen CSS",
+      "browser": "Chrome computed cursor",
+      "mainMenus": 10,
+      "subtabChecks": 18,
+      "dialogsChecked": [
+        "프로젝트 등록",
+        "사업비 항목 선택",
+        "인허가 직접 입력",
+        "인허가 상세",
+        "대출 상세",
+        "대출 수정",
+        "계약 상세",
+        "보고서 기재자료"
+      ],
+      "mainSubtabDialogMismatches": 0,
+      "permitCheckAndLabelPairs": 12,
+      "projectPickerItems": 3,
+      "cbsPopoverActions": 4,
+      "preservation": "text/default inputs, col-resize, grab and disabled controls retained in observed screens; original workspace SHA256 identical; local edit files 0; src unchanged",
+      "notVerified": [
+        "외부 자료가 필요한 협력사·법령 상세",
+        "미진입 동적 팝업",
+        "브라우저 기본 UI에 위임된 날짜/파일 선택 항목",
+        "선택형 Playwright 회귀는 구문 검사만 수행"
+      ],
+      "sha256": {
+        "scripts/local-preview/design.css": "dc26a42fef07e6e82fd94523a666ed696785fdccfc24e386da9ba8ad8938f884",
+        "tests/local-design-screens.mjs": "8a7bb5e29813df0ff87f6952a6e6aa60ac969614b0aaf298f07b95fe96c53885",
+        ".build/local-preview/platform-2851.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c"
+    },
+    "appleReferenceAudit": {
+      "requirement": "LOCAL-UI-12",
+      "status": "implemented-local; scoped Chrome verification passed",
+      "reference": "https://support.apple.com/ko-kr/watch",
+      "referenceComputed": {
+        "body": "#ffffff",
+        "updateBox": "#f5f5f7",
+        "ink": "#1d1d1f",
+        "bodyFont": "SF Pro KR / SF Pro Text",
+        "headingFont": "SF Pro KR / SF Pro Display"
+      },
+      "before": {
+        "body": "#f6f7fa",
+        "sidebar": "#f0f2f6",
+        "activeMenu": "#253985",
+        "menu": "#535e70",
+        "font": "Pretendard-first"
+      },
+      "scope": [
+        "screen font family",
+        "sidebar background and black navigation",
+        "custom SVG marks for ten existing menus and alert",
+        "white workspace and topbar",
+        "preserve navigation, data, layouts and report/print"
+      ],
+      "computedAfter": {
+        "sidebar": "#f5f5f7",
+        "workspace": "#ffffff",
+        "topbar": "#ffffff",
+        "menu": "#1d1d1f",
+        "icons": "#000000",
+        "activeMenuBackground": "#e4e4e8",
+        "font": "-apple-system / Apple SD Gothic Neo / existing Pretendard fallback"
+      },
+      "chrome": {
+        "mainMenuVisits": 10,
+        "uniqueMenuIcons": 10,
+        "alertIcons": 1,
+        "desktopWidth": 1908,
+        "mobileWidth": 390,
+        "clippedMenuLabels": 0,
+        "mobileKeyboardReopen": true,
+        "mobileAutoCloseAndFocusReturn": true,
+        "menuCursor": "pointer"
+      },
+      "checks": [
+        "studio.js syntax",
+        "local-design-guide PASS",
+        "local-sidebar-motion PASS",
+        "git diff --check"
+      ],
+      "licensingSources": {
+        "Apple": "https://developer.apple.com/fonts/",
+        "Pretendard SIL OFL 1.1": "https://github.com/orioncactus/pretendard/blob/main/LICENSE"
+      },
+      "unverified": [
+        "실제 사용 글리프의 기기별 차이, Windows/Safari 렌더링",
+        "모든 동적 팝업·인쇄"
+      ],
+      "screenshot": "/private/tmp/igis-apple-watch-local-20261110.jpg",
+      "sha256": {
+        "scripts/local-preview/studio.js": "2ecbf8ee875d22a9905e76cbc3cdc389174dcf795a33dd4f8b982e2f53351d69",
+        "scripts/local-preview/design.css": "7093e6f3208043480775b875b8560571afa0435eeccde9463203edd90dc7ed3a",
+        ".build/local-preview/platform-2851.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c"
+    },
+    "selectAndToggleAudit": {
+      "requirements": [
+        "LOCAL-UI-13",
+        "LOCAL-UI-14"
+      ],
+      "status": "implemented-local; scoped Chrome verification passed",
+      "reference": "https://support.apple.com/ko-kr",
+      "referenceCSS": {
+        "boxSize": "980×56 desktop, unchanged on focus",
+        "restRadius": "12px",
+        "openRadius": "12px 12px 0px 0px",
+        "focus": "1px border plus 4px inset shadow",
+        "referenceColor": "rgba(0,125,250,0.6)"
+      },
+      "before": {
+        "projectPickerOpen": "gray, border transparent, inset none, 320×36",
+        "sidebarSymbol": "18px high, rx2"
+      },
+      "scope": [
+        "all local native selects and options in app/dialog",
+        "native open, keyboard, selection/escape/blur, errors and disabled",
+        "sidebar toggle both directions, rounded 15px artwork with 28×32px button preserved"
+      ],
+      "observed": {
+        "open": "#253985 1px border and 4px inset; 320×36 preserved; white; radius 12 12 0 0",
+        "filter": "keyboard 3→1, reset to 3",
+        "escape": "open picker first; second Escape closes dialog; value maintained",
+        "toggle": "15px, rx4, hit area 28×32; mobile keyboard reopening"
+      },
+      "notVerified": [
+        "legacy browser native picker appearance",
+        "all dynamic selections and error paths"
+      ]
+    },
+    "dividerAudit": {
+      "requirement": "LOCAL-UI-15",
+      "status": "implemented-local; scoped Chrome verification passed",
+      "before": "sidebar border inset 8px left / 9px right including 1px sidebar border",
+      "consumers": [
+        "sidebar notice",
+        "page tabs and law toolbar",
+        "panel toolbar and report links",
+        "dialog tabs and section rules",
+        "form footer and table geometry preserved"
+      ],
+      "observed": "0px gaps within edges in sidebar, cost/permit/company tabs, report notice, permit detail/form and contract tabs. 390px sidebar and tabs, no viewport overflow",
+      "sidebarBorder": "0.5px #c4c4ca, computed at DPR2"
+    },
+    "textFieldAudit": {
+      "requirement": "LOCAL-UI-16",
+      "status": "implemented-local; scoped Chrome verification passed",
+      "before": "portfolio search focused: gray, exterior 2px outline, no inset",
+      "consumers": [
+        "search",
+        "single and multiline form fields",
+        "inline edit",
+        "error/disabled/readonly",
+        "sidebar right edge"
+      ],
+      "observed": "project search 182×36 unchanged, permit name 36px, loan textarea, CBS inline input 26px; all white with 4px IGIS inset and no exterior outline; Escape cancels inline edit",
+      "notVerified": [
+        "other browsers and all dynamic field states",
+        "optional Playwright suite syntax-checked; Chrome manual flows exercised"
+      ],
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "screenshot": "/private/tmp/igis-inputs-and-edges-20261110.jpg",
+      "sha256": {
+        "scripts/local-preview/design.css": "66647b83b13e68ee0a159d0da0826404764f628e5a9baeabeae9e94d43be9634",
+        "scripts/local-preview/studio.js": "f23e76a47976d5b925d5c3be9c1cfefe7e6f21af73caa203575f01a5f501cb3f",
+        "tests/local-design-screens.mjs": "38d8db9dd2091daa9004098b628aaa99a1a0b1609b186feff4fd0bec3a33f387",
+        ".build/local-preview/platform-2851.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      }
+    },
+    "collapsedAlignmentAudit": {
+      "requirement": "LOCAL-UI-17",
+      "status": "implemented-local; Chrome scoped pass",
+      "components": [
+        "collapsed menu reopen button",
+        "project selector",
+        "page heading and panel outer edge",
+        "wide/mobile shared content frame"
+      ],
+      "before": {
+        "1908": [
+          64,
+          78,
+          78
+        ],
+        "1440": [
+          64,
+          24,
+          24
+        ],
+        "390": [
+          56,
+          16,
+          16
+        ]
+      },
+      "after": {
+        "1908": [
+          78,
+          78,
+          78
+        ],
+        "1440": [
+          64,
+          64,
+          64
+        ],
+        "1840": [
+          64,
+          64,
+          64
+        ],
+        "1920": [
+          84,
+          84,
+          84
+        ],
+        "390": [
+          56,
+          56,
+          56
+        ]
+      },
+      "browser": "persisted closed after reload; 390px keyboard reopen and auto-close with focus return; no settled viewport overflow at measured widths",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "4380abfa332273747f58955b13a159a1dc2e37255b6e559f0a2ffd93bf5cc2d3",
+        ".build/local-preview/platform-2851.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "screenshot": "/private/tmp/igis-closed-menu-aligned-20261110.jpg"
+    },
+    "contentWidthAudit": {
+      "requirement": "LOCAL-UI-18",
+      "status": "implemented-local; Chrome scoped pass",
+      "before": {
+        "viewport": 1920,
+        "expandedFrame": 1730,
+        "card": 1682
+      },
+      "expected": {
+        "frameMax": 1280,
+        "cardMax": 1232,
+        "leftAndRightGap": 0
+      },
+      "consumers": [
+        "expanded and collapsed topbar",
+        "project selector and status text",
+        "page body and card edges",
+        "narrow width, scrollbar gutter, wide table"
+      ],
+      "expanded": {
+        "1366": 1128,
+        "1440": 1202,
+        "1536": 1232,
+        "1920": 1232,
+        "2560": 1232
+      },
+      "collapsed": {
+        "1280": 1192,
+        "1366": 1232,
+        "1440": 1232,
+        "1920": 1232,
+        "2560": 1232
+      },
+      "leftAndRightGap": "0px for every measured desktop state; mobile 390px 0px left, status hidden by existing mobile rule",
+      "scroll": "1366px finance first table visible 1126px, scroll width 1196px, user gesture shifted table 70px and page 0px. Cost detail fits and no page overflow.",
+      "notVerified": [
+        "Windows scrollbar styling and other browsers",
+        "optional Playwright regression syntax-checked"
+      ],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "e0a6822095b78b83dae0a9c281f3f940d3b6d9b1716e847d97f8ef0468f249d5",
+        "scripts/local-preview/studio.js": "0b08df6eaa43ebfdbcb9caf2c227a008c72d53b6f6d65d5ea01604d504ce6cca",
+        "tests/local-design-screens.mjs": "fef1666a156ee8cd87cd0fd5cdff89bfa15f33a1d7b413a535539d14419d74a8",
+        ".build/local-preview/platform-2851.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "screenshot": "/private/tmp/igis-content-width-1280-20261110.jpg"
+    },
+    "iconRailAudit": {
+      "requirement": "LOCAL-UI-19",
+      "status": "implemented-local; scoped Chrome pass",
+      "reference": {
+        "site": "http://127.0.0.1:5173/",
+        "rail": 56,
+        "icon": 16,
+        "itemHeight": 34,
+        "behavior": "retained icon navigation, reopen in rail, active marker and bottom actions"
+      },
+      "before": {
+        "visibleRail": 0,
+        "visibleNav": 0,
+        "reopen": "topbar"
+      },
+      "consumers": [
+        "desktop rail navigation and notification",
+        "mobile overlay",
+        "original collapse preference and focus",
+        "header/body frame 1280"
+      ],
+      "observed": {
+        "desktop": "56px compact / 190px expanded, toggle in rail, 10 16px icons in 34px rows, selected route and alert retained",
+        "menuClicks": "all 10 compact routes and active marking, keyboard focus after route",
+        "tooltip": "all 10 pointer tooltips with matching labels; pointer exit hides; keyboard shows and Escape hides; +9px right / −8px top",
+        "animation": "0.18s grid width, intermediate 186.25px observed; CSS reduced motion excluded",
+        "mobile": "390px closed sidebar hidden; topbar reopen; menu selection auto-closes; focus and rail restored across breakpoint",
+        "frame": "1440px compact card 1232px, both ends 0px delta"
+      },
+      "automatic": [
+        "local design guide PASS",
+        "local sidebar motion PASS",
+        "syntax and diff check PASS"
+      ],
+      "notVerified": [
+        "other browsers and desktop reduced-motion device view",
+        "legacy optional browser suite syntax-only"
+      ],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "ddd80a08cfd2026060297193b0b6380d022521250f9138c48ed829d9e21f8a7b",
+        "scripts/local-preview/studio.js": "30f7308a2f0c896920cd7c74930e0e1d902926255d1076b3494a778a095e85ab",
+        "tests/local-sidebar-motion.mjs": "a256da4d52fe469e6722b7da7125c3134bde95b05459cb07b285bd6540431617",
+        "tests/local-design-screens.mjs": "06194dcd4f95a9252a324bd5cc9d7940b06c9d4a36b28c705adba0302d3dfcc9",
+        ".build/local-preview/platform-2851.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "screenshot": "/private/tmp/igis-icon-rail-tooltip-20261110.jpg"
+    },
+    "longProjectNames": {
+      "requirement": "LOCAL-UI-20",
+      "status": "saved locally and verified",
+      "names": {
+        "A": "서울 중구 센트럴오피스 복합개발사업",
+        "B": "용인 스마트허브 물류센터 개발사업",
+        "C": "서울 용산 그랜드파크 대형복합개발사업"
+      },
+      "consumers": [
+        "project selector",
+        "portfolio rows",
+        "project heading",
+        "existing local save"
+      ],
+      "revision": 3,
+      "observed": "native overview edit for A, B, C; all three shown in project selector and portfolio after reload",
+      "preservation": "original hash identical, only name differs in each project; normal audit/notifications and draft metadata persisted",
+      "screenshot": "/private/tmp/igis-long-project-names-20261110.jpg"
+    },
+    "cardSurfaces": {
+      "requirement": "LOCAL-UI-21",
+      "status": "implemented and checked in Chrome",
+      "expected": "#F1F2F4 main canvas and topbar, #E8E9ED sidebar with distinct hover and selected states, white cards and dialogs with invisible perimeter, existing table and internal dividers visible",
+      "consumers": ["main menus and subtabs", "topbar project selector and status text", "expanded and collapsed sidebar", "common and table cards", "cost and financing summaries", "document list and preview", "dialogs and partner detail"],
+      "baseline": "Chrome: 10 main menus have white canvas; visible perimeter on common cards and cost, financing and document cards. First pass: #F7F7F8 canvas and #F5F5F7 sidebar.",
+      "observed": "10 menus and 18 subtabs, table and card divider styles, document preview, project dialog and cancel, 1440px matching topbar and canvas with both edges aligned when expanded and collapsed, 390px canvas without horizontal overflow",
+      "automated": ["node tests/local-design-guide.mjs", "node tests/local-sidebar-motion.mjs"],
+      "notVerified": ["external partner detail in local mode"],
+      "preservation": "geometry, controls, current local edits, original snapshot and production source",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "147a60a491d2cb6df08dc723c0d47372edf6522f6ffab520b558212879c23017",
+        ".build/local-preview/platform-2851.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "d0614b62290d01ed150afb94af9997d035feab8fe81d4ddcfc2aad2d5d9fefcb",
+      "screenshot": "/private/tmp/igis-gray-content-20261110.jpg"
+    },
+    "platformSpecAndAccessText": {
+      "requirement": "LOCAL-UI-22",
+      "accessDialogSupersededBy": "LOCAL-UI-23",
+      "status": "implemented and checked in Chrome",
+      "consumers": ["original platform specification menu, eight tabs and three export/copy actions", "local access sidebar button and collapsed rail", "read-only access dialog and close, Escape, focus return"],
+      "source": ["src/spec.js original spec route and backendBlueprint", "server/cloud-storage.mjs original role labels"],
+      "preservation": "production source, original and edited workspace, server authorization and storage boundaries",
+      "baseline": "local override of the original spec renderer; no access sidebar entry",
+      "observed": "eight spec tabs, three original action buttons, read-only JSON; access text in desktop and 390px mobile dialog, focus and context restored by Close and Escape, one access button after rerender",
+      "automated": ["tests/local-design-guide.mjs", "tests/local-sidebar-motion.mjs", "tests/continuation125-spec-json.mjs", "tests/cloud-storage.mjs"],
+      "notVerified": ["native copy/download execution", "actual production accounts"],
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "9bc1a4ad82192ef352cfb637723aa0b1b8a72d10e0397b481540dd82e7ae8fb2",
+        "scripts/local-preview/design.css": "f88ef6ca0608b5ccda1cccb74764f9410a8fb4d85cbb3915c5bb13513f750e55",
+        ".build/local-preview/platform-2851.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "d0614b62290d01ed150afb94af9997d035feab8fe81d4ddcfc2aad2d5d9fefcb",
+      "screenshot": "/private/tmp/igis-original-spec-20261110.jpg"
+    },
+    "accessScreenC106": {
+      "requirement": "LOCAL-UI-23",
+      "status": "implemented and checked in Chrome",
+      "source": ["C106 a7abe01:src/admin-settings.js", "user screenshot 2026-11-10 15:18:04"],
+      "consumers": ["access sidebar and collapsed rail", "people table and disabled add", "organizations and project assignment tabs", "private local capture and missing state"],
+      "baseline": "only role explanation modal, no tabs or member table",
+      "preservation": "original and edited workspaces, platform spec, production source, access and identity stores",
+      "observed": "six member columns and nine rows, two organization rows, three project rows, eight preserved spec tabs, collapsed and 390px navigation, table-only overflow",
+      "automated": ["tests/local-design-guide.mjs", "tests/local-design-preview.mjs", "tests/local-sidebar-motion.mjs"],
+      "notVerified": ["live organization and project assignment values outside the supplied screenshot"],
+      "sourceHashes": {
+        "a7abe01:src/admin-settings.js": "48f162e8fc9eccdd920a8f08de1cbf7d09bc0f6cf7a8e37824f1549a6f054c3b",
+        "scripts/local-preview/studio.js": "3540a7be85e7dc3be9541f04ef44963b735d2b3ffbae1f497df4664e3e97fbd5",
+        "scripts/local-preview/server.mjs": "58732b1bb8823d69386e5d54c92415d88e3c0b49f0a89d7aefa4ecd8171031bf",
+        "scripts/local-preview/design.css": "ab67738deeb33b05f9154b9f1327b52b43fa4c98aa34abd59620460b46b919d8",
+        ".build/local-preview/platform-93161.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "d0614b62290d01ed150afb94af9997d035feab8fe81d4ddcfc2aad2d5d9fefcb",
+      "screenshot": "/private/tmp/igis-c106-access-20261110.jpg"
+    },
+    "topbarLastUpdate": {
+      "requirement": "LOCAL-UI-24",
+      "status": "implemented and checked in Chrome",
+      "expected": "Last Update 2026. 11. 10",
+      "consumers": ["shared topbar", "law data date view", "access screen", "project selection and collapsed sidebar"],
+      "preservation": "original business dates, storage conflict action, workspace data and production source",
+      "observed": "11 menus, project switch, 1440px expanded and collapsed, and 390px mobile: one matching label; right alignment and header overflow 0px in layout checks",
+      "automated": ["tests/local-design-guide.mjs", "tests/local-sidebar-motion.mjs"],
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "b33cb2a26b8e0013afad110f92ed081721bcb24aa3fb784fccd3c42deba7550f",
+        "scripts/local-preview/design.css": "984a31f606e434fa883d54ea9c3f308396762c170ddcee89f62d0a6bc02a25ef",
+        ".build/local-preview/platform-93161.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "d0614b62290d01ed150afb94af9997d035feab8fe81d4ddcfc2aad2d5d9fefcb",
+      "screenshot": "/private/tmp/igis-last-update-20261110.jpg"
+    },
+    "projectNavigationHierarchy": {
+      "requirement": "LOCAL-UI-25",
+      "status": "implemented and checked in Chrome",
+      "consumers": ["portfolio and common navigation", "six project menus and two synchronized pickers", "bottom spec and access navigation", "notifications and compact rail", "project draft guard"],
+      "preservation": "original menu actions, workspace data, production source, topbar alignment and current subtab",
+      "observed": "11 menus with bidirectional selection and current menu/subtab preserved, unsaved inline edit guard, native option click, mobile 390px, compact rail, bottom admin menus and notification refresh",
+      "automated": ["tests/local-design-guide.mjs", "tests/local-sidebar-motion.mjs", "tests/local-design-screens.mjs syntax only; actual browser covered via Chrome"],
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "f7487280f638f5caf6fc879c6e878f892fcbcecaf48e1120d92437459585dcd2",
+        "scripts/local-preview/design.css": "5069a0ba4598b1ce863dd958db4eeff9471872c8f10f888d740759981242e84c",
+        ".build/local-preview/platform-93161.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "d0614b62290d01ed150afb94af9997d035feab8fe81d4ddcfc2aad2d5d9fefcb",
+      "screenshot": "/private/tmp/igis-project-menu-20261110.jpg"
+    },
+    "projectGroupStyling": {
+      "requirement": "LOCAL-UI-26",
+      "status": "implemented and checked in Chrome",
+      "consumers": ["project picker and six children", "expanded and compact sidebar", "mobile overlay", "header and content frame"],
+      "expected": "expanded 210px, compact 56px, decorative building icon and group-only shading",
+      "observed": "desktop and mobile expanded 210px, compact 56px, one picker icon, only project group shaded, header edge alignment and portfolio one-line headings and differences",
+      "screenshot": "/private/tmp/igis-project-group-20261110.jpg"
+    },
+    "projectSidebarEntry": {
+      "requirement": "LOCAL-UI-27",
+      "status": "implemented and checked in Chrome",
+      "consumers": ["left picker outside a project menu", "left picker within project tabs", "topbar picker", "draft guard and mobile overlay"],
+      "expected": "left picker enters project overview from outside the group; within the group and from the topbar keep the existing screen and tab",
+      "observed": "five external screens route to overview from left and preserve view from top; cost detail tab, draft cancellation and mobile auto-close verified",
+      "automated": ["tests/local-design-guide.mjs", "tests/local-sidebar-motion.mjs", "tests/local-design-screens.mjs syntax only; actual browser covered via Chrome"],
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "606c7f7d76941d59fece69c49b37a189e4d315e943550ea7c5cf55b48a3e932d",
+        "scripts/local-preview/design.css": "4bc4e8ecad7508db1ba51c6b37529ff4d804b45e6c8632f8f840f9bf08569db3",
+        "scripts/local-preview/portfolio.css": "c9d997f04256f5255f6c720191e9492ddc8e7cb0b27761bd62cb981d29665fe5",
+        ".build/local-preview/platform-93161.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "d0614b62290d01ed150afb94af9997d035feab8fe81d4ddcfc2aad2d5d9fefcb"
+    },
+    "sidebarFooterOrder": {
+      "requirement": "LOCAL-UI-28",
+      "status": "implemented and checked in Chrome",
+      "expected": ["플랫폼 명세", "권한 관리", "알림"],
+      "consumers": ["management menu", "notification icon, count and dialog", "expanded, compact and mobile sidebar"],
+      "observed": "order and visibility verified at 1440px expanded and compact and 390px mobile; notification open/close and both administration screens verified",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "6b5291ed67fc948eace749e5d9174a8b1cb7791fddf5c4ae269624dce2db919d",
+        "scripts/local-preview/design.css": "b5a1d16cdc59e5c39999816d218a1d3acf45bf382b58aaaeb19027d11d11a69d"
+      },
+      "screenshot": "/private/tmp/igis-sidebar-footer-20261110.jpg"
+    },
+    "sidebarFooterDividerColors": {
+      "requirement": "LOCAL-UI-29",
+      "status": "implemented and checked in Chrome",
+      "consumers": ["admin navigation divider", "notification divider"],
+      "expected": ["platform spec #DEDEE2", "notifications #C4C4CA", "1px width"],
+      "observed": "both colors, 1px thickness, equal full-width dividers at 1440px",
+      "sourceHashes": {"scripts/local-preview/design.css": "b74dad30ac584e3ead1f48dfe12fe6618f7132a847dd15afb4077b076271fd80"},
+      "screenshot": "/private/tmp/igis-sidebar-divider-20261110.jpg"
+    },
+    "projectHeadingMenu": {
+      "requirement": "LOCAL-UI-30",
+      "status": "implemented and checked in Chrome",
+      "consumers": ["six project headings", "native header menu chooser", "sidebar and topbar project context", "draft guard and mobile wrapping"],
+      "expected": "menu name then current project name; chooser opens another project menu without changing the project",
+      "observed": "six project headings; native picker and Escape; default destination tab; sidebar and topbar project switch; edit guard and unchanged draft value; mobile 390px without title overflow",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "7eb7173ec9e8dcbd8f5d3d9dd7b59464d459eecd6762dd20f018275da7efb5d6",
+        "scripts/local-preview/design.css": "87ba43f38f857c2c0ede22cf3f7d80052fe5c20016027deba3209aa332158ce7",
+        ".build/local-preview/platform-93161.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "d0614b62290d01ed150afb94af9997d035feab8fe81d4ddcfc2aad2d5d9fefcb",
+      "screenshot": "/private/tmp/igis-project-heading-20261110.jpg"
+    },
+    "projectHeadingVisual": {
+      "requirement": "LOCAL-UI-31",
+      "status": "implemented and checked in Chrome",
+      "consumers": ["project heading menu text", "heading separator", "native picker interaction and other select boxes"],
+      "observed": "heading picker icon hidden, topbar icon visible, title #4B566B and project #1D1D1F, SVG chevron, click and Escape and cost route",
+      "sourceHashes": {"scripts/local-preview/studio.js": "dfe87b2b8e20d3828b41d54675ad9d1631a0ddb0e072dab091e117af769edc61", "scripts/local-preview/design.css": "9e7be9a45bfd4f341311707b6d90b337ddfc94943d9fb95b45279ae7e04bf4fd"},
+      "screenshot": "/private/tmp/igis-heading-chevron-20261110.jpg"
+    },
+    "contentOpticalStart": {
+      "requirement": "LOCAL-UI-32",
+      "status": "implemented and visually checked in Chrome",
+      "consumers": ["project heading menu text", "page-level subtabs", "page metadata and card leading edge"],
+      "expected": "optically aligned visible text without moving the card or header frame",
+      "observed": "1440px before/after visual comparison; compact and 390px leading alignment; heading picker and subtab interactions",
+      "sourceHashes": {"scripts/local-preview/design.css": "0231dc1c88376dc3abe76d927235f6f5d59dcf98549872d64bca37103a2fb620"},
+      "screenshot": "/private/tmp/igis-optical-left-20261110.jpg"
+    },
+    "partnerLocalReference": {
+      "requirement": "LOCAL-UI-33",
+      "status": "implemented and checked in production read-only and local Chrome",
+      "sourceVersion": "raportal-dom-20261020-v3",
+      "consumers": ["five ranking tabs", "market and directory", "company detail and close", "read-only reference endpoint and archived comments"],
+      "observed": "authenticated production list and detail; 150 matching list/detail keys and three market series; local seven tabs, filter 30 to 1, rank 1 to 30, close restores filter and focus, 1440px/1920px alignment, 390px overlay, archived comments",
+      "automated": ["tests/local-design-preview.mjs", "tests/center120-partner-router.mjs", "tests/local-design-guide.mjs"],
+      "notVerified": ["live operational comments in local mode", "unprovided historical publication versions"],
+      "sourceHashes": {
+        "scripts/local-preview/server.mjs": "ffec60da6ef1701cfa1a845c9d86c8ef259e308d4e30d3e540975b2374a72de3",
+        "scripts/local-preview/design.css": "e41be93754bfade44a2b2a4b84669ea92b34127cb7a1bb1358317b6d68aa84e5",
+        ".build/local-preview/partners-reference.json": "52d368b5b1146cfcece7524efdb004af1c4103c3c33ee93fd2023f6942745f78"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "d0614b62290d01ed150afb94af9997d035feab8fe81d4ddcfc2aad2d5d9fefcb",
+      "screenshot": "/private/tmp/igis-partners-reference-20261110.jpg"
+    },
+    "sidebarOuterLine": {
+      "requirement": "LOCAL-UI-34",
+      "status": "implemented and checked in Chrome",
+      "consumers": ["sidebar right border", "project group background", "bottom separators"],
+      "expected": "#DADCE2 at the existing 0.5px thickness",
+      "observed": "1440px: new right border and existing group shade and notification divider",
+      "sourceHashes": {"scripts/local-preview/design.css": "a98f68d9c0970e183cc1cd97775d8e8fda5b5051d73cb77f74d7a179ec548730"},
+      "screenshot": "/private/tmp/igis-sidebar-border-light-20261110.jpg"
+    },
+    "sidebarAccountDisplay": {
+      "requirement": "LOCAL-UI-35",
+      "status": "implemented and checked in local browser",
+      "reference": "Workplace Seoul src/components/AccountMenu.tsx and src/styles.css",
+      "consumers": ["sidebar profile slot", "notification footer", "expanded and compact sidebar", "local account display"],
+      "observed": "expanded 210px, compact 56px, 74px footer and centered 36px avatar, text and chevron hidden in compact, notification open and close, no account actions",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "ec645764dffa290f4216b3919f2ab7f49da8791596bfa4da7f022935524622cc",
+        "scripts/local-preview/design.css": "c3bf2583864b962d4cd41493ba10de9cdaabb8de83cd8f52df0dd08ef4159349"
+      },
+      "screenshots": ["/private/tmp/igis-account-expanded-20261110.jpg", "/private/tmp/igis-account-collapsed-20261110.jpg"]
+    },
+    "sidebarAccountLabelAndDivider": {
+      "requirement": "LOCAL-UI-36",
+      "status": "implemented and checked in local browser",
+      "consumers": ["account label and footer line", "notification divider", "compact account avatar"],
+      "observed": "expanded name, 0.5px notification divider and 1px account divider in both modes, 36px avatar",
+      "sourceHashes": {"scripts/local-preview/studio.js": "8fae113fe88847e21e3058005a56cc5391ae7a2896683b0d071147e42e80b901", "scripts/local-preview/design.css": "d3d2f289d65cc4ef32411d06b914739416cce880b67133da1f1116f0983a2216"},
+      "screenshot": "/private/tmp/igis-account-label-20261110.jpg"
+    },
+    "sidebarAccountEmailAndLines": {
+      "requirement": "LOCAL-UI-37",
+      "status": "implemented and checked in local browser",
+      "consumers": ["account email and tooltip", "three footer dividers", "compact profile", "private local portrait"],
+      "observed": "fixed display email, supplied portrait in expanded and collapsed states, matching three dividers, no account actions, read-only local portrait response",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "893e0d79d8d7be4e1fb6055369d8e8b941749d83caadc7358d6ba0b69e0e9061",
+        "scripts/local-preview/design.css": "3848256e81cf0770cdca395a29e6a1e0e772327a7b2acdf60c3796406d2f76da",
+        "scripts/local-preview/server.mjs": "d02c39458e11278da56f7d04b8e87bb07efee257f0eded8182b02119b528cc8b"
+      },
+      "screenshot": "/private/tmp/igis-account-photo-20261110.jpg"
+    },
+    "portfolioLocalLabel": {
+      "requirement": "LOCAL-UI-38",
+      "status": "implemented and checked in local browser",
+      "expected": "전체 프로젝트 현황",
+      "consumers": ["sidebar button and compact tooltip", "portfolio heading"],
+      "sourceHashes": {"scripts/local-preview/studio.js": "e748b32f890383f32942b6fa0caf12fc904a37ec905444bae4c895d2823d4a37"},
+      "screenshot": "/private/tmp/igis-portfolio-label-20261110.jpg"
+    },
+    "portfolioListCardLabel": {
+      "requirement": "LOCAL-UI-39",
+      "status": "implemented and checked in local browser",
+      "expected": "프로젝트 목록",
+      "consumers": ["portfolio list card heading", "portfolio search and rerender"],
+      "observed": "page and cost headings preserved; list title visible after search and reset",
+      "sourceHashes": {"scripts/local-preview/portfolio.js": "f01fd3e56c9e333aa98c0af495b8f95273e0d3f96a5e7b2afc02e227e898a6f2"},
+      "screenshot": "/private/tmp/igis-project-list-title-20261110.jpg"
+    },
+    "portfolioListAndChartRefinement": {
+      "requirement": "LOCAL-UI-40",
+      "status": "implemented and checked in local browser",
+      "consumers": ["list and chart headers", "project add, search and reset", "table border and project links", "chart axis, rows, amounts, tooltip and details"],
+      "baseline": "1280px: 69/57.3px headers, 0/12px filter padding, no table border or gap, chart tooltip only on track",
+      "observed": "58px headers, 6/6px filter padding and 6px table gap, 1px table border, bold project names, filter/reset and add cancellation, full-row and keyboard tooltip above the bar, detail, mobile internal scrolling; final title +78px and bar -78px from first adjustment with current amount position preserved",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "e6444c19955694ed06c910b28a780c9c28060755b099a2bfb54a9fb6072f0e53",
+        "scripts/local-preview/portfolio.css": "c9228c08cb635225769646d2210ca64febe4e3d823b00628d01a5bdfe62eb630",
+        ".build/local-preview/platform-18463.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "d0614b62290d01ed150afb94af9997d035feab8fe81d4ddcfc2aad2d5d9fefcb",
+      "screenshots": ["/private/tmp/igis-portfolio-list-20261110.jpg", "/private/tmp/igis-portfolio-polish-20261110.jpg"]
+    },
+    "portfolioAmountAlignment": {
+      "requirement": "LOCAL-UI-41",
+      "status": "implemented and checked in local browser",
+      "consumers": ["initial underwriting and current cost headers and values", "search and reset", "column resize handles"],
+      "baseline": "1280px: both columns right-aligned with 16px header and 10px body right insets",
+      "observed": "16px right insets for headers and body through 3/1/3 search and reset; original column edges and 7px handles preserved",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "9105483ad3029437e6e96717ba4448d56244ae812e051209542cd03785f1df54",
+        "scripts/local-preview/portfolio.css": "4eb53abe802bc9a5a6822da174e09c1bafa2583bea928d971a169a9c8a43c7cb",
+        ".build/local-preview/platform-18463.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-portfolio-amounts-20261110.jpg"
+    },
+    "portfolioTableSurface": {
+      "requirement": "LOCAL-UI-42",
+      "status": "implemented and checked in local browser",
+      "consumers": ["portfolio search toolbar and reset", "table perimeter, headers and rows", "portfolio cost chart row color", "mobile portfolio cards"],
+      "baseline": "6px toolbar padding and 6px table gap, 1px outer and upper dividers, table backgrounds differ from cost chart row",
+      "observed": "1280px: 10px toolbar padding, no extra gap or upper and outer dividers, matching #f2f4f7 surfaces, preserved data row divider and amount alignment, filtered and empty search followed by reset; 390px: preserved card grid without table overflow",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.css": "e71ef31b1a387f638827d172b51052d577c3d4d211520aa088fcaae8810ef5f6",
+        ".build/local-preview/platform-18463.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-portfolio-table-surface-20261110.jpg"
+    },
+    "portfolioCostTooltip": {
+      "requirement": "LOCAL-UI-43",
+      "status": "implemented and checked in local browser",
+      "consumers": ["portfolio chart row and track", "keyboard tooltip and Escape", "search rerender", "portfolio cost detail dialog"],
+      "baseline": "pale violet tooltip with 1px border and one slash-delimited string",
+      "observed": "white background, 4px IGIS navy border and 12px radius, project title and three amount rows with original values; row and keyboard activation, Escape, detail and filtered project verified; 390px tooltip inside viewport",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "84f04899b19f3498b5ba4a0d518ff42d53f91c50ac6c28a87221907d581527b4",
+        "scripts/local-preview/portfolio.css": "99dcad25ec68d8534c1b1bd107a02457c2331cca7fb96ee53ec28cf373e69227",
+        ".build/local-preview/platform-18463.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-portfolio-cost-tooltip-20261110.jpg"
+    },
+    "portfolioCostTrend": {
+      "requirement": "LOCAL-UI-44",
+      "status": "implemented and checked in local browser",
+      "consumers": ["chart legend", "cost segment and current marker", "signed cost difference", "portfolio search and tooltip"],
+      "baseline": "all original change segments below 1px at 1280px; text-only current and direction legend keys",
+      "observed": "matching legend shapes and 9px direction glyphs with untouched segment widths and marker coordinates; original +7.8/+2.95/+19.66 and isolated +20/-1 or unavailable, search and original tooltip values verified; legend fits at 390px",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "94c176038c654d62e41cb0b757d1730b19990b473be7b68ce833a36b5ce79604",
+        "scripts/local-preview/portfolio.css": "848b80a0b02d94abd6069dbf076630f90a070623360596e2896bf746ce374ce2",
+        ".build/local-preview/platform-18463.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-portfolio-chart-trend-20261110.jpg"
+    },
+    "portfolioCostTrendLocalData": {
+      "requirement": "LOCAL-UI-45",
+      "status": "saved and checked in local browser",
+      "consumers": ["local Yongin reserve amount editor", "portfolio list and cost chart", "portfolio tooltip and local audit"],
+      "baseline": "Yongin current reserve 1659420000 KRW, total 3230.44 eok, comparison +2.95 eok; all projects rising",
+      "observed": "local revision 3 to 4; reserve 1159420000 KRW, current total 3225.44 eok, blue -2.05 eok; red +7.8/+19.66 for other projects, prior underwriting and original workspace unchanged",
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "e78c2653155176237d859a8b86f0a0a5d3698649aeaeba7f3c99721751efd771",
+      "screenshot": "/private/tmp/igis-portfolio-red-blue-20261110.jpg"
+    },
+    "portfolioCostTooltipAnchor": {
+      "requirement": "LOCAL-UI-46",
+      "status": "implemented and checked in local browser",
+      "consumers": ["project label and track focus", "cost row pointer", "search and reset", "mobile tooltip"],
+      "baseline": "at 1280px first tooltip starts 118.27px to the right of the track",
+      "observed": "at 1280px zero left offset and 8px top gap for all three entry points on each of three projects; search, reset and Escape verified; at 390px zero left offset and 8px right inset",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "c7f6222eeccf03629eec6475a4c13f592c72dcd00556280403c4532b9cd9b4cb",
+        ".build/local-preview/platform-18463.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-cost-tooltip-start-20261110.jpg"
+    },
+    "portfolioTextAlignment": {
+      "requirement": "LOCAL-UI-47",
+      "status": "implemented and checked in local browser",
+      "consumers": ["list and chart titles", "search text", "first column heading and project link", "chart unit and project label", "mobile cards"],
+      "baseline": "1280px: text starts spread over 253px to 269px",
+      "observed": "shared 265px desktop and 45px visible mobile starts; search and reset, project overview navigation and right-aligned amount verified",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.css": "43ea0b7b03deb2dd8eb701c23d24c4ffb1e985d18464f6e7360e9044a150df80",
+        ".build/local-preview/platform-18463.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-portfolio-text-alignment-20261110.jpg"
+    },
+    "portfolioTableHeadingDivider": {
+      "requirement": "LOCAL-UI-48",
+      "status": "implemented and checked in local browser",
+      "consumers": ["portfolio table header", "search and reset", "table perimeter"],
+      "baseline": "card heading 1px divider; all nine table header cells have no divider",
+      "observed": "all nine table header cells use 1px #cbd0d9 through 3/1/3 search and reset; search and table perimeter remain borderless",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.css": "c3158ebfb2de35616ac4376e993bc34d4cc336959b29a6db8666eb09dcef8232",
+        ".build/local-preview/platform-18463.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-project-table-header-rule-20261110.jpg"
+    },
+    "portfolioCostTrendTargetValues": {
+      "requirement": "LOCAL-UI-49",
+      "status": "saved and checked in local browser",
+      "consumers": ["local current land acquisition amount editors", "portfolio list and chart", "portfolio tooltip"],
+      "baseline": "local revision 4; differences +7.8, -2.05 and +19.66 eok",
+      "observed": "local revision 7; differences +40.8, -28 and +200 eok after reload; current totals 5163.8, 3199.49 and 10958.3 eok; one current record per project and audit entries changed",
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "41112c330024e932383822a919572f67efe9f6c95a91b9c78ab00e5defc8c0b0",
+      "screenshot": "/private/tmp/igis-portfolio-target-costs-20261110.jpg"
+    },
+    "portfolioChartTrackAlignment": {
+      "requirement": "LOCAL-UI-50",
+      "status": "implemented and checked in local browser",
+      "consumers": ["project type heading", "project name width and cost track", "chart axis and tooltip", "search and keyboard column resize", "mobile scroll"],
+      "baseline": "1280px: type text 507.74px, bar and axis 524.33px",
+      "observed": "zero offset at 1280px and 1440px, 16.59px more bar width at 1280px, matches after search/reset/keyboard resize and restore; mobile chart scroll and tooltip anchor preserved",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "93b1cf677ffba62cd8f33daf12007c5b556e4acd59ce7fa463c06f39c07434da",
+        "scripts/local-preview/portfolio.css": "4d8a67cb1c508c827a6ff26bed0475df54f78c6adf2244e9ab254858aaacabdc",
+        ".build/local-preview/platform-18463.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-project-type-chart-alignment-20261110.jpg"
+    },
+    "portfolioChartLegendUnit": {
+      "requirement": "LOCAL-UI-51",
+      "status": "implemented and checked in local browser",
+      "consumers": ["portfolio chart axis", "bottom legend", "search and reset", "mobile legend wrap"],
+      "baseline": "unit displayed in the first axis cell; legend had no unit",
+      "observed": "one parenthesized unit after the falling key at 12px in 1280px and 390px; after search/reset axis and bars, amount column edges remain aligned",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "887d487fbce133b89a8bd6ceef84a2d540151c2956d01f2a58dc30dd4562ac80",
+        "scripts/local-preview/portfolio.css": "cf74411989f2a142f6e27d6c89b1dede3b96e3e39f3817e9110049b4facb0b0f"
+      },
+      "screenshot": "/private/tmp/igis-portfolio-legend-unit-20261110.jpg"
+    },
+    "portfolioTitleOuterAlignment": {
+      "requirement": "LOCAL-UI-52",
+      "status": "implemented and checked in local browser",
+      "consumers": ["portfolio list and chart titles", "table and chart row outer edges", "search and reset", "mobile layout"],
+      "baseline": "both titles inset 12px from their inner box outer edges",
+      "observed": "zero offset for both titles at 1280px and 390px; stable on search, reset and reload; inner text and add button positions preserved",
+      "sourceHashes": {"scripts/local-preview/portfolio.css": "b52abc7ff9ebcc1f92a68d938fd2158d10cc424d58ef2177a126bbe49ab24fbf"},
+      "screenshot": "/private/tmp/igis-portfolio-title-edges-20261110.jpg"
+    },
+    "portfolioSecondProjectDecrease": {
+      "requirement": "LOCAL-UI-53",
+      "status": "saved and checked in local browser",
+      "consumers": ["local Yongin current cost editor", "portfolio list, chart and tooltip"],
+      "baseline": "local revision 7; Yongin comparison -28 eok",
+      "observed": "revision 8, Yongin current total 3077.49 eok and -150 eok comparison on reload; original, underwriting and other projects preserved",
+      "originalWorkspaceSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+      "localEditsSha256": "b5f1340803dd60cf977d9f7a3b2215ffb7f75b98615ea18e5fcef221aa3cc844",
+      "screenshot": "/private/tmp/igis-yongin-minus-150-20261110.jpg"
+    },
+    "portfolioLighterHeaderDivider": {
+      "requirement": "LOCAL-UI-54",
+      "status": "implemented and checked in local browser",
+      "consumers": ["portfolio table header and data rows", "search and reset"],
+      "baseline": "1px #cbd0d9 table header divider",
+      "observed": "all nine header cells use 1px #e1e4ea through search and reset; original data row divider and table width retained",
+      "sourceHashes": {"scripts/local-preview/portfolio.css": "c24dffa833cd2cfcfa39814c1b1af60f696a3db38bd5bcc7a88cd8d5cdf93de9"},
+      "screenshot": "/private/tmp/igis-portfolio-lighter-header-line-20261110.jpg"
+    },
+    "portfolioTwoLineTypography": {
+      "requirement": "LOCAL-UI-55",
+      "status": "implemented and checked in local browser",
+      "consumers": ["next schedule date", "current cost per-pyeong amount", "search and mobile cards"],
+      "baseline": "date 12px with 2.5px measured gap; per-pyeong amount 14px with 4.5px gap",
+      "observed": "both upper lines 14px, secondary lines 12px and gap 1.5px at 1280px, on search and at 390px; saved data unchanged",
+      "sourceHashes": {"scripts/local-preview/portfolio.css": "d5e85f09716161363a924199e47221ceccf11ba7f556f68d7bdd7e8dfabf242f"},
+      "screenshot": "/private/tmp/igis-portfolio-two-line-text-20261110.jpg"
+    },
+    "portfolioChartAxisSpacing": {
+      "requirement": "LOCAL-UI-56",
+      "status": "implemented and checked in local browser",
+      "consumers": ["axis tick labels", "current and per-pyeong headers", "gap before first chart row"],
+      "baseline": "desktop 14px font and 7px gap; mobile 11px font and 11.5px gap",
+      "observed": "desktop 13px and 5px, mobile 10px and 9.5px; axis and bar start alignment retained",
+      "sourceHashes": {"scripts/local-preview/portfolio.css": "05d4a993d7a0133f3bac8218b08c7bf10fbc3eb163000ceefae38443353e3678"},
+      "screenshot": "/private/tmp/igis-portfolio-chart-axis-spacing-20261110.jpg"
+    },
+    "portfolioChartGridlines": {
+      "requirement": "LOCAL-UI-57",
+      "status": "implemented and checked in local browser",
+      "consumers": ["axis tick coordinates", "chart rows and bar layers", "search and mobile", "tooltip and details"],
+      "baseline": "axis ticks without vertical guides",
+      "observed": "1px dashed guides match four desktop ticks within 0.01px, rebuild to three ticks in filtered chart and show the two visible mobile ticks; span the row list and do not capture pointer events; detail and tooltip work",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "fd9de28c370ff2cd7bfd16e9e943efe36db634d4cdee8d8fbef1eb4f20d99c2e",
+        "scripts/local-preview/portfolio.css": "05d4a993d7a0133f3bac8218b08c7bf10fbc3eb163000ceefae38443353e3678"
+      },
+      "screenshot": "/private/tmp/igis-portfolio-gridlines-20261110.jpg"
+    },
+    "portfolioThinnerHeaderDivider": {
+      "requirement": "LOCAL-UI-58",
+      "status": "implemented and checked in local browser",
+      "consumers": ["portfolio table header divider", "search and reset", "keyboard column resize"],
+      "baseline": "1px painted header divider, 38px header height",
+      "observed": "0.5px visible rule across nine headers through search, reset, resize and reload; original header height and data row divider preserved",
+      "sourceHashes": {"scripts/local-preview/portfolio.css": "b9681b968cb5c20d5daad3e5bd3a49761b9ddcd7a78d1e77c2f1d9d89010d5a3"},
+      "screenshot": "/private/tmp/igis-portfolio-thin-header-line-20261110.jpg"
+    },
+    "portfolioChartNameHover": {
+      "requirement": "LOCAL-UI-59",
+      "status": "implemented and checked in local browser",
+      "consumers": ["portfolio chart project link", "hover tooltip", "search and reset", "project overview"],
+      "baseline": "shared table link hover adds underline",
+      "observed": "no underline in default, filtered and reset chart; pointer, row highlight and tooltip preserved; Yongin overview opens",
+      "sourceHashes": {"scripts/local-preview/portfolio.css": "df71dc20084b0961baff76260f793840926a0af9181f2d70e60bb18a7dd894a6"},
+      "screenshot": "/private/tmp/igis-cost-chart-name-hover-20261110.jpg"
+    },
+    "portfolioProportionalAmounts": {
+      "requirement": "LOCAL-UI-60",
+      "status": "implemented and checked in local browser",
+      "consumers": ["portfolio monetary cells and per-pyeong cost", "chart amounts", "tooltip amounts"],
+      "baseline": "tabular figures; first inline amount 79.91px",
+      "observed": "proportional figures; first inline amount 75.55px before Inter; header and amount right edges align on search",
+      "sourceHashes": {"scripts/local-preview/portfolio.css": "2fdaae210362cb3d9031bd5eeb387fba78cfbcf893b30a9f13be954dc4db8ad2"},
+      "screenshot": "/private/tmp/igis-portfolio-proportional-amounts-20261110.jpg"
+    },
+    "localInterTypography": {
+      "requirement": "LOCAL-UI-61",
+      "status": "implemented and checked in local browser",
+      "consumers": ["local screen font stack", "English and digit glyphs", "Korean fallback", "local font route"],
+      "baseline": "system-first stack without Inter",
+      "observed": "Inter loaded from localhost, first amount 73.29px, Korean title width unchanged at 97.64px, alignment preserved on search, 390px card checked, isolated font response and storage checks passed",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "f74171309c85db688ef9f33ee15d580fa2c496a448eaaf39f2cf1786249bd139",
+        "scripts/local-preview/server.mjs": "1c711f1224e02063ab5adffb21fdeecba212de810abf52d7286e1732d73e5918",
+        "scripts/local-preview/InterVariable.woff2": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3",
+        "scripts/local-preview/Inter-OFL.txt": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a"
+      },
+      "screenshot": "/private/tmp/igis-portfolio-inter-font-20261110.jpg"
+    },
+    "localPageTitleSize": {
+      "requirement": "LOCAL-UI-62",
+      "status": "implemented and checked in local browser",
+      "consumers": ["11 sidebar pages", "project heading chooser and name", "mobile long heading", "card heading"],
+      "baseline": "24px page and project title; 18px card title",
+      "observed": "28px title on all 11 desktop pages, inherited by project chooser and name; long Yongsan heading fits at 390px and changes route; visible card titles remain 18px",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "44bf43f9876835dbdd7c5384095de3430998f54420d7f6581cd4b41d749b4c0f",
+        ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-page-titles-28px-20261110.jpg"
+    },
+    "localProjectRegistrationSpacing": {
+      "requirement": "LOCAL-UI-63",
+      "status": "implemented and checked in local browser",
+      "consumers": ["project registration header and form", "basic and evidence fields", "sticky footer and validation", "mobile scrolling"],
+      "baseline": "18px horizontal inset, 12px top inset, 12px and 16px column gaps",
+      "observed": "28px aligned horizontal insets, 20px top inset and 24px column gaps at 1280px and 1180px; 32px viewport margin at 1180px; 390px single column without horizontal overflow, validation and cancel work",
+      "sourceHashes": {"scripts/local-preview/design.css": "ffd9f9e580ce56366a89015a063f72cb29eb8a397fb4c2cab75933c7d864343f"},
+      "screenshot": "/private/tmp/igis-project-registration-spacing-20261110.jpg"
+    },
+    "localOverviewLayout": {
+      "requirement": "LOCAL-UI-64",
+      "status": "implemented and checked in local browser",
+      "consumers": ["overview metadata", "facts and edit dialog", "milestone editor", "permit list and navigation", "mobile layout"],
+      "baseline": "6px metadata gap; separate edit toolbar; cards at 245px and 296px; only five of six permit rows",
+      "observed": "4px gap, edit edge aligned, 276px paired cards at 1280px, five visible rows and sixth accessible by scrolling and keyboard, edit and cancel, stacked at 390px",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "6e89ba93955cd0700bcea95604314d9417cea39231673bb5a7bb00aa18c22b2f",
+        "scripts/local-preview/studio.js": "d9e30f28a3bea716129a2600e10680a74dae93285941bdbe50aabd1419f02950",
+        ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshots": ["/private/tmp/igis-project-overview-table-20261110.jpg", "/private/tmp/igis-project-overview-schedule-20261110.jpg"]
+    },
+    "localInterEveryScreen": {
+      "requirement": "LOCAL-UI-66",
+      "status": "implemented and checked in local browser",
+      "consumers": ["11 main screens", "29 subtabs", "platform specification preformatted text and JSON", "registration fields", "report editor page counters and values", "report date popup", "official preview and print document"],
+      "baseline": "main UI already inherited Inter; specification preformatted text, report values, counters and active editor used Pretendard",
+      "observed": "Inter in visited screens and subtabs, specification PRE and textarea, report dates and values and active popup; cancel returns to report; preview document keeps embedded Pretendard; isolated font response and persistence checks passed",
+      "unverified": ["optional Playwright suite lacks its module", "no new PDF exported"],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "96ffe803bb6f2d17d62651bc454a1a89b37139e9c9614b1dbe1460a31f8ea1e6",
+        "scripts/local-preview/InterVariable.woff2": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3",
+        ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-inter-report-editor-20261110.jpg"
+    },
+    "portfolioColumnHeadingTopPadding": {
+      "requirement": "LOCAL-UI-67",
+      "status": "implemented and checked in local browser",
+      "consumers": ["nine portfolio column titles", "header divider and body rows", "search and reset", "resize handle display", "mobile cards"],
+      "baseline": "8px top and bottom padding and 38px header height",
+      "observed": "10px top and 8px bottom at 1280px and 1440px, 40px header, 0.5px divider, body row height retained at 1280px, search/reset 3→1→3, resize affordance and 390px labels retained",
+      "sourceHashes": {"scripts/local-preview/portfolio.css": "d063880768e2edf8959a9adb5747a4697621932829fd40204d1ecbbdad1d4ef6", ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"},
+      "screenshot": "/private/tmp/igis-portfolio-header-spacing-20261110.jpg"
+    },
+    "localTableFirstRowAndHeadingColor": {
+      "requirements": ["LOCAL-UI-68", "LOCAL-UI-69", "LOCAL-UI-70"],
+      "status": "implemented and checked in local browser",
+      "consumers": ["ordinary table first rows", "cost fixed and comparison headers", "permit list and map", "cost catalog dialog", "project facts at both column counts", "contract payment summary"],
+      "baseline": "portfolio heading 10px, ordinary headings 8px, cost headings 4px or 7px; ordinary header and body shared #F2F4F7",
+      "observed": "all rendered first rows at 10px through 11 menus and 29 subtabs, regular header #EEF0F3, comparison tones retained; contract summary second row 12px and project facts second row 8px",
+      "unverified": ["law data tables not rendered in the local workspace", "optional Playwright suite lacks its module"],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "fe624f3ccb83fbbc11cd3a2e1fb5f81fa55cc6b076a54c983657f1395ff9cfc6",
+        "scripts/local-preview/portfolio.css": "9b7c13cb1599023f608d36d74b635d81e38c9c5d182dc1e16bccb181ba6a0f8c",
+        "scripts/local-preview/cost-detail.css": "0c83ddb8feffea25d518dceebb23de66ea8ef1f28d451e51ee7f065fdf6321c9",
+        ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-shared-table-heading-final-20261110.jpg"
+    },
+    "localOverviewFactValueBackground": {
+      "requirement": "LOCAL-UI-71",
+      "status": "implemented and checked in local browser",
+      "consumers": ["project overview label and value columns", "first row and dividers", "mobile facts", "collapse and edit cancel"],
+      "baseline": "label and value cells both #F2F4F7",
+      "observed": "#F2F4F7 labels and #FAFAFB values at 1280px and 390px; existing 10px first row and divider; expand and cancel return confirmed",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "fabbf9764b5b292aa66e8a224ef350df79b0b9ce1e578a15b9477b2816ee359d",
+        ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-overview-value-columns-20261110.jpg"
+    },
+    "localOverviewCardLinkRightAlignment": {
+      "requirement": "LOCAL-UI-72",
+      "status": "implemented and checked in local browser",
+      "consumers": ["permit, cost, financing and report card links", "mobile cards", "menu navigation and selected project"],
+      "baseline": "link labels 13px inward from card body content edge",
+      "observed": "0px offset at 1280px and 390px; button dimensions retained; four destinations and overview return checked with same project",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "180aee00047e2439e16a7ea57379423470dd23925eb5242159af039da918abae",
+        ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-overview-card-links-right-20261110.jpg"
+    },
+    "localOverviewIssueTableTopGap": {
+      "requirement": "LOCAL-UI-73",
+      "status": "implemented and checked in local browser",
+      "consumers": ["issue card header divider", "table outer gap and first-row padding", "mobile issue table", "add and edit cancel"],
+      "baseline": "0px between issue card header divider and table at 1280px",
+      "observed": "18px at 1280px and 16px at 390px; 10px within first row; same two rows after add/edit cancel",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "052c60505efcaa3ce42a3df535fac406528a9657526f90ad67e13609159fc95d",
+        ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-overview-issue-table-gap-20261110.jpg"
+    },
+    "localCostHistoryCompact": {
+      "requirements": ["LOCAL-UI-74", "LOCAL-UI-75"],
+      "status": "implemented and checked in local browser",
+      "consumers": ["overview history", "full history dialog", "cost item history dialog", "recorded reasons and inferred change types", "amount, actor and date tooltips"],
+      "baseline": "visible secondary rows, word-based deltas, blank reasons, emails and timestamps",
+      "observed": "10 overview rows and 36 full history rows, no secondary lines, red ▲ and blue ▼, recorded reasons retained, actor names and date-only labels; exact amounts, recorded emails and time in tooltip; item history and access list checked",
+      "unverified": ["audit parent-return automatic suite lacks src/data/legacy-seed.json", "optional Playwright suite lacks its module"],
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "e4ae9e4c959bbc6936d85d9d5f80fda12fb0f03d08cc099b5c0f55d746aa3bf2",
+        ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      },
+      "screenshot": "/private/tmp/igis-cost-history-compact-20261110.jpg"
+    },
+    "localCostHistoryDeduplication": {
+      "requirement": "LOCAL-UI-76",
+      "status": "implemented and checked in local browser",
+      "consumers": ["overview history", "full history dialog", "cost item history dialog", "recent-event limit", "raw audit records"],
+      "baseline": "two identical land purchase amount rows and three bookkeeping changes from one saved event",
+      "observed": "one land purchase row in all three views, bookkeeping excluded, distinct 1-won reductions retained; 41 focused checks passed and saved data hashes matched",
+      "sourceHashes": {
+        "src/audit-view.js": "902ff624135e97c2278fb902b0790f467d4b8bb4b98893fce2a714880fdb813e",
+        "scripts/local-preview/studio.js": "849c69b549d1d670a7c268cfa7013fa80bbab547df2627e96787716185c57363",
+        ".build/local-preview/platform-51470.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshot": "/private/tmp/igis-cost-history-deduplicated-20261110.jpg"
+    },
+    "localOverviewIssueColumns": {
+      "requirement": "LOCAL-UI-77",
+      "status": "implemented and checked in local browser",
+      "consumers": ["issue dates, titles, progress, impacts and action columns", "mobile table", "issue edit save"],
+      "observed": "equal 308px content columns at 1280px, 84px right-aligned action column, left dates and centered impacts, table scrolling at 390px, two saved titles after reload",
+      "unverified": ["legacy layout and overview automated suites lack src/data/legacy-seed.json"],
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "ed4686a8582c6c5dca0378b85a11112d85b283384784d98044b2f8176f8f4ee8",
+        "scripts/local-preview/design.css": "1d6d58494006f8fd52f341877fe8faf42e84aaad32661efabfb699a793561aae",
+        ".build/local-preview/platform-51470.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshot": "/private/tmp/igis-overview-issue-layout-20261110.jpg"
+    },
+    "localWorkFeed": {
+      "requirement": "LOCAL-UI-78",
+      "status": "implemented; desktop, mobile and isolated browser mutations checked",
+      "sourceRevision": "e2403784",
+      "consumers": [
+        "sidebar and deep links",
+        "desktop and mobile listing, search and filters",
+        "post composer and editing",
+        "visibility, stakeholder and attachment controls",
+        "comments, reactions and mentions"
+      ],
+      "observed": "source post, comment, reaction, stakeholder; read, search, creation, reload, editing, deletion and address cleanup, status, comment lifecycle, reaction, mention selection, audience and stakeholder registration",
+      "unverified": [
+        "all filter combinations and paging",
+        "download without a source attachment",
+        "multi-account authorization and remote notifications outside local scope"
+      ],
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "f2c22c248bf7d3a66c68decc4ab3938ec8ba83be12e47c2c9a7251c15cc97f74",
+        "scripts/local-preview/design.css": "3a5f3fb98340ff63e865baeabb1c4167d9d34f0ad569a76f5a4403996d8c59aa",
+        "scripts/local-preview/server.mjs": "2d7b69160f9cc19f05ca65e29eebe0f1b393f5a0585895f7dc90b5bd0f9ddeb6",
+        "scripts/local-preview/feed/adapter.js": "8fed2ad83b53683f0993a9ef5fa04d9e65091fab46be4906de70d0c2af2e4f9a",
+        "scripts/local-preview/feed/build.mjs": "276daaf55560c171f76ef990669ce8e097477cfd566f14b087484c06075e72cb",
+        "scripts/local-preview/feed/entry.jsx": "f321a42524dc8676739bbdcc5673a37de57ef5e2fe5226ec5e31a63264a840a1",
+        ".build/local-preview/work-feed/app.js": "a636a65db48ec3e7a5834b75ddfed151651d4639cbdb150fd26882dfa0020a51",
+        ".build/local-preview/work-feed/app.css": "fbd81771072e54cb4d2b80f1df28d20b6a4039a50930ec64e5ae78ef9e6d62c7",
+        ".build/local-preview/platform-85547.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshot": "/private/tmp/igis-local-work-feed-20261110.jpg"
+    },
+    "localWorkFeedPresentation": {
+      "requirement": "LOCAL-UI-79",
+      "status": "implemented; desktop and 390px rendering checked",
+      "consumers": [
+        "feed menu and heading",
+        "board frame and composer",
+        "expanded post and profile photos",
+        "reactions, comments and registration"
+      ],
+      "baseline": "7.5px from author row to date, gradient around detail, filled heart in a 1px-bordered button",
+      "observed": "visible board edges, 6px composer spacing, 2px navy detail border, 15% photo overlay, 3.5px author date gap with year, outlined 22px heart, matching comment button spacing on desktop and mobile",
+      "verificationLimits": [
+        "hover color checked in stylesheet",
+        "comment input tested through button activation"
+      ],
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "adcd8260b7b8e8f6b3c824deea1356e4d92649cb1365bee5aea94fe2f326519a",
+        "scripts/local-preview/server.mjs": "4334ae2a78b64eb1767af3e32c81d7283670e24b3bc98563ecaf1c54c45b1171",
+        "scripts/local-preview/feed/build.mjs": "f6f4e64ca92a3feccb7f0e885ad6e4cec856fb1f5415782aca423808e7061625",
+        "scripts/local-preview/feed/presentation.mjs": "259c7cad4bc5d789784657fb76c37cc07ffab5b4584727221360b63d819dedfe",
+        "scripts/local-preview/feed/visuals.jsx": "db5cb6f6b728dce55901c87f56f94853cb92d9ab7fe0b83fd9f2aef72a894f03",
+        "scripts/local-preview/feed/entry.jsx": "4316f3a7461209b20eef7e81875f998d55e419e5ababceb08a620d08e394c560",
+        "scripts/local-preview/feed/index.html": "69257a470bc4df83543bd1003083e086aaae2c66acea28ee722ab37cabd37673",
+        "scripts/local-preview/feed/theme.css": "d567c4951e58d19b316c1f3c2ada75bff0e81ced6e08ae0c14d1bc617a259e91",
+        ".build/local-preview/work-feed/app.js": "fe93c3e02ca8e809f55d3e88651733bce018dfb91cc330a0070c34c62917a364",
+        ".build/local-preview/work-feed/app.css": "d990a3fe75fbe7f5346b79bd97bf2c83a7b96d61c9aa17a906e69eb7eb35a956",
+        ".build/local-preview/platform-1323.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshots": [
+        "/private/tmp/igis-feed-20261111-list.jpg",
+        "/private/tmp/igis-feed-20261111-detail.jpg"
+      ]
+    },
+    "localWorkFeedPostDate": {
+      "requirement": "LOCAL-UI-80",
+      "status": "implemented; desktop and 390px views checked",
+      "consumers": [
+        "list registration date",
+        "expanded post author timestamp"
+      ],
+      "baseline": "expanded row displayed a second time; author timestamp used dotted date and 24-hour format",
+      "observed": "expanded row showed only 26.11.06; desktop and mobile author timestamps showed 2026년 11월 6일 오후 04:35; Korean midnight and noon conversion checked",
+      "sourceHashes": {
+        "scripts/local-preview/feed/presentation.mjs": "fff2be55e63880518b02a3e89ee76f3a98e29feaabc313b577fffcc1387dc2ee",
+        "scripts/local-preview/feed/visuals.jsx": "84a8ed7bd44f1f8af45df98ef4207731a4e52c59491aab9b74d1deb9153414e9",
+        ".build/local-preview/work-feed/app.js": "c2c7000e9be7257d06f43c16a9c612ffe0325598c0c9aeec88d1cb5ddfd13edb",
+        ".build/local-preview/work-feed/app.css": "d990a3fe75fbe7f5346b79bd97bf2c83a7b96d61c9aa17a906e69eb7eb35a956",
+        ".build/local-preview/platform-1323.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshot": "/private/tmp/igis-feed-post-date-20261111.jpg"
+    },
+    "localWorkFeedHeading": {
+      "requirement": "LOCAL-UI-81",
+      "status": "implemented; desktop and 390px layouts checked",
+      "consumers": [
+        "feed heading and description",
+        "desktop search and mobile search toggle",
+        "first feed card"
+      ],
+      "baseline": "feed title 32px, 48px line height and 6px below header with center-aligned description",
+      "observed": "28px title and 36.4px line height; left and top match portfolio; description baseline aligned; 24px below heading; mobile title top 16px and search toggles",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "3a5f3fb98340ff63e865baeabb1c4167d9d34f0ad569a76f5a4403996d8c59aa",
+        "scripts/local-preview/feed/entry.jsx": "6706e755c533f48e5b6b9dcd15024e0b92d99f23dcfbccdc0c372edde0b8459d",
+        "scripts/local-preview/feed/theme.css": "1063e9af06953a4fd71ffb7b62c5f1398c165c89f021f1713c6be6fa2c215568",
+        ".build/local-preview/work-feed/app.js": "1edc1f7ec34d01ee303d0bd94f6b877ac77c1632a6d17006576e4af21af0800e",
+        ".build/local-preview/work-feed/app.css": "d990a3fe75fbe7f5346b79bd97bf2c83a7b96d61c9aa17a906e69eb7eb35a956",
+        ".build/local-preview/platform-1323.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshot": "/private/tmp/igis-feed-heading-20261111.jpg"
+    },
+    "localWorkFeedSharedDirectory": {
+      "requirement": "LOCAL-UI-82",
+      "status": "implemented; live source and desktop and mobile UI checked",
+      "consumers": [
+        "feed composer and edit form",
+        "company and contact suggestions",
+        "existing stakeholder lookup and local registration"
+      ],
+      "baseline": "local preview contained one source post stakeholder",
+      "observed": "IOTA source returned 754 rows; 680 company options appeared; company-scoped contact selection, existing records, editing and mobile search checked",
+      "isolatedTests": [
+        "paging",
+        "required fields only",
+        "GET only",
+        "cross-origin rejection",
+        "upstream failure status"
+      ],
+      "unverified": [
+        "real upstream outage UI retry",
+        "new local stakeholder save under this change"
+      ],
+      "sourceHashes": {
+        "scripts/local-preview/server.mjs": "5ff2d9bf3109e83547610affc26b2c20c0f711d9b0ce32b4c09e48df41f663d9",
+        "scripts/local-preview/feed/shared-directory.mjs": "edd3d6060b48df3352618ce36873d43be6ddeee143c1f6a0f432b14508bb7ed6",
+        "scripts/local-preview/feed/adapter.js": "21100c55fb7d0b9146421fe54e5b3df1ea5b39a82bc998348f850a6a3e512fa3",
+        "scripts/local-preview/feed/presentation.mjs": "477b0bc25d508c1fe6729e7b18faf1cad22825c17e7b3fec7f55e1e1e5552524",
+        "tests/local-design-preview.mjs": "864166b3745f59e7a90bf814116dedfd4fa86716ac35e1e5b0878dd629195027",
+        ".build/local-preview/work-feed/app.js": "6f48a52301f7ea9ac91725ca09fcbae68cb931ba65806a0448f4df7323a56cd3",
+        ".build/local-preview/work-feed/app.css": "d990a3fe75fbe7f5346b79bd97bf2c83a7b96d61c9aa17a906e69eb7eb35a956",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localWorkFeedProjects": {
+      "requirement": "LOCAL-UI-83",
+      "status": "implemented; actual and isolated desktop and mobile checked",
+      "consumers": [
+        "workspace project selector",
+        "feed composer and edit project options",
+        "post project label"
+      ],
+      "baseline": "three registered projects absent from the hardcoded IOTA options",
+      "observed": "three actual and four isolated project choices match the workspace; added project persists after save and reload; reassignment and historic edit checked",
+      "isolatedTests": [
+        "same-name projects keep separate IDs",
+        "unavailable new selection is rejected",
+        "historic project remains selectable"
+      ],
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "a1ab47a6b56c6a90263cc6eb33bc1a70108e2187cbfb6eb37265a7cb34e96089",
+        "scripts/local-preview/feed/build.mjs": "85e2478d70eb8e223ae8f9b31794160278e0fb5397cb22498154a8b77029fdbb",
+        "scripts/local-preview/feed/projects.jsx": "0974e3ed5fe7e0c4e747afb937b541668afbe36cf5348ce367afcb7ed7a2f2cc",
+        "scripts/local-preview/feed/presentation.mjs": "5104a84bff2a4d7813b95b6aff546f5a4e522337c7bcb423f30447f382a9bbc5",
+        "scripts/local-preview/feed/theme.css": "bca85cb107b6aa7ae342b37fa0e7f1216b21914a1267273b490d8a021bab71eb",
+        ".build/local-preview/work-feed/app.js": "0b90c1f867153513e797ae4f124f729dc4aa480772e76021a0176ded29922d35",
+        ".build/local-preview/work-feed/app.css": "d990a3fe75fbe7f5346b79bd97bf2c83a7b96d61c9aa17a906e69eb7eb35a956",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localWorkFeedDetailBorder": {
+      "requirement": "LOCAL-UI-84",
+      "status": "desktop and 390px view checked",
+      "consumers": [
+        "expanded feed detail"
+      ],
+      "baseline": "2px solid #253985",
+      "observed": "3px solid #253985 on desktop and mobile",
+      "sourceHashes": {
+        "scripts/local-preview/feed/theme.css": "42c3bb20071a8391eac80de64c769ed2d94534edb2616723edfdeb697d8a01e3",
+        ".build/local-preview/work-feed/app.js": "0b90c1f867153513e797ae4f124f729dc4aa480772e76021a0176ded29922d35",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localWorkFeedAvatarBorder": {
+      "requirement": "LOCAL-UI-85",
+      "status": "desktop and 390px view checked",
+      "consumers": [
+        "composer",
+        "list",
+        "detail",
+        "comments",
+        "reaction avatars"
+      ],
+      "baseline": "black overlay at 15%",
+      "observed": "1px solid rgba(0, 0, 0, 0.1) for six desktop and five mobile avatars",
+      "sourceHashes": {
+        "scripts/local-preview/feed/theme.css": "944fd65f0498cfa044ece21e27a9a5ccf876391bb8681c9c7a4e3145f85ad087",
+        ".build/local-preview/work-feed/app.js": "0b90c1f867153513e797ae4f124f729dc4aa480772e76021a0176ded29922d35",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localWorkFeedColumnFilters": {
+      "requirement": "LOCAL-UI-86",
+      "status": "desktop and mobile filters checked",
+      "consumers": [
+        "feed header project and function cell selectors",
+        "existing search",
+        "expanded detail URL",
+        "mobile feed list"
+      ],
+      "baseline": "project and function cell column titles were static text",
+      "observed": "two project groups filter distinctly; cell selection, search intersection, empty and reset states, mobile controls and detail URL cleanup checked",
+      "sourceHashes": {
+        "scripts/local-preview/feed/presentation.mjs": "b884438dcec81ee94497c3cda20bd09d04afab6c29c523b02c387c76ce87a0a0",
+        "scripts/local-preview/feed/projects.jsx": "11530651fc2d25593190425d3dad82ed865d86f6ae006e974a6a377008515120",
+        "scripts/local-preview/feed/visuals.jsx": "68d95d5109470ac37c38e17a62e99a470596acdbe270bff6beeede5477dffda0",
+        "scripts/local-preview/feed/theme.css": "e6e42def89fa593b93d753385f5093c4f624dd823c966d6dc3487a46a4a8b17e",
+        ".build/local-preview/work-feed/app.js": "15fc113bfb159585d8a52893b06da78dc0df9714b2ed9a384df4181df0a2b73f",
+        ".build/local-preview/work-feed/app.css": "d990a3fe75fbe7f5346b79bd97bf2c83a7b96d61c9aa17a906e69eb7eb35a956",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshot": "/private/tmp/igis-feed-column-filters-20261111.jpg"
+    },
+    "localWorkFeedComposerHover": {
+      "requirement": "LOCAL-UI-87",
+      "status": "actual pointer and composer checked",
+      "consumers": [
+        "desktop collapsed feed composer"
+      ],
+      "baseline": "#e2e2e5 normal, #e8e8eb hover, no normal outline",
+      "observed": "#e8e8eb normal with #dedee2 inset 1px, #e2e2e5 hover, 66px height in both states, opens and collapses",
+      "sourceHashes": {
+        "scripts/local-preview/feed/theme.css": "d5cca0b2ad5ed8315e93a3035811e5192633ecf5d708edd4f85c683edee6a1a1",
+        ".build/local-preview/work-feed/app.js": "15fc113bfb159585d8a52893b06da78dc0df9714b2ed9a384df4181df0a2b73f",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localPageHeadingSpacing": {
+      "requirement": "LOCAL-UI-88",
+      "status": "12 desktop screens, project switch and 390px checked",
+      "consumers": [
+        "shared page title",
+        "feed title and search",
+        "project subtype and location in six views"
+      ],
+      "baseline": "24px heading gap and meta below heading",
+      "observed": "6px heading gap, desktop right edge and last baseline, narrow right-aligned second row, project switch and mobile search",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "b3be45acd73e51176a65c1803fe97e5278e8296943d0aca4fdfe6abd83df5970",
+        "scripts/local-preview/studio.js": "8100c24fbf9670f595233b3e527d3293d8fb9f9936d248cb1265fe87f7872c2f",
+        "scripts/local-preview/feed/theme.css": "9d3257ee1b557b459367877077ce5e89e7270512fd857eea6c384978720857e0",
+        "tests/local-design-screens.mjs": "794afacac9a824d4c945fbdd6b9b15b281fd2b8dc148f6cfb155afe8d0733c2d",
+        ".build/local-preview/work-feed/app.js": "15fc113bfb159585d8a52893b06da78dc0df9714b2ed9a384df4181df0a2b73f",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshot": "/private/tmp/igis-project-header-20261111.jpg"
+    },
+    "localFeedHeadingSpacingTrial": {
+      "requirement": "LOCAL-UI-89",
+      "status": "local browser measurements and shared design regressions checked",
+      "consumers": ["feed title, search and board", "shared page title"],
+      "baseline": "6px heading gap across the workshop",
+      "expected": "12px on the feed only; 6px on shared page titles",
+      "observed": "Feed board gap about 12px and narrow search clearance about 8.4px; overview margin 6px and right-aligned metadata",
+      "sourceHashes": {
+        "scripts/local-preview/feed/theme.css": "39b6d97e659985b3669f4eac8525d8a983d4fe5e4a8260e06a845bb5d2840be5",
+        "scripts/local-preview/design.css": "b3be45acd73e51176a65c1803fe97e5278e8296943d0aca4fdfe6abd83df5970",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6",
+        ".build/local-preview/work-feed/app.js": "15fc113bfb159585d8a52893b06da78dc0df9714b2ed9a384df4181df0a2b73f"
+      }
+    },
+    "localUnifiedPageHeadingSpacing": {
+      "requirement": "LOCAL-UI-90",
+      "status": "browser measurements on all 12 menus at a narrow width; shared design and sidebar regressions passed",
+      "consumers": ["shared page title", "project context", "feed title, search and board"],
+      "baseline": "12px feed title gap; 6px shared title gap",
+      "expected": "10px below every local page title",
+      "observed": "10px on all menus, six right-aligned project metadata blocks, 6.4px between narrow feed search and board",
+      "sourceHashes": {
+        "scripts/local-preview/feed/theme.css": "34eeeefccc6c36bd904c2d1a15dbad72d01b77fbd8a990f400fc8690b720e47d",
+        "scripts/local-preview/design.css": "04bef428777d6e30c3a6d2461a54606a350b7ba06a8aab2b1f348f4a64333bf4",
+        "tests/local-design-screens.mjs": "cd80f9bca68684f5b62dbd027798c1023fc8c45a2d72531890d395ed47184189",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6",
+        ".build/local-preview/work-feed/app.js": "15fc113bfb159585d8a52893b06da78dc0df9714b2ed9a384df4181df0a2b73f"
+      }
+    },
+    "localOverviewIssueLabels": {
+      "requirement": "LOCAL-UI-91",
+      "status": "local browser checked",
+      "consumers": ["overview issue card title", "issue add button and form"],
+      "baseline": "주요 현안 / + 현안 추가",
+      "expected": "주요 현안 관리 / + 현안 등록",
+      "observed": "new labels, form open and cancel, existing row count and project switch checked",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "a2460c71126132d0440936e4a0484aa5b9b75c0a3dac937d900f73d7e1c1843d",
+        "tests/local-design-screens.mjs": "58df36f85e9b2c731852d212a6b71c624c8f145e1a4a4cc827f3c9b1ba0a7edc",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localWorkFeedRowHover": {
+      "requirement": "LOCAL-UI-92",
+      "status": "desktop and narrow browser verified",
+      "consumers": ["clickable feed list row", "expanded post detail"],
+      "expected": "light gray on pointer hover and original background after leaving the row",
+      "observed": "#F5F6F9 on both row layouts; original background returns on pointer exit; narrow detail opens, closes and keeps separate background",
+      "sourceHashes": {
+        "scripts/local-preview/feed/theme.css": "6c43a5e0c6fdf0d96e1e7d43d41ab0ab04600c35a314d8182555b6ef777ff085",
+        ".build/local-preview/work-feed/app.js": "15fc113bfb159585d8a52893b06da78dc0df9714b2ed9a384df4181df0a2b73f",
+        ".build/local-preview/work-feed/app.css": "d990a3fe75fbe7f5346b79bd97bf2c83a7b96d61c9aa17a906e69eb7eb35a956"
+      }
+    },
+    "localCostOverviewLayout": {
+      "requirement": "LOCAL-UI-93",
+      "status": "scoped browser checks passed",
+      "consumers": ["cost tabs", "cost KPIs", "cost drivers and details", "execution summary", "waterfall and composition charts", "funding chart and legends"],
+      "baseline": "overflowing tabs, 2px active line, 8px KPI corners, unequal card bottoms and one-row execution table",
+      "observed": "4px active line on all three tabs; 8px card gaps; 0px column bottom mismatch; 14px composition bars; 390px with no page overflow; original metrics and chart detail actions checked",
+      "unverified": ["full screen regression stops at the existing cost-detail total note check both before and after this change"],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "2666359a931567f2f89925401b408be2c3997ff7f45aa729be649595f72fa516",
+        "scripts/local-preview/studio.js": "ca52351575ffbbe7c7a8d280835547b4eab55dfa0a1d9fdbffd22c411906e0bb",
+        "tests/local-design-screens.mjs": "e588085034281028db7e3bc3094a2e4bab66ec9121b44bb37cf0dff449e77b63",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localCostOverviewMetricSpacing": {
+      "requirement": "LOCAL-UI-94",
+      "status": "desktop and narrow browser checked; isolated cost overview regression passed",
+      "consumers": ["cost overview card spacing", "execution metric spacing and unavailable balances"],
+      "baseline": "8px gaps, 7px metric left padding, migration balance shown while project payment was unavailable",
+      "observed": "12px card and metric gaps, 11px metric left padding, matching desktop card bottoms, missing paid and unpaid totals on three sample projects",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "be0b20b7c63b15453c4025c86c081e51dd8521049417063ce3042032c75cdf51",
+        "scripts/local-preview/studio.js": "94f54646e13624af84c77b63cdf4edd1c24d942831f442f092d6ebc610427e91",
+        "tests/local-design-screens.mjs": "95aaf2255b2ad1989422bad7a7f423f4b791cbbfe4d08d911657c43765cb84e4",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localCostStructureTooltip": {
+      "requirement": "LOCAL-UI-95",
+      "status": "desktop and narrow browser checked; live local pointer regression passed",
+      "consumers": ["cost and funding segments and legends", "common axis information", "portfolio chart tooltip"],
+      "baseline": "dark unstructured tooltip on the cost and funding structure",
+      "observed": "white background, 4px navy border, 12px radius, right-aligned values, centered pointer and 5px body gap; hover exit, Escape and portfolio positioning checked",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "ac4615d2820c6171d8f4599c834444e2944d503baa9302167aa11fda688e1903",
+        "scripts/local-preview/studio.js": "a79730af239e8f9070de22d4ba962ce92a47aecb70609c62a46721786e9afe02",
+        "scripts/local-preview/portfolio.js": "9e57c8371d3ba1f37fd71ee075e4c1c6c1a725707e504f6b31252e023154227b",
+        "scripts/local-preview/portfolio.css": "6f1f0dacddb41f1f9c6cd7fdd6c5b0cb62aaf1a066bd294c94203e507c9924cd",
+        "tests/local-design-screens.mjs": "e469fb024d686985d3a8f6278164c3ed2612023e119aa08aae76418b0de3e315",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshot": "/private/tmp/igis-cost-structure-tooltip-20261111.jpg"
+    },
+    "localCostWaterfallTooltip": {
+      "requirement": "LOCAL-UI-96",
+      "status": "desktop and narrow browser checked; live local pointer regression passed",
+      "consumers": ["four waterfall bars", "existing cost change detail", "shared chart tooltip"],
+      "baseline": "plain dark text tooltip on waterfall bars",
+      "observed": "four original amounts, signed change rows, shared white and navy styling, 5px gap and centered pointer; hover exit, Escape, detail and narrow bounds checked",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "3ca55c0daec83489098f92890be910d7fa58d13235d852fe2d7b4ba8f02a22d1",
+        "scripts/local-preview/portfolio.js": "9e57c8371d3ba1f37fd71ee075e4c1c6c1a725707e504f6b31252e023154227b",
+        "scripts/local-preview/design.css": "ac4615d2820c6171d8f4599c834444e2944d503baa9302167aa11fda688e1903",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      },
+      "screenshot": "/private/tmp/igis-cost-waterfall-tooltip-20261111.jpg"
+    },
+    "localContractExecutionSample": {
+      "requirement": "LOCAL-UI-97",
+      "status": "isolated contract form saves and actual local workspace reload verified",
+      "consumers": ["local project selector", "contract certification and payments", "cost overview execution totals"],
+      "expected": "one separate sample with 10, 6, 4, 2 hundred million KRW in cost basis",
+      "observed": "local revision 11 to 12; three original projects identical; sample contract, certification, payment, and confirmed balance match the overview after reload",
+      "sampleProjectHash": "3269b474206271a8148d25a9dff0cbbc0d0293aca089ea40ca03b06e25b3d5cb",
+      "sourceHashes": {
+        ".build/local-preview/original-workspace.json": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+        ".build/local-preview/edits-87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c.json": "ca09b076c49e82746accf2474aa4b4d1dc46fcdb212c5afa6c6e90f1a0130664",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6",
+        "src/contracts.js": "2c93d9d7fa37bef5fde6cea7896117851d69dec2143501d70cfb499a9fc7a4c2",
+        "src/cbs.js": "01bb7cdc9c61763b57768d9fbb85fe842b11d5351db070dbdc9955d6acce86e8"
+      }
+    },
+    "localPageReload": {
+      "requirement": "LOCAL-UI-98",
+      "status": "browser and focused regression checks passed",
+      "consumers": ["main navigation", "project selectors", "subtabs", "work feed", "direct links"],
+      "baseline": "reloading a sample cost detail screen at the root opened portfolio and selected the first project",
+      "observed": "sample project and cost detail, law and feed restored on reload; existing cost overview deep link opened in a new tab; unavailable selections checked in the test harness",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "9cf53616b6a75a09f3c49a1562d984ecf4e24c5610705db86e60286847a2c30e",
+        "tests/local-design-guide.mjs": "32a90206bb260d788850d0f025d2cf0eb5e27275e5382fc0ff294d59dd240e8e",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localFirstProjectPayments": {
+      "requirement": "LOCAL-UI-99",
+      "status": "local revision 13 saved and browser reload verified",
+      "consumers": ["cost overview payment KPI", "execution summary", "project selector"],
+      "observed": "first project certified 34244250000, paid 30819910000, unpaid 3424340000 KRW; separate sample removed; B, C and original snapshot preserved",
+      "sourceHashes": {
+        ".build/local-preview/edits-87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c.json": "5b7fd5ee7fdb9eac939e6eb9341fdf9601602429a99533cc8ab350113db140bb",
+        ".build/local-preview/platform-12313.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+      }
+    },
+    "localPaymentDetailLink": {
+      "requirement": "LOCAL-UI-100",
+      "status": "isolated browser verified; example saved and shown in local revision 14",
+      "consumers": ["cost overview payment KPI", "contract payment list", "confirmed payment condition", "actual payment editor", "execution summary"],
+      "observed": "payment cost amount 100000 to 620000; project paid 30820010000 to 30820530000 and unpaid 3424890000 to 3424370000 KRW; after reload the values persisted",
+      "sourceHashes": {
+        "src/cbs.js": "f49aa9fb19145f4572ff14b6eb419cc6f419491fa347f242beb2581b35fc1e46",
+        "src/contracts.js": "0e4688c246cf611c6cc185246a30afc4be52393179a643855ed402d0bbb04edc",
+        "scripts/local-preview/studio.js": "93eebe1fb69bac516a988549357633cc5082f8e6754251f271b758f2e68d8582",
+        ".build/local-preview/platform-12313.html": "bf95eb3cec95ef41fa0a71ba574a98fe05b2eab64cce83a8ff804e53291450bd"
+      }
+    },
+    "localContractAmountScope": {
+      "requirement": "LOCAL-UI-101",
+      "status": "source totals and local browser verified",
+      "consumers": ["cost overview contract KPI", "execution summary"],
+      "observed": "first project total 285369030000 KRW includes land, direct and indirect construction, design, and other cost categories; both values match at 319px",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "ada1fbf9d51fce9640f2631c12b79789250a990c486ce5b8ec03e99a5e299a68",
+        ".build/local-preview/platform-12313.html": "bf95eb3cec95ef41fa0a71ba574a98fe05b2eab64cce83a8ff804e53291450bd"
+      }
+    },
+    "localPaymentPlacement": {
+      "requirement": "LOCAL-UI-102",
+      "status": "local browser verified at 319px",
+      "consumers": ["cost overview KPI row", "execution summary", "contract payment link"],
+      "observed": "five top KPIs with no overflow; payment and unpaid in execution summary; payment link opens the contract payment tab"
+    },
+    "localContractAmountLabel": {
+      "requirement": "LOCAL-UI-103",
+      "status": "local browser verified",
+      "consumers": ["cost overview contract KPI", "execution summary"],
+      "observed": "계약금액 in both locations, 계약기준 below the KPI, and 2,853.69억원 in both locations"
+    },
+    "localContractAmountTrace": {
+      "requirement": "LOCAL-UI-104",
+      "status": "local browser and automated export verified",
+      "consumers": ["cost detail amount table", "cost overview contract KPI and execution summary", "contract amount sources dialog", "cost detail Excel"],
+      "observed": "120 Seoul Jung-gu opening amounts independently total 285369030000 KRW; cutoff 2026-08-31; verified zero is blank and missing evidence reads 미확인",
+      "sourceHashes": {
+        "src/cbs.js": "4a529caec8b3fbef41cb20eb2f8511ac86c1427c05309516f958521f2759944c",
+        "src/contracts.js": "7e7be6dce17324707c1aef7f8ba1efa2bb4f14aa4206bedc4f61bffc974162f3",
+        "src/xlsx-export.js": "e62e8d1afeca0c2f42d9d8b6d2a2fd029199bdd24ae5ddee8d6caf3a25e0aeb7",
+        "scripts/local-preview/studio.js": "019a3e62ff2fe298bebec3115591c1bfd300232b8681f4adbd113106e763318d",
+        "scripts/local-preview/design.css": "8d366a8cf9f5df3dc5ad7fa0523dd77356aeefdfb14474c419efeee1e025ab34",
+        ".build/local-preview/platform-12313.html": "27c8a9f345adf09f3cd1e7492e983b9e398c61680419429c4ee1ad59b14b59c3"
+      }
+    },
+    "localContractAmountUnknownDisplay": {
+      "requirement": "LOCAL-UI-105",
+      "status": "local browser and automated export verified",
+      "consumers": ["cost detail amount table", "contract amount totals", "cost detail Excel"],
+      "observed": "20 unknown cells show — with title 계약 자료 미확인, three confirmed zero cells are blank, total is 285369030000 KRW, Excel retains 미확인",
+      "sourceHashes": {
+        "src/cbs.js": "fcf7a2af5ea38a436b938cceace1114117f990678b865fbaacb5bd0c0ed087a2",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localCostDetailDeltaColors": {
+      "requirement": "LOCAL-UI-106",
+      "status": "local browser verified",
+      "consumers": ["cost detail variance text, including subtotals and total"],
+      "observed": "12 increases in #C41622, 14 decreases in #005BC4, 20 neutral cells retained; total-row background contrast 4.81:1 and 5.09:1",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.css": "609087b308ee91afdcb57d65eb8923d99bb882ec2cf01f4448e73d307ce8c236",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localContractOpeningDisplay": {
+      "requirement": "LOCAL-UI-107",
+      "status": "local browser and data preservation verified",
+      "consumers": ["cost detail amount table", "cost overview KPI and summary", "amount source dialog", "contract detail"],
+      "observed": "Seoul Jung-gu opening-only total 285369030000 KRW across 120 items; separate ledger reference 250000000000 KRW; link and Escape; other project has no reference; original and saved data hashes match before and after",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.js": "1943d2958937eff02763f0d11b7c427d8498e91483ad4a9865f711fa55315c80",
+        "scripts/local-preview/cost-detail.css": "b1e802df06bfed88098ffd6e4b888d3514f89fec804f07672ae1bde7778627f6",
+        "scripts/local-preview/studio.js": "00ffe022cfcc0416bab76b4a3e608373442598dac19c816f1145797dfc9659dc",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localCostDetailToolbar": {
+      "requirement": "LOCAL-UI-108",
+      "status": "local browser verified at 1280px and 319px",
+      "consumers": ["cost detail search", "amount view switch", "comparison basis", "cost detail toolbar actions"],
+      "observed": "ten elements share one centerline at 1280px with expanded sidebar, 58px toolbar; 319px scrolls inside toolbar to focused Excel button; search and add-item dialog verified; data hashes unchanged",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.css": "4e867a9ff6b092f66c097d57d9188417ba537c2e1dacebed1a1f0ae26abfcc0b",
+        "scripts/local-preview/design.css": "6db26457cd5ebe80b06d127273f67ad42c11ccd2dc99e064f3369ec8cbeea65f",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localCostDetailContractCell": {
+      "requirement": "LOCAL-UI-109",
+      "status": "local browser verified",
+      "consumers": ["cost detail main construction contract amount cell"],
+      "observed": "shows 102927 million KRW alone; total 285369030000 KRW and saved data verified",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.js": "48238552018288baf101051640ab187bb2cf314c9a2cd03649b351011bf7f378",
+        "scripts/local-preview/cost-detail.css": "c8be15851fbbc49f03d96b38525945cc6d38d5673117506f083af3d7ab48ab43",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localCostDetailViewSwitch": {
+      "requirement": "LOCAL-UI-110",
+      "status": "local browser verified",
+      "consumers": ["cost detail amount view switch", "cost detail unit-price view switch", "cost detail toolbar"],
+      "observed": "30px control, 2px inset, 12px outer and 10px inner radii, equal 44px buttons, Enter retains focus both ways; toolbar fits 1280px with expanded sidebar",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.js": "a4e6b4882630a8357a26dd93741e0fd4d80843f1c24a28412cfb4f7cd4b208da",
+        "scripts/local-preview/cost-detail.css": "530b5ab54d411b9660d3323954e024e03b6b9efa0169a985b8ff43fe4c41b762",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localCostDetailSurface": {
+      "requirement": "LOCAL-UI-111",
+      "status": "local browser verified at 1440px and 800px",
+      "consumers": ["cost detail table top corners", "cost item and opening amount columns", "cost detail scroll background"],
+      "observed": "top radii 0px; white columns and right gutter; comparison colors retained; cost item header pinned 32px from left at scrollLeft 259; area dialog tested at 319px",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.css": "8e6a93026ede86ace267d4858e6fff2c68fa8e0e4d779c8f6f091293e4f56aa3",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localCostDetailContractRowBackground": {
+      "requirement": "LOCAL-UI-112",
+      "status": "local browser verified at 1440px",
+      "consumers": ["opening contract amount header and data rows", "adjacent cost amount columns"],
+      "observed": "opening amount header and seven body row types match the preceding amount column; total, subtotals and normal rows also match the following amount column; stored data hashes unchanged",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.css": "1832f438fe820533e549e8c0e87a043ea9b4ae954157ff1871ce9d0b58974c6e",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localContractAmountLabelStandardization": {
+      "requirement": "LOCAL-UI-113",
+      "status": "local browser verified",
+      "consumers": ["cost detail contract column", "cost overview KPI and summary", "contract amount source dialog"],
+      "observed": "Seoul Jung-gu uses 계약금액 in all headings; source dialog displays 2026-08-31 and 120 records totaling 285369030000 KRW",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.js": "ff859b8b90d01dd5bd36dbc766f57b741b09b1053bd53213b6e619f00d2dd2e0",
+        "scripts/local-preview/studio.js": "7f6aeb4b096a01e030869e234d82f425f5de17841b30436a1ee1e7a68c42fd96",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localCostDetailHeaderDividers": {
+      "requirement": "LOCAL-UI-114",
+      "status": "local browser verified at 1440px",
+      "consumers": ["cost detail table header"],
+      "observed": "five 1px column-group dividers in #CBD0D9; current-cost header still spans two columns and retains its top accent",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.css": "174d98c1678f1f96d00b7a78dd51681723a1405e526152fb19be82f1e14d4730",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localConstructionCostBenchmark": {
+      "requirement": "LOCAL-UI-115",
+      "status": "local browser and edge cases verified",
+      "consumers": ["construction cost comparison chart", "benchmark mean and variance", "full data dialog"],
+      "observed": "Seoul peer mean 803.3, current +509.6 and +63.4%; 1440px and 319px tracks align; project switch and dialog verified; lower, equal, zero mean and missing data cases verified",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "7c8d4eee8b6f14eaf8904440aa8f619ad5f2c3274bbb36bb6b9a59bcf46ae590",
+        "scripts/local-preview/studio.js": "d7f4ce089aea0665a88b078050f180be963ff1d5e9d880f67f27c102fa6ed3cb",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localCostDetailHeaderDividerColor": {
+      "requirement": "LOCAL-UI-116",
+      "status": "local browser verified",
+      "consumers": ["cost detail table header"],
+      "observed": "five header dividers render at 1px in #D8DDE5",
+      "sourceHashes": {
+        "scripts/local-preview/cost-detail.css": "6c59d5378ff96006f5daf63deb9ea4c67eef95f25d4227729c454ef26dcd2735",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localSharedCardSpacing": {
+      "requirement": "LOCAL-UI-117",
+      "status": "local browser verified at 1440px and 390px",
+      "consumers": ["page tabs and cards", "card headings and tables", "feed composer and list"],
+      "observed": "12px cost and permit tab spacing, 12px card and feed gaps; 18px desktop and 16px narrow table inset; land editor open and Escape verified; all 12 main menus visited",
+      "unverified": ["populated law list unavailable in the local preview"],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "561ae5997dcecf41d08b565002d850cdbc62258f4d38caf6c56e37bf3a3a93f6",
+        "scripts/local-preview/feed/theme.css": "7c40a0a95838595eb964724536146b924d240095eda322d25fbaff10f513ea95",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localBenchmarkGuidesAndMeanLabel": {
+      "requirement": "LOCAL-UI-118",
+      "status": "local browser verified at 1440px and 390px",
+      "consumers": ["construction cost benchmark plot", "axis guides and mean label", "full data dialog"],
+      "observed": "12px peer dots and 17px current dot, no horizontal tracks, dashed tick guides aligned, mean 803.3 overlay aligned above mean line, keyboard dialog verified",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "36aa32fbf9ad9d469879db71b2a8d954715bb34f200fdce523e0f72cdc6d6c2a",
+        "scripts/local-preview/studio.js": "200f63b77418d92127b698a3b29a891473858cd066aa41b012e46c081e7d616e",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localBenchmarkTableAndSharedRowSurface": {
+      "requirement": "LOCAL-UI-119",
+      "status": "local browser verified at 1440px and 390px",
+      "consumers": ["benchmark list", "evidence and edit dialogs", "shared table rows"],
+      "observed": "project name 234px and weight 700; year and area padding 6px; comparison left padding 22px; actions right inset 12px; narrow table scrolls internally; shared row and divider colors verified on benchmark and portfolio; evidence and edit close without saving",
+      "unverified": ["delete confirmation and other shared-table consumers were not opened for this change"],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "c6ce92fb84c60b8eb5781efb81ebed1836843a342213907fffa2e2447a8d0bba",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localBenchmarkCompactButtons": {
+      "requirement": "LOCAL-UI-120",
+      "status": "local browser verified at 319px and 1440px",
+      "consumers": ["benchmark add", "benchmark evidence", "benchmark edit", "benchmark delete confirmation"],
+      "observed": "12px fonts; 28px light row buttons separated by 4px; 30px add button flush with the visible table edge; all four dialogs opened and dismissed; row count preserved",
+      "unverified": ["form submission, validation errors and confirmed deletion were not exercised in this presentation change"],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "52575f4a1830933025598cea3202eaca07bb8d92a0465125b2fee267d4636819",
+        ".build/local-preview/platform-12313.html": "baab08bddbf7dac33ae656d8d09f9dddb003486087533213e2cbcb5b52451c35"
+      }
+    },
+    "localConstructionMarketTrends": {
+      "requirement": "LOCAL-UI-121",
+      "status": "local browser verified at 319px and 1440px; official KICT workbook read",
+      "consumers": ["market trends card", "series and version controls", "comparison chart", "source observations", "archive return"],
+      "observed": "2025-10 131.97 to 2026-09 139.48 and +5.69%, 12 observations; August comparison 139.14 and 11 observations; source URL and archive return verified; existing workspaces byte identical",
+      "unverified": ["outbound navigation from the local preview is outside this verification"],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "8c746eeca06909305b1ed7f845c221c4df14375452e18b41e5053bfc49f2b991",
+        "scripts/local-preview/studio.js": "0a05773391d758b35bca062b4867792ed4b932b6616e8256c2e6b374cef60f9c",
+        "scripts/local-preview/server.mjs": "78cb05adbda0e39a1812b6d6508c2ba224861e55dd88ad258c04bab7ac74e631",
+        "src/partners.js": "bb62e9fcbcc608538e14fd4e0ed43ffabb00e9e79b996fa314a26e24886b3c50",
+        ".build/local-preview/market-reference.json": "7585bfe0534a785443de8011f9bfcab44f64bf2c2c0e730ba895b1d53bde7aec",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localMarketTrendsLayout": {
+      "requirement": "LOCAL-UI-122",
+      "status": "local browser verified at 319px and 1440px",
+      "consumers": ["market trend metrics", "grouped date and version fields", "chart endpoints", "source dialog"],
+      "observed": "metrics before filters, 12 observations and two endpoints, 1440px inline controls, 319px full-width date inputs, August comparison, reversed date message, source dialog return",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "ecbfd1490e6d11a92701ff6a86ae90723d3bec9b737571133454b7336540cf17",
+        "scripts/local-preview/studio.js": "ae51fb940c338d74df11788fc28c79596a2b19aa877b8981264895df8da4abbe",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localMarketDatesAndCardTitles": {
+      "requirement": "LOCAL-UI-123",
+      "status": "local browser verified at 319px and 1440px",
+      "consumers": ["market month labels", "market chart axes and area", "cost comparison card titles", "benchmark add and market source dialogs"],
+      "observed": "same-line month dates, axis dates 11px desktop and 14px narrow, all three card titles 18px and weight 650, 12 points and 11 filled intervals, August update and dialog return",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "cac84f8e857f5776d91b4f63dfe76e7676cd6b6b6ef3fff903cf99cee117f5bd",
+        "scripts/local-preview/studio.js": "f71c117798d89fe2bd3521427a248b513f728cd5c07de5adfcd77923b81d48cb",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localContentBottomSpacing": {
+      "requirement": "LOCAL-UI-124",
+      "status": "local browser verified at 390px and 1440px",
+      "consumers": ["workspace content shell", "report read view with hidden editor", "embedded collaboration feed"],
+      "observed": "100px after last content on 12 desktop menu entries and seven narrow screens, including exact visible gap at the end of benchmark scrolling",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "0c1dd57869f01915a4cf3e8a6a8b354cc5b1b85721e4dc2428079ab99fc6ff88",
+        "scripts/local-preview/feed/theme.css": "0f5f4bc6c0d5aa7fe171c623906a18cc98c262903513b1ec33c9f0ecd9228e4d",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localBenchmarkScopeSpacing": {
+      "requirement": "LOCAL-UI-125",
+      "status": "local browser verified at 319px and 1440px",
+      "consumers": ["benchmark comparison table headers and cells"],
+      "observed": "area-to-scope spacing increased by 8px in headers and cells; narrow row heights preserved",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "4e9e184a56e5aa535be1a37760490641ffec7ad19c6381f3db3de41f7d2f83be",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localUnifiedCardHeadersAndAddButtons": {
+      "requirement": "LOCAL-UI-126",
+      "status": "local browser verified at 390px and 1440px",
+      "consumers": ["card and table headings", "heading-row add buttons", "contract and document library", "responsive header action groups"],
+      "observed": "18px card titles; final add buttons 30px high, 14px text and 12px inline padding; 14 desktop and eight narrow buttons measured; project, loan, document and benchmark dialogs opened and closed",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "42d4ba5b2ab5f800942f5d439b3ac5da4b38b74715c96c02474a7807a246378a",
+        "scripts/local-preview/studio.js": "5894521798fd6b67433c9219477294f5e22a3ae848e5ff7f5efccf38e629f855",
+        "scripts/local-preview/portfolio.css": "6ac5be885107eddfbc8f06edd09406b6d8de3c5123a83824f2cda300b4bdde06",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localConstructionChartStrokeAndPoints": {
+      "requirement": "LOCAL-UI-127",
+      "status": "local browser verified at 319px and 1440px",
+      "consumers": ["market trend axes and observations", "benchmark project dots", "benchmark data dialog"],
+      "observed": "market axis text matches date labels, trend stroke 3px, 12 observations, three peer dots 16px, current dot 17px, keyboard dialog open and close",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "6cc5d51ca8cafbbd7bd965af83c2ef94b008411da9ff749d5fe21614c368a607",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localPageHeadingAboveCards": {
+      "requirement": "LOCAL-UI-128",
+      "status": "local browser verified at 390px and 1440px",
+      "consumers": ["workspace page headers above cards", "collaboration feed header", "workspace headers above subtabs"],
+      "observed": "12px below headings in six desktop views including feed, 10px in six views with navigation first, 12px on narrow overview and feed",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "cacc924af82f06f217f79662d0f6f60804563e1a2c80cf8f905c0288c30e2f18",
+        "scripts/local-preview/feed/theme.css": "0b85bc463facb829c1e8f5fefd509a89ea68910c7569e1e6092cd6e98f653858",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localCostAndFinanceMetricSize": {
+      "requirement": "LOCAL-UI-129",
+      "status": "local browser verified at 390px and 1440px",
+      "consumers": ["cost overview KPI numbers", "financing summary numbers", "contract amount detail dialog"],
+      "observed": "five cost and four financing metrics use 20px and preserve their displayed values; two financing columns at 390px; contract amount detail opens and closes",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "4070d6cf2975aacd10e654f23cd06d7d3e97c1812d8f9d8998b769580da8495d",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localMarketSummaryStatus": {
+      "requirement": "LOCAL-UI-130",
+      "status": "local browser verified",
+      "consumers": ["market index summary", "market observations and source dialog"],
+      "observed": "summary shows dates, index values and percentage only; September status remains available in observation detail",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "7117917a45ad48bff2297f65897a2a5857ddf1f92cd5e59fca6c8c113bb687b4",
+        "scripts/local-preview/studio.js": "500d6181d264db92bed79ae464dc336530810f3f076a0fa9ba01d5a814ac1244",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localFeedComposerInset": {
+      "requirement": "LOCAL-UI-131",
+      "status": "local browser verified at desktop and mobile widths",
+      "consumers": ["collaboration feed board", "desktop composer", "mobile write button"],
+      "observed": "board top and left inset and composer-to-list gap all 6px; composer opens and folds; mobile write button remains visible",
+      "sourceHashes": {
+        "scripts/local-preview/feed/theme.css": "de6d23237545065d089ec90701f35903c40405f6e160ed20efa8a7f5664e02ff",
+        ".build/local-preview/work-feed/app.js": "15fc113bfb159585d8a52893b06da78dc0df9714b2ed9a384df4181df0a2b73f"
+      }
+    },
+    "localFinancingMixBar": {
+      "requirement": "LOCAL-UI-132",
+      "status": "local browser verified at 390px and 1440px",
+      "consumers": ["financing capital mix bar", "capital composition dialog"],
+      "observed": "36px pill-shaped bar with blue and teal gradients; segment ratios and amounts preserved; keyboard dialog open and close",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "59df420edf60197856b9c5baa65ddde50763402a70321ce6e0037ed9125a99aa",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localBlueActionButtonSize": {
+      "requirement": "LOCAL-UI-133",
+      "status": "implemented; representative local browser checks passed",
+      "consumers": ["card headers", "toolbars", "dialogs", "feed composer", "feed comment editor"],
+      "baseline": "financing secondary buttons 36px; add loan 30px",
+      "observed": "financing at 1440px and 390px, loan dialog save and cancel, portfolio add, cost detail add, feed post and comment actions use 36px height, 14px text, 12px side padding and 10px radius",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "b83b2b248a0c36e114f5fc050c92f51a4cfa22bdad474d86d6b6f6694f5ca58a",
+        "scripts/local-preview/cost-detail.css": "03fdd657d3fd9c8e925cda676aa2889c0c1c2d20f50024187479546bf5232cb4",
+        "scripts/local-preview/feed/theme.css": "8172321102295cd1a7bf87621c1b5567e093e1a6f6ffb93e26c4d19a69adb99d",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91",
+        ".build/local-preview/work-feed/app.js": "15fc113bfb159585d8a52893b06da78dc0df9714b2ed9a384df4181df0a2b73f"
+      }
+    },
+    "localContentBoxGapIncrease": {
+      "requirement": "LOCAL-UI-134",
+      "status": "implemented; representative desktop and narrow local screens verified",
+      "consumers": ["portfolio", "project overview", "cost overview", "financing", "document list and detail", "permit tabs", "feed composer and list"],
+      "baseline": "shared card gaps 12px and feed composer-to-list gap 6px",
+      "observed": "18px common gaps, including 390px stacked project overview; feed 12px and 6px board inset; cost and permit tab spacing 12px; document detail opened and closed",
+      "unverified": ["full optional browser regression could not launch its Chromium executable; representative in-app browser checks passed"],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "5a22c351babd36fe328679ef057206d6ef94999133ee06986874c410843ef497",
+        "scripts/local-preview/feed/theme.css": "d7a1520515806bd6144573497cba04bc03c25531e570e9c4637d4f76a8371935",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91",
+        ".build/local-preview/work-feed/app.js": "15fc113bfb159585d8a52893b06da78dc0df9714b2ed9a384df4181df0a2b73f"
+      }
+    },
+    "localSidebarLabelSize": {
+      "requirement": "LOCAL-UI-135",
+      "status": "local browser verified at 1440px",
+      "consumers": ["12 main and admin navigation labels", "brand", "sidebar project selector and options", "notifications", "collapsed rail tooltip", "profile display"],
+      "observed": "labels, picker and alert 14px; options 15px; brand 16px; collapsed badge 10px and rail tooltip 14px; profile 14px and 12px and topbar selector 14px unchanged; keyboard picker open and Escape and collapsed tooltip verified",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "67a65e77e8cd2b5b50a3901c6e354aa5d3a2519ed3dd4ce6ee46f5b4be9be1f5",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localSidebarBrandTitle": {
+      "requirement": "LOCAL-UI-136",
+      "status": "automatic check and desktop browser verified",
+      "consumers": ["local sidebar title", "sidebar toggle", "navigation rerender"],
+      "observed": "IDM 개발사업관리 is visible without clipping after expanding and navigating at 1440px",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "db0b71b22c8823879447930cd0de56c145d676250bb2534f3ae788595ea39e87",
+        "tests/local-design-guide.mjs": "4dcbfc704c96b7a364f41b38930e1f0e058a0a16a4ca023d5e6f70a416f97324",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localSharedTooltipStyle": {
+      "requirement": "LOCAL-UI-137",
+      "status": "implemented; representative desktop and narrow browser checks passed",
+      "consumers": ["shared chart, table, and project detail tooltips", "collapsed menu labels", "sidebar toggle hint"],
+      "baseline": "permit hint had dark navy background, no outline and no arrow; chart details had 8px top margin",
+      "observed": "portfolio, cost structure, permits and sidebar hints use white and 4px navy outline; tooltip gap 5px and pointer present; portfolio and permit titles weight 700 with zero content gap; permits stay in viewport at 390px and Escape hides the tip",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "86114bea6a85777ec96f57515716f4f0f092dff32284af70366ba2f334c3260f",
+        "scripts/local-preview/design.css": "cf428b9eea0749ba0f7bdb38a5efab45803643e1928dab5ffeff71d4376db82d",
+        "scripts/local-preview/studio.js": "57b5f1615707be80ba3e681007ed5f38e8cc99f24853dbcad0e668d8b304e982",
+        "tests/local-design-screens.mjs": "7d336333db15232b064d1d429c1edca4cc0962deccd076ca4e6f89735c049917",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localFinancingMixSolidColors": {
+      "requirement": "LOCAL-UI-138",
+      "status": "desktop and narrow browser verified",
+      "consumers": ["financing capital mix bar", "segment tooltips", "capital composition dialog"],
+      "observed": "36px bar, 12px radius, navy and deep sky blue solid fills, existing percentages and amounts retained at desktop and 390px",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "332ac7bbbe29258f9b5efab50f28c831a7c7ff6af9cc178890155865857527d3",
+        ".build/local-preview/platform-4027.html": "82902e42004b697945fab6af900dd51e950568f0aa0993e3222d3323350fdb91"
+      }
+    },
+    "localFinancingLoanTableEditing": {
+      "requirement": "LOCAL-UI-139",
+      "status": "implemented; desktop and narrow browser verified; 24 isolated finance checks passed",
+      "consumers": ["loan table dates and columns", "13 value editors", "loan detail", "finance change history"],
+      "baseline": "read-only table cells with a row edit button and hyphenated dates",
+      "observed": "dot dates at 12px and all columns fit 984px at 1280px; 390px table scroll and date input accessible; name and date controls open on click or keyboard; invalid maturity and cancel verified; existing detail opens; isolated maturity save preserved raw date and added one history record",
+      "sourceHashes": {
+        "src/core.js": "66f686bedbaa8a742d6e10b8e3fd563cbc0ec73f4dfc31238d38e5ef28831e45",
+        "src/contracts.js": "fc191286a6d95c75b81c5d7096380b8d194e1b741a88a20cb33b697bec2c792c",
+        "scripts/local-preview/design.css": "c0cc2f9b126e93157a639507c8de305e3e3d3552e5128714bd65b4b19ff9da75",
+        "scripts/local-preview/studio.js": "d92b8a95873b4ed5db1a89518da6ba5d17518e4389fa9b8d0f103d9bd0e3b136",
+        "tests/continuation125-financing.mjs": "60adbb8dce7591689ff0eaf567471246e2f263b3954efe319e4858e0bc47f365",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localSidebarBrandTitleSize": {
+      "requirement": "LOCAL-UI-140",
+      "status": "desktop browser verified",
+      "consumers": ["local sidebar title", "sidebar toggle"],
+      "observed": "16px to 17px, 39px clearance to sidebar toggle",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "1db783b8dfb021cfc59b498dc8760d6c1d9b1c7b276b69e0ad569de6734c45ed",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localDisplayDateFormat": {
+      "requirement": "LOCAL-UI-141",
+      "status": "representative browser checks and formatter regression passed",
+      "consumers": ["local page text and tables", "dynamic portfolio rows", "dialogs and tooltips", "topbar update date", "feed registration date"],
+      "observed": "visited 12 menus; displayed ISO dates replaced in populated surfaces; dotted tooltip and loan detail, raw date input and datetime attribute confirmed; feed registration uses four digits; topbar date uses dots",
+      "unverified": ["populated law and partner date records were not present in the inspected default views"],
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.js": "23042b9cc968e98c3eaa55112e14a0759bed6f64fefb86d7901afa6188015538",
+        "scripts/local-preview/studio.js": "4892f8abfa9b10eb11976bf65ff277bfd22caf909db1f3912ef452ee311b3736",
+        "scripts/local-preview/feed/presentation.mjs": "b7cbaaf7c142dfc8cbcb035fbc6e3394c43d6f2ff5bf02579c3a22837c7971ab",
+        "tests/local-design-guide.mjs": "63c21f0434760b0b579ea8500937e668b2759c8b37d9543f236d9bbca99fba88",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6",
+        ".build/local-preview/work-feed/app.js": "9659def285696ed0ec4e1e27ec83619d4d7c1cd82ab543c6a40324d274d15474"
+      }
+    },
+    "localFinancingEquityGuaranteeLayout": {
+      "requirement": "LOCAL-UI-142",
+      "status": "desktop and narrow browser verified",
+      "consumers": ["equity table", "guarantee table", "report guarantor disclosure and table", "row actions and confirmation dialogs"],
+      "observed": "aligned card titles, add buttons and first three columns, 6px action gap, 28px action height and 10px table inset; guarantor title is shown once; add, edit and delete confirmation cancelled and mobile edit accessible after horizontal scroll",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "1b04fd1bed5463046e5a422fec7abd94bb3ad8ebedd53364a836960dfee6fc6b",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localLoanPencilCursor": {
+      "requirement": "LOCAL-UI-143",
+      "status": "desktop browser computed style and edit flow verified",
+      "consumers": ["loan value triggers", "loan details", "inline editing input"],
+      "observed": "26 enabled value triggers use the pencil cursor; detail remains pointer and editor remains text; edit and cancel checked",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "694406e88f38a28c3ff81b3679cd67e51aa5010e93154eaf340ad1408e846407",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localFinancingAmountAdjacentSpacing": {
+      "requirement": "LOCAL-UI-144",
+      "status": "desktop browser verified",
+      "consumers": ["guarantee description column", "report guarantor scope column"],
+      "observed": "both headers and values have 18px start padding, increased from 10px",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "5e33929043a0cd77cab4323c130cf1020f097135edbd07b1e0623b0d52f01364",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localPortfolioBarRefresh": {
+      "requirement": "LOCAL-UI-146",
+      "status": "desktop browser and local design guide verified",
+      "consumers": [
+        "portfolio cost track and segments",
+        "chart legend and current marker",
+        "cost detail modal",
+        "financing mix color"
+      ],
+      "observed": "18px track and segments; financing navy #253985 matches initial bar and legend; #2380ED decrease segment, triangle and legend; keyboard detail open and Escape close",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.css": "f3f0b343c93ad3fe564f563fb24de127364a79f89da6225e53c934c228a38b02",
+        "scripts/local-preview/design.css": "02ea93126624201da66b036d309f0c7d76d1bbd0b061fb486dac8a69e44d4971",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localPortfolioBarEnds": {
+      "requirement": "LOCAL-UI-147",
+      "status": "desktop browser verified",
+      "consumers": [
+        "portfolio cost track",
+        "initial and change segments",
+        "current marker",
+        "chart legend",
+        "cost detail modal"
+      ],
+      "observed": "three tracks with 0px left and 6px right radius, 18px height, same rounded clipping to the furthest segment, separate current marker, Enter and Escape for Yongin detail",
+      "sourceHashes": {
+        "scripts/local-preview/portfolio.css": "4c63b0c4a3b1b42817a8237b4ced81c2e45355b0c1140465527d9150aa1c9b48",
+        "scripts/local-preview/portfolio.js": "bd5e31ef58af3cac51fd10d4432a41203de1b18af4a51f745266f08964a1899e",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localCostChartPalette": {
+      "requirement": "LOCAL-UI-148",
+      "status": "desktop browser verified",
+      "consumers": [
+        "waterfall bars and tooltip",
+        "cost composition bars",
+        "cost and funding stacks and legends",
+        "cost detail modal"
+      ],
+      "observed": "four waterfall bars with top 12px and bottom 0px; six composition bars and ten stack colors match legends; keyboard and tooltip checked",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "e350b2e82fe9b28b28152136f351e9c4ffb4e9f6bc452e5b6443d04aab7de150",
+        "scripts/local-preview/studio.js": "044542615af6c45a246f27fb207d3667003eccd14bc0ffc095b76d0e2392360c",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localChartTooltipSpacing": {
+      "requirement": "LOCAL-UI-149",
+      "status": "desktop browser verified",
+      "consumers": [
+        "portfolio cost tooltip",
+        "cost overview chart tooltip and notes"
+      ],
+      "observed": "Yongin four line tops spaced 23px, label and value tops match, Escape dismisses; cost composition note margin 3px and pointer present",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "6259412f2d2bc7445e4284b8a64eb56b5aba274c014ab596309aa53aba15fa4d",
+        "scripts/local-preview/portfolio.js": "bd5e31ef58af3cac51fd10d4432a41203de1b18af4a51f745266f08964a1899e",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localBenchmarkTypography": {
+      "requirement": "LOCAL-UI-150",
+      "status": "desktop browser verified; mobile CSS verified",
+      "consumers": [
+        "benchmark chart labels and amounts",
+        "full benchmark dataset dialog"
+      ],
+      "observed": "1280px: four names and amounts 15px, names 700, amounts right aligned and Inter; full dataset dialog opened and closed; 13px mobile rule",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "270400ba1e94022367e95ef58fb307fa98200fdcc314c6ffb6c41a99d19844f3",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localNumericFontRecheck": {
+      "requirement": "LOCAL-UI-151",
+      "status": "desktop and mobile browser verified within recorded scope",
+      "consumers": [
+        "12 main views and 22 subtabs",
+        "table values and chart tick labels",
+        "chart tooltip and full benchmark dialog",
+        "report editor and date field",
+        "work feed list and details",
+        "project registration and notifications"
+      ],
+      "observed": "Inter first for rendered numeric text and controls; all five glyphs of benchmark 1,313 rendered by the bundled Inter Variable; 390px benchmark checked; no write requests",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "270400ba1e94022367e95ef58fb307fa98200fdcc314c6ffb6c41a99d19844f3",
+        "scripts/local-preview/feed/theme.css": "d7a1520515806bd6144573497cba04bc03c25531e570e9c4637d4f76a8371935",
+        "scripts/local-preview/InterVariable.woff2": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localMutedCostCharts": {
+      "requirement": "LOCAL-UI-152",
+      "status": "desktop browser verified",
+      "consumers": [
+        "cost waterfall bars, axis break and detail",
+        "cost composition",
+        "funding stack and legends"
+      ],
+      "observed": "IGIS navy #253985 for totals, construction and equity; consistent legends; muted rise and fall; double-wave mark; flatter upper corners with square base; detail keyboard flow",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "d1259d9ec324c15ad6aa2b47fc2e57376697f9b5b3c6ad2408a4f03098eb6ee6",
+        "scripts/local-preview/studio.js": "01776206bab5757925c1a1f1c1ed14af4a51f8678eef1223b007e3c1f244ec50",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localKpiWeight": {
+      "requirement": "LOCAL-UI-153",
+      "status": "desktop browser verified",
+      "consumers": [
+        "cost overview KPI values and contract button",
+        "financing summary values"
+      ],
+      "observed": "five cost and four financing KPI values plus contract button use Inter 20px weight 700; contract evidence modal opens and closes",
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "ba4e4d654179412960f5122a093b29f2657534297f108dbea463d329efaa247d",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "teamWorkspacePreview": {
+      "requirement": "REVIEW-PREVIEW-01",
+      "consumers": ["portfolio", "sidebar", "cost detail", "work feed", "browser storage", "Vercel access and branch URL"],
+      "status": "GitHub branch published; isolated browser verified; Vercel deployment blocked",
+      "verification": {
+        "commit": "c1ebc06c4ced66099f730443dc2f67b5b8b3f2ea",
+        "htmlSha256": "65ecc9fa23e727a4c8c41ce8a2ef7fa76ba8b642c232cd325f6b2366a92d6273",
+        "cloudAccessVerified": false,
+        "operationalRequestsDuringBrowserTest": 0
+      }
+    },
+    "githubPagesTemporaryReview": {
+      "requirement": "REVIEW-PREVIEW-02",
+      "status": "public temporary review deployed; desktop verified",
+      "consumers": [
+        "GitHub Pages review route",
+        "IOTA root",
+        "project portfolio",
+        "financing",
+        "work feed",
+        "browser-only storage"
+      ],
+      "verification": {
+        "pullRequest": "https://github.com/IGIS-Realasset-Platform/IGIS-Fund-Production-DP/pull/1",
+        "deploymentRun": 43150842633,
+        "commit": "5164e0ff38882408797128256eb0381564e0eb81",
+        "url": "https://iotaseoul.cloud/idm-review/",
+        "htmlSha256": "c564742bdde11a6ba619cf06b61c4a9d179388b33d486f45c796cfdf7540eed3",
+        "publicAccessVerified": true,
+        "productionDataInBundle": false,
+        "scope": "23 added static assets under public/idm-review/"
+      }
+    },
+    "localFinancingStages": {
+      "requirement": "LOCAL-UI-154",
+      "status": "implemented; desktop and isolated local storage verified",
+      "consumers": [
+        "stage selector",
+        "financing stage KPI",
+        "stage comparison table",
+        "add/edit/delete dialog",
+        "capital segments",
+        "lender and investor list",
+        "loan table",
+        "cost data",
+        "sidebar"
+      ],
+      "observed": "stage reasons, per-metric notes, create/edit/cancel/delete, revision conflict, project isolation and restart; actual committed and contributed amounts, hover and keyboard; sidebar remains when feature module returns 404",
+      "unverified": [
+        "IOTA authenticated screen; reviewed local source and provided reference image",
+        "production connection outside scope"
+      ],
+      "sourceHashes": {
+        "scripts/local-preview/finance-overview.js": "05d7ece343820c733b0882d5aa226bb11f293753b8fc75e90fe3f7030b16c552",
+        "scripts/local-preview/finance-overview.css": "f80a6a2f5e84f6970667f5db7c82b3477450e4cf9632690ac746e892c88ad63f",
+        "scripts/local-preview/finance-stage-fields.js": "1cb44acbeb3b8fa310da5cf66525aad87f5ed3811ed06a1e37d36a9ff4e34e57",
+        "scripts/local-preview/finance-stage-store.mjs": "b747cc27363e96028a1abf69dcb3d7285b6f255275a76f3e18abe4b047be50fb",
+        "scripts/local-preview/studio.js": "fc0460d48db3bb4e2442d9eb4209b4666038dae99af9734106dfbbba27bae34c",
+        "scripts/local-preview/server.mjs": "d785f57d0e4bc736b79d7149f4d4aa95d4754f812abd8795dda9e2e880884397",
+        "scripts/local-preview/design.css": "e8ba8e779539f197c3cbab4f338e30cec09b65cd9f8d5dba177eec818192c28d",
+        ".build/local-preview/platform-18443.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localSidebarIconRefresh": {
+      "requirement": "LOCAL-UI-145",
+      "status": "desktop browser and sidebar regression verified",
+      "consumers": ["sidebar menu icons", "project picker", "notification", "sidebar toggle"],
+      "observed": "12 distinct menu symbols, 18px expanded and 20px collapsed, navy selected home, project and notification symbols, keyboard collapse and navigation to financing",
+      "sourceHashes": {
+        "scripts/local-preview/studio.js": "d87847f9da2bb1fe0f7bc4bde704d0348b5c154b589a1421f20942adad3d491f",
+        "scripts/local-preview/design.css": "02ea93126624201da66b036d309f0c7d76d1bbd0b061fb486dac8a69e44d4971",
+        ".build/local-preview/platform-4027.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+      }
+    },
+    "localSharedTablesAndHeadings": {
+      "requirement": "LOCAL-UI-65",
+      "status": "implemented; rendered local screens checked",
+      "consumers": ["portfolio", "overview facts", "cost tables", "financing", "permit list and map", "document library and details", "partner and settings screens", "spec and report screens"],
+      "baseline": "portfolio alone had the shared visual target; 69px card title and bordered white facts table on overview",
+      "observed": "11 menu screens and 22 tabs; 58px regular title rows including four financing titles; #F2F4F7 portfolio and overview surfaces, 0.5px portfolio heading divider; permit map and loan detail navigation, CBS sticky columns and edit cancel",
+      "unverified": ["populated law rows are unavailable in local preview", "optional Playwright suite lacks its module"],
+      "sourceHashes": {
+        "scripts/local-preview/design.css": "6e89ba93955cd0700bcea95604314d9417cea39231673bb5a7bb00aa18c22b2f",
+        "scripts/local-preview/portfolio.css": "9b7c13cb1599023f608d36d74b635d81e38c9c5d182dc1e16bccb181ba6a0f8c",
+        "scripts/local-preview/cost-detail.css": "a365a5456835cde3ddb9bfbfda3d5e082072d5ced842da823d4048a28621fc14",
+        ".build/local-preview/platform-51470.html": "b2abce69074a0d2c9c53ae78478fd01d6c85058aa2e16b55cd5cea6c42b90d4d"
+      }
+    }
   }
 }

@@ -48,6 +48,11 @@
    const style=row.kind==='total'?'total':row.kind==='cost'&&(row.level===0||row.companyConstructionBranch)?'root':'default',cells=[cell(row.categoryName||'',style),cell(row.name,style)];
    for(let index=0;index<projection.columns.length;index++){
     const column=projection.columns[index],value=row.values[index],amount=projection.mode==='amount'?value.rawWon:value.value,delta=projection.mode==='amount'?value.rawDeltaWon:value.delta,format=row.kind==='area'?'#,##0.00':projection.mode==='unit'?unitNumberFormat(amount):'#,##0,,',deltaFormat=projection.mode==='unit'?unitNumberFormat(delta):'#,##0,,';
+    if(column.role==='contract'){
+     cells.push(value.valueStatus==='unknown'?cell('미확인',style):
+      cell(amount,style,value.valueStatus==='empty'?'#,##0,,;-#,##0,,;""':format,'number'));
+     continue;
+    }
     cells.push(cell(row.kind==='area'?value.value:amount,style,format,'number'));if(column.hasDelta)cells.push(cell(row.kind==='area'?null:delta,style,row.kind==='area'?'#,##0.00':deltaFormat,'number'));
    }
    cells.push(cell(row.composition,style,'0.0%','number'));rows.push({cells});

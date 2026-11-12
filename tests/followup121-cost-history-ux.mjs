@@ -12,4 +12,26 @@ check('HUX05 structured multi-field event shows every business change without su
 check('HUX06 child creation separates its amount from the independent parent rollup and carries actual reason',()=>{const h=fixture();h.A.state.auditEvents=[{...h.event,action:'COST_BREAKDOWN_CREATE',field:undefined,label:undefined,type:undefined,before:null,reason:undefined,after:{id:'changed',name:'설계 변경',current:30000000,parentAmountBefore:2000000000,parentAmount:2030000000,reason:'발주처 요청 변경',sourcePath:'QA/change'}}];h.action('cbs-history',{id:'changed'});const table=rows(h.html());assert(table.some(r=>r[0].includes('하위 항목 추가')&&r[1]==='—'&&r[2]==='3,000만원'));assert(table.some(r=>r[0].includes('상위항목 합계')&&r[1]==='20억원'&&r[2]==='20.3억원'&&r[3].includes('증가 3,000만원')));assert(table.some(r=>r[4].includes('발주처 요청 변경')&&r[4].includes('QA/change')));assert(!h.html().includes('추가 정보'));});
 check('HUX07 soft-deleted child is removed from sum, not displayed as unchanged or fabricated zero',()=>{const h=fixture(),after={id:'changed',name:'삭제할 변경분',current:30000000,parentAmount:2000000000,deletedAt:'2026-10-21',reason:'독립 계약범위 취소'};h.A.state.auditEvents=[{...h.event,action:'COST_BREAKDOWN_DELETE',field:undefined,label:undefined,type:undefined,reason:undefined,before:{id:'changed',name:after.name,current:30000000,parentAmount:2030000000},after}];const original=JSON.stringify(h.A.state.auditEvents);h.action('cbs-history',{id:'changed'});const table=rows(h.html());assert(table.some(r=>r[0].includes('하위 항목 삭제')&&r[1]==='3,000만원'&&r[2]==='삭제됨'&&r[3]==='합계에서 제외'));assert(table.some(r=>r[0].includes('상위항목 합계')&&r[1]==='20.3억원'&&r[2]==='20억원'));assert.equal(JSON.stringify(h.A.state.auditEvents),original);});
 check('HUX08 one-won edit keeps exact before/after visible even when abbreviated money rounds both alike',()=>{const h=fixture();h.A.state.auditEvents=[{...h.event,before:6253850000,after:6253850001}];h.action('cbs-history',{id:'changed'});const row=rows(h.html()).find(r=>r[3]?.includes('증가 1원'));assert(row);assert(row[1].includes('6,253,850,000원'));assert(row[2].includes('6,253,850,001원'));assert.notEqual(row[1],row[2]);const detail=h.A.auditPresentation.renderDetail(h.A.state.auditEvents[0]);assert(detail.includes('6,253,850,000원')&&detail.includes('6,253,850,001원'),'the retained generic detail uses the same exact money-cell definition');});
+check('local history collapses only equal current and amount aliases within one event',()=>{
+ const h=fixture();
+ const event={...h.event,action:'UPDATE',field:undefined,label:undefined,
+  before:{amount:6253850000,current:6253850000,budget:6253850000},
+  after:{amount:6253850001,current:6253850001,budget:6253850001,budgetState:'active',currentEvidenceResolved:true,applicability:'적용'}};
+ const history=h.A.auditPresentation.renderCostHistory;
+ const stored=JSON.stringify(event);
+ const list=rows(history([event,{...event,id:'second',after:{...event.after,amount:6253850002}}],{project:h.p,compact:true})).slice(1);
+ assert.equal(list.length,5);
+ assert.deepEqual(list.map(row=>row[0].replace('흙막이·지정공사','')),['현재 사업비','예산','금액','현재 사업비','예산']);
+ assert.equal(list.filter(row=>row[3].includes('증가 2원')).length,1);
+ assert.equal(JSON.stringify(event),stored);
+ assert.equal(rows(history([event],{project:h.p})).length,7);
+});
+check('local recent history omits bookkeeping-only events before applying its limit',()=>{
+ const h=fixture();
+ const metadata={...h.event,id:'metadata',action:'UPDATE',field:undefined,label:undefined,
+  before:{budgetState:'template'},after:{budgetState:'active',templateOnly:false}};
+ const list=rows(h.A.auditPresentation.renderCostHistory([metadata,h.event],{project:h.p,limit:1,compact:true}));
+ assert.equal(list.length,2);
+ assert.ok(list[1].includes('구조설계 변경 반영'));
+});
 console.log(JSON.stringify({suite:'followup121-cost-history-ux',checks,passed:checks.filter(x=>x.status==='passed').length,failed:checks.filter(x=>x.status==='failed').length,actualDatabase:false,actualBrowser:false,sourceOfExpectedValues:'approved user screenshot plus independent synthetic null/zero/structured counterexamples'}));if(checks.some(x=>x.status==='failed'))process.exitCode=1;
