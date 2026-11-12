@@ -815723,6 +815723,7 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localFinanceHeading165": {"requirement": "LOCAL-UI-165", "status": "desktop before/after verified", "marginBefore": 12, "marginAfter": 18, "nextPanelDelta": 6, "portfolio": "unchanged", "sourceSha256": "25e24c0dd2f19bc76a53acc0154b5e413411f27f4e601fc4c5989d780b660ecd"},
     "localMilestoneCapture164": {
       "requirement": "LOCAL-UI-164",
       "status": "implemented; isolated browser and model regression passed; live read-only forms verified",

@@ -12,7 +12,7 @@
 
 2026-11-10 로컬 추가 정리: 팝업 좌우 기준선·중복 인허가 박스·메뉴 열기/닫기 모션 반영. 전체 주 메뉴와 주요 팝업을 확인했으며 외부 조회·모든 저장/출력 분기는 별도 미검증입니다. [LOCAL-UI-09~10 결과](docs/local-design-system.md).
 
-로컬 페이지 제목 아래 여백은 표·카드 바로 앞 12px, 하위 탭 앞 10px입니다. [LOCAL-UI-128](docs/local-design-system.md#local-ui-128-표카드-바로-위-페이지-제목-여백) · [프로젝트 정보 정렬](docs/local-design-system.md#local-ui-88-로컬-페이지-제목-여백과-프로젝트-정보-정렬)
+로컬 페이지 제목 아래 여백은 표·카드 바로 앞 12px, 하위 탭 앞 10px입니다. 파이낸싱은 LOCAL-UI-165에 따라18px입니다. [LOCAL-UI-128](docs/local-design-system.md#local-ui-128-표카드-바로-위-페이지-제목-여백) · [프로젝트 정보 정렬](docs/local-design-system.md#local-ui-88-로컬-페이지-제목-여백과-프로젝트-정보-정렬)
 
 개발·검토 참여: [현재 작업](docs/CURRENT-WORK.md) · [전체 요구사항](docs/요구사항_누적_체크리스트.md) · [구성요소 검수](docs/component-review-matrix.md)
 
