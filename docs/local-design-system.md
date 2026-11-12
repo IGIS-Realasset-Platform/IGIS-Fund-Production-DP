@@ -1083,3 +1083,7 @@ LOCAL-UI-68의 제목 기준을 표의 실제 첫 줄 기준으로 바꿉니다.
 [변경 #1](https://github.com/IGIS-Realasset-Platform/IGIS-Fund-Production-DP/pull/1)의 [Pages 배포](https://github.com/IGIS-Realasset-Platform/IGIS-Fund-Production-DP/actions/runs/43150842633)가 완료됐습니다. 공개 HTML SHA-256 `c564742bdde11a6ba619cf06b61c4a9d179388b33d486f45c796cfdf7540eed3`이 검수 파일과 일치합니다. 실제 주소에서 목록·파이낸싱을 열었고 이오타 루트는 HTTP 200입니다. 검토 종료 시 경로 파일을 제거하고 같은 Pages 작업으로 반영합니다.
 
 2026-11-12 갱신에서 현재 작업실의 세 사업과 저장된 파이낸싱 단계를 같은 링크에 반영했습니다. 공개 사업 데이터의 SHA-256은 `9f1731100b2833493efd776324042ed3637b0813d3c23285d9a8a6afb8de5d17`이며 로컬 저장 상태와 일치합니다. [변경 #2](https://github.com/IGIS-Realasset-Platform/IGIS-Fund-Production-DP/pull/2) · [Pages 배포](https://github.com/IGIS-Realasset-Platform/IGIS-Fund-Production-DP/actions/runs/43154393396)
+
+## LOCAL-UI-155 사업 단계와 금액 종류 구분
+
+154의 최초UW/준공추정원가 선택을 사업 단계명 선택으로 대체합니다. 최근 단계 수정과 단계 추가는 단계 선택 우측에 배치합니다. 비교 카드는 직전 단계명을 보여주며 상세표에 전체 시점의 금액·증감·이슈를 함께 표시합니다. 현재 원장과 과거 기록의 금액은 서로 덮어쓰지 않습니다. [명세/검수](local-finance-milestones-spec.md).

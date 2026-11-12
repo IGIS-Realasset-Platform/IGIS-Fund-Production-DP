@@ -509,3 +509,5 @@ node scripts/verify-center120.mjs
 - [v0.12.1 당시 통합 검수·남은 조건](docs/followup-20261022-verification.md)
 - [버전 이력](VERSION_HISTORY.md)
 - [변경 내역](CHANGELOG.md)
+
+로컬 검토본의 사업 단계별 비교 변경은 [LOCAL-UI-155 명세/검수](docs/local-finance-milestones-spec.md)를 참조합니다. 운영 배포와 별개입니다.

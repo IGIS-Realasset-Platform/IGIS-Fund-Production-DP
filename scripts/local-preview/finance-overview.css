@@ -163,6 +163,7 @@
 .studio-stage-actions {display:flex;gap:6px;flex-shrink:0}
 .dp-app #content .studio-stage-table {margin-top:10px}
 .studio-stage-table[hidden] {display:none}
+.studio-stage-table .studio-cost-bases {width:100%;table-layout:fixed}
 .studio-stage-table :is(th,td) {vertical-align:top}
 .studio-stage-table th:first-child {font-size:13px;text-align:left;white-space:nowrap}
 .studio-stage-table :is(th,td):not(:first-child) {min-width:150px;white-space:normal;overflow-wrap:anywhere}
@@ -266,6 +267,12 @@
 .studio-stage-input-grid > b,.studio-stage-input-grid > div > span {font-size:12px;color:var(--muted)}
 .studio-stage-form :is(input,textarea) {min-width:0;width:100%}
 .studio-stage-error {margin:0;color:#a91a30;font-weight:600}
+.studio-milestone-toolbar {display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:12px}
+.studio-milestone-toolbar > .studio-stage-selector {flex:0 1 auto;min-width:0;margin:0}
+.studio-milestone-toolbar > .studio-stage-actions {flex:none;display:flex;gap:8px}
+.studio-legacy-stages {margin-top:18px}
+.studio-legacy-stages > summary {color:var(--muted);font-size:13px;cursor:pointer}
+.studio-milestone-fields {border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:12px}
 @media (max-width:560px) {
  .studio-stage-metrics {gap:6px}
  .studio-stage-metrics > div {padding:9px}

@@ -815723,6 +815723,45 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localFinancingMilestones": {
+      "requirement": "LOCAL-UI-155",
+      "status": "implemented; isolated browser and local desktop verified",
+      "spec": "docs/local-finance-milestones-spec.md",
+      "consumers": [
+        "single milestone selector and summary",
+        "previous-stage comparison",
+        "current stage edit dialog",
+        "cost stage create/correct form",
+        "financeContext snapshot storage",
+        "expanded reason table",
+        "legacy SQLite records",
+        "loan/equity totals"
+      ],
+      "unverified": [
+        "native correction save UI and concurrent revision conflict not exercised in this run",
+        "legacy cost snapshot fixtures src/demo.js and src/data/legacy-seed.json absent",
+        "production outside scope"
+      ],
+      "verified": [
+        "named milestones and previous-stage metrics",
+        "single workspace save for native cost snapshot and financing context",
+        "current name/date/reasons edit and date validation",
+        "cancel discard and failed save input retention",
+        "reload and project isolation",
+        "live loan commitment updates funding without changing history",
+        "original costs, contracts, loans and equities preserved",
+        "legacy SQLite CRUD and sidebar fallback"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/finance-milestones.js": "17626930f41cef01b930f3c925d8f9f19f2e161ae97f78bd5315027ec559dfc8",
+        "scripts/local-preview/finance-overview.js": "cedd9351ab6b369711b4c0ea7e5ccc0067f2571c476985d5b67c7c5414e9ffd4",
+        "scripts/local-preview/finance-overview.css": "e0fd5e29b8298bf68ae616ef626bf8128fa6389ce67d3d8c30fb33e706af2b1f",
+        "scripts/local-preview/studio.js": "d2cc7c2b14cc52fc67a3aa74df6a6b8810be2a5fc67eccdc554e74640cec9e33",
+        "src/cbs.js": "e2d1f636714bb18014afa81918e7db4652c3c9b6f8b6efac57cc743f63ab2ef3",
+        "tests/local-finance-browser.mjs": "cbd8a939d2c93a5d55f2e7f05b0a1afb35af440ac0fe6209fb1945a236cee97e",
+        "tests/local-finance-milestones.mjs": "8f31dcf4ea81104e09107f803444b812d84ff0363e0545225f7a064cbfdf9526"
+      }
+    },
     "localSidebarIconRefresh": {
       "requirement": "LOCAL-UI-145",
       "status": "desktop browser and sidebar regression verified",

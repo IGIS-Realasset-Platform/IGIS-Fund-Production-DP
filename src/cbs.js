@@ -533,9 +533,10 @@
   const editable=draft.captureMode==='manual'||!!correction,leaves=draft.nodes.filter(x=>!draft.nodes.some(y=>y.parentId===x.id)),roots=draft.nodes.filter(x=>!x.parentId),area=stageArea(p,draft);
   const amounts=editable?A.table(['원가항목','당시 금액 · 원'],leaves.map((x,i)=>[esc(x.name),'<input name="phaseAmount_'+i+'" type="number" step="1" value="'+esc(draft.values[x.id]??'')+'" aria-label="'+esc(x.name)+' 당시 금액">'])):A.table(['원가항목','현재 기록할 금액'],roots.map(x=>[esc(x.name),valueText(stageInfo(draft,x.id).value)]));
   const areas=areaFields.slice(0,2).map(([key,label])=>A.field('area_'+key,label+' · ㎡',area[key]??'','number')).join('')+'<details class="full cbs-form-details"><summary>면적 상세</summary><div class="form-grid">'+areaFields.slice(2).map(([key,label])=>A.field('area_'+key,label+' · ㎡',area[key]??'','number')).join('')+'</div></details>'+A.field('areaDate','면적 기준일',area.date||'','date')+A.field('areaSource','면적 근거 경로',area.source||'');
-  const fields=areaConflictMarkup(p,draft)+areas+(editable?A.field('reportedTotal','원자료에 적힌 총액 · 원, 선택',draft.reportedTotal??'','number'):'')+'<div class="full cbs-phase-inputs">'+amounts+'</div>';
+  const fields=areaConflictMarkup(p,draft)+areas+(editable?A.field('reportedTotal','원자료에 적힌 총액 · 원, 선택',draft.reportedTotal??'','number'):'')+'<div class="full cbs-phase-inputs">'+amounts+'</div>'+(A.financeMilestones?.fields(p,draft)||'');
   A.form(correction?'시점 정정':draft.label+' 기록',fields,v=>{
    const current=resolveOwner();
+   if(A.financeMilestones)draft.financeContext=A.financeMilestones.read(v);
    if(editable){leaves.forEach((row,i)=>{const raw=v['phaseAmount_'+i];draft.values[row.id]=row.managementAdjustment&&!unknown(raw)?A.parseInlineValue('money',raw,1):parseMoney(raw);});draft.reportedTotal=parseMoney(v.reportedTotal);}
    draft.area=normalizeArea({...Object.fromEntries(areaFields.map(([key])=>[key,v['area_'+key]])),date:v.areaDate,source:v.areaSource});draft.areaVersionId=null;normalizeSnapshotValues(draft);validateStageArea(current,draft);
    const previous=previousFor(current,correction),changes=compareSnapshots(projectedStage(current,previous),draft),must=mandatory.has(controlKind(draft))?changes.filter(needsReason):[];

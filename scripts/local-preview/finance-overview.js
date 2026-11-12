@@ -1,11 +1,11 @@
 import {stageFields} from './finance-stage-fields.js';
+import {milestoneRows,installMilestoneCapture,editCurrentMilestone} from './finance-milestones.js';
 
 const eok=100_000_000;
 const groupColors=['#253985','#426eaa','#5886a2','#796ba4','#536b87','#815c84'];
 const stageViews=new Map();
 const stageFieldsByKey=new Map(stageFields.map(field=>[field.key,field]));
 const volumeKeys=['funding','cost','sale','land','construction','interest'];
-const costKeys=['cost','land','construction','interest'];
 const summaryLabels={funding:'총 조달규모',land:'토지매입비'};
 const amountOf=value=>{
  if(typeof value!=='number'&&(typeof value!=='string'||!value.trim()))return null;
@@ -42,7 +42,7 @@ function renderCapital(A,capital,summary,project,total){
  const chart=document.createElement('div');
  chart.className='studio-capital-chart';
  chart.innerHTML=`
-  ${total>0&&!hasMissing?'<p class="studio-capital-caption">대출 약정액·출자액 기준</p>':''}
+  ${total>0&&!hasMissing?`<p class="studio-capital-caption">${A.esc(project.financeCurrentStage?.name||'현재')} · 대출 약정액·출자액 기준</p>`:''}
   <div class="studio-capital-bar" role="group" aria-label="약정·출자 기준 조달 비중"${total>0&&!hasMissing?'':' hidden'}></div>
   ${hasMissing&&groups.length?'<p class="studio-finance-note">약정액 또는 출자액이 모두 확인되면 조달 비중을 표시합니다.</p>':''}
   ${!groups.length?'<p class="studio-finance-note">등록된 대출·출자 내역이 없습니다.</p>':''}
@@ -103,20 +103,12 @@ function changeText(A,value,previous,unit){
  return (delta>0?'+':delta<0?'−':'')+fieldDisplay(A,Math.abs(delta),unit);
 }
 function displayDate(date){return date.replaceAll('-','.');}
-function projectDuration({periodStart,periodEnd}={}){
- const month=value=>{
-  const match=/^(\d{4})-(0[1-9]|1[0-2])(?:-\d{2})?$/.exec(value||'');
-  return match?Number(match[1])*12+Number(match[2]):null;
- };
- const start=month(periodStart),end=month(periodEnd);
- return start!==null&&end!==null&&end>=start?end-start:null;
-}
 function stageComparison(A,field,baseline,stage){
  const {key,label,unit}=field;
  const value=stage.values[key],initial=baseline?.values[key];
  const delta=value==null||initial==null?null:value-initial;
  const compare=baseline&&baseline!==stage;
- return `<article class="studio-stage-pair"><h4>${label}</h4>
+ return `<article class="studio-stage-pair"><h4>${summaryLabels[key]||label}</h4>
   <div class="studio-stage-values">
    ${compare?`<div><span>${A.esc(baseline.name)}</span><b>${fieldDisplay(A,initial,unit)}</b></div><span aria-hidden="true">→</span>`:''}
    <div><span>${A.esc(stage.name)}</span><b>${fieldDisplay(A,value,unit)}</b></div>
@@ -227,29 +219,11 @@ export function decorateFinancing(A,content,project){
  root.insertBefore(stagePanel,capital);
  const body=stagePanel.querySelector('.studio-stage-body');
  const url='/api/local-finance-stages?'+new URLSearchParams({projectId:project.id});
- const nodes=new Map(A.companyCostProfile.managementNodes(project).map(node=>[node.companyProfileKey,node.id]));
- function costValues(snapshot){
-  const value=key=>nodes.has(key)?A.domain.modeValue(project,nodes.get(key),snapshot,'amount'):null;
-  return{
-   cost:snapshot?A.domain.modeValue(project,'total',snapshot,'amount'):A.total(project),
-   land:value('land_purchase'),construction:value('construction'),interest:value('finance'),
-  };
- }
- const costBases=A.domain.activeStages(project).map(snapshot=>({
-  id:'snapshot:'+snapshot.id,name:snapshot.label||'사업비 비교 기준',date:snapshot.date,values:costValues(snapshot),
-  reasons:Object.entries(snapshot.reasons||{}).filter(([,reason])=>typeof reason==='string'&&reason.trim()).map(([id,reason])=>
-   [snapshot.nodes?.find(node=>node.id===id)?.name,reason]),
- }));
- const initial=A.domain.underwriting(project);
- const initialTotal=A.total(project,'initial');
- const baseline=initial?costBases.find(basis=>basis.id==='snapshot:'+initial.id):
-  initialTotal===null?null:{id:'initial',name:'최초 언더라이팅',values:{cost:initialTotal}};
- if(!initial&&baseline)costBases.unshift(baseline);
- const current={id:'current',name:'준공추정원가',values:costValues(null)};
- costBases.push(current);
- const currentProject={name:'현재 사업',values:{duration:projectDuration(project.basic)}};
- const summaryLabel=(field,basis)=>field.key==='cost'&&basis===current?current.name:summaryLabels[field.key]||field.label;
- const summaryValue=(field,basis)=>fieldDisplay(A,field.key==='funding'?funding:basis.values[field.key]);
+ installMilestoneCapture(A);
+ const costBases=milestoneRows(A,project);
+ const current=costBases.at(-1);
+ const summaryLabel=field=>summaryLabels[field.key]||field.label;
+ const summaryValue=(field,basis)=>fieldDisplay(A,basis.values[field.key]);
  let stages=[],recordsState='loading';
  if(!stageViews.has(project.id))stageViews.set(project.id,{selectedId:null,detailsOpen:false,volume:'funding'});
  const view=stageViews.get(project.id);
@@ -258,14 +232,16 @@ export function decorateFinancing(A,content,project){
   const stage=stages.find(row=>row.id===view.selectedId)||stages.at(-1);
   view.selectedId=stage?.id;
   const basis=selectedBasis();
-  const gfa=A.areas.current(project).gfaTotal;
-  const periodEnd=project.basic?.periodEnd;
+  const baseline=costBases[costBases.indexOf(basis)-1]||null;
+  const gfa=basis.gfa;
+  const periodEnd=basis.periodEnd;
   const volume=stageFieldsByKey.get(view.volume);
   body.innerHTML=`
-   <div class="studio-stage-selector" role="group" aria-label="사업비 비교 기준 선택">
+   <div class="studio-milestone-toolbar"><div class="studio-stage-selector" role="group" aria-label="사업비 비교 기준 선택">
     ${costBases.map(row=>`<button type="button" aria-pressed="${row===basis}" data-cost-basis="${A.esc(row.id)}">
      ${row.date?`<span>${A.esc(displayDate(row.date))}</span>`:''}<strong>${A.esc(row.name)}</strong></button>`).join('')}
    </div>
+   <div class="studio-stage-actions"><button type="button" class="btn" data-milestone-edit>최근 단계 수정</button><button type="button" class="btn primary" data-action="stage-open">+ 단계 추가</button></div></div>
    <div class="studio-stage-volume">
     <div class="studio-stage-volume-main">
      <span data-volume-label>${summaryLabel(volume,basis)}</span>
@@ -283,11 +259,11 @@ export function decorateFinancing(A,content,project){
        <div><span>사업 종료 예정</span><b>${A.esc(periodEnd?displayDate(periodEnd):'—')}</b></div>
        <div><span>연면적</span><b>${gfa==null||gfa===''?'—':A.num(gfa)+'㎡'}</b></div>
       </div>
-      ${stageComparison(A,stageFieldsByKey.get('duration'),null,currentProject)}
+      ${stageComparison(A,stageFieldsByKey.get('duration'),baseline,basis)}
      </div>
      <div class="studio-stage-comparison-grid">
       ${stageComparison(A,stageFieldsByKey.get('cost'),baseline,basis)}
-      ${stageComparison(A,stageFieldsByKey.get('sale'),null,currentProject)}
+      ${stageComparison(A,stageFieldsByKey.get('funding'),baseline,basis)}
       ${['construction','interest'].map(key=>stageComparison(A,stageFieldsByKey.get(key),baseline,basis)).join('')}
      </div>
      <button type="button" class="studio-stage-reveal" data-stage-action="details" aria-controls="studio-stage-table" aria-expanded="${view.detailsOpen}">
@@ -295,13 +271,16 @@ export function decorateFinancing(A,content,project){
      </button>
    </div>
    <div id="studio-stage-table" class="table-wrap studio-stage-table" role="region" aria-label="개발 단계별 비교표 스크롤" tabindex="0"${view.detailsOpen?'':' hidden'}>
-    <table class="dense-table studio-cost-bases" aria-label="원가관리 비교 기준">
-     <thead><tr><th scope="col">원가관리 비교 기준</th>${costBases.map(row=>`<th scope="col" data-selected="${row===basis}">${A.esc(row.name)}${row.date?`<small>${A.esc(displayDate(row.date))}</small>`:''}</th>`).join('')}</tr></thead>
-     <tbody>${costKeys.map(key=>`<tr><th scope="row">${summaryLabels[key]||stageFieldsByKey.get(key).label}</th>
-      ${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${fieldDisplay(A,row.values[key])}</strong></td>`).join('')}</tr>`).join('')}
-      ${costBases.some(row=>row.reasons?.length)?`<tr><th scope="row">증감 사유</th>${costBases.map(row=>`<td data-selected="${row===basis}">${row.reasons?.length?row.reasons.map(([name,reason])=>`<small>${A.esc(name?name+' · '+reason:reason)}</small>`).join(''):'—'}</td>`).join('')}</tr>`:''}
+    <table class="dense-table studio-cost-bases" aria-label="원가관리 비교 기준" style="min-width:${140+costBases.length*220}px">
+     <colgroup><col style="width:140px">${costBases.map(()=>'<col>').join('')}</colgroup>
+     <thead><tr><th scope="col">핵심 지표</th>${costBases.map(row=>`<th scope="col" data-selected="${row===basis}">${A.esc(row.name)}${row.date?`<small>${A.esc(displayDate(row.date))}</small>`:''}</th>`).join('')}</tr></thead>
+     <tbody>${stageFields.map(({key,label,unit})=>`<tr><th scope="row">${summaryLabels[key]||label}</th>
+      ${costBases.map((row,index)=>`<td data-selected="${row===basis}"><strong>${fieldDisplay(A,row.values[key],unit)}</strong>${index?`<small>${changeText(A,row.values[key],costBases[index-1].values[key],unit)}</small>`:''}${row.notes?.[key]?`<small>${A.esc(row.notes[key])}</small>`:''}</td>`).join('')}</tr>`).join('')}
+      ${costBases.some(row=>row.reason||row.reasons?.length)?`<tr><th scope="row">증감 사유</th>${costBases.map(row=>`<td data-selected="${row===basis}">${row.reason?A.esc(row.reason):''}${row.reasons?.length?row.reasons.map(([name,reason])=>`<small>${A.esc(name?name+' · '+reason:reason)}</small>`).join(''):row.reason?'':'—'}</td>`).join('')}</tr>`:''}
+      <tr><th scope="row"></th>${costBases.map(row=>`<td>${row.snapshot?A.btn('단계 정정','stage-correct',{id:row.snapshot.id}):'<button type="button" class="btn" data-milestone-edit>최근 단계 수정</button>'}</td>`).join('')}</tr>
      </tbody>
     </table>
+    <details class="studio-legacy-stages"${view.legacyOpen?' open':''}><summary>이전 별도 단계 기록</summary>
     <div class="studio-stage-controls">
      ${stage?`<div class="studio-stage-selector" role="group" aria-label="저장된 단계 기록 선택">
       ${stages.map(row=>`<button type="button" aria-pressed="${row===stage}" data-stage-id="${A.esc(row.id)}">
@@ -317,6 +296,7 @@ export function decorateFinancing(A,content,project){
       <tr><th scope="row">변경 사유·관련 이슈</th>${stages.map(row=>`<td data-selected="${row===stage}">${A.esc(row.reason)}</td>`).join('')}</tr>
      </tbody>
     </table>`:`<p class="studio-finance-note" role="status">${recordsState==='loading'?'개발 단계 기록을 불러오는 중입니다.':recordsState==='error'?'개발 단계 기록을 불러오지 못했습니다. <button type="button" class="btn" data-stage-action="retry">다시 불러오기</button>':'등록된 개발 단계가 없습니다.'}</p>`}
+    </details>
    </div>`;
  }
  async function load(){
@@ -332,9 +312,13 @@ export function decorateFinancing(A,content,project){
    if(stagePanel.isConnected)render();
   });
  }
+ stagePanel.addEventListener('toggle',event=>{
+  if(event.target.matches('.studio-legacy-stages')&&event.target.isConnected)view.legacyOpen=event.target.open;
+ },true);
  stagePanel.addEventListener('click',event=>{
   const button=event.target.closest('button');
   if(!button)return;
+  if(button.hasAttribute('data-milestone-edit')){editCurrentMilestone(A,project);return;}
   if(button.dataset.volumeKey){
    view.volume=button.dataset.volumeKey;
    const field=stageFieldsByKey.get(view.volume);

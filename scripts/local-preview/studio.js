@@ -3,6 +3,7 @@
 import {decoratePortfolio,formatDisplayDates,positionLocalTooltip,registerChartTooltip} from './portfolio.js';
 import {decorateCostDetail} from './cost-detail.js';
 import {decoratePermits} from './permits.js';
+import('./finance-milestones.js').then(({installMilestoneCapture})=>installMilestoneCapture(App)).catch(error=>console.error('단계 입력 연결:',error));
 
 const screens={
  'portfolio':{view:'portfolio',tab:'',title:'전체 프로젝트 현황',decorate:decoratePortfolio},
