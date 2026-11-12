@@ -815723,6 +815723,60 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localStageCapitalAndFacts": {
+      "requirements": [
+        "LOCAL-UI-157",
+        "LOCAL-UI-158"
+      ],
+      "status": "model and isolated browser passed; actual 4178 desktop verified",
+      "verified": [
+        "all seven metrics plus GFA/end month across three stages",
+        "shared original overview facts visibly identified as reference",
+        "selected-stage source totals and upper/lower agreement",
+        "historical investors/tranches immutable after live loan change",
+        "native captured capital form save and roles preserved",
+        "cancel/error/reload/project isolation",
+        "current loan/equity tables labelled with current stage while viewing history"
+      ],
+      "scenario": {
+        "underwriting": {
+          "equity": 600,
+          "bridge": 1500,
+          "total": 2100
+        },
+        "refinance": {
+          "equity": 900,
+          "senior": 1500,
+          "junior": 400,
+          "total": 2800
+        },
+        "mainPF": {
+          "equity": 1100,
+          "senior": 1950,
+          "total": 3050
+        },
+        "unit": "억원"
+      },
+      "preserved": [
+        "operating DB and original workspace file",
+        "initial/current cost ledgers and contracts",
+        "live commitment/executed/balance amounts",
+        "pre-scenario loans/equities in financeScenarioOriginal",
+        "superseded stage copies"
+      ],
+      "unverified": [
+        "production deployment outside scope",
+        "all historical correction combinations not exhaustively tested"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/finance-milestones.js": "039e366534b0634716e55e285adb107e07b3adc9707fd01102cbd85fd6b823fe",
+        "scripts/local-preview/finance-overview.js": "cbb3bb4102edd8592901ba7d2f694a82a1269c96504c85263f66bc70efeee9a0",
+        "scripts/local-preview/finance-capital.js": "a3fa7024f2407478f9733d79f71cda9c2d112edd934ac4f82a5ad90cfe2ee019",
+        "tests/local-finance-browser.mjs": "46e3cfcad172c1b34575836a48702f72f5f52d7df691efebccec4c452374b173",
+        "tests/local-finance-milestones.mjs": "c49ce7de3f0d2ea0d744283d425d0b909dda97978e333e75b2c23681dfe96e2c",
+        "tests/local-finance-capital.mjs": "c2be47afec08d8272a24f92907f4ce2a3def731a2d8c0720f68afa202eb68dc5"
+      }
+    },
     "localUnderwritingConnection": {
       "requirement": "LOCAL-UI-156",
       "status": "native values preserved; existing local underwriting financial context connected",

@@ -1,3 +1,4 @@
+import {currentCapitalSources,capitalSourceTotal,capitalSourceGroups} from './finance-capital.js';
 import {stageFields} from './finance-stage-fields.js';
 import {milestoneRows,installMilestoneCapture,editCurrentMilestone} from './finance-milestones.js';
 
@@ -14,26 +15,16 @@ const amountOf=value=>{
 };
 const totalOf=values=>values.length&&values.every(value=>value!==null)?values.reduce((sum,value)=>sum+value,0):null;
 
-export function capitalGroups(project){
- const groups=new Map();
- function add(key,name,person,amount,role){
-  if(!groups.has(key))groups.set(key,{name,people:[]});
-  groups.get(key).people.push({name:person,amount:amountOf(amount),role});
- }
- for(const equity of project.equities||[]){
-  if(!equity.deletedAt)add('equity','자기자본',equity.company,equity.amount,equity.purpose);
- }
- for(const loan of project.loans||[]){
-  if(loan.deletedAt)continue;
-  const tranche=String(loan.trancheName||loan.tranche||'').trim();
-  const group=[loan.type,loan.rank].filter(Boolean).join(' · ')||'구분 미입력';
-  add(tranche?'tranche:'+tranche:'loan:'+group,tranche||group,loan.institution,loan.commitment,tranche?group:'');
- }
- return [...groups.values()].map(group=>({...group,total:totalOf(group.people.map(person=>person.amount))}));
-}
+export function capitalGroups(project){return capitalSourceGroups(currentCapitalSources(project));}
 
-function renderCapital(A,capital,summary,project,total){
- const groups=capitalGroups(project);
+function renderCapital(A,capital,summary,project,basis){
+ const total=basis.values.funding,sources=basis.capitalSources||[];
+ const groups=capitalSourceGroups(sources);
+ const sum=kind=>capitalSourceTotal(sources.filter(row=>row.kind===kind));
+ summary.innerHTML=[['총 조달규모',total],['자기자본',sum('equity')],['대출 약정',sum('debt')]].map(([label,value])=>'<div><span>'+label+'</span><b>'+(value==null?'—':A.money(value))+'</b></div>').join('');
+ const detailButton=capital.querySelector('.panel-header button');
+ detailButton.removeAttribute('data-action');
+ detailButton.onclick=()=>A.modal(basis.name+' · 조달 내역',A.table(['구분','트랜치','자금 제공자','약정·출자액'],sources.map(row=>[row.kind==='equity'?'출자':'대출',A.esc(row.tranche),A.esc(row.party),row.amount==null?'—':A.money(row.amount)])),basis.snapshot?A.btn('단계 정정','stage-correct',{id:basis.snapshot.id}):'');
  const money=amount=>amount===null?'—':A.money(amount);
  const hasMissing=total===null||totalOf(groups.map(group=>group.total))!==total;
  const body=capital.querySelector('.panel-body');
@@ -42,10 +33,10 @@ function renderCapital(A,capital,summary,project,total){
  const chart=document.createElement('div');
  chart.className='studio-capital-chart';
  chart.innerHTML=`
-  ${total>0&&!hasMissing?`<p class="studio-capital-caption">${A.esc(project.financeCurrentStage?.name||'현재')} · 대출 약정액·출자액 기준</p>`:''}
+  ${total>0&&!hasMissing?`<p class="studio-capital-caption">${A.esc(basis.name)} · ${basis.snapshot?'당시 약정·출자 기준':'대출 약정액·출자액 기준'}</p>`:''}
   <div class="studio-capital-bar" role="group" aria-label="약정·출자 기준 조달 비중"${total>0&&!hasMissing?'':' hidden'}></div>
   ${hasMissing&&groups.length?'<p class="studio-finance-note">약정액 또는 출자액이 모두 확인되면 조달 비중을 표시합니다.</p>':''}
-  ${!groups.length?'<p class="studio-finance-note">등록된 대출·출자 내역이 없습니다.</p>':''}
+  ${!groups.length?'<p class="studio-finance-note">이 단계에 저장된 조달 내역이 없습니다.</p>':''}
   <div class="studio-capital-investment"><div class="studio-capital-totals"></div><div class="studio-capital-groups"></div></div>`;
  body.append(chart);
  const bar=chart.querySelector('.studio-capital-bar');
@@ -210,14 +201,13 @@ export function decorateFinancing(A,content,project){
  const summary=root?.querySelector(':scope > .recovery-summary');
  const capital=root?.querySelector('.panel-header [data-action="finance-capital-detail"]')?.closest('.panel');
  if(!summary||!capital||!project)return;
- const funding=A.contracts.financeCapitalTotals(project).total;
- renderCapital(A,capital,summary,project,funding);
  const stagePanel=document.createElement('section');
  stagePanel.className='panel studio-finance-stages';
  stagePanel.innerHTML=`<div class="panel-header"><div class="panel-title"><h3>개발 단계별 핵심 지표</h3></div></div>
   <div class="panel-body studio-stage-body"></div>`;
  root.insertBefore(stagePanel,capital);
  const body=stagePanel.querySelector('.studio-stage-body');
+ const liveHeadings=[...root.querySelectorAll('.table-toolbar-left')].filter(el=>['대출현황','출자자'].includes(el.textContent.trim())).map(el=>({el:el.querySelector('strong')||el,title:el.textContent.trim()}));
  const url='/api/local-finance-stages?'+new URLSearchParams({projectId:project.id});
  installMilestoneCapture(A);
  let costBases=milestoneRows(A,project);
@@ -232,6 +222,8 @@ export function decorateFinancing(A,content,project){
   const stage=stages.find(row=>row.id===view.selectedId)||stages.at(-1);
   view.selectedId=stage?.id;
   const basis=selectedBasis();
+  renderCapital(A,capital,summary,project,basis);
+  for(const {el,title}of liveHeadings)el.textContent=basis.snapshot?title+' · '+current.name:title;
   const baseline=costBases[costBases.indexOf(basis)-1]||null;
   const gfa=basis.gfa;
   const periodEnd=basis.periodEnd;
@@ -256,8 +248,8 @@ export function decorateFinancing(A,content,project){
    <div class="studio-stage-comparison">
      <div class="studio-stage-project">
       <div class="studio-stage-facts">
-       <div><span>사업 종료 예정</span><b>${A.esc(periodEnd?displayDate(periodEnd):'—')}</b></div>
-       <div><span>연면적</span><b>${gfa==null||gfa===''?'—':A.num(gfa)+'㎡'}</b></div>
+       <div><span>사업 종료 예정</span><b>${A.esc(periodEnd?displayDate(periodEnd):'—')}</b>${basis.periodEndReference?'<small>시작월·개발기간 기준</small>':''}</div>
+       <div><span>연면적</span><b>${gfa==null||gfa===''?'—':A.num(gfa)+'㎡'}</b>${basis.gfaReference?'<small>사업개요 기준</small>':''}</div>
       </div>
       ${stageComparison(A,stageFieldsByKey.get('duration'),baseline,basis)}
      </div>
@@ -276,6 +268,8 @@ export function decorateFinancing(A,content,project){
      <thead><tr><th scope="col">핵심 지표</th>${costBases.map(row=>`<th scope="col" data-selected="${row===basis}">${A.esc(row.name)}${row.date?`<small>${A.esc(displayDate(row.date))}</small>`:''}</th>`).join('')}</tr></thead>
      <tbody>${stageFields.map(({key,label,unit})=>`<tr><th scope="row">${summaryLabels[key]||label}</th>
       ${costBases.map((row,index)=>`<td data-selected="${row===basis}"><strong>${fieldDisplay(A,row.values[key],unit)}</strong>${index?`<small>${changeText(A,row.values[key],costBases[index-1].values[key],unit)}</small>`:''}${row.notes?.[key]?`<small>${A.esc(row.notes[key])}</small>`:''}</td>`).join('')}</tr>`).join('')}
+      <tr><th scope="row">연면적</th>${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${row.gfa==null?'—':A.num(row.gfa)+'㎡'}</strong>${row.gfaReference?'<small>사업개요 기준</small>':''}</td>`).join('')}</tr>
+      <tr><th scope="row">사업 종료 예정</th>${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${row.periodEnd?A.esc(displayDate(row.periodEnd)):'—'}</strong>${row.periodEndReference?'<small>시작월·개발기간 기준</small>':''}</td>`).join('')}</tr>
       ${costBases.some(row=>row.reason||row.reasons?.length)?`<tr><th scope="row">증감 사유</th>${costBases.map(row=>`<td data-selected="${row===basis}">${row.reason?A.esc(row.reason):''}${row.reasons?.length?row.reasons.map(([name,reason])=>`<small>${A.esc(name?name+' · '+reason:reason)}</small>`).join(''):row.reason?'':'—'}</td>`).join('')}</tr>`:''}
       <tr><th scope="row"></th>${costBases.map(row=>`<td>${row.snapshot?A.btn('단계 정정','stage-correct',{id:row.snapshot.id}):'<button type="button" class="btn" data-milestone-edit>최근 단계 수정</button>'}</td>`).join('')}</tr>
      </tbody>

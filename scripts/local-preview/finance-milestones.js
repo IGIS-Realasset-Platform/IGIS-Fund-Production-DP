@@ -1,3 +1,4 @@
+import {currentCapitalSources,capitalSourceTotal,validateCapitalSources} from './finance-capital.js';
 // A milestone is a dated cost snapshot with its own financing context.
 // The live milestone only names the current ledger; it never rewrites costs.
 export function projectDuration({periodStart,periodEnd}={}){
@@ -8,6 +9,12 @@ export function projectDuration({periodStart,periodEnd}={}){
  const start=month(periodStart),end=month(periodEnd);
  return start!==null&&end!==null&&end>=start?end-start:null;
 }
+export function endingMonth(start,duration){
+ const match=/^(\d{4})-(0[1-9]|1[0-2])$/.exec(start||'');
+ if(!match||!Number.isInteger(duration)||duration<0)return '';
+ const month=Number(match[1])*12+Number(match[2])-1+duration;
+ return String(Math.floor(month/12)).padStart(4,'0')+'-'+String(month%12+1).padStart(2,'0');
+}
 export function milestoneRows(A,project){
  const nodes=new Map(A.companyCostProfile.managementNodes(project).map(node=>[node.companyProfileKey,node.id]));
  const costs=snapshot=>{
@@ -17,13 +24,18 @@ export function milestoneRows(A,project){
  };
  const rows=A.domain.activeStages(project).map(snapshot=>{
   const extra=A.financeMilestones?.context(project,snapshot)||snapshot.financeContext||{};
+  const area=A.areas.forStage(project,snapshot)?.gfaTotal??null,reference=project.financeReferenceFacts||{};
+  const gfaReference=area===null&&reference.gfaTotal!=null;
+  const derivedEnd=endingMonth(reference.periodStart,extra.duration);
+  const periodEndReference=!extra.periodEnd&&!!derivedEnd;
   return {id:'snapshot:'+snapshot.id,snapshot,name:snapshot.label||'사업 단계',date:snapshot.date||extra.date||'',
-   values:{funding:extra.funding??null,sale:extra.sale??null,duration:extra.duration??null,...costs(snapshot)},
-   gfa:A.areas.forStage(project,snapshot)?.gfaTotal??null,periodEnd:extra.periodEnd||'',reason:extra.reason||'',
+   capitalSources:extra.capitalSources||null,
+   values:{funding:extra.capitalSources?capitalSourceTotal(extra.capitalSources):extra.funding??null,sale:extra.sale??null,duration:extra.duration??null,...costs(snapshot)},
+   gfa:area??reference.gfaTotal??null,gfaReference,periodEnd:extra.periodEnd||derivedEnd,periodEndReference,reason:extra.reason||'',
    notes:extra.notes||{},reasons:Object.entries(snapshot.reasons||{}).filter(([,text])=>typeof text==='string'&&text.trim()).map(([id,text])=>[snapshot.nodes?.find(node=>node.id===id)?.name,text])};
  });
  const meta=project.financeCurrentStage||{};
- rows.push({id:'current',name:meta.name||'최근 사업 단계',date:meta.date||'',
+ rows.push({id:'current',capitalSources:currentCapitalSources(project),name:meta.name||'최근 사업 단계',date:meta.date||'',
   values:{funding:A.contracts.financeCapitalTotals(project).total,sale:meta.sale??null,duration:projectDuration(project.basic),...costs(null)},
   gfa:A.areas.current(project).gfaTotal,periodEnd:project.basic?.periodEnd||'',reason:meta.reason||'',notes:meta.notes||{}});
  return rows;
@@ -56,10 +68,12 @@ export function installMilestoneCapture(A){
    const data=saved||(draft.captureMode==='current'?{
     funding:A.contracts.financeCapitalTotals(project).total,sale:project.financeCurrentStage?.sale,
     duration:projectDuration(project.basic),periodEnd:project.basic?.periodEnd,
-    reason:project.financeCurrentStage?.reason,notes:project.financeCurrentStage?.notes,
+    reason:project.financeCurrentStage?.reason,notes:project.financeCurrentStage?.notes,capitalSources:currentCapitalSources(project),
    }:{});
+   const sources=data.capitalSources||[];
+   const capital=sources.length?'<div class="full"><input type="hidden" name="financeCapitalCount" value="'+sources.length+'">'+A.table(['구분','트랜치','자금 제공자','약정·출자액 · 원'],sources.map((row,i)=>['<input type="hidden" name="capitalRole_'+i+'" value="'+A.esc(row.role||'')+'"><input type="hidden" name="capitalId_'+i+'" value="'+A.esc(row.id)+'"><input type="hidden" name="capitalKind_'+i+'" value="'+A.esc(row.kind)+'">'+(row.kind==='equity'?'출자':'대출'),'<input aria-label="트랜치" name="capitalTranche_'+i+'" value="'+A.esc(row.tranche)+'">','<input aria-label="자금 제공자" name="capitalParty_'+i+'" value="'+A.esc(row.party)+'">','<input aria-label="약정·출자액" type="number" name="capitalAmount_'+i+'" value="'+A.esc(row.amount??'')+'">']))+'</div>':'';
    return '<fieldset class="full studio-milestone-fields"><legend>당시 조달·사업 지표</legend><div class="form-grid">'+
-    A.field('financeFunding','총 조달규모 · 원',data.funding??'','number')+
+    A.field('financeFunding','총 조달규모 · 원',data.funding??'','number')+capital+
     A.field('financeSale','매각 목표 · 원',data.sale??'','number')+
     A.field('financeDuration','개발기간 · 개월',data.duration??'','number')+
     A.field('financePeriodEnd','사업 종료 예정 · 연월',data.periodEnd||'','month')+
@@ -75,7 +89,12 @@ export function installMilestoneCapture(A){
    if(reason.length>1000)throw Error('변경 사유는 1,000자 이내로 입력해 주세요.');
    const notes=Object.fromEntries(['cost','funding','construction','interest'].map(key=>[key,String(values['financeNote_'+key]||'').trim()]));
    if(Object.values(notes).some(text=>text.length>500))throw Error('지표별 사유는 500자 이내로 입력해 주세요.');
-   return {funding:amount(values.financeFunding,'총 조달규모'),sale:amount(values.financeSale,'매각 목표'),duration,periodEnd,reason,notes};
+   const funding=amount(values.financeFunding,'총 조달규모');
+   let capitalSources;
+   const count=Number(values.financeCapitalCount||0);
+   if(!Number.isInteger(count)||count<0||count>100)throw Error('조달 구성 개수를 확인해 주세요.');
+   if(count){capitalSources=validateCapitalSources(Array.from({length:count},(_,i)=>({id:values['capitalId_'+i],kind:values['capitalKind_'+i],tranche:values['capitalTranche_'+i],party:values['capitalParty_'+i],role:values['capitalRole_'+i]||'',amount:amount(values['capitalAmount_'+i],'약정·출자액')})));if(capitalSourceTotal(capitalSources)!==funding)throw Error('총 조달규모를 자금 제공자별 약정·출자액 합계와 맞춰 주세요.');}
+   return {...(capitalSources?{capitalSources}:{}),funding,sale:amount(values.financeSale,'매각 목표'),duration,periodEnd,reason,notes};
   },
  };
 }
@@ -96,7 +115,7 @@ export function editCurrentMilestone(A,project){
   if(previous?.date&&date<previous.date)throw Error('최근 단계 기준일은 직전 단계보다 빠를 수 없습니다.');
   if(!reason||reason.length>1000)throw Error('변경 사유·관련 이슈를 1,000자 이내로 입력해 주세요.');
   const extra=A.financeMilestones.read({financeSale:values.sale,financeReason:reason,...Object.fromEntries(['cost','funding','construction','interest'].map(key=>['financeNote_'+key,values['note_'+key]]))});
-  const next={name,date,reason,sale:extra.sale,notes:extra.notes};
+  const next={...meta,name,date,reason,sale:extra.sale,notes:extra.notes};
   A.transaction(()=>{owner.financeCurrentStage=next;A.audit('UPDATE','financeCurrentStage',owner.id,meta,next,'최근 사업 단계 수정',{projectId:owner.id,view:'finance'});});
  },'저장');
 }

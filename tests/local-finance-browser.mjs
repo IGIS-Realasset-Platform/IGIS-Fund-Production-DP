@@ -12,9 +12,9 @@ assert.deepEqual(capitalGroups({loans:[
  {institution:'대주 C',type:'본PF',rank:'후순위',commitment:''},
  {institution:'삭제 대주',type:'브릿지론',deletedAt:'2026-01-01',commitment:10},
 ],equities:[{company:'출자자',amount:0}]}),[
- {name:'자기자본',total:0,people:[{name:'출자자',amount:0,role:undefined}]},
+ {name:'자기자본',total:0,people:[{name:'출자자',amount:0,role:''}]},
  {name:'Tr.A',total:600,people:[{name:'대주 A',amount:500,role:'선순위'},{name:'대주 B',amount:100,role:'선순위'}]},
- {name:'본PF · 후순위',total:null,people:[{name:'대주 C',amount:null,role:''}]},
+ {name:'본PF · 후순위',total:null,people:[{name:'대주 C',amount:null,role:'후순위'}]},
 ]);
 
 const require=createRequire(import.meta.url);
@@ -114,6 +114,8 @@ try{
  await volume.getByRole('button',{name:'원가',exact:true}).click();
  assert.equal(await lowerFunding.innerText(),'3,050억원');
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost]);
+ assert.equal(await structure.locator('.studio-capital-bar').isVisible(),false,'과거 구성 미입력에 현재 조달 막대를 재사용하면 안 됩니다');
+ assert.equal(await structure.locator('.studio-capital-groups article').count(),0);
  await basis.getByRole('button',{name:'최근 사업 단계',exact:true}).click();
  await details.click();
  await showLegacy();
@@ -156,7 +158,10 @@ try{
  await equity.press('Escape');
  assert.equal(await structure.locator('article:visible').count(),3);
  await main.getByRole('button',{name:'조달 내역 보기'}).click();
- await page.getByRole('dialog',{name:'자금구성'}).waitFor();
+ const capitalDialog=page.getByRole('dialog',{name:'최근 사업 단계 · 조달 내역'});
+ await capitalDialog.waitFor();
+ assert.deepEqual(await capitalDialog.getByRole('columnheader').allTextContents(),['구분','트랜치','자금 제공자','약정·출자액']);
+ assert.equal(await capitalDialog.locator('tbody tr').count(),4);
  await page.keyboard.press('Escape');
 
  await showLegacy();
@@ -247,7 +252,9 @@ try{
  assert.equal(await stage.locator('[data-volume-value]').innerText(),'5,000억원');
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,'5,000억원']);
  assert.equal(await upperFunding.innerText(),'2,800억원');
- assert.equal(await lowerFunding.innerText(),'3,050억원');
+ assert.equal(await lowerFunding.innerText(),'2,800억원');
+ assert.equal(await structure.locator('.studio-capital-bar').isVisible(),false);
+ assert.equal(await structure.locator('.studio-capital-groups article').count(),0);
  assert.match(await compare.locator('.studio-stage-facts').innerText(),/2029\.09/);
  assert.match(await compare.getByRole('heading',{name:'개발기간',exact:true}).locator('..').innerText(),/60개월/);
  await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
@@ -289,6 +296,46 @@ try{
  await basis.getByRole('button',{name:/본PF 1차/}).waitFor();
  await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
  assert.equal(await stage.locator('[data-volume-value]').innerText(),'6,300억원');
+ // Capture a distinct historical capital structure through the native stage form.
+ // All edits use this test's temporary workspace; source commitments remain intact.
+ await stage.locator('[data-action="stage-open"]').click();
+ await page.locator('#app-form [name="label"]').fill('조달구성 확정');
+ await page.locator('#app-form [name="date"]').fill(await page.evaluate(()=>App.today));
+ await page.locator('#app-form [name="capture"]').selectOption('current');
+ await page.getByRole('button',{name:'금액·면적 입력',exact:true}).click();
+ await page.locator('#app-form [name="financeCapitalCount"]').waitFor({state:'attached'});
+ const sourceIds=await page.locator('#app-form [name^="capitalId_"]').evaluateAll(nodes=>nodes.map(node=>({id:node.value,index:node.name.split('_')[1]})));
+ assert.equal(sourceIds.length,4);
+ const originalLoanId=projectA(workspace).loans[0].id;
+ const capturedLoan=sourceIds.find(row=>row.id==='loan:'+originalLoanId);
+ assert.ok(capturedLoan);
+ await page.locator('#app-form [name="capitalParty_'+capturedLoan.index+'"]').fill('당시 브릿지 투자자');
+ await page.locator('#app-form [name="capitalTranche_'+capturedLoan.index+'"]').fill('Bridge 당시');
+ await page.locator('#app-form [name="capitalAmount_'+capturedLoan.index+'"]').fill('65000000000');
+ await page.locator('#app-form [name="financeFunding"]').fill('280000000000');
+ await page.locator('#app-form [name="financeReason"]').fill('당시 투자자별 조달 계획');
+ await saveForm();
+ const withCapital=await readWorkspace();
+ const capitalSnapshot=projectA(withCapital).costStages.find(row=>row.label==='조달구성 확정');
+ assert.equal(capitalSnapshot.financeContext.capitalSources.length,4);
+ assert.equal(capitalSnapshot.financeContext.capitalSources.reduce((sum,row)=>sum+row.amount,0),280000000000);
+ assert.deepEqual(projectA(withCapital).loans,projectA(workspace).loans);
+ await basis.getByRole('button',{name:/조달구성 확정/}).click();
+ assert.equal(await upperFunding.innerText(),'2,800억원');
+ assert.equal(await lowerFunding.innerText(),'2,800억원');
+ assert.equal(await bar.getByRole('button').count(),3);
+ assert.match(await structure.locator('.studio-capital-groups').innerText(),/당시 브릿지 투자자/);
+ assert.doesNotMatch(await structure.locator('.studio-capital-groups').innerText(),/A은행/);
+ await main.getByRole('button',{name:'조달 내역 보기'}).click();
+ const historicalCapital=page.getByRole('dialog',{name:'조달구성 확정 · 조달 내역'});
+ await historicalCapital.waitFor();
+ assert.match(await historicalCapital.innerText(),/당시 브릿지 투자자/);
+ assert.match(await historicalCapital.innerText(),/650억원/);
+ await page.keyboard.press('Escape');
+ await basis.getByRole('button',{name:/본PF 1차/}).click();
+ assert.equal(await upperFunding.innerText(),'3,050억원');
+ assert.equal(await lowerFunding.innerText(),'3,050억원');
+ assert.match(await structure.locator('.studio-capital-groups').innerText(),/A은행/);
  // The existing loan editor changes the live total only, never the captured financing context.
  await main.locator('[data-action="loan-detail"]').first().click();
  await page.getByRole('dialog').locator('[data-action="loan-edit"]').click();
@@ -303,10 +350,17 @@ try{
  assert.equal(await lowerFunding.innerText(),'3,150억원');
  assert.equal(await linkedCost.locator('b').innerText(),currentCost);
  const loanChanged=await readWorkspace();
- assert.deepEqual(projectA(loanChanged).costStages,projectA(captured).costStages);
+ assert.deepEqual(projectA(loanChanged).costStages,projectA(withCapital).costStages);
+ await basis.getByRole('button',{name:/조달구성 확정/}).click();
+ assert.equal(await upperFunding.innerText(),'2,800억원');
+ assert.equal(await lowerFunding.innerText(),'2,800억원');
+ assert.match(await structure.locator('.studio-capital-groups').innerText(),/당시 브릿지 투자자/);
+ assert.match(await structure.locator('.studio-capital-groups').innerText(),/650억원/);
  await basis.getByRole('button',{name:/중간 사업비 검토/}).click();
  assert.equal(await upperFunding.innerText(),'2,800억원');
  assert.equal(await linkedCost.locator('b').innerText(),'5,000억원');
+ assert.equal(await lowerFunding.innerText(),'2,800억원');
+ assert.equal(await structure.locator('.studio-capital-bar').isVisible(),false);
  await page.locator('#project-select').selectOption('TEST-20261016-B');
  await basis.getByRole('button',{name:'최근 사업 단계',exact:true}).waitFor();
  assert.equal(await basis.getByRole('button',{name:/중간 사업비 검토|본PF 1차/}).count(),0);
@@ -336,8 +390,8 @@ try{
  assert.equal(await page.locator('#sidebar-profile').isVisible(),true);
  assert.deepEqual(errors,[]);
  assert.deepEqual(external,[]);
- assert.deepEqual(workspaceWrites,Array(4).fill('/api/workspace'));
- console.log('LOCAL-UI-155 단계별 전체지표·직전단계 비교·현재조달 연동·취소/실패·프로젝트 격리 및 이전 단계기록 보존 확인');
+ assert.deepEqual(workspaceWrites,Array(5).fill('/api/workspace'));
+ console.log('LOCAL-UI-158 선택단계별 조달내역·합계·트랜치/투자자·과거불변 및 LOCAL-UI-155 단계별 전체지표·직전단계 비교·현재조달 연동·취소/실패·프로젝트 격리 및 이전 단계기록 보존 확인');
 }finally{
  if(browser)await browser.close();
  if(server?.listening)await new Promise(resolve=>server.close(resolve));
