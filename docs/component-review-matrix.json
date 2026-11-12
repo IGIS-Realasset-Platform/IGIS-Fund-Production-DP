@@ -815723,6 +815723,29 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localCardRadius162": {
+      "requirement": "LOCAL-UI-162",
+      "cardRadius": 30,
+      "financeOutlineRadius": 37,
+      "feed": "unchanged",
+      "scope": [
+        "shared content panels",
+        "dialogs",
+        "finance32px internal cards"
+      ],
+      "preserved": [
+        "width",
+        "gaps",
+        "data",
+        "controls"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/design.css": "75d2bdf7ccb9a57b62f004b00c60acc1d88b700795a4ba0ac5c9db2fe146ed42",
+        "scripts/local-preview/finance-overview.css": "9f79551654a69e403d410879d54a6a75372c6e23e44da0e5fc0331d4f2c980e2"
+      },
+      "evidence": "/private/tmp/idm-ui162-after.json",
+      "status": "desktop computed-style verification"
+    },
     "localUnderwritingComparison": {
       "requirement": "LOCAL-UI-161",
       "status": "model and isolated browser passed; actual desktop three-stage read-only verification passed",

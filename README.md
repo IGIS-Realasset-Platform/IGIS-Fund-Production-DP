@@ -519,3 +519,5 @@ node scripts/verify-center120.mjs
 로컬 LOCAL-UI-159~160: 금융 단계별 지표/조달구조 외곽그룹과 Feed6px 간격 복구, 기존 흰박스 폭 유지. Feed를 제외한 흰 콘텐츠 박스 라운딩32px. [디자인 명세·검수](docs/local-design-system.md).
 
 LOCAL-UI-161: 파이낸싱 이전값·증감은 최초UW 고정, 원가 양쪽 평당값 연결. 세 단계 조달구조·투자자 실측 확인. [검수](docs/local-finance-milestones-spec.md).
+
+LOCAL-UI-162: Feed 제외 공통 콘텐츠 박스 라운딩30px, 금융 바깥선37px로 조정했습니다.

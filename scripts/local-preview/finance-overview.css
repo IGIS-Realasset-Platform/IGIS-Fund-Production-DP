@@ -112,7 +112,7 @@
  grid-template-columns:repeat(2,minmax(0,1fr));
  align-items:center;
  border:1px solid #e4e8ed;
- border-radius:32px;
+ border-radius:var(--studio-card-radius);
  background:#f4f6f8;
 }
 .studio-stage-facts > div {display:grid;gap:8px;padding:0 20px;overflow-wrap:anywhere}
@@ -126,7 +126,7 @@
  gap:1px;
  overflow:hidden;
  border:1px solid #e4e8ed;
- border-radius:32px;
+ border-radius:var(--studio-card-radius);
  background:var(--line);
 }
 .studio-stage-pair {
@@ -138,7 +138,7 @@
  background:#f4f6f8;
  min-width:0;
 }
-.studio-stage-project .studio-stage-pair {border:1px solid #e4e8ed;border-radius:32px}
+.studio-stage-project .studio-stage-pair {border:1px solid #e4e8ed;border-radius:var(--studio-card-radius)}
 .studio-stage-pair h4 {margin:0;font-size:15px;color:var(--muted)}
 .studio-stage-values {display:flex;align-items:end;justify-content:flex-end;gap:10px}
 .studio-stage-project .studio-stage-values {justify-content:flex-start}
@@ -159,7 +159,7 @@
  place-items:center;
  padding:0;
  border:0;
- border-radius:32px;
+ border-radius:var(--studio-card-radius);
  background:transparent;
  transition:background-color 180ms ease;
 }
@@ -197,7 +197,7 @@
 .studio-capital-investment {
  margin-top:8px;
  border:1px solid #e4e8ed;
- border-radius:32px;
+ border-radius:var(--studio-card-radius);
  overflow:hidden;
  background:#f6f8fa;
 }
