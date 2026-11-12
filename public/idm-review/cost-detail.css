@@ -1,0 +1,109 @@
+/* Scoped to the design draft's original, interactive CBS table. */
+[data-local-screen="cost-detail"] .cost-detail-simple {
+  --ld-cost-ink: #253545;
+  --ld-cost-muted: #596b7a;
+  --ld-cost-line: #d9e1e6;
+  --ld-cost-current: #eaf2fa;
+  --ld-cost-row: var(--studio-table-surface);
+  color: var(--ld-cost-ink);
+  min-width: 0;
+}
+.dp-app #content[data-local-screen="cost-detail"] .cost-detail-simple > .table-toolbar {
+  display:flex; flex-wrap:nowrap; justify-content:space-between; align-items:center;
+  gap:8px; padding:10px var(--studio-panel-inset); border-bottom:1px solid var(--ld-cost-line);
+  overflow-x:auto; scrollbar-width:thin; scroll-padding-inline:var(--studio-panel-inset);
+  white-space:nowrap;
+
+  & > :is(.table-toolbar-left,.table-toolbar-right) {
+    flex:0 0 auto; flex-wrap:nowrap; gap:5px;
+  }
+  & :is(.btn:not(:is(.primary,.create)),input,select,.cbs-basis-select,.muted) {font-size:13px}
+  & :is(.btn:not(:is(.primary,.create)),input,select) {height:30px; min-height:30px; padding:0 7px}
+  & #costSearch {width:clamp(112px,10vw,126px); height:30px}
+  & .cbs-basis-select {gap:5px}
+  & #cbs-compare-basis {width:130px; padding-inline-end:22px; text-overflow:ellipsis}
+  & .cbs-view-switch {
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:2px;
+    box-sizing:border-box; width:94px; height:30px; padding:2px;
+    border:0; border-radius:12px; background:#e7e9ee;
+  }
+  & .cbs-view-switch > .btn {
+    height:26px; min-height:26px; min-width:0; padding:0;
+    border:0; border-radius:10px; background:transparent;
+  }
+  & .cbs-view-switch > .btn:not(.active):hover {background:#dce1ea}
+  & .cbs-view-switch > .btn.active {background:var(--surface); color:var(--blue)}
+  & .cbs-view-switch > .btn:focus-visible {outline-offset:-2px}
+}
+[data-local-screen="cost-detail"] .cbs-detail-wrap {max-width:100%; overscroll-behavior-inline:contain}
+.dp-app #content[data-local-screen="cost-detail"] .cbs-detail-wrap:has(> .cost-dense-table) {
+  border-start-start-radius:0; border-start-end-radius:0; background:var(--surface);
+}
+[data-local-screen="cost-detail"] .cost-dense-table {font-variant-numeric:tabular-nums}
+[data-local-screen="cost-detail"] .cost-dense-table thead th {background:var(--studio-table-heading); color:var(--ld-cost-ink); border-bottom:1px solid #b2c2ce}
+[data-local-screen="cost-detail"] .cost-dense-table thead th:nth-child(n+3) {border-inline-start:1px solid #d8dde5}
+[data-local-screen="cost-detail"] .cost-dense-table thead :is(.cbs-role-basis,.cbs-contract-column) {background:#e5eaee}
+[data-local-screen="cost-detail"] .cost-dense-table thead .cbs-role-current {
+  background:color-mix(in srgb,var(--ld-cost-current),black 1.5%); color:#173d60; box-shadow:inset 0 3px #416888;
+}
+[data-local-screen="cost-detail"] .cost-dense-table thead .cbs-column-labels,
+[data-local-screen="cost-detail"] .cost-dense-table thead .stage-meta {color:var(--ld-cost-muted)}
+[data-local-screen="cost-detail"] .ld-cost-role {
+  display:block; font-size:11px; line-height:1.25; font-weight:600; color:var(--ld-cost-muted);
+}
+[data-local-screen="cost-detail"] .cost-dense-table :is(.num,.cbs-cell-delta,.cost-current-value) {
+  text-align:right; font-variant-numeric:tabular-nums;
+}
+[data-local-screen="cost-detail"] .cost-dense-table tbody tr {--ld-cost-row:var(--studio-table-surface)}
+[data-local-screen="cost-detail"] .cost-dense-table tbody .cbs-company-branch {--ld-cost-row:#f5f7f8}
+[data-local-screen="cost-detail"] .cost-dense-table tbody :is(.hier-group-row,.cbs-company-root) {
+  --ld-cost-row:#ebf0f3;
+}
+[data-local-screen="cost-detail"] .cost-dense-table tbody .hier-total-row {--ld-cost-row:#dfe8ee}
+[data-local-screen="cost-detail"] .cost-dense-table tbody .cbs-area-row {--ld-cost-row:#f8fafb}
+[data-local-screen="cost-detail"] .cost-dense-table tbody tr > :is(th,td) {
+  background:var(--ld-cost-row); color:var(--ld-cost-ink); border-bottom-color:var(--ld-cost-line);
+}
+[data-local-screen="cost-detail"] .cost-dense-table[data-testid="cost-detail-table"] :is(.cbs-company-management,.cbs-company-actual)>td:not(:is(.cbs-role-basis,.cbs-role-current,.cbs-contract-column)) {
+  background:var(--ld-cost-row);
+}
+[data-local-screen="cost-detail"] .cost-dense-table tbody tr > :is(.cbs-role-basis,.cbs-contract-column) {
+  background:color-mix(in srgb,var(--ld-cost-row) 94%,#9eacb7);
+}
+[data-local-screen="cost-detail"] .cost-dense-table tbody tr > .cbs-role-current {
+  background:color-mix(in srgb,var(--ld-cost-row) 88%,#b9d4ec);
+}
+#content[data-local-screen="cost-detail"] .cost-dense-table tr > :nth-child(-n+2):not([colspan]) {
+  background:var(--surface);
+}
+[data-local-screen="cost-detail"] .cost-dense-table tr > :is(td,th):nth-child(1),
+[data-local-screen="cost-detail"] .cost-dense-table tr > :is(td,th):nth-child(2) {
+  /* Keep the identifier opaque over scrolling numeric cells. */
+  position:sticky; left:0;
+}
+[data-local-screen="cost-detail"] .cost-dense-table tr > :is(td,th):nth-child(2) {
+  left:32px; box-shadow:1px 0 var(--ld-cost-line); text-align:left;
+}
+[data-local-screen="cost-detail"] .cost-dense-table tbody .hier-total-row > td {
+  border-top:1px solid #a3b4c1; border-bottom:1px solid #a3b4c1; font-weight:700;
+}
+[data-local-screen="cost-detail"] .cost-dense-table .cbs-company-row .cbs-item-name {
+  color:inherit;
+}
+[data-local-screen="cost-detail"] .cost-dense-table .cbs-delta-column.rise > .cbs-cell-delta {color:#c41622}
+[data-local-screen="cost-detail"] .cost-dense-table .cbs-delta-column.fall > .cbs-cell-delta {color:#005bc4}
+[data-local-screen="cost-detail"] .cost-dense-table .cbs-area-row {font-size:13px}
+[data-local-screen="cost-detail"] .cost-dense-table .hier-total-row .cbs-value-line:has(.ld-cost-note) {
+  display:flex; flex-wrap:wrap; justify-content:flex-end;
+}
+[data-local-screen="cost-detail"] .ld-cost-note {
+  flex-basis:100%; color:var(--ld-cost-muted); font-size:12px; font-weight:500; line-height:1.4;
+  text-align:right; white-space:normal;
+}
+[data-local-screen="cost-detail"] .ld-cost-status {color:var(--ld-cost-muted)}
+[data-local-screen="cost-detail"] .ld-cost-search-empty:not([hidden]) {
+  display:block; margin:0; padding:12px 16px; border-bottom:1px solid var(--ld-cost-line);
+}
+@media (max-width:680px) {
+  [data-local-screen="cost-detail"] .cbs-detail-wrap {max-height:70vh}
+}

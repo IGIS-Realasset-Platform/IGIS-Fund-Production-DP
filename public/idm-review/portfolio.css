@@ -1,0 +1,79 @@
+/* Local portfolio only. All filtering, row links, chart actions and resize handles belong to the app. */
+#content[data-local-screen="portfolio"]{--pf-current-mark:#59718e;--pf-text-inset:12px}
+[data-portfolio-chart]{--pf-cost-bar-height:18px;--pf-cost-end-radius:6px;--pf-cost-decrease:#2380ed;--pf-cost-decrease-text:#166acb}
+#content[data-local-screen="portfolio"] :is(.pf-list-card,[data-portfolio-chart])>.panel-header{padding-inline-start:var(--studio-panel-inset)}
+#content[data-local-screen="portfolio"] .pf-list-card>.panel-body{padding-top:0}
+#content[data-local-screen="portfolio"] .pf-list-card>.panel-body>.table-toolbar{padding-block:10px;border-bottom:0}
+#content[data-local-screen="portfolio"] #portfolioSearch{padding-inline-start:calc(var(--pf-text-inset) - 1px)}
+#content[data-local-screen="portfolio"] .pf-list-card [data-action="portfolio-reset"]{border-color:var(--line-strong);background:var(--canvas);color:var(--ink);font-weight:600}
+#content[data-local-screen="portfolio"] .pf-list-card [data-action="portfolio-reset"]:hover{background:#e7e9ee}
+[data-local-screen="portfolio"] .portfolio-table td:first-child [data-view="overview"],
+[data-local-screen="portfolio"] .portfolio-cost-row>.table-link{font-weight:700}
+#content[data-local-screen="portfolio"] .portfolio-table td:first-child [data-view="overview"]{border-inline-start:0;padding-inline-start:0}
+[data-local-screen="portfolio"] .portfolio-cost-row>.table-link{word-break:keep-all;overflow-wrap:anywhere}
+[data-local-screen="portfolio"] .portfolio-cost-row>.table-link:hover{text-decoration:none}
+[data-local-screen="portfolio"] .portfolio-table :is(.pf-date,td[data-pf-label="현재 사업비"]>.cell-sub){display:block;margin-block-start:-1px;font-size:12px;color:var(--muted)}
+[data-local-screen="portfolio"] .pf-date{white-space:nowrap;font-variant-numeric:tabular-nums}
+[data-local-screen="portfolio"] .pf-missing{font-size:12px;color:var(--muted,#4a5f66);white-space:normal}
+[data-local-screen="portfolio"] .portfolio-table td[data-pf-label="현재 사업비"]>.num{font-weight:700}
+[data-local-screen="portfolio"] .portfolio-table td:is([data-pf-label="최초 언더라이팅"],[data-pf-label="현재 사업비"],[data-pf-label="최초 대비"]),
+[data-local-screen="portfolio"] .portfolio-table td[data-pf-label="현재 사업비"]>.num,
+[data-local-screen="portfolio"] .portfolio-cost-row>.num{font-variant-numeric:proportional-nums}
+[data-local-screen="portfolio"] :is(.portfolio-cost-axis,.portfolio-cost-row,.pf-cost-gridlines){padding-inline:var(--pf-text-inset)}
+[data-local-screen="portfolio"] .portfolio-cost-axis{min-height:24.5px;font-size:13px}
+[data-local-screen="portfolio"] .portfolio-axis-ticks{grid-column:2}
+[data-local-screen="portfolio"] .portfolio-cost-list{display:grid;gap:6px;position:relative;isolation:isolate}
+[data-local-screen="portfolio"] .pf-cost-gridlines{position:absolute;inset:0;display:grid;column-gap:12px;z-index:1;pointer-events:none}
+[data-local-screen="portfolio"] .pf-cost-gridline-track{grid-column:2;position:relative}
+[data-local-screen="portfolio"] .pf-cost-gridline{position:absolute;inset-block:0;border-inline-start:1px dashed var(--line-strong);opacity:.75}
+[data-local-screen="portfolio"] .portfolio-cost-track{height:var(--pf-cost-bar-height);border-radius:0 var(--pf-cost-end-radius) var(--pf-cost-end-radius) 0}
+[data-local-screen="portfolio"] .pf-cost-fill{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  clip-path:inset(0 var(--pf-unfilled) 0 0 round 0 var(--pf-cost-end-radius) var(--pf-cost-end-radius) 0);
+}
+[data-local-screen="portfolio"] :is(.portfolio-initial-base,.portfolio-cost-change){height:100%}
+[data-local-screen="portfolio"] .portfolio-initial-base{border-radius:0;background:var(--studio-accent)}
+[data-local-screen="portfolio"] .portfolio-cost-change.decrease-bg{background:var(--pf-cost-decrease)}
+[data-local-screen="portfolio"] .portfolio-cost-row{min-height:46px;padding-block:8px;border-radius:10px;background:var(--studio-table-surface)}
+[data-local-screen="portfolio"] .portfolio-cost-row:is(:hover,:focus-within){background:var(--studio-table-hover)}
+[data-local-screen="portfolio"] .pf-cost-legend{justify-content:flex-start;padding-inline:var(--pf-text-inset);font-size:12px}
+[data-local-screen="portfolio"] .pf-cost-legend i{display:grid;place-items:center;width:12px;height:12px}
+[data-local-screen="portfolio"] .portfolio-current-marker{z-index:3;height:calc(100% + 8px);background:var(--pf-current-mark)}
+[data-local-screen="portfolio"] .pf-cost-legend [data-pf-symbol="initial"]::before{content:"";width:12px;height:8px;border-radius:0 3px 3px 0;background:var(--studio-accent)}
+[data-local-screen="portfolio"] .pf-cost-legend [data-pf-symbol="current"]::before{content:"";width:2px;height:12px;background:var(--pf-current-mark)}
+[data-local-screen="portfolio"] [data-pf-symbol="increase"]::before,
+[data-local-screen="portfolio"] [data-pf-symbol="decrease"]::before{content:"";width:9px;height:6px}
+[data-local-screen="portfolio"] [data-pf-symbol="increase"]::before{background:var(--increase);clip-path:polygon(50% 0,100% 100%,0 100%)}
+[data-local-screen="portfolio"] [data-pf-symbol="decrease"]::before{background:var(--pf-cost-decrease);clip-path:polygon(0 0,100% 0,50% 100%)}
+[data-local-screen="portfolio"] .portfolio-current-marker[data-pf-symbol]::before{position:absolute;top:-2px;left:50%;transform:translateX(-50%)}
+[data-local-screen="portfolio"] .pf-cost-delta{display:block;margin-top:1px;font-size:11px;font-weight:600;overflow-wrap:anywhere}
+[data-local-screen="portfolio"] .pf-cost-delta.decrease{color:var(--pf-cost-decrease-text)}
+[data-local-screen="portfolio"] .pf-cost-delta:not(.increase,.decrease){color:var(--muted)}
+@media(width > 760px){
+  [data-local-screen="portfolio"] :is(.portfolio-cost-axis,.portfolio-cost-row,.pf-cost-gridlines){grid-template-columns:min(var(--pf-chart-name-width,220px),45%) minmax(0,1fr) repeat(2,min(104px,19%))}
+  #content[data-local-screen="portfolio"] .portfolio-table :is(th,td):first-child{padding-inline-start:var(--pf-text-inset)}
+  #content[data-local-screen="portfolio"] .portfolio-table :is(th,td[data-pf-label="최초 대비"]){white-space:nowrap;overflow-wrap:normal}
+  #content[data-local-screen="portfolio"] .portfolio-table :is([data-pf-label="최초 언더라이팅"],[data-pf-label="현재 사업비"]){text-align:right}
+  /* Match the header inset without increasing the total cell padding. */
+  #content[data-local-screen="portfolio"] .portfolio-table td:is([data-pf-label="최초 언더라이팅"],[data-pf-label="현재 사업비"]){padding-inline:4px 16px}
+}
+@media(max-width:1300px){
+  [data-local-screen="portfolio"] .pf-cost-gridlines{column-gap:8px}
+}
+@media(max-width:760px){
+  [data-local-screen="portfolio"] .portfolio-table {display:block; min-width:0!important;width:100%!important;table-layout:auto}
+  [data-local-screen="portfolio"] .portfolio-table colgroup {display:none}
+  [data-local-screen="portfolio"] .portfolio-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  [data-local-screen="portfolio"] .portfolio-table thead .table-resize-handle {display:none}
+  [data-local-screen="portfolio"] .portfolio-table tbody{display:block}
+  [data-local-screen="portfolio"] .portfolio-table tbody tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;padding:12px var(--pf-text-inset);border-bottom:1px solid var(--line,#d7e1e4)}
+  [data-local-screen="portfolio"] .portfolio-table tbody td{display:block;height:auto;min-height:36px;min-width:0;padding:0!important;text-align:start!important;border:0;white-space:normal;overflow-wrap:anywhere}
+  [data-local-screen="portfolio"] .portfolio-table td[data-pf-label]::before{content:attr(data-pf-label);display:block;font-size:11px;font-weight:500;line-height:1.45;color:var(--muted,#4a5f66)}
+  [data-local-screen="portfolio"] .portfolio-table td:first-child{grid-column:1/-1}
+  [data-local-screen="portfolio"] .portfolio-table td:first-child button{font-size:16px;font-weight:700}
+  [data-local-screen="portfolio"] .portfolio-table td:first-child::before{display:none}
+  [data-local-screen="portfolio"] :is(.portfolio-cost-row,.portfolio-cost-axis,.pf-cost-gridlines){grid-template-columns:minmax(75px,1.3fr) minmax(68px,1.6fr) minmax(52px,.6fr) minmax(52px,.6fr);gap:6px}
+  [data-local-screen="portfolio"] .portfolio-cost-axis{font-size:10px}
+  [data-local-screen="portfolio"] .portfolio-cost-row div{font-size:11px}
+  [data-local-screen="portfolio"] :is(.portfolio-axis-ticks>span,.pf-cost-gridline):not(:first-child):not(:last-child){display:none}
+}

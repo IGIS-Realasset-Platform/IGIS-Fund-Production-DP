@@ -1,0 +1,36 @@
+/* Keep list/map switching, the domain filters and native table resizing intact. */
+[data-local-screen="permits"] .permit-workspace { --lp-rule: #d8e2ec; --lp-caption: #53677b; }
+[data-local-screen="permits"] .permit-workspace-heading { align-items:center; gap:12px; margin:4px 0 12px; }
+[data-local-screen="permits"] .permit-workspace-heading h2 { font-size:16px; margin:0; }
+[data-local-screen="permits"] .permit-workspace-additions { gap:10px; }
+[data-local-screen="permits"] .permit-workspace-controls { padding-bottom:12px; }
+[data-local-screen="permits"] .permit-workspace-views { display:inline-flex; gap:2px; padding:3px; border:1px solid var(--lp-rule); border-radius:6px; background:#eef2f6; }
+[data-local-screen="permits"] .permit-workspace-views .btn { min-height:32px; padding:3px 12px; border:1px solid transparent; border-radius:4px; color:#41566c; background:transparent; }
+[data-local-screen="permits"] .permit-workspace-views .btn[aria-pressed="true"] { color:#12344e; border-color:#c5d4e1; background:white; font-weight:650; }
+[data-local-screen="permits"] .permit-workspace-list > .permit-status-filters { gap:3px 8px; padding:9px 12px; }
+[data-local-screen="permits"] .permit-workspace-list .permit-status-filters .btn { border-color:transparent; background:transparent; color:#526478; }
+[data-local-screen="permits"] .permit-workspace-list .permit-status-filters .btn[aria-pressed="true"] { color:#164e85; background:#eaf2fb; }
+[data-local-screen="permits"] .permit-workspace-list .permit-core-table { min-width:1000px; }
+[data-local-screen="permits"] .permit-core-table th:first-child { min-width:130px; }
+[data-local-screen="permits"] .permit-core-table thead th:first-child,
+[data-local-screen="permits"] .permit-core-table tbody td:first-child:not([colspan]) {
+  position:sticky; left:0; z-index:1; background:#fff; box-shadow:1px 0 var(--lp-rule);
+}
+[data-local-screen="permits"] .permit-core-table thead th:first-child { z-index:3; background:#edf2f6; }
+[data-local-screen="permits"] .permit-core-table .permit-name-button { font-weight:650; color:#205889; white-space:normal; overflow-wrap:anywhere; }
+[data-local-screen="permits"] .permit-core-table [data-lp-permit-status] .readonly-value { color:#324c64; font-weight:600; }
+[data-local-screen="permits"] .permit-core-table [data-lp-permit-status="complete"] .readonly-value { color:#246347; }
+[data-local-screen="permits"] .permit-core-table [data-lp-permit-status="supplement"] .readonly-value { color:#905410; }
+[data-local-screen="permits"] .permit-core-table [data-lp-permit-status="excluded"] .readonly-value { color:var(--lp-caption); }
+[data-local-screen="permits"] .lp-dates { display:grid; gap:3px; margin:0; text-align:left; font-variant-numeric:tabular-nums; }
+[data-local-screen="permits"] .lp-dates > div { display:flex; gap:6px; justify-content:space-between; flex-wrap:wrap; align-items:baseline; }
+[data-local-screen="permits"] .lp-dates dt { font-size:12px; color:var(--lp-caption); font-weight:400; }
+[data-local-screen="permits"] .lp-dates dd { margin:0; white-space:nowrap; }
+[data-local-screen="permits"] .lp-date-empty { color:var(--lp-caption); }
+[data-local-screen="permits"] .permit-core-table :is(th,td):nth-child(4),
+[data-local-screen="permits"] .permit-core-table :is(th,td):nth-child(5) { width:154px; text-align:left; }
+[data-local-screen="permits"] .permit-map-event { font-variant-numeric:tabular-nums; }
+@media(max-width:700px){
+  [data-local-screen="permits"] .permit-workspace-heading { align-items:flex-start; }
+  [data-local-screen="permits"] .permit-workspace-additions { width:auto; flex-wrap:wrap; justify-content:flex-start; }
+}
