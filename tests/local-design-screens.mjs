@@ -123,7 +123,7 @@ try {
   const marks=document.querySelectorAll('.portfolio-axis-ticks,.portfolio-cost-track');
   return marks.length>1&&[...marks].every(element=>Math.abs(element.getBoundingClientRect().left-start)<0.5);
  });
- assert.deepEqual(await page.locator('.pf-cost-legend > span').allTextContents(),['최초 언더라이팅','현재 사업비','상승','하락 (단위: 억원)']);
+ assert.deepEqual(await page.locator('.pf-cost-legend > span').allTextContents(),['최초UW','현재 사업비','상승','하락 (단위: 억원)']);
  assert.equal(await page.locator('.pf-cost-legend .pf-cost-unit').evaluate(el=>getComputedStyle(el).fontSize),'12px');
  const axisLabels=await page.locator('.portfolio-cost-axis').evaluate(axis=>{
   const rowTop=axis.nextElementSibling.firstElementChild.getBoundingClientRect().top;
@@ -155,7 +155,7 @@ try {
  });
  assert.ok(Math.abs(tipPosition.leftOffset)<0.5&&Math.abs(tipPosition.gap-5)<0.5,'the whole chart row anchors the tooltip at the start of its track');
  const chartTip=page.getByRole('tooltip');
- assert.deepEqual(await chartTip.locator('dt').allTextContents(),['최초 언더라이팅','현재 사업비','평당 총사업비']);
+ assert.deepEqual(await chartTip.locator('dt').allTextContents(),['최초UW','현재 사업비','평당 총사업비']);
  assert.equal(await chartTip.locator('dd').count(),3);
  assert.deepEqual(await chartTip.evaluate(el=>{
   const title=el.querySelector('.studio-tooltip-title'),details=el.querySelector('.studio-chart-tip-details');

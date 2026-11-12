@@ -156,10 +156,11 @@
 .studio-stage-values > div:first-child:not(:last-child) b {color:var(--muted)}
 .studio-stage-values > span {font-size:20px;line-height:1;font-weight:700;margin-bottom:1px}
 .studio-stage-pair > small {position:absolute;right:32px;bottom:10px;font-size:12px;line-height:14px;font-weight:600;text-align:right}
-.studio-stage-project .studio-stage-values {justify-content:flex-start;gap:12px}
-.studio-stage-project .studio-stage-values > div {flex-direction:column-reverse;align-items:flex-start;text-align:left}
-.studio-stage-project .studio-stage-values > div > span:first-child {margin:4px 0 0}
-.studio-stage-project .studio-stage-values > span {margin-bottom:16px}
+.studio-stage-project .studio-stage-values {justify-content:flex-start;align-items:flex-start;gap:12px}
+.studio-stage-project .studio-stage-values > div {flex-direction:column;align-items:flex-start;text-align:left}
+.studio-stage-project .studio-stage-values > div > span {margin:4px 0 0}
+.studio-stage-project .studio-stage-values time {font-size:11px;line-height:11px;color:var(--muted)}
+.studio-stage-project .studio-stage-values > span {margin:4px 0 0}
 .studio-stage-project .studio-stage-pair {padding-bottom:28px}
 .studio-stage-project .studio-stage-pair > small {left:24px;right:auto;bottom:8px;text-align:left}
 .studio-stage-reveal {

@@ -30,13 +30,18 @@ try{
     })};
    });
    assert.equal(data.height,274,'IOTA source sets comparison height274px');
+   const duration=panel.locator('[data-stage-field=duration]');
+   assert.equal(await duration.locator('time').count(),2,'LOCAL-UI-172: 개발기간마다 단계 이슈 기준연월');
+   assert.ok((await duration.locator('.studio-stage-values b').allTextContents()).every(t=>/^\d+M$|^—$/.test(t)),'IOTA 기간M표기');
+   assert.ok(await duration.evaluate(e=>[...e.querySelectorAll('.studio-stage-values > div')].every(d=>{const label=d.querySelector('span').getBoundingClientRect(),date=d.querySelector('time').getBoundingClientRect();return date.top>=label.bottom&&Math.abs(date.left-label.left)<1})), '기간 아래 단계명과 기준월 두줄 왼쪽 정렬');
    for(const c of data.cards){
     assert.equal(c.values.length,2,'최초/선택 단계 두 칸 유지');
     assert.ok(Math.abs(c.title.top-c.rect.top-20)<=1,'제목 상단20px');
-    assert.ok(c.delta&&c.delta.bottom<=c.rect.bottom-7,'증감 하단 간격');
+    if(c.key==='duration')assert.equal(c.delta,null,'개발기간 하단 증감표시 제거');
+    else assert.ok(c.delta&&c.delta.bottom<=c.rect.bottom-7,'증감 하단 간격');
     for(const v of c.values){
      assert.ok(v.amount.left>=c.rect.left&&v.amount.right<=c.rect.right,'금액 카드 밖 넘침 없음');
-     assert.ok(c.delta.top>=v.amount.bottom,'금액과 증감 겹침 없음');
+     if(c.delta)assert.ok(c.delta.top>=v.amount.bottom,'금액과 증감 겹침 없음');
      assert.ok(c.key==='duration'?v.label.top>=v.amount.bottom:v.label.bottom<=v.amount.top,'개발기간만 단계명을 숫자 아래 배치');
      if(c.key==='construction')assert.match(v.text,/^\d[\d,]*\.\d억원$|^—$/,'공사비 억원 한 자리');
     }

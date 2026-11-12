@@ -815723,6 +815723,7 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localDurationLabels172": {"requirement": "LOCAL-UI-172", "status": "verified local desktop", "consumers": ["UW display aliases", "duration M/phase/date rows", "stage selection", "details/date editing/reload", "source preservation"], "localRevision": "20→21", "duration": "72M→78M", "periodEnd": "2030-12", "preserved": ["past stages", "costs", "loans", "equities", "areas", "other projects", "original file"], "verification": ["comparison-layout desktop1366/1440/1920", "inline-stage save/reload/cancel/503/history", "finance-browser", "live4178"], "excluded": ["production", "mobile", "push"]},
     "localMetricDividers171": {
       "requirement": "LOCAL-UI-171",
       "status": "169 배경통일 오해를 폐기하고 이전 공통표 배경/선택/롤오버 복원. 제목행::after·본문th/td 구분선만 #e4e7ed로 통일. RED 배경불일치 재현 후 계산스타일·격리저장/취소·실제4178 화면 확인 통과. 사용자DB쓰기0.",

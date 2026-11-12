@@ -105,8 +105,14 @@ function comparisonDisplay(A,value,unit,key){
  if(value==null)return '—';
  return key==='construction'?new Intl.NumberFormat('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(value/eok)+'억원':fieldDisplay(A,value,unit);
 }
+function durationComparison(A,baseline,stage){
+ const period=row=>row.values.duration==null?'—':A.num(row.values.duration)+'M';
+ const column=row=>`<div><b>${period(row)}</b><span>${A.esc(row.name)}</span><time${row.date?` datetime="${A.esc(row.date)}"`:''}>${/^\d{4}-\d{2}(?:-\d{2})?$/.test(row.date||'')?A.esc(row.date.slice(0,7).replace('-','.')):'—'}</time></div>`;
+ return `<article class="studio-stage-pair" data-stage-field="duration"><h4>개발기간</h4><div class="studio-stage-values">${baseline?column(baseline)+'<span aria-hidden="true">→</span>':''}${column(stage)}</div></article>`;
+}
 function stageComparison(A,field,baseline,stage){
  const {key,label,unit}=field;
+ if(key==='duration')return durationComparison(A,baseline,stage);
  const value=stage.values[key],initial=baseline?.values[key];
  const delta=value==null||initial==null?null:value-initial;
  const compare=!!baseline;

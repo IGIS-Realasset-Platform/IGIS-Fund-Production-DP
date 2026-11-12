@@ -1,0 +1,15 @@
+{
+  "requirement": "LOCAL-UI-172",
+  "result": "LOCAL-UI-172: 최초UW 조회표기 통일, 개발기간 M→단계명→이슈기준연월 배치 및 하단증감 제거. 실제4178 최초2024.06/본PF2026.11 확인. 추가승인에 따라 본PF기간72→78M·준공2030.06→2030.12, 로컬revision20→21 저장·재진입 확인. 과거단계·원금액·조달·면적·다른사업 보존. 1366/1440/1920 배치, 격리 기준일수정/저장/재진입·취소/503재시도·기존단계회귀 통과. 운영·원본·모바일·배포 미변경.",
+  "sha256": {
+    "scripts/local-preview/finance-overview.js": "494d5e9f003e9e4693dc4a287c03d4a74b7cde81e6c35e7edbf0a4a4b8a05931",
+    "scripts/local-preview/finance-overview.css": "7d0a3964386b48b91f9eb641a271f3867c44c73be71f12ffe609a4520bcbcc83",
+    "scripts/local-preview/studio.js": "9208d096a32d060e7829793d2c61d6f6454270d1551c039d19ea9a530630e20a",
+    "scripts/local-preview/portfolio.js": "b913235191a01327cf419be9e47b86456f8aaf2ec3b200327255456b33b764b0",
+    "scripts/local-preview/portfolio.css": "e293ca7ca682c5e11c566be8371e74c5ec7f1b8219aef5e1a51e55efce897482",
+    "tests/local-finance-comparison-layout.mjs": "07194825712166aa4cbfe0185e6f3918370fabdba3fa9683c24e91eb28b6d6c6",
+    "tests/local-finance-inline-stage.mjs": "896d84ee0e8cd2623ad54e201941475e8ffac509664892662677cf12a19091cd",
+    "tests/local-finance-browser.mjs": "93ff9ef582f1e2da862eab06f2a59e27fe0f95430bb9a1114726fd4dcee284a9"
+  },
+  "originalSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c"
+}

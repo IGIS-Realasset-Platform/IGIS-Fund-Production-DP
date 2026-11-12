@@ -112,12 +112,12 @@ try{
  assert.equal(await stage.locator('[data-volume-value]').innerText(),currentCost);
  const costComparison=compare.getByRole('heading',{name:'원가',exact:true}).locator('..');
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,currentCost]);
- await basis.getByRole('button',{name:/최초 언더라이팅/}).click();
+ await basis.getByRole('button',{name:/최초UW/}).click();
  assert.equal(await stage.locator('[data-volume-value]').innerText(),initialCost);
  assert.equal(await upperFunding.innerText(),'3,050억원','기존 최초 단계에 저장한 조달규모를 누락하면 안 됩니다');
  await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
  assert.equal(await stage.locator('[data-volume-value]').innerText(),'6,050억원');
- assert.match(await compare.getByRole('heading',{name:'개발기간',exact:true}).locator('..').innerText(),/72개월/);
+ assert.match(await compare.getByRole('heading',{name:'개발기간',exact:true}).locator('..').innerText(),/72M/);
  await volume.getByRole('button',{name:'원가',exact:true}).click();
  assert.equal(await lowerFunding.innerText(),'3,050억원');
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,initialCost],'LOCAL-UI-168: 최초 단계도 원본처럼 동일한 두 칸 배치를 유지');
@@ -228,7 +228,7 @@ try{
  assert.equal(await structure.locator('.studio-capital-bar').isVisible(),false);
  assert.equal(await structure.locator('.studio-capital-groups article').count(),0);
  assert.match(await compare.locator('.studio-stage-facts').innerText(),/2029\.09/);
- assert.match(await compare.getByRole('heading',{name:'개발기간',exact:true}).locator('..').innerText(),/60개월/);
+ assert.match(await compare.getByRole('heading',{name:'개발기간',exact:true}).locator('..').innerText(),/60M/);
  await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
  assert.equal(await stage.locator('[data-volume-value]').innerText(),'0억원');
  await details.click();
@@ -240,7 +240,7 @@ try{
  await volume.getByRole('button',{name:'원가',exact:true}).click();
  assert.equal(await stage.locator('[data-volume-value]').innerText(),currentCost);
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,currentCost],'LOCAL-UI-161: 현재도 최초UW와 비교');
- assert.equal(await costComparison.locator('.studio-stage-values > div').first().locator('span').first().innerText(),'최초 언더라이팅');
+ assert.equal(await costComparison.locator('.studio-stage-values > div').first().locator('span').first().innerText(),'최초UW');
  // Original isolated fixture has no historical GFA: never borrow current GFA.
  assert.deepEqual(await costComparison.locator('.studio-stage-unit-cost').allTextContents(),['평당 —','2,671만원/평']);
  assert.equal(await selectedValue('원가').locator('small').first().innerText(),'+7.8억원');

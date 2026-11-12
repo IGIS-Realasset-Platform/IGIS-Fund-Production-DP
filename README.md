@@ -8,6 +8,8 @@
 
 [플랫폼 열기](https://igis-development-project-platform.vercel.app/) · [버전 이력](VERSION_HISTORY.md) · [변경 내역](CHANGELOG.md)
 
+LOCAL-UI-172: 최초UW 표기 및 개발기간 단계명·이슈연월 배치. 본PF 1차78개월·준공2030.12를 로컬에 반영했습니다. 이전 단계·금액 보존, 하단 기간증감 제거. [검수명세](docs/local-finance-milestones-spec.md).
+
 LOCAL-UI-171: 핵심지표 배경은 이전 상태로 복원하고 제목행·항목행 구분선만 같은 연한 색으로 통일했습니다. 실제 화면 및 기존 저장·취소 확인, 데이터 변경 없음.
 
 LOCAL-UI-170: 서울중구 토지매입비를 모든 단계에서 최초934.6154억원으로 정정했습니다. 현재원가5167.3385억원 연동·재진입 확인, 다른항목·계약·운영/원본자료 보존. [검수명세](docs/local-finance-milestones-spec.md).

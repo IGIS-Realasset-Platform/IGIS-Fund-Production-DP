@@ -58,6 +58,7 @@ try {
   assert.equal(writes.length,0);
   await add.click();
   await name.fill('본PF 2차');
+  await section.locator('[data-stage-input=date]').fill('2027-03-15');
   await reason.fill('금융비 조정');
   await section.locator('[data-stage-note=interest]').fill('본PF 이자 40억원 증액');
   await section.locator('[data-stage-sources=interest] summary').click();
@@ -70,6 +71,7 @@ try {
   await save.waitFor({state:'hidden'});
   const after=await get(),current=project(after);
   assert.equal(current.financeCurrentStage.name,'본PF 2차');
+  assert.equal(current.financeCurrentStage.date,'2027-03-15');
   assert.equal(current.cbs.find(row=>row.id==='c-102-ewjyqyz4').current,15720930000);
   assert.equal(current.costStages.length,project(before).costStages.length+1);
   const prior=current.costStages.at(-1);
@@ -80,6 +82,7 @@ try {
   await page.reload();
   await section.locator('[data-cost-basis=current]').waitFor();
   assert.match(await section.locator('[data-cost-basis=current]').innerText(),/본PF 2차/);
+  assert.equal(await section.locator('[data-stage-field=duration] time').last().innerText(),'2027.03','LOCAL-UI-172: 저장한 이슈 기준월이 새로고침 후 개발기간에 연결');
   const currentValues=await page.evaluate(async()=>{
     const {milestoneRows}=await import('/finance-milestones.js');return milestoneRows(App,App.current()).at(-1).values;
   });
@@ -87,6 +90,7 @@ try {
   assert.equal(currentValues.cost,517080000000);
   await add.click();
   await name.fill('본PF 3차');
+  await section.locator('[data-stage-input=date]').fill('2027-04-15');
   await reason.fill('재시도 검증');
   refuseSave=true;
   response=page.waitForResponse(r=>r.url().endsWith('/api/workspace')&&r.status()===503);

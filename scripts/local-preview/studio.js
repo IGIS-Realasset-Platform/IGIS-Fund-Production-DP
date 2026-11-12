@@ -1,6 +1,6 @@
 // Install a local presentation layer. Use the normal app
 // routes and actions; no project objects, saved settings or edit fields are written.
-import {decoratePortfolio,formatDisplayDates,positionLocalTooltip,registerChartTooltip} from './portfolio.js';
+import {decoratePortfolio,formatDisplayDates,formatDisplayLabels,positionLocalTooltip,registerChartTooltip} from './portfolio.js';
 import {decorateCostDetail} from './cost-detail.js';
 import {decoratePermits} from './permits.js';
 import('./finance-milestones.js').then(({installMilestoneCapture})=>installMilestoneCapture(App)).catch(error=>console.error('단계 입력 연결:',error));
@@ -900,6 +900,47 @@ function installDisplayDates() {
  }).observe(document.body,{childList:true,characterData:true,subtree:true});
 }
 installDisplayDates();
+
+// Shorten read-only labels only. Keep persisted names, option values, active
+// editing text and official/frozen report contents exactly as supplied.
+function installDisplayUnderwriting() {
+ if(!document.body||typeof document.createTreeWalker!=='function')return;
+ const displayRoot='#app, dialog, #toast, #dp-chart-tooltip';
+ const protectedText='script, style, template, pre, code, samp, input, textarea, [contenteditable]:not([contenteditable="false"]), .library-origin-path, .contract-origin-path, .official-form-table, .report-edit-table, .report-document, .report-flow-page, .report-edit-binding';
+ const attributes=['aria-label','title','data-tip','data-tip-title','label'];
+ const eligible=element=>element?.closest(displayRoot)&&!element.closest(protectedText);
+ const format=node=>{
+  if(!node.data.includes('최초 언더라이팅')||!eligible(node.parentElement))return;
+  const option=node.parentElement.closest('option');
+  if(option&&!option.hasAttribute('value'))option.setAttribute('value',option.value);
+  node.data=formatDisplayLabels(node.data);
+ };
+ const formatAttributes=element=>{
+  if(!eligible(element))return;
+  for(const name of attributes){
+   if(name==='label'&&!element.matches('option,optgroup'))continue;
+   const old=element.getAttribute(name),next=formatDisplayLabels(old);
+   if(next!==old)element.setAttribute(name,next);
+  }
+ };
+ const formatTree=node=>{
+  if(node.nodeType===3){format(node);return;}
+  if(node.nodeType!==1||node.closest(protectedText))return;
+  formatAttributes(node);
+  for(const element of node.querySelectorAll('[aria-label],[title],[data-tip],[data-tip-title],option[label],optgroup[label]'))formatAttributes(element);
+  const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);
+  while(walker.nextNode())format(walker.currentNode);
+ };
+ formatTree(document.body);
+ new MutationObserver(records=>{
+  for(const record of records){
+   if(record.type==='characterData')format(record.target);
+   else if(record.type==='attributes')formatAttributes(record.target);
+   else for(const node of record.addedNodes)formatTree(node);
+  }
+ }).observe(document.body,{childList:true,characterData:true,attributes:true,attributeFilter:attributes,subtree:true});
+}
+installDisplayUnderwriting();
 
 // Let the browser close the open choice list before the app handles dialog Escape.
 document.addEventListener('keydown',event=>{

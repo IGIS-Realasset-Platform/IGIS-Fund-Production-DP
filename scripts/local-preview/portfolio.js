@@ -5,6 +5,10 @@ const observedCharts = new WeakSet();
 const chartTips = new WeakMap();
 let chartGridObserver;
 
+export function formatDisplayLabels(text) {
+  return typeof text === 'string' ? text.replaceAll('최초 언더라이팅', '최초UW') : text;
+}
+
 export function formatDisplayDates(text) {
   if (typeof text !== 'string') return text;
   return text.replace(/(?:https?|file):\/\/[^\s<>"']+|(?<![\w./\\-])\d{4}-\d{2}-\d{2}(?=T\d{2}:\d{2}|$|[^\w./\\-]|\.(?!\w))/g, token => {
@@ -101,7 +105,7 @@ function decorateChart(A, chart) {
   addChartGridlines(chart);
   const legend = chart.querySelector(':scope > .legend');
   if (legend) {
-    const keys = [['initial', '최초 언더라이팅'], ['current', '현재 사업비'], ['increase', '상승'], ['decrease', '하락']];
+    const keys = [['initial', '최초UW'], ['current', '현재 사업비'], ['increase', '상승'], ['decrease', '하락']];
     legend.classList.add('pf-cost-legend');
     legend.replaceChildren(...keys.map(([kind, label]) => {
       const item = node('span');
@@ -138,7 +142,7 @@ function decorateChart(A, chart) {
     const initialValue = A.total(project, 'initial');
     const currentValue = A.total(project);
     const amounts = [
-      ['최초 언더라이팅', A.money(initialValue)],
+      ['최초UW', A.money(initialValue)],
       ['현재 사업비', current.textContent],
       ['평당 총사업비', perPyeong.textContent]
     ];
@@ -152,7 +156,7 @@ function decorateChart(A, chart) {
     const difference = initialValue == null || currentValue == null ? null : currentValue - initialValue;
     const direction = difference > 0 ? 'increase' : difference < 0 ? 'decrease' : '';
     const change = node('span', 'pf-cost-delta', difference == null ? '비교 불가' : '변동 없음');
-    change.title = '최초 언더라이팅 대비';
+    change.title = '최초UW 대비';
     if (direction) {
       track.querySelector('.portfolio-current-marker').dataset.pfSymbol = direction;
       change.classList.add(direction);
@@ -231,7 +235,7 @@ export function decoratePortfolio(A, content) {
   panel.classList.add('pf-list-card');
   panel.querySelector('.panel-title h2').textContent = '프로젝트 목록';
   panel.querySelector('[data-action="portfolio-reset"]').textContent = '검색조건 초기화';
-  for (const cell of table.tHead.rows[0].cells) cell.dataset.pfLabel = cell.textContent.trim();
+  for (const cell of table.tHead.rows[0].cells) cell.dataset.pfLabel = formatDisplayLabels(cell.textContent.trim());
   updateRows(A, table);
   if (!observed.has(table)) {
     const observer = new MutationObserver(() => {
