@@ -815723,6 +815723,31 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localFinanceMetrics169": {
+      "requirement": "LOCAL-UI-169",
+      "status": "핵심지표 첫행/평조회·입력/준공명칭/제목·항목행 배경/이전기록UI 제거 검수 완료. 격리 면적변경·저장·새로고침·미수정정밀도·취소·과거보존 및 기존 단계/조달/503재시도 회귀 통과. 실제4178 조회·화면 확인, 쓰기0.",
+      "consumers": [
+        "metric table first row",
+        "pyeong input and sqm persistence",
+        "completion label",
+        "header and item row backgrounds",
+        "legacy UI removal; reference API kept",
+        "inline edit/add/save/cancel",
+        "original precision/past stages"
+      ],
+      "unverified": [
+        "production",
+        "mobile"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/finance-overview.js": "cc113ec0bfa530eef136bbdd22a1f9ce16fab056cf5d8433747cd5861d2ec519",
+        "scripts/local-preview/finance-overview.css": "6cd7df8379e37c3e1f7f71f943966954c8ef7fd37f51319df7da105205b513ee",
+        "scripts/local-preview/finance-stage-editor-ui.js": "b8cec16f8cd4a6dc9787d442d15e18dc415a6b09d5843552a2a09db396a15b1a",
+        "tests/local-finance-key-metrics.mjs": "39c1a124a22e0eef9678d593455c7f4bc5bc7e4f4f21cff25c8f59ad1f60de0c",
+        "tests/local-finance-browser.mjs": "f130e2977e633b89f9108bbb806625157b37d6799022515410017216051f65cc",
+        "tests/local-finance-inline-stage.mjs": "db6bdc7c0875426c6e54cb5089aa7709355972dfc6d3101336664e9ab0e08563"
+      }
+    },
     "localFinanceLayout168": {
       "requirement": "LOCAL-UI-168",
       "status": "원본 JSX 대조·RED310px 확인 후274px 적용. 데스크톱1366/1440/1920 단계별 배치/금액겹침/공사비 한자리/하단증감·상세/추가/취소 검사 통과. 기존 단계·조달 저장 회귀 통과. 실제4178 읽기전용 확인; 자료 변경0.",

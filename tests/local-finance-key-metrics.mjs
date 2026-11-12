@@ -1,0 +1,43 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {copyFile,mkdtemp,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';import {join} from 'node:path';
+import {startPreview} from '../scripts/local-preview/server.mjs';
+const {chromium}=createRequire(import.meta.url)('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const dir=await mkdtemp(join(tmpdir(),'igis-metrics-'));let server,browser;
+try{
+ await copyFile(new URL('../.build/local-preview/original-workspace.json',import.meta.url),join(dir,'original-workspace.json'));
+ server=await startPreview({port:0,directory:dir});const origin='http://127.0.0.1:'+server.address().port;
+ browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+ const page=await browser.newPage({viewport:{width:1440,height:1100}});const errors=[];page.setDefaultTimeout(7000);page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(origin+'/?screen=finance');await page.locator('[data-milestone-add]').waitFor();
+ const get=async()=>await(await page.request.get(origin+'/api/workspace')).json();
+ const project=s=>s.state.projects.find(p=>p.id==='TEST-20261016-A');
+ const before=await get(),legacyBefore=await(await page.request.get(origin+'/api/local-finance-stages?projectId=TEST-20261016-A')).json();
+ await page.locator('[data-stage-action=details]').click();
+ assert.equal(await page.locator('.studio-legacy-stages').count(),0,'이전 별도 단계 기록 UI제거');
+ const table=page.locator('.studio-cost-bases');
+ assert.equal(await table.locator('tbody tr:first-child th').innerText(),'연면적');
+ assert.equal(await table.getByRole('rowheader',{name:'사업 준공 시점',exact:true}).count(),1);
+ assert.equal(await page.getByText('사업 종료 예정',{exact:true}).count(),0);
+ assert.match(await table.locator('tbody tr:first-child td').last().innerText(),/19,208\.75평/);
+ await page.mouse.move(0,0);
+ const colors=await table.evaluate(e=>[...e.querySelectorAll('thead th,tbody th[scope=row],tbody td')].map(c=>getComputedStyle(c).backgroundColor));
+ assert.equal(new Set(colors).size,1);assert.equal(colors[0],'rgb(243, 245, 247)');
+ await table.locator('[data-stage-inline-edit=current]').click();
+ const area=table.locator('[data-stage-input=gfa]');assert.equal(await area.getAttribute('aria-label'),'연면적 · 평');
+ await table.locator('[data-stage-input=reason]').fill('단위 표시 검토');
+ async function save(){const response=page.waitForResponse(r=>r.url().endsWith('/api/workspace')&&r.request().method()==='PUT');await table.locator('[data-stage-commit]').click();assert.equal((await response).ok(),true);await table.locator('[data-stage-commit]').waitFor({state:'hidden'});}
+ await save();assert.equal(project(await get()).building.gfaTotal,project(before).building.gfaTotal,'미수정 저장시㎡정밀도 보존');
+ await table.locator('[data-stage-inline-edit=current]').click();await area.fill('20000.5');await save();
+ assert.equal(project(await get()).building.gfaTotal,66117.3528925,'평입력→㎡저장');
+ assert.deepEqual(project(await get()).costStages,project(before).costStages,'과거단계 보존');
+ await page.reload();await page.locator('[data-stage-action=details]').click();
+ assert.match(await table.locator('tbody tr:first-child td').last().innerText(),/20,000\.5평/);
+ await page.locator('[data-milestone-add]').click();await area.fill('0');await table.locator('[data-stage-cancel]').click();
+ assert.equal(project(await get()).building.gfaTotal,66117.3528925,'취소시면적보존');
+ assert.deepEqual(await(await page.request.get(origin+'/api/local-finance-stages?projectId=TEST-20261016-A')).json(),legacyBefore,'기존보관기록삭제없음');
+ assert.deepEqual(errors,[]);
+ await table.screenshot({path:'/private/tmp/idm-ui169-metrics.png'});
+ console.log('LOCAL-UI-169 PASS: first-row/units/colors/labels/removal/save/reload/cancel/legacy preservation');
+}finally{await browser?.close();await new Promise(r=>server?server.close(r):r());await rm(dir,{recursive:true,force:true})}

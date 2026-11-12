@@ -1,7 +1,7 @@
 import {currentCapitalSources,capitalSourceTotal,capitalSourceGroups} from './finance-capital.js';
 import {stageFields} from './finance-stage-fields.js';
 import {createStageDraft} from './finance-stage-editor-model.js';
-import {renderStageTable,bindStageEditor} from './finance-stage-editor-ui.js';
+import {renderStageTable,bindStageEditor,formatStageArea} from './finance-stage-editor-ui.js';
 import {milestoneRows,installMilestoneCapture,underwritingBasis,costPerPyeong} from './finance-milestones.js';
 
 const eok=100_000_000;
@@ -118,95 +118,6 @@ function stageComparison(A,field,baseline,stage){
   ${compare&&delta!==null?`<small class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${key==='construction'?(delta>0?'+':delta<0?'−':'')+comparisonDisplay(A,Math.abs(delta),unit,key):changeText(A,value,initial,unit)}</small>`:''}
  </article>`;
 }
-function toInput(amount,unit){return amount==null?'':String(unit?amount:amount/eok);}
-function fromInput(raw,unit){
- const value=String(raw).trim();
- if(!value)return null;
- if(!(unit?/^\d+$/:/^\d+(?:\.\d{1,8})?$/).test(value))return NaN;
- if(unit)return Number(value);
- const [whole,fraction='']=value.split('.');
- return Number(whole)*eok+Number(fraction.padEnd(8,'0'));
-}
-
-function stageDialog(A,stage,operation,commit,origin,restore){
- const deleting=operation==='delete';
- const editing=operation==='update';
- const title=deleting?'개발 단계 삭제':editing?'개발 단계 수정':'개발 단계 추가';
- const dialog=document.createElement('dialog');
- dialog.className='dp-dialog studio-stage-dialog';
- dialog.setAttribute('aria-labelledby','studio-stage-dialog-title');
- dialog.innerHTML=`<div class="dialog-head"><h2 id="studio-stage-dialog-title">${title}</h2><button type="button" class="btn" data-stage-close>닫기</button></div>
-  <form method="dialog" class="studio-stage-form">
-   <div class="dialog-body">${deleting?`<p><strong>${A.esc(stage.name)}</strong> 단계 기록을 삭제하시겠습니까?</p>`:`
-    <div class="studio-stage-form-head">
-     <label>단계명<input name="name" required maxlength="80" value="${A.esc(stage?.name||'')}"></label>
-     <label>기준일<input name="date" type="date" required value="${A.esc(stage?.date||'')}"></label>
-    </div>
-    <label>변경 사유·관련 이슈<textarea name="reason" required maxlength="1000" rows="3">${A.esc(stage?.reason||'')}</textarea></label>
-    <div class="studio-stage-input-grid"><b>지표</b><b>금액·기간</b><b>지표별 사유</b>
-    ${stageFields.map(({key,label,unit})=>`<label for="studio-stage-${key}">${label}</label>
-     <div><input id="studio-stage-${key}" name="${key}" inputmode="${unit?'numeric':'decimal'}" value="${A.esc(toInput(stage?.values[key],unit))}" aria-label="${label} (${unit||'억원'})"><span>${unit||'억원'}</span></div>
-     <input name="${key}-note" maxlength="500" value="${A.esc(stage?.notes[key]||'')}" aria-label="${label} 변경 사유">
-    `).join('')}
-    </div>`}
-    <p class="studio-stage-error" role="alert" hidden></p>
-   </div>
-   <div class="dialog-foot"><button type="button" class="btn" data-stage-close>취소</button><button type="submit" class="btn primary">${deleting?'삭제':'저장'}</button></div>
-  </form>`;
- const form=dialog.querySelector('form');
- const error=dialog.querySelector('.studio-stage-error');
- const buttons=dialog.querySelectorAll('button');
- let pending=false;
- let saved=false;
- function showError(message){
-  error.textContent=message;
-  error.hidden=false;
-  error.scrollIntoView({block:'nearest'});
- }
- for(const button of dialog.querySelectorAll('[data-stage-close]'))button.addEventListener('click',()=>dialog.close());
- dialog.addEventListener('cancel',event=>{if(pending)event.preventDefault()});
- dialog.addEventListener('close',()=>{
-  dialog.remove();
-  if(saved)restore();
-  else if(origin.isConnected)origin.focus({preventScroll:true});
- },{once:true});
- form.addEventListener('submit',async event=>{
-  event.preventDefault();
-  if(pending)return;
-  error.hidden=true;
-  const change={operation,id:stage?.id,revision:stage?.revision};
-  if(!deleting){
-   const data=new FormData(form);
-   const values={},notes={};
-   for(const {key,label,unit} of stageFields){
-    const amount=fromInput(data.get(key),unit);
-    if(amount!==null&&(!Number.isSafeInteger(amount)||(unit&&amount>1200))){
-     showError(label+'의 입력값을 확인해 주세요.');
-     form.elements.namedItem(key).focus();
-     return;
-    }
-    values[key]=amount;
-    notes[key]=data.get(key+'-note');
-   }
-   change.record={name:data.get('name'),date:data.get('date'),reason:data.get('reason'),values,notes};
-  }
-  pending=true;
-  buttons.forEach(button=>{button.disabled=true});
-  try{
-   await commit(change);
-   saved=true;
-   dialog.close();
-  }catch(failure){showError(failure.message)}
-  finally{
-   pending=false;
-   buttons.forEach(button=>{button.disabled=false});
-  }
- });
- document.body.append(dialog);
- dialog.showModal();
- (deleting?dialog.querySelector('.dialog-foot button'):form.elements.namedItem('name')).focus();
-}
-
 export function decorateFinancing(A,content,project){
  const root=content.querySelector('.dp-finance');
  const summary=root?.querySelector(':scope > .recovery-summary');
@@ -230,13 +141,11 @@ export function decorateFinancing(A,content,project){
  let current=costBases.at(-1);
  const summaryLabel=field=>summaryLabels[field.key]||field.label;
  const summaryValue=(field,basis)=>fieldDisplay(A,basis.values[field.key]);
- let stages=[],recordsState='loading';
- if(!stageViews.has(project.id))stageViews.set(project.id,{selectedId:null,detailsOpen:false,volume:'funding'});
+ let stages=[];
+ if(!stageViews.has(project.id))stageViews.set(project.id,{detailsOpen:false,volume:'funding'});
  const view=stageViews.get(project.id);
  const selectedBasis=()=>costBases.find(basis=>basis.id===view.basisId)||current;
  function render(){
-  const stage=stages.find(row=>row.id===view.selectedId)||stages.at(-1);
-  view.selectedId=stage?.id;
   const basis=selectedBasis();
   renderCapital(A,capital,summary,project,basis);
   for(const {el,title}of liveHeadings)el.textContent=basis.snapshot?title+' · '+current.name:title;
@@ -264,8 +173,8 @@ export function decorateFinancing(A,content,project){
    <div class="studio-stage-comparison">
      <div class="studio-stage-project">
       <div class="studio-stage-facts">
-       <div><span>사업 종료 예정</span><b>${A.esc(periodEnd?displayDate(periodEnd):'—')}</b>${basis.periodEndReference?'<small>시작월·개발기간 기준</small>':''}</div>
-       <div><span>연면적</span><b>${gfa==null||gfa===''?'—':A.num(gfa)+'㎡'}</b>${basis.gfaReference?'<small>사업개요 기준</small>':''}</div>
+       <div><span>사업 준공 시점</span><b>${A.esc(periodEnd?displayDate(periodEnd):'—')}</b>${basis.periodEndReference?'<small>시작월·개발기간 기준</small>':''}</div>
+       <div><span>연면적</span><b>${formatStageArea(A,gfa,0)}</b>${basis.gfaReference?'<small>사업개요 기준</small>':''}</div>
       </div>
       ${stageComparison(A,stageFieldsByKey.get('duration'),baseline,basis)}
      </div>
@@ -280,23 +189,7 @@ export function decorateFinancing(A,content,project){
    </div>
    <div id="studio-stage-table" class="table-wrap studio-stage-table" role="region" aria-label="개발 단계별 비교표 스크롤" tabindex="0"${view.detailsOpen?'':' hidden'}>
     ${renderStageTable(A,project,costBases,basis,view.editor)}
-    <details class="studio-legacy-stages"${view.legacyOpen?' open':''}><summary>이전 별도 단계 기록</summary>
-    <div class="studio-stage-controls">
-     ${stage?`<div class="studio-stage-selector" role="group" aria-label="저장된 단계 기록 선택">
-      ${stages.map(row=>`<button type="button" aria-pressed="${row===stage}" data-stage-id="${A.esc(row.id)}">
-       <span>${displayDate(row.date)}</span><strong>${A.esc(row.name)}</strong>${row.sample?'<small>예시</small>':''}</button>`).join('')}
-     </div>`:''}
-     <div class="studio-stage-actions">${stage?'<button type="button" class="btn" data-stage-action="update">수정</button><button type="button" class="btn" data-stage-action="delete">삭제</button>':''}<button class="btn primary" type="button" data-stage-action="create"${recordsState==='ready'?'':' disabled'}>+ 단계 추가</button></div>
-    </div>
-    ${stage?`
-    <table class="dense-table" aria-label="개발 단계별 핵심 지표 비교">
-     <thead><tr><th scope="col">별도 단계 기록</th>${stages.map(row=>`<th scope="col" data-selected="${row===stage}">${A.esc(row.name)}<small>${displayDate(row.date)}${row.sample?' · 예시':''}</small></th>`).join('')}</tr></thead>
-     <tbody>${stageFields.map(({key,label,unit})=>`<tr><th scope="row">${key==='cost'?'단계별 원가':key==='funding'?'단계별 조달 계획액':label}</th>
-      ${stages.map(row=>`<td data-selected="${row===stage}"><strong>${fieldDisplay(A,row.values[key],unit)}</strong>${row.notes[key]?`<small>${A.esc(row.notes[key])}</small>`:''}</td>`).join('')}</tr>`).join('')}
-      <tr><th scope="row">변경 사유·관련 이슈</th>${stages.map(row=>`<td data-selected="${row===stage}">${A.esc(row.reason)}</td>`).join('')}</tr>
-     </tbody>
-    </table>`:`<p class="studio-finance-note" role="status">${recordsState==='loading'?'개발 단계 기록을 불러오는 중입니다.':recordsState==='error'?'개발 단계 기록을 불러오지 못했습니다. <button type="button" class="btn" data-stage-action="retry">다시 불러오기</button>':'등록된 개발 단계가 없습니다.'}</p>`}
-    </details>
+
    </div>`;
   bindStageEditor(A,stagePanel,project,view,{
    render,
@@ -312,18 +205,13 @@ export function decorateFinancing(A,content,project){
   A.financeMilestones.setUnderwritingReference(project.id,stages.find(row=>row.id==='example-1'&&row.sample));
   costBases=milestoneRows(A,project);
   current=costBases.at(-1);
-  recordsState='ready';
   if(stagePanel.isConnected)render();
  }
  function loadOrRetry(){
   load().catch(()=>{
-   recordsState='error';
    if(stagePanel.isConnected)render();
   });
  }
- stagePanel.addEventListener('toggle',event=>{
-  if(event.target.matches('.studio-legacy-stages')&&event.target.isConnected)view.legacyOpen=event.target.open;
- },true);
  stagePanel.addEventListener('click',event=>{
   const button=event.target.closest('button');
   if(!button)return;
@@ -342,11 +230,10 @@ export function decorateFinancing(A,content,project){
    for(const item of body.querySelectorAll('[data-volume-key]'))item.setAttribute('aria-pressed',String(item===button));
    return;
   }
-  if(button.dataset.costBasis||button.dataset.stageId){
-   const key=button.dataset.costBasis?'basisId':'selectedId';
-   view[key]=button.dataset.costBasis||button.dataset.stageId;
+  if(button.dataset.costBasis){
+   view.basisId=button.dataset.costBasis;
    const group=button.parentElement;
-   const selector=button.dataset.costBasis?'[data-cost-basis]':'[data-stage-id]';
+   const selector='[data-cost-basis]';
    const scroll=group.scrollLeft;
    const tableScroll=body.querySelector('.studio-stage-table').scrollLeft;
    render();
@@ -365,27 +252,7 @@ export function decorateFinancing(A,content,project){
    body.querySelector('.studio-stage-table').hidden=!view.detailsOpen;
    return;
   }
-  if(operation==='retry'){loadOrRetry();return}
-  if(!operation)return;
-  const stage=operation==='create'?null:stages.find(row=>row.id===view.selectedId);
-  if(operation!=='create'&&!stage)return;
-  stageDialog(A,stage,operation,async change=>{
-   if(!stagePanel.isConnected||A.current()?.id!==project.id)throw Error('선택한 프로젝트가 바뀌었습니다. 창을 닫고 다시 열어 주세요.');
-   const response=await fetch(url,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(change)});
-   const result=await response.json();
-   if(response.status===409||response.status===404){
-    await load().catch(()=>{});
-    throw Error('이 기록이 다른 곳에서 변경되었습니다. 입력한 내용은 이 창에 남아 있습니다. 최신 기록을 확인한 뒤 다시 시도해 주세요.');
-   }
-   if(!response.ok)throw Error(response.status===422?'단계명, 기준일, 금액과 변경 사유를 확인해 주세요.':'기록을 저장하지 못했습니다. 다시 시도해 주세요.');
-   const previous=stages[stages.indexOf(stage)-1];
-   stages=result.stages;
-   view.selectedId=result.stage?.id||previous?.id||stages[0]?.id;
-   if(stagePanel.isConnected)render();
-  },button,()=>{
-   const selector=operation==='update'?'[data-stage-action="update"]':'[aria-pressed="true"][data-stage-id]';
-   (stagePanel.querySelector(selector)||stagePanel.querySelector('[data-stage-action="create"]')).focus({preventScroll:true});
-  });
+
  });
  render();
  loadOrRetry();

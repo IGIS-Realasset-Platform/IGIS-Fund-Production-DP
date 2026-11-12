@@ -8,7 +8,7 @@
 
 [플랫폼 열기](https://igis-development-project-platform.vercel.app/) · [버전 이력](VERSION_HISTORY.md) · [변경 내역](CHANGELOG.md)
 
-LOCAL-UI-168: 파이낸싱 비교카드를 이오타 원본274px 배치에 맞추고 공사비 한자리·하단증감을 적용했습니다. 단계전환/데스크톱 배치 및 저장회귀 검사 통과, DB 변경 없음. [검수명세](docs/local-finance-milestones-spec.md).
+LOCAL-UI-169: 핵심지표 연면적 첫행·평단위, 사업 준공 시점 명칭과 행 배경 통일, 이전 별도 기록UI 제거. 면적 환산/미수정정밀도·단계/조달/취소/503 회귀 통과, 사용자 DB 변경 없음. [검수명세](docs/local-finance-milestones-spec.md).
 
 로컬에서 원본 A·B·C 복사본으로 전체 메뉴 둘러보기: [로컬 디자인 작업실](docs/local-design-preview.md) · [전체 UI 디자인 명세·검수 상태](docs/local-design-system.md)
 
