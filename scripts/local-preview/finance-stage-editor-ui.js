@@ -4,6 +4,8 @@ import {underwritingBasis,costPerPyeong} from './finance-milestones.js';
 const areaFactor=3.305785;
 export const formatStageArea=(A,value,digits=2)=>value==null?'—':A.num(Number(value)/areaFactor,digits)+'평';
 const areaInputValue=value=>value==null?'':Number((Number(value)/areaFactor).toFixed(4));
+// Sale data remains in stored snapshots; it is no longer a user-facing financing metric.
+const visibleStageFields=stageFields.filter(field=>field.key!=='sale');
 const labels={funding:'총 조달규모',land:'토지매입비'};
 const display=(A,v,key)=>v==null?'—':key==='duration'?A.num(v)+'개월':A.money(v);
 const input=(A,key,label,value,type='text')=>`<label class="studio-stage-input-label">${label}<input data-stage-input="${key}" aria-label="${label}" type="${type}" value="${A.esc(value??'')}"${type==='number'?` min="0" step="${key==='gfa'?'any':'1'}"`:''}></label>`;
@@ -28,7 +30,7 @@ export function renderStageTable(A,project,rows,selected,draft){
   if(key==='cost'){const price=costPerPyeong(column.editor?preview:row);html+=`<span class="studio-stage-unit-cost"${column.editor?' data-draft-per-pyeong':''}>${price==null?'평당 —':A.num(Math.round(price))+'만원/평'}</span>`;}
   if(!column.editor&&baseline&&row!==baseline&&delta!==null)html+=`<small>${delta>0?'+':delta<0?'−':''}${display(A,Math.abs(delta),key)}</small>`;
   if(column.editor){
-   if(editableCurrent){if(key==='sale')html+=input(A,'sale','매각 목표 · 원',draft.values.sale,'number');else if(key==='duration')html+='<small>사업 준공 시점에 따라 계산</small>';else html+=sourcesEditor(A,draft,key);}
+   if(editableCurrent){if(key==='duration')html+='<small>사업 준공 시점에 따라 계산</small>';else html+=sourcesEditor(A,draft,key);}
    html+=`<textarea data-stage-note="${key}" aria-label="${labels[key]||field.label} 설명" rows="2" maxlength="500" placeholder="${labels[key]||field.label} 설명">${A.esc(draft.notes?.[key]||'')}</textarea>`;
   }else if(row.notes?.[key])html+=`<small>${A.esc(row.notes[key])}</small>`;
   return html;
@@ -38,7 +40,7 @@ export function renderStageTable(A,project,rows,selected,draft){
  <thead><tr><th scope="col">핵심 지표</th>${columns.map(col=>`<th scope="col"${cellAttrs(col)}>${head(col)}</th>`).join('')}</tr></thead>
  <tbody>
  <tr><th scope="row">연면적</th>${columns.map(col=>`<td${cellAttrs(col)}>${col.editor&&editableCurrent?input(A,'gfa','연면적 · 평',areaInputValue(draft.gfa),'number'):`<strong>${formatStageArea(A,col.row.gfa)}</strong>${col.row.gfaReference?'<small>사업개요 기준</small>':''}`}</td>`).join('')}</tr>
- ${stageFields.map(field=>`<tr><th scope="row">${labels[field.key]||field.label}</th>${columns.map(col=>`<td${cellAttrs(col)}>${metric(col,field)}</td>`).join('')}</tr>`).join('')}
+ ${visibleStageFields.map(field=>`<tr><th scope="row">${labels[field.key]||field.label}</th>${columns.map(col=>`<td${cellAttrs(col)}>${metric(col,field)}</td>`).join('')}</tr>`).join('')}
 
  <tr><th scope="row">사업 준공 시점</th>${columns.map(col=>`<td${cellAttrs(col)}>${col.editor&&editableCurrent?input(A,'periodEnd','사업 준공 시점',draft.periodEnd,'month'):`<strong>${col.row.periodEnd?A.esc(col.row.periodEnd.replaceAll('-','.')):'—'}</strong>${col.row.periodEndReference?'<small>시작월·개발기간 기준</small>':''}`}</td>`).join('')}</tr>
  <tr><th scope="row">증감 사유</th>${columns.map(col=>`<td${cellAttrs(col)}>${col.editor?`<textarea data-stage-input="reason" aria-label="변경 사유·관련 이슈" rows="3" maxlength="1000" placeholder="변경 사유·관련 이슈">${A.esc(draft.reason||'')}</textarea>`:A.esc(col.row.reason||'—')+(col.row.reasons||[]).map(([name,reason])=>`<small>${A.esc(name?name+' · '+reason:reason)}</small>`).join('')}</td>`).join('')}</tr>
@@ -55,7 +57,7 @@ export function bindStageEditor(A,panel,project,view,hooks){
  table.addEventListener('input',event=>{
   const draft=view.editor,target=event.target;if(!draft||draft.pending)return;
   if(target.dataset.stageNote)draft.notes[target.dataset.stageNote]=target.value;
-  if(target.dataset.stageInput){const key=target.dataset.stageInput;if(key==='sale')draft.values.sale=target.value;else if(key==='gfa')draft.gfa=target.value.trim()===''?'':Number((Number(target.value)*areaFactor).toFixed(8));else draft[key]=target.value;}
+  if(target.dataset.stageInput){const key=target.dataset.stageInput;if(key==='gfa')draft.gfa=target.value.trim()===''?'':Number((Number(target.value)*areaFactor).toFixed(8));else draft[key]=target.value;}
   if(target.dataset.sourceId){
    const id=target.dataset.sourceId,kind=target.dataset.sourceKind;
    for(const [key,rows]of Object.entries(draft.sources)){if((key==='funding')!==(kind==='funding'))continue;for(const row of rows)if(row.id===id)row.value=target.value;}

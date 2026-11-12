@@ -8,6 +8,8 @@
 
 [플랫폼 열기](https://igis-development-project-platform.vercel.app/) · [버전 이력](VERSION_HISTORY.md) · [변경 내역](CHANGELOG.md)
 
+LOCAL-UI-174: 파이낸싱 상단 중복요약을 제거하고 단계선택→핵심지표→조달구조로 연결했습니다. 매각목표는 조회·입력에서 제거하며 기존자료는 보존합니다.
+
 LOCAL-UI-173: 파이낸싱 비교카드 위치·굵기·소수최대1자리 및 공사비/금융비 평당값 적용. 실제 화면·단계/저장회귀 확인, 데이터변경 없음.
 
 LOCAL-UI-172: 최초UW 표기 및 개발기간 단계명·이슈연월 배치. 본PF 1차78개월·준공2030.12를 로컬에 반영했습니다. 이전 단계·금액 보존, 하단 기간증감 제거. [검수명세](docs/local-finance-milestones-spec.md).

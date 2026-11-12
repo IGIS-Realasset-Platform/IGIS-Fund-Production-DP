@@ -591,7 +591,7 @@
   padding-block:9px 7px;
  }
 
- .dp-app #content :is(.cost-kpi-row .cost-kpi-value,.dp-finance .recovery-summary > div > b,.studio-stage-metrics b) {
+ .dp-app #content :is(.cost-kpi-row .cost-kpi-value,.dp-finance .recovery-summary > div > b) {
   font-size:20px; font-weight:700; line-height:26px;
  }
  .dp-app #content .dp-finance .recovery-summary > div > b {white-space:normal; overflow-wrap:anywhere}

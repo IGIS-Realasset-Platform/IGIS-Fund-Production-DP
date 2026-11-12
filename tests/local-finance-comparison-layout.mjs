@@ -18,6 +18,8 @@ try{
  await page.goto(origin+'/?screen=finance');await page.locator('[data-milestone-add]').waitFor();
  const before=await(await page.request.get(origin+'/api/workspace')).json();
  const panel=page.locator('.studio-stage-comparison');
+ assert.equal(await page.locator('.studio-stage-volume').count(),0,'LOCAL-UI-174: 중복 상단요약 제거');
+ assert.ok(await panel.evaluate(e=>e.previousElementSibling.classList.contains('studio-milestone-toolbar')),'단계선택 직후 핵심지표');
  for(const width of [1366,1440,1920]){
   await page.setViewportSize({width,height:1100});
   for(const id of await page.locator('[data-cost-basis]').evaluateAll(es=>es.map(e=>e.dataset.costBasis))){
@@ -60,7 +62,8 @@ try{
  assert.equal(await page.locator('[data-stage-field=construction] .studio-stage-values b').last().innerText(),'3,126억원');
  await panel.screenshot({path:'/private/tmp/idm-ui168-layout.png'});
  await page.locator('[data-stage-action=details]').click();await page.locator('.studio-cost-bases').waitFor();
- await page.locator('[data-milestone-add]').click();await page.locator('[data-stage-input=name]').fill('취소할 단계');
+ assert.equal(await page.locator('.studio-cost-bases').getByRole('rowheader',{name:'매각 목표',exact:true}).count(),0);
+ await page.locator('[data-milestone-add]').click();assert.equal(await page.locator('[data-stage-input=sale],[data-stage-note=sale]').count(),0);await page.locator('[data-stage-input=name]').fill('취소할 단계');
  await page.locator('[data-stage-cancel]').click();
  assert.deepEqual(await(await page.request.get(origin+'/api/workspace')).json(),before);
  assert.deepEqual(writes,[]);assert.deepEqual(errors,[]);

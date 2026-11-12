@@ -5,7 +5,6 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {startPreview} from '../scripts/local-preview/server.mjs';
 import {capitalGroups} from '../scripts/local-preview/finance-overview.js';
-
 assert.deepEqual(capitalGroups({loans:[
  {institution:'대주 A',tranche:'Tr.A',rank:'선순위',commitment:500},
  {institution:'대주 B',trancheName:'Tr.A',rank:'선순위',commitment:'100'},
@@ -16,7 +15,6 @@ assert.deepEqual(capitalGroups({loans:[
  {name:'Tr.A',total:600,people:[{name:'대주 A',amount:500,role:'선순위'},{name:'대주 B',amount:100,role:'선순위'}]},
  {name:'본PF · 후순위',total:null,people:[{name:'대주 C',amount:null,role:'후순위'}]},
 ]);
-
 const require=createRequire(import.meta.url);
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const directory=await mkdtemp(join(tmpdir(),'igis-finance-browser-'));
@@ -66,14 +64,15 @@ try{
   console.error(await page.locator('#content').evaluate(el=>({screen:el.dataset.localScreen,text:el.innerText.slice(0,900)})),errors);
   throw error;
  });
- const linkedCost=stage.locator('.studio-stage-metrics > div').filter({hasText:/^원가/});
- const upperFunding=stage.locator('.studio-stage-metrics > div').filter({hasText:'총 조달규모'}).locator('b');
+ const linkedCost=stage.locator('[data-stage-field=cost] .studio-stage-values b').last();
+ const upperFunding=stage.locator('[data-stage-field=funding] .studio-stage-values b').last();
  const lowerFunding=structure.locator('.recovery-summary > div').filter({hasText:'총 조달규모'}).locator('b');
- assert.equal(await stage.locator('[data-volume-label]').innerText(),'총 조달규모');
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'3,050억원');
+ assert.equal(await stage.locator('.studio-stage-volume,.studio-stage-metrics,[data-volume-value],[data-volume-label],[data-volume-key]').count(),0,'LOCAL-UI-174: 중복 상단 지표와 선택영역 제거');
+ assert.equal(await stage.getByRole('group',{name:'사업 규모 지표 선택'}).count(),0);
+ assert.equal(await stage.locator('[data-stage-field=sale],[data-stage-input=sale],[data-stage-note=sale]').count(),0);
  assert.equal(await upperFunding.innerText(),'3,050억원');
  assert.equal(await lowerFunding.innerText(),'3,050억원');
- assert.equal(await linkedCost.locator('b').innerText(),currentCost);
+ assert.equal(await linkedCost.innerText(),currentCost);
  const compare=stage.locator('.studio-stage-comparison');
  const details=stage.locator('[data-stage-action="details"]');
  const linkedTable=stage.getByRole('table',{name:'원가관리 비교 기준'});
@@ -91,7 +90,7 @@ try{
  assert.equal(await details.getAttribute('aria-expanded'),'false');
  assert.equal(await stage.getByText('변경 사유·관련 이슈',{exact:true}).isVisible(),false);
  assert.equal(await stage.getByText(/교통 개선시설/).isVisible(),false);
- assert.ok(await stage.evaluate(el=>el.querySelector('.studio-stage-selector').getBoundingClientRect().bottom<=el.querySelector('.studio-stage-volume').getBoundingClientRect().top));
+ assert.ok(await stage.evaluate(el=>el.querySelector('.studio-stage-selector').getBoundingClientRect().bottom<=el.querySelector('.studio-stage-comparison').getBoundingClientRect().top));
  assert.ok(await compare.evaluate(el=>{
   const box=el.getBoundingClientRect();
   const trigger=el.querySelector('button').getBoundingClientRect();
@@ -99,26 +98,20 @@ try{
   return box.width===trigger.width&&box.height===trigger.height&&cards.length===4
    &&cards[0].top===cards[1].top&&cards[2].top===cards[3].top&&cards[0].left===cards[2].left;
  }));
- const volume=stage.getByRole('group',{name:'사업 규모 지표 선택'});
- await volume.getByRole('button',{name:'공사비',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),currentConstruction);
- await volume.getByRole('button',{name:'금융비',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),currentInterest);
- await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'—');
- await volume.getByRole('button',{name:'총 조달규모',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'3,050억원');
- await volume.getByRole('button',{name:'원가',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),currentCost);
+ const roundedCard=text=>Number(text.replaceAll(',','').replace('억원','')).toLocaleString('ko-KR',{maximumFractionDigits:1})+'억원';
+ const constructionSourceTotal=await page.evaluate(()=>{const p=App.current(),root=App.companyCostProfile.managementNodes(p).find(row=>row.companyProfileKey==='construction');return root.sourceIds.reduce((sum,id)=>sum+App.amount(p,id),0);});
+ assert.equal(constructionSourceTotal,312604870000,'현재 CBS 구성 원장 합계: 표시 반올림 이전 원금액');
+ assert.equal(await stage.locator('[data-stage-field=construction] .studio-stage-values b').last().innerText(),'3,126억원','원금액3126.0487억원에서 직접1자리반올림');
+ assert.equal(await stage.locator('[data-stage-field=interest] .studio-stage-values b').last().innerText(),roundedCard(currentInterest));
+ assert.equal(workspace.state.projects.find(row=>row.id==='TEST-20261016-A').financeCurrentStage?.sale??null,null);
+ assert.equal(await linkedCost.innerText(),currentCost);
  const costComparison=compare.getByRole('heading',{name:'원가',exact:true}).locator('..');
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,currentCost]);
  await basis.getByRole('button',{name:/최초UW/}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),initialCost);
+ assert.equal(await linkedCost.innerText(),initialCost);
  assert.equal(await upperFunding.innerText(),'3,050억원','기존 최초 단계에 저장한 조달규모를 누락하면 안 됩니다');
- await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'6,050억원');
+ assert.equal(legacyBefore['TEST-20261016-A'].stages[0].values.sale,605000000000,'화면에서 숨겨도 UW 매각 원천값 유지');
  assert.match(await compare.getByRole('heading',{name:'개발기간',exact:true}).locator('..').innerText(),/72M/);
- await volume.getByRole('button',{name:'원가',exact:true}).click();
  assert.equal(await lowerFunding.innerText(),'3,050억원');
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,initialCost],'LOCAL-UI-168: 최초 단계도 원본처럼 동일한 두 칸 배치를 유지');
  assert.equal(await structure.locator('.studio-capital-bar').isVisible(),false,'과거 구성 미입력에 현재 조달 막대를 재사용하면 안 됩니다');
@@ -126,6 +119,8 @@ try{
  await basis.getByRole('button',{name:'최근 사업 단계',exact:true}).click();
  await details.click();
  await linkedTable.waitFor();
+ assert.equal(await linkedTable.getByRole('row',{name:/^공사비/}).locator('td[data-selected="true"] strong').first().innerText(),currentConstruction,'원가현황과 현재 상세표 원금액 연결');
+ assert.equal(await linkedTable.getByRole('rowheader',{name:'매각 목표',exact:true}).count(),0);
  assert.equal(await linkedTable.locator('tbody tr').first().getByRole('rowheader').innerText(),'연면적','LOCAL-UI-169: 연면적을 핵심지표 첫 행에 표시');
  const gfaText=await linkedTable.getByRole('row',{name:/^연면적/}).locator('td[data-selected="true"]').innerText();
  assert.match(gfaText,/평/);assert.doesNotMatch(gfaText,/㎡/);
@@ -135,12 +130,11 @@ try{
  assert.ok(await linkedTable.evaluate(el=>getComputedStyle(el.querySelector('thead th'),'::after').backgroundColor===getComputedStyle(el.querySelector('tbody th')).borderBottomColor),'LOCAL-UI-171: 제목행과 항목행 구분선 색 일치');
  assert.ok(await stage.evaluate(el=>el.closest('.dp-finance').textContent.indexOf('개발 단계별 핵심 지표')<el.closest('.dp-finance').textContent.indexOf('대출현황')));
  assert.equal(await stage.evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 255, 255)');
- assert.equal(await linkedCost.locator('b').innerText(),currentCost);
+ assert.equal(await linkedCost.innerText(),currentCost);
  assert.equal(await upperFunding.innerText(),'3,050억원');
  await stage.getByRole('button',{name:'핵심 지표 닫기'}).click();
  assert.equal(await linkedTable.isVisible(),false);
  await details.click();
-
  const bar=structure.getByRole('group',{name:'약정·출자 기준 조달 비중'});
  const equity=bar.getByRole('button',{name:/^자기자본/});
  const lender=bar.getByRole('button',{name:/^본PF/});
@@ -166,7 +160,6 @@ try{
  assert.deepEqual(await capitalDialog.getByRole('columnheader').allTextContents(),['구분','트랜치','자금 제공자','약정·출자액']);
  assert.equal(await capitalDialog.locator('tbody tr').count(),4);
  await page.keyboard.press('Escape');
-
  // Legacy records remain a read-only UW source; only native stages appear in the UI.
  await page.reload();
  await basis.getByRole('button',{name:'최근 사업 단계',exact:true}).waitFor();
@@ -186,7 +179,6 @@ try{
  assert.equal(await main.locator('.table-toolbar-left').getByText('대출현황',{exact:true}).count(),1);
  assert.deepEqual(await (await context.request.get(origin+'/api/workspace')).json(),workspace);
  assert.deepEqual(workspaceWrites,[]);
-
  allowWorkspaceWrite=true;
  const readWorkspace=async()=>await (await context.request.get(origin+'/api/workspace')).json();
  const projectA=record=>record.state.projects.find(project=>project.id==='TEST-20261016-A');
@@ -220,8 +212,7 @@ try{
  assert.equal(captured.revision,workspace.revision+1,'원가와 당시 조달 지표는 한 번에 저장해야 합니다');
  await page.goto(origin+'/?screen=finance');
  await basis.getByRole('button',{name:/중간 사업비 검토/}).click();
- await volume.getByRole('button',{name:'원가',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'5,000억원');
+ assert.equal(await linkedCost.innerText(),'5,000억원');
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,'5,000억원']);
  assert.equal(await upperFunding.innerText(),'2,800억원');
  assert.equal(await lowerFunding.innerText(),'2,800억원');
@@ -229,16 +220,14 @@ try{
  assert.equal(await structure.locator('.studio-capital-groups article').count(),0);
  assert.match(await compare.locator('.studio-stage-facts').innerText(),/2029\.09/);
  assert.match(await compare.getByRole('heading',{name:'개발기간',exact:true}).locator('..').innerText(),/60M/);
- await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'0억원');
+ assert.equal(projectA(await readWorkspace()).costStages.find(row=>row.id===snapshot.id).financeContext.sale,0,'매각 0원 과거자료 보존');
  await details.click();
  const selectedValue=label=>linkedTable.getByRole('row',{name:new RegExp('^'+label)}).locator('td[data-selected="true"]');
  assert.match(await selectedValue('원가').innerText(),/^5,000억원/m);
  assert.match(await selectedValue('총 조달규모').innerText(),/당시 약정 계획 2800억원/);
  assert.match(await selectedValue('증감 사유').innerText(),/설계 조정과 대주 협의/);
  await basis.getByRole('button',{name:'최근 사업 단계',exact:true}).click();
- await volume.getByRole('button',{name:'원가',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),currentCost);
+ assert.equal(await linkedCost.innerText(),currentCost);
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,currentCost],'LOCAL-UI-161: 현재도 최초UW와 비교');
  assert.equal(await costComparison.locator('.studio-stage-values > div').first().locator('span').first().innerText(),'최초UW');
  // Original isolated fixture has no historical GFA: never borrow current GFA.
@@ -247,6 +236,8 @@ try{
  // LOCAL-UI-167 replaces the modal with editing in the comparison column.
  const currentEditor=stage.locator('[data-stage-inline-edit="current"]');
  await currentEditor.click();
+ assert.equal(await stage.locator('[data-stage-note]').count(),6);
+ assert.equal(await stage.locator('[data-stage-input=sale],[data-stage-note=sale]').count(),0);
  await stage.locator('[data-stage-input="name"]').fill('취소할 단계');
  await stage.locator('[data-stage-cancel]').click();
  assert.deepEqual(await readWorkspace(),captured);
@@ -269,8 +260,7 @@ try{
  assert.deepEqual(projectA(renamed).cbs,projectA(captured).cbs);
  await page.reload();
  await basis.getByRole('button',{name:/본PF 1차/}).waitFor();
- await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'—','기존 매각목표 누락을 정보 수정이 변경하지 않음');
+ assert.equal(projectA(await readWorkspace()).financeCurrentStage.sale??null,projectA(captured).financeCurrentStage?.sale??null,'화면에서 빠진 매각목표는 일반 저장 후에도 보존');
  // Capture a distinct historical capital structure through the native stage form.
  // All edits use this test's temporary workspace; source commitments remain intact.
  await page.goto(origin+'/?screen=cost-detail');
@@ -325,7 +315,7 @@ try{
  await page.reload();
  assert.equal(await upperFunding.innerText(),'3,150억원');
  assert.equal(await lowerFunding.innerText(),'3,150억원');
- assert.equal(await linkedCost.locator('b').innerText(),currentCost);
+ assert.equal(await linkedCost.innerText(),currentCost);
  const loanChanged=await readWorkspace();
  assert.deepEqual(projectA(loanChanged).costStages,projectA(withCapital).costStages);
  await basis.getByRole('button',{name:/조달구성 확정/}).click();
@@ -335,7 +325,7 @@ try{
  assert.match(await structure.locator('.studio-capital-groups').innerText(),/650억원/);
  await basis.getByRole('button',{name:/중간 사업비 검토/}).click();
  assert.equal(await upperFunding.innerText(),'2,800억원');
- assert.equal(await linkedCost.locator('b').innerText(),'5,000억원');
+ assert.equal(await linkedCost.innerText(),'5,000억원');
  assert.equal(await lowerFunding.innerText(),'2,800억원');
  assert.equal(await structure.locator('.studio-capital-bar').isVisible(),false);
  await page.locator('#project-select').selectOption('TEST-20261016-B');
@@ -358,7 +348,6 @@ try{
  failWorkspaceWrite=false;
  await stage.locator('[data-stage-cancel]').click();
  assert.equal(await basis.getByRole('button',{name:/저장 실패 단계/}).count(),0);
-
  await page.route('**/finance-overview.js',route=>route.fulfill({status:404,body:'missing'}));
  await page.reload();
  await main.locator('.table-toolbar-left').getByText('대출현황',{exact:true}).waitFor();

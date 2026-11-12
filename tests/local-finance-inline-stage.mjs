@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
-import {copyFile, mkdtemp, readFile, rm} from 'node:fs/promises';
+import {mkdtemp, readFile, writeFile, rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {startPreview} from '../scripts/local-preview/server.mjs';
@@ -13,7 +13,10 @@ const sourceBytes = await readFile(sourceFile);
 const projectId = 'TEST-20261016-A';
 let server, browser;
 try {
-  await copyFile(sourceFile, join(directory, 'original-workspace.json'));
+  const fixture=JSON.parse(sourceBytes);
+  const fixtureProject=fixture.projects.find(row=>row.id===projectId);
+  fixtureProject.financeCurrentStage={...fixtureProject.financeCurrentStage,sale:765432100000,notes:{...fixtureProject.financeCurrentStage?.notes,sale:'보존할 매각 근거'}};
+  await writeFile(join(directory,'original-workspace.json'),JSON.stringify(fixture));
   server = await startPreview({port:0, directory});
   const origin = 'http://127.0.0.1:' + server.address().port;
   browser = await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
@@ -51,7 +54,9 @@ try {
   const save=section.locator('[data-stage-commit]');
   const cancel=section.locator('[data-stage-cancel]');
   await add.click();
-  assert.equal(await section.locator('[data-stage-note]').count(),7);
+  assert.equal(await section.locator('[data-stage-note]').count(),6);
+  assert.equal(await section.locator('.studio-stage-volume,.studio-stage-metrics,[data-stage-input=sale],[data-stage-note=sale]').count(),0);
+  assert.equal(await section.getByRole('rowheader',{name:'매각 목표',exact:true}).count(),0);
   await name.fill('취소할 새 단계');
   await cancel.click();
   assert.deepEqual(await get(),before);
@@ -72,11 +77,16 @@ try {
   const after=await get(),current=project(after);
   assert.equal(current.financeCurrentStage.name,'본PF 2차');
   assert.equal(current.financeCurrentStage.date,'2027-03-15');
+  assert.equal(current.financeCurrentStage.sale,765432100000,'숨긴 매각값은 새 단계 저장으로 지워지지 않습니다');
+  assert.equal(current.financeCurrentStage.notes.sale,'보존할 매각 근거','숨긴 매각 설명은 새 단계 저장에도 보존');
   assert.equal(current.cbs.find(row=>row.id==='c-102-ewjyqyz4').current,15720930000);
   assert.equal(current.costStages.length,project(before).costStages.length+1);
   const prior=current.costStages.at(-1);
   assert.equal(prior.financeContext.linkedValues.interest,31500000000);
   assert.equal(prior.financeContext.linkedValues.cost,513080000000);
+  assert.equal(prior.financeContext.linkedValues.sale,765432100000);
+  assert.equal(prior.financeContext.sale,765432100000);
+  assert.equal(prior.financeContext.notes.sale,'보존할 매각 근거');
   assert.deepEqual(current.costStages.slice(0,-1),project(before).costStages);
   assert.deepEqual(after.state.projects.filter(row=>row.id!==projectId),before.state.projects.filter(row=>row.id!==projectId));
   await page.reload();
@@ -114,6 +124,8 @@ try {
   const renamed=await get(),oldSaved=project(renamed).costStages.find(row=>row.id===prior.id);
   assert.deepEqual(oldSaved.financeContext.linkedValues,prior.financeContext.linkedValues);
   assert.deepEqual(oldSaved.values,prior.values);
+  assert.equal(oldSaved.financeContext.sale,765432100000);
+  assert.equal(oldSaved.financeContext.notes.sale,'보존할 매각 근거','숨긴 과거 설명도 정보 수정 시 보존');
   assert.deepEqual(project(renamed).cbs,project(retried).cbs);
   // A project switch between opening and saving must never create a stage.
   await add.click();await name.fill('잘못 저장될 단계');await reason.fill('사업 전환 차단');

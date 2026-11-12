@@ -68,7 +68,7 @@ export function createStageDraft(A,p,{kind='create',basis}={}){
  const basisId=kind==='create'?'current':basis?.id||'current',row=selected(A,p,basisId);
  return {version:1,kind,projectId:p.id,basisId,fingerprint:fingerprint(p),readOnly:basisId!=='current',
   name:kind==='create'?'':row.name,date:kind==='create'?A.today:row.date||A.today,reason:kind==='create'?'':row.reason||'',
-  notes:Object.fromEntries(stageFields.map(({key})=>[key,kind==='create'?'':row.notes?.[key]||''])),
+  notes:Object.fromEntries(stageFields.map(({key})=>[key,kind==='create'&&key!=='sale'?'':row.notes?.[key]||''])),
   values:copy(row.values),gfa:row.gfa??null,periodEnd:row.periodEnd||'',sources:sources(A,p,row)};
 }
 function normalizedSources(input,expected,label){

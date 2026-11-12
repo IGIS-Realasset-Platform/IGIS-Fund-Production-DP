@@ -8,7 +8,6 @@ const eok=100_000_000;
 const groupColors=['#253985','#426eaa','#5886a2','#796ba4','#536b87','#815c84'];
 const stageViews=new Map();
 const stageFieldsByKey=new Map(stageFields.map(field=>[field.key,field]));
-const volumeKeys=['funding','cost','sale','land','construction','interest'];
 const summaryLabels={funding:'총 조달규모',land:'토지매입비'};
 const amountOf=value=>{
  if(typeof value!=='number'&&(typeof value!=='string'||!value.trim()))return null;
@@ -140,10 +139,8 @@ export function decorateFinancing(A,content,project){
  installMilestoneCapture(A);
  let costBases=milestoneRows(A,project);
  let current=costBases.at(-1);
- const summaryLabel=field=>summaryLabels[field.key]||field.label;
- const summaryValue=(field,basis)=>fieldDisplay(A,basis.values[field.key]);
  let stages=[];
- if(!stageViews.has(project.id))stageViews.set(project.id,{detailsOpen:false,volume:'funding'});
+ if(!stageViews.has(project.id))stageViews.set(project.id,{detailsOpen:false});
  const view=stageViews.get(project.id);
  const selectedBasis=()=>costBases.find(basis=>basis.id===view.basisId)||current;
  function render(){
@@ -153,24 +150,12 @@ export function decorateFinancing(A,content,project){
   const baseline=underwritingBasis(costBases);
   const gfa=basis.gfa;
   const periodEnd=basis.periodEnd;
-  const volume=stageFieldsByKey.get(view.volume);
   body.innerHTML=`
    <div class="studio-milestone-toolbar"><div class="studio-stage-selector" role="group" aria-label="사업비 비교 기준 선택">
     ${costBases.map(row=>`<button type="button" aria-pressed="${row===basis}" data-cost-basis="${A.esc(row.id)}">
      ${row.date?`<span>${A.esc(displayDate(row.date))}</span>`:''}<strong>${A.esc(row.name)}${row.id==='current'&&costBases.some(other=>other.snapshot&&other.name===row.name)?' · 현재':''}</strong></button>`).join('')}
    </div>
    <div class="studio-stage-actions"><button type="button" class="btn" data-milestone-add${view.editor?.pending?' disabled':''}>단계 추가</button></div></div>
-   <div class="studio-stage-volume">
-    <div class="studio-stage-volume-main">
-     <span data-volume-label>${summaryLabel(volume,basis)}</span>
-     <b data-volume-value>${summaryValue(volume,basis)}</b>
-     <div class="studio-stage-volume-picker" role="group" aria-label="사업 규모 지표 선택">
-      ${volumeKeys.map(key=>`<button type="button" data-volume-key="${key}" aria-pressed="${key===volume.key}">${summaryLabels[key]||stageFieldsByKey.get(key).label}</button>`).join('')}
-     </div>
-    </div>
-    <div class="studio-stage-metrics">${stageFields.slice(0,3).map(field=>
-     `<div><h4>${summaryLabel(field,basis)}</h4><b>${summaryValue(field,basis)}</b></div>`).join('')}</div>
-   </div>
    <div class="studio-stage-comparison">
      <div class="studio-stage-project">
       <div class="studio-stage-facts">
@@ -221,15 +206,6 @@ export function decorateFinancing(A,content,project){
    view.detailsOpen=true;render();
    const input=body.querySelector('[data-stage-editor] [data-stage-input="name"]');
    input?.scrollIntoView({block:'center',inline:'end'});input?.focus({preventScroll:true});return;
-  }
-  if(button.dataset.volumeKey){
-   view.volume=button.dataset.volumeKey;
-   const field=stageFieldsByKey.get(view.volume);
-   const basis=selectedBasis();
-   body.querySelector('[data-volume-label]').textContent=summaryLabel(field,basis);
-   body.querySelector('[data-volume-value]').textContent=summaryValue(field,basis);
-   for(const item of body.querySelectorAll('[data-volume-key]'))item.setAttribute('aria-pressed',String(item===button));
-   return;
   }
   if(button.dataset.costBasis){
    view.basisId=button.dataset.costBasis;

@@ -1,0 +1,25 @@
+{
+  "requirement": "LOCAL-UI-174",
+  "verified": [
+    "summary absent",
+    "selector then comparison then capital",
+    "sale absent in read/edit/create",
+    "six visible metric notes",
+    "stored sale and note preserved in current/prior stage",
+    "desktop1366/1440/1920",
+    "model/inline/keymetrics/browser",
+    "live4178 three funding stages2100/2800/3050",
+    "live writes0"
+  ],
+  "sha256": {
+    "scripts/local-preview/design.css": "42cc9301288dcf92c4fd895880a8694e89a562ac2ab3dcaba2f1aa569aa1e796",
+    "scripts/local-preview/finance-overview.js": "84848131bd6e8509746d4739943365b0f505e402a7484725e9389032dea140a7",
+    "scripts/local-preview/finance-overview.css": "61f4d0cde770d5179df9fc26161b3405f92fabc28431c4cfa753040cdb9b7754",
+    "scripts/local-preview/finance-stage-editor-ui.js": "1594d492510cdca16c44a7d9d4f444ef6c52b868c1f60434dd9dec8dbe3d99b2",
+    "scripts/local-preview/finance-stage-editor-model.js": "f17ed5a0e91877ca6e671e1e91b6518e7c27c58a5338588208105564e90d71d0",
+    "tests/local-finance-comparison-layout.mjs": "b0479e7a15dc45a57ba8b8326da0ce175154f019da60f5a37d74c311dfc78a75",
+    "tests/local-finance-browser.mjs": "e2bab294166e6ae6dcf3b7e44e667952ac385e041dff3fefb2675a54845c98cb",
+    "tests/local-finance-inline-stage.mjs": "cd9a7b432662e2b45a28c46911aa398a5ed56a90d93833e4e9e327107d198a65",
+    "tests/local-finance-key-metrics.mjs": "6f26191589637c47b9da74cef44685bf9f8718c2ec3a24879d898219ab6f67c8"
+  }
+}
