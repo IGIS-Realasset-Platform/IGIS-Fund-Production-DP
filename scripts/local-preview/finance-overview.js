@@ -1,6 +1,8 @@
 import {currentCapitalSources,capitalSourceTotal,capitalSourceGroups} from './finance-capital.js';
 import {stageFields} from './finance-stage-fields.js';
-import {milestoneRows,installMilestoneCapture,editMilestoneInfo,captureCurrentMilestone,underwritingBasis,costPerPyeong} from './finance-milestones.js';
+import {createStageDraft} from './finance-stage-editor-model.js';
+import {renderStageTable,bindStageEditor} from './finance-stage-editor-ui.js';
+import {milestoneRows,installMilestoneCapture,underwritingBasis,costPerPyeong} from './finance-milestones.js';
 
 const eok=100_000_000;
 const groupColors=['#253985','#426eaa','#5886a2','#796ba4','#536b87','#815c84'];
@@ -24,10 +26,7 @@ function renderCapital(A,capital,summary,project,basis){
  summary.innerHTML=[['총 조달규모',total],['자기자본',sum('equity')],['대출 약정',sum('debt')]].map(([label,value])=>'<div><span>'+label+'</span><b>'+(value==null?'—':A.money(value))+'</b></div>').join('');
  const detailButton=capital.querySelector('.panel-header button');
  detailButton.removeAttribute('data-action');
- const openCapitalDetails=()=>{A.modal(basis.name+' · 조달 내역',A.table(['구분','트랜치','자금 제공자','약정·출자액'],sources.map(row=>[row.kind==='equity'?'출자':'대출',A.esc(row.tranche),A.esc(row.party),row.amount==null?'—':A.money(row.amount)])),basis.snapshot?A.btn('단계 정보 수정','finance-stage-info',{id:basis.snapshot.id}):'');
-  const edit=document.querySelector('#app-dialog [data-action="finance-stage-info"]');
-  if(edit)edit.onclick=event=>{event.stopPropagation();editMilestoneInfo(A,project,basis,A.formParentOptions(openCapitalDetails));};
- };
+ const openCapitalDetails=()=>A.modal(basis.name+' · 조달 내역',A.table(['구분','트랜치','자금 제공자','약정·출자액'],sources.map(row=>[row.kind==='equity'?'출자':'대출',A.esc(row.tranche),A.esc(row.party),row.amount==null?'—':A.money(row.amount)])));
  detailButton.onclick=openCapitalDetails;
  const money=amount=>amount===null?'—':A.money(amount);
  const hasMissing=total===null||totalOf(groups.map(group=>group.total))!==total;
@@ -246,7 +245,7 @@ export function decorateFinancing(A,content,project){
     ${costBases.map(row=>`<button type="button" aria-pressed="${row===basis}" data-cost-basis="${A.esc(row.id)}">
      ${row.date?`<span>${A.esc(displayDate(row.date))}</span>`:''}<strong>${A.esc(row.name)}${row.id==='current'&&costBases.some(other=>other.snapshot&&other.name===row.name)?' · 현재':''}</strong></button>`).join('')}
    </div>
-   <div class="studio-stage-actions"><button type="button" class="btn" data-milestone-edit>단계 정보 수정</button><button type="button" class="btn primary" data-milestone-save>현재 단계 저장</button></div></div>
+   <div class="studio-stage-actions"><button type="button" class="btn" data-milestone-add${view.editor?.pending?' disabled':''}>단계 추가</button></div></div>
    <div class="studio-stage-volume">
     <div class="studio-stage-volume-main">
      <span data-volume-label>${summaryLabel(volume,basis)}</span>
@@ -276,17 +275,7 @@ export function decorateFinancing(A,content,project){
      </button>
    </div>
    <div id="studio-stage-table" class="table-wrap studio-stage-table" role="region" aria-label="개발 단계별 비교표 스크롤" tabindex="0"${view.detailsOpen?'':' hidden'}>
-    <table class="dense-table studio-cost-bases" aria-label="원가관리 비교 기준" style="min-width:${140+costBases.length*220}px">
-     <colgroup><col style="width:140px">${costBases.map(()=>'<col>').join('')}</colgroup>
-     <thead><tr><th scope="col">핵심 지표</th>${costBases.map(row=>`<th scope="col" data-selected="${row===basis}">${A.esc(row.name)}${row.date?`<small>${A.esc(displayDate(row.date))}</small>`:''}</th>`).join('')}</tr></thead>
-     <tbody>${stageFields.map(({key,label,unit})=>`<tr><th scope="row">${summaryLabels[key]||label}</th>
-      ${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${fieldDisplay(A,row.values[key],unit)}</strong>${key==='cost'?costUnitDisplay(A,row):''}${baseline&&row!==baseline?`<small>${changeText(A,row.values[key],baseline.values[key],unit)}</small>`:''}${row.notes?.[key]?`<small>${A.esc(row.notes[key])}</small>`:''}</td>`).join('')}</tr>`).join('')}
-      <tr><th scope="row">연면적</th>${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${row.gfa==null?'—':A.num(row.gfa)+'㎡'}</strong>${row.gfaReference?'<small>사업개요 기준</small>':''}</td>`).join('')}</tr>
-      <tr><th scope="row">사업 종료 예정</th>${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${row.periodEnd?A.esc(displayDate(row.periodEnd)):'—'}</strong>${row.periodEndReference?'<small>시작월·개발기간 기준</small>':''}</td>`).join('')}</tr>
-      ${costBases.some(row=>row.reason||row.reasons?.length)?`<tr><th scope="row">증감 사유</th>${costBases.map(row=>`<td data-selected="${row===basis}">${row.reason?A.esc(row.reason):''}${row.reasons?.length?row.reasons.map(([name,reason])=>`<small>${A.esc(name?name+' · '+reason:reason)}</small>`).join(''):row.reason?'':'—'}</td>`).join('')}</tr>`:''}
-      <tr><th scope="row"></th>${costBases.map(row=>`<td>${A.btn('단계 정보 수정','finance-stage-info',{id:row.snapshot?.id||'current'})}</td>`).join('')}</tr>
-     </tbody>
-    </table>
+    ${renderStageTable(A,project,costBases,basis,view.editor)}
     <details class="studio-legacy-stages"${view.legacyOpen?' open':''}><summary>이전 별도 단계 기록</summary>
     <div class="studio-stage-controls">
      ${stage?`<div class="studio-stage-selector" role="group" aria-label="저장된 단계 기록 선택">
@@ -305,6 +294,12 @@ export function decorateFinancing(A,content,project){
     </table>`:`<p class="studio-finance-note" role="status">${recordsState==='loading'?'개발 단계 기록을 불러오는 중입니다.':recordsState==='error'?'개발 단계 기록을 불러오지 못했습니다. <button type="button" class="btn" data-stage-action="retry">다시 불러오기</button>':'등록된 개발 단계가 없습니다.'}</p>`}
     </details>
    </div>`;
+  bindStageEditor(A,stagePanel,project,view,{
+   render,
+   refresh:()=>{costBases=milestoneRows(A,project);current=costBases.at(-1);render();},
+   current:()=>current,
+   rows:()=>costBases
+  });
  }
  async function load(){
   const response=await fetch(url);
@@ -328,8 +323,12 @@ export function decorateFinancing(A,content,project){
  stagePanel.addEventListener('click',event=>{
   const button=event.target.closest('button');
   if(!button)return;
-  if(button.hasAttribute('data-milestone-edit')){editMilestoneInfo(A,project,selectedBasis());return;}
-  if(button.hasAttribute('data-milestone-save')){captureCurrentMilestone(A,project,id=>{view.basisId='snapshot:'+id;});return;}
+  if(button.hasAttribute('data-milestone-add')){
+   try{if(!view.editor)view.editor=createStageDraft(A,project,{kind:'create'});}catch(error){A.toast(error.message);return;}
+   view.detailsOpen=true;render();
+   const input=body.querySelector('[data-stage-editor] [data-stage-input="name"]');
+   input?.scrollIntoView({block:'center',inline:'end'});input?.focus({preventScroll:true});return;
+  }
   if(button.dataset.volumeKey){
    view.volume=button.dataset.volumeKey;
    const field=stageFieldsByKey.get(view.volume);
@@ -355,6 +354,7 @@ export function decorateFinancing(A,content,project){
   }
   const operation=button.dataset.stageAction;
   if(operation==='details'){
+   if(view.editor&&view.detailsOpen){A.toast('입력 중인 단계를 저장하거나 취소해 주세요.');return;}
    view.detailsOpen=!view.detailsOpen;
    button.setAttribute('aria-expanded',String(view.detailsOpen));
    button.firstElementChild.textContent=view.detailsOpen?'핵심 지표 닫기':'핵심 지표 보기';

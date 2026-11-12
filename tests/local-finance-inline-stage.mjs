@@ -1,0 +1,129 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import {copyFile, mkdtemp, readFile, rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {startPreview} from '../scripts/local-preview/server.mjs';
+
+const require = createRequire(import.meta.url);
+const {chromium} = require(process.env.PLAYWRIGHT_MODULE || '/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const directory = await mkdtemp(join(tmpdir(), 'igis-inline-stage-'));
+const sourceFile = new URL('../.build/local-preview/original-workspace.json', import.meta.url);
+const sourceBytes = await readFile(sourceFile);
+const projectId = 'TEST-20261016-A';
+let server, browser;
+try {
+  await copyFile(sourceFile, join(directory, 'original-workspace.json'));
+  server = await startPreview({port:0, directory});
+  const origin = 'http://127.0.0.1:' + server.address().port;
+  browser = await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+  const context = await browser.newContext({viewport:{width:1440, height:1000}});
+  const page = await context.newPage();
+  page.setDefaultTimeout(7000);
+  const errors = [], external = [], writes = [];
+  let refuseSave = false;
+  page.on('pageerror', error => errors.push(error.message));
+  await context.route('**/*', route => {
+    const request = route.request(), url = new URL(request.url());
+    if (url.origin !== origin && !['data:', 'blob:'].includes(url.protocol)) {
+      external.push(url.hostname); return route.abort();
+    }
+    if (url.pathname === '/api/workspace' && request.method() === 'PUT') {
+      writes.push(request.postDataJSON());
+      if (refuseSave) return route.fulfill({status:503, contentType:'application/json', body:JSON.stringify({error:'TEST_SAVE_REFUSED'})});
+    }
+    return route.continue();
+  });
+  await page.goto(origin + '/?screen=finance');
+  const section = page.locator('.studio-finance-stages');
+  await section.waitFor();
+  assert.equal(await section.locator('[data-milestone-add]').count(), 1, '핵심지표 표 안에서 단계 추가를 시작하는 전용 버튼이 필요합니다');
+  assert.equal(await section.locator('[data-milestone-add]').innerText(), '단계 추가');
+  assert.equal(await section.locator('[data-milestone-edit],[data-milestone-save]').count(), 0, '대체된 헤더 수정/저장 버튼은 제거합니다');
+  const get = async()=>await(await page.request.get(origin+'/api/workspace')).json();
+  const project=record=>record.state.projects.find(row=>row.id===projectId);
+  const before=await get();
+  const beforeCost=project(before).cbs.find(row=>row.id==='c-102-ewjyqyz4').current;
+  assert.equal(beforeCost,11720930000);
+  const add=section.locator('[data-milestone-add]');
+  const name=section.locator('[data-stage-input=name]');
+  const reason=section.locator('[data-stage-input=reason]');
+  const save=section.locator('[data-stage-commit]');
+  const cancel=section.locator('[data-stage-cancel]');
+  await add.click();
+  assert.equal(await section.locator('[data-stage-note]').count(),7);
+  await name.fill('취소할 새 단계');
+  await cancel.click();
+  assert.deepEqual(await get(),before);
+  assert.equal(writes.length,0);
+  await add.click();
+  await name.fill('본PF 2차');
+  await reason.fill('금융비 조정');
+  await section.locator('[data-stage-note=interest]').fill('본PF 이자 40억원 증액');
+  await section.locator('[data-stage-sources=interest] summary').click();
+  const interest=section.locator('[data-stage-sources=interest] [data-source-id="c-102-ewjyqyz4"]');
+  assert.equal(await interest.inputValue(),'11720930000');
+  await interest.fill('15720930000');
+  let response=page.waitForResponse(r=>r.url().endsWith('/api/workspace')&&r.request().method()==='PUT');
+  await save.click();
+  assert.equal((await response).ok(),true);
+  await save.waitFor({state:'hidden'});
+  const after=await get(),current=project(after);
+  assert.equal(current.financeCurrentStage.name,'본PF 2차');
+  assert.equal(current.cbs.find(row=>row.id==='c-102-ewjyqyz4').current,15720930000);
+  assert.equal(current.costStages.length,project(before).costStages.length+1);
+  const prior=current.costStages.at(-1);
+  assert.equal(prior.financeContext.linkedValues.interest,31500000000);
+  assert.equal(prior.financeContext.linkedValues.cost,513080000000);
+  assert.deepEqual(current.costStages.slice(0,-1),project(before).costStages);
+  assert.deepEqual(after.state.projects.filter(row=>row.id!==projectId),before.state.projects.filter(row=>row.id!==projectId));
+  await page.reload();
+  await section.locator('[data-cost-basis=current]').waitFor();
+  assert.match(await section.locator('[data-cost-basis=current]').innerText(),/본PF 2차/);
+  const currentValues=await page.evaluate(async()=>{
+    const {milestoneRows}=await import('/finance-milestones.js');return milestoneRows(App,App.current()).at(-1).values;
+  });
+  assert.equal(currentValues.interest,35500000000);
+  assert.equal(currentValues.cost,517080000000);
+  await add.click();
+  await name.fill('본PF 3차');
+  await reason.fill('재시도 검증');
+  refuseSave=true;
+  response=page.waitForResponse(r=>r.url().endsWith('/api/workspace')&&r.status()===503);
+  await save.click();await response;
+  await section.locator('.studio-stage-error:not([hidden])').waitFor();
+  assert.equal(await name.inputValue(),'본PF 3차');
+  assert.deepEqual(await get(),after);
+  refuseSave=false;
+  response=page.waitForResponse(r=>r.url().endsWith('/api/workspace')&&r.request().method()==='PUT');
+  await save.click();assert.equal((await response).ok(),true);await save.waitFor({state:'hidden'});
+  const retried=await get();
+  assert.equal(project(retried).costStages.length,current.costStages.length+1);
+  assert.deepEqual(project(retried).costStages.find(row=>row.id===prior.id),prior);
+  // Earlier stages expose metadata only, with all saved numbers unchanged.
+  await section.locator('[data-stage-inline-edit="snapshot:'+prior.id+'"]').click();
+  assert.equal(await section.locator('[data-stage-editor] input[type=number]').count(),0);
+  await name.fill('이전 단계 설명 정정');
+  await reason.fill('숫자 보존');
+  response=page.waitForResponse(r=>r.url().endsWith('/api/workspace')&&r.request().method()==='PUT');
+  await save.click();assert.equal((await response).ok(),true);await save.waitFor({state:'hidden'});
+  const renamed=await get(),oldSaved=project(renamed).costStages.find(row=>row.id===prior.id);
+  assert.deepEqual(oldSaved.financeContext.linkedValues,prior.financeContext.linkedValues);
+  assert.deepEqual(oldSaved.values,prior.values);
+  assert.deepEqual(project(renamed).cbs,project(retried).cbs);
+  // A project switch between opening and saving must never create a stage.
+  await add.click();await name.fill('잘못 저장될 단계');await reason.fill('사업 전환 차단');
+  await page.evaluate(()=>{App.ui.projectId='TEST-20261016-B';});
+  const count=writes.length;
+  await save.click();await section.locator('.studio-stage-error:not([hidden])').waitFor();
+  assert.equal(writes.length,count);assert.deepEqual(await get(),renamed);
+  assert.equal(await name.inputValue(),'잘못 저장될 단계');
+  assert.deepEqual(errors, []);
+  assert.deepEqual(external, []);
+  assert.deepEqual(await readFile(sourceFile), sourceBytes);
+  console.log('LOCAL-UI-167 inline create/current DB update/old freeze/reload/cancel/503-retry/history metadata/project conflict passed');
+} finally {
+  if (browser) await browser.close();
+  if (server?.listening) await new Promise(resolve => server.close(resolve));
+  await rm(directory, {recursive:true, force:true});
+}

@@ -527,3 +527,5 @@ LOCAL-UI-163 최신 라운딩: Feed 제외 공통28px·금융 외곽35px.
 LOCAL-UI-164: 파이낸싱의 단계 정보 수정/현재 단계 저장. 현재 연결값을 고정 보관하고 단계별 설명만 편집합니다. 격리 저장·실패·과거불변/기존 기능 검사와 실제 로컬 팝업 조회 확인. [명세·검수](docs/local-finance-milestones-spec.md).
 
 LOCAL-UI-166: 서울 중구 본PF 금융비355억·총원가5,203.8억으로 로컬 원장 반영. 최초/리파·운영원본 보존. [검수](docs/local-finance-ui166-verification.json).
+
+LOCAL-UI-167: 파이낸싱 단계 추가·정보 수정은 핵심지표 표 안에서 처리. 현재 원장 구성금액 편집/직전 단계 고정 및 흰색 추가버튼·남색 선택버튼. [명세·검수](docs/local-finance-milestones-spec.md).

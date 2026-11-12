@@ -183,14 +183,14 @@ try{
  await page.reload();
  await showLegacy();
  await stage.getByRole('button',{name:/시공계획 변경/}).waitFor();
- await stage.getByRole('button',{name:'수정',exact:true}).click();
+ await stage.locator('[data-stage-action=update]').click();
  dialog=page.getByRole('dialog',{name:'개발 단계 수정'});
  await dialog.getByRole('textbox',{name:'단계명'}).fill('저장하지 않을 이름');
  await page.keyboard.press('Escape');
  await dialog.waitFor({state:'hidden'});
  assert.equal(await stage.getByRole('button',{name:/저장하지 않을 이름/}).count(),0);
- assert.equal(await stage.getByRole('button',{name:'수정',exact:true}).evaluate(el=>el===document.activeElement),true);
- await stage.getByRole('button',{name:'수정',exact:true}).click();
+ assert.equal(await stage.locator('[data-stage-action=update]').evaluate(el=>el===document.activeElement),true);
+ await stage.locator('[data-stage-action=update]').click();
  await dialog.getByRole('textbox',{name:'단계명'}).fill('시공계획 확정');
  await dialog.getByRole('button',{name:'저장',exact:true}).click();
  await dialog.waitFor({state:'hidden'});
@@ -274,24 +274,24 @@ try{
  // Original isolated fixture has no historical GFA: never borrow current GFA.
  assert.deepEqual(await costComparison.locator('.studio-stage-unit-cost').allTextContents(),['평당 —','2,671만원/평']);
  assert.equal(await selectedValue('원가').locator('small').first().innerText(),'+7.8억원');
- const currentEditor=stage.locator('.studio-milestone-toolbar [data-milestone-edit]');
+ // LOCAL-UI-167 replaces the modal with editing in the comparison column.
+ const currentEditor=stage.locator('[data-stage-inline-edit="current"]');
  await currentEditor.click();
- await page.locator('#app-form [name="name"]').fill('취소할 단계');
- await page.locator('#app-form').getByRole('button',{name:'취소',exact:true}).click();
- await page.getByRole('button',{name:'저장하지 않고 닫기',exact:true}).click();
+ await stage.locator('[data-stage-input="name"]').fill('취소할 단계');
+ await stage.locator('[data-stage-cancel]').click();
  assert.deepEqual(await readWorkspace(),captured);
  await currentEditor.click();
- await page.locator('#app-form [name="name"]').fill('본PF 1차');
- await page.locator('#app-form [name="date"]').fill('2024-01-01');
- await page.locator('#app-form [name="reason"]').fill('본PF 조건 합의');
- await page.locator('#app-form').getByRole('button',{name:'저장',exact:true}).click();
- assert.match(await page.getByRole('dialog').innerText(),/직전 단계보다 빠를 수 없습니다/);
- assert.equal(await page.locator('#app-form [name="name"]').inputValue(),'본PF 1차');
+ await stage.locator('[data-stage-input="name"]').fill('본PF 1차');
+ await stage.locator('[data-stage-input="date"]').fill('2024-01-01');
+ await stage.locator('[data-stage-input="reason"]').fill('본PF 조건 합의');
+ await stage.locator('[data-stage-commit]').click();
+ await stage.locator('.studio-stage-error:not([hidden])').waitFor();
+ assert.equal(await stage.locator('[data-stage-input="name"]').inputValue(),'본PF 1차');
  assert.deepEqual(await readWorkspace(),captured);
- await page.locator('#app-form [name="date"]').fill('2026-11-12');
- assert.equal(await page.locator('#app-form input[type=number]').count(),0,'정보 수정에서 연동 금액을 재입력하지 않음');
- await page.locator('#app-form [name="note_funding"]').fill('본PF 대주 협의 반영');
- await saveForm();
+ await stage.locator('[data-stage-input="date"]').fill('2026-11-12');
+ await stage.locator('[data-stage-note="funding"]').fill('본PF 대주 협의 반영');
+ await stage.locator('[data-stage-commit]').click();
+ await stage.locator('[data-stage-commit]').waitFor({state:'hidden'});
  await basis.getByRole('button',{name:/본PF 1차/}).waitFor();
  const renamed=await readWorkspace();
  assert.equal(projectA(renamed).financeCurrentStage.name,'본PF 1차');
@@ -374,19 +374,19 @@ try{
  await page.locator('#project-select').selectOption('TEST-20261016-A');
  await basis.getByRole('button',{name:/본PF 1차/}).click();
  assert.equal(await upperFunding.innerText(),'3,150억원');
- // Simulated server refusal must retain the typed value and leave persistent records unchanged.
+ // Simulated server refusal retains the inline column and persistent records.
+ if(!await currentEditor.isVisible())await stage.locator('[data-stage-action=details]').click();
  await currentEditor.click();
- await page.locator('#app-form [name="name"]').fill('저장 실패 단계');
+ await stage.locator('[data-stage-input=name]').fill('저장 실패 단계');
  failWorkspaceWrite=true;
  const rejected=page.waitForResponse(response=>response.url().endsWith('/api/workspace')&&response.status()===503);
- await page.locator('#app-form').getByRole('button',{name:'저장',exact:true}).click();
+ await stage.locator('[data-stage-commit]').click();
  await rejected;
- await page.locator('#app-form [name="name"]').waitFor();
- assert.equal(await page.locator('#app-form [name="name"]').inputValue(),'저장 실패 단계');
+ await stage.locator('.studio-stage-error:not([hidden])').waitFor();
+ assert.equal(await stage.locator('[data-stage-input=name]').inputValue(),'저장 실패 단계');
  assert.deepEqual(await readWorkspace(),loanChanged);
  failWorkspaceWrite=false;
- await page.locator('#app-form').getByRole('button',{name:'취소',exact:true}).click();
- await page.getByRole('button',{name:'저장하지 않고 닫기',exact:true}).click();
+ await stage.locator('[data-stage-cancel]').click();
  assert.equal(await basis.getByRole('button',{name:/저장 실패 단계/}).count(),0);
 
  await page.route('**/finance-overview.js',route=>route.fulfill({status:404,body:'missing'}));

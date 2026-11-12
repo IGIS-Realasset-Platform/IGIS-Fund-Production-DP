@@ -815723,6 +815723,38 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localFinanceInline167": {
+      "requirement": "LOCAL-UI-167",
+      "status": "모델 독립/native검사·격리브라우저 신규열/현재DB변경/직전동결/새로고침/취소/503재시도/과거설명수정/사업전환차단 통과. 기존 단계·조달 회귀검사 통과. 실제4178 새열·입력·취소·남색/16px버튼·22px바깥박스 확인(실자료 저장0). 운영DB/원본파일 보존.",
+      "consumers": [
+        "white add button",
+        "navy selected stage button",
+        "inline new/edit column",
+        "source CBS/loan/equity amounts",
+        "area/end/sale",
+        "seven notes",
+        "native snapshot/current metadata",
+        "save/cancel/503 retry/project conflict",
+        "historical metadata edit"
+      ],
+      "unverified": [
+        "production deployment/writes",
+        "mobile",
+        "all project shapes in live data"
+      ],
+      "replaces": "LOCAL-UI-164 header modal flow; capture test entry delegates to inline replacement",
+      "sourceSha256": {
+        "scripts/local-preview/finance-stage-editor-model.js": "9a7cb8fb3c456084485ae256e76b4238ca72f1872914ed584d65314abcd1389e",
+        "scripts/local-preview/finance-stage-editor-ui.js": "ef50e6cc7a1237d6876d137d1bb1981822abf9fd5a55b6d5a58f3f011632399f",
+        "scripts/local-preview/finance-overview.js": "1038171caef04988b6dac28fb2dbd45ef0a1fb53f6abe3afe82eb4649d5ca3b1",
+        "scripts/local-preview/finance-overview.css": "d6f737e117dd1b5ef99d43820eec452f6dad20d43d2fa27d340e95debb40a3f9",
+        "scripts/local-preview/server.mjs": "4655e35152eeaa75a0f5973b378f2ac467988e6d1cc3919c2f7b69933a89dbb7",
+        "tests/local-finance-stage-editor-model.mjs": "c47afe554274c835387be1c44a0a86a612c37ef8124bc445eebf71259f22f2b4",
+        "tests/local-finance-inline-stage.mjs": "db6bdc7c0875426c6e54cb5089aa7709355972dfc6d3101336664e9ab0e08563",
+        "tests/local-finance-browser.mjs": "1086b563f3603821d66d02bc0777f586ee4d6062ef6eecca97a9d55f73c063c2",
+        "tests/local-finance-capture.mjs": "b4b4400440caf9a3cf6d4fbc1728e4dec44152fb793e43c3509e9ba93816bdb9"
+      }
+    },
     "localFinanceIncrease166": {"requirement": "LOCAL-UI-166", "status": "로컬 DB revision18→19 저장 후 새로고침 확인. 금융비315→355억·총원가5163.8→5203.8억, 최초UW 대비 금융비+25억. 파이낸싱/세부사업비/원가현황 연동 확인. 다른항목·프로젝트·계약·조달·과거단계 및 원본파일 동일.", "evidence": "docs/local-finance-ui166-verification.json"},
     "localFinanceHeading165": {"requirement": "LOCAL-UI-165", "status": "desktop before/after verified", "marginBefore": 12, "marginAfter": 18, "nextPanelDelta": 6, "portfolio": "unchanged", "sourceSha256": "25e24c0dd2f19bc76a53acc0154b5e413411f27f4e601fc4c5989d780b660ecd"},
     "localMilestoneCapture164": {

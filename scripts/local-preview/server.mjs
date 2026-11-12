@@ -109,7 +109,7 @@ export async function startPreview({port=4178,directory=join(root,'.build/local-
      if(pathname.endsWith('account-avatar')&&existsSync(photo))return send(200,readFileSync(photo),'image/png');
      return send(200,asset('feed/default_avatar.svg'),'image/svg+xml');
     }
-    if(['/design.css','/studio.js','/portfolio.js','/portfolio.css','/cost-detail.js','/cost-detail.css','/permits.js','/permits.css','/finance-overview.js','/finance-overview.css','/finance-stage-fields.js','/finance-milestones.js','/finance-capital.js'].includes(pathname))return send(200,asset(pathname.slice(1)),pathname.endsWith('.js')?'text/javascript; charset=utf-8':'text/css; charset=utf-8');
+    if(['/design.css','/studio.js','/portfolio.js','/portfolio.css','/cost-detail.js','/cost-detail.css','/permits.js','/permits.css','/finance-overview.js','/finance-overview.css','/finance-stage-fields.js','/finance-milestones.js','/finance-capital.js','/finance-stage-editor-model.js','/finance-stage-editor-ui.js'].includes(pathname))return send(200,asset(pathname.slice(1)),pathname.endsWith('.js')?'text/javascript; charset=utf-8':'text/css; charset=utf-8');
     if(pathname==='/InterVariable.woff2')return send(200,readFileSync(new URL('InterVariable.woff2',import.meta.url)),'font/woff2');
     if(pathname==='/api/workspace')return send(200,envelope());
     if(pathname==='/api/session')return send(200,{authenticated:true,email:identity.email,userId:identity.id,newAccountCreated:false});

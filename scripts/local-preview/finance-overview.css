@@ -43,14 +43,15 @@
  max-width:156px;
  padding:8px 12px;
  border:1px solid transparent;
- border-radius:12px;
+ border-radius:16px;
  background:transparent;
  color:var(--ink);
  text-align:center;
  overflow-wrap:anywhere;
 }
 .studio-stage-selector button:hover {background:#e8edf5}
-.studio-stage-selector button[aria-pressed="true"] {border-color:#cbd5eb;background:#fff;color:var(--studio-accent)}
+.studio-stage-selector button[aria-pressed="true"] {border-color:var(--studio-accent);background:var(--studio-accent);color:#fff}
+.studio-stage-selector button[aria-pressed="true"] :is(span,small) {color:#fff}
 .studio-stage-selector :is(span,small) {font-size:11px;color:var(--muted)}
 .studio-stage-selector strong {font-size:13px}
 .studio-stage-volume {
@@ -305,3 +306,17 @@
  .studio-stage-form-head {grid-template-columns:1fr}
  .studio-stage-input-grid {gap:6px}
 }
+
+/* LOCAL-UI-167: edit the selected column where the metrics are read. */
+.studio-stage-column-heading {display:flex;align-items:center;justify-content:space-between;gap:10px}
+.studio-stage-column-heading .btn {padding:4px 9px;min-height:28px;font-size:12px;flex:none}
+.studio-stage-input-label {display:grid;gap:5px;font-size:12px;color:var(--muted);margin-bottom:8px}
+.studio-cost-bases [data-stage-editor] :is(input,textarea) {box-sizing:border-box;width:100%;min-width:0;padding:8px 10px;border:1px solid #d4dae5;border-radius:10px;background:#fff;color:var(--ink);font:inherit}
+.studio-cost-bases [data-stage-editor] textarea {display:block;margin-top:9px;resize:vertical;font-size:13px;font-weight:400;line-height:1.5}
+.studio-stage-source-editor {margin-top:8px;text-align:left}
+.studio-stage-source-editor summary {cursor:pointer;font-size:12px;color:var(--studio-accent);padding:4px 0}
+.studio-stage-source-editor > div {padding:8px 0;display:grid;gap:10px}
+.studio-stage-source-editor label {display:grid;gap:5px;font-size:12px;color:var(--muted)}
+.studio-stage-source-unit {font-size:11px;color:var(--muted)}
+.studio-stage-editor-actions td > div {display:flex;justify-content:flex-end;gap:8px}
+.dp-app #content .studio-milestone-toolbar [data-milestone-add] {background:#fff;color:var(--ink);border:1px solid #cbd2df}
