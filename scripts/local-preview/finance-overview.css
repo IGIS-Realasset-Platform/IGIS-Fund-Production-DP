@@ -105,9 +105,10 @@
  grid-template-columns:minmax(0,1fr) minmax(0,2.05fr);
  gap:6px;
  min-width:0;
- min-height:274px;
+ height:274px;
+ grid-template-rows:minmax(0,1fr);
 }
-.studio-stage-project {display:grid;grid-template-rows:1fr 1fr;gap:6px;min-width:0}
+.studio-stage-project {display:grid;grid-template-rows:repeat(2,minmax(0,1fr));gap:6px;min-width:0}
 .studio-stage-facts {
  display:grid;
  grid-template-columns:repeat(2,minmax(0,1fr));
@@ -116,14 +117,14 @@
  border-radius:var(--studio-card-radius);
  background:#f4f6f8;
 }
-.studio-stage-facts > div {display:grid;gap:8px;padding:0 20px;overflow-wrap:anywhere}
+.studio-stage-facts > div {display:flex;flex-direction:column;justify-content:space-between;height:54px;padding:0 24px;min-width:0}
 .studio-stage-facts > div + div {border-inline-start:1px solid var(--line)}
 .studio-stage-facts span {color:var(--muted);font-size:14px;font-weight:700}
-.studio-stage-facts b {font-size:28px;line-height:1.1}
+.studio-stage-facts b {font-size:28px;line-height:1;white-space:nowrap}
 .studio-stage-comparison-grid {
  display:grid;
  grid-template-columns:repeat(2,minmax(0,1fr));
- grid-auto-rows:1fr;
+ grid-auto-rows:minmax(0,1fr);
  gap:1px;
  overflow:hidden;
  border:1px solid #e4e8ed;
@@ -131,28 +132,36 @@
  background:var(--line);
 }
 .studio-stage-pair {
- display:grid;
- grid-template-rows:1fr auto auto;
+ position:relative;
+ display:flex;
+ flex-direction:column;
+ justify-content:flex-end;
  container-type:inline-size;
- gap:5px;
- padding:20px 20px 16px;
+ padding:0 32px 32px;
  background:#f4f6f8;
  min-width:0;
+ min-height:0;
 }
-.studio-stage-project .studio-stage-pair {border:1px solid #e4e8ed;border-radius:var(--studio-card-radius)}
-.studio-stage-pair h4 {margin:0;font-size:15px;color:var(--muted)}
-.studio-stage-values {display:flex;align-items:end;justify-content:flex-end;gap:10px}
-.studio-stage-project .studio-stage-values {justify-content:flex-start}
-.studio-stage-values > div {display:grid;gap:4px;min-width:0;text-align:right}
-.studio-stage-project .studio-stage-values > div {text-align:left}
-.studio-stage-values span {color:var(--muted);font-size:11px;overflow-wrap:anywhere}
-.studio-stage-values .studio-stage-unit-cost {font-size:13px;line-height:18px;white-space:nowrap}
+.studio-stage-project .studio-stage-pair {border:1px solid #e4e8ed;border-radius:var(--studio-card-radius);padding-inline:24px}
+.studio-stage-pair h4 {position:absolute;top:20px;left:20px;margin:0;font-size:15px;line-height:18px;color:var(--muted)}
+.studio-stage-project .studio-stage-pair h4 {left:24px;font-size:14px}
+.studio-stage-values {display:flex;align-items:end;justify-content:flex-end;gap:12px}
+.studio-stage-values > div {display:flex;flex-direction:column;align-items:flex-end;min-width:0;text-align:right}
+.studio-stage-values span {color:var(--muted);font-size:11px;line-height:11px;white-space:nowrap}
+.studio-stage-values > div > span:first-child {margin-bottom:24px}
+.studio-stage-values > div:has(.studio-stage-unit-cost) > span:first-child {margin-bottom:0}
+.studio-stage-values .studio-stage-unit-cost {font-size:13px;line-height:18px;margin-bottom:6px;white-space:nowrap}
 .studio-cost-bases .studio-stage-unit-cost {display:block;font-size:12px;color:var(--muted)}
-.studio-stage-values b {font-size:clamp(19px,7cqi,28px);line-height:1.12;white-space:nowrap}
+.studio-stage-values b {font-size:clamp(19px,8cqi,28px);line-height:1;white-space:nowrap}
 .studio-stage-values > div:first-child:not(:last-child) b {color:var(--muted)}
-.studio-stage-values > span {font-size:20px;line-height:1.2}
-.studio-stage-pair > small {font-size:12px;font-weight:600;text-align:right}
-.studio-stage-project .studio-stage-pair > small {text-align:left}
+.studio-stage-values > span {font-size:20px;line-height:1;font-weight:700;margin-bottom:1px}
+.studio-stage-pair > small {position:absolute;right:32px;bottom:10px;font-size:12px;line-height:14px;font-weight:600;text-align:right}
+.studio-stage-project .studio-stage-values {justify-content:flex-start;gap:12px}
+.studio-stage-project .studio-stage-values > div {flex-direction:column-reverse;align-items:flex-start;text-align:left}
+.studio-stage-project .studio-stage-values > div > span:first-child {margin:4px 0 0}
+.studio-stage-project .studio-stage-values > span {margin-bottom:16px}
+.studio-stage-project .studio-stage-pair {padding-bottom:28px}
+.studio-stage-project .studio-stage-pair > small {left:24px;right:auto;bottom:8px;text-align:left}
 .studio-stage-reveal {
  position:absolute;
  inset:0;

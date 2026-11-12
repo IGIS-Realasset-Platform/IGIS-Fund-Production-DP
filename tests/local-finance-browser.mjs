@@ -113,7 +113,7 @@ try{
  assert.match(await compare.getByRole('heading',{name:'개발기간',exact:true}).locator('..').innerText(),/72개월/);
  await volume.getByRole('button',{name:'원가',exact:true}).click();
  assert.equal(await lowerFunding.innerText(),'3,050억원');
- assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost]);
+ assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,initialCost],'LOCAL-UI-168: 최초 단계도 원본처럼 동일한 두 칸 배치를 유지');
  assert.equal(await structure.locator('.studio-capital-bar').isVisible(),false,'과거 구성 미입력에 현재 조달 막대를 재사용하면 안 됩니다');
  assert.equal(await structure.locator('.studio-capital-groups article').count(),0);
  await basis.getByRole('button',{name:'최근 사업 단계',exact:true}).click();

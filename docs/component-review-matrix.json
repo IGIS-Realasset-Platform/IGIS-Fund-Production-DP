@@ -815723,6 +815723,35 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localFinanceLayout168": {
+      "requirement": "LOCAL-UI-168",
+      "status": "원본 JSX 대조·RED310px 확인 후274px 적용. 데스크톱1366/1440/1920 단계별 배치/금액겹침/공사비 한자리/하단증감·상세/추가/취소 검사 통과. 기존 단계·조달 저장 회귀 통과. 실제4178 읽기전용 확인; 자료 변경0.",
+      "consumers": [
+        "comparison cards",
+        "duration labels",
+        "construction display",
+        "bottom delta",
+        "stage selection",
+        "details/new column/cancel"
+      ],
+      "preserved": [
+        "data",
+        "colors",
+        "labels",
+        "28px radius",
+        "initial UW baseline"
+      ],
+      "unverified": [
+        "production deployment",
+        "mobile"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/finance-overview.js": "dd474f592187f881843889be451ec08e565bd4e7e0496de5a17a25eebe469ab2",
+        "scripts/local-preview/finance-overview.css": "c5602999324b59a2477e721394503b10d32b25107566646065cca5515f106413",
+        "tests/local-finance-comparison-layout.mjs": "54098948eb1dbee996c59db92ad05dd031431abab4f0fc0ebb3d02b4159d2ebc",
+        "tests/local-finance-browser.mjs": "24ea82c19ceeb7c2e19a4c90e8c6d34edfddb9f0139e09605a8c4133266adfaf"
+      }
+    },
     "localFinanceInline167": {
       "requirement": "LOCAL-UI-167",
       "status": "모델 독립/native검사·격리브라우저 신규열/현재DB변경/직전동결/새로고침/취소/503재시도/과거설명수정/사업전환차단 통과. 기존 단계·조달 회귀검사 통과. 실제4178 새열·입력·취소·남색/16px버튼·22px바깥박스 확인(실자료 저장0). 운영DB/원본파일 보존.",

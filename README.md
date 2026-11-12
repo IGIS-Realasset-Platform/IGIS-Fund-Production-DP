@@ -8,6 +8,8 @@
 
 [플랫폼 열기](https://igis-development-project-platform.vercel.app/) · [버전 이력](VERSION_HISTORY.md) · [변경 내역](CHANGELOG.md)
 
+LOCAL-UI-168: 파이낸싱 비교카드를 이오타 원본274px 배치에 맞추고 공사비 한자리·하단증감을 적용했습니다. 단계전환/데스크톱 배치 및 저장회귀 검사 통과, DB 변경 없음. [검수명세](docs/local-finance-milestones-spec.md).
+
 로컬에서 원본 A·B·C 복사본으로 전체 메뉴 둘러보기: [로컬 디자인 작업실](docs/local-design-preview.md) · [전체 UI 디자인 명세·검수 상태](docs/local-design-system.md)
 
 2026-11-10 로컬 추가 정리: 팝업 좌우 기준선·중복 인허가 박스·메뉴 열기/닫기 모션 반영. 전체 주 메뉴와 주요 팝업을 확인했으며 외부 조회·모든 저장/출력 분기는 별도 미검증입니다. [LOCAL-UI-09~10 결과](docs/local-design-system.md).

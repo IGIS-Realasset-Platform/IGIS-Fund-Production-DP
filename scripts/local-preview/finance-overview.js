@@ -101,17 +101,21 @@ function costUnitDisplay(A,row){
  const value=costPerPyeong(row);
  return `<span class="studio-stage-unit-cost">${value===null?'평당 —':A.num(Math.round(value))+'만원/평'}</span>`;
 }
+function comparisonDisplay(A,value,unit,key){
+ if(value==null)return '—';
+ return key==='construction'?new Intl.NumberFormat('ko-KR',{minimumFractionDigits:1,maximumFractionDigits:1}).format(value/eok)+'억원':fieldDisplay(A,value,unit);
+}
 function stageComparison(A,field,baseline,stage){
  const {key,label,unit}=field;
  const value=stage.values[key],initial=baseline?.values[key];
  const delta=value==null||initial==null?null:value-initial;
- const compare=baseline&&baseline!==stage;
+ const compare=!!baseline;
  return `<article class="studio-stage-pair" data-stage-field="${key}"><h4>${summaryLabels[key]||label}</h4>
   <div class="studio-stage-values">
-   ${compare?`<div><span>${A.esc(baseline.name)}</span>${key==='cost'?costUnitDisplay(A,baseline):''}<b>${fieldDisplay(A,initial,unit)}</b></div><span aria-hidden="true">→</span>`:''}
-   <div><span>${A.esc(stage.name)}</span>${key==='cost'?costUnitDisplay(A,stage):''}<b>${fieldDisplay(A,value,unit)}</b></div>
+   ${compare?`<div><span>${A.esc(baseline.name)}</span>${key==='cost'?costUnitDisplay(A,baseline):''}<b>${comparisonDisplay(A,initial,unit,key)}</b></div><span aria-hidden="true">→</span>`:''}
+   <div><span>${A.esc(stage.name)}</span>${key==='cost'?costUnitDisplay(A,stage):''}<b>${comparisonDisplay(A,value,unit,key)}</b></div>
   </div>
-  ${compare&&delta!==null?`<small class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${changeText(A,value,initial,unit)}</small>`:''}
+  ${compare&&delta!==null?`<small class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${key==='construction'?(delta>0?'+':delta<0?'−':'')+comparisonDisplay(A,Math.abs(delta),unit,key):changeText(A,value,initial,unit)}</small>`:''}
  </article>`;
 }
 function toInput(amount,unit){return amount==null?'':String(unit?amount:amount/eok);}
