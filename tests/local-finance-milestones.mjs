@@ -5,7 +5,7 @@ const original={id:'uw',label:'최초 언더라이팅',date:'2024-01-01',amounts
 const intermediate={id:'refi',label:'1차 리파이낸싱',date:'2025-06-30',amounts:{total:125,land:25,build:70,fee:8},area:{gfaTotal:1300},
  financeContext:{funding:110,sale:0,duration:60,periodEnd:'2030-06',reason:'설계 변경',notes:{construction:'지하층 보강'}}};
 const p={id:'project-a',costStages:[original,intermediate],amounts:{total:150,land:30,build:90,fee:10},funding:140,basic:{periodStart:'2024-06',periodEnd:'2030-06'},area:{gfaTotal:1500},financeCurrentStage:{name:'본PF 1차',date:'2026-11-12',reason:'본PF 조건 확정'}};
-const A={
+const A={on:()=>{},
  companyCostProfile:{managementNodes:()=>[{id:'land',companyProfileKey:'land_purchase'},{id:'build',companyProfileKey:'construction'},{id:'fee',companyProfileKey:'finance'}]},
  domain:{activeStages:project=>project.costStages,modeValue:(project,id,snapshot)=>(snapshot||project).amounts[id]},
  total:project=>project.amounts.total,contracts:{financeCapitalTotals:project=>({total:project.funding})},

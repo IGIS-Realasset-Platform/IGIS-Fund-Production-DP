@@ -815723,6 +815723,31 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localMilestoneCapture164": {
+      "requirement": "LOCAL-UI-164",
+      "status": "implemented; isolated browser and model regression passed; live read-only forms verified",
+      "consumers": [
+        "finance header save/info",
+        "selected saved stage",
+        "expanded metric table info action",
+        "capital detail info action and parent return",
+        "seven metric notes",
+        "native cost and area snapshots",
+        "workspace transaction and audit"
+      ],
+      "verified": "현재 연결값 단일 저장·숫자 재입력 없음·7개 지표설명·저장단계 자동선택·정보수정 숫자보존·원자료 변경/새로고침 후 과거값 유지·취소/503 입력보존·사업변경/삭제대상 저장차단 검사 통과. 원본 workspace 파일 byte 동일. 기존 수동 과거단계 추가/정정 회귀검사 통과. 실제4178 저장/정보수정 팝업은 조회·취소만 확인(사용자자료 저장 안 함).",
+      "unverified": [
+        "production DB writes/deployment",
+        "full platform regression"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/finance-milestones.js": "b97a156e4e86b67227d22ad0bde7b1531ef9105e387dc4cdd542fa7d65083264",
+        "scripts/local-preview/finance-overview.js": "5287b9df909eb2969fc6dddcd75a084f623c33d83c589bc24907ffa31946ada4",
+        "tests/local-finance-capture.mjs": "8c4712573555c5ae33f03931c5af10f17bf35d90f823557649f9071dbcbac728",
+        "tests/local-finance-browser.mjs": "38bface4715f7094efa271e3332852b3d52a7c7c598bb454fcb3452d83fc9ead",
+        "tests/local-finance-milestones.mjs": "1cec2289e3214d648433a53db5514bbeef02f1357b2877bfcb0dc5bb64baeda5"
+      }
+    },
     "localCardRadius163": {
       "requirement": "LOCAL-UI-163",
       "cardRadius": 28,

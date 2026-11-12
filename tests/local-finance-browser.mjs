@@ -227,7 +227,8 @@ try{
   await page.locator('#app-form').waitFor({state:'hidden'});
  }
  // Native stage creation must persist cost and financing together, leaving current ledgers unchanged.
- await stage.locator('[data-action="stage-open"]').click();
+ await page.goto(origin+'/?screen=cost-detail');
+ await page.locator('[data-action="stage-open"]').click();
  await page.locator('#app-form [name="label"]').fill('중간 사업비 검토');
  await page.locator('#app-form [name="date"]').fill('2026-09-10');
  await page.getByRole('button',{name:'금액·면적 입력',exact:true}).click();
@@ -246,7 +247,7 @@ try{
  assert.deepEqual(projectA(captured).cbs,projectA(workspace).cbs);
  assert.deepEqual(projectA(captured).loans,projectA(workspace).loans);
  assert.equal(captured.revision,workspace.revision+1,'원가와 당시 조달 지표는 한 번에 저장해야 합니다');
- await page.reload();
+ await page.goto(origin+'/?screen=finance');
  await basis.getByRole('button',{name:/중간 사업비 검토/}).click();
  await volume.getByRole('button',{name:'원가',exact:true}).click();
  assert.equal(await stage.locator('[data-volume-value]').innerText(),'5,000억원');
@@ -288,7 +289,7 @@ try{
  assert.equal(await page.locator('#app-form [name="name"]').inputValue(),'본PF 1차');
  assert.deepEqual(await readWorkspace(),captured);
  await page.locator('#app-form [name="date"]').fill('2026-11-12');
- await page.locator('#app-form [name="sale"]').fill('630000000000');
+ assert.equal(await page.locator('#app-form input[type=number]').count(),0,'정보 수정에서 연동 금액을 재입력하지 않음');
  await page.locator('#app-form [name="note_funding"]').fill('본PF 대주 협의 반영');
  await saveForm();
  await basis.getByRole('button',{name:/본PF 1차/}).waitFor();
@@ -299,10 +300,11 @@ try{
  await page.reload();
  await basis.getByRole('button',{name:/본PF 1차/}).waitFor();
  await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'6,300억원');
+ assert.equal(await stage.locator('[data-volume-value]').innerText(),'—','기존 매각목표 누락을 정보 수정이 변경하지 않음');
  // Capture a distinct historical capital structure through the native stage form.
  // All edits use this test's temporary workspace; source commitments remain intact.
- await stage.locator('[data-action="stage-open"]').click();
+ await page.goto(origin+'/?screen=cost-detail');
+ await page.locator('[data-action="stage-open"]').click();
  await page.locator('#app-form [name="label"]').fill('조달구성 확정');
  await page.locator('#app-form [name="date"]').fill(await page.evaluate(()=>App.today));
  await page.locator('#app-form [name="capture"]').selectOption('current');
@@ -324,6 +326,7 @@ try{
  assert.equal(capitalSnapshot.financeContext.capitalSources.length,4);
  assert.equal(capitalSnapshot.financeContext.capitalSources.reduce((sum,row)=>sum+row.amount,0),280000000000);
  assert.deepEqual(projectA(withCapital).loans,projectA(workspace).loans);
+ await page.goto(origin+'/?screen=finance');
  await basis.getByRole('button',{name:/조달구성 확정/}).click();
  assert.equal(await upperFunding.innerText(),'2,800억원');
  assert.equal(await lowerFunding.innerText(),'2,800억원');

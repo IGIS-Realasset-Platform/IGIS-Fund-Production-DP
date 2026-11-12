@@ -1,6 +1,6 @@
 import {currentCapitalSources,capitalSourceTotal,capitalSourceGroups} from './finance-capital.js';
 import {stageFields} from './finance-stage-fields.js';
-import {milestoneRows,installMilestoneCapture,editCurrentMilestone,underwritingBasis,costPerPyeong} from './finance-milestones.js';
+import {milestoneRows,installMilestoneCapture,editMilestoneInfo,captureCurrentMilestone,underwritingBasis,costPerPyeong} from './finance-milestones.js';
 
 const eok=100_000_000;
 const groupColors=['#253985','#426eaa','#5886a2','#796ba4','#536b87','#815c84'];
@@ -24,7 +24,11 @@ function renderCapital(A,capital,summary,project,basis){
  summary.innerHTML=[['총 조달규모',total],['자기자본',sum('equity')],['대출 약정',sum('debt')]].map(([label,value])=>'<div><span>'+label+'</span><b>'+(value==null?'—':A.money(value))+'</b></div>').join('');
  const detailButton=capital.querySelector('.panel-header button');
  detailButton.removeAttribute('data-action');
- detailButton.onclick=()=>A.modal(basis.name+' · 조달 내역',A.table(['구분','트랜치','자금 제공자','약정·출자액'],sources.map(row=>[row.kind==='equity'?'출자':'대출',A.esc(row.tranche),A.esc(row.party),row.amount==null?'—':A.money(row.amount)])),basis.snapshot?A.btn('단계 정정','stage-correct',{id:basis.snapshot.id}):'');
+ const openCapitalDetails=()=>{A.modal(basis.name+' · 조달 내역',A.table(['구분','트랜치','자금 제공자','약정·출자액'],sources.map(row=>[row.kind==='equity'?'출자':'대출',A.esc(row.tranche),A.esc(row.party),row.amount==null?'—':A.money(row.amount)])),basis.snapshot?A.btn('단계 정보 수정','finance-stage-info',{id:basis.snapshot.id}):'');
+  const edit=document.querySelector('#app-dialog [data-action="finance-stage-info"]');
+  if(edit)edit.onclick=event=>{event.stopPropagation();editMilestoneInfo(A,project,basis,A.formParentOptions(openCapitalDetails));};
+ };
+ detailButton.onclick=openCapitalDetails;
  const money=amount=>amount===null?'—':A.money(amount);
  const hasMissing=total===null||totalOf(groups.map(group=>group.total))!==total;
  const body=capital.querySelector('.panel-body');
@@ -240,9 +244,9 @@ export function decorateFinancing(A,content,project){
   body.innerHTML=`
    <div class="studio-milestone-toolbar"><div class="studio-stage-selector" role="group" aria-label="사업비 비교 기준 선택">
     ${costBases.map(row=>`<button type="button" aria-pressed="${row===basis}" data-cost-basis="${A.esc(row.id)}">
-     ${row.date?`<span>${A.esc(displayDate(row.date))}</span>`:''}<strong>${A.esc(row.name)}</strong></button>`).join('')}
+     ${row.date?`<span>${A.esc(displayDate(row.date))}</span>`:''}<strong>${A.esc(row.name)}${row.id==='current'&&costBases.some(other=>other.snapshot&&other.name===row.name)?' · 현재':''}</strong></button>`).join('')}
    </div>
-   <div class="studio-stage-actions"><button type="button" class="btn" data-milestone-edit>최근 단계 수정</button><button type="button" class="btn primary" data-action="stage-open">+ 단계 추가</button></div></div>
+   <div class="studio-stage-actions"><button type="button" class="btn" data-milestone-edit>단계 정보 수정</button><button type="button" class="btn primary" data-milestone-save>현재 단계 저장</button></div></div>
    <div class="studio-stage-volume">
     <div class="studio-stage-volume-main">
      <span data-volume-label>${summaryLabel(volume,basis)}</span>
@@ -280,7 +284,7 @@ export function decorateFinancing(A,content,project){
       <tr><th scope="row">연면적</th>${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${row.gfa==null?'—':A.num(row.gfa)+'㎡'}</strong>${row.gfaReference?'<small>사업개요 기준</small>':''}</td>`).join('')}</tr>
       <tr><th scope="row">사업 종료 예정</th>${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${row.periodEnd?A.esc(displayDate(row.periodEnd)):'—'}</strong>${row.periodEndReference?'<small>시작월·개발기간 기준</small>':''}</td>`).join('')}</tr>
       ${costBases.some(row=>row.reason||row.reasons?.length)?`<tr><th scope="row">증감 사유</th>${costBases.map(row=>`<td data-selected="${row===basis}">${row.reason?A.esc(row.reason):''}${row.reasons?.length?row.reasons.map(([name,reason])=>`<small>${A.esc(name?name+' · '+reason:reason)}</small>`).join(''):row.reason?'':'—'}</td>`).join('')}</tr>`:''}
-      <tr><th scope="row"></th>${costBases.map(row=>`<td>${row.snapshot?A.btn('단계 정정','stage-correct',{id:row.snapshot.id}):'<button type="button" class="btn" data-milestone-edit>최근 단계 수정</button>'}</td>`).join('')}</tr>
+      <tr><th scope="row"></th>${costBases.map(row=>`<td>${A.btn('단계 정보 수정','finance-stage-info',{id:row.snapshot?.id||'current'})}</td>`).join('')}</tr>
      </tbody>
     </table>
     <details class="studio-legacy-stages"${view.legacyOpen?' open':''}><summary>이전 별도 단계 기록</summary>
@@ -324,7 +328,8 @@ export function decorateFinancing(A,content,project){
  stagePanel.addEventListener('click',event=>{
   const button=event.target.closest('button');
   if(!button)return;
-  if(button.hasAttribute('data-milestone-edit')){editCurrentMilestone(A,project);return;}
+  if(button.hasAttribute('data-milestone-edit')){editMilestoneInfo(A,project,selectedBasis());return;}
+  if(button.hasAttribute('data-milestone-save')){captureCurrentMilestone(A,project,id=>{view.basisId='snapshot:'+id;});return;}
   if(button.dataset.volumeKey){
    view.volume=button.dataset.volumeKey;
    const field=stageFieldsByKey.get(view.volume);
