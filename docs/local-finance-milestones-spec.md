@@ -35,3 +35,16 @@
 - 최종 소스 SHA-256은 component-review-matrix.json의 localFinancingMilestones.sourceSha256에 기록했습니다. 실제 화면: /private/tmp/idm-milestones-detail.png, /private/tmp/idm-milestones-form.png. 검수 Excel은 기존 LOCAL-UI-154-검수.xlsx의 관련 행을 LOCAL-UI-155로 갱신·렌더·재읽기 확인했습니다.
 
 - 최종 실제 4178 응답 빌드: `.build/local-preview/platform-63840.html`, SHA-256 `361281488ebed69fa24fd4482d77e83a5c1133b7c8db37cad9c240837ac83646`. 최종 동일 열 너비 적용 후 화면을 다시 확인했습니다.
+
+
+## LOCAL-UI-156 최초 기준값 연결 누락 교정
+
+기존 로컬 finance_stages의 명시적 최초 예시 ID example-1에 조달·매각·기간이 있는데 LOCAL-UI-155에서 이를 빠뜨렸다. `financeContext`가 아직 없는 최초 언더라이팅에만 이 동일 프로젝트 기존 기록을 연결한다. 이미 저장한 context의 0/빈값을 덮어쓰지 않고, 원가·토지·공사·금융비는 native snapshot만 읽는다. 현재/중간 금액이나 다른 프로젝트 값을 대신 사용하지 않는다. 원본 DB/최초 원가/대출/출자를 수정하지 않는다. 최초 화면·상세표·중간 대비·정정 입력이 동일한 연결값을 읽어야 한다. 당시 면적/종료일은 원문에도 없는 항목으로 이번 연결 대상이 아니다.
+
+검수: 브라우저 RED에서 최초 조달 —/기대 3,050억원으로 의미 오류 재현. 교정 후 단위검사·기존 격리 브라우저 저장/취소/실패/보존 회귀 통과. 실제 4178에서 최초 조달 3,050억원, 원가 5,123억원, 토지비 934.62억원, 공사비 3,104.76억원, 금융비 330억원, 매각 목표 6,050억원, 기간 72개월 확인. 연면적/종료월은 양쪽 최초 기록 모두 없어 임의 생성하지 않음.
+
+실제 A/B/C 최초 조달 표시 확인: 3,050 / 1,921.5 / 6,405억원. 화면 /private/tmp/idm-uw-fixed.png. 로컬 검수 Excel 관련 행 LOCAL-UI-156으로 갱신·렌더·재읽기 확인.
+- scripts/local-preview/finance-milestones.js SHA-256 `cc6bf3e006d8515351fafe52a2e5f6f72954277faa214b3dfc24df59b62e7b13`
+- scripts/local-preview/finance-overview.js SHA-256 `f2e39bf2380e8463050129b92c15958373ecb9ff4e61bbb048182580a7c0853c`
+- tests/local-finance-browser.mjs SHA-256 `759876c734c6a8b7ee75faaa565141515e190b6c9f575f0a4b4fc2620d5af217`
+- tests/local-finance-milestones.mjs SHA-256 `07a70c227452997504fe3a576e5aeaa06f82ad1ce918ee5b0bc5861e019b4e58`

@@ -5776,3 +5776,5 @@ Chrome에서 최종 선 색과 두께, 묶음 배경 및 알림 구분선을 확
 ## LOCAL-UI-155 사업 단계별 지표
 
 [현재 명세 및 구성요소 검수](local-finance-milestones-spec.md)를 따릅니다. LOCAL-UI-154의 최초/현재 비교·항상 최신 조달액 표시는 이 요구로 대체합니다.
+
+LOCAL-UI-156: 최초 언더라이팅의 기존 로컬 조달·매각·기간 기록 연결. 원가항목은 native 최초값 보존. [검수](local-finance-milestones-spec.md).

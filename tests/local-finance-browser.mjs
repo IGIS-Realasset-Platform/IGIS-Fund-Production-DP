@@ -107,7 +107,11 @@ try{
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,currentCost]);
  await basis.getByRole('button',{name:/최초 언더라이팅/}).click();
  assert.equal(await stage.locator('[data-volume-value]').innerText(),initialCost);
- assert.equal(await upperFunding.innerText(),'—','과거 조달 미입력을 현재 조달액으로 채우지 않아야 합니다');
+ assert.equal(await upperFunding.innerText(),'3,050억원','기존 최초 단계에 저장한 조달규모를 누락하면 안 됩니다');
+ await volume.getByRole('button',{name:'매각 목표',exact:true}).click();
+ assert.equal(await stage.locator('[data-volume-value]').innerText(),'6,050억원');
+ assert.match(await compare.getByRole('heading',{name:'개발기간',exact:true}).locator('..').innerText(),/72개월/);
+ await volume.getByRole('button',{name:'원가',exact:true}).click();
  assert.equal(await lowerFunding.innerText(),'3,050억원');
  assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost]);
  await basis.getByRole('button',{name:'최근 사업 단계',exact:true}).click();

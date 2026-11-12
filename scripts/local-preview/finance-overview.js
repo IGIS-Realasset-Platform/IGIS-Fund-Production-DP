@@ -220,8 +220,8 @@ export function decorateFinancing(A,content,project){
  const body=stagePanel.querySelector('.studio-stage-body');
  const url='/api/local-finance-stages?'+new URLSearchParams({projectId:project.id});
  installMilestoneCapture(A);
- const costBases=milestoneRows(A,project);
- const current=costBases.at(-1);
+ let costBases=milestoneRows(A,project);
+ let current=costBases.at(-1);
  const summaryLabel=field=>summaryLabels[field.key]||field.label;
  const summaryValue=(field,basis)=>fieldDisplay(A,basis.values[field.key]);
  let stages=[],recordsState='loading';
@@ -303,6 +303,9 @@ export function decorateFinancing(A,content,project){
   const response=await fetch(url);
   if(!response.ok)throw Error('개발 단계 기록을 불러오지 못했습니다.');
   stages=(await response.json()).stages;
+  A.financeMilestones.setUnderwritingReference(project.id,stages.find(row=>row.id==='example-1'&&row.sample));
+  costBases=milestoneRows(A,project);
+  current=costBases.at(-1);
   recordsState='ready';
   if(stagePanel.isConnected)render();
  }

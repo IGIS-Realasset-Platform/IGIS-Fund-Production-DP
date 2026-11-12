@@ -16,8 +16,8 @@ export function milestoneRows(A,project){
    land:value('land_purchase'),construction:value('construction'),interest:value('finance')};
  };
  const rows=A.domain.activeStages(project).map(snapshot=>{
-  const extra=snapshot.financeContext||{};
-  return {id:'snapshot:'+snapshot.id,snapshot,name:snapshot.label||'사업 단계',date:snapshot.date,
+  const extra=A.financeMilestones?.context(project,snapshot)||snapshot.financeContext||{};
+  return {id:'snapshot:'+snapshot.id,snapshot,name:snapshot.label||'사업 단계',date:snapshot.date||extra.date||'',
    values:{funding:extra.funding??null,sale:extra.sale??null,duration:extra.duration??null,...costs(snapshot)},
    gfa:A.areas.forStage(project,snapshot)?.gfaTotal??null,periodEnd:extra.periodEnd||'',reason:extra.reason||'',
    notes:extra.notes||{},reasons:Object.entries(snapshot.reasons||{}).filter(([,text])=>typeof text==='string'&&text.trim()).map(([id,text])=>[snapshot.nodes?.find(node=>node.id===id)?.name,text])};
@@ -36,9 +36,23 @@ export function installMilestoneCapture(A){
   if(!Number.isSafeInteger(number)||number<0)throw Error(label+'은 0 이상의 원 단위 정수로 입력해 주세요.');
   return number;
  };
+ const underwritingReferences=new Map();
  A.financeMilestones={
+  setUnderwritingReference(projectId,record){
+   if(record?.id==='example-1'&&record.sample)underwritingReferences.set(projectId,record);
+   else underwritingReferences.delete(projectId);
+  },
+  context(project,snapshot){
+   if(snapshot.financeContext)return snapshot.financeContext;
+   if(snapshot.kind!=='underwriting'&&snapshot.controlEventType!=='underwriting')return {};
+   const record=underwritingReferences.get(project.id);
+   if(!record)return {};
+   return {funding:record.values.funding??null,sale:record.values.sale??null,duration:record.values.duration??null,
+    date:record.date,reason:record.reason,notes:Object.fromEntries(['funding','sale','duration'].filter(key=>record.notes?.[key]).map(key=>[key,record.notes[key]]))};
+  },
   fields(project,draft){
-   const saved=draft.financeContext;
+   const linked=A.financeMilestones.context(project,draft);
+   const saved=draft.financeContext||(Object.keys(linked).length?linked:null);
    const data=saved||(draft.captureMode==='current'?{
     funding:A.contracts.financeCapitalTotals(project).total,sale:project.financeCurrentStage?.sale,
     duration:projectDuration(project.basic),periodEnd:project.basic?.periodEnd,

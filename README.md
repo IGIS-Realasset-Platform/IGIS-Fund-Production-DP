@@ -511,3 +511,5 @@ node scripts/verify-center120.mjs
 - [변경 내역](CHANGELOG.md)
 
 로컬 검토본의 사업 단계별 비교 변경은 [LOCAL-UI-155 명세/검수](docs/local-finance-milestones-spec.md)를 참조합니다. 운영 배포와 별개입니다.
+
+로컬 최초 단계 연결 보완: [LOCAL-UI-156](docs/local-finance-milestones-spec.md).

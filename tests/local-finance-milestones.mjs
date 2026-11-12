@@ -4,7 +4,7 @@ import {milestoneRows,installMilestoneCapture,projectDuration} from '../scripts/
 const original={id:'uw',label:'최초 언더라이팅',date:'2024-01-01',amounts:{total:100,land:20,build:60,fee:5},area:{gfaTotal:1200}};
 const intermediate={id:'refi',label:'1차 리파이낸싱',date:'2025-06-30',amounts:{total:125,land:25,build:70,fee:8},area:{gfaTotal:1300},
  financeContext:{funding:110,sale:0,duration:60,periodEnd:'2030-06',reason:'설계 변경',notes:{construction:'지하층 보강'}}};
-const p={costStages:[original,intermediate],amounts:{total:150,land:30,build:90,fee:10},funding:140,basic:{periodStart:'2024-06',periodEnd:'2030-06'},area:{gfaTotal:1500},financeCurrentStage:{name:'본PF 1차',date:'2026-11-12',reason:'본PF 조건 확정'}};
+const p={id:'project-a',costStages:[original,intermediate],amounts:{total:150,land:30,build:90,fee:10},funding:140,basic:{periodStart:'2024-06',periodEnd:'2030-06'},area:{gfaTotal:1500},financeCurrentStage:{name:'본PF 1차',date:'2026-11-12',reason:'본PF 조건 확정'}};
 const A={
  companyCostProfile:{managementNodes:()=>[{id:'land',companyProfileKey:'land_purchase'},{id:'build',companyProfileKey:'construction'},{id:'fee',companyProfileKey:'finance'}]},
  domain:{activeStages:project=>project.costStages,modeValue:(project,id,snapshot)=>(snapshot||project).amounts[id]},
@@ -36,3 +36,21 @@ assert.throws(()=>read({financePeriodEnd:'2026-13'}));
 assert.throws(()=>read({financeReason:'x'.repeat(1001)}));
 assert.throws(()=>read({financeNote_cost:'x'.repeat(501)}));
 console.log('LOCAL-UI-155 milestone history/live separation, historical gaps, explicit zero, facts and validation passed');
+
+// Existing, explicitly identified local UW record supplements only missing financial context.
+installMilestoneCapture(A);
+A.financeMilestones.setUnderwritingReference(p.id,{id:'example-1',sample:true,date:'2024-06-01',values:{funding:90,sale:180,duration:72,cost:999,interest:999},reason:'기존 최초 검토'});
+original.kind='underwriting';
+const linked=milestoneRows(A,p)[0];
+assert.equal(linked.values.funding,90);
+assert.equal(linked.values.sale,180);
+assert.equal(linked.values.duration,72);
+assert.equal(linked.values.cost,100);
+assert.equal(linked.values.interest,5);
+assert.equal(linked.gfa,1200);
+assert.equal(milestoneRows(A,{...p,id:'another'})[0].values.funding,null);
+original.financeContext={funding:0,sale:null,duration:null};
+assert.equal(milestoneRows(A,p)[0].values.funding,0);
+assert.equal(milestoneRows(A,p)[0].values.sale,null);
+delete original.financeContext;
+console.log('LOCAL-UI-156 existing UW supplement / native amount priority / explicit zero and null / project isolation passed');

@@ -815723,6 +815723,18 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localUnderwritingConnection": {
+      "requirement": "LOCAL-UI-156",
+      "status": "native values preserved; existing local underwriting financial context connected",
+      "verified": [
+        "model explicit 0/null and project isolation",
+        "browser existing UW funding/sale/duration; prior full save/cancel/failure suite"
+      ],
+      "source": "same-project local finance_stages example-1; native UW costs take priority",
+      "notAvailable": [
+        "historical GFA and end month absent in both records"
+      ]
+    },
     "localFinancingMilestones": {
       "requirement": "LOCAL-UI-155",
       "status": "implemented; isolated browser and local desktop verified",
