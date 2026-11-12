@@ -1,0 +1,305 @@
+{
+  "requirement": "LOCAL-UI-175",
+  "result": "LOCAL-UI-175: 용인·용산 세단계/조달/투자자/면적/기간/원가 연결. 토지 최초금액 유지, 본PF 금융비/만기 조정. 격리 모델 및 브라우저 전환·합계·수정취소·새로고침 통과, 실제4178 B/C 표시 확인. 로컬revision21→22; A·계약·출자·조달총액·원본자료 보존. 정정 전 사업전체 및 기존UW기록 보관. 운영·푸시 없음.",
+  "data": [
+    {
+      "id": "TEST-20261016-B",
+      "changed": true,
+      "rows": [
+        {
+          "name": "최초 언더라이팅",
+          "date": "2024-07-01",
+          "values": {
+            "funding": 140000000000,
+            "sale": null,
+            "duration": 48,
+            "cost": 322749000000,
+            "land": 58880770000,
+            "construction": 195599740000,
+            "interest": 20790000000
+          },
+          "gfa": 40005,
+          "periodEnd": "2028-06",
+          "capitalSources": [
+            {
+              "id": "equity:iy3s68gs",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "이지스 제1호",
+              "role": "재무출자자",
+              "amount": 25000000000
+            },
+            {
+              "id": "equity:dgg5al2w",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "건설출자자",
+              "role": "시공출자자",
+              "amount": 20000000000
+            },
+            {
+              "id": "loan:ho26w9fq",
+              "kind": "debt",
+              "tranche": "브릿지론 · 선순위",
+              "party": "A은행",
+              "role": "선순위",
+              "amount": 95000000000
+            }
+          ]
+        },
+        {
+          "name": "1차 리파이낸싱",
+          "date": "2025-06-30",
+          "values": {
+            "funding": 170000000000,
+            "sale": null,
+            "duration": 60,
+            "cost": 324049000000,
+            "land": 58880770000,
+            "construction": 196399740000,
+            "interest": 21290000000
+          },
+          "gfa": 40005,
+          "periodEnd": "2029-06",
+          "capitalSources": [
+            {
+              "id": "equity:iy3s68gs",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "이지스 제1호",
+              "role": "재무출자자",
+              "amount": 34000000000
+            },
+            {
+              "id": "equity:dgg5al2w",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "건설출자자",
+              "role": "시공출자자",
+              "amount": 26000000000
+            },
+            {
+              "id": "loan:ho26w9fq",
+              "kind": "debt",
+              "tranche": "Tr.A · 선순위",
+              "party": "A은행",
+              "role": "선순위",
+              "amount": 85000000000
+            },
+            {
+              "id": "loan:b4oafu7s",
+              "kind": "debt",
+              "tranche": "Tr.B · 후순위",
+              "party": "B보험",
+              "role": "후순위",
+              "amount": 25000000000
+            }
+          ]
+        },
+        {
+          "name": "본PF 1차",
+          "date": "2026-11-12",
+          "values": {
+            "funding": 192150000000,
+            "sale": null,
+            "duration": 78,
+            "cost": 324479990000,
+            "land": 58880770000,
+            "construction": 196404540000,
+            "interest": 22290000000
+          },
+          "gfa": 40005,
+          "periodEnd": "2030-12",
+          "capitalSources": [
+            {
+              "id": "equity:iy3s68gs",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "이지스 제1호",
+              "amount": 39060000000,
+              "role": "재무출자자"
+            },
+            {
+              "id": "equity:dgg5al2w",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "건설출자자",
+              "amount": 30240000000,
+              "role": "시공출자자"
+            },
+            {
+              "id": "loan:ho26w9fq",
+              "kind": "debt",
+              "tranche": "Tr.A · 선순위",
+              "party": "A은행",
+              "amount": 90000000000,
+              "role": "선순위"
+            },
+            {
+              "id": "loan:b4oafu7s",
+              "kind": "debt",
+              "tranche": "Tr.B · 후순위",
+              "party": "B보험",
+              "amount": 32850000000,
+              "role": "후순위"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TEST-20261016-C",
+      "changed": true,
+      "rows": [
+        {
+          "name": "최초 언더라이팅",
+          "date": "2024-05-01",
+          "values": {
+            "funding": 440000000000,
+            "sale": null,
+            "duration": 84,
+            "cost": 1075830000000,
+            "land": 196269230000,
+            "construction": 651999130000,
+            "interest": 69300000000
+          },
+          "gfa": 133350,
+          "periodEnd": "2031-06",
+          "capitalSources": [
+            {
+              "id": "equity:ztd2c1yh",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "이지스 제1호",
+              "role": "재무출자자",
+              "amount": 85000000000
+            },
+            {
+              "id": "equity:jii03s8q",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "건설출자자",
+              "role": "시공출자자",
+              "amount": 65000000000
+            },
+            {
+              "id": "loan:8a1osujg",
+              "kind": "debt",
+              "tranche": "브릿지론 · 선순위",
+              "party": "A은행",
+              "role": "선순위",
+              "amount": 290000000000
+            }
+          ]
+        },
+        {
+          "name": "1차 리파이낸싱",
+          "date": "2025-06-30",
+          "values": {
+            "funding": 560000000000,
+            "sale": null,
+            "duration": 90,
+            "cost": 1079830000000,
+            "land": 196269230000,
+            "construction": 654499130000,
+            "interest": 70800000000
+          },
+          "gfa": 133350,
+          "periodEnd": "2031-12",
+          "capitalSources": [
+            {
+              "id": "equity:ztd2c1yh",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "이지스 제1호",
+              "role": "재무출자자",
+              "amount": 108000000000
+            },
+            {
+              "id": "equity:jii03s8q",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "건설출자자",
+              "role": "시공출자자",
+              "amount": 82000000000
+            },
+            {
+              "id": "loan:8a1osujg",
+              "kind": "debt",
+              "tranche": "Tr.A · 선순위",
+              "party": "A은행",
+              "role": "선순위",
+              "amount": 290000000000
+            },
+            {
+              "id": "loan:yd528zoh",
+              "kind": "debt",
+              "tranche": "Tr.B · 후순위",
+              "party": "B보험",
+              "role": "후순위",
+              "amount": 80000000000
+            }
+          ]
+        },
+        {
+          "name": "본PF 1차",
+          "date": "2026-11-12",
+          "values": {
+            "funding": 640500000000,
+            "sale": null,
+            "duration": 96,
+            "cost": 1085703290000,
+            "land": 196269230000,
+            "construction": 657364490000,
+            "interest": 74300000000
+          },
+          "gfa": 133350,
+          "periodEnd": "2032-06",
+          "capitalSources": [
+            {
+              "id": "equity:ztd2c1yh",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "이지스 제1호",
+              "amount": 130200000000,
+              "role": "재무출자자"
+            },
+            {
+              "id": "equity:jii03s8q",
+              "kind": "equity",
+              "tranche": "자기자본",
+              "party": "건설출자자",
+              "amount": 100800000000,
+              "role": "시공출자자"
+            },
+            {
+              "id": "loan:8a1osujg",
+              "kind": "debt",
+              "tranche": "Tr.A · 선순위",
+              "party": "A은행",
+              "amount": 300000000000,
+              "role": "선순위"
+            },
+            {
+              "id": "loan:yd528zoh",
+              "kind": "debt",
+              "tranche": "Tr.B · 후순위",
+              "party": "B보험",
+              "amount": 109500000000,
+              "role": "후순위"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sha256": {
+    "scripts/local-preview/complete-review-financing.mjs": "2c617de2d49988653bb97beb796533af2367f59e446f89547db6d58edf37429e",
+    "tests/local-review-financing-completion.mjs": "07078f9740ee6fdf0477e7cb9cecd7f2ac2b56b2c87b0d78be1fc3672e566a0b",
+    "tests/local-review-financing-browser.mjs": "192ddfdb4224980c982af818d1a6bc7dda2006b8668fdcb24ed838d7d70340a2"
+  },
+  "screenshots": [
+    "/private/tmp/idm-ui175-B.png",
+    "/private/tmp/idm-ui175-C.png"
+  ]
+}
