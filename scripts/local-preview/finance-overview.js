@@ -2,6 +2,9 @@ import {stageFields} from './finance-stage-fields.js';
 
 const eok=100_000_000;
 const groupColors=['#253985','#426eaa','#5886a2','#796ba4','#536b87','#815c84'];
+const stageViews=new Map();
+const stageFieldsByKey=new Map(stageFields.map(field=>[field.key,field]));
+const volumeKeys=['funding','cost','sale','land','construction','interest'];
 const amountOf=value=>{
  if(typeof value!=='number'&&(typeof value!=='string'||!value.trim()))return null;
  const amount=Number(value);
@@ -36,7 +39,7 @@ function renderCapital(A,capital,summary,project){
  const hasMissing=groups.some(group=>group.total===null)||!loanCount||!equityCount;
  const body=capital.querySelector('.panel-body');
  body.classList.add('studio-capital');
- body.replaceChildren(summary);
+ body.replaceChildren();
  const chart=document.createElement('div');
  chart.className='studio-capital-chart';
  chart.innerHTML=`
@@ -44,10 +47,11 @@ function renderCapital(A,capital,summary,project){
   <div class="studio-capital-bar" role="group" aria-label="약정·출자 기준 조달 비중"${total>0&&!hasMissing?'':' hidden'}></div>
   ${hasMissing&&groups.length?'<p class="studio-finance-note">약정액 또는 출자액이 모두 확인되면 조달 비중을 표시합니다.</p>':''}
   ${!groups.length?'<p class="studio-finance-note">등록된 대출·출자 내역이 없습니다.</p>':''}
-  <div class="studio-capital-groups"></div>`;
+  <div class="studio-capital-investment"><div class="studio-capital-totals"></div><div class="studio-capital-groups"></div></div>`;
  body.append(chart);
  const bar=chart.querySelector('.studio-capital-bar');
  const cards=chart.querySelector('.studio-capital-groups');
+ chart.querySelector('.studio-capital-totals').append(summary);
  let selected=null,hovered=null,focused=null;
  const active=()=>hovered??focused??selected;
  function showGroup(){
@@ -58,7 +62,7 @@ function renderCapital(A,capital,summary,project){
    segment.classList.toggle('is-active',key===index);
    segment.setAttribute('aria-pressed',String(key===selected));
   });
-  Array.from(cards.children).forEach((card,key)=>{card.hidden=index!==null&&key!==index});
+  Array.from(cards.children).forEach((card,key)=>card.classList.toggle('is-active',key===index));
  }
  groups.forEach((group,index)=>{
   const color=groupColors[index%groupColors.length];
@@ -70,7 +74,7 @@ function renderCapital(A,capital,summary,project){
    segment.style.setProperty('--group-color',color);
    segment.style.setProperty('--group-width',share+'%');
    segment.setAttribute('aria-label',group.name+' '+A.num(share,1)+'% '+money(group.total));
-   if(share>=9)segment.innerHTML=`<strong>${A.esc(group.name)}</strong><span>${A.num(share,1)}%</span>`;
+   segment.innerHTML=`<strong>${A.esc(group.name)}</strong><span>${A.num(share,1)}%</span>`;
    segment.addEventListener('pointerenter',event=>{if(event.pointerType!=='touch'){hovered=index;showGroup()}});
    segment.addEventListener('pointerleave',()=>{hovered=null;showGroup()});
    segment.addEventListener('focus',()=>{focused=index;showGroup()});
@@ -87,7 +91,7 @@ function renderCapital(A,capital,summary,project){
   const card=document.createElement('article');
   card.style.setProperty('--group-color',color);
   card.innerHTML=`<div class="studio-capital-group-title"><h4>${A.esc(group.name)}</h4><strong>${money(group.total)}</strong></div>
-   <ul>${group.people.map(person=>`<li><span>${A.esc(person.name||'기관명 미입력')}${person.role?`<small>${A.esc(person.role)}</small>`:''}</span><b>${money(person.amount)}</b></li>`).join('')}</ul>`;
+   <ol>${group.people.map(person=>`<li><div><span>${A.esc(person.name||'기관명 미입력')}${person.role?`<small>${A.esc(person.role)}</small>`:''}</span><b>${money(person.amount)}</b></div></li>`).join('')}</ol>`;
   cards.append(card);
  });
  showGroup();
@@ -100,6 +104,19 @@ function changeText(A,value,previous,unit){
  return (delta>0?'+':delta<0?'−':'')+fieldDisplay(A,Math.abs(delta),unit);
 }
 function displayDate(date){return date.replaceAll('-','.');}
+function stageComparison(A,field,baseline,stage){
+ const {key,label,unit}=field;
+ const value=stage.values[key],initial=baseline.values[key];
+ const delta=value==null||initial==null?null:value-initial;
+ const compare=baseline!==stage;
+ return `<article class="studio-stage-pair"><h4>${label}</h4>
+  <div class="studio-stage-values">
+   ${compare?`<div><span>${A.esc(baseline.name)}</span><b>${fieldDisplay(A,initial,unit)}</b></div><span aria-hidden="true">→</span>`:''}
+   <div><span>${A.esc(stage.name)}</span><b>${fieldDisplay(A,value,unit)}</b></div>
+  </div>
+  ${compare&&delta!==null?`<small class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${changeText(A,value,initial,unit)}</small>`:''}
+ </article>`;
+}
 function toInput(amount,unit){return amount==null?'':String(unit?amount:amount/eok);}
 function fromInput(raw,unit){
  const value=String(raw).trim();
@@ -204,39 +221,60 @@ export function decorateFinancing(A,content,project){
  const body=stagePanel.querySelector('.studio-stage-body');
  const add=stagePanel.querySelector('[data-stage-action="create"]');
  const url='/api/local-finance-stages?'+new URLSearchParams({projectId:project.id});
- let stages=[],selectedId;
+ let stages=[];
+ if(!stageViews.has(project.id))stageViews.set(project.id,{selectedId:null,detailsOpen:false,volume:'funding'});
+ const view=stageViews.get(project.id);
  function render(){
   add.disabled=false;
-  const stage=stages.find(row=>row.id===selectedId)||stages.at(-1);
-  selectedId=stage?.id;
+  const stage=stages.find(row=>row.id===view.selectedId)||stages.at(-1);
+  view.selectedId=stage?.id;
   if(!stage){
    body.innerHTML='<p class="studio-finance-note">등록된 개발 단계가 없습니다.</p>';
    return;
   }
-  const previous=stages[stages.indexOf(stage)-1];
+  const baseline=stages[0];
+  const gfa=project.building?.gfaTotal;
+  const periodEnd=project.basic?.periodEnd;
+  const volume=stageFieldsByKey.get(view.volume);
   body.innerHTML=`
    <div class="studio-stage-selector" role="group" aria-label="개발 단계 선택">
     ${stages.map(row=>`<button type="button" aria-pressed="${row===stage}" data-stage-id="${A.esc(row.id)}">
      <span>${displayDate(row.date)}</span><strong>${A.esc(row.name)}</strong>${row.sample?'<small>예시</small>':''}</button>`).join('')}
    </div>
-   <div class="studio-stage-metrics">${stageFields.slice(0,3).map(({key,label})=>{
-    const amount=stage.values[key],prior=previous?.values[key],delta=amount!=null&&prior!=null?amount-prior:0;
-    return `<div><span>${label}</span><b>${fieldDisplay(A,amount)}</b>${previous?`<small class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${changeText(A,amount,prior)}</small>`:''}</div>`;
-   }).join('')}</div>
-   <div class="studio-stage-context">
-    <div><h4>변경 사유·관련 이슈</h4><p>${A.esc(stage.reason)}</p></div>
+   <div class="studio-stage-volume">
+    <div class="studio-stage-volume-main">
+     <span data-volume-label>${volume.label}</span>
+     <b data-volume-value>${fieldDisplay(A,stage.values[volume.key])}</b>
+     <div class="studio-stage-volume-picker" role="group" aria-label="사업 규모 지표 선택">
+      ${volumeKeys.map(key=>`<button type="button" data-volume-key="${key}" aria-pressed="${key===volume.key}">${stageFieldsByKey.get(key).label}</button>`).join('')}
+     </div>
+    </div>
+    <div class="studio-stage-metrics">${stageFields.slice(0,3).map(({key,label})=>
+     `<div><h4>${label}</h4><b>${fieldDisplay(A,stage.values[key])}</b></div>`).join('')}</div>
+   </div>
+   <div class="studio-stage-comparison">
+     <div class="studio-stage-project">
+      <div class="studio-stage-facts">
+       <div><span>사업 종료 예정</span><b>${A.esc(periodEnd?displayDate(periodEnd):'—')}</b></div>
+       <div><span>연면적</span><b>${gfa==null||gfa===''?'—':A.num(gfa)+'㎡'}</b></div>
+      </div>
+      ${stageComparison(A,stageFieldsByKey.get('duration'),baseline,stage)}
+     </div>
+     <div class="studio-stage-comparison-grid">${['cost','sale','construction','interest'].map(key=>stageComparison(A,stageFieldsByKey.get(key),baseline,stage)).join('')}</div>
+     <button type="button" class="studio-stage-reveal" data-stage-action="details" aria-controls="studio-stage-table" aria-expanded="${view.detailsOpen}">
+      <span>${view.detailsOpen?'핵심 지표 닫기':'핵심 지표 보기'}</span>
+     </button>
+   </div>
+   <div class="studio-stage-controls">
     <div class="studio-stage-actions"><button type="button" class="btn" data-stage-action="update">수정</button><button type="button" class="btn" data-stage-action="delete">삭제</button></div>
    </div>
-   <div class="table-wrap studio-stage-table" role="region" aria-label="개발 단계별 핵심 지표 비교" tabindex="0">
-    <table class="dense-table">
-     <thead><tr><th scope="col">지표</th>${previous?`<th scope="col">${A.esc(previous.name)}</th>`:''}
-      <th scope="col">${A.esc(stage.name)}</th>${previous?'<th scope="col">직전 단계 대비</th>':''}<th scope="col">지표별 사유</th></tr></thead>
-     <tbody>${stageFields.map(({key,label,unit})=>{
-      const amount=stage.values[key],prior=previous?.values[key],delta=amount!=null&&prior!=null?amount-prior:0;
-      return `<tr><th scope="row">${label}</th>${previous?`<td>${fieldDisplay(A,prior,unit)}</td>`:''}
-       <td><strong>${fieldDisplay(A,amount,unit)}</strong></td>${previous?`<td class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${changeText(A,amount,prior,unit)}</td>`:''}
-       <td>${A.esc(stage.notes[key]||'—')}</td></tr>`;
-     }).join('')}</tbody>
+   <div id="studio-stage-table" class="table-wrap studio-stage-table" role="region" aria-label="개발 단계별 비교표 스크롤" tabindex="0"${view.detailsOpen?'':' hidden'}>
+    <table class="dense-table" aria-label="개발 단계별 핵심 지표 비교">
+     <thead><tr><th scope="col">지표</th>${stages.map(row=>`<th scope="col" data-selected="${row===stage}">${A.esc(row.name)}<small>${displayDate(row.date)}</small></th>`).join('')}</tr></thead>
+     <tbody>${stageFields.map(({key,label,unit})=>`<tr><th scope="row">${label}</th>
+      ${stages.map(row=>`<td data-selected="${row===stage}"><strong>${fieldDisplay(A,row.values[key],unit)}</strong>${row.notes[key]?`<small>${A.esc(row.notes[key])}</small>`:''}</td>`).join('')}</tr>`).join('')}
+      <tr><th scope="row">변경 사유·관련 이슈</th>${stages.map(row=>`<td data-selected="${row===stage}">${A.esc(row.reason)}</td>`).join('')}</tr>
+     </tbody>
     </table>
    </div>`;
  }
@@ -254,16 +292,36 @@ export function decorateFinancing(A,content,project){
  stagePanel.addEventListener('click',event=>{
   const button=event.target.closest('button');
   if(!button)return;
+  if(button.dataset.volumeKey){
+   view.volume=button.dataset.volumeKey;
+   const field=stageFieldsByKey.get(view.volume);
+   const stage=stages.find(row=>row.id===view.selectedId);
+   body.querySelector('[data-volume-label]').textContent=field.label;
+   body.querySelector('[data-volume-value]').textContent=fieldDisplay(A,stage.values[field.key]);
+   for(const item of body.querySelectorAll('[data-volume-key]'))item.setAttribute('aria-pressed',String(item===button));
+   return;
+  }
   if(button.dataset.stageId){
-   selectedId=button.dataset.stageId;
+   view.selectedId=button.dataset.stageId;
+   const scroll=body.querySelector('.studio-stage-selector').scrollLeft;
+   const tableScroll=body.querySelector('.studio-stage-table').scrollLeft;
    render();
-   Array.from(body.querySelectorAll('[data-stage-id]')).find(item=>item.dataset.stageId===selectedId)?.focus({preventScroll:true});
+   body.querySelector('.studio-stage-selector').scrollLeft=scroll;
+   body.querySelector('.studio-stage-table').scrollLeft=tableScroll;
+   body.querySelector('[data-stage-id][aria-pressed="true"]').focus({preventScroll:true});
    return;
   }
   const operation=button.dataset.stageAction;
+  if(operation==='details'){
+   view.detailsOpen=!view.detailsOpen;
+   button.setAttribute('aria-expanded',String(view.detailsOpen));
+   button.firstElementChild.textContent=view.detailsOpen?'핵심 지표 닫기':'핵심 지표 보기';
+   body.querySelector('.studio-stage-table').hidden=!view.detailsOpen;
+   return;
+  }
   if(operation==='retry'){loadOrRetry();return}
   if(!operation)return;
-  const stage=operation==='create'?null:stages.find(row=>row.id===selectedId);
+  const stage=operation==='create'?null:stages.find(row=>row.id===view.selectedId);
   if(operation!=='create'&&!stage)return;
   stageDialog(A,stage,operation,async change=>{
    if(!stagePanel.isConnected||A.current()?.id!==project.id)throw Error('선택한 프로젝트가 바뀌었습니다. 창을 닫고 다시 열어 주세요.');
@@ -276,7 +334,7 @@ export function decorateFinancing(A,content,project){
    if(!response.ok)throw Error(response.status===422?'단계명, 기준일, 금액과 변경 사유를 확인해 주세요.':'기록을 저장하지 못했습니다. 다시 시도해 주세요.');
    const previous=stages[stages.indexOf(stage)-1];
    stages=result.stages;
-   selectedId=result.stage?.id||previous?.id||stages[0]?.id;
+   view.selectedId=result.stage?.id||previous?.id||stages[0]?.id;
    if(stagePanel.isConnected)render();
   },button,()=>{
    const selector=operation==='update'?'[data-stage-action="update"]':'[aria-pressed="true"][data-stage-id]';
