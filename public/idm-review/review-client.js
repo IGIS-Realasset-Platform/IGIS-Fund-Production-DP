@@ -1,14 +1,17 @@
 (() => {
  const assetFetch=window.fetch.bind(window);
  const base=new URL('.',document.currentScript.src);
- const storageKey='idm-pages-review-v1:'+base.pathname;
+ const storageKey='idm-pages-review-v2:'+base.pathname;
  const stageKey=storageKey+':financing';
- const workspaceId='idm-pages-review-v1';
+ const workspaceId='idm-pages-review-v2';
  const user={id:'team-reviewer',email:'reviewer@example.invalid'};
- const initial=assetFetch(new URL('review-data/workspace.json',base)).then(response=>{
+ const loadData=name=>assetFetch(new URL('review-data/'+name+'.json',base)).then(response=>{
   if(!response.ok)throw Error('검토용 사업을 불러오지 못했습니다.');
   return response.json();
  });
+ const initial=loadData('workspace');
+ const financing=loadData('finance-stages');
+ let partnerReference,marketReference;
  const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json; charset=utf-8'}});
  async function readWorkspace(){
   const saved=localStorage.getItem(storageKey);
@@ -26,24 +29,12 @@
   localStorage.setItem(storageKey,JSON.stringify(record));
   return json({...record,requestId:input.requestId,workspaceId});
  }
- function samples(projectId){
-  if(!['LOCAL-OFFICE','LOCAL-HOUSING'].includes(projectId))return [];
-  const factor=projectId==='LOCAL-OFFICE'?1:.3;
-  const options=[
-   {name:'최초 언더라이팅',date:'2025-11-01',reason:'기본 설계 가정에 따라 사업성을 검토했습니다.',funding:600,cost:740,land:230,construction:410,interest:65,sale:870,duration:36,notes:{}},
-   {name:'설계 보완',date:'2026-10-31',reason:'지하층 기초 보강과 착공 일정 조정으로 원가가 바뀌었습니다.',funding:620,cost:775,land:230,construction:435,interest:75,sale:880,duration:39,notes:{construction:'지하층 기초 보강을 반영했습니다.',interest:'착공 일정 조정으로 이자 산정 기간이 늘었습니다.'}},
-  ];
-  return options.map(({name,date,reason,notes,duration,...amounts},index)=>({
-   id:'example-'+(index+1),revision:1,sample:true,name,date,reason,notes,
-   values:{duration,...Object.fromEntries(Object.entries(amounts).map(([key,value])=>[key,Math.round(value*factor*1e8)]))},
-  }));
- }
  async function stageRequest(url,request,input){
   const projectId=url.searchParams.get('projectId');
   const {state}=await readWorkspace();
   if(!state.projects.some(project=>project.id===projectId&&!project.deletedAt))return json({error:'PROJECT_NOT_FOUND'},404);
   const saved=JSON.parse(localStorage.getItem(stageKey)||'{}');
-  let stages=Object.hasOwn(saved,projectId)?saved[projectId]:samples(projectId);
+  let stages=Object.hasOwn(saved,projectId)?saved[projectId]:(await financing)[projectId]||[];
   if(request.method==='GET')return json({stages});
   const {operation,id,revision,record}=input||{};
   if(!['create','update','delete'].includes(operation))return json({error:'INVALID_OPERATION'},422);
@@ -61,6 +52,27 @@
   }
   localStorage.setItem(stageKey,JSON.stringify({...saved,[projectId]:stages}));
   return json({stages,...(stage?{stage}:{deleted:true})},operation==='create'?201:200);
+ }
+ async function readReference(url){
+  const {snapshot,companies}=await (partnerReference??=loadData('partners-reference'));
+  const key=url.searchParams.get('companyKey');
+  if(url.pathname==='/api/partner-comments'){
+   if(url.searchParams.get('mode')==='summary')return json({summaries:Object.entries(companies).map(([companyKey,company])=>({
+    companyKey,totalCount:(company.officialComments?.length||0)+(company.legacyOnlineComments?.length||0),onlineCount:0,recent31day:false,
+   }))});
+   if(!key||!Object.hasOwn(companies,key))return json({error:'COMPANY_NOT_FOUND'},404);
+   const company=companies[key];
+   return json({companyKey:key,seedComments:company.officialComments||[],legacyOnlineComments:company.legacyOnlineComments||[],onlineComments:[],totalCount:(company.officialComments?.length||0)+(company.legacyOnlineComments?.length||0),onlineCount:0,recent31day:false});
+  }
+  const version=url.searchParams.get('version');
+  if(version&&version!==snapshot.version)return json({error:'REFERENCE_VERSION_NOT_FOUND'},404);
+  if(key)return Object.hasOwn(companies,key)?json({version:snapshot.version,company:companies[key]}):json({error:'COMPANY_NOT_FOUND'},404);
+  const existing=snapshot.market?.series||[];
+  if(existing.some(series=>series.displayRole==='primary'))return json(snapshot);
+  const market=await (marketReference??=loadData('market-reference'));
+  const ids=new Set(market.series.map(series=>series.id));
+  const prior=existing.filter(series=>!ids.has(series.id)).map(series=>series.id==='kosis-construction'&&!series.displayRole?{...series,displayRole:'archive'}:series);
+  return json({...snapshot,market:{...snapshot.market,series:[...market.series.map(series=>({...series,checkedAt:market.checkedAt})),...prior]}});
  }
  const locked=(key,fn)=>navigator.locks?navigator.locks.request(key,fn):fn();
  window.fetch=async (input,options)=>{
@@ -89,7 +101,8 @@
      people:[['샘플 검토자',user.email,'샘플 조직','사용',[],[]]],
      projects:(await readWorkspace()).state.projects.map(project=>project.name),
     });
-    case '/api/partner-comments': return json({summaries:[]});
+    case '/api/partner-comments': return await readReference(url);
+    case '/api/reference-data': if(url.searchParams.get('kind')==='partners')return await readReference(url); break;
    }
    return json({error:'REVIEW_ONLY'},404);
   }catch{return json({error:'REVIEW_STORAGE_UNAVAILABLE'},503)}
