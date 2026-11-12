@@ -815696,6 +815696,7 @@
         "top horizontal stage selector",
         "financing stage KPI and volume selector",
         "IOTA-style comparison cards and expandable all-stage table",
+        "linked underwriting and current cost estimate",
         "add/edit/delete dialog",
         "capital segments",
         "lender and investor list",
@@ -815708,15 +815709,16 @@
         "IOTA authenticated screen; reviewed local source and provided reference image",
         "production connection outside scope"
       ],
+      "costLinkVerification": "Chrome matched the original underwriting and current estimate to the Cost Overview. Switching financing stages or saving an explicit zero in a manual stage preserves the linked estimate and displays the stored zero in the stage table.",
       "sourceHashes": {
-        "scripts/local-preview/finance-overview.js": "e3da5af1dc121566587e25effbf16b3ae8c3c72cb803c9ac53b2720e19fc8ed2",
+        "scripts/local-preview/finance-overview.js": "14d378ff7d30a058889b65723de8f437be52ec3e4f8aafa92b7a397f7cef142c",
         "scripts/local-preview/finance-overview.css": "df78debb05a3d1bb91a98492e615482a581830119fcd57dda873010d208c1111",
         "scripts/local-preview/finance-stage-fields.js": "1cb44acbeb3b8fa310da5cf66525aad87f5ed3811ed06a1e37d36a9ff4e34e57",
         "scripts/local-preview/finance-stage-store.mjs": "b747cc27363e96028a1abf69dcb3d7285b6f255275a76f3e18abe4b047be50fb",
         "scripts/local-preview/studio.js": "fc0460d48db3bb4e2442d9eb4209b4666038dae99af9734106dfbbba27bae34c",
         "scripts/local-preview/server.mjs": "d785f57d0e4bc736b79d7149f4d4aa95d4754f812abd8795dda9e2e880884397",
         "scripts/local-preview/design.css": "e8ba8e779539f197c3cbab4f338e30cec09b65cd9f8d5dba177eec818192c28d",
-        ".build/local-preview/platform-46366.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+        ".build/local-preview/platform-50949.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
       }
     },
     "localSidebarIconRefresh": {

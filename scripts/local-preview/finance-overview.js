@@ -221,6 +221,10 @@ export function decorateFinancing(A,content,project){
  const body=stagePanel.querySelector('.studio-stage-body');
  const add=stagePanel.querySelector('[data-stage-action="create"]');
  const url='/api/local-finance-stages?'+new URLSearchParams({projectId:project.id});
+ const initialCost={name:'최초 언더라이팅',values:{cost:A.total(project,'initial')}};
+ const currentCost={name:'준공추정원가',values:{cost:A.total(project)}};
+ const summaryLabel=field=>field.key==='cost'?currentCost.name:field.label;
+ const summaryValue=(stage,field)=>fieldDisplay(A,(field.key==='cost'?currentCost:stage).values[field.key]);
  let stages=[];
  if(!stageViews.has(project.id))stageViews.set(project.id,{selectedId:null,detailsOpen:false,volume:'funding'});
  const view=stageViews.get(project.id);
@@ -243,14 +247,14 @@ export function decorateFinancing(A,content,project){
    </div>
    <div class="studio-stage-volume">
     <div class="studio-stage-volume-main">
-     <span data-volume-label>${volume.label}</span>
-     <b data-volume-value>${fieldDisplay(A,stage.values[volume.key])}</b>
+     <span data-volume-label>${summaryLabel(volume)}</span>
+     <b data-volume-value>${summaryValue(stage,volume)}</b>
      <div class="studio-stage-volume-picker" role="group" aria-label="사업 규모 지표 선택">
       ${volumeKeys.map(key=>`<button type="button" data-volume-key="${key}" aria-pressed="${key===volume.key}">${stageFieldsByKey.get(key).label}</button>`).join('')}
      </div>
     </div>
-    <div class="studio-stage-metrics">${stageFields.slice(0,3).map(({key,label})=>
-     `<div><h4>${label}</h4><b>${fieldDisplay(A,stage.values[key])}</b></div>`).join('')}</div>
+    <div class="studio-stage-metrics">${stageFields.slice(0,3).map(field=>
+     `<div><h4>${summaryLabel(field)}</h4><b>${summaryValue(stage,field)}</b></div>`).join('')}</div>
    </div>
    <div class="studio-stage-comparison">
      <div class="studio-stage-project">
@@ -260,7 +264,10 @@ export function decorateFinancing(A,content,project){
       </div>
       ${stageComparison(A,stageFieldsByKey.get('duration'),baseline,stage)}
      </div>
-     <div class="studio-stage-comparison-grid">${['cost','sale','construction','interest'].map(key=>stageComparison(A,stageFieldsByKey.get(key),baseline,stage)).join('')}</div>
+     <div class="studio-stage-comparison-grid">
+      ${stageComparison(A,stageFieldsByKey.get('cost'),initialCost,currentCost)}
+      ${['sale','construction','interest'].map(key=>stageComparison(A,stageFieldsByKey.get(key),baseline,stage)).join('')}
+     </div>
      <button type="button" class="studio-stage-reveal" data-stage-action="details" aria-controls="studio-stage-table" aria-expanded="${view.detailsOpen}">
       <span>${view.detailsOpen?'핵심 지표 닫기':'핵심 지표 보기'}</span>
      </button>
@@ -271,7 +278,7 @@ export function decorateFinancing(A,content,project){
    <div id="studio-stage-table" class="table-wrap studio-stage-table" role="region" aria-label="개발 단계별 비교표 스크롤" tabindex="0"${view.detailsOpen?'':' hidden'}>
     <table class="dense-table" aria-label="개발 단계별 핵심 지표 비교">
      <thead><tr><th scope="col">지표</th>${stages.map(row=>`<th scope="col" data-selected="${row===stage}">${A.esc(row.name)}<small>${displayDate(row.date)}</small></th>`).join('')}</tr></thead>
-     <tbody>${stageFields.map(({key,label,unit})=>`<tr><th scope="row">${label}</th>
+     <tbody>${stageFields.map(({key,label,unit})=>`<tr><th scope="row">${key==='cost'?'단계별 원가':label}</th>
       ${stages.map(row=>`<td data-selected="${row===stage}"><strong>${fieldDisplay(A,row.values[key],unit)}</strong>${row.notes[key]?`<small>${A.esc(row.notes[key])}</small>`:''}</td>`).join('')}</tr>`).join('')}
       <tr><th scope="row">변경 사유·관련 이슈</th>${stages.map(row=>`<td data-selected="${row===stage}">${A.esc(row.reason)}</td>`).join('')}</tr>
      </tbody>
@@ -296,8 +303,8 @@ export function decorateFinancing(A,content,project){
    view.volume=button.dataset.volumeKey;
    const field=stageFieldsByKey.get(view.volume);
    const stage=stages.find(row=>row.id===view.selectedId);
-   body.querySelector('[data-volume-label]').textContent=field.label;
-   body.querySelector('[data-volume-value]').textContent=fieldDisplay(A,stage.values[field.key]);
+   body.querySelector('[data-volume-label]').textContent=summaryLabel(field);
+   body.querySelector('[data-volume-value]').textContent=summaryValue(stage,field);
    for(const item of body.querySelectorAll('[data-volume-key]'))item.setAttribute('aria-pressed',String(item===button));
    return;
   }

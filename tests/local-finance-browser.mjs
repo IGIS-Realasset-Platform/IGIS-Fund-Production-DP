@@ -41,6 +41,12 @@ try{
   }
   return route.continue();
  });
+ await page.goto(origin+'/?screen=cost-overview');
+ const costKpi=page.getByTestId('cost-kpi-row');
+ const initialCost=await costKpi.locator('.cost-kpi-cell').filter({hasText:'언더라이팅 예산'}).locator('.cost-kpi-value').innerText();
+ const currentCost=await costKpi.locator('.cost-kpi-cell').filter({hasText:'최종 예상사업비'}).locator('.cost-kpi-value').innerText();
+ assert.equal(initialCost,'5,123억원');
+ assert.notEqual(currentCost,'5,248억원');
  await page.goto(origin+'/?screen=finance');
  const workspace=await (await context.request.get(origin+'/api/workspace')).json();
  const main=page.locator('#content[data-local-screen="finance"]');
@@ -51,7 +57,8 @@ try{
   console.error(await page.locator('#content').evaluate(el=>({screen:el.dataset.localScreen,text:el.innerText.slice(0,900)})),errors);
   throw error;
  });
- assert.match(await stage.locator('.studio-stage-metrics').innerText(),/5,248억원/);
+ const linkedCost=stage.locator('.studio-stage-metrics > div').filter({hasText:'준공추정원가'});
+ assert.equal(await linkedCost.locator('b').innerText(),currentCost);
  const compare=stage.locator('.studio-stage-comparison');
  const details=stage.getByRole('button',{name:'핵심 지표 보기'});
  const table=stage.getByRole('table',{name:'개발 단계별 핵심 지표 비교'});
@@ -68,8 +75,9 @@ try{
  }));
  const volume=stage.getByRole('group',{name:'사업 규모 지표 선택'});
  await volume.getByRole('button',{name:'원가',exact:true}).click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'5,248억원');
- assert.match(await compare.getByRole('heading',{name:'원가',exact:true}).locator('..').innerText(),/최초 언더라이팅.*5,123억원.*5,248억원.*\+125억원/s);
+ assert.equal(await stage.locator('[data-volume-value]').innerText(),currentCost);
+ const costComparison=compare.getByRole('heading',{name:'원가',exact:true}).locator('..');
+ assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,currentCost]);
  await details.click();
  assert.equal(await table.getByRole('columnheader').count(),4);
  assert.match(await table.getByRole('row',{name:/^공사비/}).innerText(),/교통 개선시설/);
@@ -78,10 +86,10 @@ try{
  assert.ok(await stage.evaluate(el=>el.closest('.dp-finance').textContent.indexOf('개발 단계별 핵심 지표')<el.closest('.dp-finance').textContent.indexOf('대출현황')));
  assert.equal(await stage.evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(255, 255, 255)');
  await options.first().click();
- assert.equal(await stage.locator('[data-volume-value]').innerText(),'5,123억원');
+ assert.equal(await stage.locator('[data-volume-value]').innerText(),currentCost);
  assert.equal(await table.getByRole('columnheader').count(),4);
  assert.equal(await table.getByRole('columnheader',{name:/최초 언더라이팅/}).getAttribute('data-selected'),'true');
- assert.match(await stage.locator('.studio-stage-metrics').innerText(),/5,123억원/);
+ assert.equal(await linkedCost.locator('b').innerText(),currentCost);
  await stage.getByRole('button',{name:'핵심 지표 닫기'}).click();
  assert.equal(await table.isVisible(),false);
  await details.click();
@@ -120,7 +128,8 @@ try{
  await dialog.getByRole('textbox',{name:'공사비 변경 사유',exact:true}).fill('기초 보강');
  await dialog.getByRole('button',{name:'저장',exact:true}).click();
  await dialog.waitFor({state:'hidden'});
- assert.match(await stage.locator('.studio-stage-metrics').innerText(),/^0억원$/m);
+ assert.equal(await linkedCost.locator('b').innerText(),currentCost);
+ assert.match(await table.getByRole('row',{name:/^단계별 원가/}).locator('td[data-selected="true"]').innerText(),/^0억원$/m);
  assert.match(await table.getByRole('row',{name:/^공사비/}).innerText(),/3,190\.25억원.*기초 보강/s);
  await page.reload();
  await stage.getByRole('button',{name:/시공계획 변경/}).waitFor();
