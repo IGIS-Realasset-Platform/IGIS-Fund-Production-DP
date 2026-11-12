@@ -815723,6 +815723,14 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localCardRadius163": {
+      "requirement": "LOCAL-UI-163",
+      "cardRadius": 28,
+      "financeOutlineRadius": 35,
+      "feed": "unchanged",
+      "verification": "representative portfolio/finance computed styles; other consumers share token; no repeat full audit",
+      "sourceSha256": "82018cd2f7be38eb7d23daff3fc105939de42c75aa0a3e3791c84d16b4c42c75"
+    },
     "localCardRadius162": {
       "requirement": "LOCAL-UI-162",
       "cardRadius": 30,

@@ -521,3 +521,5 @@ node scripts/verify-center120.mjs
 LOCAL-UI-161: 파이낸싱 이전값·증감은 최초UW 고정, 원가 양쪽 평당값 연결. 세 단계 조달구조·투자자 실측 확인. [검수](docs/local-finance-milestones-spec.md).
 
 LOCAL-UI-162: Feed 제외 공통 콘텐츠 박스 라운딩30px, 금융 바깥선37px로 조정했습니다.
+
+LOCAL-UI-163 최신 라운딩: Feed 제외 공통28px·금융 외곽35px.
