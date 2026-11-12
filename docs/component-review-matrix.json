@@ -815696,7 +815696,8 @@
         "top horizontal stage selector",
         "financing stage KPI and volume selector",
         "IOTA-style comparison cards and expandable all-stage table",
-        "linked underwriting and current cost estimate",
+        "linked underwriting, saved intermediate cost bases and current estimate",
+        "shared upper and lower commitment plus equity totals",
         "add/edit/delete dialog",
         "capital segments",
         "lender and investor list",
@@ -815709,16 +815710,17 @@
         "IOTA authenticated screen; reviewed local source and provided reference image",
         "production connection outside scope"
       ],
-      "costLinkVerification": "Chrome matched the original underwriting and current estimate to the Cost Overview. Switching financing stages or saving an explicit zero in a manual stage preserves the linked estimate and displays the stored zero in the stage table.",
+      "costLinkVerification": "Chrome saved an intermediate 5,000억원 basis in Cost Detail and verified its selector, comparison card and detail table in Financing, the unchanged current estimate and isolation across projects. Current construction and interest matched the Cost Overview. Upper and lower funding matched at 3,050억원 for Jung-gu and 6,405억원 for Yongsan. Manual stage zero stayed in the separate detail table.",
       "sourceHashes": {
-        "scripts/local-preview/finance-overview.js": "14d378ff7d30a058889b65723de8f437be52ec3e4f8aafa92b7a397f7cef142c",
+        "scripts/local-preview/finance-overview.js": "8b52e82ae64108a9f4bd2ee0cf086ef655e06cacea3e97f2f784c6dc09a97854",
+        "src/contracts.js": "128aaad82d9701cbc6a78e8460b3889733f15b23f5339da5edc8cd4be8b53309",
         "scripts/local-preview/finance-overview.css": "df78debb05a3d1bb91a98492e615482a581830119fcd57dda873010d208c1111",
         "scripts/local-preview/finance-stage-fields.js": "1cb44acbeb3b8fa310da5cf66525aad87f5ed3811ed06a1e37d36a9ff4e34e57",
         "scripts/local-preview/finance-stage-store.mjs": "b747cc27363e96028a1abf69dcb3d7285b6f255275a76f3e18abe4b047be50fb",
         "scripts/local-preview/studio.js": "fc0460d48db3bb4e2442d9eb4209b4666038dae99af9734106dfbbba27bae34c",
         "scripts/local-preview/server.mjs": "d785f57d0e4bc736b79d7149f4d4aa95d4754f812abd8795dda9e2e880884397",
         "scripts/local-preview/design.css": "e8ba8e779539f197c3cbab4f338e30cec09b65cd9f8d5dba177eec818192c28d",
-        ".build/local-preview/platform-50949.html": "6f7b8a13565e855750c4bc665293c542b0df709f4c6f6710a4b55ec97a3191e6"
+        ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
     "localSidebarIconRefresh": {

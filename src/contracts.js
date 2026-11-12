@@ -532,6 +532,10 @@
   const loanRatioFields=['ltv','ltc'];
   const financeMoney=value=>initialLoanNumber(value)==null?'—':A.money(value);
   const financeTotal=(rows,key)=>!rows.length||rows.some(row=>initialLoanNumber(row[key])==null||Number(row[key])<0)?null:sum(rows,key);
+  function financeCapitalTotals(p){
+    const commitment=financeTotal(live(p.loans),'commitment'),equity=financeTotal(live(p.equities),'amount');
+    return{commitment,equity,total:equity==null||commitment==null?null:equity+commitment};
+  }
   const loanPricingLabels={interestRate:'금리',upfrontFeeRate:'선취·취급 수수료',advisoryFeeRate:'금융자문 수수료',allIn:'ALL-IN'};
   const loanBasisLabel=value=>value==='included'?'금융자문수수료 포함':value==='excluded'?'금융자문수수료 제외':'—';
   const loanKnownPercent=value=>initialLoanNumber(value)!=null&&Number(value)>=0&&Number(value)<=100;
@@ -732,8 +736,9 @@
     return panelTable('대출현황',heads,rows,actions,'',table);
   }
   function financeView(p) {
-    const loans = live(p.loans), commitment = financeTotal(loans, 'commitment'), priced=loans.filter(l=>l.commitment>0),weighted=commitment&&priced.every(l=>loanKnownPercent(l.allIn)&&['included','excluded'].includes(l.allInAdvisoryBasis))&&new Set(priced.map(l=>l.allInAdvisoryBasis)).size===1?priced.reduce((n,l)=>n+l.commitment*Number(l.allIn),0)/commitment:null;
-    const equity=financeTotal(live(p.equities),'amount'),total=equity==null||commitment==null?null:equity+commitment,eqWidth=total?equity/total*100:0;
+    const {commitment,equity,total}=financeCapitalTotals(p);
+    const loans=live(p.loans),priced=loans.filter(l=>l.commitment>0),weighted=commitment&&priced.every(l=>loanKnownPercent(l.allIn)&&['included','excluded'].includes(l.allInAdvisoryBasis))&&new Set(priced.map(l=>l.allInAdvisoryBasis)).size===1?priced.reduce((n,l)=>n+l.commitment*Number(l.allIn),0)/commitment:null;
+    const eqWidth=total?equity/total*100:0;
     const capital='<section class="panel"><div class="panel-header"><div class="panel-title"><h3>조달 구조</h3></div>'+A.btn('조달 내역 보기','finance-capital-detail',{},'small')+'</div><div class="panel-body"><button type="button" class="chart-interactive recovery-capital" data-action="finance-capital-detail"><div class="finance-mix"><div class="finance-mix-bar"><span style="width:'+eqWidth+'%;background:#10243E" data-tooltip="자기자본 '+A.esc(financeMoney(equity))+'"></span><span style="width:'+(total?100-eqWidth:0)+'%;background:#6F91B8" data-tooltip="대출 약정 '+A.esc(financeMoney(commitment))+'"></span></div><div class="finance-mix-value"><span>자기자본 <b>'+financeMoney(equity)+'</b></span><span>대출 약정 <b>'+financeMoney(commitment)+'</b></span></div></div></button></div></section>';
     return summaryStrip([['총 조달규모',financeMoney(total)],['자기자본',financeMoney(equity)],['대출 잔액',financeMoney(financeTotal(loans,'balance'))],['가중평균 ALL-IN',weighted==null?'—':A.num(weighted,2)+'%']])+capital+renderLoanTable(p,loans)+renderEquityGuarantees(p);
   }
@@ -796,7 +801,7 @@
   if(A.tabContracts)A.tabContracts.finance=['loans'];
   A.financeLoanNominalRate = loanNominalRate;
   A.financeLoansAsOf = financeLoansAsOf;
-  A.contracts={initialize,latest,revisionAt,allocationsTotal,validateAllocations,contractTotals,obligationStatus,paymentTotal,paymentStatus,upsertPayment,linkPayment,reviewPayments,fundsAsOf,formContract,reconcileOpening,validateSellDown,revisionValues,cbsFunds,overviewFunds,contractAmountSources,hasCbsReferences,...(A.realMode?{}:{seedDemo}),financeLoansAsOf,inlineContract,inlineDocument,renderDocuments,showContract,itemFunds,upsertForecast,upsertItemPayment,reviewItemFunds,replaceForecast,linkItemPayment,sourcePayments,planningArchive};
+  A.contracts={initialize,latest,revisionAt,allocationsTotal,validateAllocations,contractTotals,obligationStatus,paymentTotal,paymentStatus,upsertPayment,linkPayment,reviewPayments,fundsAsOf,formContract,reconcileOpening,validateSellDown,revisionValues,cbsFunds,overviewFunds,contractAmountSources,hasCbsReferences,...(A.realMode?{}:{seedDemo}),financeCapitalTotals,financeLoansAsOf,inlineContract,inlineDocument,renderDocuments,showContract,itemFunds,upsertForecast,upsertItemPayment,reviewItemFunds,replaceForecast,linkItemPayment,sourcePayments,planningArchive};
   A.spec.featureContracts = A.spec.featureContracts || {};
   A.spec.featureContracts.contracts = { source: 'project.contracts 문서 계약 원장 단일 원천. CBS 예산은 별도이며 계약 저장으로 덮어쓰지 않는다.', revision: '같은 계약의 개정차수에서 최신 유효금액만 사용한다. 최초 이관 원자료는 originalSource로 보존한다.', money: '원 단위 정수. 공급가액+부가세=총액. 사업비 반영액은 별도 입력. 원자료 부가세가 없으면 미확인으로 보존한다.', allocation: '계약-CBS 다대다 배부. 지급/기성 각 기록에 당시 사업비 기준 배부를 보존하며 계약 배부 변경으로 과거 배부를 바꾸지 않는다.', payment: '예정회차에 확정 지급의무와 복수 부분지급을 연결한다. 미지급=확정 지급의무-연결 지급. 기성과 지급은 동일시하지 않으며 음수 잔액을 숨기지 않는다.', migration: '기존 원가표의 계약/기성/지급 누계를 기초잔액으로 보존하며 신규 원장에 중복 합산하지 않는다. 실제 상세 금액과 CBS 배부가 기준일 누계에 일치해야 대체한다.', financing: '대주별 분기기준값은 정정 전후를 보존한다. 셀다운은 양도·양수 약정/실행/잔액 총합을 보존하며 새 대주 연결과 변경이력을 함께 저장한다.', fields: ['companyId', 'proposalNumber 선택', 'file/sourcePath', 'revisions', 'allocations', 'certifications', 'obligations', 'payments'], prototype: '로컬 저장과 감사이력만 구현. 실제 AI/파일업로드/DB/API 연결 없음.' };
   A.spec.featureContracts.contracts.financingAsOf = '보고 기준일 이전 최신 대주별 분기값·변경·셀다운 기록만 선택한다. 기준일 이전 근거가 없는 경우 미래 현재값으로 대체하지 않는다.';
