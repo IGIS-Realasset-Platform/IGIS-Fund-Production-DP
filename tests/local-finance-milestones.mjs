@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {milestoneRows,installMilestoneCapture,projectDuration} from '../scripts/local-preview/finance-milestones.js';
+import {milestoneRows,installMilestoneCapture,projectDuration,underwritingBasis,costPerPyeong} from '../scripts/local-preview/finance-milestones.js';
 
 const original={id:'uw',label:'최초 언더라이팅',date:'2024-01-01',amounts:{total:100,land:20,build:60,fee:5},area:{gfaTotal:1200}};
 const intermediate={id:'refi',label:'1차 리파이낸싱',date:'2025-06-30',amounts:{total:125,land:25,build:70,fee:8},area:{gfaTotal:1300},
@@ -81,3 +81,16 @@ assert.equal(read(fundingInput).capitalSources[0].role,'재무출자자');
 assert.throws(()=>read({...fundingInput,financeFunding:'101'}),/합계/);
 assert.throws(()=>read({...fundingInput,capitalAmount_0:''}));
 console.log('LOCAL-UI-158 stage form source role and total mismatch guards passed');
+
+// LOCAL-UI-161: UW is a semantic basis, never the immediately preceding record.
+const uw={snapshot:{kind:'underwriting'},values:{cost:512300000000},gfa:63500};
+const refi={snapshot:{kind:'quarterly'},values:{cost:514500000000},gfa:64000};
+const pf={values:{cost:516380000000},gfa:63500};
+assert.equal(underwritingBasis([refi,uw,pf]),uw);
+assert.equal(underwritingBasis([refi,pf]),null);
+assert.equal(Math.round(costPerPyeong(uw)),2667);
+assert.equal(Math.round(costPerPyeong(pf)),2688);
+assert.equal(Math.round(costPerPyeong(refi)),2658);
+for(const gfa of [null,0,-1,undefined])assert.equal(costPerPyeong({...uw,gfa}),null);
+assert.equal(costPerPyeong({...uw,values:{cost:null}}),null);
+assert.equal(costPerPyeong({...uw,values:{cost:0}}),0);

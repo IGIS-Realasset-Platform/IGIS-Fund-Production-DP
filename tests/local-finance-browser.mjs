@@ -268,7 +268,11 @@ try{
  await basis.getByRole('button',{name:'최근 사업 단계',exact:true}).click();
  await volume.getByRole('button',{name:'원가',exact:true}).click();
  assert.equal(await stage.locator('[data-volume-value]').innerText(),currentCost);
- assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),['5,000억원',currentCost],'현재는 최초UW가 아니라 직전 중간 단계와 비교');
+ assert.deepEqual(await costComparison.locator('.studio-stage-values b').allTextContents(),[initialCost,currentCost],'LOCAL-UI-161: 현재도 최초UW와 비교');
+ assert.equal(await costComparison.locator('.studio-stage-values > div').first().locator('span').first().innerText(),'최초 언더라이팅');
+ // Original isolated fixture has no historical GFA: never borrow current GFA.
+ assert.deepEqual(await costComparison.locator('.studio-stage-unit-cost').allTextContents(),['평당 —','2,671만원/평']);
+ assert.equal(await selectedValue('원가').locator('small').first().innerText(),'+7.8억원');
  const currentEditor=stage.locator('.studio-milestone-toolbar [data-milestone-edit]');
  await currentEditor.click();
  await page.locator('#app-form [name="name"]').fill('취소할 단계');
@@ -391,7 +395,7 @@ try{
  assert.deepEqual(errors,[]);
  assert.deepEqual(external,[]);
  assert.deepEqual(workspaceWrites,Array(5).fill('/api/workspace'));
- console.log('LOCAL-UI-158 선택단계별 조달내역·합계·트랜치/투자자·과거불변 및 LOCAL-UI-155 단계별 전체지표·직전단계 비교·현재조달 연동·취소/실패·프로젝트 격리 및 이전 단계기록 보존 확인');
+ console.log('LOCAL-UI-158 선택단계별 조달내역·합계·트랜치/투자자·과거불변 및 LOCAL-UI-155 단계별 전체지표·최초UW 고정 비교·평당 원가·현재조달 연동·취소/실패·프로젝트 격리 및 이전 단계기록 보존 확인');
 }finally{
  if(browser)await browser.close();
  if(server?.listening)await new Promise(resolve=>server.close(resolve));

@@ -1,6 +1,6 @@
 import {currentCapitalSources,capitalSourceTotal,capitalSourceGroups} from './finance-capital.js';
 import {stageFields} from './finance-stage-fields.js';
-import {milestoneRows,installMilestoneCapture,editCurrentMilestone} from './finance-milestones.js';
+import {milestoneRows,installMilestoneCapture,editCurrentMilestone,underwritingBasis,costPerPyeong} from './finance-milestones.js';
 
 const eok=100_000_000;
 const groupColors=['#253985','#426eaa','#5886a2','#796ba4','#536b87','#815c84'];
@@ -94,15 +94,19 @@ function changeText(A,value,previous,unit){
  return (delta>0?'+':delta<0?'−':'')+fieldDisplay(A,Math.abs(delta),unit);
 }
 function displayDate(date){return date.replaceAll('-','.');}
+function costUnitDisplay(A,row){
+ const value=costPerPyeong(row);
+ return `<span class="studio-stage-unit-cost">${value===null?'평당 —':A.num(Math.round(value))+'만원/평'}</span>`;
+}
 function stageComparison(A,field,baseline,stage){
  const {key,label,unit}=field;
  const value=stage.values[key],initial=baseline?.values[key];
  const delta=value==null||initial==null?null:value-initial;
  const compare=baseline&&baseline!==stage;
- return `<article class="studio-stage-pair"><h4>${summaryLabels[key]||label}</h4>
+ return `<article class="studio-stage-pair" data-stage-field="${key}"><h4>${summaryLabels[key]||label}</h4>
   <div class="studio-stage-values">
-   ${compare?`<div><span>${A.esc(baseline.name)}</span><b>${fieldDisplay(A,initial,unit)}</b></div><span aria-hidden="true">→</span>`:''}
-   <div><span>${A.esc(stage.name)}</span><b>${fieldDisplay(A,value,unit)}</b></div>
+   ${compare?`<div><span>${A.esc(baseline.name)}</span>${key==='cost'?costUnitDisplay(A,baseline):''}<b>${fieldDisplay(A,initial,unit)}</b></div><span aria-hidden="true">→</span>`:''}
+   <div><span>${A.esc(stage.name)}</span>${key==='cost'?costUnitDisplay(A,stage):''}<b>${fieldDisplay(A,value,unit)}</b></div>
   </div>
   ${compare&&delta!==null?`<small class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${changeText(A,value,initial,unit)}</small>`:''}
  </article>`;
@@ -229,7 +233,7 @@ export function decorateFinancing(A,content,project){
   const basis=selectedBasis();
   renderCapital(A,capital,summary,project,basis);
   for(const {el,title}of liveHeadings)el.textContent=basis.snapshot?title+' · '+current.name:title;
-  const baseline=costBases[costBases.indexOf(basis)-1]||null;
+  const baseline=underwritingBasis(costBases);
   const gfa=basis.gfa;
   const periodEnd=basis.periodEnd;
   const volume=stageFieldsByKey.get(view.volume);
@@ -272,7 +276,7 @@ export function decorateFinancing(A,content,project){
      <colgroup><col style="width:140px">${costBases.map(()=>'<col>').join('')}</colgroup>
      <thead><tr><th scope="col">핵심 지표</th>${costBases.map(row=>`<th scope="col" data-selected="${row===basis}">${A.esc(row.name)}${row.date?`<small>${A.esc(displayDate(row.date))}</small>`:''}</th>`).join('')}</tr></thead>
      <tbody>${stageFields.map(({key,label,unit})=>`<tr><th scope="row">${summaryLabels[key]||label}</th>
-      ${costBases.map((row,index)=>`<td data-selected="${row===basis}"><strong>${fieldDisplay(A,row.values[key],unit)}</strong>${index?`<small>${changeText(A,row.values[key],costBases[index-1].values[key],unit)}</small>`:''}${row.notes?.[key]?`<small>${A.esc(row.notes[key])}</small>`:''}</td>`).join('')}</tr>`).join('')}
+      ${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${fieldDisplay(A,row.values[key],unit)}</strong>${key==='cost'?costUnitDisplay(A,row):''}${baseline&&row!==baseline?`<small>${changeText(A,row.values[key],baseline.values[key],unit)}</small>`:''}${row.notes?.[key]?`<small>${A.esc(row.notes[key])}</small>`:''}</td>`).join('')}</tr>`).join('')}
       <tr><th scope="row">연면적</th>${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${row.gfa==null?'—':A.num(row.gfa)+'㎡'}</strong>${row.gfaReference?'<small>사업개요 기준</small>':''}</td>`).join('')}</tr>
       <tr><th scope="row">사업 종료 예정</th>${costBases.map(row=>`<td data-selected="${row===basis}"><strong>${row.periodEnd?A.esc(displayDate(row.periodEnd)):'—'}</strong>${row.periodEndReference?'<small>시작월·개발기간 기준</small>':''}</td>`).join('')}</tr>
       ${costBases.some(row=>row.reason||row.reasons?.length)?`<tr><th scope="row">증감 사유</th>${costBases.map(row=>`<td data-selected="${row===basis}">${row.reason?A.esc(row.reason):''}${row.reasons?.length?row.reasons.map(([name,reason])=>`<small>${A.esc(name?name+' · '+reason:reason)}</small>`).join(''):row.reason?'':'—'}</td>`).join('')}</tr>`:''}

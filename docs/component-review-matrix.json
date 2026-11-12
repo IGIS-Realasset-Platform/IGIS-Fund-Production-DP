@@ -815723,6 +815723,36 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localUnderwritingComparison": {
+      "requirement": "LOCAL-UI-161",
+      "status": "model and isolated browser passed; actual desktop three-stage read-only verification passed",
+      "baseline": "snapshot.kind=underwriting",
+      "consumers": [
+        "cost/funding/construction/interest/duration cards",
+        "expanded metrics table",
+        "per-stage cost per pyeong"
+      ],
+      "preserved": [
+        "all stored costs/areas/capital sources",
+        "editing/save/cancel/project isolation",
+        "stage-specific capital structure and investors"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/finance-milestones.js": "12610c28d78ab6fe8be164e9ef66ad37a57238c347bfcf44485d4e05b84a8f5d",
+        "scripts/local-preview/finance-overview.js": "577d83ef183c24d96090d68d2e63d77a8403589e78b2b55f162dc9b9e2a1b41e",
+        "scripts/local-preview/finance-overview.css": "0d61c1af061b804497b4e3e48db961e86289db3025a6b677025f404b84eb14bc",
+        "tests/local-finance-milestones.mjs": "10f9e79b03a5dd0ce1d2693fcb795627a99d2767d754f517d359f2fef24e51ed",
+        "tests/local-finance-browser.mjs": "aa11aecb4cd5a490d6e3278b66da95bb47a4d59792be4b34271f8127f6ff8d47"
+      },
+      "evidence": [
+        "/private/tmp/idm-ui161-results.json",
+        "/private/tmp/idm-ui161-finance.png"
+      ],
+      "notVerified": [
+        "all projects live data",
+        "deployment not pushed"
+      ]
+    },
     "localFinancingGroupFrame": {
       "requirements": [
         "LOCAL-UI-159",

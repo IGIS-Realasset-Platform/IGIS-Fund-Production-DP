@@ -1,4 +1,10 @@
 import {currentCapitalSources,capitalSourceTotal,validateCapitalSources} from './finance-capital.js';
+export const underwritingBasis=rows=>rows.find(row=>row.snapshot?.kind==='underwriting')||null;
+export function costPerPyeong(row){
+ const cost=row?.values?.cost,area=row?.gfa;
+ return Number.isFinite(cost)&&cost>=0&&Number.isFinite(area)&&area>0
+  ? cost/area*3.305785/10000:null;
+}
 // A milestone is a dated cost snapshot with its own financing context.
 // The live milestone only names the current ledger; it never rewrites costs.
 export function projectDuration({periodStart,periodEnd}={}){
