@@ -815723,6 +815723,32 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localLandBaseline170": {
+      "requirement": "LOCAL-UI-170",
+      "status": "로컬DB revision19→20. 서울중구 토지매입비 세단계93,461,540,000원 동일, 총원가5123→5123→5167.3385억. native리파정정본/현재CBS저장·새로고침·파이낸싱/세부사업비/원가현황 대조. 기존단계/계약/다른항목·프로젝트/원본파일 동일.",
+      "evidence": "docs/local-finance-ui170-verification.json",
+      "consumers": [
+        "land stage values",
+        "current CBS",
+        "refi correction",
+        "total/unit price",
+        "finance/details/overview",
+        "reason descriptions"
+      ],
+      "preserved": [
+        "previous stages",
+        "other CBS",
+        "contracts",
+        "loans/equities",
+        "other projects",
+        "original workspace"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/correct-land-baseline.mjs": "7e16024fc0bb5321398d4c7ebb0e3379552f5b080b9013e1f4f3d530f8ef45c1",
+        "tests/local-land-baseline-correction.mjs": "46fb2001b6b6e1973a42d6df9a07a6e083722023eef41092e65c04ec4361ffbb",
+        "docs/local-finance-ui170-verification.json": "ff9d2aeb9f0397f90e934fd8990f388c59c7dce1028a37e2d9db6e975a6fcd4f"
+      }
+    },
     "localFinanceMetrics169": {
       "requirement": "LOCAL-UI-169",
       "status": "핵심지표 첫행/평조회·입력/준공명칭/제목·항목행 배경/이전기록UI 제거 검수 완료. 격리 면적변경·저장·새로고침·미수정정밀도·취소·과거보존 및 기존 단계/조달/503재시도 회귀 통과. 실제4178 조회·화면 확인, 쓰기0.",

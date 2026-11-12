@@ -1,0 +1,133 @@
+{
+  "requirement": "LOCAL-UI-170",
+  "projectId": "TEST-20261016-A",
+  "revisionBefore": 19,
+  "revisionAfter": 20,
+  "result": {
+    "changed": true,
+    "target": 93461540000,
+    "oldAmount": 97107690000,
+    "oldTotal": 520380000000,
+    "total": 516733850000,
+    "correctionId": "stage-45c1b57e-bd3b-4c77-9ab9-3f479fe4bbf1"
+  },
+  "before": [
+    {
+      "name": "최초 언더라이팅",
+      "values": {
+        "funding": 210000000000,
+        "sale": 605000000000,
+        "duration": 72,
+        "cost": 512300000000,
+        "land": 93461540000,
+        "construction": 310475770000,
+        "interest": 33000000000
+      },
+      "reason": "토지 매입과 기본 설계 가정을 반영한 최초 사업성 검토입니다.",
+      "notes": {
+        "funding": "출자 600억원과 토지 취득용 브릿지론 1,500억원"
+      }
+    },
+    {
+      "name": "1차 리파이낸싱",
+      "values": {
+        "funding": 280000000000,
+        "sale": 613000000000,
+        "duration": 72,
+        "cost": 514500000000,
+        "land": 95661540000,
+        "construction": 310475770000,
+        "interest": 33000000000
+      },
+      "reason": "토지 매입 예산 22억원 증가와 브릿지 차환. 출자 300억원·대출 약정 400억원 확대.",
+      "notes": {
+        "cost": "토지매입비 예산 22억원 증가",
+        "land": "토지 매입 조건 협의 반영",
+        "funding": "출자 600→900억원, 대출 1,500→1,900억원. 선·후순위 차환 구조.",
+        "sale": "기존 기본설계 검토의 매각 목표 반영"
+      }
+    },
+    {
+      "name": "본PF 1차",
+      "values": {
+        "funding": 305000000000,
+        "sale": 622000000000,
+        "duration": 72,
+        "cost": 520380000000,
+        "land": 97107690000,
+        "construction": 312604870000,
+        "interest": 35500000000
+      },
+      "reason": "본PF 전환. 브릿지 차환구조를 본PF 선순위 약정으로 대체하고 출자 및 대출 약정 확대.",
+      "notes": {
+        "cost": "토지매입비와 공사·금융비 변경 반영",
+        "funding": "출자 900→1,100억원, 대출 약정 1,900→1,950억원. A은행·B보험 선순위 공동 참여.",
+        "interest": "본PF 1차 금융비 검토: 본PF 이자 추정액 40억원 증액 반영."
+      }
+    }
+  ],
+  "after": [
+    {
+      "name": "최초 언더라이팅",
+      "values": {
+        "funding": 210000000000,
+        "sale": 605000000000,
+        "duration": 72,
+        "cost": 512300000000,
+        "land": 93461540000,
+        "construction": 310475770000,
+        "interest": 33000000000
+      },
+      "reason": "토지 매입과 기본 설계 가정을 반영한 최초 사업성 검토입니다.",
+      "notes": {
+        "funding": "출자 600억원과 토지 취득용 브릿지론 1,500억원"
+      }
+    },
+    {
+      "name": "1차 리파이낸싱",
+      "values": {
+        "funding": 280000000000,
+        "sale": 613000000000,
+        "duration": 72,
+        "cost": 512300000000,
+        "land": 93461540000,
+        "construction": 310475770000,
+        "interest": 33000000000
+      },
+      "reason": "브릿지 차환. 출자 300억원·대출 약정 400억원 확대. 토지매입비는 최초 매입금액 유지.",
+      "notes": {
+        "cost": "최초 원가 유지",
+        "land": "최초 매입금액 유지",
+        "funding": "출자 600→900억원, 대출 1,500→1,900억원. 선·후순위 차환 구조.",
+        "sale": "기존 기본설계 검토의 매각 목표 반영"
+      }
+    },
+    {
+      "name": "본PF 1차",
+      "values": {
+        "funding": 305000000000,
+        "sale": 622000000000,
+        "duration": 72,
+        "cost": 516733850000,
+        "land": 93461540000,
+        "construction": 312604870000,
+        "interest": 35500000000
+      },
+      "reason": "본PF 전환. 브릿지 차환구조를 본PF 선순위 약정으로 대체하고 출자 및 대출 약정 확대.",
+      "notes": {
+        "cost": "공사·금융비 변경 반영",
+        "funding": "출자 900→1,100억원, 대출 약정 1,900→1,950억원. A은행·B보험 선순위 공동 참여.",
+        "interest": "본PF 1차 금융비 검토: 본PF 이자 추정액 40억원 증액 반영.",
+        "land": "최초 매입금액 유지"
+      }
+    }
+  ],
+  "originalSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+  "checks": [
+    "native correction snapshot saved; prior snapshots unchanged",
+    "current CBS saved/reloaded",
+    "finance/detail/overview totals matched",
+    "other costs/contracts/funding/projects unchanged",
+    "original file unchanged"
+  ]
+}
