@@ -515,3 +515,5 @@ node scripts/verify-center120.mjs
 로컬 최초 단계 연결 보완: [LOCAL-UI-156](docs/local-finance-milestones-spec.md).
 
 로컬 파이낸싱 단계별 지표·조달구조 연결: [LOCAL-UI-157~158](docs/local-finance-milestones-spec.md).
+
+로컬 LOCAL-UI-159~160: 금융 단계별 지표/조달구조 외곽그룹과 Feed6px 간격 복구, 기존 흰박스 폭 유지. Feed를 제외한 흰 콘텐츠 박스 라운딩32px. [디자인 명세·검수](docs/local-design-system.md).

@@ -815723,6 +815723,48 @@
         ".build/local-preview/platform-56672.html": "56f9aa175d0d89ad74df98053b981c95be5ca9790a38450527921a728730bca5"
       }
     },
+    "localFinancingGroupFrame": {
+      "requirements": [
+        "LOCAL-UI-159",
+        "LOCAL-UI-160"
+      ],
+      "status": "implemented; desktop measured and representative screenshots inspected",
+      "geometry": {
+        "whitePanelWidth": 1182,
+        "groupGap": 6,
+        "outerInset": 7,
+        "outlineWidth": 1,
+        "whiteCardRadius": 32,
+        "financeOuterRadius": 39,
+        "feedRadiusUnchanged": true
+      },
+      "verified": [
+        "finance stage switching and details expand/collapse preserve6px",
+        "loan/equity tables outside stage group",
+        "Feed iframe white panels and header share1182px width; ring visible outside",
+        "13 menu entry points inspected; visible white panels32px",
+        "project registration dialog32px and Escape return"
+      ],
+      "notVerified": [
+        "all nested permit/law dialogs not individually opened",
+        "data save/server/exports unchanged and not re-run",
+        "mobile excluded by user"
+      ],
+      "sourceSha256": {
+        "scripts/local-preview/design.css": "b914915f9e6cf003cae55acbc4be6b4845b77387b4e473d7e892ed592fe071b3",
+        "scripts/local-preview/feed/theme.css": "dc483f06bef8eccdde5dc8867736782f7dae44c8a2791f5805413b99db727af0",
+        "scripts/local-preview/finance-overview.css": "227d1212c74fefe2c67cdf04823e9609d0ff2d534760aad975f611669bc63e8f",
+        "scripts/local-preview/finance-overview.js": "1fb562ba0b37824a7fb814c1b085c61acf14d3d9237ca7c45807bc7fc724ac9f"
+      },
+      "evidence": [
+        "/private/tmp/idm-ui159-layout.mjs",
+        "/private/tmp/idm-ui160-after.json",
+        "/private/tmp/idm-ui160-portfolio.png",
+        "/private/tmp/idm-ui160-finance.png",
+        "/private/tmp/idm-ui159-feed.png",
+        "/private/tmp/idm-ui160-dialog.png"
+      ]
+    },
     "localStageCapitalAndFacts": {
       "requirements": [
         "LOCAL-UI-157",

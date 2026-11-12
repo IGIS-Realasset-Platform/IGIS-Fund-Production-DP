@@ -1,3 +1,25 @@
+.dp-app #content .studio-finance-stage-group {
+ position:relative;
+ display:grid;
+ gap:6px;
+ min-width:0;
+ padding:0;
+ margin-block-end:var(--studio-card-gap);
+ border:0;
+}
+.dp-app #content .studio-finance-stage-group::before {
+ content:"";
+ position:absolute;
+ inset:-7px;
+ border:1px solid #dce0e8;
+ border-radius:calc(var(--studio-card-radius) + 7px);
+ pointer-events:none;
+}
+.dp-app #content .studio-finance-stage-group > .panel {
+ min-width:0;
+ margin:0;
+ border-radius:var(--studio-card-radius);
+}
 .dp-app #content .dp-finance :is(.studio-stage-body,.studio-capital) {
  min-width:0;
 }
@@ -110,6 +132,7 @@
 .studio-stage-pair {
  display:grid;
  grid-template-rows:1fr auto auto;
+ container-type:inline-size;
  gap:5px;
  padding:20px 20px 16px;
  background:#f4f6f8;
@@ -122,7 +145,7 @@
 .studio-stage-values > div {display:grid;gap:4px;min-width:0;text-align:right}
 .studio-stage-project .studio-stage-values > div {text-align:left}
 .studio-stage-values span {color:var(--muted);font-size:11px;overflow-wrap:anywhere}
-.studio-stage-values b {font-size:clamp(19px,1.9vw,28px);line-height:1.12;overflow-wrap:anywhere}
+.studio-stage-values b {font-size:clamp(19px,7cqi,28px);line-height:1.12;white-space:nowrap}
 .studio-stage-values > div:first-child:not(:last-child) b {color:var(--muted)}
 .studio-stage-values > span {font-size:20px;line-height:1.2}
 .studio-stage-pair > small {font-size:12px;font-weight:600;text-align:right}

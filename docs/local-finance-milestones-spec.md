@@ -70,3 +70,9 @@
 로컬 loan.type/start/maturity/tranche를 본PF 검토 시나리오로 바꾸고 원금액은 유지했습니다. 이전 full loans/equities는 financeScenarioOriginal에 저장되어 있으며 원본 workspace 파일과 운영 DB는 불변입니다. 중간 단계 과거본은 supersedes로 남겨뒀습니다. 소스 지문은 matrix.localStageCapitalAndFacts.sourceSha256에 있습니다. 실제 검수 결과 /private/tmp/idm-ui158-result.json 및 /private/tmp/idm-capital-3-1차 리파이낸싱.png, /private/tmp/idm-capital-2-본PF 1차.png.
 
 최종 검수 Excel 관련 행을157~158로 갱신하고 렌더·재읽기 확인했습니다. 보존 역할정보 및 합계 불일치 차단 단위검사도 통과했습니다.
+
+## LOCAL-UI-159 단계 적용 범위 외곽선·피드 간격 복구
+
+요구: 단계별 핵심지표와 조달구조를 Feed와 동일한 단일 외곽선으로 감싸고 내부 간격을6px로 줄인다. 대출/출자 원장과 다른 박스는 그룹 밖에 둔다. Feed의 LOCAL-UI-131에서 정한 안쪽6px=박스사이6px를 복구한다. LOCAL-UI-134의 공통+6px가 피드에까지 적용된12px는 최신 지시로 대체한다. 데이터·저장·단계선택·팝업 동작은 변경하지 않는다. 실제 측정 후 그룹/정렬/펼침전후간격/단계전환과 피드 간격을 확인한다.
+
+159 최종: 흰 박스를 안쪽으로 줄이지 않고 기존1182px를 유지한 채 바깥6px+1px선으로 감쌉니다. Feed iframe도 바깥선 공간만 확보해 헤더/흰박스 좌우 정렬을 유지합니다. 두 화면 내부간격6px 및 세 단계/펼침 전후 확인.160 후속의 흰 박스32px에 맞춰 금융 외곽39px, Feed 기존30px 유지. 저장자료 변경 없음.

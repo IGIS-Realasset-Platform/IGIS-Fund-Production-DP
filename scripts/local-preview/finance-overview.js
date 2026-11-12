@@ -205,7 +205,12 @@ export function decorateFinancing(A,content,project){
  stagePanel.className='panel studio-finance-stages';
  stagePanel.innerHTML=`<div class="panel-header"><div class="panel-title"><h3>개발 단계별 핵심 지표</h3></div></div>
   <div class="panel-body studio-stage-body"></div>`;
- root.insertBefore(stagePanel,capital);
+ const stageGroup=document.createElement('div');
+ stageGroup.className='studio-finance-stage-group';
+ stageGroup.setAttribute('role','group');
+ stageGroup.setAttribute('aria-label','선택 단계별 핵심지표와 조달구조');
+ root.insertBefore(stageGroup,capital);
+ stageGroup.append(stagePanel,capital);
  const body=stagePanel.querySelector('.studio-stage-body');
  const liveHeadings=[...root.querySelectorAll('.table-toolbar-left')].filter(el=>['대출현황','출자자'].includes(el.textContent.trim())).map(el=>({el:el.querySelector('strong')||el,title:el.textContent.trim()}));
  const url='/api/local-finance-stages?'+new URLSearchParams({projectId:project.id});
