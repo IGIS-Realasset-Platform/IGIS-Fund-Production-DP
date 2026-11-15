@@ -35,7 +35,6 @@ function renderCapital(A,capital,summary,project,basis){
  const chart=document.createElement('div');
  chart.className='studio-capital-chart';
  chart.innerHTML=`
-  ${total>0&&!hasMissing?`<p class="studio-capital-caption">${A.esc(basis.name)} · ${basis.snapshot?'당시 약정·출자 기준':'대출 약정액·출자액 기준'}</p>`:''}
   <div class="studio-capital-bar" role="group" aria-label="약정·출자 기준 조달 비중"${total>0&&!hasMissing?'':' hidden'}></div>
   ${hasMissing&&groups.length?'<p class="studio-finance-note">약정액 또는 출자액이 모두 확인되면 조달 비중을 표시합니다.</p>':''}
   ${!groups.length?'<p class="studio-finance-note">이 단계에 저장된 조달 내역이 없습니다.</p>':''}
@@ -159,8 +158,8 @@ export function decorateFinancing(A,content,project){
    <div class="studio-stage-comparison">
      <div class="studio-stage-project">
       <div class="studio-stage-facts">
-       <div><span>사업 준공 시점</span><b>${A.esc(periodEnd?displayDate(periodEnd):'—')}</b>${basis.periodEndReference?'<small>시작월·개발기간 기준</small>':''}</div>
-       <div><span>연면적</span><b>${formatStageArea(A,gfa,0)}</b>${basis.gfaReference?'<small>사업개요 기준</small>':''}</div>
+       <div><span>사업 준공 시점</span><b>${A.esc(periodEnd?displayDate(periodEnd):'—')}</b></div>
+       <div><span>연면적</span><b>${formatStageArea(A,gfa,0)}</b></div>
       </div>
       ${stageComparison(A,stageFieldsByKey.get('duration'),baseline,basis)}
      </div>
