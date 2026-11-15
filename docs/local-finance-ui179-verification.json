@@ -1,0 +1,9 @@
+{
+  "requirement": "LOCAL-UI-179",
+  "status": "RED→실제브라우저9단계통과",
+  "sourceSha256": "5ea27cf056336d918845153d985e1a8e81fd2ec2a6ecf522dd3c445ac4dd506c",
+  "test": "tests/local-finance-initial-result-browser.mjs",
+  "revision": 23,
+  "writes": 0,
+  "summary": "LOCAL-UI-179: 최초UW 선택시 5개 지표는 최초 결과값만 표시. 이전값/화살표/증감 제거, 평당값·단계명/날짜 유지. 실제3사업9단계 단일값/이후비교/금액/조달/개별투자자 검사 통과. RED2개→결과1개 확인. DB revision23·쓰기0; 운영/푸시 없음."
+}

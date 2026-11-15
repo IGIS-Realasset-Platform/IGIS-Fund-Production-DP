@@ -104,6 +104,7 @@ function durationComparison(A,baseline,stage){
  return `<article class="studio-stage-pair" data-stage-field="duration"><h4>개발기간</h4><div class="studio-stage-values">${baseline?column(baseline)+'<span aria-hidden="true">→</span>':''}${column(stage)}</div></article>`;
 }
 function stageComparison(A,field,baseline,stage){
+ if(baseline?.id===stage.id)baseline=null;
  const {key,label,unit}=field;
  if(key==='duration')return durationComparison(A,baseline,stage);
  const value=stage.values[key],initial=baseline?.values[key];
