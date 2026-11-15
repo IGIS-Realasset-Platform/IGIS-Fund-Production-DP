@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';import {createRequire} from 'node:module';import {writeFile} from 'node:fs/promises';
+const {chromium}=createRequire(import.meta.url)('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');const origin='http://127.0.0.1:4178';
+const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});const context=await browser.newContext({viewport:{width:1440,height:1100}}),page=await context.newPage(),report={projects:[],errors:[],writes:[]};
+await context.route('**/*',route=>{const r=route.request();if(!['GET','HEAD'].includes(r.method())){report.writes.push(r.url());return route.abort();}if(!r.url().startsWith(origin)&&!r.url().startsWith('data:'))return route.abort();return route.continue();});page.on('pageerror',e=>report.errors.push(e.message));
+page.setDefaultTimeout(8000);const before=await(await context.request.get(origin+'/api/workspace')).json();
+try{await page.goto(origin+'/?screen=finance');await page.locator('[data-cost-basis=current]').waitFor();
+for(const suffix of ['A','B','C']){
+ await page.locator('#sidebar-project-select').selectOption('TEST-20261016-'+suffix);await page.locator('[data-cost-basis=current]').waitFor();
+ console.log('Auditing',suffix);const p={id:suffix,stages:[]};report.projects.push(p);
+ const expected=await page.evaluate(async()=>{const {milestoneRows}=await import('/finance-milestones.js');return milestoneRows(App,App.current()).map(({id,name,date,values,gfa,periodEnd,capitalSources})=>({id,name,date,values,gfa,periodEnd,capitalSources}));});
+ for(const row of expected){
+  await page.locator('[data-cost-basis]').evaluateAll((es,id)=>es.find(e=>e.dataset.costBasis===id).click(),row.id);
+  const actual=await page.evaluate(()=>({selected:document.querySelector('[data-cost-basis][aria-pressed=true]')?.dataset.costBasis,cards:Object.fromEntries([...document.querySelectorAll('[data-stage-field]')].map(el=>[el.dataset.stageField,[...el.querySelectorAll('.studio-stage-values b')].map(e=>e.textContent)])),units:Object.fromEntries([...document.querySelectorAll('[data-stage-field]')].map(el=>[el.dataset.stageField,[...el.querySelectorAll('.studio-stage-unit-cost')].map(e=>e.textContent)])),totals:[...document.querySelectorAll('.studio-capital-totals b')].map(e=>e.textContent),groups:[...document.querySelectorAll('.studio-capital-groups article')].map(e=>({title:e.querySelector('h4').textContent,total:e.querySelector('.studio-capital-group-title strong').textContent,people:[...e.querySelectorAll('li')].map(li=>({name:li.querySelector('span').childNodes[0].textContent,amount:li.querySelector('b').textContent}))})),bars:[...document.querySelectorAll('.studio-capital-bar button')].map(e=>({label:e.getAttribute('aria-label'),width:e.style.getPropertyValue('--group-width')}))}));
+  assert.equal(actual.selected,row.id);const format=n=>new Intl.NumberFormat('ko-KR',{maximumFractionDigits:1}).format(n/1e8)+'억원';for(const key of ['cost','construction','interest','funding'])assert.equal(actual.cards[key].at(-1),format(row.values[key]),suffix+row.name+key);
+  assert.equal(actual.cards.duration.at(-1),row.values.duration+'M');
+  const native=await page.evaluate(id=>{const p=App.current(),s=id==='current'?null:App.domain.activeStages(p).find(s=>'snapshot:'+s.id===id);return {area:s?App.areas.forStage(p,s):App.areas.current(p),unit:App.domain.modeValue(p,'total',s,'unit'),date:s?.date||p.financeCurrentStage.date}},row.id);
+  assert.equal(native.area.gfaTotal,row.gfa);assert.ok(native.area.acquisitionLandArea>0);assert.equal(native.date,row.date);assert.ok(Math.abs(native.unit-row.values.cost/row.gfa*3.305785/10000)<1e-6);
+  for(const key of ['cost','construction','interest'])assert.equal(actual.units[key].at(-1),new Intl.NumberFormat('ko-KR',{maximumFractionDigits:0}).format(row.values[key]/row.gfa*3.305785/10000)+'만원/평');
+  const sources=row.capitalSources;assert.ok(sources?.length,suffix+row.name+'조달자료');assert.equal(sources.reduce((s,x)=>s+x.amount,0),row.values.funding);
+  const grouped=new Map();for(const s of sources){const key=s.kind+':'+s.tranche;if(!grouped.has(key))grouped.set(key,[]);grouped.get(key).push(s);}
+  assert.equal(actual.groups.length,grouped.size);let index=0;for(const [key,people] of grouped){const group=actual.groups[index++];assert.equal(group.title,people[0].tranche);assert.equal(group.people.length,people.length);const totals=await page.evaluate(ns=>ns.map(n=>App.money(n)),[people.reduce((s,x)=>s+x.amount,0),...people.map(x=>x.amount)]);assert.equal(group.total,totals[0]);for(let i=0;i<people.length;i++){assert.equal(group.people[i].amount,totals[i+1]);assert.equal(group.people[i].name,people[i].party);}}
+  p.stages.push({expected:row,actual});
+ }
+ await page.locator('[data-cost-basis=current]').click();
+ await page.locator('#project-menu-select').selectOption('cost');await page.getByTestId('cost-kpi-row').waitFor();p.overview=await page.evaluate(()=>({kpis:[...document.querySelectorAll('[data-testid=cost-kpi-row] .cost-kpi-cell')].map(e=>e.innerText),composition:[...document.querySelectorAll('.cbs-composition-row')].map(e=>e.getAttribute('data-tip'))}));
+ await page.locator('[data-action=tab][data-view=cost][data-tab=detail]').click();await page.getByTestId('cost-detail-table').waitFor();
+ // Read the default UW/current columns; inspect middle via compare selector separately.
+ p.detail=await page.evaluate(()=>({headers:[...document.querySelectorAll('[data-testid=cost-detail-table] th[data-column]')].map(e=>({id:e.dataset.column,text:e.innerText})),total:[...document.querySelectorAll('[data-testid=cost-total] td[data-column-part=amount]')].map(e=>({text:e.innerText,tip:e.dataset.tip})),categories:[...document.querySelectorAll('tr[data-cbs-row]')].filter(e=>['토지매입비','공사비','금융비용','금융비'].includes(e.querySelector('.cbs-item-name')?.textContent)).map(e=>({name:e.querySelector('.cbs-item-name').textContent,cells:[...e.querySelectorAll('td[data-column-part=amount]')].map(c=>({text:c.innerText,tip:c.dataset.tip}))}))}));
+ await page.locator('.cbs-view-switch [data-mode=unit]').click();
+ const unitCells=await page.locator('[data-testid=cost-total] td[data-column-part=amount]').allTextContents();assert.ok(unitCells.length>=2);assert.ok(unitCells.every(x=>!x.includes('미확보')&&!x.includes('미입력')));p.unitCells=unitCells;
+ await page.screenshot({path:'/private/tmp/idm-ui177-'+suffix+'.png',fullPage:false});
+ await page.locator('#project-menu-select').selectOption('finance');await page.locator('[data-cost-basis=current]').waitFor();
+}
+const after=await(await context.request.get(origin+'/api/workspace')).json();assert.deepEqual(after,before);assert.deepEqual(report.errors,[]);assert.deepEqual(report.writes,[]);console.log('PASS 9 stage card/source/investor comparisons; collected native cost screens; revision',after.revision);
+}finally{await writeFile('/private/tmp/idm-ui177-browser.json',JSON.stringify(report,null,2));await browser.close();}

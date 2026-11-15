@@ -1,0 +1,21 @@
+{
+  "requirement": "LOCAL-UI-177",
+  "status": "로컬저장/모델/실제브라우저 통과",
+  "summary": "LOCAL-UI-177: 사용자 승인 더미 보완. A/B/C 최초UW·리파·현재 연면적63500/40005/133350㎡ 및 취득대상면적12400/7812/26040㎡, 서울UW2024.06.01 연결. 기존6단계 native면적 null RED→통과. 9단계 평단가/기준일/조달·개별투자자·원가검사 및 실제4178 새브라우저 세부사업비 평단가 표시 확인. 원금액·계약·출자·비활성기록/원본파일 보존, 수정전 사업전체 보관. 로컬revision22→23; 운영/푸시 없음.",
+  "sourceHashes": {
+    "scripts/local-preview/complete-review-areas.mjs": "efe1dcf8cb4bdd6e3ef4f79118614ed4db2390d407eb842bef66aff741b14f03",
+    "scripts/local-preview/complete-review-financing.mjs": "927b2671b4baf25ee427c1624384bebd0aa7d81bb8281b75a085eb7ed0885986",
+    "tests/local-review-areas.mjs": "823d0beb242171e75f3ce3451cd4c891d579ecbace72d0e789807e3b5f049e96",
+    "tests/local-review-areas-browser.mjs": "9b04bf3afd106c42026c85affc119c85697ad583de55b014ba69fd35500e42da"
+  },
+  "originalSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+  "browser": {
+    "stages": 9,
+    "errors": [],
+    "writeRequests": 0
+  },
+  "limits": [
+    "운영/배포/모바일 제외",
+    "새 Excel 내보내기 업무자료 미검증"
+  ]
+}

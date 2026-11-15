@@ -24,9 +24,9 @@ export function completeReviewFinancing(A,p){
  const context=index=>({gfa:current.gfa,duration:plan.duration[index],periodEnd:endingMonth(p.basic.periodStart,plan.duration[index]),capitalSources:sources(index),funding:capitalSourceTotal(sources(index)),reason:index===0?'토지 최초 매입 및 개발계획 수립, 브릿지 조달 기준':'인허가 보완과 공사계획 구체화에 따른 브릿지 차환 및 자본 확충',notes:{land:'최초 토지매입금액 유지',construction:index===0?'최초 공사계획 기준':'구조·시공계획 보완에 따른 공사비 증가',interest:index===0?'최초 개발기간 기준':'인허가 보완 기간의 금융비 반영',duration:index===0?'최초 개발일정':'인허가 보완 및 착공 일정 조정',funding:index===0?'출자 및 브릿지 약정':'기존 브릿지 차환과 선·후순위 조달',cost:index===0?'최초 사업비 기준':'공사비와 금융비 증가분 반영'}});
  A.transaction(()=>{
   p.localReviewFinancing175={version:1,original,reason:'사용자 승인: 용인·용산도 서울 중구와 같은 단계별 로컬 더미 자료 정리'};
-  const initial=clone(uw);initial.id=A.uid('stage');initial.supersedesId=uw.id;initial.date=plan.uwDate;initial.financeContext=context(0);initial.areas=clone(A.areas.current(p));
+  const initial=clone(uw);initial.id=A.uid('stage');initial.supersedesId=uw.id;initial.date=plan.uwDate;initial.financeContext=context(0);initial.area=clone(A.areas.current(p));initial.areaVersionId=null;
   A.domain.finalizeStage(p,initial,uw);
-  const middle=clone(uw);middle.id=A.uid('stage');delete middle.supersedesId;middle.kind='custom';middle.controlEventType=null;middle.label='1차 리파이낸싱';middle.businessStageType=middle.label;middle.date='2025-06-30';middle.financeContext=context(1);middle.areas=clone(A.areas.current(p));
+  const middle=clone(uw);middle.id=A.uid('stage');delete middle.supersedesId;middle.kind='custom';middle.controlEventType=null;middle.label='1차 리파이낸싱';middle.businessStageType=middle.label;middle.date='2025-06-30';middle.financeContext=context(1);middle.area=clone(A.areas.current(p));middle.areaVersionId=null;
   middle.values[construction.id]+=plan.midConstruction*E;middle.values[interest.id]+=plan.midFinance*E;
   middle.reasons={...middle.reasons,[construction.id]:'구조·시공계획 보완',[interest.id]:'브릿지 차환 및 사업기간 연장'};
   A.domain.finalizeStage(p,middle,initial,middle.reasons);

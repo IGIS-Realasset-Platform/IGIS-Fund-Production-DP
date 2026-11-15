@@ -18,7 +18,7 @@ for(const p of A.state.projects.slice(1)){
  assert.deepEqual(copy(rows.map(r=>r.values.funding/1e8)),e.funding);assert.deepEqual(copy(rows.map(r=>r.values.duration)),e.duration);
  assert.ok(rows.every(r=>r.values.land===e.land&&r.gfa>0&&r.periodEnd&&r.date));
  assert.deepEqual(copy(rows.map(r=>r.values.cost)),e.cost);
- for(const r of rows)assert.equal(capitalSourceTotal(r.capitalSources),r.values.funding);
+ for(const r of rows){assert.equal(capitalSourceTotal(r.capitalSources),r.values.funding);if(r.snapshot)assert.equal(A.areas.forStage(p,r.snapshot).gfaTotal,r.gfa,'native 과거 연면적 연결');}
  assert.deepEqual(copy(p.costStages.slice(0,old.costStages.length)),old.costStages,'원본 단계 보존');
  assert.deepEqual(copy(p.contracts),old.contracts,'계약 보존');assert.deepEqual(copy(p.localReviewFinancing175.original),old,'정정 전 전체 사업 보관');
  assert.deepEqual(copy(p.equities),old.equities);assert.equal(p.loans.reduce((s,x)=>s+x.commitment,0),old.loans.reduce((s,x)=>s+x.commitment,0));
