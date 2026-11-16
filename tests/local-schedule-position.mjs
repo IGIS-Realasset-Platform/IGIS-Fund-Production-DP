@@ -10,4 +10,9 @@ assert.equal(position([{planned:'2026-01-01',actual:'2026-01-03'},{planned:'2026
 assert.equal(position([{planned:'2026-01-11'},{planned:'2026-01-01'}],'2026-01-06'),null);
 assert.equal(position([{planned:''},{planned:'2026-01-11'}],'2026-01-06'),null);
 assert.equal(position([{planned:'2025-06-26'},{planned:'2026-12-20'}],'2026-11-10'),502/542);
-console.log('schedule date interpolation passed');
+const today=vm.runInNewContext(code+';scheduleKoreaToday');
+assert.equal(today(new Date('2026-11-15T14:59:59Z')),'2026-11-15');
+assert.equal(today(new Date('2026-11-15T15:00:00Z')),'2026-11-16');
+assert.equal(today(new Date('2026-12-31T15:00:00Z')),'2027-01-01');
+assert.ok(position([{planned:'2025-06-26'},{planned:'2026-12-20'}],today(new Date('2026-11-15T15:00:00Z')))>502/542);
+console.log('schedule date interpolation and Korea day rollover passed');

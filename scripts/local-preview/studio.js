@@ -18,6 +18,9 @@ const screens={
 };
 const content=document.getElementById('content');
 const mainScroll=document.querySelector('.main-scroll');
+let refreshScheduleToday=()=>{};
+setInterval(()=>refreshScheduleToday(),60_000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshScheduleToday();});
 function decorateFinanceScreen(app,container,project){
  const panel=container.querySelector('.dp-finance');
  if(!panel)return;
@@ -487,6 +490,11 @@ function scheduleDatePosition(rows,reference){
  }
  return null;
 }
+function scheduleKoreaToday(now=new Date()){
+ const parts=new Intl.DateTimeFormat('en',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+ const values=Object.fromEntries(parts.map(part=>[part.type,part.value]));
+ return `${values.year}-${values.month}-${values.day}`;
+}
 function decorateOverview(_app, content, project){
  const issueAdd=content.querySelector('button[data-action="issue-add"]');
  const issueHeading=issueAdd?.closest('.panel-header')?.querySelector('.panel-title h2');
@@ -506,9 +514,14 @@ function decorateOverview(_app, content, project){
    toolbar?.remove();
   }
  }
+ const timeline=content.querySelector('.dp-timeline');
+ let displayedDate='';
+ refreshScheduleToday=()=>{
+  if(!timeline?.isConnected||displayedDate===scheduleKoreaToday())return;
  const steps=[...content.querySelectorAll('.dp-timeline-step')];
  const milestones=_app.milestones.list(project);
- const position=scheduleDatePosition(milestones,'2026-11-10');
+ const reference=scheduleKoreaToday();
+ const position=scheduleDatePosition(milestones,reference);
  for(const step of steps){step.classList.remove('current');step.removeAttribute('aria-current');}
  content.querySelectorAll('.studio-timeline-current').forEach(badge=>badge.remove());
  if(position!==null&&steps.length){
@@ -518,11 +531,14 @@ function decorateOverview(_app, content, project){
    const badge=document.createElement('span');
    badge.className='studio-timeline-current';
    badge.style.left=`${50+(position-index)*100}%`;
-   badge.textContent='현재 · 11.10';
-   badge.setAttribute('aria-label','현재 기준일 2026년 11월 10일');
+   badge.textContent='현재 · '+reference.slice(5).replace('-','.');
+   badge.setAttribute('aria-label','현재 기준일 '+reference.replaceAll('-','.'));
    marker.append(badge);
   }
  }
+  displayedDate=reference;
+ };
+ refreshScheduleToday();
  const body=content.querySelector('.dp-overview-row > .panel:last-child > .panel-body');
  const buttons=[...(body?.querySelectorAll(':scope > .dp-permit-mini-row')||[])];
  if(!buttons.length)return;
