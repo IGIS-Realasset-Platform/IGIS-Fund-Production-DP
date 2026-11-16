@@ -1,3 +1,4 @@
+import {registerChartTooltip} from './portfolio.js';
 import {currentCapitalSources,capitalSourceTotal,capitalSourceGroups} from './finance-capital.js';
 import {stageFields} from './finance-stage-fields.js';
 import {createStageDraft} from './finance-stage-editor-model.js';
@@ -143,7 +144,9 @@ export function decorateFinancing(A,content,project){
  if(!stageViews.has(project.id))stageViews.set(project.id,{detailsOpen:false});
  const view=stageViews.get(project.id);
  const selectedBasis=()=>costBases.find(basis=>basis.id===view.basisId)||current;
+ let detailsAnimation=null;
  function render(){
+  detailsAnimation?.cancel();detailsAnimation=null;
   const basis=selectedBasis();
   renderCapital(A,capital,summary,project,basis);
   for(const {el,title}of liveHeadings)el.textContent=basis.snapshot?title+' · '+current.name:title;
@@ -151,10 +154,13 @@ export function decorateFinancing(A,content,project){
   const gfa=basis.gfa;
   const periodEnd=basis.periodEnd;
   body.innerHTML=`
-   <div class="studio-milestone-toolbar"><div class="studio-stage-selector" role="group" aria-label="사업비 비교 기준 선택">
+   <div class="studio-milestone-toolbar"><div class="studio-stage-navigation"><div class="studio-stage-selector" role="group" aria-label="사업비 비교 기준 선택">
     ${costBases.map(row=>`<button type="button" aria-pressed="${row===basis}" data-cost-basis="${A.esc(row.id)}">
      ${row.date?`<span>${A.esc(displayDate(row.date))}</span>`:''}<strong>${A.esc(row.name)}${row.id==='current'&&costBases.some(other=>other.snapshot&&other.name===row.name)?' · 현재':''}</strong></button>`).join('')}
    </div>
+   <button type="button" class="btn studio-stage-summary-toggle" data-stage-action="details" data-tip="단계별 핵심 지표 요약표" aria-controls="studio-stage-table" aria-expanded="${view.detailsOpen}">
+    <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M9 10v10"/></svg><span>단계별 핵심 지표 요약표</span><svg class="studio-stage-summary-chevron" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+   </button></div>
    <div class="studio-stage-actions"><button type="button" class="btn" data-milestone-add${view.editor?.pending?' disabled':''}>단계 추가</button></div></div>
    <div class="studio-stage-comparison">
      <div class="studio-stage-project">
@@ -169,14 +175,14 @@ export function decorateFinancing(A,content,project){
       ${stageComparison(A,stageFieldsByKey.get('funding'),baseline,basis)}
       ${['construction','interest'].map(key=>stageComparison(A,stageFieldsByKey.get(key),baseline,basis)).join('')}
      </div>
-     <button type="button" class="studio-stage-reveal" data-stage-action="details" aria-controls="studio-stage-table" aria-expanded="${view.detailsOpen}">
-      <span>${view.detailsOpen?'핵심 지표 닫기':'핵심 지표 보기'}</span>
-     </button>
+
    </div>
-   <div id="studio-stage-table" class="table-wrap studio-stage-table" role="region" aria-label="개발 단계별 비교표 스크롤" tabindex="0"${view.detailsOpen?'':' hidden'}>
+   <div id="studio-stage-table" class="table-wrap studio-stage-table" role="region" aria-label="개발 단계별 비교표 스크롤" tabindex="0"${view.detailsOpen?'':' hidden inert'}>
     ${renderStageTable(A,project,costBases,basis,view.editor)}
 
    </div>`;
+  const summaryToggle=body.querySelector('[data-stage-action=details]');
+  registerChartTooltip(summaryToggle,{title:'단계별 핵심 지표 요약표',amounts:[],anchor:summaryToggle});
   bindStageEditor(A,stagePanel,project,view,{
    render,
    refresh:()=>{costBases=milestoneRows(A,project);current=costBases.at(-1);render();},
@@ -225,8 +231,22 @@ export function decorateFinancing(A,content,project){
    if(view.editor&&view.detailsOpen){A.toast('입력 중인 단계를 저장하거나 취소해 주세요.');return;}
    view.detailsOpen=!view.detailsOpen;
    button.setAttribute('aria-expanded',String(view.detailsOpen));
-   button.firstElementChild.textContent=view.detailsOpen?'핵심 지표 닫기':'핵심 지표 보기';
-   body.querySelector('.studio-stage-table').hidden=!view.detailsOpen;
+   const table=body.querySelector('.studio-stage-table'),opening=view.detailsOpen;
+   const startHeight=table.hidden?0:table.getBoundingClientRect().height;
+   const startOpacity=table.hidden?0:Number(getComputedStyle(table).opacity);
+   const startMargin=table.hidden?0:parseFloat(getComputedStyle(table).marginTop);
+   detailsAnimation?.cancel();detailsAnimation=null;
+   table.hidden=false;table.inert=!opening;
+   const finish=()=>{table.hidden=!opening;table.style.removeProperty('overflow');};
+   if(matchMedia('(prefers-reduced-motion: reduce)').matches){finish();return;}
+   const fullHeight=table.getBoundingClientRect().height;
+   table.style.overflow='hidden';
+   const animation=table.animate([
+    {height:startHeight+'px',opacity:startOpacity,marginTop:startMargin+'px'},
+    {height:(opening?fullHeight:0)+'px',opacity:opening?1:0,marginTop:opening?'10px':'0px'}
+   ],{duration:260,easing:'cubic-bezier(.22,1,.36,1)'});
+   detailsAnimation=animation;
+   animation.onfinish=()=>{if(detailsAnimation!==animation)return;detailsAnimation=null;finish();};
    return;
   }
 

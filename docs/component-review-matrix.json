@@ -816129,4 +816129,6 @@
 "localUi181":{"requirement":"LOCAL-UI-181","components":["핵심지표 표 제목/날짜/수정버튼","수정/취소","12항목 자료연결 진단"],"status":"top/13·14px RED→middle/15·16px·700,9단계/수정취소 통과"}
 ,
 "localUi182":{"requirement":"LOCAL-UI-182","components":["DB연결5행","수정미리보기/저장/취소","새단계고정/과거결측","기준문구삭제"],"status":"추가행누락 RED→모델/실제9단계/미리보기취소/격리저장 통과; revision23쓰기0"}
+,
+"localUi183":{"requirement":"LOCAL-UI-183","components":["요약표 상시버튼/말풍선","롤오버진입 제거","펼침접힘 애니메이션/빠른반복/키보드","편집/추가/취소 보존"],"status":"롤오버버튼 RED→위치/말풍선/개폐/반복/키보드/편집보호/추가취소 통과"}
 }

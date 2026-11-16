@@ -124,30 +124,6 @@
 .studio-stage-project .studio-stage-values > span {margin:4px 0 0}
 .studio-stage-project .studio-stage-pair {padding-bottom:28px}
 .studio-stage-project .studio-stage-pair > small {left:24px;right:auto;bottom:8px;text-align:left}
-.studio-stage-reveal {
- position:absolute;
- inset:0;
- display:grid;
- place-items:center;
- padding:0;
- border:0;
- border-radius:var(--studio-card-radius);
- background:transparent;
- transition:background-color 180ms ease;
-}
-.studio-stage-reveal > span {
- padding:8px 16px;
- border:1px solid #ccd5e5;
- border-radius:999px;
- background:#fff;
- color:var(--studio-accent);
- font-size:15px;
- font-weight:700;
- opacity:0;
- transition:opacity 180ms ease;
-}
-.studio-stage-reveal:is(:hover,:focus-visible) {background:rgb(238 242 249 / 64%)}
-.studio-stage-reveal:is(:hover,:focus-visible) > span {opacity:1}
 .dp-app #content .studio-stage-up {color:#c6263c}
 .dp-app #content .studio-stage-down {color:#1265be}
 .studio-stage-controls {
@@ -268,7 +244,12 @@
 .studio-stage-form :is(input,textarea) {min-width:0;width:100%}
 .studio-stage-error {margin:0;color:#a91a30;font-weight:600}
 .studio-milestone-toolbar {display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:12px}
-.studio-milestone-toolbar > .studio-stage-selector {flex:0 1 auto;min-width:0;margin:0}
+.studio-stage-navigation {display:flex;align-items:center;gap:12px;min-width:0}
+.studio-stage-navigation > .studio-stage-selector {flex:0 1 auto;min-width:0;margin:0}
+.dp-app #content .studio-stage-summary-toggle {display:inline-flex;align-items:center;gap:8px;flex:none;white-space:nowrap;background:#fff;color:var(--studio-accent);border:1px solid #cbd2df}
+.studio-stage-summary-chevron {transition:transform 260ms ease}
+.studio-stage-summary-toggle[aria-expanded="true"] .studio-stage-summary-chevron {transform:rotate(180deg)}
+@media (prefers-reduced-motion:reduce) {.studio-stage-summary-chevron {transition:none}}
 .studio-milestone-toolbar > .studio-stage-actions {flex:none;display:flex;gap:8px}
 .studio-legacy-stages {margin-top:18px}
 .studio-legacy-stages > summary {color:var(--muted);font-size:13px;cursor:pointer}

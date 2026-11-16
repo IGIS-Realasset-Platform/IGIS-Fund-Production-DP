@@ -1,0 +1,26 @@
+{
+  "requirement": "LOCAL-UI-183",
+  "status": "verified",
+  "red": "핵심 지표 보기 기존롤오버 문구/위치 실패",
+  "checks": [
+    "local-finance-summary-toggle-browser.mjs",
+    "local-finance-inline-stage.mjs"
+  ],
+  "scope": [
+    "최근단계 오른쪽 세로중앙 버튼",
+    "공통말풍선4px/볼드/꼭지",
+    "260ms개폐/빠른반복/키보드/동작줄이기",
+    "편집중접기방지/추가/취소/격리저장재진입"
+  ],
+  "preserve": "실제API전후동일/쓰기0/원본운영자료불변",
+  "artifacts": [
+    "/private/tmp/idm-ui183.png",
+    "/private/tmp/idm-ui183-browser.json"
+  ],
+  "sha256": {
+    "scripts/local-preview/finance-overview.js": "084864f723b1a9586c697110f8db105a1561cd095811f0ca585568ac7d6c8290",
+    "scripts/local-preview/finance-overview.css": "11f3f8e224b262104543a1b4660a8af26230e966187ad03a3e9e9aded8adadb0",
+    "tests/local-finance-summary-toggle-browser.mjs": "5134bbaf20bc35ac4a1e02d883f02967f5157d30fcb5b21959cda1e9910a05b2",
+    ".build/local-preview/platform-51470.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+  }
+}
