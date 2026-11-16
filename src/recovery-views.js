@@ -12,7 +12,7 @@
   const days=(parse(date)-parse(today))/86400000;
   return Number.isFinite(days)?{days,text:days>0?'D-'+days:days===0?'D-day':Math.abs(days)+'일 경과'}:{days:null,text:''};
  }
- function refreshReportCountdown(root=document){for(const badge of root.querySelectorAll('[data-report-countdown]')){const result=reportCountdown(badge.dataset.reportCountdown);badge.textContent=result.text;badge.hidden=!result.text;badge.classList.toggle('overdue',result.days<0);}}
+ function refreshReportCountdown(root=document){for(const node of root.querySelectorAll('[data-overview-report-summary]')){const project=A.state.projects.find(p=>p.id===node.dataset.overviewReportSummary);if(project&&A.report?.overviewSummaryHtml){const html=A.report.overviewSummaryHtml(project);if(node.innerHTML!==html)node.innerHTML=html;}}for(const badge of root.querySelectorAll('[data-report-countdown]')){const result=reportCountdown(badge.dataset.reportCountdown);badge.textContent=result.text;badge.hidden=!result.text;badge.classList.toggle('overdue',result.days<0);}}
 
 
  function projectRegion(p){

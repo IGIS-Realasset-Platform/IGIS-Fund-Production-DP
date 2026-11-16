@@ -37,20 +37,26 @@
  const archiveOverviewPrepared=new Map();
  function overviewSummary(p,today=A.businessDate()){
   const seen=new Set(),records=allHistory(p).filter(row=>{if(row.deletedAt)return false;const key=validDate(row.date)?[row.type,row.date,row.stageId||'current'].join('|'):row.kind+':'+row.id;if(seen.has(key))return false;seen.add(key);return true;});
-  const pending=records.filter(row=>['작성본','검토 중','확정','정정'].includes(row.status));
-  const deadline=row=>validDate(row.due)?row.due:'';
-  const timed=pending.filter(row=>deadline(row)&&!validDate(row.submitted)).sort((a,b)=>deadline(a).localeCompare(deadline(b)));
-  const record=timed[0]||pending[0]||records[0]||null;
-  if(!record)return {record:null,pendingCount:0};
-  const submitted=validDate(record.submitted)?record.submitted:'',done=record.status==='제출',due=done||submitted?'':deadline(record);
-  const days=due&&validDate(today)?Math.round((Date.parse(due+'T00:00:00Z')-Date.parse(today+'T00:00:00Z'))/86400000):null;
-  return {record,pendingCount:pending.length,label:pending.length?'진행 중 보고':'최근 보고',type:types[record.type]||record.type||'종류 미확인',date:validDate(record.date)?record.date:'',status:done?'제출 완료':record.status||'상태 미확인',submitted,deadline:due,countdown:days===null?'':days>0?'D-'+days:days===0?'D-day':Math.abs(days)+'일 경과',overdue:days!==null&&days<0};
+  const reporting=p.reporting||{},submitted=row=>row.status==='제출'&&validDate(row.submitted)&&row.submitted<=today;
+  const completed=records.filter(submitted),initial=reporting.initialFiled===true&&validDate(reporting.initialReportDate)&&reporting.initialReportDate<=today?{type:'사업계획 등',date:reporting.initialReportDate,record:null}:null;
+  const latest=[...completed.map(row=>({type:types[row.type]||row.type,date:row.submitted,record:row})),...(initial?[initial]:[])].sort((a,b)=>b.date.localeCompare(a.date))[0]||null;
+  // A draft's basis date is not a reporting deadline. Only an explicit due date can supersede the project schedule.
+  const pending=records.filter(row=>!submitted(row)&&validDate(row.due)&&['작성본','검토 중','확정','정정'].includes(row.status)).sort((a,b)=>a.due.localeCompare(b.due));
+  const record=pending[0]||null,typeKey=record?.type||(reporting.initialFiled===false?'plan':reporting.cycle?'progress':null);
+  const date=record?.due||(validDate(reporting.nextDue)?reporting.nextDue:'');
+  const type=record?types[record.type]||record.type:typeKey==='progress'?(reporting.cycle==='분기'?'분기 추진현황 보고':reporting.cycle+' 추진현황 보고'):typeKey==='plan'?'최초 사업계획 보고':'보고 일정';
+  // Do not use a submission of another type or a later submission date to close this scheduled report.
+  const done=!record&&date&&completed.find(row=>row.type===typeKey&&row.due===date);
+  const days=date&&validDate(today)?Math.round((Date.parse(date+'T00:00:00Z')-Date.parse(today+'T00:00:00Z'))/86400000):null;
+  const status=done?'제출 완료':days===null?'일정 미등록':days<0?'제출 확인 필요':days===0?'D-day':'D-'+days;
+  return {record:record||done||null,type,date,days,status,latest,done:!!done};
  }
  function overviewSummaryHtml(p){
-  const info=overviewSummary(p),date=value=>value?E(value.replaceAll('-','.')):'미등록';
-  if(!info.record)return '<div class="overview-report-empty">저장된 보고서가 없습니다.</div>';
-  const row=info.record,extra=info.pendingCount>1?A.btn('외 '+(info.pendingCount-1)+'건','report-history-open',{},'text overview-report-more'):'';
-  return `<div class="overview-report-caption"><span>${E(info.label)}</span>${extra}</div><div class="overview-report-main">${A.btn(info.type,'report-snapshot-open',{projectId:p.id,id:row.id,kind:row.kind},'text overview-report-name')}<span class="overview-report-state">${E(info.status)}</span></div><div class="overview-report-meta"><span>기준일</span><b>${date(info.date)}</b></div>`+(info.deadline?`<div class="overview-report-meta"><span>제출기한</span><span class="overview-report-due"><b>${date(info.deadline)}</b><span class="overview-report-countdown${info.overdue?' overdue':''}" data-report-countdown="${E(info.deadline)}">${E(info.countdown)}</span></span></div>`:info.submitted?`<div class="overview-report-meta"><span>제출일</span><b>${date(info.submitted)}</b></div>`:'');
+  const info=overviewSummary(p),date=value=>E(value.replaceAll('-','.'));
+  const title=info.record?A.btn(info.type,'report-snapshot-open',{projectId:p.id,id:info.record.id,kind:info.record.kind},'text overview-report-name'):`<strong class="overview-report-name">${E(info.type)}</strong>`;
+  const elapsed=info.days<0&&!info.done?' · '+Math.abs(info.days)+'일 경과':'';
+  const recent=info.latest?`<span>${E(info.latest.type)}</span><b>${date(info.latest.date)}</b>`:'<span>제출 기록 없음</span>';
+  return `<div class="overview-report-main">${title}<span class="overview-report-state${info.done?' is-submitted':''}">${E(info.status)}</span></div><div class="overview-report-meta"><span>보고 예정일${E(elapsed)}</span><b>${info.date?date(info.date):'미등록'}</b></div><div class="overview-report-recent"><span class="overview-report-recent-label">최근 제출</span><div>${recent}</div></div>`;
  }
  function latestSubmitted(p){return [...(A.cloudMode?archiveLists.get(p?.id)?.rows||[]:[]),...live(p?.reportSnapshots),...live(p?.reports)].filter(row=>!row.deletedAt&&typeof row.submitted==='string'&&row.submitted).map(row=>row.submitted).sort((a,b)=>b.localeCompare(a))[0]||'';}
  function refreshOverviewSubmitted(projectId){if(A.ui.view!=='overview'||A.current()?.id!==projectId||A.ui.projectId!==projectId)return;const p=reportProject(projectId);if(!p)return;for(const node of document.querySelectorAll?.('[data-report-latest-submitted]')||[])if(node.dataset.reportLatestSubmitted===projectId&&node.isConnected!==false)node.textContent=latestSubmitted(p)||'—';for(const node of document.querySelectorAll?.('[data-overview-report-summary]')||[])if(node.dataset.overviewReportSummary===projectId&&node.isConnected!==false)node.innerHTML=overviewSummaryHtml(p);}

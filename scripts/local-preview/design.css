@@ -1022,3 +1022,15 @@
 .overview-report-meta b{font-weight:600;white-space:nowrap}
 .dp-app #content .overview-report-more.btn.text{min-height:18px;padding:0;font-size:12px}
 .overview-report-empty{color:var(--muted);padding-block:8px}
+
+/* LOCAL-UI-224: report schedule and last submission are separate facts. */
+.overview-report-summary{gap:10px}
+.overview-report-main{align-items:center;gap:8px}
+.overview-report-state{font-size:14px;font-weight:600;background:#eef0f5;color:#4f5c75}
+.overview-report-state.is-submitted{background:#e9edf8;color:#283985}
+.overview-report-recent{display:grid;gap:4px;padding-top:10px;border-top:1px solid #e6e9ef;font-size:13px}
+.overview-report-recent-label{color:var(--muted)}
+.overview-report-recent>div{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--text)}
+.overview-report-recent b{font-weight:600;white-space:nowrap}
+
+.overview-report-main>strong.overview-report-name{font-size:15px;font-weight:700;color:var(--text)}
