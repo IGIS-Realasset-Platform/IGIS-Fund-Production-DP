@@ -249,6 +249,23 @@ document.addEventListener('pointerover', event => decorateActiveTooltip(event.ta
 document.addEventListener('focusin', event => decorateActiveTooltip(event.target));
 document.addEventListener('scroll', () => decorateActiveTooltip(document.activeElement), true);
 
+function decorateSortHeaders(A, table) {
+  const sorts={'최초UW':['initial','최초UW 금액'], '현재 사업비':['unit','현재 사업비 평당가'], '최초 대비':['delta','최초 대비 증감액']};
+  for(const cell of table.tHead.rows[0].cells){
+    const spec=sorts[cell.dataset.pfLabel];if(!spec)continue;
+    const [key,label]=spec,active=A.ui.portfolioSort===key,ascending=active&&A.ui.portfolioSortDirection==='asc';
+    cell.setAttribute('aria-sort',active?(ascending?'ascending':'descending'):'none');
+    if(cell.querySelector('[data-action="portfolio-sort"]'))continue;
+    const button=node('button','pf-sort-button');button.type='button';
+    button.dataset.action='portfolio-sort';button.dataset.key=key;
+    button.setAttribute('aria-label',label+' '+(ascending?'내림차순':'오름차순')+' 정렬');
+    if(!active)button.setAttribute('aria-label',label+' 내림차순 정렬');
+    button.append(node('span','',cell.dataset.pfLabel));
+    const arrow=node('span','pf-sort-arrow',active?(ascending?'↑':'↓'):'↕');arrow.setAttribute('aria-hidden','true');
+    button.append(arrow);cell.replaceChildren(button);
+  }
+}
+
 export function decoratePortfolio(A, content) {
   const table = content.querySelector('table.portfolio-table');
   if (!table?.tBodies[0]) return;
@@ -256,7 +273,8 @@ export function decoratePortfolio(A, content) {
   panel.classList.add('pf-list-card');
   panel.querySelector('.panel-title h2').textContent = '프로젝트 목록';
   panel.querySelector('[data-action="portfolio-reset"]').textContent = '검색조건 초기화';
-  for (const cell of table.tHead.rows[0].cells) cell.dataset.pfLabel = formatDisplayLabels(cell.textContent.trim());
+  for (const cell of table.tHead.rows[0].cells) cell.dataset.pfLabel ||= formatDisplayLabels(cell.textContent.trim());
+  decorateSortHeaders(A, table);
   updateRows(A, table);
   if (!observed.has(table)) {
     const observer = new MutationObserver(() => {
