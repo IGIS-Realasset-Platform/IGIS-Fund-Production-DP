@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "b180127f222359fc54a7c47ccae7ee2b6c143b34",
+  "sourceCommit": "443901e8a13b0537e5b827300cc75608a1b66b69",
   "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
   "workspaceRevision": 23,
   "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
@@ -102,8 +102,8 @@
       "bytes": 11989
     },
     "portfolio.js": {
-      "sha256": "7a1e499fbbf71d65a0f889e126d43dc1324bf1b1adc2200d4f0ae8b88a111ac5",
-      "bytes": 14752
+      "sha256": "01833a1a62e0dbcc49dadec5296a5844f8448161d2255aa43ed522f81acdc9bd",
+      "bytes": 15607
     },
     "review-client.js": {
       "sha256": "1acd64ff8f7bce8fa16a5aeed055e4395bd6d2d75785103cb757962b2a9ba408",

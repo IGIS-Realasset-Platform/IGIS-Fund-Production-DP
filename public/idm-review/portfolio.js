@@ -72,6 +72,12 @@ export function portfolioTagTone(kind,value){
  return tones[hash%tones.length];
 }
 
+function portfolioMoney(A, value) {
+  if(value == null || value === '' || !Number.isFinite(Number(value)))return A.money(value);
+  const amount=Math.abs(Number(value)),precision=amount>=1e8?1e7:amount>=10000?1000:1;
+  return A.money(Math.sign(Number(value))*Math.round(amount/precision)*precision);
+}
+
 function updateRows(A, table) {
   const projects = new Map(A.state.projects.map(p => [p.id, p]));
   const labels = [...table.tHead.rows[0].cells].map(cell => cell.dataset.pfLabel);
@@ -101,6 +107,14 @@ function updateRows(A, table) {
     const initial = A.total(p,'initial'), current = A.total(p);
     const missing = [initial == null && '최초', current == null && '현재'].filter(Boolean);
     const deltaCell = cells[labels.indexOf('최초 대비')];
+    const initialCell=cells[labels.indexOf('최초UW')],currentAmount=cells[labels.indexOf('현재 사업비')]?.querySelector('.num');
+    if(initialCell)initialCell.textContent=portfolioMoney(A,initial);
+    if(currentAmount)currentAmount.textContent=portfolioMoney(A,current);
+    if(!missing.length&&deltaCell){
+      const difference=current-initial;
+      deltaCell.replaceChildren(node('span',difference>0?'increase':difference<0?'decrease':'',
+        (difference>0?'▲ ':difference<0?'▼ ':'')+portfolioMoney(A,Math.abs(difference))));
+    }
     if (missing.length && deltaCell && !deltaCell.querySelector('.pf-missing')) {
       deltaCell.replaceChildren(node('span','pf-missing',missing.join('·') + ' 금액 미확보'));
     }
