@@ -816203,4 +816203,6 @@
 "localUi220":{"requirement":"LOCAL-UI-220","components":["개요 세 카드 높이","보고 날짜/일수/버튼 정렬"],"status":"실제 카드 동일높이/하단선·날짜일수 간격/세로정렬·팝업열기닫기 통과. 자료지문동일/공유패키지 확인","preserve":["자료/기한","추가정보/보고서 동작"]}
 ,
 "localUi221":{"requirement":"LOCAL-UI-221","components":["국토부 보고 일수 표시"],"status":"16px 확대, 사용자 화면 확인","preserve":["계산/원자료","카드정렬/날짜간격","버튼동작"]}
+,
+"localUi222":{"requirement":"LOCAL-UI-222","components":["보고 일수 글자","제출상태 표시 제안"],"status":"14px 반영, 상태 구분은 제안만. 실제화면 사용자 확인","preserve":["자료/기한계산","정렬/동작"]}
 }

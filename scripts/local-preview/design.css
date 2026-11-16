@@ -987,7 +987,7 @@
 
 /* LOCAL-UI-219: report deadline and source-entry workspace */
 .overview-report-due{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
-.overview-report-countdown{font-size:16px;font-weight:700;line-height:1.4;padding:4px 9px;border-radius:8px;background:#e9edf8;color:#283985;white-space:nowrap}
+.overview-report-countdown{font-size:14px;font-weight:700;line-height:1.4;padding:4px 9px;border-radius:8px;background:#e9edf8;color:#283985;white-space:nowrap}
 .overview-report-countdown.overdue{background:#fff0f1;color:#c93346}
 .overview-report-actions{display:flex;justify-content:flex-end;margin-top:12px}
 .report-additional-workspace{display:grid;gap:18px}
