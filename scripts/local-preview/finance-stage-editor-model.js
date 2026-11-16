@@ -1,4 +1,4 @@
-import {milestoneRows,projectDuration} from './finance-milestones.js';
+import {milestoneRows,projectDuration,linkedStageDetails} from './finance-milestones.js';
 import {stageFields} from './finance-stage-fields.js';
 import {currentCapitalSources,capitalSourceTotal} from './finance-capital.js';
 
@@ -105,12 +105,12 @@ export function previewStageDraft(A,p,draft){
  const values={funding:capitalSourceTotal(capitalSources),sale:clean.sale,duration:projectDuration({...p.basic,periodEnd:clean.periodEnd}),cost:A.total(projected),
   ...Object.fromEntries(Object.entries(categories).map(([key,profileKey])=>[key,ids.has(profileKey)?A.domain.modeValue(projected,ids.get(profileKey),null,'amount'):null]))};
  for(const value of Object.values(values))if(value!=null&&!Number.isSafeInteger(value))throw Error('합계가 원 단위 정수 지원 범위를 벗어났습니다.');
- return {...copy(clean.basis),values,gfa:clean.gfa,periodEnd:clean.periodEnd,capitalSources};
+ return {...copy(clean.basis),values,linkedDetails:linkedStageDetails(A,projected),gfa:clean.gfa,periodEnd:clean.periodEnd,capitalSources};
 }
 function freezeCurrent(A,p,linked){
  const snapshot=A.domain.snapshot(p,'custom',linked.name,linked.date||A.today,copy(A.areas.current(p)),'');
  snapshot.captureMode='current';snapshot.detailLevel='detail';
- snapshot.financeContext={captureVersion:1,capturedAt:new Date().toISOString(),linkedValues:copy(linked.values),gfa:linked.gfa??null,periodEnd:linked.periodEnd||'',funding:linked.values.funding,sale:linked.values.sale,duration:linked.values.duration,capitalSources:copy(linked.capitalSources||[]),reason:linked.reason||'',notes:copy(linked.notes||{})};
+ snapshot.financeContext={captureVersion:1,capturedAt:new Date().toISOString(),linkedValues:copy(linked.values),linkedDetails:copy(linked.linkedDetails),gfa:linked.gfa??null,periodEnd:linked.periodEnd||'',funding:linked.values.funding,sale:linked.values.sale,duration:linked.values.duration,capitalSources:copy(linked.capitalSources||[]),reason:linked.reason||'',notes:copy(linked.notes||{})};
  A.domain.finalizeStage(p,snapshot,A.domain.baseline(p));return snapshot.id;
 }
 export function commitStageDraft(A,p,draft){

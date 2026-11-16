@@ -1,0 +1,34 @@
+{
+  "requirement": "LOCAL-UI-182",
+  "status": "verified",
+  "scope": "3사업9단계 핵심지표5행, 증감괄호/0숨김/간격/미리보기/취소",
+  "red": "추가행 누락 AssertionError before implementation",
+  "checks": [
+    "local-finance-linked-details.mjs",
+    "local-finance-stage-editor-model.mjs",
+    "local-finance-inline-stage.mjs",
+    "local-finance-key-metrics.mjs",
+    "local-finance-linked-details-browser.mjs"
+  ],
+  "preserved": "실제 로컬 revision23·API 전후동일·쓰기0; 운영/원본 미변경",
+  "limits": [
+    "과거 착공일은 연결자료 없음으로 —",
+    "단계별 분석대상 문서는 명시 연결이 없어 미추가",
+    "자산매입 비용은 토지매입+명도·권리보상만 합산; 취득세/수수료 확대없음",
+    "모바일/운영 배포는 검수 범위 아님"
+  ],
+  "artifacts": [
+    "/private/tmp/idm-ui182.png",
+    "/private/tmp/idm-ui182-browser.json",
+    ".build/local-preview/LOCAL-UI-154-검수.xlsx"
+  ],
+  "sha256": {
+    "scripts/local-preview/finance-milestones.js": "19f792e2c504d5331c5f44f7838db85594978bd155a58436a1aa59d821f529cb",
+    "scripts/local-preview/finance-stage-editor-model.js": "846385520327fb122009cc6aa10d3e86c1de10be234ac7650822969a5e4756ce",
+    "scripts/local-preview/finance-stage-editor-ui.js": "0d9c271d892d117b00ee491d71c9c8fbbc63d5dbe8de66cc3472cda691b26039",
+    "scripts/local-preview/finance-overview.css": "6b147ff5215fdbd99fc3a258e33c6aa9e8c2cf40a5d09ac5b63120dfb923544f",
+    "tests/local-finance-linked-details.mjs": "289f751b98b85f011d628cd1e96601a14cbfa960e9b20c6eaa812b53bbae1553",
+    "tests/local-finance-linked-details-browser.mjs": "0afa5f71aebf6bfcc6658d5cdb183ca627d3341e301e64de48a70f13ba25a843",
+    ".build/local-preview/platform-51470.html": "202850708acf59f222d9e0ce113983f8616326a8f2dce8a8142852a2242c50c6"
+  }
+}

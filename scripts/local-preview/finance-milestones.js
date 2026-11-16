@@ -22,6 +22,16 @@ export function endingMonth(start,duration){
  const month=Number(match[1])*12+Number(match[2])-1+duration;
  return String(Math.floor(month/12)).padStart(4,'0')+'-'+String(month%12+1).padStart(2,'0');
 }
+// Read matching native cost groups once; never add a parent and its children.
+export function linkedStageDetails(A,project,snapshot=null){
+ const nodes=new Map(A.companyCostProfile.managementNodes(project).map(node=>[node.companyProfileKey,node.id]));
+ const value=key=>nodes.has(key)?A.domain.modeValue(project,nodes.get(key),snapshot,'amount'):null;
+ const land=value('land_purchase'),compensation=value('land_rights_compensation');
+ return {directConstruction:value('direct'),contractConstruction:value('direct_main'),compensation,
+  acquisition:land==null||compensation==null?null:land+compensation,
+  constructionStart:snapshot?'':project.construction?.actualStart||project.construction?.plannedStart||'',
+  constructionStartPlanned:!snapshot&&!project.construction?.actualStart&&!!project.construction?.plannedStart};
+}
 export function milestoneRows(A,project){
  const nodes=new Map(A.companyCostProfile.managementNodes(project).map(node=>[node.companyProfileKey,node.id]));
  const costs=snapshot=>{
@@ -38,12 +48,13 @@ export function milestoneRows(A,project){
   const periodEndReference=!extra.periodEnd&&!!derivedEnd;
   return {id:'snapshot:'+snapshot.id,snapshot,name:snapshot.label||'사업 단계',date:snapshot.date||extra.date||'',
    capitalSources:extra.capitalSources||null,
+   linkedDetails:structuredClone(extra.linkedDetails||linkedStageDetails(A,project,snapshot)),
    values:frozen?structuredClone(extra.linkedValues):{funding:extra.capitalSources?capitalSourceTotal(extra.capitalSources):extra.funding??null,sale:extra.sale??null,duration:extra.duration??null,...costs(snapshot)},
    gfa:area??reference.gfaTotal??null,gfaReference,periodEnd:extra.periodEnd||derivedEnd,periodEndReference,reason:extra.reason||'',
    notes:extra.notes||{},reasons:Object.entries(snapshot.reasons||{}).filter(([,text])=>typeof text==='string'&&text.trim()).map(([id,text])=>[snapshot.nodes?.find(node=>node.id===id)?.name,text])};
  });
  const meta=project.financeCurrentStage||{};
- rows.push({id:'current',capitalSources:currentCapitalSources(project),name:meta.name||'최근 사업 단계',date:meta.date||'',
+ rows.push({id:'current',linkedDetails:linkedStageDetails(A,project),capitalSources:currentCapitalSources(project),name:meta.name||'최근 사업 단계',date:meta.date||'',
   values:{funding:A.contracts.financeCapitalTotals(project).total,sale:meta.sale??null,duration:projectDuration(project.basic),...costs(null)},
   gfa:A.areas.current(project).gfaTotal,periodEnd:project.basic?.periodEnd||'',reason:meta.reason||'',notes:meta.notes||{}});
  return rows;
@@ -150,7 +161,7 @@ export function captureCurrentMilestone(A,project,onSaved=()=>{}){
   A.transaction(()=>{
    const draft=A.domain.snapshot(owner,'custom',info.name,info.date,structuredClone(A.areas.current(owner)),'');
    draft.captureMode='current';draft.detailLevel='detail';
-   draft.financeContext={captureVersion:1,capturedAt:new Date().toISOString(),linkedValues:structuredClone(linked.values),gfa:linked.gfa??null,periodEnd:linked.periodEnd||'',funding:linked.values.funding,sale:linked.values.sale,duration:linked.values.duration,capitalSources:structuredClone(sources),reason:info.reason,notes:info.notes};
+   draft.financeContext={captureVersion:1,capturedAt:new Date().toISOString(),linkedValues:structuredClone(linked.values),linkedDetails:structuredClone(linked.linkedDetails),gfa:linked.gfa??null,periodEnd:linked.periodEnd||'',funding:linked.values.funding,sale:linked.values.sale,duration:linked.values.duration,capitalSources:structuredClone(sources),reason:info.reason,notes:info.notes};
    A.domain.finalizeStage(owner,draft,A.domain.baseline(owner));id=draft.id;
   });
   onSaved(id);

@@ -295,3 +295,8 @@
 /* LOCAL-UI-171: preserve the original surfaces; unify only the divider colors. */
 .dp-app #content .studio-cost-bases {--studio-table-divider:#e4e7ed;--studio-table-row-divider:#e4e7ed}
 .dp-app #content .studio-stage-table table.studio-cost-bases > tbody > tr > :is(th,td) {border-bottom-color:var(--studio-table-row-divider)}
+
+/* LOCAL-UI-182: compact notes, with changes beside the result. */
+.studio-stage-table tbody small {margin-top:-1px}
+.studio-stage-table .studio-stage-inline-delta {display:inline;font-size:12px;font-weight:400;color:var(--muted);white-space:nowrap}
+.studio-stage-table tr[data-linked-metric] th:first-child {white-space:normal}
