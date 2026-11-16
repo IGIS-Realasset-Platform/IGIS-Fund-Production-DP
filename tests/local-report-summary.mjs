@@ -15,3 +15,8 @@ s=summary([{...progress,status:'작성본',submitted:'',due:'2026-11-20'}]);asse
 s=summary([],{});assert.equal(s.date,'');assert.equal(s.latest,null);assert.equal(s.status,'일정 미등록');
 const before=JSON.stringify(p);A.report.overviewSummaryHtml(p);assert.equal(JSON.stringify(p),before);
 console.log('PASS scheduled report vs draft, initial submission, matched submission, unrelated report, future/today/past, missing data, read-only');
+
+const html=A.report.overviewSummaryHtml(p,'2026-11-16');assert(html.includes('보고 필요'));assert(html.includes('보고 기준일'));assert(html.includes('26.10.31'));assert(html.includes('16일 경과'));assert(html.includes('overview-report-type'));assert(!html.includes('제출 확인 필요'));assert(html.includes('2026.06.20'));
+assert(A.report.overviewSummaryHtml({...p,reporting:{...p.reporting,nextDue:'2027-02-15'}},'2026-11-16').includes('D-91일'));
+const doneHtml=A.report.overviewSummaryHtml({...p,reports:[progress]},'2026-11-16');assert(doneHtml.includes('없음'));assert(!doneHtml.includes('일 경과'));
+console.log('PASS requested three rows, type tag, short basis date, full submission date, overdue/future/submitted');

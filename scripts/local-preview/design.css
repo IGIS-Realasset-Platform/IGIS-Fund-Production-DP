@@ -1011,26 +1011,14 @@
 .dp-app #content .dp-overview-cards .date-row>b{color:var(--text);white-space:nowrap}
 .dp-app #content .dp-overview-cards .overview-report-actions{margin-top:auto;padding-top:12px}
 
-/* LOCAL-UI-223: report identity, reporting date and state belong to one record. */
+/* LOCAL-UI-225: three aligned rows; report type and remaining days have distinct roles. */
 .overview-report-summary{display:grid;gap:8px;min-width:0}
-.overview-report-caption{display:flex;align-items:center;justify-content:space-between;min-height:18px;color:var(--muted);font-size:12px}
-.overview-report-main,.overview-report-meta{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.dp-app #content .overview-report-name.btn.text{font-size:15px;font-weight:700;color:var(--text);padding:0;min-height:26px;min-width:0;text-align:left;border:0;white-space:normal}
-.overview-report-state{background:#e9edf8;color:#283985;font-size:12px;font-weight:600;padding:3px 8px;border-radius:7px;white-space:nowrap}
-.overview-report-meta{font-size:13px;min-height:20px}
-.overview-report-meta>span:first-child{color:var(--muted)}
-.overview-report-meta b{font-weight:600;white-space:nowrap}
-.dp-app #content .overview-report-more.btn.text{min-height:18px;padding:0;font-size:12px}
-.overview-report-empty{color:var(--muted);padding-block:8px}
-
-/* LOCAL-UI-224: report schedule and last submission are separate facts. */
-.overview-report-summary{gap:10px}
-.overview-report-main{align-items:center;gap:8px}
-.overview-report-state{font-size:14px;font-weight:600;background:#eef0f5;color:#4f5c75}
-.overview-report-state.is-submitted{background:#e9edf8;color:#283985}
-.overview-report-recent{display:grid;gap:4px;padding-top:10px;border-top:1px solid #e6e9ef;font-size:13px}
-.overview-report-recent-label{color:var(--muted)}
-.overview-report-recent>div{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--text)}
-.overview-report-recent b{font-weight:600;white-space:nowrap}
-
-.overview-report-main>strong.overview-report-name{font-size:15px;font-weight:700;color:var(--text)}
+.overview-report-row{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:center;min-height:26px;font-size:14px}
+.overview-report-label{color:var(--muted);white-space:nowrap}
+.overview-report-value{display:flex;align-items:center;gap:10px;min-width:0;color:var(--text)}
+.dp-app #content .overview-report-type{display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:0;border-radius:7px;background:#e9edf8;color:#283985;font-size:13px;font-weight:600;line-height:20px;white-space:nowrap}
+.overview-report-date time{font-weight:600;white-space:nowrap}
+.overview-report-day{margin-left:auto;padding:3px 8px;border-radius:7px;background:#e9edf8;color:#283985;font-size:14px;font-weight:700;white-space:nowrap;line-height:20px}
+.overview-report-day.is-overdue{background:#fff0f1;color:#d32f40}
+.overview-report-last{font-size:13px;justify-content:space-between;white-space:nowrap}
+.overview-report-last time{font-weight:500}

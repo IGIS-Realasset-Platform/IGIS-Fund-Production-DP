@@ -49,14 +49,14 @@
   const done=!record&&date&&completed.find(row=>row.type===typeKey&&row.due===date);
   const days=date&&validDate(today)?Math.round((Date.parse(date+'T00:00:00Z')-Date.parse(today+'T00:00:00Z'))/86400000):null;
   const status=done?'제출 완료':days===null?'일정 미등록':days<0?'제출 확인 필요':days===0?'D-day':'D-'+days;
-  return {record:record||done||null,type,date,days,status,latest,done:!!done};
+  return {record:record||done||null,type,typeKey,date,days,status,latest,done:!!done};
  }
- function overviewSummaryHtml(p){
-  const info=overviewSummary(p),date=value=>E(value.replaceAll('-','.'));
-  const title=info.record?A.btn(info.type,'report-snapshot-open',{projectId:p.id,id:info.record.id,kind:info.record.kind},'text overview-report-name'):`<strong class="overview-report-name">${E(info.type)}</strong>`;
-  const elapsed=info.days<0&&!info.done?' · '+Math.abs(info.days)+'일 경과':'';
-  const recent=info.latest?`<span>${E(info.latest.type)}</span><b>${date(info.latest.date)}</b>`:'<span>제출 기록 없음</span>';
-  return `<div class="overview-report-main">${title}<span class="overview-report-state${info.done?' is-submitted':''}">${E(info.status)}</span></div><div class="overview-report-meta"><span>보고 예정일${E(elapsed)}</span><b>${info.date?date(info.date):'미등록'}</b></div><div class="overview-report-recent"><span class="overview-report-recent-label">최근 제출</span><div>${recent}</div></div>`;
+ function overviewSummaryHtml(p,today=A.businessDate()){
+  const info=overviewSummary(p,today),date=(value,short=false)=>E((short?value.slice(2):value).replaceAll('-','.'));
+  const type=types[info.typeKey]||info.type,tag=info.done?'없음':info.record?A.btn(type,'report-snapshot-open',{projectId:p.id,id:info.record.id,kind:info.record.kind},'text overview-report-type'):`<span class="overview-report-type">${E(type)}</span>`;
+  const countdown=info.done||info.days===null?'':info.days<0?Math.abs(info.days)+'일 경과':info.days===0?'D-day':'D-'+info.days+'일';
+  const recent=info.latest?`<span>${E(info.latest.type)}</span><time datetime="${E(info.latest.date)}">${date(info.latest.date)}</time>`:'<span>제출 기록 없음</span>';
+  return `<div class="overview-report-row"><span class="overview-report-label">보고 필요</span><div class="overview-report-value">${tag}</div></div><div class="overview-report-row"><span class="overview-report-label">보고 기준일</span><div class="overview-report-value overview-report-date">${info.date&&!info.done?`<time datetime="${E(info.date)}">${date(info.date,true)}</time>`:'<span>—</span>'}${countdown?`<span class="overview-report-day${info.days<0?' is-overdue':''}">${E(countdown)}</span>`:''}</div></div><div class="overview-report-row"><span class="overview-report-label">최근 제출</span><div class="overview-report-value overview-report-last">${recent}</div></div>`;
  }
  function latestSubmitted(p){return [...(A.cloudMode?archiveLists.get(p?.id)?.rows||[]:[]),...live(p?.reportSnapshots),...live(p?.reports)].filter(row=>!row.deletedAt&&typeof row.submitted==='string'&&row.submitted).map(row=>row.submitted).sort((a,b)=>b.localeCompare(a))[0]||'';}
  function refreshOverviewSubmitted(projectId){if(A.ui.view!=='overview'||A.current()?.id!==projectId||A.ui.projectId!==projectId)return;const p=reportProject(projectId);if(!p)return;for(const node of document.querySelectorAll?.('[data-report-latest-submitted]')||[])if(node.dataset.reportLatestSubmitted===projectId&&node.isConnected!==false)node.textContent=latestSubmitted(p)||'—';for(const node of document.querySelectorAll?.('[data-overview-report-summary]')||[])if(node.dataset.overviewReportSummary===projectId&&node.isConnected!==false)node.innerHTML=overviewSummaryHtml(p);}
