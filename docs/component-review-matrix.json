@@ -816158,5 +816158,6 @@
     "deploymentVerification": "source run 43795618103 succeeded; live manifest matches dc622e634021c90c9fe0facec1be203f6d976bcf, revision23",
     "access": "사용자 승인 단일 저장소 Contents 토큰 연결 완료, 2027.02.14 만료"
   },
-"localUi186":{"requirement":"LOCAL-UI-186","components":["제목/날짜 간격","제목하단/열좌측 구분선","단계전환/수정/취소"],"status":"3사업 제목간격3→-3px/가로세로1px·수정취소·화면 확인, DB쓰기0","preserve":["금액/DB","저장 로직","배경색","다른 표"]}
+"localUi186":{"requirement":"LOCAL-UI-186","components":["제목/날짜 간격","제목하단/열좌측 구분선","단계전환/수정/취소"],"status":"3사업 제목간격3→-3px/가로세로1px·수정취소·화면 확인, DB쓰기0","preserve":["금액/DB","저장 로직","배경색","다른 표"]},
+"localUi187":{"requirement":"LOCAL-UI-187","components":["헤더/열 경계색","제목/주요값 검정","간격보존/수정취소"],"status":"3사업 선색#e1e5ec/제목주요값#000·간격-3px유지·수정취소·DB쓰기0 통과"}
 }
