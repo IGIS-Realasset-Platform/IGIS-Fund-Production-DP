@@ -163,6 +163,9 @@
 .studio-stage-table .studio-cost-bases {width:100%;table-layout:fixed}
 .studio-stage-table :is(th,td) {vertical-align:top}
 .studio-stage-table th:first-child {font-size:13px;text-align:left;white-space:nowrap}
+.dp-app #content .studio-stage-table thead th {vertical-align:middle;font-size:16px;font-weight:700}
+.dp-app #content .studio-stage-table thead th:first-child {font-size:15px}
+.studio-stage-table thead .studio-stage-column-heading strong {font-size:inherit;font-weight:700}
 .studio-stage-table :is(th,td):not(:first-child) {min-width:150px;white-space:normal;overflow-wrap:anywhere}
 .studio-stage-table small {display:block;margin-top:3px;color:var(--muted);white-space:pre-line}
 .dp-app #content .studio-stage-table [data-selected="true"] {background:#ebf0fb}

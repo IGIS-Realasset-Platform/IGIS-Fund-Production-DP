@@ -816125,4 +816125,6 @@
 "localUi179":{"requirement":"LOCAL-UI-179","components":["최초UW 결과5칸","평당값/날짜","이후단계 비교","조달/투자자"],"status":"RED2개→GREEN1개; 실제3사업9단계 비교/금액/조달 보존"}
 ,
 "localUi180":{"requirement":"LOCAL-UI-180","components":["핵심지표7제목","연면적 평/㎡","단계전환"],"status":"14px/15px RED→7제목 정렬·9단계㎡/금액/조달 통과"}
+,
+"localUi181":{"requirement":"LOCAL-UI-181","components":["핵심지표 표 제목/날짜/수정버튼","수정/취소","12항목 자료연결 진단"],"status":"top/13·14px RED→middle/15·16px·700,9단계/수정취소 통과"}
 }

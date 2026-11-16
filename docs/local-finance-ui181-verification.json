@@ -1,0 +1,30 @@
+{
+  "requirement": "LOCAL-UI-181",
+  "summary": "LOCAL-UI-181: 펼친표 제목행 세로중앙·첫제목13→15px/단계명14→16px·700굵기. 실제3사업9단계 제목스타일·금액/투자자 및 수정진입/취소 확인, revision23·쓰기0. 매출/이익 제외12항목은 연결가능성 진단만(행 추가 없음).",
+  "sourceSha256": "80adc328f11baa57f771f8cf7ebd542e36a99dce70d660b98ec9513c79e5abe2",
+  "dataAssessment": {
+    "linked": [
+      "연면적",
+      "총사업비",
+      "토지매입가",
+      "평당 도급공사비",
+      "직접공사비 총액",
+      "금융비 총액",
+      "대출 구조/총액",
+      "사업 준공 시점"
+    ],
+    "needsDefinition": [
+      "자산매입비용: 토지매입+명도/보상 포함범위 대조"
+    ],
+    "needsStageInput": [
+      "분석대상 문서: 기존 documents 선택 연결",
+      "본공사 착공시점: 현재 construction.plannedStart/actualStart 존재, 과거 단계자료 없음",
+      "토지감정가: 명시 필드 미확보; loans.ltv 입력필드 있으나3사업모두빈값"
+    ]
+  },
+  "excluded": [
+    "총매출",
+    "예상사업이익"
+  ],
+  "dataChanged": false
+}
