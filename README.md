@@ -10,6 +10,8 @@
 
 REVIEW-PREVIEW-04: 작업 저장소는 `IGIS-Realasset-Platform/IGIS-Fund-Production-DP`, 브랜치는 `codex/idm-ui-review`입니다. 에이전트는 최신 로컬 자료 포함·검증·커밋까지만 합니다. 사용자가 GitHub Desktop에서 작업 브랜치를 푸시하면 공유 검토본이 자동 빌드·배포됩니다. [배포 연결 및 검증](docs/review-publication.md).
 
+LOCAL-UI-229: 보고종류 네임택 상세연결(종류/프로젝트 유지), 최근제출을 표 밖으로 분리. 집중검사·3사업 클릭/배치 확인, 자료 보존.
+
 LOCAL-UI-228: 국토부 보고 상단3열에 표 박스와 제목/값 중앙정렬 적용. 데이터/동작 보존, 실제 화면은 사용자 확인.
 
 LOCAL-UI-227: 국토부 보고 상단3열 표, 최근제출 구분선/네임택, 제목인접 소형 추가정보 버튼 적용. 카드높이/자료/기존 동작 보존.

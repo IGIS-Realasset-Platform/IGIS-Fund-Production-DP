@@ -1044,3 +1044,9 @@
 .overview-report-grid-head>[role="columnheader"]{display:flex;align-items:center;justify-content:center;min-height:28px;padding:2px 4px}
 .overview-report-grid-values>[role="cell"]{justify-content:center;min-height:36px;padding:4px}
 .overview-report-grid-head>[role="columnheader"]+*,.overview-report-grid-values>[role="cell"]+*{border-left:1px solid #e2e6ed}
+
+/* LOCAL-UI-229: recent submission is outside the reporting table. */
+.overview-report-recent-row{background:transparent;border-radius:0;border-left:0;border-right:0;border-bottom:0}
+.dp-app #content button.overview-report-type{cursor:pointer;min-width:0}
+.dp-app #content button.overview-report-type:hover{background:#dce3f4;text-decoration:none}
+.dp-app #content button.overview-report-type:focus-visible{outline:2px solid #283985;outline-offset:2px}

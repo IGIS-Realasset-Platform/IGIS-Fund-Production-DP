@@ -21,4 +21,11 @@ assert(A.report.overviewSummaryHtml({...p,reporting:{...p.reporting,nextDue:'202
 const doneHtml=A.report.overviewSummaryHtml({...p,reports:[progress]},'2026-11-16');assert(doneHtml.includes('없음'));assert(!doneHtml.includes('일 경과'));
 console.log('PASS requested three rows, type tag, short basis date, full submission date, overdue/future/submitted');
 
-assert(html.includes('role="table"'));assert(html.includes('role="columnheader">일정'));assert(html.includes('overview-report-type">사업계획 등'));
+assert(html.includes('role="table"'));assert(html.includes('role="columnheader">일정'));assert(html.includes('report-overview-open'));assert.equal((html.match(/data-action="report-overview-open"/g)||[]).length,2);
+
+assert.equal(typeof A.report.openOverviewReport,'function');
+A.ui.projectId=p.id;A.current=()=>p;A.canUseView=()=>true;A.leaveDraft=fn=>fn();let moved;A.go=(...args)=>{moved=args;};A.ui.reportDraftSettings={[p.id]:{type:'plan',date:'2026-09-30',stageId:'current'}};
+A.report.openOverviewReport(p.id,'progress');assert.equal(A.ui.reportDraftSettings[p.id].type,'progress');assert.equal(A.ui.reportDraftSettings[p.id].date,'2026-09-30');assert.equal(moved[0],'report');assert.equal(moved[2],p.id);
+A.leaveDraft=()=>false;A.report.openOverviewReport(p.id,'plan');assert.equal(A.ui.reportDraftSettings[p.id].type,'progress');
+A.leaveDraft=fn=>fn();A.canUseView=()=>false;A.report.openOverviewReport(p.id,'plan');assert.equal(A.ui.reportDraftSettings[p.id].type,'progress');
+console.log('PASS report navigation type/project, date preservation, cancel and permission guards');
