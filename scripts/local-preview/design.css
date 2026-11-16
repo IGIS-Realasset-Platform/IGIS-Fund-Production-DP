@@ -567,6 +567,14 @@
   background:var(--studio-table-hover);
  }
 
+ /* A summary and its expanded detail are one hover/focus target. */
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:is(:hover,:focus-within)>td,
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:is(:hover,:focus-within)+tr.issue-detail:not([hidden])>td,
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:has(+tr.issue-detail:not([hidden]):is(:hover,:focus-within))>td,
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-detail:not([hidden]):is(:hover,:focus-within)>td {
+  background:var(--studio-table-hover);
+ }
+
  /* Table-like facts and contract summaries use dl/grid, not HTML tables.
     Keep their responsive column count and existing last-row border rules. */
  .dp-app #content .dp-project-facts,
