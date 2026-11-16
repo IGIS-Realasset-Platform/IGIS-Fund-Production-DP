@@ -1009,7 +1009,6 @@
 .dp-app #content .dp-overview-cards .date-row>span{margin:0;white-space:nowrap}
 .dp-app #content .dp-overview-cards .date-row>.overview-report-due{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:nowrap;color:var(--text)}
 .dp-app #content .dp-overview-cards .date-row>b{color:var(--text);white-space:nowrap}
-.dp-app #content .dp-overview-cards .overview-report-actions{margin-top:auto;padding-top:12px}
 
 /* LOCAL-UI-225: three aligned rows; report type and remaining days have distinct roles. */
 .overview-report-summary{display:grid;gap:8px;min-width:0}
