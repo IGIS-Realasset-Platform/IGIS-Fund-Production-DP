@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "fa93881f356adf8d101065460079a9399bdf1ae2",
+  "sourceCommit": "d82b1af35f8c28f9067218873a3930a61c5a5d42",
   "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
   "workspaceRevision": 23,
   "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
@@ -82,8 +82,8 @@
       "bytes": 6951554
     },
     "issues.js": {
-      "sha256": "0c21000c500c192e85d57fefe27429e5d2ac2b22b7e5ca961712ade6bccdfb8c",
-      "bytes": 13016
+      "sha256": "e5bdc40c7e2195a07f8f905fb2a4e2612e8488f842fff2d483229e44e712e288",
+      "bytes": 13035
     },
     "local-account-photo.png": {
       "sha256": "a6ff24b5e6a211574bbb97a027435daad499d2b330e6aa3dff6961ff9c8d6ff3",
