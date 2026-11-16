@@ -118,6 +118,44 @@ function stageComparison(A,field,baseline,stage){
   ${compare&&delta!==null?`<small class="${delta>0?'studio-stage-up':delta<0?'studio-stage-down':''}">${(delta>0?'+':delta<0?'−':'')+comparisonDisplay(A,Math.abs(delta),unit,key)}</small>`:''}
  </article>`;
 }
+// Animate only presentation: the selected stage and its stored values never change.
+function stageMetricPositions(body){
+ return new Map([...body.querySelectorAll('[data-stage-field]')].map(pair=>[
+  pair.dataset.stageField,[...pair.querySelectorAll('.studio-stage-values > div')].map(column=>({rect:column.getBoundingClientRect(),text:column.textContent}))
+ ]));
+}
+function animateStageMetrics(body,previous,entry){
+ if(matchMedia('(prefers-reduced-motion: reduce)').matches)return [];
+ const animations=[];
+ const play=(element,frames,delay=0)=>animations.push(element.animate(frames,{
+  id:'studio-stage-metric',duration:400,delay,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'
+ }));
+ for(const pair of body.querySelectorAll('[data-stage-field]')){
+  const columns=[...pair.querySelectorAll('.studio-stage-values > div')];
+  const old=previous.get(pair.dataset.stageField)||[];
+  const first=columns[0],last=columns.at(-1);
+  if(!first)continue;
+  const compared=columns.length>1;
+  if(compared&&(entry||old.length===1)){
+   const target=first.getBoundingClientRect();
+   const start=old[0]?.rect;
+   // A standalone amount is right-aligned; keep its exact starting edge.
+   const dx=entry?(pair.dataset.stageField==='duration'?0:last.getBoundingClientRect().right-target.right):(start.right-target.right);
+   const dy=entry?0:start.bottom-target.bottom;
+   play(first,[{transform:`translate(${dx}px, ${dy}px)`},{transform:'translate(0px, 0px)'}],entry?160:0);
+   const amount=first.querySelector('b');
+   play(amount,[{color:getComputedStyle(last.querySelector('b')).color},{color:getComputedStyle(amount).color}],entry?160:0);
+  }else if(!compared&&old.length>1){
+   const target=first.getBoundingClientRect(),start=old[0].rect;
+   play(first,[{transform:`translate(${start.right-target.right}px, ${start.bottom-target.bottom}px)`,opacity:.65},{transform:'translate(0px, 0px)',opacity:1}]);
+  }
+  if(compared&&(entry||old.length!==columns.length||old.at(-1)?.text!==last.textContent)){
+   play(last,[{opacity:0,transform:'translateX(12px)'},{opacity:1,transform:'translateX(0px)'}],entry?280:80);
+   for(const extra of pair.querySelectorAll('.studio-stage-values > span, :scope > small'))play(extra,[{opacity:0},{opacity:1}],entry?280:80);
+  }
+ }
+ return animations;
+}
 export function decorateFinancing(A,content,project){
  const root=content.querySelector('.dp-finance');
  const summary=root?.querySelector(':scope > .recovery-summary');
@@ -144,7 +182,11 @@ export function decorateFinancing(A,content,project){
  const view=stageViews.get(project.id);
  const selectedBasis=()=>costBases.find(basis=>basis.id===view.basisId)||current;
  let detailsAnimation=null;
- function render(){
+ let metricAnimations=[];
+ function render({motion=false}={}){
+  const previous=motion?stageMetricPositions(body):new Map();
+  for(const animation of metricAnimations)animation.cancel();
+  metricAnimations=[];
   detailsAnimation?.cancel();detailsAnimation=null;
   const basis=selectedBasis();
   renderCapital(A,capital,summary,project,basis);
@@ -180,6 +222,7 @@ export function decorateFinancing(A,content,project){
     ${renderStageTable(A,project,costBases,basis,view.editor)}
 
    </div>`;
+  if(motion)metricAnimations=animateStageMetrics(body,previous,motion==='entry');
   bindStageEditor(A,stagePanel,project,view,{
    render,
    refresh:()=>{costBases=milestoneRows(A,project);current=costBases.at(-1);render();},
@@ -191,14 +234,15 @@ export function decorateFinancing(A,content,project){
   const response=await fetch(url);
   if(!response.ok)throw Error('개발 단계 기록을 불러오지 못했습니다.');
   stages=(await response.json()).stages;
+  const before=JSON.stringify(costBases);
   A.financeMilestones.setUnderwritingReference(project.id,stages.find(row=>row.id==='example-1'&&row.sample));
   costBases=milestoneRows(A,project);
   current=costBases.at(-1);
-  if(stagePanel.isConnected)render();
+  if(stagePanel.isConnected&&JSON.stringify(costBases)!==before)render({motion:true});
  }
  function loadOrRetry(){
   load().catch(()=>{
-   if(stagePanel.isConnected)render();
+   // Keep the already-rendered linked values when the optional reference is unavailable.
   });
  }
  stagePanel.addEventListener('click',event=>{
@@ -211,12 +255,13 @@ export function decorateFinancing(A,content,project){
    input?.scrollIntoView({block:'center',inline:'end'});input?.focus({preventScroll:true});return;
   }
   if(button.dataset.costBasis){
+   if(button.dataset.costBasis===selectedBasis().id)return;
    view.basisId=button.dataset.costBasis;
    const group=button.parentElement;
    const selector='[data-cost-basis]';
    const scroll=group.scrollLeft;
    const tableScroll=body.querySelector('.studio-stage-table').scrollLeft;
-   render();
+   render({motion:true});
    body.querySelector('.studio-stage-table').scrollLeft=tableScroll;
    const selected=body.querySelector(selector+'[aria-pressed="true"]');
    selected.parentElement.scrollLeft=scroll;
@@ -248,6 +293,6 @@ export function decorateFinancing(A,content,project){
   }
 
  });
- render();
+ render({motion:'entry'});
  loadOrRetry();
 }
