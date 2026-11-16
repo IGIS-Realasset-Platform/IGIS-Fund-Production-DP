@@ -19,6 +19,7 @@ for(const suffix of ['A','B','C']){
    await page.locator('[data-stage-inline-edit="current"]').click();await page.locator('[data-stage-input="name"]').waitFor();await page.locator('[data-stage-cancel]').click();
   }
   await page.locator('[data-stage-action=details]').click();
+  assert.equal(await page.locator('.studio-capital-groups li small').count(),0,'투자자명 아래 역할 보조문구 제거');
   const isInitial=row.id===expected[0].id;
   for(const key of ['cost','construction','interest','funding','duration']){
    const card=page.locator('[data-stage-field="'+key+'"]');
@@ -49,4 +50,4 @@ for(const suffix of ['A','B','C']){
  await page.locator('#project-menu-select').selectOption('finance');await page.locator('[data-cost-basis=current]').waitFor();
 }
 const after=await(await context.request.get(origin+'/api/workspace')).json();assert.deepEqual(after,before);assert.deepEqual(report.errors,[]);assert.deepEqual(report.writes,[]);console.log('PASS 9 stage card/source/investor comparisons; collected native cost screens; revision',after.revision);
-}finally{await writeFile('/private/tmp/idm-ui181-browser.json',JSON.stringify(report,null,2));await browser.close();}
+}finally{await writeFile('/private/tmp/idm-ui185-browser.json',JSON.stringify(report,null,2));await browser.close();}

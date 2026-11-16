@@ -82,7 +82,7 @@ function renderCapital(A,capital,summary,project,basis){
   const card=document.createElement('article');
   card.style.setProperty('--group-color',color);
   card.innerHTML=`<div class="studio-capital-group-title"><h4>${A.esc(group.name)}</h4><strong>${money(group.total)}</strong></div>
-   <ol>${group.people.map(person=>`<li><div><span>${A.esc(person.name||'기관명 미입력')}${person.role?`<small>${A.esc(person.role)}</small>`:''}</span><b>${money(person.amount)}</b></div></li>`).join('')}</ol>`;
+   <ol>${group.people.map(person=>`<li><div><span>${A.esc(person.name||'기관명 미입력')}</span><b>${money(person.amount)}</b></div></li>`).join('')}</ol>`;
   cards.append(card);
  });
  showGroup();

@@ -816133,4 +816133,6 @@
 "localUi183":{"requirement":"LOCAL-UI-183","components":["요약표 상시버튼/말풍선","롤오버진입 제거","펼침접힘 애니메이션/빠른반복/키보드","편집/추가/취소 보존"],"status":"롤오버버튼 RED→위치/말풍선/개폐/반복/키보드/편집보호/추가취소 통과"}
 ,
 "localUi184":{"requirement":"LOCAL-UI-184","components":["요약표 버튼 외곽선","말풍선제거/hover/focus","개폐/키보드/편집보호"],"status":"말풍선잔존 RED→hover/focus제거·남색3px·개폐/반복/키보드/편집보호 통과"}
+,
+"localUi185":{"requirement":"LOCAL-UI-185","components":["조달구조 투자자역할 보조문구","기관명/금액/단계전환"],"status":"역할4개잔존 RED→3사업9단계 보조문구0/금액/기관명 보존 통과"}
 }

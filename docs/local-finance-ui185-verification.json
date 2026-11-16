@@ -1,0 +1,12 @@
+{
+  "requirement": "LOCAL-UI-185",
+  "status": "verified",
+  "red": "투자자하단small 4개잔존",
+  "check": "local-finance-table-heading-browser.mjs 3사업9단계 투자자명/금액/조달/원가 보존",
+  "data": "API전후동일 revision23 쓰기0",
+  "artifact": "/private/tmp/idm-ui185-browser.json",
+  "sha256": {
+    "scripts/local-preview/finance-overview.js": "983ba5f3ffc0556b2d36542ddbf5439d15797e8ee9c82511cfeba232d60924ff",
+    "tests/local-finance-table-heading-browser.mjs": "5febec5627465b3cd121232c7343e36ad77d8c3ac9c00cda4edb5eda6893586b"
+  }
+}
