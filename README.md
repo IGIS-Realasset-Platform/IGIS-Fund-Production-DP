@@ -10,6 +10,8 @@
 
 REVIEW-PREVIEW-04: 작업 저장소는 `IGIS-Realasset-Platform/IGIS-Fund-Production-DP`, 브랜치는 `codex/idm-ui-review`입니다. 에이전트는 최신 로컬 자료 포함·검증·커밋까지만 합니다. 사용자가 GitHub Desktop에서 작업 브랜치를 푸시하면 공유 검토본이 자동 빌드·배포됩니다. [배포 연결 및 검증](docs/review-publication.md).
 
+LOCAL-UI-237: 원가 최초UW/현재 기준 색상 구분, 금액은 각 막대 끝 기준 우측 정렬.
+
 LOCAL-UI-236: 원가 바 안 항목명/금액 좌우 정렬, 파이낸싱 막대·대출잔액 줄과 수평 통일.
 
 LOCAL-UI-235: 개요 원가 막대30px·금액 내부 표시, 세 카드214px 높이/하단선 유지, 보고 네임택2px 축소.

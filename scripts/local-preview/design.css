@@ -1062,7 +1062,8 @@
 .dp-app #content .dp-overview-cards .dp-cost-mini-line{grid-template-columns:minmax(0,1fr);gap:0;margin:0}
 .dp-app #content .dp-overview-cards .dp-cost-mini-line+.dp-cost-mini-line{margin-top:12px}
 .dp-app #content .dp-overview-cards .dp-cost-mini-line .progress-track{position:relative;height:30px;border-radius:0 5px 5px 0}
-.dp-app #content .dp-overview-cards .dp-cost-mini-line .progress-fill{border-radius:0 5px 5px 0}
+.dp-app #content .dp-overview-cards .dp-cost-mini-line .progress-fill{position:relative;border-radius:0 5px 5px 0;background:#6475a5}
+.dp-app #content .dp-overview-cards .dp-cost-mini-line+.dp-cost-mini-line .progress-fill{background:var(--blue)}
 .dp-app #content .overview-cost-bar-content{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 10px;color:#fff;line-height:18px}
 .dp-app #content .overview-cost-bar-content .overview-cost-label{font-size:13px;font-weight:400;text-align:left}
 .dp-app #content .overview-cost-bar-content .progress-value{font-size:13px;font-weight:700;text-align:right}
