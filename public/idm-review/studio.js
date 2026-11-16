@@ -1,12 +1,13 @@
 // Install a local presentation layer. Use the normal app
 // routes and actions; no project objects, saved settings or edit fields are written.
 import {decoratePortfolio,formatDisplayDates,formatDisplayLabels,positionLocalTooltip,registerChartTooltip} from './portfolio.js';
+import {decorateIssues,installIssueForms} from './issues.js';
 import {decorateCostDetail} from './cost-detail.js';
 import {decoratePermits} from './permits.js';
 import('./finance-milestones.js').then(({installMilestoneCapture})=>installMilestoneCapture(App)).catch(error=>console.error('단계 입력 연결:',error));
 
 const screens={
- 'portfolio':{view:'portfolio',tab:'',title:'전체 프로젝트 현황',decorate:decoratePortfolio},
+ 'portfolio':{view:'portfolio',tab:'',title:'전체 프로젝트 현황',decorate:(app,content)=>{decoratePortfolio(app,content);decorateIssues(app,content);}},
  'overview':{view:'overview',tab:'',decorate:decorateOverview},
  'cost-overview':{view:'cost',tab:'overview',decorate:decorateCostOverview},
  'cost-detail':{view:'cost',tab:'detail',decorate:decorateCostDetail},
@@ -24,6 +25,7 @@ function decorateFinanceScreen(app,container,project){
   if(panel.isConnected)decorateFinancing(app,container,project);
  }).catch(error=>console.warn('파이낸싱 보조 화면을 불러오지 못했습니다.',error));
 }
+installIssueForms(App);
 App.localPreviewLoanEditing=true;
 App.costPaymentOverview=project=>project.asOf&&project.asOf>App.today?project.asOf:App.today;
 App.on('studio-contract-amounts',()=>{
@@ -474,6 +476,17 @@ function decorateProjectHeading(heading,project,view){
  if(meta)meta.textContent=[project.type,project.location].filter(Boolean).join(' · ');
 }
 
+// Interpolate within the displayed milestone interval; never change schedule data.
+function scheduleDatePosition(rows,reference){
+ const day=value=>{const text=String(value||'').replaceAll('.','-');return /^\d{4}-\d{2}-\d{2}$/.test(text)?Date.parse(text+'T00:00:00Z'):NaN;};
+ const now=day(reference),dates=rows.map(x=>day(x.actual||x.expected||x.planned));
+ if(!Number.isFinite(now)||!dates.length)return null;
+ const exact=dates.indexOf(now);if(exact>=0)return exact;
+ for(let i=0;i<dates.length-1;i++){
+  if(dates[i]<now&&now<dates[i+1])return i+(now-dates[i])/(dates[i+1]-dates[i]);
+ }
+ return null;
+}
 function decorateOverview(_app, content, project){
  const issueAdd=content.querySelector('button[data-action="issue-add"]');
  const issueHeading=issueAdd?.closest('.panel-header')?.querySelector('.panel-title h2');
@@ -481,8 +494,7 @@ function decorateOverview(_app, content, project){
   issueHeading.textContent='주요 현안 관리';
   issueAdd.textContent='+ 현안 등록';
  }
- content.querySelector('[data-table-col-resize][aria-label="현안 열 너비 조절"]')
-  ?.closest('table')?.classList.add('studio-issue-table');
+ decorateIssues(_app,content,project);
  const facts=content.querySelector('.dp-project-facts-frame');
  const details=facts?.closest('details');
  const edit=facts?.querySelector('[data-action="overview-basic-edit"]');
@@ -492,6 +504,23 @@ function decorateOverview(_app, content, project){
    const toolbar=edit.closest('.table-toolbar');
    details.querySelector('summary').after(edit);
    toolbar?.remove();
+  }
+ }
+ const steps=[...content.querySelectorAll('.dp-timeline-step')];
+ const milestones=_app.milestones.list(project);
+ const position=scheduleDatePosition(milestones,'2026-11-10');
+ for(const step of steps){step.classList.remove('current');step.removeAttribute('aria-current');}
+ content.querySelectorAll('.studio-timeline-current').forEach(badge=>badge.remove());
+ if(position!==null&&steps.length){
+  const index=Math.min(Math.floor(position),steps.length-1);
+  const marker=steps[index].querySelector('.dp-timeline-marker');
+  if(marker){
+   const badge=document.createElement('span');
+   badge.className='studio-timeline-current';
+   badge.style.left=`${50+(position-index)*100}%`;
+   badge.textContent='현재 · 11.10';
+   badge.setAttribute('aria-label','현재 기준일 2026년 11월 10일');
+   marker.append(badge);
   }
  }
  const body=content.querySelector('.dp-overview-row > .panel:last-child > .panel-body');

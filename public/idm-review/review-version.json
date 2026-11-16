@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "715e6f9b67f61d99ec0047accff3f5b9d2859981",
+  "sourceCommit": "54ccba501f58bfd86aff81c7249b3348a560d465",
   "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
   "workspaceRevision": 23,
   "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
@@ -46,8 +46,8 @@
       "bytes": 4836
     },
     "design.css": {
-      "sha256": "362909d10d60d87ff944e4b297782063c335076edc4c0c4fea5ea230c84c8d45",
-      "bytes": 58904
+      "sha256": "24b2ab59e06c3c3a595d5e26c79b09ca3eb44807c0b260078ed7785b5aa9e65a",
+      "bytes": 61207
     },
     "finance-capital.js": {
       "sha256": "a3fa7024f2407478f9733d79f71cda9c2d112edd934ac4f82a5ad90cfe2ee019",
@@ -81,6 +81,10 @@
       "sha256": "b230218a1168b303cd3fe7a608acbbc093d2ad63a382d10889bbe49a51db6125",
       "bytes": 6951554
     },
+    "issues.js": {
+      "sha256": "c62eca88c2989a04810f3f5089a2e27dd310e23e47c282a30103d1d9a112776f",
+      "bytes": 12185
+    },
     "local-account-photo.png": {
       "sha256": "a6ff24b5e6a211574bbb97a027435daad499d2b330e6aa3dff6961ff9c8d6ff3",
       "bytes": 10815
@@ -94,8 +98,8 @@
       "bytes": 2989
     },
     "portfolio.css": {
-      "sha256": "e293ca7ca682c5e11c566be8371e74c5ec7f1b8219aef5e1a51e55efce897482",
-      "bytes": 8592
+      "sha256": "d8ab69fae12694ae1ff9230722f41884b42d14027d4c1105f9107bd608e6da48",
+      "bytes": 9189
     },
     "portfolio.js": {
       "sha256": "b913235191a01327cf419be9e47b86456f8aaf2ec3b200327255456b33b764b0",
@@ -142,8 +146,8 @@
       "bytes": 9925845
     },
     "studio.js": {
-      "sha256": "50b150da84161555bcc85c4b894b9d06eb31f82f4e06fc4d53d8660660756710",
-      "bytes": 51391
+      "sha256": "8e50d97e57c27cf96433cf7d1e12b74c9d20617ac3934c07039e6c14f583a2c3",
+      "bytes": 52864
     },
     "work-feed/account-avatar.png": {
       "sha256": "a6ff24b5e6a211574bbb97a027435daad499d2b330e6aa3dff6961ff9c8d6ff3",
