@@ -816179,5 +816179,6 @@
 "localUi204":{"requirement": "LOCAL-UI-204", "components": ["홈 펼침 본문 열폭", "자세히보기 인접/세로중앙"], "status": "열 경계를 사용한 배치 수정 완료. 사용자 직접 화면 확인, 별도 검증 생략", "preserve": ["개요표", "자료", "펼침/개요이동"]},
 "localUi205":{"requirement": "LOCAL-UI-205", "components": ["모 행/펼침 행 동시 롤오버", "상세버튼 포커스"], "status": "단순 스타일 반영, 사용자 화면 확인", "preserve": ["데이터", "펼침/접힘", "버튼 동작"]},
 "localUi206":{"requirement": "LOCAL-UI-206", "components": ["펼침 내부선", "다음 항목 경계", "접힘/마지막 항목"], "status": "스타일 반영, 사용자 화면 확인", "preserve": ["높이", "롤오버", "자료/동작"]},
-"localUi207":{"requirement": "LOCAL-UI-207", "components": ["다른행/바깥클릭 접기", "동일항목/내용 클릭", "자세히보기/키보드"], "status": "구현·기존 현안 회귀검사 통과. 실제 클릭 화면은 사용자 확인", "preserve": ["자료", "버튼동작", "더보기"]}
+"localUi207":{"requirement": "LOCAL-UI-207", "components": ["다른행/바깥클릭 접기", "동일항목/내용 클릭", "자세히보기/키보드"], "status": "구현·기존 현안 회귀검사 통과. 실제 클릭 화면은 사용자 확인", "preserve": ["자료", "버튼동작", "더보기"]},
+"localUi208":{"requirement": "LOCAL-UI-208", "components": ["홈 펼침 시작선/프로젝트 빈칸"], "status": "배치 반영, 사용자 화면 확인", "preserve": ["개요표", "버튼/롤오버/접기", "자료"]}
 }
