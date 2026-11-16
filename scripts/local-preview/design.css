@@ -1055,4 +1055,4 @@
 .dp-app #content .overview-finance-bar{height:30px;border-radius:5px}
 .dp-app #content .overview-finance-bar .stack-seg{display:flex;align-items:center;justify-content:center;min-width:0}
 .dp-app #content .overview-finance-bar .stack-seg>span{display:block;max-width:100%;padding-inline:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;font-size:13px;font-weight:700;line-height:18px}
-.dp-app #content .overview-finance-list{gap:2px;margin-top:6px}
+.dp-app #content .overview-finance-list{gap:3px;margin-top:12px}

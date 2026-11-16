@@ -816217,4 +816217,5 @@
 "localUi230":{"requirement": "LOCAL-UI-230", "components": ["최근 제출 위 구분선"], "status": "CSS 반영, 사용자 화면 확인", "preserve": ["간격/표 외곽", "네임택/동작/자료"]},
 "localUi231":{"requirement": "LOCAL-UI-231", "components": ["최근제출 3항목 왼쪽정렬/20px간격"], "status": "CSS 반영, 화면 사용자 확인", "preserve": ["세로간격/표", "동작/자료"]},
 "localUi232":{"requirement": "LOCAL-UI-232", "components": ["최근제출 세로 위치"], "status": "6px 상향 반영, 사용자 화면 확인", "preserve": ["왼쪽정렬/20px", "표/자료/동작"]},
-"localUi233":{"requirement": "LOCAL-UI-233", "components": ["개요 파이낸싱 막대/금액", "자기자본/대출 목록 간격"], "status": "구현·3사업 막대/목록 금액 동일 확인. 소스 구문/공유패키지 확인, 실제 화면 사용자 확인", "preserve": ["집계/비율/자료", "말풍선/조달현황 이동", "다른 그래프"]}}
+"localUi233":{"requirement": "LOCAL-UI-233", "components": ["개요 파이낸싱 막대/금액", "자기자본/대출 목록 간격"], "status": "구현·3사업 막대/목록 금액 동일 확인. 소스 구문/공유패키지 확인, 실제 화면 사용자 확인", "preserve": ["집계/비율/자료", "말풍선/조달현황 이동", "다른 그래프"]},
+"localUi234":{"requirement": "LOCAL-UI-234", "components": ["개요 파이낸싱 목록 위/행 간격"], "status": "CSS 반영, 사용자 화면 확인", "preserve": ["막대/금액/색", "자료/동작/다른화면"]}}
