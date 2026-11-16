@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "d82b1af35f8c28f9067218873a3930a61c5a5d42",
+  "sourceCommit": "7012e07047917471cff1a1d43a64374586d6c5f2",
   "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
   "workspaceRevision": 23,
   "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
@@ -78,8 +78,8 @@
       "bytes": 298
     },
     "index.html": {
-      "sha256": "b230218a1168b303cd3fe7a608acbbc093d2ad63a382d10889bbe49a51db6125",
-      "bytes": 6951554
+      "sha256": "d6aecf71a55515c7d75e2bfee4a7d60126a8019bd4be3b66edf3f685c2e41044",
+      "bytes": 6952882
     },
     "issues.js": {
       "sha256": "e5bdc40c7e2195a07f8f905fb2a4e2612e8488f842fff2d483229e44e712e288",
@@ -98,12 +98,12 @@
       "bytes": 2989
     },
     "portfolio.css": {
-      "sha256": "d8ab69fae12694ae1ff9230722f41884b42d14027d4c1105f9107bd608e6da48",
-      "bytes": 9189
+      "sha256": "76f88723c1b42b59188f2d53a93f0f1590a3acd712e6a7069bd33c875836bead",
+      "bytes": 10682
     },
     "portfolio.js": {
-      "sha256": "b913235191a01327cf419be9e47b86456f8aaf2ec3b200327255456b33b764b0",
-      "bytes": 11929
+      "sha256": "0206ab715adf09bda9fdb3933ac6b908f8697f533f197673943623f203f050ab",
+      "bytes": 13051
     },
     "review-client.js": {
       "sha256": "1acd64ff8f7bce8fa16a5aeed055e4395bd6d2d75785103cb757962b2a9ba408",
