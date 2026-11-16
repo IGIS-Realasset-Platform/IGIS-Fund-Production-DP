@@ -75,16 +75,36 @@ export function renderIssues(A, rows, {home=false, expanded=new Set()}={}) {
   }).join(''):`<tr><td colspan="${heads.length}">등록된 현안이 없습니다.</td></tr>`}</tbody></table></div>`;
 }
 const states=new Map();
+const issuePanels=new WeakMap(),dismissDocuments=new WeakSet();
+function setIssueExpanded(row,state,open){
+ const key=row.dataset.issueKey;
+ if(open)state.expanded.add(key);else state.expanded.delete(key);
+ row.setAttribute('aria-expanded',String(open));
+ row.setAttribute('aria-label',row.getAttribute('aria-label').replace(/접기|펼치기$/,open?'접기':'펼치기'));
+ row.nextElementSibling.hidden=!open;
+ row.querySelector('.issue-chevron').textContent=open?'⌃':'⌄';
+}
+function installIssueDismissal(doc){
+ if(dismissDocuments.has(doc))return;
+ dismissDocuments.add(doc);
+ doc.addEventListener('click',event=>{
+  for(const row of doc.querySelectorAll('.studio-issues .issue-summary[aria-expanded="true"]')){
+   if(row.contains(event.target)||row.nextElementSibling.contains(event.target))continue;
+   const state=issuePanels.get(row.closest('.panel'));
+   if(state)setIssueExpanded(row,state,false);
+  }
+ },true);
+}
 function wirePanel(panel,state) {
+  issuePanels.set(panel,state);
+  installIssueDismissal(panel.ownerDocument);
   panel.addEventListener('click',e=>{
     const more=e.target.closest('[data-issue-more]');
     if(more){const previous=state.limit;state.limit+=10;state.paint();(panel.querySelectorAll('.issue-summary')[previous]||panel.querySelector('[data-issue-more]'))?.focus();return;}
     if(e.target.closest('button,a,input,select,textarea'))return;
     const row=e.target.closest('.issue-summary');if(!row)return;
     const key=row.dataset.issueKey,open=!state.expanded.has(key);
-    if(open)state.expanded.add(key);else state.expanded.delete(key);
-    row.setAttribute('aria-expanded',String(open));row.setAttribute('aria-label',row.getAttribute('aria-label').replace(/접기|펼치기$/,open?'접기':'펼치기'));
-    row.nextElementSibling.hidden=!open;row.querySelector('.issue-chevron').textContent=open?'⌃':'⌄';
+    setIssueExpanded(row,state,open);
   });
   panel.addEventListener('keydown',e=>{if(e.target.matches('.issue-summary')&&['Enter',' '].includes(e.key)){e.preventDefault();e.target.click();}});
 }
