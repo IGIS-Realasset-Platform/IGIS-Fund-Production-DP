@@ -106,3 +106,5 @@
 #content[data-local-screen="portfolio"] .portfolio-table .pf-sort-button:focus-visible{outline:2px solid #293c88;outline-offset:6px}
 #content[data-local-screen="portfolio"] .portfolio-table .pf-sort-arrow{font-size:13px;line-height:1;color:#8b94a4}
 #content[data-local-screen="portfolio"] .portfolio-table th:is([aria-sort="ascending"],[aria-sort="descending"]) .pf-sort-arrow{color:#293c88;font-weight:700}
+
+#content[data-local-screen="portfolio"] .portfolio-table th[aria-sort="none"] .pf-sort-arrow{font-size:16px;color:#626d80}
