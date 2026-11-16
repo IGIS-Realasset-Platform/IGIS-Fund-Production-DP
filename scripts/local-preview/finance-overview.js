@@ -160,7 +160,7 @@ export function decorateFinancing(A,content,project){
      <div class="studio-stage-project">
       <div class="studio-stage-facts">
        <div><span>사업 준공 시점</span><b>${A.esc(periodEnd?displayDate(periodEnd):'—')}</b></div>
-       <div><span>연면적</span><b>${formatStageArea(A,gfa,0)}</b></div>
+       <div><span>연면적</span><b>${formatStageArea(A,gfa,0)}</b><small class="studio-stage-area-m2">${gfa==null?'—':A.num(gfa,2)+'㎡'}</small></div>
       </div>
       ${stageComparison(A,stageFieldsByKey.get('duration'),baseline,basis)}
      </div>

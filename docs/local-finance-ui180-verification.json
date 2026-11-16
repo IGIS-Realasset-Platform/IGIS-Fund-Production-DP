@@ -1,0 +1,11 @@
+{
+  "requirement": "LOCAL-UI-180",
+  "summary": "LOCAL-UI-180: 핵심지표7제목 위치·크기·굵기를 원가와 통일, 연면적 평 하단에 해당단계 원면적㎡ 표시. 실제3사업9단계 계산스타일/상대좌표·면적·최초UW단일값·이후비교·조달/투자자 검사 통과. revision23·쓰기0. 기간 우측은 기존 기간변경사유 제안만(미추가).",
+  "sourceHashes": {
+    "scripts/local-preview/finance-overview.js": "d93bfe5c18b17b8c00c71ee0bec6e9f9eeab6a7f4fbe31a100295644d3f848fd",
+    "scripts/local-preview/finance-overview.css": "f21cb353e1cb49980a146215f8633588781a9195198a0a5d79ee40b53a7f19ef",
+    "tests/local-finance-title-area-browser.mjs": "cbfea65ce0d86dd2d285b136508ad983a4392b2e82272ab660c611c5c050d709"
+  },
+  "scope": "1440px 실제4178 격리브라우저9단계",
+  "unimplemented": "기간변경사유 추가는 제안만"
+}
