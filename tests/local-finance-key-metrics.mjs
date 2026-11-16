@@ -30,7 +30,7 @@ try{
  const colors=await table.evaluate(e=>({head:getComputedStyle(e.querySelector('thead th')).backgroundColor,body:getComputedStyle(e.querySelector('tbody td')).backgroundColor,lines:[...e.querySelectorAll('thead th')].map(c=>getComputedStyle(c,'::after').backgroundColor).concat([...e.querySelectorAll('tbody th,tbody td')].map(c=>getComputedStyle(c).borderBottomColor))}));
  assert.equal(colors.head,'rgb(238, 240, 243)','LOCAL-UI-171: 이전 제목행 배경 복원');
  assert.equal(colors.body,'rgb(246, 247, 249)','이전 본문 배경 복원');
- assert.deepEqual([...new Set(colors.lines)],['rgb(228, 231, 237)'],'제목행/항목행 선 색만 통일');
+ assert.deepEqual([...new Set(colors.lines)],['rgb(214, 220, 230)','rgb(228, 231, 237)'],'LOCAL-UI-186: 제목 구분선 강조, 기존 본문 가로선 유지');
  await table.locator('[data-stage-inline-edit=current]').click();
  assert.equal(await table.locator('[data-stage-note]').count(),6);
  assert.equal(await table.locator('[data-stage-input=sale],[data-stage-note=sale]').count(),0);
