@@ -106,6 +106,7 @@
 .studio-stage-values > div > span:first-child {margin-bottom:24px}
 .studio-stage-values > div:has(.studio-stage-unit-cost) > span:first-child {margin-bottom:0}
 .studio-stage-values .studio-stage-unit-cost {font-size:13px;line-height:18px;margin-bottom:6px;white-space:nowrap}
+.studio-stage-pair:is([data-stage-field="cost"],[data-stage-field="construction"]) .studio-stage-unit-cost {color:#000;font-weight:700}
 .studio-cost-bases .studio-stage-unit-cost {display:block;font-size:12px;color:var(--muted)}
 .studio-stage-values b {font-size:clamp(19px,8cqi,28px);line-height:1;white-space:nowrap}
 .studio-stage-values > div:first-child:not(:last-child) b {color:var(--muted)}
