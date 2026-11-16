@@ -684,7 +684,7 @@
   & .cost-driver-panel col:last-child {width:168px}
   & .cost-driver-panel td:nth-child(n+2) {min-width:0;white-space:normal;overflow-wrap:anywhere}
   & .cost-driver-panel :is(th,td):last-child {white-space:nowrap}
-  & .cost-driver-panel [data-action="stage-view"] {max-width:100%;white-space:nowrap;text-align:start}
+  & .cost-driver-panel [data-action="stage-view"] {width:100%;max-width:100%;padding-inline:0;border-inline-width:0;justify-content:flex-start;white-space:nowrap;text-align:start}
 
   & .cost-overview-layout {align-items:stretch;gap:var(--studio-card-gap)}
   & .cost-left-stack {gap:var(--studio-card-gap)}
