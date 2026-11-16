@@ -215,7 +215,8 @@
  .studio-issues .issue-detail[hidden]{display:none}
  .studio-issues .issue-detail-layout{display:flex;align-items:flex-start;gap:20px;padding-block:8px}
  .studio-issues .issue-full-progress{flex:1;min-width:0;white-space:pre-wrap;overflow-wrap:anywhere;padding:0;font-weight:400;line-height:1.65}
- .studio-issues .issue-view-project{flex:none;margin-inline-start:auto}
+ .dp-app #content .studio-issues .issue-detail-action{vertical-align:middle;text-align:left}
+ .studio-issues .issue-view-project{margin:0}
  .issue-more-wrap{display:flex;justify-content:center;padding-top:14px}
  .dp-app #content :is(.table-toolbar,.toolbar){gap:8px;padding:12px 18px}
  .dp-app #content .panel-body>:is(.table-toolbar,.toolbar){padding:0 0 12px}
