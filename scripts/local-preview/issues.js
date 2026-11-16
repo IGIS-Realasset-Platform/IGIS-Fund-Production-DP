@@ -114,7 +114,7 @@ export function decorateIssues(A,content,project=null) {
   let panel;
   if(home) {
     if(content.querySelector('[data-issues-home]'))return;
-    content.insertAdjacentHTML('beforeend',A.panel('프로젝트별 주요현황','').replace('<section class="panel">','<section class="panel" data-issues-home>'));
+    content.insertAdjacentHTML('beforeend',A.panel('프로젝트별 주요현안','').replace('<section class="panel">','<section class="panel" data-issues-home>'));
     panel=content.querySelector('[data-issues-home]');
   } else {
     panel=content.querySelector('[data-action="issue-add"]')?.closest('.panel') || [...content.querySelectorAll('.panel')].find(p=>p.querySelector('h2')?.textContent.includes('주요 현안'));
