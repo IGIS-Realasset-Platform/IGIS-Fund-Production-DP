@@ -1003,10 +1003,22 @@
 .dp-app #content .dp-overview-cards{align-items:stretch}
 .dp-app #content .dp-overview-cards>.panel{display:flex;flex-direction:column}
 .dp-app #content .dp-overview-cards>.panel>.panel-body{flex:1}
-.dp-app #content .dp-overview-cards>.panel>.panel-body:has(>.date-summary){display:flex;flex-direction:column}
+.dp-app #content .dp-overview-cards>.panel>.panel-body:has(>.date-summary,>.overview-report-summary){display:flex;flex-direction:column}
 .dp-app #content .dp-overview-cards .date-summary{gap:14px}
 .dp-app #content .dp-overview-cards .date-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:26px}
 .dp-app #content .dp-overview-cards .date-row>span{margin:0;white-space:nowrap}
 .dp-app #content .dp-overview-cards .date-row>.overview-report-due{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:nowrap;color:var(--text)}
 .dp-app #content .dp-overview-cards .date-row>b{color:var(--text);white-space:nowrap}
 .dp-app #content .dp-overview-cards .overview-report-actions{margin-top:auto;padding-top:12px}
+
+/* LOCAL-UI-223: report identity, reporting date and state belong to one record. */
+.overview-report-summary{display:grid;gap:8px;min-width:0}
+.overview-report-caption{display:flex;align-items:center;justify-content:space-between;min-height:18px;color:var(--muted);font-size:12px}
+.overview-report-main,.overview-report-meta{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dp-app #content .overview-report-name.btn.text{font-size:15px;font-weight:700;color:var(--text);padding:0;min-height:26px;min-width:0;text-align:left;border:0;white-space:normal}
+.overview-report-state{background:#e9edf8;color:#283985;font-size:12px;font-weight:600;padding:3px 8px;border-radius:7px;white-space:nowrap}
+.overview-report-meta{font-size:13px;min-height:20px}
+.overview-report-meta>span:first-child{color:var(--muted)}
+.overview-report-meta b{font-weight:600;white-space:nowrap}
+.dp-app #content .overview-report-more.btn.text{min-height:18px;padding:0;font-size:12px}
+.overview-report-empty{color:var(--muted);padding-block:8px}

@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';import {makeHarness} from './recovery-harness.mjs';
+const p={id:'report-test',name:'보고 검사',reports:[],reportSnapshots:[],reporting:{nextDue:'2026-10-31'},cbs:[]};
+const {A}=makeHarness({seed:{projects:[p],entities:[],notifications:[],auditEvents:[]},modules:['core','cbs','vat','contracts','legal','permit-views','report-form','report']});
+assert.equal(typeof A.report.overviewSummary,'function');
+const summary=records=>A.report.overviewSummary({...p,reports:records},'2026-11-16');
+const draft={id:'draft',type:'사업계획 등',baseDate:'2027-05-28',status:'작성본',submitted:''};
+let s=summary([draft]);assert.equal(s.record.id,'draft');assert.equal(s.date,'2027-05-28');assert.equal(s.deadline,'');assert.equal(s.countdown,'');
+s=summary([{...draft,status:'제출',submitted:'2026-11-10',due:'2026-10-31'}]);assert.equal(s.status,'제출 완료');assert.equal(s.countdown,'');assert.equal(s.submitted,'2026-11-10');
+s=summary([{...draft,due:'2026-11-20'}]);assert.equal(s.countdown,'D-4');
+s=summary([{...draft,due:'2026-10-31'}]);assert.equal(s.countdown,'16일 경과');
+s=summary([draft,{id:'old',type:'추진현황',baseDate:'2026-09-30',status:'제출',submitted:'2026-10-25'}]);assert.equal(s.record.id,'draft');assert.equal(s.submitted,'');
+s=summary([{...draft,createdAt:'2026-11-10T00:00:00Z'},{...draft,id:'done',createdAt:'2026-11-11T00:00:00Z',status:'제출',submitted:'2026-11-11'}]);assert.equal(s.record.id,'done');assert.equal(s.pendingCount,0);
+s=summary([{...draft,id:'a',due:'2026-11-30'},{...draft,id:'b',baseDate:'2026-11-01',due:'2026-11-18'}]);assert.equal(s.record.id,'b');assert.equal(s.pendingCount,2);
+assert.equal(summary([]).record,null);
+console.log('PASS report identity, version, pending priority, submitted state, deadline isolation, empty records');
