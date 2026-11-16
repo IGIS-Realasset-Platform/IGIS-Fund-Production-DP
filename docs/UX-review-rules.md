@@ -322,3 +322,5 @@ PDF 검수는 화면에서 보이는 숫자와 복사·검색으로 추출되는
 LOCAL-UI-175 보완: 프로젝트별 단계자료를 조정하면 같은 화면의 다른 검토사업도 원가·기간·과거조달·투자자까지 대조한다. 한 사업의 검수로 전체사업 완료를 보고하지 않는다. 임의의 공통비율 전파 대신 사용자 승인 샘플별로 금액을 정하며, 기존원본·과거기록·정정전값을 보존한다. 재발검사 tests/local-review-financing-completion.mjs / local-review-financing-browser.mjs.
 
 LOCAL-UI-177 보완: 더미 결측 보완은 명시 승인 후 로컬에만 적용하고 이전값을 보관한다. 화면참고면적만 채우지 말고 native costStage.area/areaVersionId의 고정 면적까지 연결하여 세부사업비·파이낸싱 평단가를 독립 계산·대조한다. 새로고침 후에도 현재면적 변경이 과거단계에 전파되지 않도록 검사한다. 재발검사 tests/local-review-areas.mjs / local-review-areas-browser.mjs.
+
+REVIEW-PREVIEW-03 보완: 배포 완료는 Git 푸시만으로 판단하지 않는다. 공유 URL이 실제 소비하는 저장소·브랜치·산출물을 확인하고 소스 지문/데이터 지문/신규 모듈 및 기존 브라우저 저장본까지 대조한다. 로컬 DB 변경 시 승인된 검토 스냅샷도 커밋하며 이전 저장자료를 삭제하지 않는다.

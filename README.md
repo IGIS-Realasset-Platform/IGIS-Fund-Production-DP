@@ -8,6 +8,8 @@
 
 [플랫폼 열기](https://igis-development-project-platform.vercel.app/) · [버전 이력](VERSION_HISTORY.md) · [변경 내역](CHANGELOG.md)
 
+REVIEW-PREVIEW-03: 공유 검토본은 작업 브랜치 푸시 후 자동 빌드·배포합니다. [배포 연결 및 검증](docs/review-publication.md).
+
 LOCAL-UI-185: 조달구조 투자자명 아래 역할 보조문구 제거. 3사업9단계 기관명/금액/트랜치/조달합계 대조 통과. 역할 원자료 및 대출현황/팝업 보존, 실제DB revision23쓰기0.
 
 LOCAL-UI-184: 요약표 버튼 말풍선 삭제, 버튼 자체 3px 사이트남색(#253985) 외곽선. 위치/텍스트/아이콘/개폐애니 유지. hover/focus말풍선없음·키보드/반복/편집보호/추가취소 통과; API전후동일·쓰기0.

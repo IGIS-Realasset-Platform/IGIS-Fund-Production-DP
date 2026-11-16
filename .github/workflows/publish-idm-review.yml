@@ -1,0 +1,45 @@
+name: Publish IDM review
+
+on:
+  push:
+    branches: [codex/platform-edits]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: idm-review-publication
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'KYLee94/IGIS_Development_Project_Platform'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout reviewed source
+        uses: actions/checkout@v4
+        with:
+          path: source
+          persist-credentials: false
+      - name: Use Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Build review with committed workspace snapshot
+        working-directory: source
+        run: node scripts/review/build.mjs --out ../review-site
+      - name: Check review package
+        working-directory: source
+        run: node scripts/review/verify-package.mjs ../review-site
+      - name: Checkout existing shared site
+        uses: actions/checkout@v4
+        with:
+          repository: IGIS-Realasset-Platform/IGIS-Fund-Production-DP
+          ref: main
+          path: shared-site
+          token: ${{ secrets.IDM_REVIEW_PUBLISH_TOKEN }}
+      - name: Update only the IDM review directory
+        working-directory: source
+        run: node scripts/review/publish.mjs ../review-site ../shared-site

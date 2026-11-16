@@ -816134,5 +816134,27 @@
 ,
 "localUi184":{"requirement":"LOCAL-UI-184","components":["요약표 버튼 외곽선","말풍선제거/hover/focus","개폐/키보드/편집보호"],"status":"말풍선잔존 RED→hover/focus제거·남색3px·개폐/반복/키보드/편집보호 통과"}
 ,
-"localUi185":{"requirement":"LOCAL-UI-185","components":["조달구조 투자자역할 보조문구","기관명/금액/단계전환"],"status":"역할4개잔존 RED→3사업9단계 보조문구0/금액/기관명 보존 통과"}
+"localUi185":{"requirement":"LOCAL-UI-185","components":["조달구조 투자자역할 보조문구","기관명/금액/단계전환"],"status":"역할4개잔존 RED→3사업9단계 보조문구0/금액/기관명 보존 통과"},
+  "reviewPreview03": {
+    "request": "REVIEW-PREVIEW-03",
+    "purpose": "현재 로컬 작업 브랜치 푸시를 같은 공유 검토 주소에 자동 반영",
+    "components": [
+      "정적 빌드 및 최신 금융 모듈",
+      "승인 더미 스냅샷",
+      "seed별 브라우저 저장",
+      "GitHub Actions 저장소 간 전달",
+      "기존 Pages 배포"
+    ],
+    "preserve": [
+      "운영 DB",
+      "원본 DB",
+      "공유 사이트 루트 코드",
+      "사용자 이전 검토 저장자료"
+    ],
+    "implementation": "in-progress",
+    "staticVerification": "notrun",
+    "browserVerification": "notrun",
+    "deploymentVerification": "notrun",
+    "access": "GitHub 본인 인증 대기, 조직 SSH 배포키 금지 확인"
+  }
 }

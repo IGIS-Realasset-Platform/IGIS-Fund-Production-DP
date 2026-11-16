@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "revision": 23,
+  "baselineSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
+  "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
+  "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
+  "files": {
+    "workspace.json": {
+      "sha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
+      "bytes": 9925845
+    },
+    "finance-stages.json": {
+      "sha256": "fc306213bae75618c0ea92aaa8a037625698a21a09959e4fc90d7cd2b5e017c1",
+      "bytes": 3354
+    },
+    "stakeholders.json": {
+      "sha256": "f9f1fc1a7ce83621ce9f13ac2c5180df78b1057dec824b0e123e0375bd91cd88",
+      "bytes": 64805
+    },
+    "session.json": {
+      "sha256": "e05f1da02d6ece6f97d5083f1bf5fe119b17c851a5e215ae8b4de8b0478735e1",
+      "bytes": 110
+    },
+    "workspace-context.json": {
+      "sha256": "6413eb227bcff79843f4aedee2d7b83d607a39087a428bcacabf3bc201e90529",
+      "bytes": 268
+    },
+    "partners-reference.json": {
+      "sha256": "52d368b5b1146cfcece7524efdb004af1c4103c3c33ee93fd2023f6942745f78",
+      "bytes": 823157
+    },
+    "market-reference.json": {
+      "sha256": "7585bfe0534a785443de8011f9bfcab44f64bf2c2c0e730ba895b1d53bde7aec",
+      "bytes": 1111459
+    },
+    "access-screen-capture.json": {
+      "sha256": "7cd4636b1abd55144716928e7c5b064cbe49b2d15c26f388926a6cd1fad085f8",
+      "bytes": 872
+    },
+    "account-photo.png": {
+      "sha256": "a6ff24b5e6a211574bbb97a027435daad499d2b330e6aa3dff6961ff9c8d6ff3",
+      "bytes": 10815
+    },
+    "feed/seed.mjs": {
+      "sha256": "fa6b603533636f1c17003258105a0aa1094b809fc2a24d3ac70c88642e30f5c5",
+      "bytes": 3340
+    },
+    "feed/app.js": {
+      "sha256": "9659def285696ed0ec4e1e27ec83619d4d7c1cd82ab543c6a40324d274d15474",
+      "bytes": 561475
+    },
+    "feed/app.css": {
+      "sha256": "d990a3fe75fbe7f5346b79bd97bf2c83a7b96d61c9aa17a906e69eb7eb35a956",
+      "bytes": 42081
+    }
+  },
+  "feed": {
+    "mode": "verified-local-bundle",
+    "seed": "feed/seed.mjs",
+    "note": "현재 작업실 번들·seed를 그대로 고정. 원본 Feed 빌드로 재생성 후 다시 캡처. 로컬 Feed 소스 지문 변경 시 빌드 거절. 브라우저 IndexedDB의 개인 편집은 이 파일 스냅샷에 포함되지 않음.",
+    "sourceFiles": {
+      "scripts/local-preview/feed/adapter.js": "21100c55fb7d0b9146421fe54e5b3df1ea5b39a82bc998348f850a6a3e512fa3",
+      "scripts/local-preview/feed/build.mjs": "85e2478d70eb8e223ae8f9b31794160278e0fb5397cb22498154a8b77029fdbb",
+      "scripts/local-preview/feed/default_avatar.svg": "afa52b4327080530c16cff9487340d56b55a2bbef1d524518abf419a27e41c4b",
+      "scripts/local-preview/feed/entry.jsx": "6706e755c533f48e5b6b9dcd15024e0b92d99f23dcfbccdc0c372edde0b8459d",
+      "scripts/local-preview/feed/index.html": "69257a470bc4df83543bd1003083e086aaae2c66acea28ee722ab37cabd37673",
+      "scripts/local-preview/feed/location.js": "2d881e923a20ad2d8ee4ddf7cb42a6a7a2b445c257a3b99d4cc3ca65267e1122",
+      "scripts/local-preview/feed/presentation.mjs": "b7cbaaf7c142dfc8cbcb035fbc6e3394c43d6f2ff5bf02579c3a22837c7971ab",
+      "scripts/local-preview/feed/profile.js": "6654ff6595acd8556bb030220ca7477bf34ab1496654b67f21ca66a7cde7233a",
+      "scripts/local-preview/feed/projects.jsx": "11530651fc2d25593190425d3dad82ed865d86f6ae006e974a6a377008515120",
+      "scripts/local-preview/feed/shared-directory.mjs": "edd3d6060b48df3352618ce36873d43be6ddeee143c1f6a0f432b14508bb7ed6",
+      "scripts/local-preview/feed/theme.css": "dc483f06bef8eccdde5dc8867736782f7dae44c8a2791f5805413b99db727af0",
+      "scripts/local-preview/feed/visuals.jsx": "68d95d5109470ac37c38e17a62e99a470596acdbe270bff6beeede5477dffda0"
+    },
+    "sourceFingerprint": "2385e5ff48c11aa4e45f6eaff8dbe229aa6d7f909e145454849ac08e7edd114e"
+  }
+}
