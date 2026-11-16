@@ -1070,8 +1070,8 @@
 .dp-app #content .dp-overview-cards .dp-cost-mini-line~.mini-footer{margin-top:18px;line-height:21px}
 .dp-app #content .overview-report-type{height:30px;min-height:30px}
 
-/* LOCAL-UI-238: matching equity segment and amount. */
-.dp-app #content .dp-overview-cards{--overview-equity:#467ba5}
-.dp-app #content .overview-finance-list .overview-equity-amount{color:var(--overview-equity)}
+/* LOCAL-UI-240: use the financing page palette in both summaries. */
+.dp-app{--studio-capital-equity:#253985;--studio-capital-debt:#426eaa}
+.dp-app #content .overview-finance-list .overview-equity-amount{color:var(--studio-capital-equity)}
 
-.dp-app #content .overview-finance-list .overview-debt-amount{color:var(--blue)}
+.dp-app #content .overview-finance-list .overview-debt-amount{color:var(--studio-capital-debt)}

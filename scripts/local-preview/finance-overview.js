@@ -5,7 +5,7 @@ import {renderStageTable,bindStageEditor,formatStageArea} from './finance-stage-
 import {milestoneRows,installMilestoneCapture,underwritingBasis,costPerPyeong} from './finance-milestones.js';
 
 const eok=100_000_000;
-const groupColors=['#253985','#426eaa','#5886a2','#796ba4','#536b87','#815c84'];
+const groupColors=['var(--studio-capital-equity,#253985)','var(--studio-capital-debt,#426eaa)','#5886a2','#796ba4','#536b87','#815c84'];
 const stageViews=new Map();
 const stageFieldsByKey=new Map(stageFields.map(field=>[field.key,field]));
 const summaryLabels={funding:'총 조달규모',land:'토지매입비'};
