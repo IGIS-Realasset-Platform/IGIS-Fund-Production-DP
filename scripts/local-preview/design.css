@@ -567,6 +567,12 @@
   background:var(--studio-table-hover);
  }
 
+ /* Keep only the boundary between issues; retain border space to avoid a jump. */
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary[aria-expanded="true"]>td,
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:has(+tr.issue-detail:last-child)>td {
+  border-bottom-color:transparent;
+ }
+
  /* A summary and its expanded detail are one hover/focus target. */
  .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:is(:hover,:focus-within)>td,
  .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:is(:hover,:focus-within)+tr.issue-detail:not([hidden])>td,
