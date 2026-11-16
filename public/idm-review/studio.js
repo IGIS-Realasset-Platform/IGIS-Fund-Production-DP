@@ -188,7 +188,11 @@ function historyReason(field,direction,value){
 const renderCostHistory=App.auditPresentation?.renderCostHistory;
 if(renderCostHistory)App.auditPresentation.renderCostHistory=(events,options)=>{
  const template=document.createElement('template');
- template.innerHTML=renderCostHistory(events,{...options,compact:true});
+ // The overview limit applies to visible rows, not multi-field audit events.
+ const recent=Number.isFinite(options?.limit);
+ const ordered=recent?[...events].sort((a,b)=>String(b.at||b.changedAt||'').localeCompare(String(a.at||a.changedAt||''))):events;
+ template.innerHTML=renderCostHistory(ordered,{...options,limit:recent?10:options?.limit,compact:true});
+ if(recent)for(const row of [...template.content.querySelectorAll('.dp-cost-history-table tbody tr')].slice(10))row.remove();
  const dateHeading=template.content.querySelector('.dp-cost-history-table thead th:nth-child(6)');
  if(dateHeading){
   dateHeading.firstChild.textContent='일자';

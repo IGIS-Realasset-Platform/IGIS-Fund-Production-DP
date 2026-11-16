@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "a8ca91bf9f922f09e62e0d65115e344f09d8ec83",
+  "sourceCommit": "7721af5c2a37f43ff6880c450400f24be88cc3b5",
   "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
   "workspaceRevision": 23,
   "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
@@ -46,8 +46,8 @@
       "bytes": 4836
     },
     "design.css": {
-      "sha256": "86d384539431eb825a3fd2540bd24c1a2e0b0822d6264ada390234e51a4d9517",
-      "bytes": 58707
+      "sha256": "61defd39f6d2d7a7e443708fd0cc87f0b705028a15eb3eddca7cff3a117f1a24",
+      "bytes": 58830
     },
     "finance-capital.js": {
       "sha256": "a3fa7024f2407478f9733d79f71cda9c2d112edd934ac4f82a5ad90cfe2ee019",
@@ -142,8 +142,8 @@
       "bytes": 9925845
     },
     "studio.js": {
-      "sha256": "e15800f4aa92f0c1ed0aa03d90a68a1a01c4ec4fe435d72818363583ae799769",
-      "bytes": 50978
+      "sha256": "50b150da84161555bcc85c4b894b9d06eb31f82f4e06fc4d53d8660660756710",
+      "bytes": 51391
     },
     "work-feed/account-avatar.png": {
       "sha256": "a6ff24b5e6a211574bbb97a027435daad499d2b330e6aa3dff6961ff9c8d6ff3",
