@@ -1,10 +1,12 @@
 (() => {
  const assetFetch=window.fetch.bind(window);
  const base=new URL('.',document.currentScript.src);
- const storageKey='idm-pages-review-v2:'+base.pathname;
+ const config=window.__IDM_REVIEW__;
+ if(!config?.seedHash)throw Error('검토 자료 버전을 확인해 주세요.');
+ const storageKey='idm-review:'+base.pathname+':'+config.seedHash;
  const stageKey=storageKey+':financing';
- const workspaceId='idm-pages-review-v2';
- const user={id:'team-reviewer',email:'reviewer@example.invalid'};
+ const workspaceId='idm-review:'+config.seedHash;
+ const user=config.user;
  const loadData=name=>assetFetch(new URL('review-data/'+name+'.json',base)).then(response=>{
   if(!response.ok)throw Error('검토용 사업을 불러오지 못했습니다.');
   return response.json();
@@ -13,20 +15,38 @@
  const financing=loadData('finance-stages');
  let partnerReference,marketReference;
  const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json; charset=utf-8'}});
+ let openingDatabase;
+ async function database(){
+  if(!openingDatabase)openingDatabase=new Promise((resolve,reject)=>{
+   const request=indexedDB.open('idm-review-workspaces',1);
+   request.onupgradeneeded=()=>request.result.createObjectStore('records');
+   request.onsuccess=()=>{request.result.onversionchange=()=>{request.result.close();openingDatabase=undefined;};resolve(request.result);};
+   request.onerror=()=>reject(request.error);
+  }).catch(error=>{openingDatabase=undefined;throw error;});
+  return openingDatabase;
+ }
+ async function storedWorkspace(next){
+  const db=await database();
+  return new Promise((resolve,reject)=>{
+   const transaction=db.transaction('records',next?'readwrite':'readonly'),store=transaction.objectStore('records');
+   const request=next?store.put(next,storageKey):store.get(storageKey);
+   transaction.oncomplete=()=>resolve(next||request.result);
+   transaction.onabort=()=>reject(transaction.error||request.error||Error('검토자료 저장 실패'));
+   transaction.onerror=()=>reject(transaction.error||request.error);
+  });
+ }
  async function readWorkspace(){
-  const saved=localStorage.getItem(storageKey);
-  return saved?JSON.parse(saved):{revision:0,state:await initial};
+  return await storedWorkspace()||{revision:config.revision,state:await initial};
  }
  function envelope(record){
-  return {...record,workspaceId,user,capabilities:{createProject:true,manageAccess:true,viewPlatformSpec:true},
-   projectRoles:Object.fromEntries(record.state.projects.map(project=>[project.id,'approver']))};
+  return {...record,workspaceId,user,capabilities:config.capabilities,projectRoles:config.projectRoles};
  }
  async function saveWorkspace(input){
   if(input?.workspaceId!==workspaceId||typeof input.requestId!=='string'||!Array.isArray(input.state?.projects)||!input.state.sourceLoad)return json({error:'INVALID_WORKSPACE'},422);
   const current=await readWorkspace();
   if(current.revision!==input.baseRevision)return json({error:'REVISION_CONFLICT'},409);
   const record={revision:current.revision+1,state:input.state};
-  localStorage.setItem(storageKey,JSON.stringify(record));
+  await storedWorkspace(record);
   return json({...record,requestId:input.requestId,workspaceId});
  }
  async function stageRequest(url,request,input){
@@ -91,16 +111,14 @@
    if(request.method!=='GET')return json({error:'REVIEW_ONLY'},405);
    switch(url.pathname){
     case '/api/workspace': return json(envelope(await readWorkspace()));
-    case '/api/session': return json({authenticated:true,userId:user.id,email:user.email,newAccountCreated:false});
+    case '/api/session': return json(await loadData('session'));
     case '/api/local-finance-stages': return await stageRequest(url,request);
     case '/api/notion-source': return json({available:false});
     case '/api/notifications': return json({states:[],tasks:[],alerts:[]});
     case '/api/report-archives': if(!url.searchParams.has('id'))return json({snapshots:[]}); break;
     case '/api/cost-snapshots': if(!url.searchParams.has('id'))return json({snapshots:[],tasks:[]}); break;
-    case '/api/local-access-preview': return json({
-     people:[['샘플 검토자',user.email,'샘플 조직','사용',[],[]]],
-     projects:(await readWorkspace()).state.projects.map(project=>project.name),
-    });
+    case '/api/local-access-preview': return json(await loadData('access-screen-capture'));
+    case '/api/work-feed/stakeholders': return json(await loadData('stakeholders'));
     case '/api/partner-comments': return await readReference(url);
     case '/api/reference-data': if(url.searchParams.get('kind')==='partners')return await readReference(url); break;
    }

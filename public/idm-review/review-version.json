@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "dc622e634021c90c9fe0facec1be203f6d976bcf",
+  "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
+  "workspaceRevision": 23,
+  "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
+  "feed": {
+    "mode": "verified-local-bundle",
+    "seed": "feed/seed.mjs",
+    "note": "현재 작업실 번들·seed를 그대로 고정. 원본 Feed 빌드로 재생성 후 다시 캡처. 로컬 Feed 소스 지문 변경 시 빌드 거절. 브라우저 IndexedDB의 개인 편집은 이 파일 스냅샷에 포함되지 않음.",
+    "sourceFiles": {
+      "scripts/local-preview/feed/adapter.js": "21100c55fb7d0b9146421fe54e5b3df1ea5b39a82bc998348f850a6a3e512fa3",
+      "scripts/local-preview/feed/build.mjs": "85e2478d70eb8e223ae8f9b31794160278e0fb5397cb22498154a8b77029fdbb",
+      "scripts/local-preview/feed/default_avatar.svg": "afa52b4327080530c16cff9487340d56b55a2bbef1d524518abf419a27e41c4b",
+      "scripts/local-preview/feed/entry.jsx": "6706e755c533f48e5b6b9dcd15024e0b92d99f23dcfbccdc0c372edde0b8459d",
+      "scripts/local-preview/feed/index.html": "69257a470bc4df83543bd1003083e086aaae2c66acea28ee722ab37cabd37673",
+      "scripts/local-preview/feed/location.js": "2d881e923a20ad2d8ee4ddf7cb42a6a7a2b445c257a3b99d4cc3ca65267e1122",
+      "scripts/local-preview/feed/presentation.mjs": "b7cbaaf7c142dfc8cbcb035fbc6e3394c43d6f2ff5bf02579c3a22837c7971ab",
+      "scripts/local-preview/feed/profile.js": "6654ff6595acd8556bb030220ca7477bf34ab1496654b67f21ca66a7cde7233a",
+      "scripts/local-preview/feed/projects.jsx": "11530651fc2d25593190425d3dad82ed865d86f6ae006e974a6a377008515120",
+      "scripts/local-preview/feed/shared-directory.mjs": "edd3d6060b48df3352618ce36873d43be6ddeee143c1f6a0f432b14508bb7ed6",
+      "scripts/local-preview/feed/theme.css": "dc483f06bef8eccdde5dc8867736782f7dae44c8a2791f5805413b99db727af0",
+      "scripts/local-preview/feed/visuals.jsx": "68d95d5109470ac37c38e17a62e99a470596acdbe270bff6beeede5477dffda0"
+    },
+    "sourceFingerprint": "2385e5ff48c11aa4e45f6eaff8dbe229aa6d7f909e145454849ac08e7edd114e"
+  },
+  "files": {
+    ".nojekyll": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "Inter-OFL.txt": {
+      "sha256": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a",
+      "bytes": 4380
+    },
+    "InterVariable.woff2": {
+      "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3",
+      "bytes": 352240
+    },
+    "cost-detail.css": {
+      "sha256": "03fdd657d3fd9c8e925cda676aa2889c0c1c2d20f50024187479546bf5232cb4",
+      "bytes": 6300
+    },
+    "cost-detail.js": {
+      "sha256": "ff859b8b90d01dd5bd36dbc766f57b741b09b1053bd53213b6e619f00d2dd2e0",
+      "bytes": 4836
+    },
+    "design.css": {
+      "sha256": "9654b9ed1594e1bcb2825f41a61932d80c63ed57066dccaf49797789b828392f",
+      "bytes": 58641
+    },
+    "finance-capital.js": {
+      "sha256": "a3fa7024f2407478f9733d79f71cda9c2d112edd934ac4f82a5ad90cfe2ee019",
+      "bytes": 3535
+    },
+    "finance-milestones.js": {
+      "sha256": "19f792e2c504d5331c5f44f7838db85594978bd155a58436a1aa59d821f529cb",
+      "bytes": 15590
+    },
+    "finance-overview.css": {
+      "sha256": "db513a82d6088f93e6f414fe4c8a41f5c26dd1b17d7c26d425e0af8330bc23e8",
+      "bytes": 13487
+    },
+    "finance-overview.js": {
+      "sha256": "983ba5f3ffc0556b2d36542ddbf5439d15797e8ee9c82511cfeba232d60924ff",
+      "bytes": 15192
+    },
+    "finance-stage-editor-model.js": {
+      "sha256": "846385520327fb122009cc6aa10d3e86c1de10be234ac7650822969a5e4756ce",
+      "bytes": 12913
+    },
+    "finance-stage-editor-ui.js": {
+      "sha256": "0d9c271d892d117b00ee491d71c9c8fbbc63d5dbe8de66cc3472cda691b26039",
+      "bytes": 11660
+    },
+    "finance-stage-fields.js": {
+      "sha256": "1cb44acbeb3b8fa310da5cf66525aad87f5ed3811ed06a1e37d36a9ff4e34e57",
+      "bytes": 298
+    },
+    "index.html": {
+      "sha256": "b230218a1168b303cd3fe7a608acbbc093d2ad63a382d10889bbe49a51db6125",
+      "bytes": 6951554
+    },
+    "local-account-photo.png": {
+      "sha256": "a6ff24b5e6a211574bbb97a027435daad499d2b330e6aa3dff6961ff9c8d6ff3",
+      "bytes": 10815
+    },
+    "permits.css": {
+      "sha256": "bea4b423a0fec77ffdea39f0db060a018e73c3088ab45e884f51b7939c018562",
+      "bytes": 3653
+    },
+    "permits.js": {
+      "sha256": "7557c5ca5bd8577e24124edc2ff039242bb7e9a7def413a1e8ea3e8f54ca7970",
+      "bytes": 2989
+    },
+    "portfolio.css": {
+      "sha256": "e293ca7ca682c5e11c566be8371e74c5ec7f1b8219aef5e1a51e55efce897482",
+      "bytes": 8592
+    },
+    "portfolio.js": {
+      "sha256": "b913235191a01327cf419be9e47b86456f8aaf2ec3b200327255456b33b764b0",
+      "bytes": 11929
+    },
+    "review-client.js": {
+      "sha256": "1acd64ff8f7bce8fa16a5aeed055e4395bd6d2d75785103cb757962b2a9ba408",
+      "bytes": 7940
+    },
+    "review-config.js": {
+      "sha256": "ac367057e6ea4bf918770eadcbae2b9491f6bd6a6b474d44156d3b589f67b7a4",
+      "bytes": 370
+    },
+    "review-data/access-screen-capture.json": {
+      "sha256": "7cd4636b1abd55144716928e7c5b064cbe49b2d15c26f388926a6cd1fad085f8",
+      "bytes": 872
+    },
+    "review-data/finance-stages.json": {
+      "sha256": "fc306213bae75618c0ea92aaa8a037625698a21a09959e4fc90d7cd2b5e017c1",
+      "bytes": 3354
+    },
+    "review-data/market-reference.json": {
+      "sha256": "7585bfe0534a785443de8011f9bfcab44f64bf2c2c0e730ba895b1d53bde7aec",
+      "bytes": 1111459
+    },
+    "review-data/partners-reference.json": {
+      "sha256": "52d368b5b1146cfcece7524efdb004af1c4103c3c33ee93fd2023f6942745f78",
+      "bytes": 823157
+    },
+    "review-data/session.json": {
+      "sha256": "e05f1da02d6ece6f97d5083f1bf5fe119b17c851a5e215ae8b4de8b0478735e1",
+      "bytes": 110
+    },
+    "review-data/stakeholders.json": {
+      "sha256": "f9f1fc1a7ce83621ce9f13ac2c5180df78b1057dec824b0e123e0375bd91cd88",
+      "bytes": 64805
+    },
+    "review-data/workspace-context.json": {
+      "sha256": "6413eb227bcff79843f4aedee2d7b83d607a39087a428bcacabf3bc201e90529",
+      "bytes": 268
+    },
+    "review-data/workspace.json": {
+      "sha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
+      "bytes": 9925845
+    },
+    "studio.js": {
+      "sha256": "e15800f4aa92f0c1ed0aa03d90a68a1a01c4ec4fe435d72818363583ae799769",
+      "bytes": 50978
+    },
+    "work-feed/account-avatar.png": {
+      "sha256": "a6ff24b5e6a211574bbb97a027435daad499d2b330e6aa3dff6961ff9c8d6ff3",
+      "bytes": 10815
+    },
+    "work-feed/app.css": {
+      "sha256": "d990a3fe75fbe7f5346b79bd97bf2c83a7b96d61c9aa17a906e69eb7eb35a956",
+      "bytes": 42081
+    },
+    "work-feed/app.js": {
+      "sha256": "ca68cd1ec9244865a99759315d357ddd036da8df60ef618f37dd22bd5c4068ff",
+      "bytes": 561521
+    },
+    "work-feed/default_avatar.svg": {
+      "sha256": "afa52b4327080530c16cff9487340d56b55a2bbef1d524518abf419a27e41c4b",
+      "bytes": 307
+    },
+    "work-feed/index.html": {
+      "sha256": "912e9fb28719f056d5718e8ef9cfa34e8a765c1f1608e495bff3e075cc8ad93d",
+      "bytes": 903
+    },
+    "work-feed/theme.css": {
+      "sha256": "ef480cde79b265bf708cc2bbc287a6d2c614789adf4e634e36c772eb88d10858",
+      "bytes": 5036
+    }
+  }
+}

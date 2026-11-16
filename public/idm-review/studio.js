@@ -1,8 +1,9 @@
 // Install a local presentation layer. Use the normal app
 // routes and actions; no project objects, saved settings or edit fields are written.
-import {decoratePortfolio,formatDisplayDates,positionLocalTooltip,registerChartTooltip} from './portfolio.js';
+import {decoratePortfolio,formatDisplayDates,formatDisplayLabels,positionLocalTooltip,registerChartTooltip} from './portfolio.js';
 import {decorateCostDetail} from './cost-detail.js';
 import {decoratePermits} from './permits.js';
+import('./finance-milestones.js').then(({installMilestoneCapture})=>installMilestoneCapture(App)).catch(error=>console.error('단계 입력 연결:',error));
 
 const screens={
  'portfolio':{view:'portfolio',tab:'',title:'전체 프로젝트 현황',decorate:decoratePortfolio},
@@ -97,7 +98,7 @@ function syncFeed() {
    feedHost.className='content studio-feed-host';
    const frame=document.createElement('iframe');
    frame.title=screens.feed.title;
-   frame.src=new URL('./work-feed/',import.meta.url);
+   frame.src=new URL('./work-feed/',import.meta.url).href;
    feedHost.append(frame);
    mainScroll.append(feedHost);
   }
@@ -164,7 +165,7 @@ App.register('settings',()=>{
 
 function historyActorName(email){
  const address=email.toLowerCase();
- if(address==='reviewer@example.invalid')return '샘플 검토자';
+ if(address==='design.preview@igisam.com')return '전기영';
  return accessCapture?.people?.find(([,memberEmail])=>memberEmail?.toLowerCase()===address)?.[0]||'이름 미확인';
 }
 
@@ -227,7 +228,7 @@ if(renderCostHistory)App.auditPresentation.renderCostHistory=(events,options)=>{
   if(/^[^@\s]+@[^@\s]+$/.test(email)){
    actor.textContent=historyActorName(email);
    historyTooltip(actor,email).className='studio-history-actor';
-   if(accessCapture===undefined&&email.toLowerCase()!=='reviewer@example.invalid')loadAccessCapture();
+   if(accessCapture===undefined&&email.toLowerCase()!=='design.preview@igisam.com')loadAccessCapture();
   }
  }
  return template.innerHTML;
@@ -293,16 +294,16 @@ function decorateNotificationIcon(){
 function decorateAccountPreview(){
  const profile=document.getElementById('sidebar-profile');
  if(!profile?.hidden)return;
- const email='reviewer@example.invalid';
+ const email='jk.jeon@igisam.com';
  profile.className='studio-account';
  profile.setAttribute('role','group');
  profile.setAttribute('aria-label','로컬 계정 미리보기');
  profile.innerHTML=`<span class="studio-account-avatar" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><img alt="" hidden></span>
- <span class="studio-account-details"><strong>샘플 검토자</strong><small title="${App.esc(email)}">${App.esc(email)}</small></span>
+ <span class="studio-account-details"><strong>전기영 매니저</strong><small title="${App.esc(email)}">${App.esc(email)}</small></span>
  <svg class="studio-account-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 4 4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
  const photo=profile.querySelector('img');
  photo.addEventListener('load',()=>{photo.hidden=false},{once:true});
- photo.src=new URL('./work-feed/default_avatar.svg',import.meta.url);
+ photo.src=new URL('./local-account-photo.png',import.meta.url).href;
  profile.hidden=false;
 }
 
@@ -899,6 +900,47 @@ function installDisplayDates() {
  }).observe(document.body,{childList:true,characterData:true,subtree:true});
 }
 installDisplayDates();
+
+// Shorten read-only labels only. Keep persisted names, option values, active
+// editing text and official/frozen report contents exactly as supplied.
+function installDisplayUnderwriting() {
+ if(!document.body||typeof document.createTreeWalker!=='function')return;
+ const displayRoot='#app, dialog, #toast, #dp-chart-tooltip';
+ const protectedText='script, style, template, pre, code, samp, input, textarea, [contenteditable]:not([contenteditable="false"]), .library-origin-path, .contract-origin-path, .official-form-table, .report-edit-table, .report-document, .report-flow-page, .report-edit-binding';
+ const attributes=['aria-label','title','data-tip','data-tip-title','label'];
+ const eligible=element=>element?.closest(displayRoot)&&!element.closest(protectedText);
+ const format=node=>{
+  if(!node.data.includes('최초 언더라이팅')||!eligible(node.parentElement))return;
+  const option=node.parentElement.closest('option');
+  if(option&&!option.hasAttribute('value'))option.setAttribute('value',option.value);
+  node.data=formatDisplayLabels(node.data);
+ };
+ const formatAttributes=element=>{
+  if(!eligible(element))return;
+  for(const name of attributes){
+   if(name==='label'&&!element.matches('option,optgroup'))continue;
+   const old=element.getAttribute(name),next=formatDisplayLabels(old);
+   if(next!==old)element.setAttribute(name,next);
+  }
+ };
+ const formatTree=node=>{
+  if(node.nodeType===3){format(node);return;}
+  if(node.nodeType!==1||node.closest(protectedText))return;
+  formatAttributes(node);
+  for(const element of node.querySelectorAll('[aria-label],[title],[data-tip],[data-tip-title],option[label],optgroup[label]'))formatAttributes(element);
+  const walker=document.createTreeWalker(node,NodeFilter.SHOW_TEXT);
+  while(walker.nextNode())format(walker.currentNode);
+ };
+ formatTree(document.body);
+ new MutationObserver(records=>{
+  for(const record of records){
+   if(record.type==='characterData')format(record.target);
+   else if(record.type==='attributes')formatAttributes(record.target);
+   else for(const node of record.addedNodes)formatTree(node);
+  }
+ }).observe(document.body,{childList:true,characterData:true,attributes:true,attributeFilter:attributes,subtree:true});
+}
+installDisplayUnderwriting();
 
 // Let the browser close the open choice list before the app handles dialog Escape.
 document.addEventListener('keydown',event=>{

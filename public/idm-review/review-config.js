@@ -1,0 +1,1 @@
+window.__IDM_REVIEW__={"revision":23,"user":{"id":"local-designer","email":"design.preview@igisam.com"},"capabilities":{"createProject":true,"manageAccess":true,"viewPlatformSpec":true},"projectRoles":{"TEST-20261016-A":"approver","TEST-20261016-B":"approver","TEST-20261016-C":"approver"},"seedHash":"91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35"};
