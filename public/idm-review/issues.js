@@ -71,20 +71,40 @@ export function renderIssues(A, rows, {home=false, expanded=new Set()}={}) {
   return `<div class="table-wrap"><table class="dense-table studio-issues ${home?'is-home':''}"><colgroup>${kinds.map(k=>`<col class="issue-col-${k}">`).join('')}</colgroup><thead><tr>${heads.map((h,i)=>`<th class="issue-${kinds[i]}">${h}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(({project:p,issue:x})=>{
     const key=JSON.stringify([p.id,x.id]),open=expanded.has(key),canEdit=A.canEditProject(p.id)&&p.active!==false&&!p.deletedAt;
     const attrs=`data-issue-key="${E(key)}"`,id='issue-detail-'+encodeURIComponent(p.id+'-'+x.id);
-    return `<tr class="issue-summary" ${attrs} tabindex="0" aria-expanded="${open}" aria-controls="${E(id)}" aria-label="${E(x.title)} 진행내용 ${open?'접기':'펼치기'}">${home?`<td class="issue-project">${E(p.name)}</td>`:''}<td class="issue-title">${E(x.title)}</td><td class="issue-progress"><span class="issue-preview">${E(x.current)||'—'}</span><span class="issue-chevron" aria-hidden="true">${open?'⌃':'⌄'}</span></td><td class="issue-cost">${impact(A,x,'cost')}</td><td class="issue-schedule">${impact(A,x,'schedule')}</td><td class="issue-date">${E(String(x.date||'—').replaceAll('-','.'))}</td>${!home?`<td class="issue-actions">${canEdit?A.btn('수정','issue-edit',{id:x.id,projectId:p.id},'text')+A.btn('삭제','issue-delete',{id:x.id},'text'):''}</td>`:''}</tr><tr class="issue-detail" id="${E(id)}" ${open?'':'hidden'}><td colspan="${home?3:heads.length}"><div class="issue-detail-layout"><div class="issue-full-progress">${E(x.current)||'등록된 진행내용이 없습니다.'}</div></div></td>${home?`<td colspan="3" class="issue-detail-action">${A.btn('자세히보기','go',{view:'overview',projectId:p.id},'issue-view-project')}</td>`:''}</tr>`;
+    return `<tr class="issue-summary" ${attrs} tabindex="0" aria-expanded="${open}" aria-controls="${E(id)}" aria-label="${E(x.title)} 진행내용 ${open?'접기':'펼치기'}">${home?`<td class="issue-project">${E(p.name)}</td>`:''}<td class="issue-title">${E(x.title)}</td><td class="issue-progress"><span class="issue-preview">${E(x.current)||'—'}</span><span class="issue-chevron" aria-hidden="true">${open?'⌃':'⌄'}</span></td><td class="issue-cost">${impact(A,x,'cost')}</td><td class="issue-schedule">${impact(A,x,'schedule')}</td><td class="issue-date">${E(String(x.date||'—').replaceAll('-','.'))}</td>${!home?`<td class="issue-actions">${canEdit?A.btn('수정','issue-edit',{id:x.id,projectId:p.id},'text')+A.btn('삭제','issue-delete',{id:x.id},'text'):''}</td>`:''}</tr><tr class="issue-detail" id="${E(id)}" ${open?'':'hidden'}>${home?'<td class="issue-project-spacer" aria-hidden="true"></td>':''}<td colspan="${home?2:heads.length}"><div class="issue-detail-layout"><div class="issue-full-progress">${E(x.current)||'등록된 진행내용이 없습니다.'}</div></div></td>${home?`<td colspan="3" class="issue-detail-action">${A.btn('자세히보기','go',{view:'overview',projectId:p.id},'issue-view-project')}</td>`:''}</tr>`;
   }).join(''):`<tr><td colspan="${heads.length}">등록된 현안이 없습니다.</td></tr>`}</tbody></table></div>`;
 }
 const states=new Map();
+const issuePanels=new WeakMap(),dismissDocuments=new WeakSet();
+function setIssueExpanded(row,state,open){
+ const key=row.dataset.issueKey;
+ if(open)state.expanded.add(key);else state.expanded.delete(key);
+ row.setAttribute('aria-expanded',String(open));
+ row.setAttribute('aria-label',row.getAttribute('aria-label').replace(/접기|펼치기$/,open?'접기':'펼치기'));
+ row.nextElementSibling.hidden=!open;
+ row.querySelector('.issue-chevron').textContent=open?'⌃':'⌄';
+}
+function installIssueDismissal(doc){
+ if(dismissDocuments.has(doc))return;
+ dismissDocuments.add(doc);
+ doc.addEventListener('click',event=>{
+  for(const row of doc.querySelectorAll('.studio-issues .issue-summary[aria-expanded="true"]')){
+   if(row.contains(event.target)||row.nextElementSibling.contains(event.target))continue;
+   const state=issuePanels.get(row.closest('.panel'));
+   if(state)setIssueExpanded(row,state,false);
+  }
+ },true);
+}
 function wirePanel(panel,state) {
+  issuePanels.set(panel,state);
+  installIssueDismissal(panel.ownerDocument);
   panel.addEventListener('click',e=>{
     const more=e.target.closest('[data-issue-more]');
     if(more){const previous=state.limit;state.limit+=10;state.paint();(panel.querySelectorAll('.issue-summary')[previous]||panel.querySelector('[data-issue-more]'))?.focus();return;}
     if(e.target.closest('button,a,input,select,textarea'))return;
     const row=e.target.closest('.issue-summary');if(!row)return;
     const key=row.dataset.issueKey,open=!state.expanded.has(key);
-    if(open)state.expanded.add(key);else state.expanded.delete(key);
-    row.setAttribute('aria-expanded',String(open));row.setAttribute('aria-label',row.getAttribute('aria-label').replace(/접기|펼치기$/,open?'접기':'펼치기'));
-    row.nextElementSibling.hidden=!open;row.querySelector('.issue-chevron').textContent=open?'⌃':'⌄';
+    setIssueExpanded(row,state,open);
   });
   panel.addEventListener('keydown',e=>{if(e.target.matches('.issue-summary')&&['Enter',' '].includes(e.key)){e.preventDefault();e.target.click();}});
 }
