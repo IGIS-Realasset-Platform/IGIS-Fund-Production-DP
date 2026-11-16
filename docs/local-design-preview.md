@@ -178,3 +178,5 @@ LOCAL-UI-241 검수: 기존 진입 애니메이션 부재 RED 확인 후 격리 
 LOCAL-UI-242: 검토본 플랫폼 명세에서 원본 정의8탭·원본 개발기록·원본 JSON/명세/전체자료 내려받기 진입을 표시하지 않는다. 기존 로컬 작성자 design.preview 및 사용자 jk.jeon의 수정기록과 변경 전후 열기만 유지. src/spec.js·App.spec·원본/로컬 감사원장·DB·다른 화면은 수정하지 않는다. RED: 원본 내보내기3버튼 노출 확인.
 
 LOCAL-UI-242 검수: 원본 내보내기 노출 RED 후 로컬 기록32건 보존, 상세 열기/Escape 복귀, 기존8탭 상태 비노출, App.spec 및 전체 감사이력122건 불변, 서버 쓰기0 GREEN. tests/local-spec-visibility.cjs. 원본/DB 파일 수정 없음.
+
+LOCAL-UI-243 현행 플랫폼 명세: 원본 명세 탭을 표시하지 않고 scripts/local-preview/review-spec.js의 공통 디자인/메뉴별 상세 기능/원본 반영 안내/로컬 수정기록을 제공한다. 본 문서의 이전 원본 명세 사용 설명은 현행 화면에 적용하지 않는다. App.spec와 감사원장/DB는 보존한다.
