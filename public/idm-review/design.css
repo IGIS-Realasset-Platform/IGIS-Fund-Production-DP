@@ -1050,3 +1050,9 @@
 .dp-app #content button.overview-report-type{cursor:pointer;min-width:0}
 .dp-app #content button.overview-report-type:hover{background:#dce3f4;text-decoration:none}
 .dp-app #content button.overview-report-type:focus-visible{outline:2px solid #283985;outline-offset:2px}
+
+/* LOCAL-UI-233: larger financing bar, unchanged overall summary height. */
+.dp-app #content .overview-finance-bar{height:30px;border-radius:5px}
+.dp-app #content .overview-finance-bar .stack-seg{display:flex;align-items:center;justify-content:center;min-width:0}
+.dp-app #content .overview-finance-bar .stack-seg>span{display:block;max-width:100%;padding-inline:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;font-size:13px;font-weight:700;line-height:18px}
+.dp-app #content .overview-finance-list{gap:3px;margin-top:12px}
