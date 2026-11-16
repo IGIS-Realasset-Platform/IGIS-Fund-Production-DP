@@ -476,6 +476,17 @@ function decorateProjectHeading(heading,project,view){
  if(meta)meta.textContent=[project.type,project.location].filter(Boolean).join(' · ');
 }
 
+// Interpolate within the displayed milestone interval; never change schedule data.
+function scheduleDatePosition(rows,reference){
+ const day=value=>{const text=String(value||'').replaceAll('.','-');return /^\d{4}-\d{2}-\d{2}$/.test(text)?Date.parse(text+'T00:00:00Z'):NaN;};
+ const now=day(reference),dates=rows.map(x=>day(x.actual||x.expected||x.planned));
+ if(!Number.isFinite(now)||!dates.length)return null;
+ const exact=dates.indexOf(now);if(exact>=0)return exact;
+ for(let i=0;i<dates.length-1;i++){
+  if(dates[i]<now&&now<dates[i+1])return i+(now-dates[i])/(dates[i+1]-dates[i]);
+ }
+ return null;
+}
 function decorateOverview(_app, content, project){
  const issueAdd=content.querySelector('button[data-action="issue-add"]');
  const issueHeading=issueAdd?.closest('.panel-header')?.querySelector('.panel-title h2');
@@ -495,13 +506,20 @@ function decorateOverview(_app, content, project){
    toolbar?.remove();
   }
  }
- for(const step of content.querySelectorAll('.dp-timeline-step.current')){
-  step.setAttribute('aria-current','step');
-  const marker=step.querySelector('.dp-timeline-marker');
-  if(marker&&!marker.querySelector('.studio-timeline-current')){
+ const steps=[...content.querySelectorAll('.dp-timeline-step')];
+ const milestones=_app.milestones.list(project);
+ const position=scheduleDatePosition(milestones,'2026-11-10');
+ for(const step of steps){step.classList.remove('current');step.removeAttribute('aria-current');}
+ content.querySelectorAll('.studio-timeline-current').forEach(badge=>badge.remove());
+ if(position!==null&&steps.length){
+  const index=Math.min(Math.floor(position),steps.length-1);
+  const marker=steps[index].querySelector('.dp-timeline-marker');
+  if(marker){
    const badge=document.createElement('span');
    badge.className='studio-timeline-current';
-   badge.textContent='현재';
+   badge.style.left=`${50+(position-index)*100}%`;
+   badge.textContent='현재 · 11.10';
+   badge.setAttribute('aria-label','현재 기준일 2026년 11월 10일');
    marker.append(badge);
   }
  }

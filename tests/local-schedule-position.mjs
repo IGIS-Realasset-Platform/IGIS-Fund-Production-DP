@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+const source=readFileSync(new URL('../scripts/local-preview/studio.js',import.meta.url),'utf8');
+const code=source.slice(source.indexOf('function scheduleDatePosition('),source.indexOf('function decorateOverview('));
+const position=vm.runInNewContext(code+';scheduleDatePosition');
+assert.equal(position([{planned:'2026-01-01'},{planned:'2026-01-11'}],'2026-01-06'),0.5);
+assert.equal(position([{planned:'2026-01-01'},{planned:'2026-01-11'}],'2026-01-11'),1);
+assert.equal(position([{planned:'2026-01-01',actual:'2026-01-03'},{planned:'2026-01-11'}],'2026-01-07'),0.5);
+assert.equal(position([{planned:'2026-01-11'},{planned:'2026-01-01'}],'2026-01-06'),null);
+assert.equal(position([{planned:''},{planned:'2026-01-11'}],'2026-01-06'),null);
+assert.equal(position([{planned:'2025-06-26'},{planned:'2026-12-20'}],'2026-11-10'),502/542);
+console.log('schedule date interpolation passed');
