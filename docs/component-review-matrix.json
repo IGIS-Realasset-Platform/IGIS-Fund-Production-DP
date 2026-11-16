@@ -816162,5 +816162,6 @@
 "localUi187":{"requirement":"LOCAL-UI-187","components":["헤더/열 경계색","제목/주요값 검정","간격보존/수정취소"],"status":"3사업 선색#e1e5ec/제목주요값#000·간격-3px유지·수정취소·DB쓰기0 통과"},
 "localUi188":{"requirement":"LOCAL-UI-188","components":["원가증감요인 시점열/단계링크"],"status":"1440px 실제112→168px/한줄·잘림없음 확인","preserve":["기존자료","단계진입로직","나머지 고정열"]},
 "localUi189":{"requirement":"LOCAL-UI-189","components":["시점 제목/이전 기록/단계버튼","클릭/포커스/상세 닫기"],"status":"실제화면 시작선1079px 일치·버튼높이32px 유지·단계상세 진입/닫기 통과; revision23/seed동일·패키지37파일 통과; 키보드 별도 미검증","preserve":["168px열","자료/금액","단계진입"]},
-"localUi190":{"requirement":"LOCAL-UI-190","components":["개요 최신10행","전체이력/닫기","프로젝트 전환"],"status":"실제3사업 개요10행·전체128/12/10행·최신10행일치·닫기복귀 통과. 이력 회귀10검사/공유37파일검사 통과, revision23/seed 동일.","preserve":["전체이력","원자료/금액"]}
+"localUi190":{"requirement":"LOCAL-UI-190","components":["개요 최신10행","전체이력/닫기","프로젝트 전환"],"status":"실제3사업 개요10행·전체128/12/10행·최신10행일치·닫기복귀 통과. 이력 회귀10검사/공유37파일검사 통과, revision23/seed 동일.","preserve":["전체이력","원자료/금액"]},
+"localUi191":{"requirement":"LOCAL-UI-191","components":["원가상단5지표","계약금액버튼"],"status":"3사업15개24px/700·잘림없음·계약금액상세 열기닫기 확인; revision23/seed동일·공유37파일 통과","preserve":["숫자/DB","파이낸싱","보조문구/굵기"]}
 }
