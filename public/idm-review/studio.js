@@ -517,6 +517,7 @@ function decorateOverview(_app, content, project){
  const timeline=content.querySelector('.dp-timeline');
  let displayedDate='';
  refreshScheduleToday=()=>{
+  _app.recoveryViews?.refreshReportCountdown?.(content);
   if(!timeline?.isConnected||displayedDate===scheduleKoreaToday())return;
  const steps=[...content.querySelectorAll('.dp-timeline-step')];
  const milestones=_app.milestones.list(project);

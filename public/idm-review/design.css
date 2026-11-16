@@ -984,3 +984,69 @@
   }
  }
 }
+
+/* LOCAL-UI-219: report deadline and source-entry workspace */
+.overview-report-due{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.overview-report-countdown{font-size:14px;font-weight:700;line-height:1.4;padding:4px 9px;border-radius:8px;background:#e9edf8;color:#283985;white-space:nowrap}
+.overview-report-countdown.overdue{background:#fff0f1;color:#c93346}
+.overview-report-actions{display:flex;justify-content:flex-end;margin-top:12px}
+.report-additional-workspace{display:grid;gap:18px}
+.report-additional-workspace .panel-body{padding:18px}
+.report-additional-actions{display:flex;justify-content:flex-end;gap:8px;white-space:nowrap}
+.report-additional-content{white-space:pre-wrap;overflow-wrap:anywhere}
+.report-additional-workspace th:last-child,.report-additional-workspace td:last-child{width:120px}
+.report-additional-progress th:first-child,.report-additional-progress td:first-child{width:110px;white-space:nowrap}
+.report-additional-progress th:nth-child(2){width:22%}
+.report-additional-contractors th:nth-child(3),.report-additional-contractors td:nth-child(3){text-align:left;white-space:nowrap}
+.report-additional-workspace td:last-child{text-align:right}
+/* LOCAL-UI-220: align the three overview summaries as one row. */
+.dp-app #content .dp-overview-cards{align-items:stretch}
+.dp-app #content .dp-overview-cards>.panel{display:flex;flex-direction:column}
+.dp-app #content .dp-overview-cards>.panel>.panel-body{flex:1}
+.dp-app #content .dp-overview-cards>.panel>.panel-body:has(>.date-summary,>.overview-report-summary){display:flex;flex-direction:column}
+.dp-app #content .dp-overview-cards .date-summary{gap:14px}
+.dp-app #content .dp-overview-cards .date-row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:26px}
+.dp-app #content .dp-overview-cards .date-row>span{margin:0;white-space:nowrap}
+.dp-app #content .dp-overview-cards .date-row>.overview-report-due{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:nowrap;color:var(--text)}
+.dp-app #content .dp-overview-cards .date-row>b{color:var(--text);white-space:nowrap}
+
+/* LOCAL-UI-225: three aligned rows; report type and remaining days have distinct roles. */
+.overview-report-summary{display:grid;gap:8px;min-width:0}
+.overview-report-row{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:center;min-height:26px;font-size:14px}
+.overview-report-label{color:var(--muted);white-space:nowrap}
+.overview-report-value{display:flex;align-items:center;gap:10px;min-width:0;color:var(--text)}
+.dp-app #content .overview-report-type{display:inline-flex;align-items:center;min-height:26px;padding:3px 10px;border:0;border-radius:7px;background:#e9edf8;color:#283985;font-size:13px;font-weight:600;line-height:20px;white-space:nowrap}
+.overview-report-date time{font-weight:600;white-space:nowrap}
+.overview-report-day{margin-left:auto;padding:3px 8px;border-radius:7px;background:#e9edf8;color:#283985;font-size:14px;font-weight:700;white-space:nowrap;line-height:20px}
+.overview-report-day.is-overdue{background:#fff0f1;color:#d32f40}
+.overview-report-last{font-size:13px;justify-content:flex-start;gap:20px;white-space:nowrap}
+.overview-report-last time{font-weight:500}
+
+/* LOCAL-UI-227: compact header action and aligned reporting columns. */
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header{justify-content:flex-start;gap:8px;flex-wrap:nowrap}
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header>.panel-title{flex:0 0 auto}
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header>.inline{flex:1;display:flex;gap:8px;flex-wrap:nowrap;margin:0}
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header>.inline>.btn[data-action="report-participant-input-open"]{font-size:12px;font-weight:400;height:28px;min-height:28px;padding:0 8px;border-radius:8px;white-space:nowrap}
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header>.inline>[data-action="go"]{margin-left:auto}
+.overview-report-grid{display:grid;gap:8px;font-size:14px}
+.overview-report-grid-head,.overview-report-grid-values{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;gap:8px}
+.overview-report-grid-head{color:var(--muted);font-size:13px;line-height:20px}
+.overview-report-grid-values{min-height:28px}
+.overview-report-grid-values>[role="cell"]{display:flex;align-items:center;min-width:0}
+.overview-report-grid-values time{font-weight:600;white-space:nowrap}
+.overview-report-grid-values .overview-report-day{margin:0}
+.overview-report-recent-row{border-top:0;padding-top:5px;margin-top:2px;display:flex;justify-content:flex-start;align-items:center;gap:20px}
+
+/* LOCAL-UI-228: enclosed report table with centered headers and values. */
+.overview-report-grid{gap:0;border:1px solid #e2e6ed;border-radius:12px;overflow:hidden;background:#f8f9fb}
+.overview-report-grid-head,.overview-report-grid-values{gap:0;text-align:center;align-items:stretch}
+.overview-report-grid-head{background:#edf0f4;border-bottom:1px solid #e2e6ed}
+.overview-report-grid-head>[role="columnheader"]{display:flex;align-items:center;justify-content:center;min-height:28px;padding:2px 4px}
+.overview-report-grid-values>[role="cell"]{justify-content:center;min-height:36px;padding:4px}
+.overview-report-grid-head>[role="columnheader"]+*,.overview-report-grid-values>[role="cell"]+*{border-left:1px solid #e2e6ed}
+
+/* LOCAL-UI-229: recent submission is outside the reporting table. */
+.overview-report-recent-row{background:transparent;border-radius:0;border-left:0;border-right:0;border-bottom:0}
+.dp-app #content button.overview-report-type{cursor:pointer;min-width:0}
+.dp-app #content button.overview-report-type:hover{background:#dce3f4;text-decoration:none}
+.dp-app #content button.overview-report-type:focus-visible{outline:2px solid #283985;outline-offset:2px}

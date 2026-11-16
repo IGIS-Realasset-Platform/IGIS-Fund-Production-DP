@@ -185,8 +185,9 @@ function decorateChart(A, chart) {
     const [current, perPyeong] = row.querySelectorAll(':scope > .num');
     const initialValue = A.total(project, 'initial');
     const currentValue = A.total(project);
+    current.textContent = portfolioMoney(A, currentValue);
     const amounts = [
-      ['최초UW', A.money(initialValue)],
+      ['최초UW', portfolioMoney(A, initialValue)],
       ['현재 사업비', current.textContent],
       ['평당 총사업비', perPyeong.textContent]
     ];
@@ -204,7 +205,7 @@ function decorateChart(A, chart) {
     if (direction) {
       track.querySelector('.portfolio-current-marker').dataset.pfSymbol = direction;
       change.classList.add(direction);
-      change.textContent = (difference > 0 ? '+' : '−') + A.money(Math.abs(difference));
+      change.textContent = (difference > 0 ? '+' : '−') + portfolioMoney(A, Math.abs(difference));
     }
     current.append(change);
   }
