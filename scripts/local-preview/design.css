@@ -1021,3 +1021,18 @@
 .overview-report-day.is-overdue{background:#fff0f1;color:#d32f40}
 .overview-report-last{font-size:13px;justify-content:space-between;white-space:nowrap}
 .overview-report-last time{font-weight:500}
+
+/* LOCAL-UI-227: compact header action and aligned reporting columns. */
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header{justify-content:flex-start;gap:8px;flex-wrap:nowrap}
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header>.panel-title{flex:0 0 auto}
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header>.inline{flex:1;display:flex;gap:8px;flex-wrap:nowrap;margin:0}
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header>.inline>.btn[data-action="report-participant-input-open"]{font-size:12px;font-weight:400;height:28px;min-height:28px;padding:0 8px;border-radius:8px;white-space:nowrap}
+.dp-app #content .panel:has([data-overview-report-summary])>.panel-header>.inline>[data-action="go"]{margin-left:auto}
+.overview-report-grid{display:grid;gap:8px;font-size:14px}
+.overview-report-grid-head,.overview-report-grid-values{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;gap:8px}
+.overview-report-grid-head{color:var(--muted);font-size:13px;line-height:20px}
+.overview-report-grid-values{min-height:28px}
+.overview-report-grid-values>[role="cell"]{display:flex;align-items:center;min-width:0}
+.overview-report-grid-values time{font-weight:600;white-space:nowrap}
+.overview-report-grid-values .overview-report-day{margin:0}
+.overview-report-recent-row{border-top:1px solid #e2e6ed;padding-top:10px;margin-top:2px;grid-template-columns:calc((100% - 16px)/3) minmax(0,1fr);gap:8px}
