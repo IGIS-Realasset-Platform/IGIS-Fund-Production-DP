@@ -1057,11 +1057,14 @@
 .dp-app #content .overview-finance-bar .stack-seg>span{display:block;max-width:100%;padding-inline:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff;font-size:13px;font-weight:700;line-height:18px}
 .dp-app #content .overview-finance-list{gap:3px;margin-top:12px}
 
-/* LOCAL-UI-235: fit two 30px cost bars within the existing summary height. */
-.dp-app #content .dp-overview-cards .dp-cost-mini-line{grid-template-columns:minmax(0,1fr);gap:2px;margin:0}
-.dp-app #content .dp-overview-cards .dp-cost-mini-line+.dp-cost-mini-line{margin-top:2px}
-.dp-app #content .dp-overview-cards .overview-cost-label{font-size:14px;line-height:16px}
-.dp-app #content .dp-overview-cards .dp-cost-mini-line .progress-track{position:relative;height:30px;border-radius:5px}
-.dp-app #content .dp-overview-cards .dp-cost-mini-line .progress-value{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;line-height:18px}
-.dp-app #content .dp-overview-cards .dp-cost-mini-line~.mini-footer{margin-top:0;line-height:20px}
+/* LOCAL-UI-236: align cost bars and footer with the adjacent finance summary. */
+.dp-app #content .dp-overview-cards>.panel{min-height:214px}
+.dp-app #content .dp-overview-cards .dp-cost-mini-line{grid-template-columns:minmax(0,1fr);gap:0;margin:0}
+.dp-app #content .dp-overview-cards .dp-cost-mini-line+.dp-cost-mini-line{margin-top:12px}
+.dp-app #content .dp-overview-cards .dp-cost-mini-line .progress-track{position:relative;height:30px;border-radius:0 5px 5px 0}
+.dp-app #content .dp-overview-cards .dp-cost-mini-line .progress-fill{border-radius:0 5px 5px 0}
+.dp-app #content .overview-cost-bar-content{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 10px;color:#fff;line-height:18px}
+.dp-app #content .overview-cost-bar-content .overview-cost-label{font-size:13px;font-weight:400;text-align:left}
+.dp-app #content .overview-cost-bar-content .progress-value{font-size:13px;font-weight:700;text-align:right}
+.dp-app #content .dp-overview-cards .dp-cost-mini-line~.mini-footer{margin-top:18px;line-height:21px}
 .dp-app #content .overview-report-type{height:30px;min-height:30px}
