@@ -683,6 +683,7 @@
   & .cost-driver-panel col:nth-child(2) {width:136px}
   & .cost-driver-panel col:last-child {width:168px}
   & .cost-driver-panel td:nth-child(n+2) {min-width:0;white-space:normal;overflow-wrap:anywhere}
+  & .cost-driver-panel tbody td:nth-child(3) {color:#000;font-weight:700}
   & .cost-driver-panel :is(th,td):last-child {white-space:nowrap}
   & .cost-driver-panel [data-action="stage-view"] {width:100%;max-width:100%;padding-inline:0;border-inline-width:0;justify-content:flex-start;white-space:nowrap;text-align:start}
 
