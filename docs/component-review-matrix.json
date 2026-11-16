@@ -816166,5 +816166,6 @@
 "localUi191":{"requirement":"LOCAL-UI-191","components":["원가상단5지표","계약금액버튼"],"status":"3사업15개24px/700·잘림없음·계약금액상세 열기닫기 확인; revision23/seed동일·공유37파일 통과","preserve":["숫자/DB","파이낸싱","보조문구/굵기"]},
 "localUi192":{"requirement":"LOCAL-UI-192","components":["원가/공사비 평당가","최초UW/이후단계"],"status":"실제 본PF비교4개 #000/700·13px유지 확인; 금융비400/회색 유지; revision23/seed동일·공유37파일 통과","preserve":["크기/간격","금융비","자료/금액"]},
 "localUi193":{"requirement":"LOCAL-UI-193","supersedes":"LOCAL-UI-192 기준값 강조","components":["To-be 평당가","As-is 숫자 옅게/평당가400","최초UW 단계명 원복"],"status":"실제화면 To-be 원가/공사비 평당가 검정700·As-is 평당가400 및 금액/기간 #7a8391·단계명 원복 확인; revision23/seed동일·공유37파일 검사 통과","preserve":["숫자/DB","크기/간격","금융비 현재값"]},
-"localUi194":{"requirement":"LOCAL-UI-194","components":["원가증감요인 사유열"],"status":"스타일 반영; 사용자 지시로 별도 검증 생략, 사용자 화면 확인","preserve":["자료/금액","다른열/팝업","열폭/동작"]}
+"localUi194":{"requirement":"LOCAL-UI-194","components":["원가증감요인 사유열"],"status":"스타일 반영; 사용자 지시로 별도 검증 생략, 사용자 화면 확인","preserve":["자료/금액","다른열/팝업","열폭/동작"]},
+"localUi195":{"requirement":"LOCAL-UI-195","components":["홈 보고일/보고열","현재사업비열/주요금액"],"status":"스타일 반영, 사용자 직접 화면확인","preserve":["자료/금액","다른열/보조숫자","링크/저장열폭"]}
 }
