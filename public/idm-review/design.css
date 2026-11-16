@@ -215,7 +215,8 @@
  .studio-issues .issue-detail[hidden]{display:none}
  .studio-issues .issue-detail-layout{display:flex;align-items:flex-start;gap:20px;padding-block:8px}
  .studio-issues .issue-full-progress{flex:1;min-width:0;white-space:pre-wrap;overflow-wrap:anywhere;padding:0;font-weight:400;line-height:1.65}
- .studio-issues .issue-view-project{flex:none;margin-inline-start:auto}
+ .dp-app #content .studio-issues .issue-detail-action{vertical-align:middle;text-align:left}
+ .studio-issues .issue-view-project{margin:0}
  .issue-more-wrap{display:flex;justify-content:center;padding-top:14px}
  .dp-app #content :is(.table-toolbar,.toolbar){gap:8px;padding:12px 18px}
  .dp-app #content .panel-body>:is(.table-toolbar,.toolbar){padding:0 0 12px}
@@ -563,6 +564,20 @@
  }
  .dp-app #content table.dense-table>tbody>tr:not(:is(.group-row,.total-row,.hier-group-row,.hier-total-row,.cbs-catalog-group,.cost-snapshot-total,.cost-snapshot-root,.cost-snapshot-branch,.selected-row,[aria-selected="true"])):hover>td,
  .dp-dialog table.dense-table>tbody>tr:not(:is(.group-row,.total-row,.hier-group-row,.hier-total-row,.cbs-catalog-group,.cost-snapshot-total,.cost-snapshot-root,.cost-snapshot-branch,.selected-row,[aria-selected="true"])):hover>td {
+  background:var(--studio-table-hover);
+ }
+
+ /* Keep only the boundary between issues; retain border space to avoid a jump. */
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary[aria-expanded="true"]>td,
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:has(+tr.issue-detail:last-child)>td {
+  border-bottom-color:transparent;
+ }
+
+ /* A summary and its expanded detail are one hover/focus target. */
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:is(:hover,:focus-within)>td,
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:is(:hover,:focus-within)+tr.issue-detail:not([hidden])>td,
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-summary:has(+tr.issue-detail:not([hidden]):is(:hover,:focus-within))>td,
+ .dp-app #content table.dense-table.studio-issues>tbody>tr.issue-detail:not([hidden]):is(:hover,:focus-within)>td {
   background:var(--studio-table-hover);
  }
 
