@@ -1019,7 +1019,7 @@
 .overview-report-date time{font-weight:600;white-space:nowrap}
 .overview-report-day{margin-left:auto;padding:3px 8px;border-radius:7px;background:#e9edf8;color:#283985;font-size:14px;font-weight:700;white-space:nowrap;line-height:20px}
 .overview-report-day.is-overdue{background:#fff0f1;color:#d32f40}
-.overview-report-last{font-size:13px;justify-content:space-between;white-space:nowrap}
+.overview-report-last{font-size:13px;justify-content:flex-start;gap:20px;white-space:nowrap}
 .overview-report-last time{font-weight:500}
 
 /* LOCAL-UI-227: compact header action and aligned reporting columns. */
@@ -1035,7 +1035,7 @@
 .overview-report-grid-values>[role="cell"]{display:flex;align-items:center;min-width:0}
 .overview-report-grid-values time{font-weight:600;white-space:nowrap}
 .overview-report-grid-values .overview-report-day{margin:0}
-.overview-report-recent-row{border-top:0;padding-top:11px;margin-top:2px;grid-template-columns:calc((100% - 16px)/3) minmax(0,1fr);gap:8px}
+.overview-report-recent-row{border-top:0;padding-top:11px;margin-top:2px;display:flex;justify-content:flex-start;align-items:center;gap:20px}
 
 /* LOCAL-UI-228: enclosed report table with centered headers and values. */
 .overview-report-grid{gap:0;border:1px solid #e2e6ed;border-radius:12px;overflow:hidden;background:#f8f9fb}
