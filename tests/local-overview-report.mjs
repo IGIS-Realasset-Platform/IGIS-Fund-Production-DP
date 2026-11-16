@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import {makeHarness} from './recovery-harness.mjs';
+const h=makeHarness({seed:JSON.parse(fs.readFileSync('deployment/review-data/workspace.json','utf8')),modules:['core','cbs','vat','contracts','legal','permit-views','report-form','report','recovery-views']}),A=h.A;
+for(const init of A.initializers)init(A.state);const p=A.state.projects.find(p=>p.id==='SAMPLE02')||A.state.projects[0];A.ui.projectId=p.id;A.ui.view='overview';
+assert.equal(typeof A.recoveryViews.reportCountdown,'function');
+const day=A.recoveryViews.reportCountdown;
+assert.equal(day('2026-12-28','2026-11-16').text,'D-42');assert.equal(day('2026-11-16','2026-11-16').text,'D-day');assert.equal(day('2026-10-31','2026-11-16').text,'16일 경과');assert.equal(day('','2026-11-16').text,'');assert.equal(day('2026-02-30','2026-11-16').text,'');
+const before=JSON.stringify(A.state);const html=A.report.additionalInfo(p);assert(html.includes('시공사 현황'));assert(html.includes('사업 준비 경과'));assert(html.includes('report-participant-add'));assert(html.includes('report-progress-add'));assert.equal(JSON.stringify(A.state),before);
+console.log('countdown boundaries and read-only additional-info rendering passed');
+// Existing source forms save into isolated fixture only; stale edits never become additions.
+A.boot();A.render=()=>{};let form;
+A.form=(title,fields,save,label,options)=>{form={title,fields,save,options};};
+A.confirmDelete=(title,save)=>{form={save};};
+const click=(action,data={})=>h.listeners.click[0]({target:{closest:()=>({dataset:{action,...data}})},preventDefault(){}});
+click('report-progress-add',{kind:'preparation'});assert(form);form.save({date:'2026-11-16',title:'준비계획 검토',content:'검토 내용'});
+let row=p.reportProgress.preparation.at(-1);assert.equal(row.title,'준비계획 검토');
+click('report-progress-edit',{kind:'preparation',id:row.id});form.save({date:'2026-11-16',title:'준비계획 확인',content:'보완 내용'});assert.equal(row.content,'보완 내용');
+click('report-progress-edit',{kind:'preparation',id:row.id});row.deletedAt='2026-11-16';const count=p.reportProgress.preparation.length;assert.throws(()=>form.save({date:'2026-11-16',title:'금지',content:'금지'}));assert.equal(p.reportProgress.preparation.length,count);
+const legacy=p.reportForm?.preparationProgress||'';click('report-preparation-legacy-edit');form.save({value:legacy+' 확인'});assert.equal(p.reportForm.preparationProgress,legacy+' 확인');
+console.log('PASS isolated progress create/edit, stale-target rejection, legacy source edit');
+const contractor=p.reportParticipants.contractors.find(x=>!x.deletedAt);const values=Object.fromEntries(['name','registration','contractDate','amount','period','responsibleCompletion','extensionCount','extensionOverdue','otherCreditEnhancement','restructuring','bankruptcy'].map(key=>[key,contractor[key]===true?'예':contractor[key]===false?'아니오':contractor[key]??'']));
+click('report-participant-edit',{kind:'contractors',id:contractor.id});form.save({...values,period:'37개월'});assert.equal(contractor.period,'37개월');assert.equal(contractor.amount,values.amount);
+click('report-participant-delete',{kind:'contractors',id:contractor.id});form.save();assert(contractor.deletedAt);
+console.log('PASS isolated contractor edit/delete and amount preservation');
