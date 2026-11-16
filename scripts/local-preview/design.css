@@ -1036,3 +1036,11 @@
 .overview-report-grid-values time{font-weight:600;white-space:nowrap}
 .overview-report-grid-values .overview-report-day{margin:0}
 .overview-report-recent-row{border-top:1px solid #e2e6ed;padding-top:10px;margin-top:2px;grid-template-columns:calc((100% - 16px)/3) minmax(0,1fr);gap:8px}
+
+/* LOCAL-UI-228: enclosed report table with centered headers and values. */
+.overview-report-grid{gap:0;border:1px solid #e2e6ed;border-radius:12px;overflow:hidden;background:#f8f9fb}
+.overview-report-grid-head,.overview-report-grid-values{gap:0;text-align:center;align-items:stretch}
+.overview-report-grid-head{background:#edf0f4;border-bottom:1px solid #e2e6ed}
+.overview-report-grid-head>[role="columnheader"]{display:flex;align-items:center;justify-content:center;min-height:28px;padding:2px 4px}
+.overview-report-grid-values>[role="cell"]{justify-content:center;min-height:36px;padding:4px}
+.overview-report-grid-head>[role="columnheader"]+*,.overview-report-grid-values>[role="cell"]+*{border-left:1px solid #e2e6ed}
