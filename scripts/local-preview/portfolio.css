@@ -52,8 +52,8 @@
 @media(width > 760px){
   [data-local-screen="portfolio"] .portfolio-table col:nth-child(7){width:152px}
   [data-local-screen="portfolio"] .portfolio-table col:nth-child(9){width:104px}
-  #content[data-local-screen="portfolio"] .portfolio-table :is(th,td)[data-pf-label="국토부 보고"]{font-size:13px;text-align:right;padding-inline:10px}
-  #content[data-local-screen="portfolio"] .portfolio-table td[data-pf-label="국토부 보고"] .btn[data-view="report"]{font-size:13px;white-space:nowrap;width:100%;padding-inline:0;border-inline-width:0;text-align:right;justify-content:flex-end}
+  #content[data-local-screen="portfolio"] .portfolio-table :is(th,td)[data-pf-label="국토부 보고"]{font-size:13px;text-align:left;padding-inline:10px}
+  #content[data-local-screen="portfolio"] .portfolio-table td[data-pf-label="국토부 보고"] .btn[data-view="report"]{font-size:13px;white-space:nowrap;width:100%;padding-inline:0;border-inline-width:0;text-align:left;justify-content:flex-start}
   [data-local-screen="portfolio"] :is(.portfolio-cost-axis,.portfolio-cost-row,.pf-cost-gridlines){grid-template-columns:min(var(--pf-chart-name-width,220px),45%) minmax(0,1fr) repeat(2,min(104px,19%))}
   #content[data-local-screen="portfolio"] .portfolio-table :is(th,td):first-child{padding-inline-start:var(--pf-text-inset)}
   #content[data-local-screen="portfolio"] .portfolio-table :is(th,td[data-pf-label="최초 대비"]){white-space:nowrap;overflow-wrap:normal}

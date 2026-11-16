@@ -816169,5 +816169,6 @@
 "localUi194":{"requirement":"LOCAL-UI-194","components":["원가증감요인 사유열"],"status":"스타일 반영; 사용자 지시로 별도 검증 생략, 사용자 화면 확인","preserve":["자료/금액","다른열/팝업","열폭/동작"]},
 "localUi195":{"requirement":"LOCAL-UI-195","components":["홈 보고일/보고열","현재사업비열/주요금액"],"status":"스타일 반영, 사용자 직접 화면확인","preserve":["자료/금액","다른열/보조숫자","링크/저장열폭"]},
 "localUi196":{"requirement":"LOCAL-UI-196","components":["보고열 제목/날짜/링크여백","프로젝트목록 사업명"],"status":"스타일 반영, 사용자 직접 확인","preserve":["열폭/자료","링크동작","다른숫자"]},
-"localUi197":{"requirement":"LOCAL-UI-197","components":["보고일 실제 btn.text 링크"],"status":"잘못된 table-link 선택자 교정; 사용자 화면확인","preserve":["열폭/제목","자료/링크동작"]}
+"localUi197":{"requirement":"LOCAL-UI-197","components":["보고일 실제 btn.text 링크"],"status":"잘못된 table-link 선택자 교정; 사용자 화면확인","preserve":["열폭/제목","자료/링크동작"]},
+"localUi198":{"requirement":"LOCAL-UI-198","components":["보고 제목/날짜 왼쪽 시작선"],"status":"반영, 사용자 직접 확인","preserve":["열폭/폰트크기","자료/링크동작"]}
 }
