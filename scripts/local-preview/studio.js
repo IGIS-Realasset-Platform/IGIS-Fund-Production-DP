@@ -129,6 +129,16 @@ if(mainScroll){
  syncScrollbarGutter();
  if(typeof ResizeObserver==='function')new ResizeObserver(syncScrollbarGutter).observe(mainScroll);
 }
+// LOCAL-UI-242: filter the review screen only; never edit the original spec or audit ledger.
+App.register('spec',()=>{
+ const localAuthors=new Set(['design.preview@igisam.com','jk.jeon@igisam.com']);
+ const records=(App.state.auditEvents||[]).filter(row=>localAuthors.has(String(row.actor||'').toLowerCase()));
+ const projects=new Map((App.state.projects||[]).map(project=>[project.id,project.name]));
+ return App.panel('개발이력',records.length?App.table(['시각','프로젝트','행위','변경내용'],records.map(row=>[
+  App.esc(App.formatTimestamp(row.at)),App.esc(projects.get(row.projectId)||row.projectId||'—'),App.esc(row.action),App.btn('변경 전후','audit-detail',{id:row.id})
+ ])):App.empty('등록된 수정 이력이 없습니다.'));
+});
+
 // Read-only tables from the C106 access screen (a7abe01, src/admin-settings.js).
 const accessTabs=[['people','회원별'],['organizations','조직별'],['projects','프로젝트 담당']];
 let accessCapture,accessLoading;
