@@ -1069,3 +1069,7 @@
 .dp-app #content .overview-cost-bar-content .progress-value{font-size:13px;font-weight:700;text-align:right}
 .dp-app #content .dp-overview-cards .dp-cost-mini-line~.mini-footer{margin-top:18px;line-height:21px}
 .dp-app #content .overview-report-type{height:30px;min-height:30px}
+
+/* LOCAL-UI-238: matching equity segment and amount. */
+.dp-app #content .dp-overview-cards{--overview-equity:#467ba5}
+.dp-app #content .overview-finance-list .overview-equity-amount{color:var(--overview-equity)}
