@@ -816216,4 +816216,5 @@
 "localUi229":{"requirement": "LOCAL-UI-229", "components": ["예정/최근제출 네임택", "종류 선택 이동", "기존 제출기록 진입", "권한/이탈/프로젝트 경계"], "status": "보고종류 이동/프로젝트·기준일 유지/취소·권한차단 집중검사 통과. 실제3사업 추진현황·사업계획 등 클릭시 해당 종류 선택 확인, 최근제출 표밖 형제요소/카드정렬 확인. 자료revision23 지문동일·공유패키지 통과.", "preserve": ["원자료/제출본", "기준일/시점/초안", "네임택 디자인"]},
 "localUi230":{"requirement": "LOCAL-UI-230", "components": ["최근 제출 위 구분선"], "status": "CSS 반영, 사용자 화면 확인", "preserve": ["간격/표 외곽", "네임택/동작/자료"]},
 "localUi231":{"requirement": "LOCAL-UI-231", "components": ["최근제출 3항목 왼쪽정렬/20px간격"], "status": "CSS 반영, 화면 사용자 확인", "preserve": ["세로간격/표", "동작/자료"]},
-"localUi232":{"requirement": "LOCAL-UI-232", "components": ["최근제출 세로 위치"], "status": "6px 상향 반영, 사용자 화면 확인", "preserve": ["왼쪽정렬/20px", "표/자료/동작"]}}
+"localUi232":{"requirement": "LOCAL-UI-232", "components": ["최근제출 세로 위치"], "status": "6px 상향 반영, 사용자 화면 확인", "preserve": ["왼쪽정렬/20px", "표/자료/동작"]},
+"localUi233":{"requirement": "LOCAL-UI-233", "components": ["개요 파이낸싱 막대/금액", "자기자본/대출 목록 간격"], "status": "구현·3사업 막대/목록 금액 동일 확인. 소스 구문/공유패키지 확인, 실제 화면 사용자 확인", "preserve": ["집계/비율/자료", "말풍선/조달현황 이동", "다른 그래프"]}}
