@@ -8,7 +8,7 @@
 
 [플랫폼 열기](https://igis-development-project-platform.vercel.app/) · [버전 이력](VERSION_HISTORY.md) · [변경 내역](CHANGELOG.md)
 
-REVIEW-PREVIEW-03: 공유 검토본은 작업 브랜치 푸시 후 자동 빌드·배포합니다. [배포 연결 및 검증](docs/review-publication.md).
+REVIEW-PREVIEW-03: 에이전트는 최신 로컬 자료 포함·검증·커밋까지만 합니다. 사용자가 GitHub Desktop에서 작업 브랜치를 푸시하면 공유 검토본이 자동 빌드·배포됩니다. [배포 연결 및 검증](docs/review-publication.md).
 
 LOCAL-UI-185: 조달구조 투자자명 아래 역할 보조문구 제거. 3사업9단계 기관명/금액/트랜치/조달합계 대조 통과. 역할 원자료 및 대출현황/팝업 보존, 실제DB revision23쓰기0.
 

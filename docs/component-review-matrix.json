@@ -816138,6 +816138,7 @@
   "reviewPreview03": {
     "request": "REVIEW-PREVIEW-03",
     "purpose": "현재 로컬 작업 브랜치 푸시를 같은 공유 검토 주소에 자동 반영",
+    "commitPolicy": "2026.11.16: 에이전트는 최신 로컬 자료 캡처·검증·커밋까지만, 사용자만 푸시. 재캡처 revision23/seed 동일·패키지37파일 통과. 이번 푸시 없음.",
     "components": [
       "정적 빌드 및 최신 금융 모듈",
       "승인 더미 스냅샷",

@@ -56,8 +56,7 @@
   },
   "feed": {
     "mode": "verified-local-bundle",
-    "seed": "feed/seed.mjs",
-    "note": "현재 작업실 번들·seed를 그대로 고정. 원본 Feed 빌드로 재생성 후 다시 캡처. 로컬 Feed 소스 지문 변경 시 빌드 거절. 브라우저 IndexedDB의 개인 편집은 이 파일 스냅샷에 포함되지 않음.",
+    "sourceFingerprint": "2385e5ff48c11aa4e45f6eaff8dbe229aa6d7f909e145454849ac08e7edd114e",
     "sourceFiles": {
       "scripts/local-preview/feed/adapter.js": "21100c55fb7d0b9146421fe54e5b3df1ea5b39a82bc998348f850a6a3e512fa3",
       "scripts/local-preview/feed/build.mjs": "85e2478d70eb8e223ae8f9b31794160278e0fb5397cb22498154a8b77029fdbb",
@@ -72,6 +71,7 @@
       "scripts/local-preview/feed/theme.css": "dc483f06bef8eccdde5dc8867736782f7dae44c8a2791f5805413b99db727af0",
       "scripts/local-preview/feed/visuals.jsx": "68d95d5109470ac37c38e17a62e99a470596acdbe270bff6beeede5477dffda0"
     },
-    "sourceFingerprint": "2385e5ff48c11aa4e45f6eaff8dbe229aa6d7f909e145454849ac08e7edd114e"
+    "seed": "feed/seed.mjs",
+    "note": "현재 작업실 번들·seed를 그대로 고정. 원본 Feed 빌드로 재생성 후 다시 캡처. 로컬 Feed 소스 지문 변경 시 빌드 거절. 브라우저 IndexedDB의 개인 편집은 이 파일 스냅샷에 포함되지 않음."
   }
 }
