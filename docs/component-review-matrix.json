@@ -816182,5 +816182,6 @@
 "localUi207":{"requirement": "LOCAL-UI-207", "components": ["다른행/바깥클릭 접기", "동일항목/내용 클릭", "자세히보기/키보드"], "status": "구현·기존 현안 회귀검사 통과. 실제 클릭 화면은 사용자 확인", "preserve": ["자료", "버튼동작", "더보기"]},
 "localUi208":{"requirement": "LOCAL-UI-208", "components": ["홈 펼침 시작선/프로젝트 빈칸"], "status": "배치 반영, 사용자 화면 확인", "preserve": ["개요표", "버튼/롤오버/접기", "자료"]},
 "localUi209":{"requirement": "LOCAL-UI-209", "components": ["홈 현안 박스 제목"], "status": "문구 반영, 사용자 확인", "preserve": ["자료", "배치/기능"]},
-"localUi210":{"requirement": "LOCAL-UI-210", "components": ["개요 현안 펼침 본문 폭"], "status": "배치 반영, 사용자 화면 확인", "preserve": ["홈", "자료/동작", "배경/경계"]}
+"localUi210":{"requirement": "LOCAL-UI-210", "components": ["개요 현안 펼침 본문 폭"], "status": "배치 반영, 사용자 화면 확인", "preserve": ["홈", "자료/동작", "배경/경계"]},
+"localUi211":{"requirement": "LOCAL-UI-211", "components": ["사업유형 네임택", "현재단계 네임택", "검색후 재표시"], "status": "12개 유형/저장단계3개 색상 대응 확인, 검색 갱신 경로 반영. 화면은 사용자 확인", "preserve": ["원문/데이터", "검색/정렬", "열폭"]}
 }

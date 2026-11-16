@@ -81,3 +81,15 @@
   [data-local-screen="portfolio"] .portfolio-cost-row div{font-size:11px}
   [data-local-screen="portfolio"] :is(.portfolio-axis-ticks>span,.pf-cost-gridline):not(:first-child):not(:last-child){display:none}
 }
+
+/* Quiet labels, with stable colors independent of filtering/order. */
+[data-local-screen="portfolio"] .portfolio-table .pf-name-tag{display:inline-flex;align-items:center;max-width:100%;box-sizing:border-box;padding:3px 8px;border-radius:8px;font-size:13px;line-height:20px;font-weight:500;white-space:nowrap;vertical-align:middle;background:var(--tag-bg);color:var(--tag-ink)}
+.pf-name-tag.pf-tag-blue{--tag-bg:#e7edf8;--tag-ink:#3d547b}
+.pf-name-tag.pf-tag-cyan{--tag-bg:#e4eff3;--tag-ink:#3b6475}
+.pf-name-tag.pf-tag-violet{--tag-bg:#eee9f5;--tag-ink:#65527d}
+.pf-name-tag.pf-tag-sand{--tag-bg:#f2ecdf;--tag-ink:#796340}
+.pf-name-tag.pf-tag-rose{--tag-bg:#f3e7eb;--tag-ink:#855868}
+.pf-name-tag.pf-tag-indigo{--tag-bg:#e8eaf7;--tag-ink:#505c86}
+.pf-name-tag.pf-tag-sage{--tag-bg:#e8eeea;--tag-ink:#536b5d}
+.pf-name-tag.pf-tag-slate{--tag-bg:#e6ebf0;--tag-ink:#536476}
+.pf-name-tag.pf-tag-clay{--tag-bg:#f1e8e2;--tag-ink:#7a5c49}

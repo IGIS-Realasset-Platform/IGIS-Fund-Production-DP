@@ -58,6 +58,20 @@ export function positionLocalTooltip(tip, rect, {alignStart = false} = {}) {
   }
 }
 
+const typeTagTones={
+ '오피스·복합개발':'blue','오피스':'blue','물류센터':'cyan','물류':'cyan',
+ '대형복합개발':'violet','복합개발사업':'violet','리테일':'sand','호텔':'rose',
+ '데이터센터':'indigo','시니어리빙':'sage','임대주택':'slate','분양주택':'clay'
+};
+const stageTagTones={'사업성 검토':'sand','검토':'sand','인허가':'violet','공사':'blue'};
+export function portfolioTagTone(kind,value){
+ const known=(kind==='type'?typeTagTones:stageTagTones)[value];
+ if(known)return known;
+ const tones=['blue','cyan','violet','sand','rose','indigo','sage','slate','clay'];
+ const hash=[...value].reduce((n,char)=>(n*31+char.codePointAt(0))>>>0,0);
+ return tones[hash%tones.length];
+}
+
 function updateRows(A, table) {
   const projects = new Map(A.state.projects.map(p => [p.id, p]));
   const labels = [...table.tHead.rows[0].cells].map(cell => cell.dataset.pfLabel);
@@ -66,6 +80,13 @@ function updateRows(A, table) {
     if (!p || tr.cells.length !== labels.length) continue;
     const cells = [...tr.cells];
     for (const [index, cell] of cells.entries()) cell.dataset.pfLabel = labels[index];
+    for(const [label,kind,value] of [['사업유형','type',p.type],['현재단계','stage',p.stage]]){
+      const cell=cells[labels.indexOf(label)],text=String(value||'');
+      if(!cell)continue;
+      if(!text.trim()){cell.textContent=text;continue;}
+      const tag=node('span','pf-name-tag pf-tag-'+portfolioTagTone(kind,text),text);
+      cell.replaceChildren(tag);
+    }
     const dateCell = cells[labels.indexOf('다음 일정')];
     if (!dateCell) continue;
     // Use the schedule displayed by the product, including its legacy fallback.
