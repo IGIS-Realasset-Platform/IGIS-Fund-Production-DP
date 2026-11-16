@@ -1,12 +1,13 @@
 // Install a local presentation layer. Use the normal app
 // routes and actions; no project objects, saved settings or edit fields are written.
 import {decoratePortfolio,formatDisplayDates,formatDisplayLabels,positionLocalTooltip,registerChartTooltip} from './portfolio.js';
+import {decorateIssues,installIssueForms} from './issues.js';
 import {decorateCostDetail} from './cost-detail.js';
 import {decoratePermits} from './permits.js';
 import('./finance-milestones.js').then(({installMilestoneCapture})=>installMilestoneCapture(App)).catch(error=>console.error('단계 입력 연결:',error));
 
 const screens={
- 'portfolio':{view:'portfolio',tab:'',title:'전체 프로젝트 현황',decorate:decoratePortfolio},
+ 'portfolio':{view:'portfolio',tab:'',title:'전체 프로젝트 현황',decorate:(app,content)=>{decoratePortfolio(app,content);decorateIssues(app,content);}},
  'overview':{view:'overview',tab:'',decorate:decorateOverview},
  'cost-overview':{view:'cost',tab:'overview',decorate:decorateCostOverview},
  'cost-detail':{view:'cost',tab:'detail',decorate:decorateCostDetail},
@@ -24,6 +25,7 @@ function decorateFinanceScreen(app,container,project){
   if(panel.isConnected)decorateFinancing(app,container,project);
  }).catch(error=>console.warn('파이낸싱 보조 화면을 불러오지 못했습니다.',error));
 }
+installIssueForms(App);
 App.localPreviewLoanEditing=true;
 App.costPaymentOverview=project=>project.asOf&&project.asOf>App.today?project.asOf:App.today;
 App.on('studio-contract-amounts',()=>{
@@ -481,8 +483,7 @@ function decorateOverview(_app, content, project){
   issueHeading.textContent='주요 현안 관리';
   issueAdd.textContent='+ 현안 등록';
  }
- content.querySelector('[data-table-col-resize][aria-label="현안 열 너비 조절"]')
-  ?.closest('table')?.classList.add('studio-issue-table');
+ decorateIssues(_app,content,project);
  const facts=content.querySelector('.dp-project-facts-frame');
  const details=facts?.closest('details');
  const edit=facts?.querySelector('[data-action="overview-basic-edit"]');

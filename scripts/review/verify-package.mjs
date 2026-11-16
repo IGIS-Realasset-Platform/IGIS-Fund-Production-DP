@@ -21,7 +21,7 @@ for(const name of await readdir(directory,{recursive:true})){
  }
 }
 assert.equal(actual.length,Object.keys(version.files).length+1);
-for(const name of ['index.html','review-config.js','review-client.js','studio.js','finance-overview.js','finance-capital.js','finance-stage-fields.js','finance-milestones.js','finance-stage-editor-ui.js','finance-stage-editor-model.js','local-account-photo.png','work-feed/account-avatar.png','review-data/access-screen-capture.json','review-data/stakeholders.json'])assert(version.files[name],name);
+for(const name of ['index.html','review-config.js','review-client.js','studio.js','issues.js','finance-overview.js','finance-capital.js','finance-stage-fields.js','finance-milestones.js','finance-stage-editor-ui.js','finance-stage-editor-model.js','local-account-photo.png','work-feed/account-avatar.png','review-data/access-screen-capture.json','review-data/stakeholders.json'])assert(version.files[name],name);
 const workspace=await read('review-data/workspace.json');assert.equal(hash(workspace),version.workspaceSha256);
 const state=JSON.parse(workspace);assert.equal(state.projects.filter(p=>!p.deletedAt).length,3);
 assert.deepEqual(state.projects.map(p=>p.id),['TEST-20261016-A','TEST-20261016-B','TEST-20261016-C']);

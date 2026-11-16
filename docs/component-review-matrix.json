@@ -816170,5 +816170,6 @@
 "localUi195":{"requirement":"LOCAL-UI-195","components":["홈 보고일/보고열","현재사업비열/주요금액"],"status":"스타일 반영, 사용자 직접 화면확인","preserve":["자료/금액","다른열/보조숫자","링크/저장열폭"]},
 "localUi196":{"requirement":"LOCAL-UI-196","components":["보고열 제목/날짜/링크여백","프로젝트목록 사업명"],"status":"스타일 반영, 사용자 직접 확인","preserve":["열폭/자료","링크동작","다른숫자"]},
 "localUi197":{"requirement":"LOCAL-UI-197","components":["보고일 실제 btn.text 링크"],"status":"잘못된 table-link 선택자 교정; 사용자 화면확인","preserve":["열폭/제목","자료/링크동작"]},
-"localUi198":{"requirement":"LOCAL-UI-198","components":["보고 제목/날짜 왼쪽 시작선"],"status":"반영, 사용자 직접 확인","preserve":["열폭/폰트크기","자료/링크동작"]}
+"localUi198":{"requirement":"LOCAL-UI-198","components":["보고 제목/날짜 왼쪽 시작선"],"status":"반영, 사용자 직접 확인","preserve":["열폭/폰트크기","자료/링크동작"]},
+"localUi199":{"requirement":"LOCAL-UI-199","components":["홈 현안5+10개","행 펼침/키보드","개요 공통표","원가/일정 방향표시","등록/수정/취소/오류"],"status":"구현 완료. 모델/표/등록수정 경계검사 통과(부호·미입력/0·없음/지연 모순·동시삭제·5/15/25). 실제화면 최신5/펼쳐보기7행·행/키보드펼침·등록/수정 진입/취소 확인. 실DB 저장은 검사하지 않고 격리 모델에서 확인. revision23·자료지문 동일, 공유38파일검사 통과.","preserve":["원금액/일정원문","원가합계","삭제/기존자료/다른프로젝트"]}
 }
