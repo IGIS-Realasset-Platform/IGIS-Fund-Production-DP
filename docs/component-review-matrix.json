@@ -816131,4 +816131,6 @@
 "localUi182":{"requirement":"LOCAL-UI-182","components":["DB연결5행","수정미리보기/저장/취소","새단계고정/과거결측","기준문구삭제"],"status":"추가행누락 RED→모델/실제9단계/미리보기취소/격리저장 통과; revision23쓰기0"}
 ,
 "localUi183":{"requirement":"LOCAL-UI-183","components":["요약표 상시버튼/말풍선","롤오버진입 제거","펼침접힘 애니메이션/빠른반복/키보드","편집/추가/취소 보존"],"status":"롤오버버튼 RED→위치/말풍선/개폐/반복/키보드/편집보호/추가취소 통과"}
+,
+"localUi184":{"requirement":"LOCAL-UI-184","components":["요약표 버튼 외곽선","말풍선제거/hover/focus","개폐/키보드/편집보호"],"status":"말풍선잔존 RED→hover/focus제거·남색3px·개폐/반복/키보드/편집보호 통과"}
 }

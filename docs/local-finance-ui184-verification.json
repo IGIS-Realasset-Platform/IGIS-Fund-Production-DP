@@ -1,0 +1,18 @@
+{
+  "requirement": "LOCAL-UI-184",
+  "status": "verified",
+  "red": "말풍선 data-tip 잔존",
+  "testCorrection": "색 기대값 추측 오류를 실제 기존 --studio-accent:#253985 선언 기준으로 정정",
+  "checks": [
+    "hover/focus말풍선없음",
+    "남색3px",
+    "위치/개폐/반복/키보드/편집보호/추가취소",
+    "실제API전후동일/쓰기0"
+  ],
+  "artifact": "/private/tmp/idm-ui184.png",
+  "sha256": {
+    "scripts/local-preview/finance-overview.js": "16b74018f98b04268a30d7f65454a64e3a80251657128e2bb4d61fbb31ac0294",
+    "scripts/local-preview/finance-overview.css": "db513a82d6088f93e6f414fe4c8a41f5c26dd1b17d7c26d425e0af8330bc23e8",
+    "tests/local-finance-summary-toggle-browser.mjs": "c2466000802d70ae25cb23b9ac23f98e57a646881bd605ae8cded426a9cc767e"
+  }
+}

@@ -1,4 +1,3 @@
-import {registerChartTooltip} from './portfolio.js';
 import {currentCapitalSources,capitalSourceTotal,capitalSourceGroups} from './finance-capital.js';
 import {stageFields} from './finance-stage-fields.js';
 import {createStageDraft} from './finance-stage-editor-model.js';
@@ -158,7 +157,7 @@ export function decorateFinancing(A,content,project){
     ${costBases.map(row=>`<button type="button" aria-pressed="${row===basis}" data-cost-basis="${A.esc(row.id)}">
      ${row.date?`<span>${A.esc(displayDate(row.date))}</span>`:''}<strong>${A.esc(row.name)}${row.id==='current'&&costBases.some(other=>other.snapshot&&other.name===row.name)?' · 현재':''}</strong></button>`).join('')}
    </div>
-   <button type="button" class="btn studio-stage-summary-toggle" data-stage-action="details" data-tip="단계별 핵심 지표 요약표" aria-controls="studio-stage-table" aria-expanded="${view.detailsOpen}">
+   <button type="button" class="btn studio-stage-summary-toggle" data-stage-action="details" aria-controls="studio-stage-table" aria-expanded="${view.detailsOpen}">
     <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M9 10v10"/></svg><span>단계별 핵심 지표 요약표</span><svg class="studio-stage-summary-chevron" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
    </button></div>
    <div class="studio-stage-actions"><button type="button" class="btn" data-milestone-add${view.editor?.pending?' disabled':''}>단계 추가</button></div></div>
@@ -181,8 +180,6 @@ export function decorateFinancing(A,content,project){
     ${renderStageTable(A,project,costBases,basis,view.editor)}
 
    </div>`;
-  const summaryToggle=body.querySelector('[data-stage-action=details]');
-  registerChartTooltip(summaryToggle,{title:'단계별 핵심 지표 요약표',amounts:[],anchor:summaryToggle});
   bindStageEditor(A,stagePanel,project,view,{
    render,
    refresh:()=>{costBases=milestoneRows(A,project);current=costBases.at(-1);render();},

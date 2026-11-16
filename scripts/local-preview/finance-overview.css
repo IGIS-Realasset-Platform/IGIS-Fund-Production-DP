@@ -246,7 +246,7 @@
 .studio-milestone-toolbar {display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:12px}
 .studio-stage-navigation {display:flex;align-items:center;gap:12px;min-width:0}
 .studio-stage-navigation > .studio-stage-selector {flex:0 1 auto;min-width:0;margin:0}
-.dp-app #content .studio-stage-summary-toggle {display:inline-flex;align-items:center;gap:8px;flex:none;white-space:nowrap;background:#fff;color:var(--studio-accent);border:1px solid #cbd2df}
+.dp-app #content .studio-stage-summary-toggle {display:inline-flex;align-items:center;gap:8px;flex:none;white-space:nowrap;background:#fff;color:var(--studio-accent);border:3px solid var(--studio-accent)}
 .studio-stage-summary-chevron {transition:transform 260ms ease}
 .studio-stage-summary-toggle[aria-expanded="true"] .studio-stage-summary-chevron {transform:rotate(180deg)}
 @media (prefers-reduced-motion:reduce) {.studio-stage-summary-chevron {transition:none}}
