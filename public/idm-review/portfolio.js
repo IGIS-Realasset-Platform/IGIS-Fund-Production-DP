@@ -122,8 +122,21 @@ function addChartGridlines(chart) {
   list.append(grid);
 }
 
+export function formatPortfolioTick(eok) {
+  if (eok === 0) return '0';
+  const n = Math.abs(eok);
+  const format = value => new Intl.NumberFormat('ko-KR', {maximumFractionDigits:2}).format(value);
+  return (eok < 0 ? '−' : '') + (n >= 10000 ? format(n / 10000) + '조' : n >= 1000 ? format(n / 1000) + '천억' : format(n) + '억');
+}
+
 function decorateChart(A, chart) {
   addChartGridlines(chart);
+  for (const tick of chart.querySelectorAll('.portfolio-axis-ticks > span')) {
+    const raw = tick.dataset.pfTickValue ?? tick.textContent.replaceAll(',', '').trim();
+    tick.dataset.pfTickValue = raw;
+    const value = Number(raw);
+    if (Number.isFinite(value)) tick.textContent = formatPortfolioTick(value);
+  }
   const legend = chart.querySelector(':scope > .legend');
   if (legend) {
     const keys = [['initial', '최초UW'], ['current', '현재 사업비'], ['increase', '상승'], ['decrease', '하락']];
@@ -137,11 +150,7 @@ function decorateChart(A, chart) {
       return item;
     }));
     const unit = chart.querySelector('.portfolio-cost-axis > span:first-child');
-    if (unit) {
-      unit.classList.add('pf-cost-unit');
-      unit.textContent = `(${unit.textContent})`;
-      legend.lastElementChild.append(' ', unit);
-    }
+    unit?.remove();
   }
   const projects = new Map(A.state.projects.map(project => [project.id, project]));
   for (const row of chart.querySelectorAll('.portfolio-cost-row')) {

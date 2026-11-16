@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "6eef83605d587c58762a096a0e1718ca7037f276",
+  "sourceCommit": "b180127f222359fc54a7c47ccae7ee2b6c143b34",
   "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
   "workspaceRevision": 23,
   "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
@@ -58,8 +58,8 @@
       "bytes": 15590
     },
     "finance-overview.css": {
-      "sha256": "66e36f5b2d01b3747509c2b16111a01c83edb59fef95a0210a18795f0db79cdc",
-      "bytes": 14389
+      "sha256": "0ae7ec79c84be88752bfad7887e2a31f8dbe04fe831f8913cff6c1452a862dd2",
+      "bytes": 14386
     },
     "finance-overview.js": {
       "sha256": "983ba5f3ffc0556b2d36542ddbf5439d15797e8ee9c82511cfeba232d60924ff",
@@ -102,8 +102,8 @@
       "bytes": 11989
     },
     "portfolio.js": {
-      "sha256": "a5638544608c5bdcc069f975ea454271a44d53e35f216d0e85640008b95e1fde",
-      "bytes": 14238
+      "sha256": "7a1e499fbbf71d65a0f889e126d43dc1324bf1b1adc2200d4f0ae8b88a111ac5",
+      "bytes": 14752
     },
     "review-client.js": {
       "sha256": "1acd64ff8f7bce8fa16a5aeed055e4395bd6d2d75785103cb757962b2a9ba408",

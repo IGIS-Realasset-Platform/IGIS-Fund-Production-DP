@@ -57,7 +57,7 @@
 .studio-stage-comparison {
  position:relative;
  display:grid;
- grid-template-columns:minmax(0,1fr) minmax(0,2.05fr);
+ grid-template-columns:minmax(0,3fr) minmax(0,7fr);
  gap:6px;
  min-width:0;
  height:274px;
