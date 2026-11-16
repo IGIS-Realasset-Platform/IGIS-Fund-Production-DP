@@ -4,28 +4,28 @@
 
 - 사용자 승인: 현재 로컬 작업실을 같은 데이터로 공유 주소에 반영하고 이후 작업 브랜치 푸시로 자동 갱신한다.
 - 주소: https://iotaseoul.cloud/idm-review/
-- 원본 저장소 `codex/platform-edits`의 코드를 빌드해 공유 저장소 `public/idm-review/`만 갱신한다. 기존 루트 서비스 코드·운영 DB·원본 DB는 변경하지 않는다.
+- 사용자님 배포 저장소의 `codex/idm-ui-review`의 코드를 빌드해 공유 저장소 `public/idm-review/`만 갱신한다. 기존 루트 서비스 코드·운영 DB·원본 DB는 변경하지 않는다.
 - 이름·이메일·사업명·금액은 사용자가 승인한 로컬 더미를 그대로 사용한다. 별도의 대체 사업을 만들지 않는다.
 - 로컬 DB 파일은 Git에 포함되지 않으므로 로컬 자료 변경 작업을 커밋할 때 `node scripts/review/capture.mjs`로 공유 스냅샷을 함께 갱신한다. 일반 코드·디자인 변경은 푸시 시 자동 빌드된다.
 
 ## 커밋 담당과 푸시 담당 — 2026.11.16
 
 - 에이전트: 코드 수정 → 최신 로컬 자료 캡처·차이 확인 → 공유 패키지 빌드·검사 → 코드와 자료를 함께 커밋. 별도 요청 없는 푸시/수동 배포 금지.
-- 사용자: GitHub Desktop에서 `codex/platform-edits` 푸시만 실행.
+- 사용자: GitHub Desktop에서 `codex/idm-ui-review` 푸시만 실행.
 - Feed 브라우저 개인 편집은 캡처가 자동 수집하지 않으므로 해당 기능 작업 시 seed와 별도 대조한다. 마지막 커밋 뒤의 미커밋 로컬 변경은 다음 커밋에 포함한다.
 - 성공 기준: 같은 커밋의 화면 소스와 승인된 최신 자료가 패키지에 포함됨. 보존 기준: 운영/원본 DB·다른 사이트 코드·기존 검토 저장자료 유지. UI·금액 정책 변경 없음.
 
 ## 흐름
 
-1. GitHub Desktop에서 `codex/platform-edits`를 푸시한다.
+1. GitHub Desktop에서 `codex/idm-ui-review`를 푸시한다.
 2. `Publish IDM review`가 커밋된 코드와 검토 스냅샷을 빌드·검사한다.
 3. 공유 저장소의 `public/idm-review/`만 갱신하는 커밋을 푸시한다.
-4. 공유 저장소의 기존 GitHub Pages 작업이 같은 주소에 배포한다. 푸시 직후가 아니라 두 작업이 성공한 뒤 새로고침하면 반영된다.
+4. GITHUB_TOKEN 커밋은 후속 push 작업을 자동 유발하지 않으므로, 기존 deploy.yml을 workflow_dispatch로 명시 실행하여 같은 주소에 배포한다. 푸시 직후가 아니라 두 작업이 성공한 뒤 새로고침하면 반영된다.
 5. 자료 스냅샷 버전이 바뀌면 새 버전의 로컬 보관 영역을 사용한다. 이전 브라우저 검토자료는 삭제하지 않는다.
 
 ## 권한과 실패 처리
 
-- 원본 저장소 Actions secret `IDM_REVIEW_PUBLISH_TOKEN`: 공유 저장소 하나의 Contents 읽기·쓰기에 한정한 연결 토큰. 조직 정책상 SSH 배포키는 사용할 수 없다. 운영 DB 인증정보는 사용하지 않는다.
+- 현재 자동 배포는 사용자님 배포 저장소의 일회성 GITHUB_TOKEN으로 같은 저장소 public/idm-review만 갱신한 뒤 기존 deploy.yml을 실행한다. 별도 개인 토큰이나 관용 매니저 저장소를 사용하지 않는다. 이전 PAT 연결 기록은 당시 이력이다.
 - 빌드 실패·모듈 누락·지문 불일치·다른 경로 변경·푸시 충돌은 배포를 중단한다. 기존 게시본은 그대로 유지한다.
 - 공유 URL은 기존과 같은 공개 검토 주소이며 인증을 새로 추가하지 않는다.
 
@@ -36,3 +36,10 @@
 - 2026.11.16 연결 토큰 등록 완료(만료 2027.02.14). 자동 배포 성공: 소스 dc622e634021c90c9fe0facec1be203f6d976bcf → 공유 저장소 29179b7. 소스 Actions 43795618103 성공 및 실주소 review-version.json 커밋 일치 확인. 실제 Chrome 새로고침 후 3단계·요약표 버튼·현재 지표·투자자명/금액 확인. 공개 게시물은 revision23, seed 91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35. 루트 HTML 차이는 기존 Pages 재빌드의 JS/CSS 파일 해시이며 루트 소스 변경은 없음.
 
 - 커밋 담당/푸시 담당 지시 반영 후 재검증: 로컬 재캡처 revision23·3사업·주소록754명, 기존 seed와 동일. `/private/tmp/idm-review-commit-check` 패키지37파일 검사 통과. 이번 작업은 지침 및 검수 기록 커밋까지만 수행하고 푸시하지 않음.
+
+
+## REVIEW-PREVIEW-04 소유권 교정 — 2026.11.16
+
+사용자 승인: 관용 매니저 원본의 복사본을 UX/UI 교정하고 사용자님 기존 GitHub 사이트에서 검토한다. 새 저장소를 사용하지 않는다. 로컬 커밋·더미 원자료·화면을 보존하고 origin을 IGIS-Realasset-Platform/IGIS-Fund-Production-DP로, 작업 브랜치를 codex/idm-ui-review로 교정했다. 관용 매니저 저장소는 upstream 참조 전용/푸시차단이다. 사용자님 저장소 main으로 소스 브랜치를 병합하지 않는다. main에는 자동 생성한 public/idm-review만 반영한다.
+
+에이전트는 커밋까지만, 최초 Publish branch 및 이후 Push origin은 사용자가 한다. 방금 만든 this8369/IDM-Development-Review는 빈 상태로 미사용이며 임의 삭제하지 않는다. 새 연결에서 최초 실제 자동 배포는 사용자 푸시 후 확인 대상이다. 이전 연결 성공을 새 연결의 완료로 주장하지 않는다.

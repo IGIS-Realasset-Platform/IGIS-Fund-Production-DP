@@ -2,11 +2,12 @@ name: Publish IDM review
 
 on:
   push:
-    branches: [codex/platform-edits]
+    branches: [codex/idm-ui-review]
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  actions: write
 
 concurrency:
   group: idm-review-publication
@@ -14,7 +15,7 @@ concurrency:
 
 jobs:
   publish:
-    if: github.repository == 'KYLee94/IGIS_Development_Project_Platform'
+    if: github.repository == 'IGIS-Realasset-Platform/IGIS-Fund-Production-DP'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -39,7 +40,11 @@ jobs:
           repository: IGIS-Realasset-Platform/IGIS-Fund-Production-DP
           ref: main
           path: shared-site
-          token: ${{ secrets.IDM_REVIEW_PUBLISH_TOKEN }}
+          token: ${{ github.token }}
       - name: Update only the IDM review directory
         working-directory: source
         run: node scripts/review/publish.mjs ../review-site ../shared-site
+      - name: Start existing Pages deployment on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST repos/IGIS-Realasset-Platform/IGIS-Fund-Production-DP/actions/workflows/deploy.yml/dispatches -f ref=main
