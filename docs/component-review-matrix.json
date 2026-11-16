@@ -816193,4 +816193,6 @@
 "localUi215":{"requirement":"LOCAL-UI-215","components":["사업비 그래프 눈금","하단 단위문구"],"status":"표시 반영·4개 눈금 변환 확인. revision23 자료동일·공유패키지 검증 통과. 실제 화면은 사용자 확인","preserve":["축값/바 위치","금액/말풍선","검색/정렬"]}
 ,
 "localUi216":{"requirement":"LOCAL-UI-216","components":["파이낸싱 상단 좌측정보/우측지표 폭"],"status":"30:70 비율로 배치 조정, 실제 화면은 사용자 확인","preserve":["전체폭/간격/높이","수치/단계/동작"]}
+,
+"localUi217":{"requirement":"LOCAL-UI-217","components":["홈 최초UW/현재/증감 금액"],"status":"표시 반올림 적용, 사용자 화면 확인","preserve":["원금액/정렬","평당가/색","차트"]}
 }
