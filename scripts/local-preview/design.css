@@ -197,7 +197,10 @@
  .studio-issues .issue-col-actions{width:100px}
  .dp-app #content .studio-issues :is(th,td){text-align:left}
  .dp-app #content .studio-issues :is(th,td):is(.issue-cost,.issue-schedule){text-align:center}
- .studio-issues :is(.issue-project,.issue-title){font-weight:700;overflow-wrap:anywhere;word-break:keep-all}
+ .studio-issues :is(.issue-project,.issue-title){overflow-wrap:anywhere;word-break:keep-all}
+ .studio-issues td.issue-project{font-weight:400}
+ .studio-issues .issue-title{font-weight:700}
+ .dp-app #content .studio-issues .issue-summary>td{height:47px;box-sizing:border-box;padding-block:7px}
  .studio-issues .issue-summary{cursor:pointer}
  .studio-issues .issue-summary:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
  .studio-issues .issue-progress{position:relative;padding-right:28px}
@@ -210,7 +213,9 @@
  .studio-issues .issue-impact.increase{color:#e11932}
  .studio-issues .issue-impact.decrease{color:#0877ec}
  .studio-issues .issue-detail[hidden]{display:none}
- .studio-issues .issue-full-progress{white-space:pre-wrap;overflow-wrap:anywhere;padding:8px 4px;font-weight:400;line-height:1.65}
+ .studio-issues .issue-detail-layout{display:flex;align-items:flex-start;gap:20px;padding-block:8px}
+ .studio-issues .issue-full-progress{flex:1;min-width:0;white-space:pre-wrap;overflow-wrap:anywhere;padding:0;font-weight:400;line-height:1.65}
+ .studio-issues .issue-view-project{flex:none;margin-inline-start:auto}
  .issue-more-wrap{display:flex;justify-content:center;padding-top:14px}
  .dp-app #content :is(.table-toolbar,.toolbar){gap:8px;padding:12px 18px}
  .dp-app #content .panel-body>:is(.table-toolbar,.toolbar){padding:0 0 12px}

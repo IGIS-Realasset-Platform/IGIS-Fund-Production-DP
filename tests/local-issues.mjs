@@ -19,6 +19,9 @@ assert.equal(rows.slice(0,5).length,5);assert.equal(rows.slice(0,15).length,15);
 const A={esc:x=>String(x??'').replaceAll('<','&lt;'),money:x=>String(x),canEditProject:()=>true,btn:(label)=>`<button>${label}</button>`};
 let html=renderIssues(A,[{project,issue:decreased}],{home:true});
 assert.match(html,/프로젝트.*현안.*진행내용.*원가영향.*일정영향.*발생일/s);assert.equal((html.match(/issue-impact decrease/g)||[]).length,2);assert.match(html,/issue-preview/);assert.match(html,/aria-expanded="false"/);
+const navigation=[];
+renderIssues({...A,btn:(label,action,data)=>{navigation.push({label,action,data});return '<button>'+label+'</button>';}},[{project,issue:original}],{home:true});
+assert.deepEqual(navigation,[{label:'자세히보기',action:'go',data:{view:'overview',projectId:'p'}}],'홈 상세는 해당 프로젝트 개요로 연결');
 html=renderIssues(A,[{project,issue:original}],{expanded:new Set(['["p","i"]'])});assert.doesNotMatch(html,/<th[^>]*>프로젝트/);assert.match(html,/aria-expanded="true"/);assert.match(html,/수정/);
 // Existing form transaction is used; reject concurrent deletion/replacement instead of creating a record.
 const actions={},audits=[];let form;
