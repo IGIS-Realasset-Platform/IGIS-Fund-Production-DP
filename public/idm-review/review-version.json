@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "7721af5c2a37f43ff6880c450400f24be88cc3b5",
+  "sourceCommit": "715e6f9b67f61d99ec0047accff3f5b9d2859981",
   "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
   "workspaceRevision": 23,
   "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
@@ -46,8 +46,8 @@
       "bytes": 4836
     },
     "design.css": {
-      "sha256": "61defd39f6d2d7a7e443708fd0cc87f0b705028a15eb3eddca7cff3a117f1a24",
-      "bytes": 58830
+      "sha256": "362909d10d60d87ff944e4b297782063c335076edc4c0c4fea5ea230c84c8d45",
+      "bytes": 58904
     },
     "finance-capital.js": {
       "sha256": "a3fa7024f2407478f9733d79f71cda9c2d112edd934ac4f82a5ad90cfe2ee019",
@@ -58,8 +58,8 @@
       "bytes": 15590
     },
     "finance-overview.css": {
-      "sha256": "9f4a9eb98ea4ac5a19cb03c2d5443b7245bf74e91e44caecaf46aa05441f092b",
-      "bytes": 14139
+      "sha256": "66e36f5b2d01b3747509c2b16111a01c83edb59fef95a0210a18795f0db79cdc",
+      "bytes": 14389
     },
     "finance-overview.js": {
       "sha256": "983ba5f3ffc0556b2d36542ddbf5439d15797e8ee9c82511cfeba232d60924ff",
