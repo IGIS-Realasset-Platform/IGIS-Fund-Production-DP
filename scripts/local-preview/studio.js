@@ -495,6 +495,16 @@ function decorateOverview(_app, content, project){
    toolbar?.remove();
   }
  }
+ for(const step of content.querySelectorAll('.dp-timeline-step.current')){
+  step.setAttribute('aria-current','step');
+  const marker=step.querySelector('.dp-timeline-marker');
+  if(marker&&!marker.querySelector('.studio-timeline-current')){
+   const badge=document.createElement('span');
+   badge.className='studio-timeline-current';
+   badge.textContent='현재';
+   marker.append(badge);
+  }
+ }
  const body=content.querySelector('.dp-overview-row > .panel:last-child > .panel-body');
  const buttons=[...(body?.querySelectorAll(':scope > .dp-permit-mini-row')||[])];
  if(!buttons.length)return;

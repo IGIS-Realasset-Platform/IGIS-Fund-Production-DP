@@ -235,7 +235,11 @@
  .dp-app #content details.studio-overview-basic:has(>[data-action="overview-basic-edit"])>summary{padding-inline-end:calc(var(--studio-panel-inset) + 120px)}
  .studio-overview-basic>[data-action="overview-basic-edit"]{position:absolute;top:calc(var(--studio-panel-heading-height,58px)/2);inset-inline-end:var(--studio-panel-inset);transform:translateY(-50%)}
  .studio-overview-basic:not([open])>[data-action="overview-basic-edit"]{display:none}
- [data-local-screen="overview"] .dp-timeline{grid-template-columns:repeat(var(--steps),minmax(82px,1fr));padding-block:8px}
+ [data-local-screen="overview"] .dp-timeline{grid-template-columns:repeat(var(--steps),minmax(82px,1fr));padding-block:36px 8px}
+ [data-local-screen="overview"] .studio-timeline-current{position:absolute;z-index:2;bottom:calc(100% + 7px);left:50%;transform:translateX(-50%);padding:3px 11px;border-radius:8px;background:var(--blue);color:#fff;font-size:11px;font-weight:700;line-height:18px;white-space:nowrap}
+ [data-local-screen="overview"] .studio-timeline-current::after{content:"";position:absolute;left:50%;bottom:-4px;width:8px;height:8px;background:inherit;transform:translateX(-50%) rotate(45deg);border-radius:1px}
+ [data-local-screen="overview"] .dp-timeline-step.current .dp-timeline-dot{background:var(--blue);border-color:#fff;box-shadow:0 0 0 2px var(--blue),0 0 0 6px #e8ecf8}
+ [data-local-screen="overview"] .dp-timeline-step.current>b{color:var(--blue);font-weight:700}
  [data-local-screen="overview"] .dp-timeline-step{gap:5px}
  [data-local-screen="overview"] .dp-timeline-step b{min-block-size:2.7em;align-content:center;font-size:13px;line-height:1.35;word-break:keep-all;overflow-wrap:anywhere}
  [data-local-screen="overview"] .dp-timeline-step time{font-size:12px}
@@ -244,7 +248,7 @@
  .studio-overview-permits>.dp-permit-mini-row{padding:6px 10px;background:transparent;border-bottom-color:var(--studio-table-row-divider)}
  .studio-overview-permits>.dp-permit-mini-row:hover{background:#e9edf4}
  @media(width > 1050px){
-  [data-local-screen="overview"] .dp-overview-row{align-items:stretch}
+  [data-local-screen="overview"] .dp-overview-row{grid-template-columns:minmax(0,3fr) minmax(340px,2fr);align-items:stretch}
   [data-local-screen="overview"] .dp-overview-row>.panel{display:flex;flex-direction:column}
   [data-local-screen="overview"] .dp-overview-row>.panel>.panel-header{flex:none}
   [data-local-screen="overview"] .dp-overview-row>.panel:first-child>.panel-body{flex:1;min-block-size:0;contain:size;overflow:auto}
