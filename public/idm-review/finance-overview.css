@@ -144,6 +144,16 @@
 .studio-stage-table thead .studio-stage-column-heading strong {font-size:inherit;font-weight:700}
 .studio-stage-table :is(th,td):not(:first-child) {min-width:150px;white-space:normal;overflow-wrap:anywhere}
 .studio-stage-table small {display:block;margin-top:3px;color:var(--muted);white-space:pre-line}
+/* LOCAL-UI-186: compact stage dates and delineate the comparison columns. */
+.studio-stage-table thead .studio-stage-column-heading + small {margin-top:-3px}
+.dp-app #content .studio-stage-table table.studio-cost-bases > thead > tr > th::after {
+ background:#e1e5ec;transform:none;
+}
+.dp-app #content .studio-stage-table table.studio-cost-bases > :is(thead,tbody) > tr > :is(th,td):not(:first-child) {
+ border-left:1px solid #e1e5ec;
+}
+/* LOCAL-UI-187: primary values and headings; keep secondary text muted. */
+.dp-app #content .studio-stage-table table.studio-cost-bases :is(th,th .studio-stage-column-heading strong,tbody td > strong) {color:#000}
 .dp-app #content .studio-stage-table [data-selected="true"] {background:#ebf0fb}
 .studio-capital-investment {
  margin-top:8px;

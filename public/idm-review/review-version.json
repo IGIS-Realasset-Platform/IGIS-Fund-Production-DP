@@ -1,13 +1,12 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "dc622e634021c90c9fe0facec1be203f6d976bcf",
+  "sourceCommit": "a8ca91bf9f922f09e62e0d65115e344f09d8ec83",
   "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
   "workspaceRevision": 23,
   "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
   "feed": {
     "mode": "verified-local-bundle",
-    "seed": "feed/seed.mjs",
-    "note": "현재 작업실 번들·seed를 그대로 고정. 원본 Feed 빌드로 재생성 후 다시 캡처. 로컬 Feed 소스 지문 변경 시 빌드 거절. 브라우저 IndexedDB의 개인 편집은 이 파일 스냅샷에 포함되지 않음.",
+    "sourceFingerprint": "2385e5ff48c11aa4e45f6eaff8dbe229aa6d7f909e145454849ac08e7edd114e",
     "sourceFiles": {
       "scripts/local-preview/feed/adapter.js": "21100c55fb7d0b9146421fe54e5b3df1ea5b39a82bc998348f850a6a3e512fa3",
       "scripts/local-preview/feed/build.mjs": "85e2478d70eb8e223ae8f9b31794160278e0fb5397cb22498154a8b77029fdbb",
@@ -22,7 +21,8 @@
       "scripts/local-preview/feed/theme.css": "dc483f06bef8eccdde5dc8867736782f7dae44c8a2791f5805413b99db727af0",
       "scripts/local-preview/feed/visuals.jsx": "68d95d5109470ac37c38e17a62e99a470596acdbe270bff6beeede5477dffda0"
     },
-    "sourceFingerprint": "2385e5ff48c11aa4e45f6eaff8dbe229aa6d7f909e145454849ac08e7edd114e"
+    "seed": "feed/seed.mjs",
+    "note": "현재 작업실 번들·seed를 그대로 고정. 원본 Feed 빌드로 재생성 후 다시 캡처. 로컬 Feed 소스 지문 변경 시 빌드 거절. 브라우저 IndexedDB의 개인 편집은 이 파일 스냅샷에 포함되지 않음."
   },
   "files": {
     ".nojekyll": {
@@ -46,8 +46,8 @@
       "bytes": 4836
     },
     "design.css": {
-      "sha256": "9654b9ed1594e1bcb2825f41a61932d80c63ed57066dccaf49797789b828392f",
-      "bytes": 58641
+      "sha256": "86d384539431eb825a3fd2540bd24c1a2e0b0822d6264ada390234e51a4d9517",
+      "bytes": 58707
     },
     "finance-capital.js": {
       "sha256": "a3fa7024f2407478f9733d79f71cda9c2d112edd934ac4f82a5ad90cfe2ee019",
@@ -58,8 +58,8 @@
       "bytes": 15590
     },
     "finance-overview.css": {
-      "sha256": "db513a82d6088f93e6f414fe4c8a41f5c26dd1b17d7c26d425e0af8330bc23e8",
-      "bytes": 13487
+      "sha256": "9f4a9eb98ea4ac5a19cb03c2d5443b7245bf74e91e44caecaf46aa05441f092b",
+      "bytes": 14139
     },
     "finance-overview.js": {
       "sha256": "983ba5f3ffc0556b2d36542ddbf5439d15797e8ee9c82511cfeba232d60924ff",
