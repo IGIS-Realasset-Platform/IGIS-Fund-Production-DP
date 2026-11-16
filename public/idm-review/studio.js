@@ -4,6 +4,7 @@ import {decoratePortfolio,formatDisplayDates,formatDisplayLabels,positionLocalTo
 import {decorateIssues,installIssueForms} from './issues.js';
 import {decorateCostDetail} from './cost-detail.js';
 import {decoratePermits} from './permits.js';
+import {installReviewSpec} from './review-spec.js';
 import('./finance-milestones.js').then(({installMilestoneCapture})=>installMilestoneCapture(App)).catch(error=>console.error('단계 입력 연결:',error));
 
 const screens={
@@ -129,6 +130,9 @@ if(mainScroll){
  syncScrollbarGutter();
  if(typeof ResizeObserver==='function')new ResizeObserver(syncScrollbarGutter).observe(mainScroll);
 }
+// LOCAL-UI-243: detailed current handoff plus the preserved local audit view.
+installReviewSpec(App);
+
 // Read-only tables from the C106 access screen (a7abe01, src/admin-settings.js).
 const accessTabs=[['people','회원별'],['organizations','조직별'],['projects','프로젝트 담당']];
 let accessCapture,accessLoading;

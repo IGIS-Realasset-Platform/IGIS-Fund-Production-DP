@@ -1,0 +1,29 @@
+/* LOCAL-UI-243: scoped handoff documentation, not operational/report styles. */
+.dp-app #content .review-spec{color:var(--ink);font-size:14px;line-height:1.65}
+.dp-app #content .review-spec-intro{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:16px}
+.dp-app #content .review-spec-intro strong{font-size:18px;font-weight:700}
+.dp-app #content .review-spec-intro p{margin:4px 0 0;color:var(--muted);max-width:820px}
+.dp-app #content .review-spec-tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:18px}
+.dp-app #content .review-spec-tabs .is-active{background:var(--studio-accent);border-color:var(--studio-accent);color:white}
+.dp-app #content .review-spec-card{background:white;border-radius:28px;overflow:hidden;margin-bottom:18px}
+.dp-app #content .review-spec-card>header{padding:20px 24px 16px;border-bottom:1px solid var(--line)}
+.dp-app #content .review-spec-card h2{font-size:18px;font-weight:650;margin:0;color:var(--ink)}
+.dp-app #content .review-spec-card header p{margin:6px 0 0;color:var(--muted)}
+.dp-app #content .review-spec-card dl{padding:0 24px;margin:0}
+.dp-app #content .review-spec-item{display:grid;grid-template-columns:180px minmax(0,1fr);gap:24px;padding:18px 0;border-bottom:1px solid #e4e7ed}
+.dp-app #content .review-spec-item:last-child{border-bottom:0}
+.dp-app #content .review-spec-item dt{font-weight:700;word-break:keep-all}
+.dp-app #content .review-spec-item dd{margin:0;min-width:0;word-break:keep-all;overflow-wrap:anywhere}
+.dp-app #content .review-spec-item p{margin:0}
+.dp-app #content .review-spec-item .review-spec-note{margin-top:7px;color:#626b7a;font-size:13px}
+.dp-app #content .review-spec-sources{border-top:1px solid var(--line);padding:14px 24px;background:#fafbfc}
+.dp-app #content .review-spec-sources summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--studio-accent)}
+.dp-app #content .review-spec-sources ul{padding-left:18px;margin:10px 0 0}
+.dp-app #content .review-spec-sources code{font-size:12px;overflow-wrap:anywhere}
+.dp-app #content .review-spec-layout{display:grid;grid-template-columns:190px minmax(0,1fr);gap:18px;align-items:start}
+.dp-app #content .review-spec-menu{display:flex;flex-direction:column;gap:4px;position:sticky;top:12px}
+.dp-app #content .review-spec-menu button{border:0;border-radius:10px;background:transparent;text-align:left;padding:10px 12px;color:var(--ink);font-size:14px;min-height:40px;cursor:pointer}
+.dp-app #content .review-spec-menu button:hover{background:#e3e6ee}
+.dp-app #content .review-spec-menu .is-active{background:#e2e7f4;color:var(--studio-accent);font-weight:700}
+.dp-app #content .review-spec-layout .review-spec-item{grid-template-columns:155px minmax(0,1fr);gap:18px}
+.dp-app #content .review-spec-history-note{color:var(--muted);margin:0 0 14px}
