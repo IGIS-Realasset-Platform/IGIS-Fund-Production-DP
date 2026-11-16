@@ -681,9 +681,10 @@
   & .cost-driver-panel table {width:100%;min-width:540px;table-layout:fixed}
   & .cost-driver-panel col:first-child {width:112px}
   & .cost-driver-panel col:nth-child(2) {width:136px}
-  & .cost-driver-panel col:last-child {width:112px}
+  & .cost-driver-panel col:last-child {width:168px}
   & .cost-driver-panel td:nth-child(n+2) {min-width:0;white-space:normal;overflow-wrap:anywhere}
-  & .cost-driver-panel [data-action="stage-view"] {max-width:100%;white-space:normal;text-align:start}
+  & .cost-driver-panel :is(th,td):last-child {white-space:nowrap}
+  & .cost-driver-panel [data-action="stage-view"] {max-width:100%;white-space:nowrap;text-align:start}
 
   & .cost-overview-layout {align-items:stretch;gap:var(--studio-card-gap)}
   & .cost-left-stack {gap:var(--studio-card-gap)}
