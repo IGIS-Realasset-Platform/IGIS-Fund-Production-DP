@@ -1035,7 +1035,7 @@
 .overview-report-grid-values>[role="cell"]{display:flex;align-items:center;min-width:0}
 .overview-report-grid-values time{font-weight:600;white-space:nowrap}
 .overview-report-grid-values .overview-report-day{margin:0}
-.overview-report-recent-row{border-top:0;padding-top:11px;margin-top:2px;display:flex;justify-content:flex-start;align-items:center;gap:20px}
+.overview-report-recent-row{border-top:0;padding-top:5px;margin-top:2px;display:flex;justify-content:flex-start;align-items:center;gap:20px}
 
 /* LOCAL-UI-228: enclosed report table with centered headers and values. */
 .overview-report-grid{gap:0;border:1px solid #e2e6ed;border-radius:12px;overflow:hidden;background:#f8f9fb}

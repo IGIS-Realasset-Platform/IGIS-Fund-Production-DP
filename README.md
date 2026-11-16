@@ -10,6 +10,8 @@
 
 REVIEW-PREVIEW-04: 작업 저장소는 `IGIS-Realasset-Platform/IGIS-Fund-Production-DP`, 브랜치는 `codex/idm-ui-review`입니다. 에이전트는 최신 로컬 자료 포함·검증·커밋까지만 합니다. 사용자가 GitHub Desktop에서 작업 브랜치를 푸시하면 공유 검토본이 자동 빌드·배포됩니다. [배포 연결 및 검증](docs/review-publication.md).
 
+LOCAL-UI-232: 최근 제출 줄6px 위로 이동, 가로간격 유지.
+
 LOCAL-UI-231: 최근 제출 왼쪽정렬, 각 항목 사이20px 적용.
 
 LOCAL-UI-230: 최근 제출 위 구분선 삭제, 간격/동작 보존.
