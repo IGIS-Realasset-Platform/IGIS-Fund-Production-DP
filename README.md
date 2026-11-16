@@ -10,6 +10,8 @@
 
 REVIEW-PREVIEW-04: 작업 저장소는 `IGIS-Realasset-Platform/IGIS-Fund-Production-DP`, 브랜치는 `codex/idm-ui-review`입니다. 에이전트는 최신 로컬 자료 포함·검증·커밋까지만 합니다. 사용자가 GitHub Desktop에서 작업 브랜치를 푸시하면 공유 검토본이 자동 빌드·배포됩니다. [배포 연결 및 검증](docs/review-publication.md).
 
+LOCAL-UI-190: 개요 원가변경이력 최신10행, 전체이력 보존·3사업 실화면/공유패키지 확인.
+
 LOCAL-UI-189: 시점 제목/일반값/단계버튼 글자 시작선 정렬, 클릭/상세닫기·공유패키지 확인. 커밋만.
 
 LOCAL-UI-188: 원가증감요인 시점열168px·한줄표시. 화면 확인·공유자료 동일, 커밋만.
