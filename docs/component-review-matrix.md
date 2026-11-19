@@ -6040,3 +6040,7 @@ LOCAL-UI-248: 조달내역과 같은 조회표 팝업 전역의 상하 여백을
 
 LOCAL-UI-248 검수: RED 단독 조회표12≠18 확인 → GREEN 조회표6구조 모두18px/입력·선택목록·고정탭3구조 보존. 실제 대주별 분기 기준값·금융 변경이력2팝업 및 닫기/Escape/서버쓰기0 통과. tests/local-dialog-table-spacing.cjs. 소스 진입점 전수 검색, 모든 개별 팝업 직접 진입 검수는 아님.
 소스 확인: src/cbs.js 원가이력/증감요인, contracts.js 금융이력/대출상세, partners.js 공사비비교/근거/관측값, legal.js 법인/등록기록, permit-views.js 공정이력, report.js 보고조회, cost-snapshots.js 기록표, audit-view.js 변경상세, local-preview/studio.js 계약금액근거/지급내역. 공통 A.modal→dialog-body/table 경계 적용.
+
+LOCAL-UI-249: 대출현황 선취·취급/금융자문 열은 제목·값 최소폭 기준으로 압축하고 ALL-IN 기준 제목/값은 가운데 정렬. 사용자 저장 열폭·미입력/0 구분·비율/금액·편집/취소·날짜·다른 표 보존.
+
+LOCAL-UI-249 검수: 실제1440px 화면 전후 측정: 선취100.7→72.8px, 금융자문95.8→69px, ALL-IN기준99.1→84px 및 제목/값 center 확인. 표 전체1144px 유지·빈값/숫자 보존. 사용자 저장열폭은 col[style] 제외. 전체 편집 재검수 아님.

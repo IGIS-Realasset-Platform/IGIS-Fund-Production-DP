@@ -650,6 +650,10 @@
  }
  .dp-app #content .studio-loan-table {
   min-width:0;
+  /* LOCAL-UI-249: retain user-sized columns while compacting default fee widths. */
+  & col:is(:nth-child(8),:nth-child(9),:nth-child(11)):not([style]) {width:1%}
+  & th:is(:nth-child(8),:nth-child(9)) {font-size:12px;padding-inline:3px}
+  & :is(th,td):nth-child(11) {text-align:center}
   & :is(th,td) {padding-inline:5px}
   & th {padding-inline-end:8px;font-size:13px}
   & td.table-date {font-size:12px}
