@@ -634,6 +634,8 @@
   padding:9px 0 7px;
  }
 
+ .dp-app #content .subtabs > :is(.btn,.subtab):hover {color:var(--blue)}
+
  .dp-app #content .law-list-toolbar {
   padding-inline:0;align-items:flex-end;border-block-end:0;
   box-shadow:inset 0 -1px var(--line);
