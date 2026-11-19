@@ -346,6 +346,8 @@
  .dp-dialog>.dialog-head h2{font-size:20px;line-height:1.4}
  /* Body offsets are part of the existing sticky footer/permit-map contract. */
  .dp-dialog>.dialog-body{padding:12px var(--studio-dialog-inset)}
+ /* LOCAL-UI-248: shared spacing for table-view dialogs; preserve form/sticky workspaces. */
+ .dp-dialog:not(.dp-notification-dialog) > .dialog-body:has(table):not(:has(form,.cbs-catalog-shell,.permit-intake,.permit-map-scroll,.permit-detail-tabs,.contract-tabs,.official-form-table,.report-edit-table)){padding-block:var(--studio-dialog-inset)}
  .dp-dialog>.dialog-foot{padding:16px 18px;gap:8px;background:#fff}
  /* Shared content rails, including nested form actions. Keep sticky Y offsets. */
  .dp-dialog #app-form>.dialog-foot,

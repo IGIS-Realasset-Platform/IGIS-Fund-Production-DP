@@ -6035,3 +6035,8 @@ LOCAL-UI-246 검수: CSS/버튼명 반영·기존 버튼명 검사 기대값 갱
 LOCAL-UI-247: 조달 내역 팝업 표의 위아래 여백12px를 좌우와 같은18px로 조정. 다른 팝업·표내용·단계별금액·스크롤·닫기/복귀 보존. 기존 body padding12px 18px 확인.
 
 LOCAL-UI-247 검수: 팝업 전용 선택자 및 기존 표 데이터/닫기 경로 보존 확인. JS구문/diff·Node24 최신자료 캡처·공유패키지40파일 통과. 실제 화면 사용자 확인.
+
+LOCAL-UI-248: 조달내역과 같은 조회표 팝업 전역의 상하 여백을 좌우 공통변수18px로 통일. 원가/금융이력·비교근거·인허가/보고 조회표·중첩표 포함. 입력form·알림·원본 보고양식·별도 고정탭/선택목록은 제외. 데이터·표·닫기/Escape·스크롤 보존.
+
+LOCAL-UI-248 검수: RED 단독 조회표12≠18 확인 → GREEN 조회표6구조 모두18px/입력·선택목록·고정탭3구조 보존. 실제 대주별 분기 기준값·금융 변경이력2팝업 및 닫기/Escape/서버쓰기0 통과. tests/local-dialog-table-spacing.cjs. 소스 진입점 전수 검색, 모든 개별 팝업 직접 진입 검수는 아님.
+소스 확인: src/cbs.js 원가이력/증감요인, contracts.js 금융이력/대출상세, partners.js 공사비비교/근거/관측값, legal.js 법인/등록기록, permit-views.js 공정이력, report.js 보고조회, cost-snapshots.js 기록표, audit-view.js 변경상세, local-preview/studio.js 계약금액근거/지급내역. 공통 A.modal→dialog-body/table 경계 적용.

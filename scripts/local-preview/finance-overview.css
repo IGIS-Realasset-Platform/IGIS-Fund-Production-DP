@@ -295,6 +295,3 @@
 .studio-stage-table tbody small {margin-top:-1px}
 .studio-stage-table .studio-stage-inline-delta {display:inline;font-size:12px;font-weight:400;color:var(--muted);white-space:nowrap}
 .studio-stage-table tr[data-linked-metric] th:first-child {white-space:normal}
-
-/* LOCAL-UI-247: equal whitespace around the funding detail table. */
-.dp-dialog > .dialog-body:has(> .studio-capital-details) {padding-block:var(--studio-dialog-inset)}
