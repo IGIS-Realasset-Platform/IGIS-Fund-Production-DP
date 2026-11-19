@@ -6,7 +6,7 @@ const before=await(await context.request.get(origin+'/api/workspace')).json();
 try{
  await page.goto(origin+'/?screen=finance');await page.locator('[data-cost-basis=current]').waitFor();
  const b=page.locator('[data-stage-action=details]'),table=page.locator('.studio-stage-table');
- assert.equal(await b.innerText(),'단계별 핵심 지표 요약표');assert.equal(await page.locator('.studio-stage-comparison [data-stage-action]').count(),0);
+ assert.equal(await b.innerText(),'단계별 핵심 이슈 요약');assert.equal(await page.locator('.studio-stage-comparison [data-stage-action]').count(),0);
  const boxes=await page.locator('[data-cost-basis=current], [data-stage-action=details]').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,w:r.width,h:r.height}}));assert.ok(boxes[1].x>=boxes[0].x+boxes[0].w);assert.ok(Math.abs(boxes[1].y+boxes[1].h/2-boxes[0].y-boxes[0].h/2)<2);
  await b.hover();await page.waitForTimeout(350);assert.equal(await b.getAttribute('data-tip'),null);assert.equal(await page.locator('#dp-chart-tooltip:visible').count(),0);
  report.button=await b.evaluate(e=>({border:getComputedStyle(e).borderWidth,color:getComputedStyle(e).borderColor,accent:getComputedStyle(e).getPropertyValue('--studio-accent').trim()}));assert.equal(report.button.border,'3px');assert.equal(report.button.color,'rgb(37, 57, 133)');
