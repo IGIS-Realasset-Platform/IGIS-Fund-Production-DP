@@ -41399,8 +41399,11 @@ App.partnerSeed={groups:[]};App.marketSeed={series:[]};App.reportAssets={css:"ht
       ];
     });
     const actions=A.btn('대주별 분기 기준값','finance-quarter-list')+A.btn('금융 변경이력','finance-history-list')+createButton('대출 추가','loan-add',{},'primary');
-    const table=editOnValue?{className:'studio-loan-table',columns:heads.map(()=>({minWidth:48,nowrap:true}))}:undefined;
-    return panelTable('대출현황',heads,rows,actions,'',table);
+    // LOCAL-UI-250: keep the basis in detail/edit; give the institution column usable space.
+    const visibleHeads=editOnValue?heads.filter((_,i)=>i!==10):heads;
+    const visibleRows=editOnValue?rows.map(row=>row.filter((_,i)=>i!==10)):rows;
+    const table=editOnValue?{className:'studio-loan-table',columns:visibleHeads.map((_,i)=>i===0?{width:180,minWidth:160,nowrap:false}:{minWidth:48,nowrap:true})}:undefined;
+    return panelTable('대출현황',visibleHeads,visibleRows,actions,'',table);
   }
   function financeView(p) {
     const {commitment,equity,total}=financeCapitalTotals(p);
@@ -41411,7 +41414,7 @@ App.partnerSeed={groups:[]};App.marketSeed={series:[]};App.reportAssets={css:"ht
   }
   A.register('finance',p=>'<div class="dp-finance">'+financeView(p)+'</div>');
   A.on('finance-capital-detail',()=>{const p=A.current();A.modal('자금구성',A.table(['구분','약정·출자','실행·납입','잔액'],[['자기자본',financeMoney(financeTotal(live(p.equities),'amount')),financeMoney(financeTotal(live(p.equities),'amount')),financeMoney(financeTotal(live(p.equities),'amount'))],...live(p.loans).map(l=>[A.esc(l.institution+' · '+l.type),financeMoney(l.commitment),financeMoney(l.executed),financeMoney(l.balance)])]));});
-  A.on('finance-quarter-list',()=>{const p=A.current();A.modal('대주별 분기 기준값',A.table(['금융기관','기준일','약정액','누적 실행','잔액','금리(연%)','선취·취급(%)','금융자문(%)','ALL-IN(연%)','ALL-IN 기준','구분'],(p.loanQuarterlyRecords||[]).map(q=>[A.esc(q.loan?.institution||p.loans.find(l=>l.id===q.loanId)?.institution||'—'),A.esc(q.asOf??'—'),financeMoney(q.commitment),financeMoney(q.executed),financeMoney(q.balance),loanRateText(loanNominalRate(q.loan||q)),loanRateText(q.loan?.upfrontFeeRate),loanRateText(q.loan?.advisoryFeeRate),loanRateText(q.allIn),loanBasisLabel(q.loan?.allInAdvisoryBasis),q.supersededAt?'이전 기록':'현재 기준'])));});
+  A.on('finance-quarter-list',()=>{const p=A.current();A.modal('대주별 분기 기준값',A.table(['금융기관','기준일','약정액','누적 실행','잔액','금리(연%)','선취·취급(%)','금융자문(%)','ALL-IN(연%)','ALL-IN 기준','구분'],(p.loanQuarterlyRecords||[]).map(q=>[A.esc(q.loan?.institution||p.loans.find(l=>l.id===q.loanId)?.institution||'—'),A.esc(q.asOf??'—'),financeMoney(q.commitment),financeMoney(q.executed),financeMoney(q.balance),loanRateText(loanNominalRate(q.loan||q)),loanRateText(q.loan?.upfrontFeeRate),loanRateText(q.loan?.advisoryFeeRate),loanRateText(q.allIn),loanBasisLabel(q.loan?.allInAdvisoryBasis),q.supersededAt?'이전 기록':'현재 기준']),A.localPreviewLoanEditing?'studio-loan-quarter-table':'',A.localPreviewLoanEditing?{columns:Array.from({length:11},(_,i)=>i===0?{width:180,minWidth:160,nowrap:false}:{minWidth:48,nowrap:true})}:{}));});
   function loanHistoryTable(p,loanId=null){
     const fields=['institution','rank','type','commitment','executed','balance',...loanPricingFields,'allInAdvisoryBasis','ltv','ltc','start','finalMaturity','interestTerms','otherFees','repaymentTerms','collateral'];
     const label=key=>({finalMaturity:'최종 만기일',ltv:'LTV',ltc:'LTC',...inlineLabels.loan}[key]||key),value=(row,key)=>{const v=key==='interestRate'?loanNominalRate(row):row?.[key];if(v==null||v==='')return '—';if(['commitment','executed','balance'].includes(key))return financeMoney(v);if([...loanPricingFields,...loanRatioFields].includes(key))return A.esc(loanRateText(v,loanRatioFields.includes(key)));if(key==='allInAdvisoryBasis')return loanBasisLabel(v);return A.esc(v);};
@@ -41443,7 +41446,7 @@ App.partnerSeed={groups:[]};App.marketSeed={series:[]};App.reportAssets={css:"ht
     if(!allowed.includes(field))throw Error('편집할 수 없는 항목입니다.');
     const beforeRows=clone(rows),before=clone(row),next=clone(row);
     if(['amount','commitment','executed','balance'].includes(field))next[field]=kind==='loan'?loanInput(value,field,'금액',row,amount):amount(value,'금액');
-    else if(kind==='loan'&&loanPricingFields.includes(field)){next[field]=loanInput(value,field,loanPricingLabels[field],row,loanPercent);if(field==='allIn'&&next.allIn!=null&&next.allIn!==row.allIn&&!['included','excluded'].includes(row.allInAdvisoryBasis))throw Error('ALL-IN 기준을 먼저 선택해 주세요.');}
+    else if(kind==='loan'&&loanPricingFields.includes(field)){next[field]=loanInput(value,field,loanPricingLabels[field],row,loanPercent);if(field==='allIn'&&next.allIn!=null&&next.allIn!==row.allIn&&!['included','excluded'].includes(row.allInAdvisoryBasis))throw Error(A.localPreviewLoanEditing?'상세 → 대출 정보 수정에서 금융자문수수료 포함 여부를 먼저 선택해 주세요.':'ALL-IN 기준을 먼저 선택해 주세요.');}
     else if(kind==='loan'&&field==='allInAdvisoryBasis'){if(!['included','excluded'].includes(row[field])&&loanUnchangedInput(value,row[field]))next[field]=row[field];else{if(value&&!['included','excluded'].includes(value))throw Error('ALL-IN 기준을 선택해 주세요.');next[field]=value||null;}}
     else if(kind==='loan'&&['rank','type'].includes(field))next[field]=String(value??'')===String(row[field]??'')?row[field]:String(value??'');
     else if(['start','maturity','expiry'].includes(field)){next[field]=date(value,'일자',field==='expiry');if(field==='maturity')next.finalMaturity=next.maturity;}

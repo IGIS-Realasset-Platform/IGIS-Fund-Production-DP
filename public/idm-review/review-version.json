@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "ce525474f2bf04598e16c5750bfc0d313b170dd5",
-  "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
-  "workspaceRevision": 23,
-  "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
+  "sourceCommit": "86f1e8c87a3f49eba4e809a4a44268f17381f8de",
+  "seedHash": "8177ea65d3195215b10c7d6e8e2c22287f15005dfcebbf18d1aec2660e053563",
+  "workspaceRevision": 24,
+  "workspaceSha256": "9f5e4459df655d6f3ccb1d4e27349966d9cc537841a8f63ab7d0165bb0bdb5c8",
   "feed": {
     "mode": "verified-local-bundle",
     "sourceFingerprint": "2385e5ff48c11aa4e45f6eaff8dbe229aa6d7f909e145454849ac08e7edd114e",
@@ -46,8 +46,8 @@
       "bytes": 4836
     },
     "design.css": {
-      "sha256": "8d24ebd96ecf3aeb2231afe28297fd013e8a4dfe7680eba01dcc2b023b4d12d4",
-      "bytes": 70347
+      "sha256": "4aa6162cf218ecf01243f7b3c1ad78d71916f1edf560be537a95c33f9f8837b4",
+      "bytes": 71708
     },
     "finance-capital.js": {
       "sha256": "a3fa7024f2407478f9733d79f71cda9c2d112edd934ac4f82a5ad90cfe2ee019",
@@ -58,12 +58,12 @@
       "bytes": 15590
     },
     "finance-overview.css": {
-      "sha256": "0ae7ec79c84be88752bfad7887e2a31f8dbe04fe831f8913cff6c1452a862dd2",
-      "bytes": 14386
+      "sha256": "421c9a8f5643e8eaabedfe0189a5a66f80cedd319ce7212dcb0ca4560c47a454",
+      "bytes": 14542
     },
     "finance-overview.js": {
-      "sha256": "483c1b8a71fb5fa150d145d58712b918122d2ee6428867b0f4bc921a80520d85",
-      "bytes": 18031
+      "sha256": "ec579115b342fbcf07ec9c5eec8b158f225d8a32308c9e064af80ce7b8259368",
+      "bytes": 18076
     },
     "finance-stage-editor-model.js": {
       "sha256": "846385520327fb122009cc6aa10d3e86c1de10be234ac7650822969a5e4756ce",
@@ -78,8 +78,8 @@
       "bytes": 298
     },
     "index.html": {
-      "sha256": "1f47051afd5dedb4ebe3a0474ac9baa7a97b6b10e1bb55980f2ad0232fa0c5bd",
-      "bytes": 6962930
+      "sha256": "1955677224c4ca5d6a2eb427d83c1b70be87c98a6965d3f47f9e063abcd7790a",
+      "bytes": 6963571
     },
     "issues.js": {
       "sha256": "e5bdc40c7e2195a07f8f905fb2a4e2612e8488f842fff2d483229e44e712e288",
@@ -110,7 +110,7 @@
       "bytes": 7940
     },
     "review-config.js": {
-      "sha256": "ac367057e6ea4bf918770eadcbae2b9491f6bd6a6b474d44156d3b589f67b7a4",
+      "sha256": "171d54c3b828238a8cca33df1c1ff379859e711273848b171578fe01ae87eaad",
       "bytes": 370
     },
     "review-data/access-screen-capture.json": {
@@ -134,24 +134,24 @@
       "bytes": 110
     },
     "review-data/stakeholders.json": {
-      "sha256": "f9f1fc1a7ce83621ce9f13ac2c5180df78b1057dec824b0e123e0375bd91cd88",
-      "bytes": 64805
+      "sha256": "17097a77c4297b794d63b94f5ec38b272153cfa0935750ea1fb5b53ec37bb13a",
+      "bytes": 64881
     },
     "review-data/workspace-context.json": {
-      "sha256": "6413eb227bcff79843f4aedee2d7b83d607a39087a428bcacabf3bc201e90529",
+      "sha256": "2bc0055cc619230a1635025efa00e8496232e3a71cd6ef3f3415fb5cef728a12",
       "bytes": 268
     },
     "review-data/workspace.json": {
-      "sha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
-      "bytes": 9925845
+      "sha256": "9f5e4459df655d6f3ccb1d4e27349966d9cc537841a8f63ab7d0165bb0bdb5c8",
+      "bytes": 9926471
     },
     "review-spec.css": {
       "sha256": "03011e220d0682ac5081bb029bb610a26c001c67853febe8f44023b4e4d29463",
       "bytes": 2854
     },
     "review-spec.js": {
-      "sha256": "e442a94877143c3340f8eaad9bcdfb70763cbed0de8ee24f1a51825e0f94ebeb",
-      "bytes": 54842
+      "sha256": "337bd8a1de993467c6798ef5290d003799a16ff320fd0e0b8ec69b0640f628c9",
+      "bytes": 55922
     },
     "studio.js": {
       "sha256": "f21bc5c15a21a96e10d440de9fb79956f5d4ee0c4398c48d1c7af024f8be1b83",
@@ -166,7 +166,7 @@
       "bytes": 42081
     },
     "work-feed/app.js": {
-      "sha256": "ca68cd1ec9244865a99759315d357ddd036da8df60ef618f37dd22bd5c4068ff",
+      "sha256": "88712d5a6762646516ef9d3596bbe391a7001f4bb65501adf66a8d4851e38c2c",
       "bytes": 561521
     },
     "work-feed/default_avatar.svg": {
