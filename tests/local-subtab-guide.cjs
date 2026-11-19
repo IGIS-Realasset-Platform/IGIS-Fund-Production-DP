@@ -15,13 +15,18 @@ const {chromium}=require('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-
    assert.equal(style.line,'4px',view);assert.equal(style.margin,'0px',view);assert.ok(Math.abs(style.bottom)<1,view);
    const inactive=nav.locator(':scope > button:not(.active)').first();
    const before=await nav.locator('.active').evaluate(b=>getComputedStyle(b).borderBottom);
+   const boxBefore=await inactive.boundingBox();
+   assert.deepEqual(await inactive.evaluate(b=>{const s=getComputedStyle(b);return [s.transitionProperty,s.transitionDuration]}),['color','0.18s']);
    await inactive.hover();
-   assert.equal(await inactive.evaluate(b=>getComputedStyle(b).color),'rgb(37, 57, 133)',view+' hover');
+   await page.waitForFunction(()=>getComputedStyle(document.querySelector('#content .subtabs > button:not(.active):hover')).color==='rgb(37, 57, 133)');
+   assert.deepEqual(await inactive.boundingBox(),boxBefore,view+' hover position');
    assert.equal(await inactive.evaluate(b=>getComputedStyle(b).borderBottomColor),'rgba(0, 0, 0, 0)',view+' inactive underline');
    assert.equal(await nav.locator('.active').evaluate(b=>getComputedStyle(b).borderBottom),before,view+' selected underline');
    const buttons=nav.locator(':scope > button');if(await buttons.count()>1){await buttons.nth(1).click();assert.equal(await nav.locator(':scope > button.active').count(),1);await buttons.first().focus();await page.keyboard.press('Enter');assert.ok(await buttons.first().evaluate(b=>b.classList.contains('active')))}
   }
   for(const m of measurements.slice(1))for(const key of ['font','weight','color','padding','gap'])assert.equal(m[key],measurements[0][key],m.view+' '+key);
+  await page.emulateMedia({reducedMotion:'reduce'});
+  assert.equal(await page.locator('#content .subtabs > button').first().evaluate(b=>getComputedStyle(b).transitionDuration),'0s');
   assert.deepEqual(writes,[]);console.log(JSON.stringify(measurements));
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

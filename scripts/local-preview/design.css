@@ -632,9 +632,13 @@
  .dp-app #content .subtabs > :is(.btn,.subtab) {
   border-block-end-width:4px;
   padding:9px 0 7px;
+  transition:color 180ms ease-out;
  }
 
  .dp-app #content .subtabs > :is(.btn,.subtab):hover {color:var(--blue)}
+ @media (prefers-reduced-motion:reduce){
+  .dp-app #content .subtabs > :is(.btn,.subtab){transition:none}
+ }
 
  .dp-app #content .law-list-toolbar {
   padding-inline:0;align-items:flex-end;border-block-end:0;
