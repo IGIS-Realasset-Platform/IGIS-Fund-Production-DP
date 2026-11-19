@@ -25,7 +25,7 @@ function renderCapital(A,capital,summary,project,basis){
  summary.innerHTML=[['총 조달규모',total],['자기자본',sum('equity')],['대출 약정',sum('debt')]].map(([label,value])=>'<div><span>'+label+'</span><b>'+(value==null?'—':A.money(value))+'</b></div>').join('');
  const detailButton=capital.querySelector('.panel-header button');
  detailButton.removeAttribute('data-action');
- const openCapitalDetails=()=>A.modal(basis.name+' · 조달 내역',A.table(['구분','트랜치','자금 제공자','약정·출자액'],sources.map(row=>[row.kind==='equity'?'출자':'대출',A.esc(row.tranche),A.esc(row.party),row.amount==null?'—':A.money(row.amount)])));
+ const openCapitalDetails=()=>A.modal(basis.name+' · 조달 내역','<div class="studio-capital-details">'+A.table(['구분','트랜치','자금 제공자','약정·출자액'],sources.map(row=>[row.kind==='equity'?'출자':'대출',A.esc(row.tranche),A.esc(row.party),row.amount==null?'—':A.money(row.amount)]))+'</div>');
  detailButton.onclick=openCapitalDetails;
  const money=amount=>amount===null?'—':A.money(amount);
  const hasMissing=total===null||totalOf(groups.map(group=>group.total))!==total;
