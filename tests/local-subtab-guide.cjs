@@ -11,6 +11,15 @@ const {chromium}=require('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-
    await page.evaluate(v=>App.go(v),view);await page.locator('#content .subtabs').first().waitFor();
    const nav=page.locator('#content .subtabs').first();
    const read=()=>nav.evaluate(n=>{const b=n.querySelector('.active'),s=getComputedStyle(b),p=getComputedStyle(n);return {line:s.borderBottomWidth,font:s.fontSize,weight:s.fontWeight,color:s.color,padding:s.padding,gap:p.columnGap,margin:p.marginLeft,bottom:n.getBoundingClientRect().bottom-b.getBoundingClientRect().bottom}});
+   await page.waitForFunction(()=>{
+    const n=document.querySelector('#content .subtabs');
+    return n&&(n.closest('.dp-partner-navigation')?document.querySelector('.dp-partners .panel'):n.nextElementSibling);
+   });
+   const contentGap=await nav.evaluate(n=>{
+    const target=n.closest('.dp-partner-navigation')?document.querySelector('.dp-partners .panel'):n.nextElementSibling;
+    return target.getBoundingClientRect().top-n.getBoundingClientRect().bottom;
+   });
+   assert.equal(contentGap,18,view+' content gap');
    const style=await read();measurements.push({view,...style});
    assert.equal(style.line,'4px',view);assert.equal(style.margin,'0px',view);assert.ok(Math.abs(style.bottom)<1,view);
    const inactive=nav.locator(':scope > button:not(.active)').first();

@@ -36,7 +36,7 @@
   --studio-topbar-gap:12px;
   --studio-panel-inset:18px;
   --studio-card-gap:18px;
-  --studio-tab-content-gap:12px;
+  --studio-tab-content-gap:var(--studio-card-gap);
   --studio-dialog-inset:18px;
   --studio-field-ring:var(--studio-accent);
  }
@@ -642,6 +642,7 @@
 
  .dp-app #content .law-list-toolbar {
   padding-inline:0;align-items:flex-end;border-block-end:0;
+  margin-block-end:var(--studio-tab-content-gap);
   box-shadow:inset 0 -1px var(--line);
  }
  .dp-app #content .law-list-toolbar > .subtabs {margin-block-end:0;box-shadow:none}
