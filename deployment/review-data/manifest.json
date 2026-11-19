@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "revision": 23,
+  "revision": 24,
   "baselineSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
-  "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
-  "seedHash": "5f4eecc5b083b47fa88a0a28884c08835ee682ad8e801b9956c6a1489065cbf3",
+  "workspaceSha256": "9f5e4459df655d6f3ccb1d4e27349966d9cc537841a8f63ab7d0165bb0bdb5c8",
+  "seedHash": "8177ea65d3195215b10c7d6e8e2c22287f15005dfcebbf18d1aec2660e053563",
   "files": {
     "workspace.json": {
-      "sha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
-      "bytes": 9925845
+      "sha256": "9f5e4459df655d6f3ccb1d4e27349966d9cc537841a8f63ab7d0165bb0bdb5c8",
+      "bytes": 9926471
     },
     "finance-stages.json": {
       "sha256": "fc306213bae75618c0ea92aaa8a037625698a21a09959e4fc90d7cd2b5e017c1",
@@ -22,7 +22,7 @@
       "bytes": 110
     },
     "workspace-context.json": {
-      "sha256": "6413eb227bcff79843f4aedee2d7b83d607a39087a428bcacabf3bc201e90529",
+      "sha256": "2bc0055cc619230a1635025efa00e8496232e3a71cd6ef3f3415fb5cef728a12",
       "bytes": 268
     },
     "partners-reference.json": {

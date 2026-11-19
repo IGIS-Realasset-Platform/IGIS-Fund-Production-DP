@@ -648,6 +648,9 @@
  .dp-app #content .dp-finance .finance-mix-bar > span:nth-child(2) {
   background-color:#297cb3!important;
  }
+ /* LOCAL-UI-251: the quarterly popup shares institution and outer-cell spacing. */
+ .dp-dialog .studio-loan-quarter-table :is(th,td):first-child {padding-inline-start:16px;padding-inline-end:10px;white-space:normal;overflow-wrap:anywhere}
+ .dp-dialog .studio-loan-quarter-table :is(th,td):last-child {padding-inline-end:16px}
  .dp-app #content .studio-loan-table {
   min-width:0;
   /* LOCAL-UI-249: retain user-sized columns while compacting default fee widths. */
