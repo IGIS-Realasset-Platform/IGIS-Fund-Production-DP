@@ -10,6 +10,8 @@
 
 REVIEW-PREVIEW-04: 작업 저장소는 `IGIS-Realasset-Platform/IGIS-Fund-Production-DP`, 브랜치는 `codex/idm-ui-review`입니다. 에이전트는 최신 로컬 자료 포함·검증·커밋까지만 합니다. 사용자가 GitHub Desktop에서 작업 브랜치를 푸시하면 공유 검토본이 자동 빌드·배포됩니다. [배포 연결 및 검증](docs/review-publication.md).
 
+LOCAL-UI-250: 대출현황 ALL-IN 기준은 상세로 이동. 금융기관 폭180px·긴 이름 표시·좌우 끝16px 여백.
+
 LOCAL-UI-249: 대출현황 수수료 열 압축·ALL-IN 기준 제목/값 가운데 정렬.
 
 LOCAL-UI-248: 같은 구조의 조회표 팝업 전역 상하좌우18px 통일. 입력/고정탭/원본보고양식 제외.

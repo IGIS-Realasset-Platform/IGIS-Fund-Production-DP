@@ -732,8 +732,11 @@
       ];
     });
     const actions=A.btn('대주별 분기 기준값','finance-quarter-list')+A.btn('금융 변경이력','finance-history-list')+createButton('대출 추가','loan-add',{},'primary');
-    const table=editOnValue?{className:'studio-loan-table',columns:heads.map(()=>({minWidth:48,nowrap:true}))}:undefined;
-    return panelTable('대출현황',heads,rows,actions,'',table);
+    // LOCAL-UI-250: keep the basis in detail/edit; give the institution column usable space.
+    const visibleHeads=editOnValue?heads.filter((_,i)=>i!==10):heads;
+    const visibleRows=editOnValue?rows.map(row=>row.filter((_,i)=>i!==10)):rows;
+    const table=editOnValue?{className:'studio-loan-table',columns:visibleHeads.map((_,i)=>i===0?{width:180,minWidth:160,nowrap:false}:{minWidth:48,nowrap:true})}:undefined;
+    return panelTable('대출현황',visibleHeads,visibleRows,actions,'',table);
   }
   function financeView(p) {
     const {commitment,equity,total}=financeCapitalTotals(p);
@@ -776,7 +779,7 @@
     if(!allowed.includes(field))throw Error('편집할 수 없는 항목입니다.');
     const beforeRows=clone(rows),before=clone(row),next=clone(row);
     if(['amount','commitment','executed','balance'].includes(field))next[field]=kind==='loan'?loanInput(value,field,'금액',row,amount):amount(value,'금액');
-    else if(kind==='loan'&&loanPricingFields.includes(field)){next[field]=loanInput(value,field,loanPricingLabels[field],row,loanPercent);if(field==='allIn'&&next.allIn!=null&&next.allIn!==row.allIn&&!['included','excluded'].includes(row.allInAdvisoryBasis))throw Error('ALL-IN 기준을 먼저 선택해 주세요.');}
+    else if(kind==='loan'&&loanPricingFields.includes(field)){next[field]=loanInput(value,field,loanPricingLabels[field],row,loanPercent);if(field==='allIn'&&next.allIn!=null&&next.allIn!==row.allIn&&!['included','excluded'].includes(row.allInAdvisoryBasis))throw Error(A.localPreviewLoanEditing?'상세 → 대출 정보 수정에서 금융자문수수료 포함 여부를 먼저 선택해 주세요.':'ALL-IN 기준을 먼저 선택해 주세요.');}
     else if(kind==='loan'&&field==='allInAdvisoryBasis'){if(!['included','excluded'].includes(row[field])&&loanUnchangedInput(value,row[field]))next[field]=row[field];else{if(value&&!['included','excluded'].includes(value))throw Error('ALL-IN 기준을 선택해 주세요.');next[field]=value||null;}}
     else if(kind==='loan'&&['rank','type'].includes(field))next[field]=String(value??'')===String(row[field]??'')?row[field]:String(value??'');
     else if(['start','maturity','expiry'].includes(field)){next[field]=date(value,'일자',field==='expiry');if(field==='maturity')next.finalMaturity=next.maturity;}
