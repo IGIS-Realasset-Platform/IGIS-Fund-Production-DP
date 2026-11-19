@@ -280,8 +280,7 @@
  .dp-app #content [data-partner-comment-key]::before{content:'기준자료에 포함된 보관 댓글';display:block;margin-bottom:8px;color:var(--muted);font-size:12px}
  .dp-app #content .subtabs .active{color:var(--blue);border-bottom-color:var(--blue);font-weight:650}
  /* Let structural rules reach the containing edges while retaining content insets. */
- .dp-app #content>.subtabs,
- .dp-app #content :is(.dp-partner-tabs,.law-list-toolbar){margin-inline:calc(-1 * var(--studio-page-inset));padding-inline:var(--studio-page-inset)}
+ .dp-app #content :is(.subtabs,.law-list-toolbar){margin-inline:0}
  .dp-app #content .panel-body>:is(.table-toolbar,.report-legal-links){margin-inline:calc(-1 * var(--studio-panel-inset));padding-inline:var(--studio-panel-inset)}
  :is(.dp-app,.dp-dialog) .btn{border-radius:var(--studio-action-radius);border-color:var(--line-strong);box-shadow:none}
  .dp-app #content .local-access-scope{margin:0 0 8px;color:var(--muted);font-size:12px}
@@ -623,16 +622,24 @@
 }
 
 @media screen {
- .dp-app #content > .subtabs:has(>[data-view="cost"]) {
+ /* LOCAL-UI-252: shared underline navigation follows the cost tabs. */
+ .dp-app #content .subtabs {
   margin-inline:0;
   padding-inline:0;
   border-block-end:0;
   box-shadow:inset 0 -1px var(--line);
  }
- .dp-app #content > .subtabs:has(>[data-view="cost"]) > .subtab {
+ .dp-app #content .subtabs > :is(.btn,.subtab) {
   border-block-end-width:4px;
-  padding-block:9px 7px;
+  padding:9px 0 7px;
  }
+
+ .dp-app #content .law-list-toolbar {
+  padding-inline:0;align-items:flex-end;border-block-end:0;
+  box-shadow:inset 0 -1px var(--line);
+ }
+ .dp-app #content .law-list-toolbar > .subtabs {margin-block-end:0;box-shadow:none}
+ .dp-app #content .dp-partner-panel > .subtabs {padding-inline:18px}
 
  .dp-app #content :is(.cost-kpi-row .cost-kpi-value,.dp-finance .recovery-summary > div > b) {
   font-size:20px; font-weight:700; line-height:26px;
