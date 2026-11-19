@@ -3,7 +3,7 @@
   "revision": 23,
   "baselineSha256": "87f107978a5ae9b76dc9f698d456163b02982fdb95a43b12d0a647b18cf8534c",
   "workspaceSha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
-  "seedHash": "91d019790305c98aee0dd9a0a3c86bf07b0d1991468b07e0ede1bc12da1dff35",
+  "seedHash": "5f4eecc5b083b47fa88a0a28884c08835ee682ad8e801b9956c6a1489065cbf3",
   "files": {
     "workspace.json": {
       "sha256": "0506053f6f12f0141608aee9846b635f9dd5bc83bcb9a39926b793daf552f3da",
@@ -14,8 +14,8 @@
       "bytes": 3354
     },
     "stakeholders.json": {
-      "sha256": "f9f1fc1a7ce83621ce9f13ac2c5180df78b1057dec824b0e123e0375bd91cd88",
-      "bytes": 64805
+      "sha256": "17097a77c4297b794d63b94f5ec38b272153cfa0935750ea1fb5b53ec37bb13a",
+      "bytes": 64881
     },
     "session.json": {
       "sha256": "e05f1da02d6ece6f97d5083f1bf5fe119b17c851a5e215ae8b4de8b0478735e1",
