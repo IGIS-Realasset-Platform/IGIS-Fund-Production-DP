@@ -7,7 +7,10 @@ const {chromium}=require('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-
  try{
  await page.goto('http://127.0.0.1:4178/?screen=land');await page.locator('.lp-land-summary').waitFor();
  assert.equal(await page.locator('.lp-land-summary thead').count(),0);
- assert.equal(await page.locator('.lp-land-summary tr').count(),7);
+ assert.equal(await page.locator('.lp-land-summary th').count(),11);
+ assert.deepEqual(await page.locator('.lp-land-summary tr').nth(2).locator('th').allTextContents(),['지연사유','지연내용']);
+ assert.deepEqual(await page.locator('.lp-land-summary tr').last().locator('th').allTextContents(),['법인 유형','법인 설립일']);
+ assert.equal(await page.locator('.lp-land-summary tr').count(),6);
  assert.equal(await page.locator('.lp-land-summary tr').first().locator('th,td').count(),4);
  assert.match(await page.locator('.lp-land-next').innerText(),/토지대금 지급 완료/);
  assert.equal(await page.locator('button.lp-land-next').count(),0);
@@ -16,7 +19,7 @@ const {chromium}=require('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-
  await page.locator('[data-action="land-input-open"]').click();
  assert.equal(await page.locator('#app-form [name="delayReason"]').count(),1);
  await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>JSON.stringify(App.current())),before);
- await page.evaluate(()=>{App.current().land.delay='예';App.render()});await page.waitForFunction(()=>document.querySelectorAll('.lp-land-summary tr').length===7);
+ await page.evaluate(()=>{App.current().land.delay='예';App.render()});await page.waitForFunction(()=>document.querySelectorAll('.lp-land-summary tr').length===6);
  await page.evaluate(()=>{const p=App.current();p.landPaymentSchedule[2].paid=false;p.landPaymentSchedule[2].plannedDate='2020-01-01';App.render()});
  await page.waitForFunction(()=>document.querySelector('.lp-land-next').dataset.status==='overdue');
  assert.match(await page.locator('.lp-land-next').innerText(),/잔금/);

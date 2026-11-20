@@ -96,9 +96,8 @@ export function decorateLand(A,content,p) {
   const table=element('table','lp-land-summary');table.setAttribute('aria-label','부지확보');
   const cols=document.createElement('colgroup');for(const width of ['16%','34%','16%','34%']){const col=document.createElement('col');col.style.width=width;cols.append(col)}table.append(cols);
   const body=document.createElement('tbody');table.append(body);
-  const pairs=[['토지 확보 방식','매입률 (%)'],['권원 확보','권원 지연'],['협약체결일','협약당사자'],['법인명','법인 유형'],['법인 설립일']];
+  const pairs=[['토지 확보 방식','매입률 (%)'],['권원 확보','권원 지연'],['지연사유','지연내용'],['협약체결일','협약당사자'],['법인명'],['법인 유형','법인 설립일']];
   for(const labels of pairs){const row=document.createElement('tr');for(const label of labels){const th=element('th','',label);th.scope='row';const td=cells.get(label)||element('td','','—');if(labels.length===1)td.colSpan=3;row.append(th,td)}body.append(row)}
-  for(const label of ['지연사유','지연내용']){const row=document.createElement('tr'),th=element('th','',label),td=cells.get(label)||element('td','','—');th.scope='row';td.colSpan=3;row.append(th,td);body.append(row)}
   // Replace the old two-column wrapper, including its resize metadata, but retain cell actions.
   const wrapper=original.closest('.table-wrap')||original;
   wrapper.replaceWith(table);panel.classList.add('lp-land-panel');
