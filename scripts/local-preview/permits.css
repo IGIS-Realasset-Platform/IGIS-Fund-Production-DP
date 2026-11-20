@@ -53,3 +53,29 @@
 #content button.lp-land-next:hover {background:#eceff6}
 #content button.lp-land-next:focus-visible {outline:3px solid #253985;outline-offset:2px}
 .lp-land-next-edit-label {color:#253985;white-space:nowrap;font-weight:600}
+
+/* Actual registered payment stages, grouped by contract; shared dialog spacing. */
+.lp-payment-dialog {display:flex;flex-direction:column;gap:18px}
+.lp-payment-contract header {display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:12px}
+.lp-payment-contract h3 {font-size:18px;font-weight:650;margin:0;color:#1d1d1f}
+.lp-payment-contract header>span {color:#626c7d;font-size:13px}
+.lp-payment-contract header strong {color:#253985;margin-right:16px}
+.lp-payment-table-wrap {border-radius:16px;overflow:hidden;border:1px solid #e2e6ec}
+.lp-payment-table {width:100%;table-layout:fixed;border-collapse:collapse}
+.lp-payment-table th,.lp-payment-table td {padding:12px 16px;text-align:left;vertical-align:middle;border:0;border-bottom:1px solid #e2e6ec;white-space:normal;overflow-wrap:anywhere}
+.lp-payment-table th {background:#eef1f5;color:#626c7d;font-weight:600}
+.lp-payment-table td {background:#f8f9fb;color:#1d1d1f}
+.lp-payment-table tr:last-child td {border-bottom:0}
+.lp-payment-table .lp-payment-money {text-align:right;white-space:nowrap}
+.lp-payment-table td:last-child {text-align:right}
+.lp-payment-table .lp-payment-current td {background:#edf0fa}
+.lp-payment-table .lp-payment-current td:first-child {box-shadow:inset 3px 0 #253985}
+.lp-payment-step {display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;background:#e4e8ef;border-radius:50%;font-size:12px;margin-right:10px;vertical-align:middle;color:#626c7d}
+.lp-payment-current .lp-payment-step {background:#253985;color:white}
+.lp-payment-step.is-complete {background:#e5eaf5;color:#253985}
+.lp-payment-name {display:inline-block;vertical-align:middle;max-width:calc(100% - 40px);font-weight:600}
+.lp-payment-name small {display:block;margin-top:4px;color:#253985;font-size:12px;font-weight:500}
+.lp-payment-status {display:inline-block;padding:4px 8px;border-radius:8px;background:#edf0f5;font-size:13px;white-space:nowrap;color:#626c7d}
+.lp-payment-status.overdue {color:#dc263b;background:#fff0f2}
+.lp-payment-status.pending {color:#253985;background:#e5eafa}
+.lp-payment-warning,.lp-payment-empty {margin:12px 0 0;color:#626c7d;font-size:13px}

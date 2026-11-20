@@ -13,9 +13,15 @@ const {chromium}=require('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-
  assert.equal(await page.locator('.lp-land-summary tr').count(),6);
  assert.equal(await page.locator('.lp-land-summary tr').first().locator('th,td').count(),4);
  assert.match(await page.locator('.lp-land-next').innerText(),/토지대금 지급 완료/);
- assert.equal(await page.locator('button.lp-land-next').count(),0);
+ assert.equal(await page.locator('button.lp-land-next').count(),1);
  assert.match(await page.locator('.lp-land-summary').innerText(),/해당 없음/);
  const before=await page.evaluate(()=>JSON.stringify(App.current()));
+ await page.locator('button.lp-land-next').click();await page.locator('.lp-payment-dialog').waitFor();
+ assert.equal(await page.locator('.lp-payment-table tbody tr').count(),3);
+ assert.equal(await page.locator('.lp-payment-current').count(),0);
+ assert.match(await page.locator('.lp-payment-dialog').innerText(),/전체 지급 완료/);
+ await page.screenshot({path:'/private/tmp/idm-land-payments-complete.png'});
+ await page.keyboard.press('Escape');
  await page.locator('[data-action="land-input-open"]').click();
  assert.equal(await page.locator('#app-form [name="delayReason"]').count(),1);
  await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>JSON.stringify(App.current())),before);
@@ -24,21 +30,38 @@ const {chromium}=require('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-
  await page.waitForFunction(()=>document.querySelector('.lp-land-next').dataset.status==='overdue');
  assert.match(await page.locator('.lp-land-next').innerText(),/잔금/);
  const target=await page.evaluate(()=>App.current().landPaymentSchedule[2].id);
- assert.equal(await page.locator('button.lp-land-next').getAttribute('data-id'),target);
+
  await page.locator('button.lp-land-next').click();
+ assert.equal(await page.locator('.lp-payment-current').count(),1);
+ const edit=page.locator('.lp-payment-current [data-action="studio-land-payment-edit"]');
+ assert.equal(await edit.getAttribute('data-id'),target);
+ await page.screenshot({path:'/private/tmp/idm-land-payments-current.png'});
+ await edit.click();
  assert.equal(await page.locator('#app-form [name="category"]').inputValue(),'잔금');
  assert.equal(await page.locator('#app-form [name="plannedDate"]').inputValue(),'2020-01-01');
  await page.keyboard.press('Escape');
- await page.locator('button.lp-land-next').focus();await page.keyboard.press('Enter');
+ assert.equal(await page.evaluate(()=>document.activeElement?.dataset.id),target);
+ await page.locator('.lp-payment-current [data-action="studio-land-payment-edit"]').focus();await page.keyboard.press('Enter');
  assert.equal(await page.locator('#app-form [name="category"]').inputValue(),'잔금');
  // Exercise the real form callback, replacing only the persistence/audit boundary in this isolated page.
  await page.evaluate(()=>{window.testAudit=[];App.transaction=callback=>callback();App.audit=(...args)=>window.testAudit.push(args)});
  await page.locator('#app-form [name="paid"]').selectOption('지급');
+ await page.locator('#app-form [name="actualDate"]').fill('');
+ assert.equal(await page.evaluate(()=>App.formEditor.submit()),false);
+ assert.equal(await page.locator('#app-form [name="category"]').inputValue(),'잔금');
  await page.locator('#app-form [name="actualDate"]').fill('2025-06-26');
  const saved=await page.evaluate(()=>App.formEditor.submit());if(!saved)console.log(await page.locator('#app-dialog').innerText());assert.equal(saved,true);
  await page.waitForFunction(()=>document.querySelector('.lp-land-next').dataset.status==='complete');
- assert.equal(await page.locator('button.lp-land-next').count(),0);
+ assert.equal(await page.locator('button.lp-land-next').count(),1);
+ assert.equal(await page.locator('.lp-payment-dialog').count(),1);
+ assert.equal(await page.locator('.lp-payment-current').count(),0);
+ assert.match(await page.locator('.lp-payment-dialog').innerText(),/전체 지급 완료/);
  assert.equal(await page.evaluate(()=>window.testAudit[0][2]),target);
+ await page.keyboard.press('Escape');
+ // Deleted targets and read-only permissions cannot turn this into an add form.
+ assert.equal(await page.evaluate(()=>App.legal.openLandPaymentEditor(App.current().id,'missing')),false);
+ const hasAccess=await page.evaluate(()=>{const can=App.canEditProject;App.canEditProject=()=>false;const result=App.legal.openLandPaymentEditor(App.current().id,App.current().landPaymentSchedule[0].id);App.canEditProject=can;return result});
+ assert.equal(hasAccess,false);
  assert.equal(await page.evaluate(()=>App.current().landPaymentSchedule.length),3);
  await page.evaluate(s=>{const saved=JSON.parse(s);Object.assign(App.current(),saved);App.render()},before);
  await page.screenshot({path:'/private/tmp/idm-land-256.png',fullPage:true});
