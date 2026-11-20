@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {landNextAction} from '../scripts/local-preview/permits.js';
+const today='2026-11-20', contract={id:'c',name:'토지 계약',amount:100};
+const p={landContracts:[contract],landPaymentSchedule:[{id:'p',contractId:'c',category:'잔금',amount:100,plannedDate:'2026-11-22',paid:false}]};
+const run=x=>landNextAction(x,today),copy=()=>structuredClone(p);
+assert.equal(run(p).kind,'upcoming');assert.equal(run(p).days,2);
+let x=copy();x.landPaymentSchedule[0].plannedDate='2026-11-18';assert.equal(run(x).kind,'overdue');assert.equal(run(x).days,-2);
+x=copy();x.landPaymentSchedule[0].plannedDate=today;assert.equal(run(x).kind,'today');
+x=copy();x.landPaymentSchedule[0].paid=true;x.landPaymentSchedule[0].actualDate=today;assert.equal(run(x).kind,'complete');
+x.landPaymentSchedule[0].amount=90;assert.equal(run(x).kind,'check');
+x=copy();x.landPaymentSchedule[0].paid=true;assert.equal(run(x).kind,'check');
+x=copy();x.landPaymentSchedule[0].plannedDate='';assert.equal(run(x).kind,'check');
+x=copy();x.landContracts[0].deletedAt='x';assert.equal(run(x).kind,'empty');
+x=copy();x.landPaymentSchedule[0].deletedAt='x';assert.equal(run(x).kind,'check');
+x=copy();x.landContracts[0].amount=null;x.landPaymentSchedule[0].paid=true;x.landPaymentSchedule[0].actualDate=today;assert.equal(run(x).kind,'check');
+assert.deepEqual(p,copy());console.log('land next-action: 10 cases passed');
+
+const saved=JSON.parse(readFileSync(new URL('../deployment/review-data/workspace.json',import.meta.url)));
+for(const project of saved.projects)assert.equal(run(project).kind,'complete',project.name);
+console.log('saved projects: 3 payment totals matched');

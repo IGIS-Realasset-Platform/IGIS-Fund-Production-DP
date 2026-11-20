@@ -34,3 +34,18 @@
   [data-local-screen="permits"] .permit-workspace-heading { align-items:flex-start; }
   [data-local-screen="permits"] .permit-workspace-additions { width:auto; flex-wrap:wrap; justify-content:flex-start; }
 }
+
+/* LOCAL-UI-256: compact, paired facts; existing source fields stay editable. */
+#content .lp-land-summary {width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:10px}
+#content .lp-land-summary th,#content .lp-land-summary td {padding:11px 14px;text-align:left;vertical-align:middle;border:0;border-bottom:1px solid #e2e6ec;white-space:normal}
+#content .lp-land-summary th {background:#eef1f5;color:#626c7d;font-weight:600}
+#content .lp-land-summary td {background:#f8f9fb;color:#1d1d1f}
+#content .lp-land-summary tr:last-child>* {border-bottom:0}
+#content .lp-land-next {display:flex;align-items:center;gap:24px;margin-top:18px;padding:16px 14px;background:#f5f6f9;border-radius:10px}
+.lp-land-next-label {flex:0 0 auto;color:#626c7d;font-weight:600}
+.lp-land-next-content {display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+.lp-land-next-content>strong {color:#1d1d1f;font-weight:650}
+.lp-land-next-payment {display:flex;gap:20px;align-items:center}
+.lp-land-next-description {color:#626c7d}
+.lp-land-next-due {font-weight:650;color:#253985;white-space:nowrap}
+[data-status="overdue"] .lp-land-next-due {color:#e12436}
