@@ -4,7 +4,7 @@ import {landNextAction} from '../scripts/local-preview/permits.js';
 const today='2026-11-20', contract={id:'c',name:'토지 계약',amount:100};
 const p={landContracts:[contract],landPaymentSchedule:[{id:'p',contractId:'c',category:'잔금',amount:100,plannedDate:'2026-11-22',paid:false}]};
 const run=x=>landNextAction(x,today),copy=()=>structuredClone(p);
-assert.equal(run(p).kind,'upcoming');assert.equal(run(p).days,2);
+assert.equal(run(p).paymentId,'p');assert.equal(run(p).kind,'upcoming');assert.equal(run(p).days,2);
 let x=copy();x.landPaymentSchedule[0].plannedDate='2026-11-18';assert.equal(run(x).kind,'overdue');assert.equal(run(x).days,-2);
 x=copy();x.landPaymentSchedule[0].plannedDate=today;assert.equal(run(x).kind,'today');
 x=copy();x.landPaymentSchedule[0].paid=true;x.landPaymentSchedule[0].actualDate=today;assert.equal(run(x).kind,'complete');

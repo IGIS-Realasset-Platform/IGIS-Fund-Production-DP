@@ -75,7 +75,7 @@ export function landNextAction(p, today = new Intl.DateTimeFormat('en-CA', {time
   const pending=linked.filter(x=>x.paid!==true&&date(x.plannedDate)).sort((a,b)=>a.plannedDate.localeCompare(b.plannedDate));
   if(pending.length){
     const row=pending[0],days=Math.round((Date.parse(row.plannedDate)-Date.parse(today))/86400000);
-    return {kind:days<0?'overdue':days===0?'today':'upcoming',title:byId.get(row.contractId).name||'토지매매계약',category:row.category||'지급 회차',amount:amount(row.amount)?row.amount:null,date:row.plannedDate,days};
+    return {paymentId:row.id,kind:days<0?'overdue':days===0?'today':'upcoming',title:byId.get(row.contractId).name||'토지매매계약',category:row.category||'지급 회차',amount:amount(row.amount)?row.amount:null,date:row.plannedDate,days};
   }
   const uncertain=linked.find(x=>x.paid!==true||!date(x.actualDate)||x.actualDate>today||!amount(x.amount));
   if(uncertain)return {kind:'check',title:'지급내역 확인',detail:byId.get(uncertain.contractId).name+' · '+(uncertain.category||'지급 회차')+'의 지급일·금액·완료 여부를 확인해 주세요.'};
@@ -98,16 +98,20 @@ export function decorateLand(A,content,p) {
   const body=document.createElement('tbody');table.append(body);
   const pairs=[['토지 확보 방식','매입률 (%)'],['권원 확보','권원 지연'],['협약체결일','협약당사자'],['법인명','법인 유형'],['법인 설립일']];
   for(const labels of pairs){const row=document.createElement('tr');for(const label of labels){const th=element('th','',label);th.scope='row';const td=cells.get(label)||element('td','','—');if(labels.length===1)td.colSpan=3;row.append(th,td)}body.append(row)}
-  if(p.land?.delay!=='아니오')for(const label of ['지연사유','지연내용']){const row=document.createElement('tr'),th=element('th','',label),td=cells.get(label)||element('td','','—');th.scope='row';td.colSpan=3;row.append(th,td);body.append(row)}
+  for(const label of ['지연사유','지연내용']){const row=document.createElement('tr'),th=element('th','',label),td=cells.get(label)||element('td','','—');th.scope='row';td.colSpan=3;row.append(th,td);body.append(row)}
   // Replace the old two-column wrapper, including its resize metadata, but retain cell actions.
   const wrapper=original.closest('.table-wrap')||original;
   wrapper.replaceWith(table);panel.classList.add('lp-land-panel');
-  const next=landNextAction(p),note=element('div','lp-land-next');note.dataset.status=next.kind;
+  const next=landNextAction(p);
+  const edit=next.paymentId&&[...content.querySelectorAll('[data-action="legal-edit"][data-type="landPayment"]')].find(button=>button.dataset.id===next.paymentId);
+  const note=element(edit?'button':'div','lp-land-next');note.dataset.status=next.kind;
+  if(edit){note.type='button';Object.assign(note.dataset,edit.dataset);note.setAttribute('aria-label',next.title+' '+next.category+' 지급회차 수정');note.classList.add('lp-land-next-editable');}
   note.append(element('span','lp-land-next-label','다음 처리사항'));
-  const detail=element('div','lp-land-next-content');detail.append(element('strong','',next.title));
-  if(next.category){const line=element('div','lp-land-next-payment');line.append(element('span','',next.category),element('strong','',next.amount===null?'금액 미입력':A.money(next.amount)),element('span','',next.date.replaceAll('-','.')));detail.append(line)}
+  const detail=element('span','lp-land-next-content');detail.append(element('strong','',next.title));
+  if(next.category){const line=element('span','lp-land-next-payment');line.append(element('span','',next.category),element('strong','',next.amount===null?'금액 미입력':A.money(next.amount)),element('span','',next.date.replaceAll('-','.')));detail.append(line)}
   if(next.detail)detail.append(element('span','lp-land-next-description',next.detail));
   note.append(detail);
   if(next.days!=null)note.append(element('span','lp-land-next-due',next.days<0?Math.abs(next.days)+'일 경과':next.days===0?'오늘 지급 예정':'D-'+next.days));
+  if(edit)note.append(element('span','lp-land-next-edit-label','지급회차 수정 ›'));
   panel.querySelector('.panel-body').append(note);
 }

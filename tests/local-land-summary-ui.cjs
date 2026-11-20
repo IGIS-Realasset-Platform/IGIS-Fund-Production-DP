@@ -7,9 +7,11 @@ const {chromium}=require('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-
  try{
  await page.goto('http://127.0.0.1:4178/?screen=land');await page.locator('.lp-land-summary').waitFor();
  assert.equal(await page.locator('.lp-land-summary thead').count(),0);
- assert.equal(await page.locator('.lp-land-summary tr').count(),5);
+ assert.equal(await page.locator('.lp-land-summary tr').count(),7);
  assert.equal(await page.locator('.lp-land-summary tr').first().locator('th,td').count(),4);
  assert.match(await page.locator('.lp-land-next').innerText(),/토지대금 지급 완료/);
+ assert.equal(await page.locator('button.lp-land-next').count(),0);
+ assert.match(await page.locator('.lp-land-summary').innerText(),/해당 없음/);
  const before=await page.evaluate(()=>JSON.stringify(App.current()));
  await page.locator('[data-action="land-input-open"]').click();
  assert.equal(await page.locator('#app-form [name="delayReason"]').count(),1);
@@ -18,10 +20,27 @@ const {chromium}=require('/Users/jkjeon2025/.cache/codex-runtimes/codex-primary-
  await page.evaluate(()=>{const p=App.current();p.landPaymentSchedule[2].paid=false;p.landPaymentSchedule[2].plannedDate='2020-01-01';App.render()});
  await page.waitForFunction(()=>document.querySelector('.lp-land-next').dataset.status==='overdue');
  assert.match(await page.locator('.lp-land-next').innerText(),/잔금/);
+ const target=await page.evaluate(()=>App.current().landPaymentSchedule[2].id);
+ assert.equal(await page.locator('button.lp-land-next').getAttribute('data-id'),target);
+ await page.locator('button.lp-land-next').click();
+ assert.equal(await page.locator('#app-form [name="category"]').inputValue(),'잔금');
+ assert.equal(await page.locator('#app-form [name="plannedDate"]').inputValue(),'2020-01-01');
+ await page.keyboard.press('Escape');
+ await page.locator('button.lp-land-next').focus();await page.keyboard.press('Enter');
+ assert.equal(await page.locator('#app-form [name="category"]').inputValue(),'잔금');
+ // Exercise the real form callback, replacing only the persistence/audit boundary in this isolated page.
+ await page.evaluate(()=>{window.testAudit=[];App.transaction=callback=>callback();App.audit=(...args)=>window.testAudit.push(args)});
+ await page.locator('#app-form [name="paid"]').selectOption('지급');
+ await page.locator('#app-form [name="actualDate"]').fill('2025-06-26');
+ const saved=await page.evaluate(()=>App.formEditor.submit());if(!saved)console.log(await page.locator('#app-dialog').innerText());assert.equal(saved,true);
+ await page.waitForFunction(()=>document.querySelector('.lp-land-next').dataset.status==='complete');
+ assert.equal(await page.locator('button.lp-land-next').count(),0);
+ assert.equal(await page.evaluate(()=>window.testAudit[0][2]),target);
+ assert.equal(await page.evaluate(()=>App.current().landPaymentSchedule.length),3);
  await page.evaluate(s=>{const saved=JSON.parse(s);Object.assign(App.current(),saved);App.render()},before);
  await page.screenshot({path:'/private/tmp/idm-land-256.png',fullPage:true});
  const dims=await page.locator('.lp-land-panel').evaluate(p=>({height:p.offsetHeight,width:p.offsetWidth,overflow:p.scrollWidth>p.clientWidth}));
- assert.equal(dims.overflow,false);assert.ok(dims.height<470);assert.deepEqual(writes,[]);
+ assert.equal(dims.overflow,false);assert.ok(dims.height<550);assert.deepEqual(writes,[]);
  console.log(JSON.stringify({dims,serverWrites:writes.length,checks:'4 columns, delay, next payment, edit, Escape, data preserved'}));
  }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exitCode=1});

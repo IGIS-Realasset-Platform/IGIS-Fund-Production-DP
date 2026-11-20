@@ -49,3 +49,7 @@
 .lp-land-next-description {color:#626c7d}
 .lp-land-next-due {font-weight:650;color:#253985;white-space:nowrap}
 [data-status="overdue"] .lp-land-next-due {color:#e12436}
+#content button.lp-land-next {width:100%;border:0;font:inherit;text-align:left;cursor:pointer;transition:background-color 180ms ease}
+#content button.lp-land-next:hover {background:#eceff6}
+#content button.lp-land-next:focus-visible {outline:3px solid #253985;outline-offset:2px}
+.lp-land-next-edit-label {color:#253985;white-space:nowrap;font-weight:600}
