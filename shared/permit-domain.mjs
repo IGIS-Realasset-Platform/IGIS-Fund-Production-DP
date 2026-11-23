@@ -1,5 +1,104 @@
 // Pure application rule shared by browser forms, report reverse writes and server CAS.
 export const permitDomainVersion='2026-10-20.2';
+export const permitActionCompletionFields=Object.freeze(['authorityReported','drawingReflected','completionReflected']);
+export const permitActionPartyFields=Object.freeze(['actionParty','costParty']);
+export const permitActionTrackingFields=Object.freeze([...permitActionCompletionFields,...permitActionPartyFields]);
+export function validatePermitActionTracking(plan){
+ const errors={};
+ for(const key of permitActionCompletionFields)if(Object.hasOwn(plan,key)&&typeof plan[key]!=='boolean')errors[key]='미확인·미완료·완료 중에서 선택해 주세요.';
+ for(const key of permitActionPartyFields){
+  const party=plan[key];if(party===undefined||party===null)continue;
+  if(typeof party!=='object'||Array.isArray(party)||!['발주처','시공사','기타'].includes(party.type)){errors[key]='발주처·시공사·기타 중에서 선택해 주세요.';continue;}
+  if(party.name!==undefined&&typeof party.name!=='string'||party.type==='기타'&&!text(party.name))errors[key]='기타 주체의 이름을 입력해 주세요.';
+ }
+ return{valid:!Object.keys(errors).length,errors};
+}
+
+export function materializePermitReviewResult(permit,resultId){
+ permit.actionItems=permit.actionItems||[];
+ const matches=permit.actionItems.filter(item=>item.id===resultId);
+ if(matches.length>1)throw Error('검토의견의 식별값이 중복되어 있습니다.');
+ let record=matches.find(item=>!item.deletedAt);
+ if(record&&Array.isArray(record.plans))return record;
+ const previousSchema=record?.plansVersion===1||record&&Object.hasOwn(record,'resultCategory');
+ const fromPermit=!record&&resultId==='legacy-result:'+permit.id;
+ const source=record||(fromPermit?permit:null);
+ if(!source)throw Error('수정할 검토의견을 다시 선택해 주세요.');
+ const fields=['actionPlan','owner','deadline','status','backDataPath',...permitActionTrackingFields];
+ const plan={id:'legacy-plan:'+(fromPermit?permit.id:record.id),resultItemId:resultId,reviewTrackingVersion:1};
+ for(const key of fields)if(Object.hasOwn(source,key))plan[key]=structuredClone(source[key]);
+ const hasPlan=['actionPlan','backDataPath','deadline'].some(key=>text(source[key]));
+ if(!record){record={id:resultId,title:'기존 결과·조치',legacyPermitSource:true};permit.actionItems.push(record);}
+ record.plans=hasPlan?[plan]:[];
+ record.plansVersion=previousSchema?1:2;
+ return record;
+}
+
+function reviewPlanErrors(plan,minimal){
+ const errors={...validatePermitActionTracking(plan).errors};
+ if(typeof plan.actionPlan!=='string'||!text(plan.actionPlan))errors.actionPlan='조치계획 내용을 입력해 주세요.';
+ for(const key of ['owner','deadline','status','backDataPath'])if(Object.hasOwn(plan,key)&&typeof plan[key]!=='string')errors[key]='입력한 조치계획 항목을 확인해 주세요.';
+ if(minimal){
+  if(plan.deadline!==undefined&&text(plan.deadline)&&!isPermitDate(plan.deadline))errors.deadline='조치기한을 올바른 날짜로 입력해 주세요.';
+  if(plan.status!==undefined&&text(plan.status)&&!['초안','진행 중','확정','완료'].includes(plan.status))errors.status='진행상태를 목록에서 선택해 주세요.';
+ }else if(!isPermitDate(plan.deadline)||!text(plan.backDataPath)||!['초안','진행 중','확정','완료'].includes(plan.status))errors.plan='조치계획 내용·기한·진행상태·자료 경로를 입력해 주세요.';
+ return errors;
+}
+
+function reviewResultErrors(result){
+ const errors={};
+ if(text(result.resultCategory)&&!['승인 조건','보완 요청','심의 의견','협의 의견','심의·협의 의견','기타 결과'].includes(result.resultCategory))errors.resultCategory='검토의견 유형을 목록에서 선택해 주세요.';
+ if(result.plansVersion===2){
+  if(typeof result.title!=='string'||!text(result.title))errors.title='검토의견 내용을 입력해 주세요.';
+  for(const key of ['resultCategory','date','sourcePath'])if(Object.hasOwn(result,key)&&typeof result[key]!=='string')errors[key]='입력한 검토의견 항목을 확인해 주세요.';
+  if(result.date!==undefined&&text(result.date)&&!isPermitDate(result.date))errors.date='의견 통보일을 올바른 날짜로 입력해 주세요.';
+ }else if(!text(result.title)||!isPermitDate(result.date)||!text(result.sourcePath))errors.result='검토의견 내용·통보일·문서 경로를 입력해 주세요.';
+ const plans=live(result.plans);if(!plans.length)errors.plans='검토의견별 조치계획을 추가해 주세요.';
+ for(const plan of plans){if(plan.resultItemId!==undefined&&plan.resultItemId!==result.id)errors.plans='조치계획의 검토의견 연결을 확인해 주세요.';Object.assign(errors,reviewPlanErrors(plan,result.plansVersion===2||plan.reviewTrackingVersion===1));}
+ return errors;
+}
+
+function reviewPartialErrors(previous,row){
+ const errors={},oldItems=Array.isArray(previous.actionItems)?previous.actionItems:[],nextItems=Array.isArray(row.actionItems)?row.actionItems:[];let compatible=true;
+ if(!Array.isArray(row.actionItems)){errors.actionItems='검토의견의 형식을 확인해 주세요.';return{errors,compatible:true};}
+ for(const old of oldItems)if(!nextItems.some(item=>item.id===old.id))errors.actionItems='기존 검토의견 기록을 유지해 주세요.';
+ for(const item of nextItems){
+  let old=oldItems.find(prior=>prior.id===item.id);
+  if(!old&&item.id==='legacy-result:'+previous.id&&(text(previous.actionPlan)||text(previous.backDataPath))){const baseline=structuredClone(previous);old=materializePermitReviewResult(baseline,item.id);}
+  if(!old){if(item.plansVersion!==2)compatible=false;if(!item.deletedAt)Object.assign(errors,reviewResultErrors(item));continue;}
+  if(sameValue(old,item))continue;
+  if(!Array.isArray(old.plans)&&Array.isArray(item.plans)){const baseline=structuredClone(previous);old=materializePermitReviewResult(baseline,item.id);}
+  const allowed=new Set(['title','resultCategory','date','sourcePath','plans','plansVersion','deletedAt']);
+  for(const key of new Set([...Object.keys(old),...Object.keys(item)]))if(!allowed.has(key)&&!sameValue(old[key],item[key]))compatible=false;
+  if(old.plansVersion===1&&item.plansVersion!==1)errors.actionItems='기존 검토의견 형식을 유지해 주세요.';
+  if(!sameValue(old.title,item.title)&&(typeof item.title!=='string'||!text(item.title)))errors.title='검토의견 내용을 입력해 주세요.';
+  for(const key of ['resultCategory','date','sourcePath'])if(!sameValue(old[key],item[key])){
+   const minimal=item.plansVersion===2;
+   if(typeof item[key]!=='string'||!minimal&&!text(item[key]))errors[key]='변경한 검토의견 항목을 입력해 주세요.';
+   else if(key==='date'&&text(item.date)&&!isPermitDate(item.date))errors.date='의견 통보일을 올바른 날짜로 입력해 주세요.';
+   else if(key==='resultCategory'&&text(item.resultCategory)&&!['승인 조건','보완 요청','심의 의견','협의 의견','심의·협의 의견','기타 결과'].includes(item.resultCategory))errors.resultCategory='검토의견 유형을 목록에서 선택해 주세요.';
+  }
+  const oldPlans=Array.isArray(old.plans)?old.plans:[],newPlans=Array.isArray(item.plans)?item.plans:[];
+  for(const plan of oldPlans)if(!newPlans.some(p=>p.id===plan.id))errors.actionItems='기존 조치계획 기록을 유지해 주세요.';
+  for(const plan of newPlans){
+   const before=oldPlans.find(p=>p.id===plan.id);
+   if(!before){if(item.plansVersion!==2&&plan.reviewTrackingVersion!==1)compatible=false;if(plan.resultItemId!==undefined&&plan.resultItemId!==item.id)errors.plans='조치계획의 검토의견 연결을 확인해 주세요.';if(!plan.deletedAt)Object.assign(errors,reviewPlanErrors(plan,item.plansVersion===2||plan.reviewTrackingVersion===1));continue;}
+   const allowedPlan=new Set(['actionPlan','owner','deadline','status','backDataPath','deletedAt',...permitActionTrackingFields]);
+   for(const key of new Set([...Object.keys(before),...Object.keys(plan)]))if(!allowedPlan.has(key)&&!sameValue(before[key],plan[key]))compatible=false;
+   if(before.reviewTrackingVersion!==1&&plan.reviewTrackingVersion===1)errors.actionItems='기존 조치계획 형식을 유지해 주세요.';
+   if(!sameValue(before.actionPlan,plan.actionPlan)&&(typeof plan.actionPlan!=='string'||!text(plan.actionPlan)))errors.actionPlan='조치계획 내용을 입력해 주세요.';
+   for(const key of ['owner','deadline','status','backDataPath'])if(!sameValue(before[key],plan[key])){
+    const minimal=item.plansVersion===2||plan.reviewTrackingVersion===1;
+    if(typeof plan[key]!=='string'||key!=='owner'&&!minimal&&!text(plan[key]))errors[key]='변경한 조치계획 항목을 입력해 주세요.';
+    else if(key==='deadline'&&text(plan.deadline)&&!isPermitDate(plan.deadline))errors.deadline='조치기한을 올바른 날짜로 입력해 주세요.';
+    else if(key==='status'&&text(plan.status)&&!['초안','진행 중','확정','완료'].includes(plan.status))errors.status='진행상태를 목록에서 선택해 주세요.';
+   }
+   for(const key of permitActionTrackingFields)if(!sameValue(before[key],plan[key]))Object.assign(errors,validatePermitActionTracking(Object.hasOwn(plan,key)?{[key]:plan[key]}:{}).errors);
+  }
+  if(!item.deletedAt&&oldPlans.some(p=>!p.deletedAt)&&!newPlans.some(p=>!p.deletedAt))errors.actionItems='검토의견별 조치계획을 추가해 주세요.';
+ }
+ return{errors,compatible};
+}
 const text=v=>String(v??'').trim();
 const live=xs=>(Array.isArray(xs)?xs:[]).filter(x=>!x.deletedAt);
 // Recommendation inputs are project facts, not an automatic legal decision.
@@ -107,10 +206,11 @@ export function validatePermitRecord(row,rows=[],options={}){
   if(!['application','resubmission','supplement','review','approval','withdrawal'].includes(round.kind)||!isPermitDate(round.date)||!text(round.sourcePath)){errors.rounds='진행 종류·발생일·근거자료 경로를 입력해 주세요.';break;}
   if(last&&round.date<last){errors.rounds='진행 기록은 발생일 순서로 추가해 주세요.';break;}last=round.date;
  }
- for(const item of partial?[]:live(row.actionItems))if('resultCategory'in item||item.plansVersion===1){
-  if(!text(item.title)||!isPermitDate(item.date)||!text(item.sourcePath)){errors.actionItems='검토의견 내용·통보일·문서 경로를 입력해 주세요.';break;}
-  const plans=live(item.plans);if(!plans.length){errors.actionItems='검토의견별 조치계획을 추가해 주세요.';break;}
-  if(plans.some(plan=>!text(plan.actionPlan)||!isPermitDate(plan.deadline)||!text(plan.backDataPath)||!['초안','진행 중','확정','완료'].includes(plan.status))){errors.actionItems='조치계획 내용·기한·진행상태·자료 경로를 입력해 주세요.';break;}
+ for(const item of partial?[]:live(row.actionItems)){
+  const tracking=validatePermitActionTracking(item);if(!tracking.valid){errors.actionItems=Object.values(tracking.errors)[0];break;}
+  if('resultCategory'in item||item.plansVersion===1||item.plansVersion===2){
+   const reviewErrors=reviewResultErrors(item);if(Object.keys(reviewErrors).length){errors.actionItems=Object.values(reviewErrors)[0];break;}
+  }
  }
  return {valid:!Object.keys(errors).length,errors};
 }
@@ -118,9 +218,33 @@ const actualSummaryKeys=['stage','application','supplement','approval'];
 const roundChangeKeys=new Set(['rounds',...actualSummaryKeys]);
 function sameValue(a,b){if(a===b)return true;if(Array.isArray(a)||Array.isArray(b))return Array.isArray(a)&&Array.isArray(b)&&a.length===b.length&&a.every((v,i)=>sameValue(v,b[i]));if(a&&b&&typeof a==='object'&&typeof b==='object'){const keys=Object.keys(a),other=Object.keys(b);return keys.length===other.length&&keys.every(k=>Object.hasOwn(b,k)&&sameValue(a[k],b[k]));}return false;}
 function legacyBaseline(previous){return [['application',previous.application],['supplement',previous.supplement],['approval',previous.approval]].filter(([,date])=>isPermitDate(date)).sort((a,b)=>a[1].localeCompare(b[1])).map(([kind,date])=>({id:'legacy-round:'+previous.id+':'+kind,kind,date,sourcePath:previous.sourcePath||'',legacy:true}));}
-export function validatePermitRoundChange(previous,row,rows=[]){
+function completionDateChangeErrors(previous,row,options={}){
+ if(row.stage!=='완료'||previous?.stage==='완료')return{};
+ let today=options.today;if(today===undefined){const parts=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));today=parts.year+'-'+parts.month+'-'+parts.day;}
+ if(!isPermitDate(today))throw TypeError('Current Korea calendar date is required');const errors={};
+ for(const[field,label]of [['application','실제 신청일'],['supplement','보완 요청일'],['approval','승인일']]){if(field==='supplement'&&!text(row[field]))continue;if(!isPermitDate(row[field]))errors[field]=label+'을 올바른 날짜로 입력해 주세요.';else if(row[field]>today)errors[field]='완료 상태의 '+label+'은 오늘 이후일 수 없습니다.';}
+ return errors;
+}
+export function validatePermitFieldChange(previous,row,rows=[],options={}){
+ const finish=result=>{const errors={...result.errors,...completionDateChangeErrors(previous,row,options)};return{valid:!Object.keys(errors).length,errors};};
+ if(!previous||previous.id!==row.id)return finish(validatePermitRecord(row,rows));
+ const changed=new Set([...new Set([...Object.keys(previous),...Object.keys(row)])].filter(k=>!sameValue(previous[k],row[k])));
+ if(changed.has('actionItems')&&[...changed].every(key=>key==='actionItems')){
+  const review=reviewPartialErrors(previous,row);if(review.compatible)return finish({errors:review.errors});
+ }
+ // Actual state transitions, rounds and review/action evidence retain the full
+ // existing completion contract. A one-cell edit cannot confirm missing facts.
+ if(['stage','handling','application','supplement','approval','rounds','actionItems'].some(k=>changed.has(k)))return finish(validatePermitRecord(row,rows));
+ const complete=validatePermitRecord(row,rows),errors={},relationshipKeys=['predecessorId','predecessorIds','deemedBy','amendsId','integratedWith','requestType'];
+ const checkRelationships=options.revalidateRelationships===true||relationshipKeys.some(k=>changed.has(k));
+ for(const[field,message]of Object.entries(complete.errors))if(changed.has(field)||checkRelationships&&['predecessorIds','deemedBy','amendsId','integratedWith'].includes(field))errors[field]=message;
+ for(const field of ['name','group','reportCategory','agency','reportTrigger','requestType','sourcePath'])if(changed.has(field)&&typeof row[field]!=='string')errors[field]='입력한 항목을 확인해 주세요.';
+ if((changed.has('plannedApplication')||changed.has('expected'))&&isPermitDate(row.plannedApplication)&&isPermitDate(row.expected)&&row.expected<row.plannedApplication)errors.expected='목표 완료일은 계획 신청일보다 빠를 수 없습니다.';
+ return finish({errors});
+}
+export function validatePermitRoundChange(previous,row,rows=[],options={}){
  const errors={},hasPrevious=previous&&previous.id===row.id,oldRounds=Array.isArray(previous?.rounds)?previous.rounds:[],nextRounds=Array.isArray(row.rounds)?row.rounds:[],roundsChanged=!sameValue(oldRounds,nextRounds),metadataUnchanged=hasPrevious&&[...new Set([...Object.keys(previous),...Object.keys(row)])].filter(k=>!roundChangeKeys.has(k)).every(k=>sameValue(previous[k],row[k])),roundOnly=roundsChanged&&metadataUnchanged;
- Object.assign(errors,validatePermitRecord(row,rows,{partial:!!roundOnly,skipRounds:true}).errors);
+ Object.assign(errors,(hasPrevious&&!roundsChanged?validatePermitFieldChange(previous,row,rows,options):validatePermitRecord(row,rows,{partial:!!roundOnly,skipRounds:true})).errors);
  if(row.rounds!==undefined&&!Array.isArray(row.rounds))errors.rounds='진행 기록의 형식을 확인해 주세요.';
  if(oldRounds.length>nextRounds.length||oldRounds.some((round,i)=>!sameValue(round,nextRounds[i])))errors.rounds='이전 진행 기록은 유지하고 새 회차를 추가해 주세요.';
  const ids=new Set();for(const round of nextRounds){if(!round||typeof round.id!=='string'||!text(round.id)||round.id.trim()!==round.id||/[\u0000-\u001f\u007f]/.test(round.id)||ids.has(round.id)){errors.rounds='진행 기록의 식별값이 중복되거나 없습니다.';break;}ids.add(round.id);}
@@ -149,10 +273,27 @@ export function validatePermitRoundChange(previous,row,rows=[]){
   const labels={application:'실제 신청일',supplement:'보완 요청일',approval:'승인일'};for(const key of requiredPermitDates(row).filter(k=>k in labels))if(!isPermitDate(row[key]))errors[key]=labels[key]+'을 올바른 날짜로 입력해 주세요.';
   if(['조건부 승인','완료'].includes(row.stage)&&row.approval&&row.application&&row.approval<row.application)errors.approval='승인일은 신청일보다 빠를 수 없습니다.';
  }
+ Object.assign(errors,completionDateChangeErrors(previous,row,options));
  return {valid:!Object.keys(errors).length,errors};
 }
-export function validatePermitChanges(previous,next){
+export function validatePermitChanges(previous,next,options={}){
  const errors=[],oldProjects=new Map((previous?.projects||[]).map(p=>[p.id,p]));
+ const nextProjectById=new Map((next?.projects||[]).map(project=>[project.id,project]));
+ for(const project of previous?.projects||[]){
+  const afterProject=nextProjectById.get(project.id);
+  for(const permit of project.permits||[]){
+   const afterPermit=afterProject?.permits?.find(row=>row.id===permit.id);
+   for(const opinion of permit.actionItems||[]){
+    const afterOpinion=afterPermit?.actionItems?.find(row=>row.id===opinion.id);
+    if(!afterOpinion){errors.push({projectId:project.id,permitId:permit.id,field:'actionItems',message:'기존 검토의견 기록을 유지해 주세요.'});continue;}
+    if(opinion.plansVersion===1&&afterOpinion.plansVersion!==1)errors.push({projectId:project.id,permitId:permit.id,field:'actionItems',message:'기존 검토의견 형식을 유지해 주세요.'});
+    for(const plan of opinion.plans||[]){
+     const afterPlan=afterOpinion.plans?.find(row=>row.id===plan.id);
+     if(!afterPlan||plan.reviewTrackingVersion!==1&&afterPlan.reviewTrackingVersion===1)errors.push({projectId:project.id,permitId:permit.id,field:'actionItems',message:'기존 조치계획 기록과 형식을 유지해 주세요.'});
+    }
+   }
+  }
+ }
  // Soft deletion is not permission to erase historical rounds or their evidence.
  const nextProjects=new Map((next?.projects||[]).map(p=>[p.id,p]));for(const prior of previous?.projects||[]){const project=nextProjects.get(prior.id),afterRows=new Map((project?.permits||[]).map(r=>[r.id,r]));for(const old of prior.permits||[]){if(!old.rounds?.length)continue;const after=afterRows.get(old.id)?.rounds||[];if(old.rounds.length>after.length||old.rounds.some((round,i)=>!sameValue(after[i],round)))errors.push({projectId:prior.id,permitId:old.id,field:'rounds',message:'이전 진행 기록은 유지하고 새 회차를 추가해 주세요.'});}}
  for(const project of next?.projects||[]){if(project.deletedAt)continue;const prior=oldProjects.get(project.id),oldRows=new Map((prior?.permits||[]).map(row=>[row.id,row])),rows=live(project.permits),changed=new Set(rows.filter(row=>JSON.stringify(oldRows.get(row.id))!==JSON.stringify(row)).map(row=>row.id)),gone=new Set(live(prior?.permits).filter(row=>!rows.some(x=>x.id===row.id)).map(row=>row.id));
@@ -161,7 +302,7 @@ export function validatePermitChanges(previous,next){
    else{const old=prior?.permitConditions||{},known=['asset','method','buildingRoute',...permitRecommendationNumericFields,...permitRecommendationFlagFields],updated=Object.fromEntries(known.filter(key=>Object.hasOwn(facts,key)&&!sameValue(old[key],facts[key])).map(key=>[key,facts[key]]));for(const[field,message]of Object.entries(normalizePermitCriteria(updated).errors))errors.push({projectId:project.id,field:'permitConditions.'+field,message});}
   }
   for(const row of rows){const links=[...permitPredecessors(row),row.deemedBy,row.amendsId,...(row.integratedWith||[])].filter(Boolean),affected=changed.has(row.id)||links.some(id=>gone.has(id)||changed.has(id));if(!affected)continue;
-   const result=changed.has(row.id)?validatePermitRoundChange(oldRows.get(row.id),row,rows):validatePermitRecord(row,rows,{partial:true});for(const[field,message]of Object.entries(result.errors))errors.push({projectId:project.id,permitId:row.id,field,message});
+   const result=changed.has(row.id)?validatePermitRoundChange(oldRows.get(row.id),row,rows,{...options,revalidateRelationships:links.some(id=>gone.has(id)||changed.has(id))}):validatePermitRecord(row,rows,{partial:true});for(const[field,message]of Object.entries(result.errors))errors.push({projectId:project.id,permitId:row.id,field,message});
   }
  }
  return {valid:!errors.length,errors};

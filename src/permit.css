@@ -22,6 +22,36 @@
 .construction-read-table{width:100%;table-layout:fixed;min-width:0}
 .construction-read-table th,.construction-read-table td{height:36px;padding:8px 10px;vertical-align:top;white-space:normal;overflow-wrap:anywhere;text-overflow:clip}
 .construction-read-table [data-construction-field]{white-space:pre-wrap}
+.construction-management .construction-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;margin:0}
+.construction-facts>div{min-width:0;display:grid;grid-template-columns:minmax(100px,32%) minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.construction-facts dt{color:var(--muted);font-size:12px;line-height:1.5;word-break:keep-all}
+.construction-facts dd{margin:0;min-width:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.5}
+.construction-management .construction-current-progress{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.construction-current-progress>div{display:block;border:0;padding:4px 0}
+.construction-current-progress dd{margin-top:6px;font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.construction-supporting-details{margin-top:12px;min-width:0}
+.construction-supporting-details>summary{cursor:pointer;padding:9px 0;color:var(--muted);font-size:13px;line-height:1.5}
+.construction-supporting-details>summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.construction-financial-context{border-top:1px solid var(--line)}
+.construction-financial-context>.panel{margin-top:12px}
+.construction-facts [data-construction-field]{white-space:pre-wrap}
+.construction-management .permit-progress-point{width:24px;height:24px;border:0;background:transparent}
+.construction-management .permit-progress-point:before{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;border:1.5px solid var(--point-color);border-radius:50%;background:var(--point-color);transform:translate(-50%,-50%);box-sizing:border-box}
+.construction-management .permit-progress-point.planned:before{width:11px;height:11px;background:#fff}
+@media(max-width:760px){
+ .construction-management .construction-facts{grid-template-columns:minmax(0,1fr)}
+ .construction-management .construction-current-progress{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .construction-management .construction-schedule-table{min-width:0;display:block}
+ .construction-management .construction-schedule-table colgroup,.construction-management .construction-schedule-table thead{display:none}
+ .construction-management .construction-schedule-table tbody{display:block}
+ .construction-management .construction-schedule-table tr{position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px;padding:10px 0;border-bottom:1px solid var(--line)}
+ .construction-management .construction-schedule-table td{display:block;width:auto!important;min-width:0!important;border:0;padding:6px 0;height:auto;white-space:normal}
+ .construction-management .construction-schedule-table tbody tr>td{background:transparent}
+ .construction-management .construction-schedule-table td:first-child,.construction-management .construction-schedule-table td:nth-child(5){grid-column:1/-1}
+ .construction-management .construction-schedule-table td:first-child{font-weight:600;padding-right:32px}
+ .construction-management .construction-schedule-table td[data-label="수정"]{position:absolute;top:6px;right:0;padding:0}
+ .construction-management .construction-schedule-table td:not(:first-child):not([data-label="수정"]):before{content:attr(data-label);display:block;margin-bottom:4px;color:var(--muted);font-size:12px}
+}
 .construction-read-table .construction-date{display:inline-block;min-width:108px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .construction-read-table .btn{min-height:28px;height:28px;padding:0 10px}
 .permit-progress-point:not(button){cursor:default}
@@ -54,6 +84,14 @@
 .construction-input-fields>.field>input,.construction-input-fields>.field>select,.construction-input-fields>.field>textarea{grid-column:2;min-height:36px}
 .construction-input-fields>.field>textarea{min-height:76px}
 .construction-input-fields>.field>.construction-original-value,.construction-input-fields>.field>.field-error{grid-column:2}
+.construction-input-fields>.field>.construction-reason-choices{grid-column:2;display:grid;gap:7px;padding-block:7px;min-width:0}
+.permit-workspace.panel{background:var(--surface,#fff);border-radius:var(--studio-card-radius,6px)}
+.permit-workspace.panel>.permit-workspace-heading{margin:0}
+.permit-workspace-body{min-width:0}
+.permit-workspace-body>.permit-workspace-list{margin-bottom:0}
+.construction-reason-choices label{display:flex;align-items:flex-start;gap:7px;line-height:1.5}
+.construction-reason-choices input[type="checkbox"]{flex:0 0 auto;width:auto;min-height:0;margin-top:3px}
+@media(max-width:600px){.construction-input-fields>.field>.construction-reason-choices{grid-column:1}}
 @media(max-width:600px){.construction-input-fields>.field{grid-template-columns:minmax(0,1fr);gap:5px}.construction-input-fields>.field>span:first-child{padding-top:0}.construction-input-fields>.field>input,.construction-input-fields>.field>select,.construction-input-fields>.field>textarea,.construction-input-fields>.field>.construction-original-value,.construction-input-fields>.field>.field-error{grid-column:1}}
 .permit-workspace{display:flex;flex-direction:column;gap:0;min-width:0}.permit-workspace-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;margin-bottom:12px}.permit-workspace-heading h2{font-size:18px;color:var(--navy)}.permit-workspace-additions,.permit-workspace-views{display:flex;align-items:center;gap:8px;min-width:0}.permit-workspace-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 0 10px;min-width:0}.permit-workspace-views .btn{min-width:70px}.permit-workspace-list{margin:0;overflow:hidden}.permit-workspace-list>.permit-status-filters{margin:0;padding:10px 12px;border-bottom:1px solid var(--line);gap:6px}.permit-workspace-list>.table-wrap{border-radius:0}.permit-workspace-list .permit-core-table{min-width:1000px}.permit-workspace-list .permit-core-table th,.permit-workspace-list .permit-core-table td{height:38px}.permit-workspace-list .permit-status-filters .btn{height:28px;padding:0 9px}.construction-workspace{min-width:0}.construction-workspace>.panel{margin-bottom:16px}.construction-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;gap:0 24px}.construction-summary>div{display:grid;grid-template-columns:64px minmax(0,1fr);align-items:start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.construction-summary>div:nth-last-child(-n+2){border-bottom:0}.construction-summary dt{font-weight:600;color:var(--navy)}.construction-summary dd{display:flex;align-items:center;flex-wrap:wrap;gap:6px 18px;margin:0;min-width:0}.construction-summary dd>span{white-space:nowrap}.construction-workspace-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:start;gap:16px}.construction-workspace-grid>.panel{margin:0}.construction-workspace-grid .table-wrap{max-height:none;overflow-y:visible}.construction-workspace-grid .dense-table{table-layout:fixed}.construction-workspace-grid .dense-table td,.construction-workspace-grid .dense-table th{white-space:normal;overflow-wrap:anywhere}.construction-workspace-grid .dense-table td:last-child{width:132px;white-space:nowrap}.construction-workspace .permit-progress-summary{gap:12px 20px;min-height:44px;padding:4px 0}.construction-batch-form{display:grid;gap:14px;min-width:0}.construction-input-section{min-width:0;margin:0;padding:10px 12px 12px;border:1px solid var(--line);border-radius:5px}.construction-input-section>legend{padding:0 5px;font-size:16px;font-weight:600;color:var(--navy)}.construction-input-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px;align-items:start;min-width:0}.construction-input-fields>.field{min-width:0}.construction-input-fields>.field>input,.construction-input-fields>.field>select,.construction-input-fields>.field>textarea{width:100%;min-width:0;max-width:100%}.construction-original-value{display:block;font-size:13px;color:var(--muted)}.construction-input-fields .field-error{color:var(--increase)}
 @media(max-width:1000px){.construction-workspace-grid{grid-template-columns:minmax(0,1fr)}.construction-summary{column-gap:16px}.construction-summary dd{gap:5px 12px}}@media(max-width:600px){.permit-workspace-heading{align-items:flex-start;flex-direction:column;gap:10px}.permit-workspace-additions{width:100%;justify-content:space-between}.permit-workspace-controls{align-items:center;gap:8px}.permit-workspace-controls>.btn{font-size:13px;padding:0 4px}.permit-workspace-list>.permit-status-filters{padding:8px;gap:5px}.permit-workspace-list .permit-status-filters .btn{font-size:13px;padding:0 7px}.construction-summary{grid-template-columns:minmax(0,1fr)}.construction-summary>div:nth-last-child(-n+2){border-bottom:1px solid var(--line)}.construction-summary>div:last-child{border-bottom:0}.construction-workspace .panel-header{align-items:flex-start;flex-wrap:wrap;gap:8px}.construction-input-fields{grid-template-columns:minmax(0,1fr)}.construction-input-fields>.field.full{grid-column:auto}}
