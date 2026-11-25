@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceCommit": "86f1e8c87a3f49eba4e809a4a44268f17381f8de",
+  "sourceCommit": "b2c3e2c0f0634b4de5422fcbc1717e561b069923",
   "seedHash": "8177ea65d3195215b10c7d6e8e2c22287f15005dfcebbf18d1aec2660e053563",
   "workspaceRevision": 24,
   "workspaceSha256": "9f5e4459df655d6f3ccb1d4e27349966d9cc537841a8f63ab7d0165bb0bdb5c8",
@@ -46,8 +46,8 @@
       "bytes": 4836
     },
     "design.css": {
-      "sha256": "4aa6162cf218ecf01243f7b3c1ad78d71916f1edf560be537a95c33f9f8837b4",
-      "bytes": 71708
+      "sha256": "641ce987126a1807e286d3783fec432bc98bab4727e070243db4c46b112082e3",
+      "bytes": 71994
     },
     "finance-capital.js": {
       "sha256": "a3fa7024f2407478f9733d79f71cda9c2d112edd934ac4f82a5ad90cfe2ee019",
@@ -78,8 +78,8 @@
       "bytes": 298
     },
     "index.html": {
-      "sha256": "1955677224c4ca5d6a2eb427d83c1b70be87c98a6965d3f47f9e063abcd7790a",
-      "bytes": 6963571
+      "sha256": "5cbb939ac4cb35009e6c7a978873dbff078fae0f2269d92ad3ccbef4f2516c44",
+      "bytes": 7053734
     },
     "issues.js": {
       "sha256": "e5bdc40c7e2195a07f8f905fb2a4e2612e8488f842fff2d483229e44e712e288",
@@ -90,12 +90,12 @@
       "bytes": 10815
     },
     "permits.css": {
-      "sha256": "bea4b423a0fec77ffdea39f0db060a018e73c3088ab45e884f51b7939c018562",
-      "bytes": 3653
+      "sha256": "0391383b0e151bb80daa6f413687ede80bcb270102e847e9d2826a2ccd508a3a",
+      "bytes": 7372
     },
     "permits.js": {
-      "sha256": "7557c5ca5bd8577e24124edc2ff039242bb7e9a7def413a1e8ea3e8f54ca7970",
-      "bytes": 2989
+      "sha256": "d3803112ca0ebed59a5023ac4d632a75a075447f68e0cb124d7f2e03ab464733",
+      "bytes": 12691
     },
     "portfolio.css": {
       "sha256": "3bbb7a5ec7a78abae2c67e46a0f7310406ecc0226d5b11dc372072b8902d2eca",
@@ -150,12 +150,12 @@
       "bytes": 2854
     },
     "review-spec.js": {
-      "sha256": "337bd8a1de993467c6798ef5290d003799a16ff320fd0e0b8ec69b0640f628c9",
-      "bytes": 55922
+      "sha256": "e6faf6d632ebe6524788a68b0552044f6b235afc3c6a13ed82a0c2a22a9a52d1",
+      "bytes": 56125
     },
     "studio.js": {
-      "sha256": "f21bc5c15a21a96e10d440de9fb79956f5d4ee0c4398c48d1c7af024f8be1b83",
-      "bytes": 53879
+      "sha256": "e6ce129c1896ceb5d9b642250b599e6bc2b552e938699fcef3636e252870d748",
+      "bytes": 53950
     },
     "work-feed/account-avatar.png": {
       "sha256": "a6ff24b5e6a211574bbb97a027435daad499d2b330e6aa3dff6961ff9c8d6ff3",

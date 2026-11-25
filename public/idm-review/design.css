@@ -36,7 +36,7 @@
   --studio-topbar-gap:12px;
   --studio-panel-inset:18px;
   --studio-card-gap:18px;
-  --studio-tab-content-gap:12px;
+  --studio-tab-content-gap:var(--studio-card-gap);
   --studio-dialog-inset:18px;
   --studio-field-ring:var(--studio-accent);
  }
@@ -632,10 +632,17 @@
  .dp-app #content .subtabs > :is(.btn,.subtab) {
   border-block-end-width:4px;
   padding:9px 0 7px;
+  transition:color 180ms ease-out;
+ }
+
+ .dp-app #content .subtabs > :is(.btn,.subtab):hover {color:var(--blue)}
+ @media (prefers-reduced-motion:reduce){
+  .dp-app #content .subtabs > :is(.btn,.subtab){transition:none}
  }
 
  .dp-app #content .law-list-toolbar {
   padding-inline:0;align-items:flex-end;border-block-end:0;
+  margin-block-end:var(--studio-tab-content-gap);
   box-shadow:inset 0 -1px var(--line);
  }
  .dp-app #content .law-list-toolbar > .subtabs {margin-block-end:0;box-shadow:none}

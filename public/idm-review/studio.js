@@ -3,7 +3,7 @@
 import {decoratePortfolio,formatDisplayDates,formatDisplayLabels,positionLocalTooltip,registerChartTooltip} from './portfolio.js';
 import {decorateIssues,installIssueForms} from './issues.js';
 import {decorateCostDetail} from './cost-detail.js';
-import {decoratePermits} from './permits.js';
+import {decoratePermits,decorateLand} from './permits.js';
 import {installReviewSpec} from './review-spec.js';
 import('./finance-milestones.js').then(({installMilestoneCapture})=>installMilestoneCapture(App)).catch(error=>console.error('단계 입력 연결:',error));
 
@@ -13,6 +13,7 @@ const screens={
  'cost-overview':{view:'cost',tab:'overview',decorate:decorateCostOverview},
  'cost-detail':{view:'cost',tab:'detail',decorate:decorateCostDetail},
  'cost-benchmark':{view:'cost',tab:'benchmark',decorate:decorateCostBenchmark},
+ 'land':{view:'permit',tab:'land',decorate:decorateLand},
  'permits':{view:'permit',tab:'permits',decorate:decoratePermits},
  'finance':{view:'finance',tab:'loans',decorate:decorateFinanceScreen},
  'feed':{view:'feed',tab:'',title:'논의·협업 Feed',decorate:()=>{}},
